@@ -8,6 +8,7 @@ from setuptools import setup, find_packages
 
 import cookietemple as module
 
+
 def walker(base, *paths):
     file_list = set([])
     cur_dir = os.path.abspath(os.curdir)
@@ -22,6 +23,7 @@ def walker(base, *paths):
         os.chdir(cur_dir)
 
     return list(file_list)
+
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()

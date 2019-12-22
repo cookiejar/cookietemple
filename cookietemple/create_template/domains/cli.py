@@ -14,4 +14,4 @@ WD = os.path.dirname(__file__)
 def handle_cli(language):
     create.TEMPLATE_STRUCT["language"] = language
 
-    cookiecutter(f"../{WD}/templates/cli_python")
+    cookiecutter(f"{WD}/../../templates/cli_python")
