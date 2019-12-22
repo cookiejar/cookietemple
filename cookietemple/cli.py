@@ -1,16 +1,30 @@
 # -*- coding: utf-8 -*-
 
 """Console script for cookietemple."""
+import os
 import sys
 import click
+
+WD = os.path.dirname(__file__)
 
 
 @click.command()
 def main(args=None):
-    """Console script for cookietemple."""
-    click.echo("Replace this message by putting your code into "
-               "cookietemple.cli.main")
-    click.echo("See click documentation at http://click.pocoo.org/")
+    print(f"""
+
+
+   ___            _    _      _                       _
+  / __\___   ___ | | _(_) ___| |_ ___ _ __ ___  _ __ | | ___
+ / /  / _ \ / _ \| |/ / |/ _ \ __/ _ \\ '_ ` _ \| '_ \| |/ _ \\
+/ /__| (_) | (_) |   <| |  __/ ||  __/ | | | | | |_) | |  __/
+\____/\___/ \___/|_|\_\_|\___|\__\___|_| |_| |_| .__/|_|\___|
+                                               |_|
+
+
+
+        """)
+    with open(f"{WD}/templates/test.txt") as f: content = f.readlines()
+    print(content)
     return 0
 
 
