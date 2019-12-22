@@ -61,7 +61,7 @@ setup(
     include_package_data=True,
     keywords='cookietemple',
     name='cookietemple',
-    packages=find_packages(include=['cookietemple']),
+    packages=find_packages(include=['cookietemple', 'cookietemple.*']),
     package_data={
         module.__name__: walker(
             os.path.dirname(module.__file__),
