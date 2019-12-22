@@ -15,3 +15,5 @@ def handle_cli(language):
     create.TEMPLATE_STRUCT["language"] = language
 
     cookiecutter(f"{WD}/../templates/cli_python")
+
+    create.create_dot_cookietemple(create.TEMPLATE_STRUCT)
