@@ -8,7 +8,7 @@ TEMPLATE_STRUCT = {}
 
 
 @click.command()
-@click.option('--domain', type=click.Choice(['CLI','GUI','Web']),
+@click.option('--domain', type=click.Choice(['CLI','GUI','Web'], case_sensitive=False),
               prompt="Choose between the following options")
 def domain(domain):
     TEMPLATE_STRUCT["domain"] = domain
