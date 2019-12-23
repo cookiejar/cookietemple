@@ -26,7 +26,7 @@ def main(args=None):
 def main():
     """Console script for {{cookiecutter.project_slug}}."""
     read_included_file('test.txt')
-    
+
     parser = argparse.ArgumentParser()
     parser.add_argument('_', nargs='*')
     args = parser.parse_args()

@@ -1,11 +1,11 @@
 import os
-
 import click
-from cookiecutter.main import cookiecutter
-
 import cookietemple.create_template.create as create
 
+from cookiecutter.main import cookiecutter
+
 WD = os.path.dirname(__file__)
+TEMPLATES_PATH = f"{WD}/../templates"
 
 @click.command()
 @click.option('--language',
@@ -14,6 +14,6 @@ WD = os.path.dirname(__file__)
 def handle_cli(language):
     create.TEMPLATE_STRUCT["language"] = language
 
-    cookiecutter(f"{WD}/../templates/cli_python")
+    cookiecutter(f"{TEMPLATES_PATH}/cli_python")
 
     create.create_dot_cookietemple(create.TEMPLATE_STRUCT)

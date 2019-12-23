@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Console script for cookietemple."""
+"""Entry point for cookietemple."""
 import os
 import sys
 import click
