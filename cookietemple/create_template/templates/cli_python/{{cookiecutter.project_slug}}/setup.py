@@ -2,7 +2,24 @@
 
 """The setup script."""
 
+import os
+import {{cookiecutter.project_slug}} as module
 from setuptools import setup, find_packages
+
+def walker(base, *paths):
+    file_list = set([])
+    cur_dir = os.path.abspath(os.curdir)
+
+    os.chdir(base)
+    try:
+        for path in paths:
+            for dname, dirs, files in os.walk(path):
+                for f in files:
+                    file_list.add(os.path.join(dname, f))
+    finally:
+        os.chdir(cur_dir)
+
+    return list(file_list)
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -10,7 +27,8 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [{%- if cookiecutter.command_line_interface|lower == 'click' %}'Click>=7.0',{%- endif %} ]
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
 
 setup_requirements = [{%- if cookiecutter.use_pytest == 'y' %}'pytest-runner',{%- endif %} ]
 
@@ -58,6 +76,12 @@ setup(
     keywords='{{ cookiecutter.project_slug }}',
     name='{{ cookiecutter.project_slug }}',
     packages=find_packages(include=['{{ cookiecutter.project_slug }}', '{{ cookiecutter.project_slug }}.*']),
+    package_data = {
+        module.__name__: walker(
+            os.path.dirname(module.__file__),
+            'files'
+        ),
+    },
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
