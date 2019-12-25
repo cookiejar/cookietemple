@@ -8,7 +8,7 @@ TEMPLATES_PATH = f"{WD}/../templates"
 
 @click.command()
 @click.option('--language',
-              type=click.Choice(['Python', 'JavaScript', 'Erlang'], case_sensitive=False),
+              type=click.Choice(['python', 'javaScript', 'erlang'], case_sensitive=False),
               prompt="Choose between the following options:")
 def handle_web(language):
     create.TEMPLATE_STRUCT["language"] = language

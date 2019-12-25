@@ -8,7 +8,7 @@ TEMPLATES_PATH = f"{WD}/../templates"
 
 @click.command()
 @click.option('--language',
-              type=click.Choice(['C++', 'C#', 'Java'], case_sensitive=False),
+              type=click.Choice(['c++', 'c#', 'java'], case_sensitive=False),
               prompt="Choose between the following options:")
 def handle_gui(language):
     create.TEMPLATE_STRUCT["language"] = language
