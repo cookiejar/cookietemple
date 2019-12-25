@@ -13,7 +13,6 @@ cookietemple
         :target: https://cookietemple.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-
 .. image:: https://pyup.io/repos/github/zethson/cookietemple/shield.svg
      :target: https://pyup.io/repos/github/zethson/cookietemple/
      :alt: Updates
@@ -30,9 +29,16 @@ A cookiecutter based project template creation tool supporting several domains a
 Features
 --------
 
-* TODO
+* Kickstart your project using a production ready project template
+* Choose from a variety of domains, technologies and languages
+* All project templates feature a common structure, but allow flexibility where needed
+* Ensure that your project follows common high standards and best practices using cookietemple lint
+* Syncing ensures that all template updates are applied to your project
+* Benefit from detailed documentation and support
 
-Contributors
+Authors
 -------
 
-* TODO
+cookietemple was initiated and developed by `Lukas Heumos <github.com/zethson>`_ and `Philipp Ehmele <https://github.com/imipenem>`_.
+Follow us on Twitter: `Lukas Heumos <https://twitter.com/ZethSC>`_ and `Philipp Ehmele <https://twitter.com/Farwent1>`_.
+
