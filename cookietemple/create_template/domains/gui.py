@@ -1,6 +1,6 @@
 import os
 import click
-import cookietemple.create_template.create as create
+import cookietemple.create_template.pumpingercan as create
 
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f"{WD}/../templates"
