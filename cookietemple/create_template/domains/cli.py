@@ -1,7 +1,7 @@
 import os
 import click
 #import cookietemple.create_template.pumpingercan as karleess
-from cookietemple.create_template.pumpingercan import TEMPLATE_STRUCT, create_dot_cookietemple
+from cookietemple.create_template.pumpingercan import *
 
 from cookiecutter.main import cookiecutter
 
