@@ -4,8 +4,7 @@ import yaml
 from cookietemple.create_template.domains.cli import handle_cli
 from cookietemple.create_template.domains.gui import handle_gui
 from cookietemple.create_template.domains.web import handle_web
-
-TEMPLATE_STRUCT = {}
+from .mytestdict import (TEMPLATE_STRUCT, create_dot_cookietemple)
 
 
 @click.command()
@@ -25,11 +24,4 @@ def domain(domain):
     create_dot_cookietemple(TEMPLATE_STRUCT)
 
 
-def create_dot_cookietemple(TEMPLATE_STRUCT: dict):
-    """
-    Dumps the configuration for the template generation into a .cookietemple yaml file.
 
-    @param TEMPLATE_STRUCT: global variable containing all cookietemple creation configuration variables
-    """
-    with open('.cookietemple', 'w') as f:
-        yaml.dump(TEMPLATE_STRUCT, f)
