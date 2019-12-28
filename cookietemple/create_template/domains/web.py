@@ -1,6 +1,6 @@
 import os
 import click
-import cookietemple.create_template.create as create
+from cookietemple.create_template.create_config import (TEMPLATE_STRUCT,create_dot_cookietemple)
 
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f"{WD}/../templates"
@@ -11,5 +11,5 @@ TEMPLATES_PATH = f"{WD}/../templates"
               type=click.Choice(['python', 'javaScript', 'erlang'], case_sensitive=False),
               prompt="Choose between the following options:")
 def handle_web(language):
-    create.TEMPLATE_STRUCT["language"] = language
-    print(create.TEMPLATE_STRUCT)
+    TEMPLATE_STRUCT["language"] = language
+    print(TEMPLATE_STRUCT)
