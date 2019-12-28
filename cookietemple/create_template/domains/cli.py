@@ -1,6 +1,7 @@
 import os
 import click
-import cookietemple.create_template.pumpingercan as karleess
+#import cookietemple.create_template.pumpingercan as karleess
+from cookietemple.create_template.pumpingercan import TEMPLATE_STRUCT, create_dot_cookietemple
 
 from cookiecutter.main import cookiecutter
 
@@ -13,8 +14,8 @@ TEMPLATES_PATH = f"{WD}/../templates"
               type=click.Choice(['python', 'c++', 'kotlin'], case_sensitive=False),
               prompt="Choose between the following options:")
 def handle_cli(language):
-    karleess.TEMPLATE_STRUCT["language"] = language
+    TEMPLATE_STRUCT["language"] = language
 
     cookiecutter(f"{TEMPLATES_PATH}/cli_python")
 
-    karleess.create_dot_cookietemple(karleess.TEMPLATE_STRUCT)
+    create_dot_cookietemple(TEMPLATE_STRUCT)
