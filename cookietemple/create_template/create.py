@@ -4,7 +4,7 @@ import yaml
 from cookietemple.create_template.domains.cli import handle_cli
 from cookietemple.create_template.domains.gui import handle_gui
 from cookietemple.create_template.domains.web import handle_web
-from .mytestdict import (TEMPLATE_STRUCT, create_dot_cookietemple)
+from .create_config import (TEMPLATE_STRUCT, create_dot_cookietemple)
 
 
 @click.command()

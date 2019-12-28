@@ -5,7 +5,7 @@ import os
 import sys
 import click
 
-from cookietemple.create_template.pumpingercan import domain
+from cookietemple.create_template.create import domain
 from cookietemple.linting import lint
 from cookietemple.list_templates.list import list_all
 
