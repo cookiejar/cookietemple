@@ -6,15 +6,16 @@ import sys
 import click
 
 from cookietemple.create_template.create import domain
+from cookietemple.info.info import info
 from cookietemple.linting import lint
-from cookietemple.list_templates.list import list_all
+from cookietemple.list.list import list_all
 
 WD = os.path.dirname(__file__)
 
 
 @click.command()
 @click.option('--option',
-              type=click.Choice(['Create', 'Lint', 'List', 'Sync'],case_sensitive=False),
+              type=click.Choice(['Create', 'Lint', 'List', 'Info', 'Sync', 'Bump_version'], case_sensitive=False),
               prompt="Please choose from the following options")
 def main(option):
     print(f"""
@@ -25,12 +26,14 @@ def main(option):
                                                |_|
         """)
 
-    from cookietemple.syncronisation import sync
+    from cookietemple.synchronization import sync
     switcher = {
         'create': domain,
         'lint': lint,
         'list': list_all,
-        'sync': sync
+        'info': info,
+        'sync': sync,
+        'bump_version': bump_version
     }
 
     switcher.get(option.lower(), lambda: 'Invalid')()
