@@ -10,24 +10,28 @@ from cookietemple.create_template.create import domain
 from cookietemple.info.info import info
 from cookietemple.linting import lint
 from cookietemple.list.list import list_all
+from cookietemple.synchronization import sync
 
 WD = os.path.dirname(__file__)
+
+
+def main():
+    print(f"""
+      / __\___   ___ | | _(_) ___| |_ ___ _ __ ___  _ __ | | ___
+     / /  / _ \ / _ \| |/ / |/ _ \ __/ _ \\ '_ ` _ \| '_ \| |/ _ \\
+    / /__| (_) | (_) |   <| |  __/ ||  __/ | | | | | |_) | |  __/
+    \____/\___/ \___/|_|\_\_|\___|\__\___|_| |_| |_| .__/|_|\___|
+                                                   |_|
+        """)
+
+    run_command()
 
 
 @click.command()
 @click.option('--option',
               type=click.Choice(['Create', 'Lint', 'List', 'Info', 'Sync', 'Bump_version'], case_sensitive=False),
               prompt="Please choose from the following options")
-def main(option):
-    print(f"""
-  / __\___   ___ | | _(_) ___| |_ ___ _ __ ___  _ __ | | ___
- / /  / _ \ / _ \| |/ / |/ _ \ __/ _ \\ '_ ` _ \| '_ \| |/ _ \\
-/ /__| (_) | (_) |   <| |  __/ ||  __/ | | | | | |_) | |  __/
-\____/\___/ \___/|_|\_\_|\___|\__\___|_| |_| |_| .__/|_|\___|
-                                               |_|
-        """)
-
-    from cookietemple.synchronization import sync
+def run_command(option):
     switcher = {
         'create': domain,
         'lint': lint,

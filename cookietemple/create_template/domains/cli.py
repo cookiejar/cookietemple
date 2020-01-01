@@ -1,57 +1,58 @@
 import os
-import sys
-
 import click
 
-from cookietemple.create_template.create_config import (TEMPLATE_STRUCT, create_dot_cookietemple)
-
+from cookietemple.create_template.create_config import (TEMPLATE_STRUCT, create_dot_cookietemple,
+                                                        determine_general_options)
 from cookiecutter.main import cookiecutter
-
-from cookietemple.create_template.create_general_options import determine_general_options
 
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f"{WD}/../templates"
+TEMPLATES_CLI_PATH = f"{WD}/../templates/cli"
+
+""" TEMPLATE VERSIONS """
+CLI_PYTHON_TEMPLATE_VERSION = 1.0
+CLI_JAVA_TEMPLATE_VERSION = 0.1
+CLI_KOTLIN_TEMPLATE_VERSION = 0.1
+CLI_CPP_TEMPLATE_VERSION = 0.1
 
 
 @click.command()
 @click.option('--language',
-              type=click.Choice(['python', 'c++', 'kotlin'], case_sensitive=False),
+              type=click.Choice(['Python', 'Java', 'Kotlin', 'C++'], case_sensitive=False),
               prompt="Choose between the following options:")
 def handle_cli(language):
+    """
+    TODO
+    :return: The version of the chosen template for the .cookietemple file creation.
+    """
     TEMPLATE_STRUCT["language"] = language
 
-    try:
-        determine_general_options()
-    except SystemExit as e:
-        if e != 0:
-            try:
-                cli_options()
-            except SystemExit as e:
-                cookiecutter(f"{TEMPLATES_PATH}/cli_python", no_input=True, overwrite_if_exists=True,
-                             extra_context=TEMPLATE_STRUCT)
+    # prompt the user to fetch general template configurations
+    determine_general_options(standalone_mode=False)
 
-                create_dot_cookietemple(TEMPLATE_STRUCT)
+    # switch case statement to prompt the user to fetch template specific configurations
+    switcher = {
+        'python': cli_python_options,
+        'java': cli_java_options,
+        'kotlin': cli_kotlin_options,
+        'c++': cli_cpp_options
+    }
+    switcher.get(language.lower(), lambda: 'Invalid language!')(standalone_mode=False)
 
+    # create the chosen and configured, template
+    cookiecutter(f"{TEMPLATES_CLI_PATH}/cli_{language}",
+                 no_input=True,
+                 overwrite_if_exists=True,
+                 extra_context=TEMPLATE_STRUCT)
 
-"""
-In the following sub questions we will answer the questions that were previously defined in a cookiecutter.json
-{
-  "full_name": "Homer Simpson",
-  "email": "homer.simpson@example.com",
-  "github_username": "homersimpson",
-  "project_name": "Python CLI",
-  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
-  "project_short_description": "Python CLI contains all the boilerplate you need to create a Python package with commandline support.",
-  "pypi_username": "{{ cookiecutter.github_username }}",
-  "version": "0.1.0",
-  "use_pytest": "y",
-  "use_pypi_deployment_with_travis": "y",
-  "add_pyup_badge": "n",
-  "command_line_interface": ["Click", "Argparse", "No command-line interface"],
-  "create_author_file": "y",
-  "open_source_license": ["MIT license", "BSD license", "ISC license", "Apache Software License 2.0", "GNU General Public License v3", "Not open source"]
-}
-"""
+    # switch case statement to fetch the template version
+    switcher = {
+        'python': CLI_PYTHON_TEMPLATE_VERSION,
+        'java': CLI_JAVA_TEMPLATE_VERSION,
+        'kotlin': CLI_KOTLIN_TEMPLATE_VERSION,
+        'c++': CLI_CPP_TEMPLATE_VERSION
+    }
+    return switcher.get(language.lower(), lambda: 'Invalid language!')
 
 
 @click.command()
@@ -76,8 +77,8 @@ In the following sub questions we will answer the questions that were previously
 @click.option('--add_pyup_badge/--no_pyup_badge',
               help='pyup is a service that submits pull requests to your repository if any new versions of dependencies have been released. A badge may be added to your README.',
               prompt='Please choose whether or not to include a pyup badge into your README.',
-              default='true')
-def cli_options(command_line_interface, pypi_username, use_pytest, use_pypi_deployment_with_travis, add_pyup_badge):
+              default=True)
+def cli_python_options(command_line_interface, pypi_username, use_pytest, use_pypi_deployment_with_travis, add_pyup_badge):
     TEMPLATE_STRUCT['command_line_interface'] = command_line_interface
     TEMPLATE_STRUCT['pypi_username'] = pypi_username
 
@@ -96,4 +97,14 @@ def cli_options(command_line_interface, pypi_username, use_pytest, use_pypi_depl
     else:
         TEMPLATE_STRUCT['add_pyup_badge'] = 'n'
 
-    sys.exit()
+
+def cli_java_options():
+    print('Not implemented yet!')
+
+
+def cli_kotlin_options():
+    print('Not imlpemented yet!')
+
+
+def cli_cpp_options():
+    print('Not implemented yet')

@@ -49,8 +49,8 @@ setup(
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
-{%- if cookiecutter.open_source_license in license_classifiers %}
-        '{{ license_classifiers[cookiecutter.open_source_license] }}',
+{%- if cookiecutter.license in license_classifiers %}
+        '{{ license_classifiers[cookiecutter.license] }}',
 {%- endif %}
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
@@ -68,8 +68,8 @@ setup(
     },
     {%- endif %}
     install_requires=requirements,
-{%- if cookiecutter.open_source_license in license_classifiers %}
-    license="{{ cookiecutter.open_source_license }}",
+{%- if cookiecutter.license in license_classifiers %}
+    license="{{ cookiecutter.license }}",
 {%- endif %}
     long_description=readme + '\n\n' + history,
     include_package_data=True,
