@@ -1,0 +1,9 @@
+click==7.0
+gevent==1.4.0
+pytest==5.3.2
+Flask-Babel>=0.12.2
+Flask-Mail>=0.9.1
+Flask>=1.0.2
+configparser==4.0.2
+wtforms==2.2.1
+flask-wtf==0.14.2
