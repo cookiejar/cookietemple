@@ -1,5 +1,4 @@
 import click
-import yaml
 
 from cookietemple.create_template.create_config import (TEMPLATE_STRUCT, create_dot_cookietemple)
 from cookietemple.create_template.domains.cli import handle_cli

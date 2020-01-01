@@ -5,6 +5,7 @@ import os
 import sys
 import click
 
+from cookietemple.bump_version.bump_version import bump_version
 from cookietemple.create_template.create import domain
 from cookietemple.info.info import info
 from cookietemple.linting import lint
