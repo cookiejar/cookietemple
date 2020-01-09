@@ -31,6 +31,11 @@ def list_available_templates():
 
 
 def load_available_templates():
+    """
+    Loads 'available_templates.yaml' as a yaml file and returns the content as nested dictionary.
+
+    :return: nested dictionary of all available templates
+    """
     path = Path(f"{TEMPLATES_PATH}/available_templates.yaml")
     yaml = YAML(typ='safe')
     return yaml.load(path)

@@ -54,7 +54,7 @@ setup(
     description="A cookiecutter based project template creation tool supporting several domains and languages with linting and template sync support.",
     entry_points={
         'console_scripts': [
-            'cookietemple=cookietemple.cli:main',
+            'cookietemple=cookietemple.cookietemple_cli:main',
         ],
     },
     install_requires=requirements,
