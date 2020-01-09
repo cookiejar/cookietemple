@@ -6,7 +6,7 @@ import sys
 import click
 
 from cookietemple.bump_version.bump_version import bump_version
-from cookietemple.create_template.create import domain
+from cookietemple.create_template.create import choose_domain
 from cookietemple.info.info import info
 from cookietemple.linting import lint
 from cookietemple.list.list import list_available_templates
@@ -46,7 +46,7 @@ def determine_command(command):
         bump_version -> Conveniently bumps the version of an existing project
     """
     switcher = {
-        'create': domain,
+        'create': choose_domain,
         'lint': lint,
         'list': list_available_templates,
         'info': info,

@@ -1,6 +1,14 @@
+import logging
+
 import click
 
+console = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+console.setFormatter(formatter)
+LOG = logging.getLogger("cookietemple create")
+LOG.addHandler(console)
+LOG.setLevel(logging.INFO)
+
 @click.command()
-@click.option('--bump_version')
 def bump_version():
-    print("Bump it")
+    click.echo(click.style('NOT IMPLEMENTED YET', fg='red'))

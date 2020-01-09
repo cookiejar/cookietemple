@@ -1,3 +1,4 @@
+import logging
 import click
 
 from cookietemple.create_template.create_config import (TEMPLATE_STRUCT, create_dot_cookietemple)
@@ -5,12 +6,18 @@ from cookietemple.create_template.domains.cli import handle_cli
 from cookietemple.create_template.domains.gui import handle_gui
 from cookietemple.create_template.domains.web import handle_web
 
+console = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+console.setFormatter(formatter)
+LOG = logging.getLogger("cookietemple create")
+LOG.addHandler(console)
+LOG.setLevel(logging.INFO)
 
 @click.command()
 @click.option('--domain',
               type=click.Choice(['CLI', 'GUI', 'Web'], case_sensitive=False),
-              prompt="Choose between the following options")
-def domain(domain):
+              prompt="Choose between the following domains")
+def choose_domain(domain):
     TEMPLATE_STRUCT["domain"] = domain
     switcher = {
         'cli': handle_cli,

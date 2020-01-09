@@ -65,7 +65,7 @@ def determine_general_options(full_name, email, github_username, project_name, p
     TEMPLATE_STRUCT['license'] = license
 
 
-def create_dot_cookietemple(TEMPLATE_STRUCT: dict, template_version):
+def create_dot_cookietemple(TEMPLATE_STRUCT: dict, template_version: str, template_handle: str):
     """
     Overrides the version with the version of the template.
     Dumps the configuration for the template generation into a .cookietemple yaml file.
@@ -74,5 +74,6 @@ def create_dot_cookietemple(TEMPLATE_STRUCT: dict, template_version):
     :param template_version: Version of the specific template
     """
     TEMPLATE_STRUCT['template_version'] = template_version
+    TEMPLATE_STRUCT['template_handle'] = template_handle
     with open('.cookietemple', 'w') as f:
         yaml.dump(TEMPLATE_STRUCT, f)

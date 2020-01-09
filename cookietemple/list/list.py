@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 import click
@@ -5,6 +6,13 @@ import click
 from pathlib import Path
 from ruamel.yaml import YAML
 from cookietemple.util.dict_util import delete_keys_from_dict
+
+console = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+console.setFormatter(formatter)
+LOG = logging.getLogger("cookietemple list")
+LOG.addHandler(console)
+LOG.setLevel(logging.INFO)
 
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f"{WD}/../create_template/templates"

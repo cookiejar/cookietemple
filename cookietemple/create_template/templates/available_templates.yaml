@@ -1,40 +1,47 @@
-CLI:
-    Python:
-        Version: 0.0.1
-        Available libraries: click, argparse
-        Short description: someShortDescription
-        Long description: someLongDescription
-    Java:
-        Version: 0.0.1
-        Available libraries: picocli
-        Short description: someShortDescription
-        Long description: someLongDescription
-    Kotlin:
-        Version: 0.0.1
-        Available libraries: picocli
-        Short description: someShortDescription
-        Long description: someLongDescription
-Web:
-    Website:
-        Python:
-            Version: 0.0.1
-            Available libraries: flask
-            Short description: someShortDescription
-            Long description: someLongDescription
-    Rest_api:
-        Python:
-            Version: 0.0.1
-            Available libraries: flask
-            Short description: someShortDescription
-            Long description: someLongDescription
-GUI:
-    Python:
-        Version: 0.0.1
-        Available libraries: Qt
-        Short description: someShortDescription
-        Long description: someLongDescription
-    Java:
-        Version: 0.0.1
-        Available libraries: JavaFX
-        Short description: someShortDescription
-        Long description: someLongDescription
+cli:
+    python:
+        handle: cli-python
+        version: 0.0.1
+        available libraries: click, argparse
+        short description: someShortDescription
+        long description: someLongDescription
+    java:
+        handle: cli-java
+        version: 0.0.1
+        available libraries: picocli
+        short description: someShortDescription
+        long description: someLongDescription
+    kotlin:
+        handle: cli-kotlin
+        version: 0.0.1
+        available libraries: picocli
+        short description: someShortDescription
+        long description: someLongDescription
+web:
+    website:
+        python:
+            handle: web-website-python
+            version: 0.0.1
+            available libraries: flask
+            short description: someShortDescription
+            long description: someLongDescription
+    rest_api:
+        python:
+            handle: web-rest_api-python
+            version: 0.0.1
+            available libraries: flask
+            short description: someShortDescription
+            long description: someLongDescription
+gui:
+    python:
+        handle: gui-python
+        version: 0.0.1
+        available libraries: Qt
+        short description: someShortDescription
+        long description: someLongDescription
+    java:
+        handle: gui-java
+        version: 0.0.1
+        available libraries: JavaFX
+        short description: someShortDescription
+        long description: someLongDescription
