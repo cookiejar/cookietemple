@@ -25,5 +25,5 @@ def choose_domain(domain):
         'gui': handle_gui
     }
 
-    template_version = switcher.get(domain.lower(), lambda: 'Invalid')(standalone_mode=False)
-    create_dot_cookietemple(TEMPLATE_STRUCT, template_version=template_version)
+    template_version, template_handle = switcher.get(domain.lower(), lambda: 'Invalid')(standalone_mode=False)
+    create_dot_cookietemple(TEMPLATE_STRUCT, template_version=template_version, template_handle=template_handle)

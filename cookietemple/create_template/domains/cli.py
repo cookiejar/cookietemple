@@ -11,9 +11,13 @@ TEMPLATES_CLI_PATH = f"{WD}/../templates/cli"
 
 """ TEMPLATE VERSIONS """
 CLI_PYTHON_TEMPLATE_VERSION = '0.1.0'
-CLI_JAVA_TEMPLATE_VERSION = 0.1
-CLI_KOTLIN_TEMPLATE_VERSION = 0.1
-CLI_CPP_TEMPLATE_VERSION = 0.1
+CLI_PYTHON_TEMPLATE_HANDLE = 'cli-python'
+CLI_JAVA_TEMPLATE_VERSION = '0.1.0'
+CLI_JAVA_TEMPLATE_HANDLE = 'cli-java'
+CLI_KOTLIN_TEMPLATE_VERSION = '0.1.0'
+CLI_KOTLIN_TEMPLATE_HANDLE = 'cli-kotlin'
+CLI_CPP_TEMPLATE_VERSION = '0.1.0'
+CLI_CPP_TEMPLATE_HANDLE = 'cli-cpp'
 
 
 @click.command()
@@ -46,13 +50,19 @@ def handle_cli(language):
                  extra_context=TEMPLATE_STRUCT)
 
     # switch case statement to fetch the template version
-    switcher = {
+    switcher_version = {
         'python': CLI_PYTHON_TEMPLATE_VERSION,
         'java': CLI_JAVA_TEMPLATE_VERSION,
         'kotlin': CLI_KOTLIN_TEMPLATE_VERSION,
         'c++': CLI_CPP_TEMPLATE_VERSION
     }
-    return switcher.get(language.lower(), lambda: 'Invalid language!')
+    switcher_handle = {
+        'python': CLI_PYTHON_TEMPLATE_HANDLE,
+        'java': CLI_JAVA_TEMPLATE_HANDLE,
+        'kotlin': CLI_KOTLIN_TEMPLATE_HANDLE,
+        'c++': CLI_CPP_TEMPLATE_HANDLE
+    }
+    return switcher_version.get(language.lower(), lambda: 'Invalid language!'), switcher_handle.get(language.lower(), lambda: 'Invalid language!')
 
 
 @click.command()
