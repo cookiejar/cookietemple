@@ -9,7 +9,7 @@ from cookietemple.bump_version.bump_version import bump_version
 from cookietemple.create_template.create import domain
 from cookietemple.info.info import info
 from cookietemple.linting import lint
-from cookietemple.list.list import list_all
+from cookietemple.list.list import list_available_templates
 from cookietemple.synchronization import sync
 
 WD = os.path.dirname(__file__)
@@ -48,7 +48,7 @@ def determine_command(command):
     switcher = {
         'create': domain,
         'lint': lint,
-        'list': list_all,
+        'list': list_available_templates,
         'info': info,
         'sync': sync,
         'bump_version': bump_version

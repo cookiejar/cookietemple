@@ -11,7 +11,13 @@ TEMPLATES_PATH = f"{WD}/../create_template/templates"
 
 
 @click.command()
-def list_all():
+def list_available_templates():
+    """
+    Displays all available templates to stdout in nicely formatted yaml format.
+    Omits long descriptions.
+
+    """
+
     available_templates = load_available_templates()
     # listing does not need to display the long descriptions of the templates
     # users should use info for long descriptions
