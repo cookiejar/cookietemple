@@ -1,0 +1,40 @@
+CLI:
+    Python:
+        Version: 0.0.1
+        Available libraries: click, argparse
+        Short description: someShortDescription
+        Long description: someLongDescription
+    Java:
+        Version: 0.0.1
+        Available libraries: picocli
+        Short description: someShortDescription
+        Long description: someLongDescription
+    Kotlin:
+        Version: 0.0.1
+        Available libraries: picocli
+        Short description: someShortDescription
+        Long description: someLongDescription
+Web:
+    Website:
+        Python:
+            Version: 0.0.1
+            Available libraries: flask
+            Short description: someShortDescription
+            Long description: someLongDescription
+    Rest_api:
+        Python:
+            Version: 0.0.1
+            Available libraries: flask
+            Short description: someShortDescription
+            Long description: someLongDescription
+GUI:
+    Python:
+        Version: 0.0.1
+        Available libraries: Qt
+        Short description: someShortDescription
+        Long description: someLongDescription
+    Java:
+        Version: 0.0.1
+        Available libraries: JavaFX
+        Short description: someShortDescription
+        Long description: someLongDescription
