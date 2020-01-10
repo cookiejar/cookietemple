@@ -4,8 +4,9 @@ import sys
 
 import click
 
-from pathlib import Path
 from ruamel.yaml import YAML
+
+from cookietemple.list.list import load_available_templates
 
 console = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -25,9 +26,10 @@ TEMPLATES_PATH = f"{WD}/../create_template/templates"
               prompt=click.style('Please enter the possibly incomplete template handle.\n'
                      'Examples: ')
                      + click.style('cli-python', fg='blue')
-                     + click.style(' or ') + click.style('cli', fg='blue'))
+                     + click.style(' or ')
+                     + click.style('cli', fg='blue'))
 def info(handle):
-    available_templates = load_available_templates()
+    available_templates = load_available_templates(f"{TEMPLATES_PATH}/available_templates.yaml")
     click.echo()
     click.echo(click.style(f"Template info for {handle}\n", fg='green'))
 
@@ -72,14 +74,3 @@ def non_existing_handle():
                + click.style('cookietemple list', fg='blue')
                + click.style(' to display all template handles.', fg='red'))
     sys.exit(0)
-
-
-def load_available_templates():
-    """
-    Loads 'available_templates.yaml' as a yaml file and returns the content as nested dictionary.
-
-    :return: nested dictionary of all available templates
-    """
-    path = Path(f"{TEMPLATES_PATH}/available_templates.yaml")
-    yaml = YAML(typ='safe')
-    return yaml.load(path)

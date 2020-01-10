@@ -1,8 +1,8 @@
 import os
+
 import click
 
-from cookietemple.create_template.create_config import (TEMPLATE_STRUCT, create_dot_cookietemple,
-                                                        determine_general_options)
+from cookietemple.create_template.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration)
 from cookiecutter.main import cookiecutter
 
 WD = os.path.dirname(__file__)
@@ -11,13 +11,9 @@ TEMPLATES_CLI_PATH = f"{WD}/../templates/cli"
 
 """ TEMPLATE VERSIONS """
 CLI_PYTHON_TEMPLATE_VERSION = '0.1.0'
-CLI_PYTHON_TEMPLATE_HANDLE = 'cli-python'
-CLI_JAVA_TEMPLATE_VERSION = '0.1.0'
-CLI_JAVA_TEMPLATE_HANDLE = 'cli-java'
+CLI_JAVA_TEMPLATE_VERSION   = '0.1.0'
 CLI_KOTLIN_TEMPLATE_VERSION = '0.1.0'
-CLI_KOTLIN_TEMPLATE_HANDLE = 'cli-kotlin'
-CLI_CPP_TEMPLATE_VERSION = '0.1.0'
-CLI_CPP_TEMPLATE_HANDLE = 'cli-cpp'
+CLI_CPP_TEMPLATE_VERSION    = '0.1.0'
 
 
 @click.command()
@@ -26,13 +22,14 @@ CLI_CPP_TEMPLATE_HANDLE = 'cli-cpp'
               prompt="Choose between the following options:")
 def handle_cli(language):
     """
-    TODO
-    :return: The version of the chosen template for the .cookietemple file creation.
+    Handles the CLI domain. Prompts the user for the language, general and domain specific options.
+
+    :return: The version and handle of the chosen template for the .cookietemple file creation.
     """
     TEMPLATE_STRUCT["language"] = language
 
     # prompt the user to fetch general template configurations
-    determine_general_options(standalone_mode=False)
+    prompt_general_template_configuration(standalone_mode=False)
 
     # switch case statement to prompt the user to fetch template specific configurations
     switcher = {
@@ -56,13 +53,8 @@ def handle_cli(language):
         'kotlin': CLI_KOTLIN_TEMPLATE_VERSION,
         'c++': CLI_CPP_TEMPLATE_VERSION
     }
-    switcher_handle = {
-        'python': CLI_PYTHON_TEMPLATE_HANDLE,
-        'java': CLI_JAVA_TEMPLATE_HANDLE,
-        'kotlin': CLI_KOTLIN_TEMPLATE_HANDLE,
-        'c++': CLI_CPP_TEMPLATE_HANDLE
-    }
-    return switcher_version.get(language.lower(), lambda: 'Invalid language!'), switcher_handle.get(language.lower(), lambda: 'Invalid language!')
+
+    return switcher_version.get(language.lower(), lambda: 'Invalid language!'), f"cli-{language.lower()}"
 
 
 @click.command()
@@ -109,12 +101,12 @@ def cli_python_options(command_line_interface, pypi_username, use_pytest, use_py
 
 
 def cli_java_options():
-    print('Not implemented yet!')
+    click.echo(click.style('NOT IMPLEMENTED YET', fg='red'))
 
 
 def cli_kotlin_options():
-    print('Not imlpemented yet!')
+    click.echo(click.style('NOT IMPLEMENTED YET', fg='red'))
 
 
 def cli_cpp_options():
-    print('Not implemented yet')
+    click.echo(click.style('NOT IMPLEMENTED YET', fg='red'))

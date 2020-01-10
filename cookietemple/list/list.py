@@ -1,6 +1,7 @@
 import logging
 import os
 import sys
+
 import click
 
 from pathlib import Path
@@ -26,7 +27,7 @@ def list_available_templates():
 
     """
 
-    available_templates = load_available_templates()
+    available_templates = load_available_templates(f"{TEMPLATES_PATH}/available_templates.yaml")
     # listing does not need to display the long descriptions of the templates
     # users should use info for long descriptions
     delete_keys_from_dict(available_templates, ['long description'])
@@ -38,12 +39,12 @@ def list_available_templates():
     yaml.dump(available_templates, sys.stdout)
 
 
-def load_available_templates():
+def load_available_templates(AVAILABLE_TEMPLATES_PATH):
     """
     Loads 'available_templates.yaml' as a yaml file and returns the content as nested dictionary.
 
     :return: nested dictionary of all available templates
     """
-    path = Path(f"{TEMPLATES_PATH}/available_templates.yaml")
+    path = Path(AVAILABLE_TEMPLATES_PATH)
     yaml = YAML(typ='safe')
     return yaml.load(path)

@@ -48,7 +48,7 @@ TEMPLATE_STRUCT = {}
               help='To get more information on the available licenses and to choose the best fitting license for your project we recommend choosealicense.com/',
               prompt='Please choose a license.',
               default='MIT')
-def determine_general_options(full_name, email, github_username, project_name, project_slug, project_short_description,
+def prompt_general_template_configuration(full_name, email, github_username, project_name, project_slug, project_short_description,
                               version, license):
     """
     Prompts the user for general options that are required by all templates.

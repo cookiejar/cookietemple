@@ -1,4 +1,5 @@
 import logging
+
 import click
 
 from cookietemple.create_template.create_config import (TEMPLATE_STRUCT, create_dot_cookietemple)
@@ -18,6 +19,12 @@ LOG.setLevel(logging.INFO)
               type=click.Choice(['CLI', 'GUI', 'Web'], case_sensitive=False),
               prompt="Choose between the following domains")
 def choose_domain(domain):
+    """
+    Prompts the user for the template domain.
+    Creates the .cookietemple file.
+
+    :param domain: Template domain
+    """
     TEMPLATE_STRUCT["domain"] = domain
     switcher = {
         'cli': handle_cli,
