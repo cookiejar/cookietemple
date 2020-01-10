@@ -6,7 +6,7 @@ import sys
 import click
 
 from cookietemple.bump_version.bump_version import bump_version
-from cookietemple.create_template.create import choose_domain
+from cookietemple.create.create import choose_domain
 from cookietemple.info.info import info
 from cookietemple.linting import lint
 from cookietemple.list.list import list_available_templates

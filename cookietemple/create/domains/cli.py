@@ -2,7 +2,7 @@ import os
 
 import click
 
-from cookietemple.create_template.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration)
+from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration)
 from cookiecutter.main import cookiecutter
 
 WD = os.path.dirname(__file__)

@@ -2,10 +2,10 @@ import logging
 
 import click
 
-from cookietemple.create_template.create_config import (TEMPLATE_STRUCT, create_dot_cookietemple)
-from cookietemple.create_template.domains.cli import handle_cli
-from cookietemple.create_template.domains.gui import handle_gui
-from cookietemple.create_template.domains.web import handle_web
+from cookietemple.create.create_config import (TEMPLATE_STRUCT, create_dot_cookietemple)
+from cookietemple.create.domains.cli import handle_cli
+from cookietemple.create.domains.gui import handle_gui
+from cookietemple.create.domains.web import handle_web
 
 console = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')

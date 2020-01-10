@@ -1,6 +1,6 @@
 import os
 import click
-from cookietemple.create_template.create_config import (TEMPLATE_STRUCT)
+from cookietemple.create.create_config import (TEMPLATE_STRUCT)
 
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f"{WD}/../templates"
