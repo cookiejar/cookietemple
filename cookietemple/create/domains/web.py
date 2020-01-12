@@ -48,6 +48,24 @@ def handle_web(language):
     return switcher_version.get(language.lower(), lambda: 'Invalid language!'), f"cli-{language.lower()}"
 
 
+
+
+@click.command()
+@click.option('--webtype',
+              type=click.Choice(['WebApplication', 'Website'], case_sensitive=False),
+              prompt="Choose between the following types for your web project:")
+def handle_web_project_type_python(webtype):
+    """Determine which type of web project the user wants to generate a template for"""
+
+    TEMPLATE_STRUCT["webtype"] = webtype
+
+    switcher = {
+        'website': handle_website_python,
+        'webapplication': handle_web_app_python
+    }
+    switcher.get(webtype.lower(), lambda: 'Invalid Web Project Type!')(standalone_mode=False)
+
+
 @click.command()
 @click.option('--framework',
               type=click.Choice(['Flask', 'Django'], case_sensitive=False),
@@ -73,22 +91,9 @@ def handle_web_app_python():
     print("TO IMPLEMENT - REST API etc.")
 
 
+
+
 @click.command()
-@click.option('--webtype',
-              type=click.Choice(['WebApplication', 'Website'], case_sensitive=False),
-              prompt="Choose between the following types for your web project:")
-def handle_web_project_type_python(webtype):
-    """Determine which type of web project the user wants to generate a template for"""
-
-    TEMPLATE_STRUCT["webtype"] = webtype
-
-    switcher = {
-        'website': handle_website_python,
-        'webapplication': handle_web_app_python
-    }
-    switcher.get(webtype.lower(), lambda: 'Invalid Web Project Type!')(standalone_mode=False)
-
-
 @click.option('--user_vm_name',
               help='Your Server VM Name for deployment of your application',
               prompt='Please enter your VM Name (if you have one).',
