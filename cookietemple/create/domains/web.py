@@ -1,6 +1,7 @@
 import os
 import click
 from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration)
+from cookietemple.create.domains.common_language_config.python_config import common_python_options
 
 from cookiecutter.main import cookiecutter
 
@@ -31,18 +32,13 @@ def handle_web(language):
 
     # switch case statement to prompt the user to fetch template specific configurations
     switcher = {
-        'python': web_python_options,
+        'python': common_python_options,
         'javascript': web_javascript_options,
         'java': web_java_options
     }
     switcher.get(language.lower(), lambda: 'Invalid language!')(standalone_mode=False)
 
-    # create the chosen and configured, template
-    #TODO: ONLY TESTS THE FLASK TEMPLATE THEIR (WEBSITE) -> FRAMEWORK DISTINCTION!!!!
-    cookiecutter(f"{TEMPLATES_WEB_PATH}/website_{language.lower()}",
-                 no_input=True,
-                 overwrite_if_exists=True,
-                 extra_context=TEMPLATE_STRUCT)
+    handle_web_project_type_python()
 
     # switch case statement to fetch the template version
     switcher_version = {
@@ -53,59 +49,70 @@ def handle_web(language):
 
 
 @click.command()
-@click.option('--command_line_interface',
-              type=click.Choice(['Click', 'Argparse', 'No command-line interface'], case_sensitive=False),
-              help='Choose which command line library (if any) you want to use. We highly recommend click.',
-              prompt='Please choose a command line library.',
-              default='Click')
-@click.option('--pypi_username',
-              type=str,
-              help='Your username for pypi. Pypi is commonly used to share your project with the world. If you do not have a pypi username yet you can create one now or do so later.',
-              prompt='Please enter your pypi username.',
-              default='homersimpson')
-@click.option('--use_pytest/--no_pytest',
-              help='Pytest is a slightly more advanced testing library. Choose whether you want to work with pytest or unittest',
-              prompt='Please choose whether pytest or unittest should be used as the testing library.',
-              default=True)
-@click.option('--use_pypi_deployment_with_travis/--no_pypi_deployment_with_travis',
-              help='Determine whether or not you want boiler plate code for the automatic deployment of your package to pypi via travis.',
-              prompt='Please choose whether or not to automatically deploy your project on pypi via travis',
-              default=True)
-@click.option('--add_pyup_badge/--no_pyup_badge',
-              help='pyup is a service that submits pull requests to your repository if any new versions of dependencies have been released. A badge may be added to your README.',
-              prompt='Please choose whether or not to include a pyup badge into your README.',
-              default=True)
+@click.option('--framework',
+              type=click.Choice(['Flask', 'Django'], case_sensitive=False),
+              prompt="Choose between the following frameworks for your website project:")
 @click.option('--url',
               help='Specify your URL (if you already have one for your project)',
               prompt='Please enter the project´s URL (if you have one).',
               default='dummy.com')
+def handle_website_python(framework,url):
+    """Handle website templates with python"""
+    TEMPLATE_STRUCT['web_framework'] = framework
+    TEMPLATE_STRUCT['url'] = url
+
+    switcher = {
+        'flask': website_flask_options,
+        'django': website_django_options
+    }
+    switcher.get(framework.lower(), lambda: 'Invalid Framework!')(standalone_mode=False)
+
+
+def handle_web_app_python():
+    """Handle Web App Templates"""
+    print("TO IMPLEMENT - REST API etc.")
+
+
+@click.command()
+@click.option('--webtype',
+              type=click.Choice(['WebApplication', 'Website'], case_sensitive=False),
+              prompt="Choose between the following types for your web project:")
+def handle_web_project_type_python(type):
+    """Determine which type of web project the user wants to generate a template for"""
+
+    TEMPLATE_STRUCT["webtype"] = type
+
+    switcher = {
+        'website': handle_website_python,
+        'webapplication': handle_web_app_python
+    }
+    switcher.get(type.lower(), lambda: 'Invalid Web Project Type!')(standalone_mode=False)
+
+
 @click.option('--user_vm_name',
               help='Your Server VM Name for deployment of your application',
               prompt='Please enter your VM Name (if you have one).',
               default='dummyVM')
-def web_python_options(command_line_interface, pypi_username, use_pytest, use_pypi_deployment_with_travis,
-                       add_pyup_badge,url,user_vm_name):
-    TEMPLATE_STRUCT['command_line_interface'] = command_line_interface
-    TEMPLATE_STRUCT['pypi_username'] = pypi_username
+def website_flask_options(user_vm_name):
 
-    if use_pytest:
-        TEMPLATE_STRUCT['use_pytest'] = 'y'
-    else:
-        TEMPLATE_STRUCT['use_pytest'] = 'n'
-
-    if use_pypi_deployment_with_travis:
-        TEMPLATE_STRUCT['use_pypi_deployment_with_travis'] = 'y'
-    else:
-        TEMPLATE_STRUCT['use_pypi_deployment_with_travis'] = 'n'
-
-    if add_pyup_badge:
-        TEMPLATE_STRUCT['add_pyup_badge'] = 'y'
-    else:
-        TEMPLATE_STRUCT['add_pyup_badge'] = 'n'
-
-    TEMPLATE_STRUCT['url'] = url
     TEMPLATE_STRUCT['uservmname'] = user_vm_name
+    create_cookietemple_web_template()
 
+
+def create_cookietemple_web_template():
+    # create the chosen and configured template
+    cookiecutter(f"{TEMPLATES_WEB_PATH}/website_{TEMPLATE_STRUCT['language'].lower()}",
+                 no_input=True,
+                 overwrite_if_exists=True,
+                 extra_context=TEMPLATE_STRUCT)
+
+
+
+
+
+
+def website_django_options():
+    print("TODO")
 
 def web_javascript_options():
     print("Implement me")
