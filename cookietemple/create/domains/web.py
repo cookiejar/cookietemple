@@ -1,10 +1,10 @@
 import os
 import click
-from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration)
+from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration,
+                                               create_cookietemple_website_template)
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 
 from cookiecutter.main import cookiecutter
-
 
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f"{WD}/../templates"
@@ -45,9 +45,8 @@ def handle_web(language):
         'python': WEB_WEBSITE_PYTHON_TEMPLATE_VERSION
     }
 
-    return switcher_version.get(language.lower(), lambda: 'Invalid language!'), f"web-{TEMPLATE_STRUCT['webtype']}-{language.lower()}"
-
-
+    return switcher_version.get(language.lower(),
+                                lambda: 'Invalid language!'), f"web-{TEMPLATE_STRUCT['webtype']}-{language.lower()}"
 
 
 @click.command()
@@ -74,7 +73,7 @@ def handle_web_project_type_python(webtype):
               help='Specify your URL (if you already have one for your project)',
               prompt='Please enter the project´s URL (if you have one).',
               default='dummy.com')
-def handle_website_python(framework,url):
+def handle_website_python(framework, url):
     """Handle website templates with python"""
     TEMPLATE_STRUCT['web_framework'] = framework
     TEMPLATE_STRUCT['url'] = url
@@ -86,41 +85,29 @@ def handle_website_python(framework,url):
     switcher.get(framework.lower(), lambda: 'Invalid Framework!')(standalone_mode=False)
 
 
-def handle_rest_api_python():
-    """Handle REST-API templates"""
-    print("TO IMPLEMENT - REST API etc.")
-
-
-
-
 @click.command()
 @click.option('--user_vm_name',
               help='Your VM username for deployment of your application',
               prompt='Please enter your VM username (if you have one).',
               default='dummyVM')
 def website_flask_options(user_vm_name):
-
     TEMPLATE_STRUCT['uservmname'] = user_vm_name
-    create_cookietemple_website_template()
-
-
-def create_cookietemple_website_template():
-    # create the chosen and configured template
-    cookiecutter(f"{TEMPLATES_WEB_PATH}/website_{TEMPLATE_STRUCT['language'].lower()}/{TEMPLATE_STRUCT['web_framework'].lower()}",
-                 no_input=True,
-                 overwrite_if_exists=True,
-                 extra_context=TEMPLATE_STRUCT)
-
-
-
-
+    create_cookietemple_website_template(TEMPLATES_WEB_PATH, TEMPLATE_STRUCT['language'].lower(),
+                                         TEMPLATE_STRUCT['webtype'], TEMPLATE_STRUCT['web_framework'].lower())
 
 
 def website_django_options():
     print("TODO")
 
+
+def handle_rest_api_python():
+    """Handle REST-API templates"""
+    print("TO IMPLEMENT - REST API etc.")
+
+
 def web_javascript_options():
     print("Implement me")
+
 
 def web_java_options(some_params):
     print("Implement me")
