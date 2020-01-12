@@ -101,12 +101,12 @@ def handle_web_app_python():
 def website_flask_options(user_vm_name):
 
     TEMPLATE_STRUCT['uservmname'] = user_vm_name
-    create_cookietemple_web_template()
+    create_cookietemple_website_template()
 
 
-def create_cookietemple_web_template():
+def create_cookietemple_website_template():
     # create the chosen and configured template
-    cookiecutter(f"{TEMPLATES_WEB_PATH}/website_{TEMPLATE_STRUCT['language'].lower()}",
+    cookiecutter(f"{TEMPLATES_WEB_PATH}/website_{TEMPLATE_STRUCT['language'].lower()}/{TEMPLATE_STRUCT['framework'].lower()}",
                  no_input=True,
                  overwrite_if_exists=True,
                  extra_context=TEMPLATE_STRUCT)
