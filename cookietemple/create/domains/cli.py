@@ -40,7 +40,7 @@ def handle_cli(language):
     }
     switcher.get(language.lower(), lambda: 'Invalid language!')(standalone_mode=False)
 
-    # create the chosen and configured, template
+    # create the chosen and configured template
     cookiecutter(f"{TEMPLATES_CLI_PATH}/cli_{language}",
                  no_input=True,
                  overwrite_if_exists=True,

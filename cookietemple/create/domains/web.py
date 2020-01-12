@@ -45,7 +45,7 @@ def handle_web(language):
         'python': WEB_PYTHON_TEMPLATE_VERSION
     }
 
-    return switcher_version.get(language.lower(), lambda: 'Invalid language!'), f"cli-{language.lower()}"
+    return switcher_version.get(language.lower(), lambda: 'Invalid language!'), f"web-{language.lower()}"
 
 
 
