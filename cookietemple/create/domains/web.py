@@ -92,8 +92,8 @@ def handle_website_python(framework, url):
               default='dummyVM')
 def website_flask_options(user_vm_name):
     TEMPLATE_STRUCT['uservmname'] = user_vm_name
-    create_cookietemple_website_template(TEMPLATES_WEB_PATH, TEMPLATE_STRUCT['language'].lower(),
-                                         TEMPLATE_STRUCT['webtype'], TEMPLATE_STRUCT['web_framework'].lower())
+    create_cookietemple_website_template(TEMPLATES_WEB_PATH, TEMPLATE_STRUCT['webtype'],
+                                         TEMPLATE_STRUCT['language'].lower(), TEMPLATE_STRUCT['web_framework'].lower())
 
 
 def website_django_options():
