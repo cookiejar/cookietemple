@@ -106,7 +106,7 @@ def website_flask_options(user_vm_name):
 
 def create_cookietemple_website_template():
     # create the chosen and configured template
-    cookiecutter(f"{TEMPLATES_WEB_PATH}/website_{TEMPLATE_STRUCT['language'].lower()}/{TEMPLATE_STRUCT['framework'].lower()}",
+    cookiecutter(f"{TEMPLATES_WEB_PATH}/website_{TEMPLATE_STRUCT['language'].lower()}/{TEMPLATE_STRUCT['web_framework'].lower()}",
                  no_input=True,
                  overwrite_if_exists=True,
                  extra_context=TEMPLATE_STRUCT)
