@@ -16,7 +16,7 @@ LOG.addHandler(console)
 LOG.setLevel(logging.INFO)
 
 WD = os.path.dirname(__file__)
-TEMPLATES_PATH = f"{WD}/../create_template/templates"
+TEMPLATES_PATH = f"{WD}/../create/templates"
 
 
 @click.command()

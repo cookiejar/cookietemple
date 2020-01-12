@@ -47,10 +47,3 @@ add-apt-repository ppa:certbot/certbot -y
 apt install python-certbot-nginx -y
 
 certbot --nginx -d {{cookiecutter.url}} -d www.{{cookiecutter.url}} --non-interactive --agree-tos -m {{cookiecutter.email}}
-
-
-
-
-
-
-

@@ -2,9 +2,9 @@
   "full_name": "Homer Simpson",
   "email": "homer.simpson@example.com",
   "github_username": "homersimpson",
-  "project_name": "Python CLI",
+  "project_name": "Flask Website",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
-  "project_short_description": "Python CLI contains all the boilerplate you need to create a Python package with commandline support.",
+  "project_short_description": "Flask Website Template contains all the code for website creation and deployment",
   "pypi_username": "{{ cookiecutter.github_username }}",
   "version": "0.1.0",
   "use_pytest": "y",
@@ -13,6 +13,6 @@
   "command_line_interface": ["Click", "Argparse", "No command-line interface"],
   "create_author_file": "y",
   "open_source_license": ["MIT license", "BSD license", "ISC license", "Apache Software License 2.0", "GNU General Public License v3", "Not open source"],
-  "uservmname": "Karle",
+  "uservmname": "dummyVM",
   "url": "dummy.com"
 }

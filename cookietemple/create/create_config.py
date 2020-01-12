@@ -1,5 +1,6 @@
 import click
 import yaml
+from cookiecutter.main import cookiecutter
 
 # The main dictionary, which will be completed by first the general options prompts and then the chosen template specific prompts.
 # It is then passed onto cookiecutter as extra_content to facilitate the template creation.
@@ -75,5 +76,13 @@ def create_dot_cookietemple(TEMPLATE_STRUCT: dict, template_version: str, templa
     """
     TEMPLATE_STRUCT['template_version'] = template_version
     TEMPLATE_STRUCT['template_handle'] = template_handle
-    with open('.cookietemple', 'w') as f:
+    with open(f'{TEMPLATE_STRUCT["project_slug"]}/.cookietemple', 'w') as f:
         yaml.dump(TEMPLATE_STRUCT, f)
+
+
+def create_cookietemple_website_template(web_path,web_type,language,framework):
+    # create the chosen and configured website template
+    cookiecutter(f"{web_path}/{web_type}_{language}/{framework}",
+                 no_input=True,
+                 overwrite_if_exists=True,
+                 extra_context=TEMPLATE_STRUCT)

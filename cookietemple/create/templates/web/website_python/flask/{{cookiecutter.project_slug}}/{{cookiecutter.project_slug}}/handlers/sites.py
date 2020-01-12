@@ -9,7 +9,7 @@ def root():
 
 @app.route("/index")
 def index():
-    return render_template("index-line.html")
+    return render_template("index.html")
 
 
 @app.route('/language/<language>')
