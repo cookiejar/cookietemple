@@ -100,6 +100,6 @@ def cookiecutter_common_files():
 
     copy_tree(f"{COMMON_FILES_PATH1}", dirpath)
 
-    cookiecutter(dirpath,no_input=True,overwrite_if_exists=True)
+    cookiecutter(dirpath,no_input=True,overwrite_if_exists=True,extra_context={"commonName": "common_files_util"})
 
     return dirpath
