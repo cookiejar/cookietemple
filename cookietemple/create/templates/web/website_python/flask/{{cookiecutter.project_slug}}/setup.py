@@ -1,12 +1,11 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 """The setup script."""
-import os
 
+import os
 from setuptools import setup, find_packages
 
-import cookietemple as module
+import {{cookiecutter.project_slug}} as module
 
 
 def walker(base, *paths):
@@ -36,44 +35,46 @@ with open('requirements.txt') as f:
 
 setup_requirements = ['pytest-runner', ]
 
-test_requirements = ['pytest', ]
+test_requirements = ['pytest>=3', ]
 
 setup(
-    author="Lukas Heumos",
-    author_email='lukas.heumos@posteo.net',
+    author="{{cookiecutter.full_name}}",
+    author_email='{{cookiecutter.email}}',
+    python_requires='>=3.5',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8'
+        'Programming Language :: Python :: 3.8',
     ],
-    description="A cookiecutter based project template creation tool supporting several domains and languages with linting and template sync support.",
+    description="{{cookiecutter.project_short_description}}",
     entry_points={
         'console_scripts': [
-            'cookietemple=cookietemple.cookietemple_cli:main',
+            '{{cookiecutter.project_slug}}={}.server:main'.format(module.__name__),
         ],
     },
     install_requires=requirements,
     license="GNU General Public License v3",
     long_description=readme + '\n\n' + history,
     include_package_data=True,
-    keywords='cookietemple',
-    name='cookietemple',
-    packages=find_packages(include=['cookietemple', 'cookietemple.*']),
+    keywords='{{cookiecutter.project_slug}}',
+    name='{{cookiecutter.project_slug}}',
+    packages=find_packages(include=['{{cookiecutter.project_slug}}', '{{cookiecutter.project_slug}}.*']),
     package_data={
         module.__name__: walker(
             os.path.dirname(module.__file__),
-            'create/templates'
+            'templates', 'static', 'translations'
         ),
     },
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://github.com/zethson/cookietemple',
-    version='0.1.0',
+    url='https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}',
+    version='{{cookiecutter.version}}',
     zip_safe=False,
 )

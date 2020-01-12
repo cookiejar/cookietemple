@@ -1,8 +1,8 @@
 GNU GENERAL PUBLIC LICENSE
                       Version 3, 29 June 2007
 
-    A cookiecutter based project template creation tool supporting several domains and languages with linting and template sync support.
-    Copyright (C) 2020  Lukas Heumos, Philipp Ehmele
+    Personal website of {{cookiecutter.full_name}}
+    Copyright (C) 2019  {{cookiecutter.full_name}}
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

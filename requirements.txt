@@ -1,2 +1,4 @@
-click
-cookiecutter
+click==7.0
+cookiecutter==1.7.0
+pyyaml==5.3
+ruamel.yaml==0.16.5
