@@ -98,7 +98,7 @@ def website_flask_options(user_vm_name):
     create_cookietemple_website_template(TEMPLATES_WEB_PATH, TEMPLATE_STRUCT['webtype'].lower(),
                                          TEMPLATE_STRUCT['language'].lower(), TEMPLATE_STRUCT['web_framework'].lower())
 
-    copy_tree(f"{temp}"+"{{cookiecutter.commonName}}",f"{WD}")
+    copy_tree(f"{temp}/"+"{{cookiecutter.commonName}}",f"{WD}")
     shutil.rmtree(temp)
 
 
