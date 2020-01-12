@@ -15,8 +15,8 @@ WEB_PYTHON_TEMPLATE_VERSION = '0.1.0'
 
 @click.command()
 @click.option('--language',
-              type=click.Choice(['Python', 'JavaScript', 'Erlang'], case_sensitive=False),
-              prompt="Choose between the following options:")
+              type=click.Choice(['Python', 'JavaScript', 'Java'], case_sensitive=False),
+              prompt="Choose between the following languages for your web project:")
 def handle_web(language):
     """
         Handles the Web domain. Prompts the user for the language, general and domain specific options.
@@ -31,7 +31,9 @@ def handle_web(language):
 
     # switch case statement to prompt the user to fetch template specific configurations
     switcher = {
-        'python': web_python_options
+        'python': web_python_options,
+        'javascript': web_javascript_options,
+        'java': web_java_options
     }
     switcher.get(language.lower(), lambda: 'Invalid language!')(standalone_mode=False)
 
@@ -104,3 +106,9 @@ def web_python_options(command_line_interface, pypi_username, use_pytest, use_py
     TEMPLATE_STRUCT['url'] = url
     TEMPLATE_STRUCT['uservmname'] = user_vm_name
 
+
+def web_javascript_options():
+    print("Implement me")
+
+def web_java_options(some_params):
+    print("Implement me")
