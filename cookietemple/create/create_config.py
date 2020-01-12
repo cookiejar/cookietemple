@@ -11,7 +11,7 @@ TEMPLATE_STRUCT = {}
 
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f"{WD}/templates"
-COMMON_FILES_PATH1 = f"{WD}/common_files/templates"
+COMMON_FILES_PATH1 = f"{WD}/common_files"
 
 
 @click.command()
