@@ -1,7 +1,7 @@
 import os
 import click
 from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration,
-                                               create_cookietemple_website_template)
+                                               create_cookietemple_website_template, copy_common_files)
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 
 from cookiecutter.main import cookiecutter
@@ -92,7 +92,9 @@ def handle_website_python(framework, url):
               default='dummyVM')
 def website_flask_options(user_vm_name):
     TEMPLATE_STRUCT['uservmname'] = user_vm_name
-    create_cookietemple_website_template(TEMPLATES_WEB_PATH, TEMPLATE_STRUCT['webtype'],
+    copy_common_files(f"{TEMPLATES_WEB_PATH}/{TEMPLATE_STRUCT['webtype'].lower()}_{TEMPLATE_STRUCT['language'].lower()}/"
+                      f"{TEMPLATE_STRUCT['web_framework'].lower()}")
+    create_cookietemple_website_template(TEMPLATES_WEB_PATH, TEMPLATE_STRUCT['webtype'].lower(),
                                          TEMPLATE_STRUCT['language'].lower(), TEMPLATE_STRUCT['web_framework'].lower())
 
 

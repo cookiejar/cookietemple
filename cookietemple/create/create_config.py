@@ -1,3 +1,5 @@
+import os
+import shutil
 import click
 import yaml
 from cookiecutter.main import cookiecutter
@@ -6,6 +8,10 @@ from cookiecutter.main import cookiecutter
 # It is then passed onto cookiecutter as extra_content to facilitate the template creation.
 # Finally, it is also used for the creation of the .cookietemple file.
 TEMPLATE_STRUCT = {}
+
+WD = os.path.dirname(__file__)
+TEMPLATES_PATH = f"{WD}/templates"
+COMMON_FILES_PATH1 = f"{WD}/templates"
 
 
 @click.command()
@@ -86,3 +92,7 @@ def create_cookietemple_website_template(web_path,web_type,language,framework):
                  no_input=True,
                  overwrite_if_exists=True,
                  extra_context=TEMPLATE_STRUCT)
+
+
+def copy_common_files(dst):
+    shutil.copy(f"{COMMON_FILES_PATH1}/TESTFILE1.txt",dst)
