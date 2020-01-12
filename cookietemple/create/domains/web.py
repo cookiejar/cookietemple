@@ -1,7 +1,9 @@
 import os
+import shutil
+from distutils.dir_util import copy_tree
 import click
 from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration,
-                                               create_cookietemple_website_template, copy_common_files)
+                                               create_cookietemple_website_template, cookiecutter_common_files)
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 
 from cookiecutter.main import cookiecutter
@@ -92,10 +94,14 @@ def handle_website_python(framework, url):
               default='dummyVM')
 def website_flask_options(user_vm_name):
     TEMPLATE_STRUCT['uservmname'] = user_vm_name
-    copy_common_files(f"{TEMPLATES_WEB_PATH}/{TEMPLATE_STRUCT['webtype'].lower()}_{TEMPLATE_STRUCT['language'].lower()}/"
-                      f"{TEMPLATE_STRUCT['web_framework'].lower()}")
+    temp = cookiecutter_common_files()
     create_cookietemple_website_template(TEMPLATES_WEB_PATH, TEMPLATE_STRUCT['webtype'].lower(),
                                          TEMPLATE_STRUCT['language'].lower(), TEMPLATE_STRUCT['web_framework'].lower())
+
+    copy_tree(f"{temp}/common_files_util",f"{WD}")
+    shutil.rmtree(temp)
+
+
 
 
 def website_django_options():
