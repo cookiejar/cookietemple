@@ -1,1 +1,1 @@
-COMMON TESTFILE for {{cookiecutter.project_slug}}
+COMMON TESTFILE for {{cookiecutter.commonName}}
