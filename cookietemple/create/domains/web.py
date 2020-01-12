@@ -11,7 +11,7 @@ TEMPLATES_PATH = f"{WD}/../templates"
 TEMPLATES_WEB_PATH = f"{WD}/../templates/web"
 
 """Web Template Versions"""
-WEB_PYTHON_TEMPLATE_VERSION = '0.1.0'
+WEB_WEBSITE_PYTHON_TEMPLATE_VERSION = '0.1.0'
 
 
 @click.command()
@@ -20,9 +20,9 @@ WEB_PYTHON_TEMPLATE_VERSION = '0.1.0'
               prompt="Choose between the following languages for your web project:")
 def handle_web(language):
     """
-        Handles the Web domain. Prompts the user for the language, general and domain specific options.
+    Handles the Web domain. Prompts the user for the language, general and domain specific options.
 
-        :return: The version and handle of the chosen template for the .cookietemple file creation.
+    :return: The version and handle of the chosen template for the .cookietemple file creation.
     """
 
     TEMPLATE_STRUCT["language"] = language
@@ -42,18 +42,18 @@ def handle_web(language):
 
     # switch case statement to fetch the template version
     switcher_version = {
-        'python': WEB_PYTHON_TEMPLATE_VERSION
+        'python': WEB_WEBSITE_PYTHON_TEMPLATE_VERSION
     }
 
-    return switcher_version.get(language.lower(), lambda: 'Invalid language!'), f"web-{language.lower()}"
+    return switcher_version.get(language.lower(), lambda: 'Invalid language!'), f"web-{TEMPLATE_STRUCT['webtype']}-{language.lower()}"
 
 
 
 
 @click.command()
 @click.option('--webtype',
-              type=click.Choice(['WebApplication', 'Website'], case_sensitive=False),
-              prompt="Choose between the following types for your web project:")
+              type=click.Choice(['rest_api', 'website'], case_sensitive=False),
+              prompt="Choose between the following types for your web project")
 def handle_web_project_type_python(webtype):
     """Determine which type of web project the user wants to generate a template for"""
 
@@ -61,7 +61,7 @@ def handle_web_project_type_python(webtype):
 
     switcher = {
         'website': handle_website_python,
-        'webapplication': handle_web_app_python
+        'rest_api': handle_rest_api_python
     }
     switcher.get(webtype.lower(), lambda: 'Invalid Web Project Type!')(standalone_mode=False)
 
@@ -86,8 +86,8 @@ def handle_website_python(framework,url):
     switcher.get(framework.lower(), lambda: 'Invalid Framework!')(standalone_mode=False)
 
 
-def handle_web_app_python():
-    """Handle Web App Templates"""
+def handle_rest_api_python():
+    """Handle REST-API templates"""
     print("TO IMPLEMENT - REST API etc.")
 
 
@@ -95,8 +95,8 @@ def handle_web_app_python():
 
 @click.command()
 @click.option('--user_vm_name',
-              help='Your Server VM Name for deployment of your application',
-              prompt='Please enter your VM Name (if you have one).',
+              help='Your VM username for deployment of your application',
+              prompt='Please enter your VM username (if you have one).',
               default='dummyVM')
 def website_flask_options(user_vm_name):
 
