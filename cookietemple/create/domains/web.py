@@ -73,8 +73,16 @@ def handle_web(language):
               help='pyup is a service that submits pull requests to your repository if any new versions of dependencies have been released. A badge may be added to your README.',
               prompt='Please choose whether or not to include a pyup badge into your README.',
               default=True)
+@click.option('--url',
+              help='Specify your URL (if you already have one for your project)',
+              prompt='Please enter the project´s URL (if you have one).',
+              default='dummy.com')
+@click.option('--user_vm_name',
+              help='Your Server VM Name for deployment of your application',
+              prompt='Please enter your VM Name (if you have one).',
+              default='dummyVM')
 def web_python_options(command_line_interface, pypi_username, use_pytest, use_pypi_deployment_with_travis,
-                       add_pyup_badge):
+                       add_pyup_badge,url,user_vm_name):
     TEMPLATE_STRUCT['command_line_interface'] = command_line_interface
     TEMPLATE_STRUCT['pypi_username'] = pypi_username
 
@@ -92,4 +100,7 @@ def web_python_options(command_line_interface, pypi_username, use_pytest, use_py
         TEMPLATE_STRUCT['add_pyup_badge'] = 'y'
     else:
         TEMPLATE_STRUCT['add_pyup_badge'] = 'n'
+
+    TEMPLATE_STRUCT['url'] = url
+    TEMPLATE_STRUCT['uservmname'] = user_vm_name
 
