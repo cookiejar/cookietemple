@@ -37,7 +37,7 @@ def handle_web(language):
 
     # create the chosen and configured, template
     #TODO: ONLY TESTS THE FLASK TEMPLATE THEIR (WEBSITE) -> FRAMEWORK DISTINCTION!!!!
-    cookiecutter(f"{TEMPLATES_WEB_PATH}/website_{language}",
+    cookiecutter(f"{TEMPLATES_WEB_PATH}/website_{language.lower()}",
                  no_input=True,
                  overwrite_if_exists=True,
                  extra_context=TEMPLATE_STRUCT)
