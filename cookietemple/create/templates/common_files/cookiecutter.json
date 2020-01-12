@@ -1,15 +1,3 @@
 {
-  "commonName": "common_files_util",
-  "full_name": "Homer Simpson",
-  "email": "homer.simpson@example.com",
-  "github_username": "homersimpson",
-  "project_name": "Flask Website",
-  "project_short_description": "Flask Website Template contains all the code for website creation and deployment",
-  "version": "0.1.0",
-  "use_pytest": "y",
-  "use_pypi_deployment_with_travis": "y",
-  "add_pyup_badge": "n",
-  "command_line_interface": ["Click", "Argparse", "No command-line interface"],
-  "create_author_file": "y",
-  "open_source_license": ["MIT license", "BSD license", "ISC license", "Apache Software License 2.0", "GNU General Public License v3", "Not open source"]
+  "commonName": "common_files_util"
 }
