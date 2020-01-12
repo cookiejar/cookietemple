@@ -77,16 +77,16 @@ def handle_web_app_python():
 @click.option('--webtype',
               type=click.Choice(['WebApplication', 'Website'], case_sensitive=False),
               prompt="Choose between the following types for your web project:")
-def handle_web_project_type_python(type):
+def handle_web_project_type_python(webtype):
     """Determine which type of web project the user wants to generate a template for"""
 
-    TEMPLATE_STRUCT["webtype"] = type
+    TEMPLATE_STRUCT["webtype"] = webtype
 
     switcher = {
         'website': handle_website_python,
         'webapplication': handle_web_app_python
     }
-    switcher.get(type.lower(), lambda: 'Invalid Web Project Type!')(standalone_mode=False)
+    switcher.get(webtype.lower(), lambda: 'Invalid Web Project Type!')(standalone_mode=False)
 
 
 @click.option('--user_vm_name',
