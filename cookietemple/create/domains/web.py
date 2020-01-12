@@ -38,7 +38,7 @@ def handle_web(language):
     }
     switcher.get(language.lower(), lambda: 'Invalid language!')(standalone_mode=False)
 
-    handle_web_project_type_python()
+    handle_web_project_type_python(standalone_mode=False)
 
     # switch case statement to fetch the template version
     switcher_version = {
