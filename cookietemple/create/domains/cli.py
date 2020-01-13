@@ -2,7 +2,8 @@ import os
 
 import click
 
-from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration)
+from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration,
+                                               create_template_without_subdomain)
 from cookiecutter.main import cookiecutter
 
 WD = os.path.dirname(__file__)
@@ -41,10 +42,7 @@ def handle_cli(language):
     switcher.get(language.lower(), lambda: 'Invalid language!')(standalone_mode=False)
 
     # create the chosen and configured template
-    cookiecutter(f"{TEMPLATES_CLI_PATH}/cli_{language}",
-                 no_input=True,
-                 overwrite_if_exists=True,
-                 extra_context=TEMPLATE_STRUCT)
+    create_template_without_subdomain(f"{TEMPLATES_CLI_PATH}", 'cli', language)
 
     # switch case statement to fetch the template version
     switcher_version = {
