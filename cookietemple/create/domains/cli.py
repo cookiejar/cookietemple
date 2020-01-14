@@ -3,7 +3,7 @@ import os
 import click
 
 from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration,
-                                               create_template_without_subdomain)
+                                               create_template_without_subdomain, cookiecutter_common_files)
 from cookiecutter.main import cookiecutter
 
 WD = os.path.dirname(__file__)
@@ -43,6 +43,9 @@ def handle_cli(language):
 
     # create the chosen and configured template
     create_template_without_subdomain(f"{TEMPLATES_CLI_PATH}", 'cli', language)
+    
+    # create the common files and copy them into the templates directory
+    cookiecutter_common_files()
 
     # switch case statement to fetch the template version
     switcher_version = {
