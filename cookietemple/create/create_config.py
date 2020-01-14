@@ -1,3 +1,7 @@
+import os
+import tempfile
+import shutil
+from distutils.dir_util import copy_tree
 import click
 import yaml
 from cookiecutter.main import cookiecutter
@@ -6,6 +10,10 @@ from cookiecutter.main import cookiecutter
 # It is then passed onto cookiecutter as extra_content to facilitate the template creation.
 # Finally, it is also used for the creation of the .cookietemple file.
 TEMPLATE_STRUCT = {}
+
+WD = os.path.dirname(__file__)
+TEMPLATES_PATH = f"{WD}/templates"
+COMMON_FILES_PATH = f"{WD}/templates/common_files"
 
 
 @click.command()
@@ -94,3 +102,19 @@ def create_template_with_subdomain_framework(domain_path, subdomain, language, f
                  no_input=True,
                  overwrite_if_exists=True,
                  extra_context=TEMPLATE_STRUCT)
+
+
+def cookiecutter_common_files():
+    """
+    This function creates a temporary directory for common files of all templates and applies cookiecutter on them.
+
+    It´ll be outputted to the created template directory.
+    """
+    dirpath = tempfile.mkdtemp()
+    copy_tree(f"{COMMON_FILES_PATH}", dirpath)
+    cookiecutter(dirpath,
+                 extra_context={"commonName": "common_files_util"},
+                 no_input=True,
+                 overwrite_if_exists=True,
+                 output_dir=f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
+    shutil.rmtree(dirpath)
