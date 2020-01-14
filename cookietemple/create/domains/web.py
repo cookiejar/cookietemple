@@ -3,10 +3,8 @@ import shutil
 from distutils.dir_util import copy_tree
 import click
 from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration,
-                                               create_cookietemple_website_template, cookiecutter_common_files)
+                                               create_template_with_subdomain_framework, cookiecutter_common_files)
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
-
-from cookiecutter.main import cookiecutter
 
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f"{WD}/../templates"
@@ -47,8 +45,8 @@ def handle_web(language):
         'python': WEB_WEBSITE_PYTHON_TEMPLATE_VERSION
     }
 
-    return switcher_version.get(language.lower(),
-                                lambda: 'Invalid language!'), f"web-{TEMPLATE_STRUCT['webtype']}-{language.lower()}"
+    return switcher_version.get(language.lower(), lambda: 'Invalid language!'), \
+                                f"web-{TEMPLATE_STRUCT['webtype']}-{language.lower()}"
 
 
 @click.command()
@@ -88,17 +86,15 @@ def handle_website_python(framework, url):
 
 
 @click.command()
-@click.option('--user_vm_name',
+@click.option('--vm_username',
               help='Your VM username for deployment of your application',
               prompt='Please enter your VM username (if you have one).',
-              default='dummyVM')
-def website_flask_options(user_vm_name):
-    TEMPLATE_STRUCT['uservmname'] = user_vm_name
-    create_cookietemple_website_template(TEMPLATES_WEB_PATH,
-                                         TEMPLATE_STRUCT['webtype'].lower(),
-                                         TEMPLATE_STRUCT['language'].lower(),
-                                         TEMPLATE_STRUCT['web_framework'].lower())
+              default='cookietempleuser')
+def website_flask_options(vm_username):
+    TEMPLATE_STRUCT['vm_username'] = vm_username
 
+    create_template_with_subdomain_framework(TEMPLATES_WEB_PATH, TEMPLATE_STRUCT['webtype'],
+                                   TEMPLATE_STRUCT['language'].lower(), TEMPLATE_STRUCT['web_framework'].lower())
     cookiecutter_common_files()
 
 
