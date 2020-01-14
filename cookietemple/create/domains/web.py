@@ -94,12 +94,13 @@ def handle_website_python(framework, url):
               default='dummyVM')
 def website_flask_options(user_vm_name):
     TEMPLATE_STRUCT['uservmname'] = user_vm_name
-    temp = cookiecutter_common_files()
     create_cookietemple_website_template(TEMPLATES_WEB_PATH, TEMPLATE_STRUCT['webtype'].lower(),
                                          TEMPLATE_STRUCT['language'].lower(), TEMPLATE_STRUCT['web_framework'].lower())
 
-    copy_tree(f"{os.getcwd()}/"+"common_files_util",f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
-    shutil.rmtree(temp)
+    cookiecutter_common_files()
+
+    #copy_tree(f"{os.getcwd()}/"+"common_files_util",f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
+    #shutil.rmtree(temp)
 
 
 

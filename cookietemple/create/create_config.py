@@ -1,5 +1,6 @@
 import os
 import tempfile
+import shutil
 from distutils.dir_util import copy_tree
 import click
 import yaml
@@ -103,6 +104,10 @@ def cookiecutter_common_files():
     cookiecutter(dirpath,
                  extra_context={"commonName": "common_files_util"},
                  no_input=True,
-                 overwrite_if_exists=True)
+                 overwrite_if_exists=True,
+                 output_dir=f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
+
+    #copy_tree(f"{os.getcwd()}/" + "common_files_util", f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
+    shutil.rmtree(dirpath)
 
     return dirpath
