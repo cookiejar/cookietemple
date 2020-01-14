@@ -44,7 +44,7 @@ def handle_cli(language):
     switcher.get(language.lower(), lambda: 'Invalid language!')(standalone_mode=False)
 
     # create the chosen and configured template
-    create_template_without_subdomain(f"{TEMPLATES_CLI_PATH}", 'cli', language)
+    create_template_without_subdomain(f"{TEMPLATES_CLI_PATH}", 'cli', language.lower())
 
     # create the common files and copy them into the templates directory
     cookiecutter_common_files()
