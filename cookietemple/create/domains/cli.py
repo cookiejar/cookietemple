@@ -2,13 +2,15 @@ import os
 
 import click
 
+from pathlib import Path
 from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration,
                                                create_template_without_subdomain, cookiecutter_common_files)
 from cookiecutter.main import cookiecutter
 
 WD = os.path.dirname(__file__)
+THIS_FILE_PATH = Path(WD)
 TEMPLATES_PATH = f"{WD}/../templates"
-TEMPLATES_CLI_PATH = f"{WD}/templates/cli"
+TEMPLATES_CLI_PATH = f"{THIS_FILE_PATH.parent}/templates/cli"
 
 """ TEMPLATE VERSIONS """
 CLI_PYTHON_TEMPLATE_VERSION = '0.1.0'
