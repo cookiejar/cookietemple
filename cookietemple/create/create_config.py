@@ -13,7 +13,7 @@ TEMPLATE_STRUCT = {}
 
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f"{WD}/templates"
-COMMON_FILES_PATH1 = f"{WD}/templates/common_files"
+COMMON_FILES_PATH = f"{WD}/templates/common_files"
 
 
 @click.command()
@@ -57,8 +57,9 @@ COMMON_FILES_PATH1 = f"{WD}/templates/common_files"
               help='To get more information on the available licenses and to choose the best fitting license for your project we recommend choosealicense.com/',
               prompt='Please choose a license.',
               default='MIT')
-def prompt_general_template_configuration(full_name, email, github_username, project_name, project_slug, project_short_description,
-                              version, license):
+def prompt_general_template_configuration(full_name, email, github_username, project_name, project_slug,
+                                          project_short_description,
+                                          version, license):
     """
     Prompts the user for general options that are required by all templates.
     Options are saved in the TEMPLACE_STRUCT dict.
@@ -88,7 +89,7 @@ def create_dot_cookietemple(TEMPLATE_STRUCT: dict, template_version: str, templa
         yaml.dump(TEMPLATE_STRUCT, f)
 
 
-def create_cookietemple_website_template(web_path,web_type,language,framework):
+def create_cookietemple_website_template(web_path, web_type, language, framework):
     # create the chosen and configured website template
     cookiecutter(f"{web_path}/{web_type}_{language}/{framework}",
                  no_input=True,
@@ -103,13 +104,10 @@ def cookiecutter_common_files():
     It´ll be outputted to the created template directory.
     """
     dirpath = tempfile.mkdtemp()
-
-    copy_tree(f"{COMMON_FILES_PATH1}", dirpath)
-
+    copy_tree(f"{COMMON_FILES_PATH}", dirpath)
     cookiecutter(dirpath,
                  extra_context={"commonName": "common_files_util"},
                  no_input=True,
                  overwrite_if_exists=True,
                  output_dir=f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
-
     shutil.rmtree(dirpath)
