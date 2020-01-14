@@ -1,7 +1,7 @@
 import os
 import click
 from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration,
-                                               create_template_with_subdomain)
+                                               create_template_with_subdomain_framework)
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 
 WD = os.path.dirname(__file__)
@@ -91,7 +91,7 @@ def handle_website_python(framework, url):
 def website_flask_options(vm_username):
     TEMPLATE_STRUCT['vm_username'] = vm_username
 
-    create_template_with_subdomain(TEMPLATES_WEB_PATH, TEMPLATE_STRUCT['webtype'],
+    create_template_with_subdomain_framework(TEMPLATES_WEB_PATH, TEMPLATE_STRUCT['webtype'],
                                    TEMPLATE_STRUCT['language'].lower(), TEMPLATE_STRUCT['web_framework'].lower())
 
 

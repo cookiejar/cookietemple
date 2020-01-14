@@ -88,7 +88,7 @@ def create_template_without_subdomain(domain_path, domain, language):
                  extra_context=TEMPLATE_STRUCT)
 
 
-def create_template_with_subdomain(domain_path, subdomain, language, framework):
+def create_template_with_subdomain_framework(domain_path, subdomain, language, framework):
     # create the chosen and configured website template
     cookiecutter(f"{domain_path}/{subdomain}_{language}/{framework}",
                  no_input=True,
