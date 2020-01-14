@@ -97,6 +97,11 @@ def create_cookietemple_website_template(web_path,web_type,language,framework):
 
 
 def cookiecutter_common_files():
+    """
+    This function creates a temporary directory for common files of all templates and applies cookiecutter on them.
+
+    It´ll be outputted to the created template directory.
+    """
     dirpath = tempfile.mkdtemp()
 
     copy_tree(f"{COMMON_FILES_PATH1}", dirpath)
@@ -107,7 +112,4 @@ def cookiecutter_common_files():
                  overwrite_if_exists=True,
                  output_dir=f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
 
-    #copy_tree(f"{os.getcwd()}/" + "common_files_util", f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
     shutil.rmtree(dirpath)
-
-    return dirpath

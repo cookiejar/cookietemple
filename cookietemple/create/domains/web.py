@@ -99,11 +99,6 @@ def website_flask_options(user_vm_name):
 
     cookiecutter_common_files()
 
-    #copy_tree(f"{os.getcwd()}/"+"common_files_util",f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
-    #shutil.rmtree(temp)
-
-
-
 
 def website_django_options():
     print("TODO")
