@@ -8,7 +8,7 @@ from cookiecutter.main import cookiecutter
 
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f"{WD}/../templates"
-TEMPLATES_CLI_PATH = f"{WD}/../templates/cli"
+TEMPLATES_CLI_PATH = f"{WD}/templates/cli"
 
 """ TEMPLATE VERSIONS """
 CLI_PYTHON_TEMPLATE_VERSION = '0.1.0'
@@ -43,7 +43,7 @@ def handle_cli(language):
 
     # create the chosen and configured template
     create_template_without_subdomain(f"{TEMPLATES_CLI_PATH}", 'cli', language)
-    
+
     # create the common files and copy them into the templates directory
     cookiecutter_common_files()
 
