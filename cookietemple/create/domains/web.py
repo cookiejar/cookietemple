@@ -40,8 +40,7 @@ def handle_web():
         'python': WEB_WEBSITE_PYTHON_TEMPLATE_VERSION
     }
 
-    return switcher_version.get(language.lower(), lambda: 'Invalid language!'), \
-           f"web-{TEMPLATE_STRUCT['webtype']}-{language.lower()}"
+    return switcher_version.get(language.lower(), lambda: 'Invalid language!'), f"web-{TEMPLATE_STRUCT['webtype']}-{language.lower()}"
 
 
 def handle_web_project_type_python():
