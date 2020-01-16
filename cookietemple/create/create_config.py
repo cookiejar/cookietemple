@@ -113,7 +113,8 @@ def cookiecutter_common_files():
     dirpath = tempfile.mkdtemp()
     copy_tree(f"{COMMON_FILES_PATH}", dirpath)
     cookiecutter(dirpath,
-                 extra_context={"commonName": "common_files_util"},
+                 extra_context={"full_name": TEMPLATE_STRUCT['full_name'],
+                                "email":TEMPLATE_STRUCT['email']},
                  no_input=True,
                  overwrite_if_exists=True,
                  output_dir=f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
