@@ -1,1 +1,0 @@
-COMMON TESTFILE for {{cookiecutter.commonName}}

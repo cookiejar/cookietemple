@@ -1,5 +1,5 @@
-* {{cookiecutter.project_slug}} version:
-* Python version:
+* cookietemple version:
+* {{cookiecutter.language}} version:
 * Operating System:
 
 ### Description

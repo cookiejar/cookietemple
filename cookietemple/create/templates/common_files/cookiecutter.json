@@ -1,3 +1,11 @@
 {
-  "commonName": "common_files_util"
+  "commonName": "common_files_util",
+  "full_name": "cookietempleusername",
+  "email": "cookietemple@dummy.com",
+  "project_slug": "cookietemplate",
+  "github_username": "cookiegithubuser",
+  "version": "0.1.0",
+  "license": "MIT",
+  "project_short_description" : "A cookietemple template",
+  "language": "Language"
 }
