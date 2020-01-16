@@ -63,7 +63,7 @@ def create_dot_cookietemple(TEMPLATE_STRUCT: dict, template_version: str, templa
         yaml.dump(TEMPLATE_STRUCT, f)
 
 
-def create_template_without_subdomain(domain_path, domain, language):
+def create_template_without_subdomain(domain_path: str, domain: str, language: str):
     """
     TODO
     :param domain_path:
@@ -77,7 +77,7 @@ def create_template_without_subdomain(domain_path, domain, language):
                  extra_context=TEMPLATE_STRUCT)
 
 
-def create_template_with_subdomain_framework(domain_path, subdomain, language, framework):
+def create_template_with_subdomain_framework(domain_path: str, subdomain: str, language: str, framework: str):
     """
     TODO
     :param domain_path:
