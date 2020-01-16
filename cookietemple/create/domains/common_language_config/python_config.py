@@ -4,12 +4,16 @@ from cookietemple.create.create_config import (TEMPLATE_STRUCT)
 
 
 def common_python_options():
-    TEMPLATE_STRUCT['command_line_interface'] = click.prompt('Choose a command line library',
-                                                             type=click.Choice(['Click', 'Argparse', 'No command-line interface'], case_sensitive=False),
-                                                             default='Click')
+    """
+    TODO
+    :return:
+    """
     TEMPLATE_STRUCT['pypi_username'] = click.prompt('Please enter your pipy username (if you have one)',
                                                     type=str,
                                                     default='homersimpson')
+    TEMPLATE_STRUCT['command_line_interface'] = click.prompt('Choose a command line library',
+                                                             type=click.Choice(['Click', 'Argparse', 'No command-line interface'], case_sensitive=False),
+                                                             default='Click')
     testing_library = click.prompt('Please choose whether pytest or unittest should be used as the testing library',
                                    type=click.Choice(['pytest', 'unittest'], case_sensitive=False),
                                    show_choices=True,
