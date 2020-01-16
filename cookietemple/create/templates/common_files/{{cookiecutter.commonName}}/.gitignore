@@ -131,6 +131,7 @@ dmypy.json
 
 .idea/
 {% elif cookiecutter.language == 'Java' %}
+
 # Compiled class file
 *.class
 
@@ -154,5 +155,4 @@ dmypy.json
 hs_err_pid*
 
 .idea/
-
 {% endif %}
