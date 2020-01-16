@@ -116,6 +116,6 @@ def cookiecutter_common_files():
                  extra_context={"full_name": TEMPLATE_STRUCT['full_name'],
                                 "email":TEMPLATE_STRUCT['email']},
                  no_input=True,
-                 overwrite_if_exists=True,
-                 output_dir=f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
+                 overwrite_if_exists=True)
+    copy_tree(dirpath,f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
     shutil.rmtree(dirpath)
