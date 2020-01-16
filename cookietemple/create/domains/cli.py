@@ -75,18 +75,18 @@ def cli_python_options():
     else:
         TEMPLATE_STRUCT['use_pytest'] = 'n'
     use_pypi_deployment_with_travis = click.prompt('Please choose whether or not your project should be automatically deployed on pypi via travis',
-                                                   type=click.Choice(['Y', 'N'], case_sensitive=False),
+                                                   type=bool,
                                                    show_choices=True,
                                                    default='Yes')
-    if use_pypi_deployment_with_travis == 'Y' or use_pypi_deployment_with_travis == 'y':
+    if use_pypi_deployment_with_travis:
         TEMPLATE_STRUCT['use_pypi_deployment_with_travis'] = 'y'
     else:
         TEMPLATE_STRUCT['use_pypi_deployment_with_travis'] = 'n'
     add_pyup_badge = click.prompt('Please choose whether or not to include a pyup badge into your README',
-                                  type=click.Choice(['Y', 'N'], case_sensitive=False),
+                                  type=bool,
                                   show_choices=True,
                                   default='Y')
-    if add_pyup_badge == 'y' or add_pyup_badge == 'Y':
+    if add_pyup_badge:
         TEMPLATE_STRUCT['add_pyup_badge'] = 'y'
     else:
         TEMPLATE_STRUCT['add_pyup_badge'] = 'n'
