@@ -3,44 +3,33 @@ import click
 from cookietemple.create.create_config import (TEMPLATE_STRUCT)
 
 
-@click.command()
-@click.option('--command_line_interface',
-              type=click.Choice(['Click', 'Argparse', 'No command-line interface'], case_sensitive=False),
-              help='Choose which command line library (if any) you want to use. We highly recommend click.',
-              prompt='Please choose a command line library.',
-              default='Click')
-@click.option('--pypi_username',
-              type=str,
-              help='Your username for pypi. Pypi is commonly used to share your project with the world. If you do not have a pypi username yet you can create one now or do so later.',
-              prompt='Please enter your pypi username.',
-              default='homersimpson')
-@click.option('--use_pytest/--no_pytest',
-              help='Pytest is a slightly more advanced testing library. Choose whether you want to work with pytest or unittest',
-              prompt='Please choose whether pytest or unittest should be used as the testing library.',
-              default=True)
-@click.option('--use_pypi_deployment_with_travis/--no_pypi_deployment_with_travis',
-              help='Determine whether or not you want boiler plate code for the automatic deployment of your package to pypi via travis.',
-              prompt='Please choose whether or not to automatically deploy your project on pypi via travis',
-              default=True)
-@click.option('--add_pyup_badge/--no_pyup_badge',
-              help='pyup is a service that submits pull requests to your repository if any new versions of dependencies have been released. A badge may be added to your README.',
-              prompt='Please choose whether or not to include a pyup badge into your README.',
-              default=True)
-def common_python_options(command_line_interface, pypi_username, use_pytest, use_pypi_deployment_with_travis,
-                       add_pyup_badge):
-    TEMPLATE_STRUCT['command_line_interface'] = command_line_interface
-    TEMPLATE_STRUCT['pypi_username'] = pypi_username
-
-    if use_pytest:
+def common_python_options():
+    TEMPLATE_STRUCT['command_line_interface'] = click.prompt('Choose a command line library',
+                                                             type=click.Choice(['Click', 'Argparse', 'No command-line interface'], case_sensitive=False),
+                                                             default='Click')
+    TEMPLATE_STRUCT['pypi_username'] = click.prompt('Please enter your pipy username (if you have one)',
+                                                    type=str,
+                                                    default='homersimpson')
+    testing_library = click.prompt('Please choose whether pytest or unittest should be used as the testing library',
+                                   type=click.Choice(['pytest', 'unittest'], case_sensitive=False),
+                                   show_choices=True,
+                                   default='pytest')
+    if testing_library == 'pytest':
         TEMPLATE_STRUCT['use_pytest'] = 'y'
     else:
         TEMPLATE_STRUCT['use_pytest'] = 'n'
-
+    use_pypi_deployment_with_travis = click.prompt('Please choose whether or not your project should be automatically deployed on pypi via travis',
+                                                   type=bool,
+                                                   show_choices=True,
+                                                   default='Yes')
     if use_pypi_deployment_with_travis:
         TEMPLATE_STRUCT['use_pypi_deployment_with_travis'] = 'y'
     else:
         TEMPLATE_STRUCT['use_pypi_deployment_with_travis'] = 'n'
-
+    add_pyup_badge = click.prompt('Please choose whether or not to include a pyup badge into your README',
+                                  type=bool,
+                                  show_choices=True,
+                                  default='Y')
     if add_pyup_badge:
         TEMPLATE_STRUCT['add_pyup_badge'] = 'y'
     else:
