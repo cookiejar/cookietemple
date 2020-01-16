@@ -114,7 +114,13 @@ def cookiecutter_common_files():
     copy_tree(f"{COMMON_FILES_PATH}", dirpath)
     cookiecutter(dirpath,
                  extra_context={"full_name": TEMPLATE_STRUCT['full_name'],
-                                "email":TEMPLATE_STRUCT['email']},
+                                "email": TEMPLATE_STRUCT['email'],
+                                "language": TEMPLATE_STRUCT['language'],
+                                "project_slug": TEMPLATE_STRUCT['project_slug'],
+                                "github_username": TEMPLATE_STRUCT['github_username'],
+                                "version": TEMPLATE_STRUCT['version'],
+                                "license": TEMPLATE_STRUCT['license'],
+                                "project_short_description": TEMPLATE_STRUCT['project_short_description']},
                  no_input=True,
                  overwrite_if_exists=True)
 
@@ -123,5 +129,4 @@ def cookiecutter_common_files():
         shutil.move(f"{os.getcwd()}/common_files_util/" + f, f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
 
     os.removedirs(f"{os.getcwd()}/common_files_util")
-    print(dirpath)
-    #shutil.rmtree(dirpath)
+    shutil.rmtree(dirpath)
