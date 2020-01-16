@@ -117,5 +117,9 @@ def cookiecutter_common_files():
                                 "email":TEMPLATE_STRUCT['email']},
                  no_input=True,
                  overwrite_if_exists=True)
-    shutil.move(f"{os.getcwd()}/common_files_util",f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
-    shutil.rmtree(f"{os.getcwd()}/common_files_util",dirpath)
+
+    common_files = os.listdir(f"{os.getcwd()}/common_files_util/")
+    for f in common_files:
+        shutil.move(f"{os.getcwd()}/common_files_util/" + f, f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
+
+    shutil.rmtree(dirpath)
