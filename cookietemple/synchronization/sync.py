@@ -9,6 +9,6 @@ LOG = logging.getLogger("cookietemple sync")
 LOG.addHandler(console)
 LOG.setLevel(logging.INFO)
 
-@click.command()
-def snyc():
+
+def snyc_template():
     click.echo(click.style('NOT IMPLEMENTED YET', fg='red'))

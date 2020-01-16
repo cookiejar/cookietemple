@@ -45,8 +45,10 @@ def handle_web():
 
 
 def handle_web_project_type_python():
-    """Determine which type of web project the user wants to generate a template for"""
-
+    """
+    TODO
+    :return:
+    """
     TEMPLATE_STRUCT['webtype'] = click.prompt('Please choose between the following web domains',
                                               type=click.Choice(['rest_api', 'website'], case_sensitive=False))
 
@@ -58,7 +60,10 @@ def handle_web_project_type_python():
 
 
 def handle_website_python():
-    """Handle website templates with python"""
+    """
+    TODO
+    :return:
+    """
     TEMPLATE_STRUCT['web_framework'] = click.prompt('Please choose between the following frameworks',
                                                     type=click.Choice(['Flask', 'Django'], case_sensitive=False))
     TEMPLATE_STRUCT['url'] = click.prompt('Please enter the project\'s URL (if you have one)',
@@ -73,6 +78,10 @@ def handle_website_python():
 
 
 def website_flask_options():
+    """
+    TODO
+    :return:
+    """
     TEMPLATE_STRUCT['vm_username'] = click.prompt('Please enter your VM username (if you have one)',
                                                   type=str,
                                                   default='cookietempleuser')

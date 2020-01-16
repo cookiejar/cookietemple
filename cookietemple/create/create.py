@@ -15,15 +15,18 @@ LOG.addHandler(console)
 LOG.setLevel(logging.INFO)
 
 
-def choose_domain():
+def choose_domain(domain):
     """
     Prompts the user for the template domain.
     Creates the .cookietemple file.
 
     :param domain: Template domain
     """
-    TEMPLATE_STRUCT["domain"] = click.prompt('Choose between the following domains',
-                                             type=click.Choice(['CLI', 'GUI', 'Web'], case_sensitive=False))
+    if not domain:
+        TEMPLATE_STRUCT['domain'] = click.prompt('Choose between the following domains',
+                                                 type=click.Choice(['CLI', 'GUI', 'Web'], case_sensitive=False))
+    else:
+        TEMPLATE_STRUCT['domain'] = domain
 
     switcher = {
         'cli': handle_cli,

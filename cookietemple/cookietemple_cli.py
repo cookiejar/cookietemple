@@ -1,18 +1,21 @@
 # -*- coding: utf-8 -*-
 
 """Entry point for cookietemple."""
+import logging
 import os
 import sys
 import click
 
-from cookietemple.bump_version.bump_version import bump_version
+from cookietemple.bump_version.bump_version import bump_template_version
 from cookietemple.create.create import choose_domain
-from cookietemple.info.info import info
-from cookietemple.linting import lint
+from cookietemple.info.info import show_info
+from cookietemple.linting.lint import lint_project
 from cookietemple.list.list import list_available_templates
-from cookietemple.synchronization import sync
+from cookietemple.synchronization.sync import snyc_template
+from cookietemple.util.click_util import CustomHelpOrder
 
 WD = os.path.dirname(__file__)
+COOKIETEMPLE_VERSION = '0.1.0'
 
 
 def main():
@@ -24,39 +27,82 @@ def main():
                                                    |_|
         """, fg='blue'))
 
-    click.echo(click.style('Run ', fg='green') + click.style('cookietemple --help ', fg='red') + click.style('for an overview of all commands', fg='green'))
+    click.echo(click.style('Run ', fg='green') + click.style('cookietemple --help ', fg='red') + click.style(
+        'for an overview of all commands', fg='green'))
     click.echo()
 
-    determine_command()
+    cookietemple_cli()
 
 
-@click.command()
-@click.option('--command',
-              type=click.Choice(['Create', 'Lint', 'List', 'Info', 'Sync', 'Bump_version'], case_sensitive=False),
-              prompt="Please choose from the following options")
-def determine_command(command):
-    """ Cookietemple offers six distinct commands.
+@click.group(cls=CustomHelpOrder)
+@click.version_option(COOKIETEMPLE_VERSION)
+@click.option(
+    '-v', '--verbose',
+    is_flag=True,
+    default=False,
+    help="Verbose output (print debug statements)"
+)
+def cookietemple_cli(verbose):
+    if verbose:
+        logging.basicConfig(level=logging.DEBUG, format="\n%(levelname)s: %(message)s")
+    else:
+        logging.basicConfig(level=logging.INFO, format="\n%(levelname)s: %(message)s")
 
-        \b
-        create       -> Create a new Cookietemple template
-        lint         -> Verify that your project follows best practices
-        list         -> List all available templates
-        info         -> Show detailed information about a specific template
-        sync         -> Sync an existing project with the latest template release
-        bump_version -> Conveniently bumps the version of an existing project
+
+@cookietemple_cli.command(help_priority=1)
+@click.option('--domain',
+              type=click.Choice(['CLI', 'GUI', 'Web'], case_sensitive=False))
+def create(domain):
     """
-    switcher = {
-        'create': choose_domain,
-        'lint': lint,
-        'list': list_available_templates,
-        'info': info,
-        'sync': sync,
-        'bump_version': bump_version
-    }
+    Create a new project using one of our templates
 
-    switcher.get(command.lower(), lambda: 'Invalid')()
+    """
+    choose_domain(domain)
 
-    return 0
+
+@cookietemple_cli.command(help_priority=2)
+def lint():
+    """
+    Lint your existing COOKIETEMPLE project
+
+    """
+    lint_project()
+
+
+@cookietemple_cli.command(help_priority=3)
+def list():
+    """
+    List all available COOKIETEMPLE templates
+
+    """
+    list_available_templates()
+
+
+@cookietemple_cli.command(help_priority=4)
+def info():
+    """
+    Get detailed info on a COOKIETEMPLE template
+
+    """
+    show_info()
+
+
+@cookietemple_cli.command(help_priority=5)
+def sync():
+    """
+    Sync your project with the latest template release
+
+    """
+    snyc_template()
+
+
+@cookietemple_cli.command(help_priority=6)
+def bump_version():
+    """
+    Bump the version of an existing COOKIETEMPLE project
+
+    """
+    bump_template_version()
 
 
 if __name__ == "__main__":

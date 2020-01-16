@@ -64,6 +64,13 @@ def create_dot_cookietemple(TEMPLATE_STRUCT: dict, template_version: str, templa
 
 
 def create_template_without_subdomain(domain_path, domain, language):
+    """
+    TODO
+    :param domain_path:
+    :param domain:
+    :param language:
+    :return:
+    """
     cookiecutter(f"{domain_path}/{domain}_{language}",
                  no_input=True,
                  overwrite_if_exists=True,
@@ -71,7 +78,14 @@ def create_template_without_subdomain(domain_path, domain, language):
 
 
 def create_template_with_subdomain_framework(domain_path, subdomain, language, framework):
-    # create the chosen and configured website template
+    """
+    TODO
+    :param domain_path:
+    :param subdomain:
+    :param language:
+    :param framework:
+    :return:
+    """
     cookiecutter(f"{domain_path}/{subdomain}_{language}/{framework}",
                  no_input=True,
                  overwrite_if_exists=True,

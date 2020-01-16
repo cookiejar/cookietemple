@@ -28,7 +28,12 @@ TEMPLATES_PATH = f"{WD}/../create/templates"
                      + click.style('cli-python', fg='blue')
                      + click.style(' or ')
                      + click.style('cli', fg='blue'))
-def info(handle):
+def show_info(handle: str):
+    """
+    Displays detailed information of a domain/language/template
+
+    :param handle: domain/language/template handle (examples: cli or cli-python)
+    """
     available_templates = load_available_templates(f"{TEMPLATES_PATH}/available_templates.yaml")
     click.echo()
     click.echo(click.style(f"Template info for {handle}\n", fg='green'))
