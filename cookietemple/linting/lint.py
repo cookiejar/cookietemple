@@ -9,7 +9,6 @@ LOG = logging.getLogger("cookietemple lint")
 LOG.addHandler(console)
 LOG.setLevel(logging.INFO)
 
-@click.command()
-@click.option('--lint')
-def lint(lint):
+
+def lint_project():
     click.echo(click.style('NOT IMPLEMENTED YET', fg='red'))

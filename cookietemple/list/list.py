@@ -19,7 +19,6 @@ WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f"{WD}/../create/templates"
 
 
-@click.command()
 def list_available_templates():
     """
     Displays all available templates to stdout in nicely formatted yaml format.

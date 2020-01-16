@@ -9,6 +9,5 @@ LOG = logging.getLogger("cookietemple create")
 LOG.addHandler(console)
 LOG.setLevel(logging.INFO)
 
-@click.command()
-def bump_version():
+def bump_template_version():
     click.echo(click.style('NOT IMPLEMENTED YET', fg='red'))

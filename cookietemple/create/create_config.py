@@ -6,8 +6,8 @@ import click
 import yaml
 from cookiecutter.main import cookiecutter
 
-# The main dictionary, which will be completed by first the general options prompts and then the chosen template specific prompts.
-# It is then passed onto cookiecutter as extra_content to facilitate the template creation.
+# The main dictionary, which will be completed by first the general options prompts and then the chosen template
+# specific prompts. It is then passed onto cookiecutter as extra_content to facilitate the template creation.
 # Finally, it is also used for the creation of the .cookietemple file.
 TEMPLATE_STRUCT = {}
 
@@ -16,63 +16,37 @@ TEMPLATES_PATH = f"{WD}/templates"
 COMMON_FILES_PATH = f"{WD}/templates/common_files"
 
 
-@click.command()
-@click.option('--full_name',
-              type=str,
-              help='Your full name.',
-              prompt='Please enter your full name',
-              default='Homer Simpson')
-@click.option('--email',
-              type=str,
-              help='Your personal or work email.',
-              prompt='Please enter your personal or work email',
-              default='homer.simpson@example.com')
-@click.option('--github_username',
-              type=str,
-              help='We require your github username for automatic deployment and uploading your newly created project to your repository',
-              prompt='Please enter your github account name',
-              default='homersimpson')
-@click.option('--project_name',
-              type=str,
-              help='The name of your project.',
-              prompt='Please enter your project name of choice',
-              default='Python CLI')
-@click.option('--project_slug',
-              type=str,
-              help='The name of your project in an URL friendly manner. Refrain from using spaces or uncommon letters.',
-              prompt='Please enter an URL friendly project slug',
-              default='Python-CLI')
-@click.option('--project_short_description',
-              type=str,
-              help='A short description of your project. 2-3 sentences may suffice. There is room for more detailed descriptions in your documentation.',
-              prompt='Please enter a short description of your project',
-              default='Python CLI contains all the boilerplate you need to create a Python package with commandline support.')
-@click.option('--version',
-              type=str,
-              help='The initial version of your project. It is recommended to follow the semantic version convention (https://semver.org/)',
-              prompt='Please enter the initial version number',
-              default='0.1.0')
-@click.option('--license',
-              type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Not open source'], case_sensitive=False),
-              help='To get more information on the available licenses and to choose the best fitting license for your project we recommend choosealicense.com/',
-              prompt='Please choose a license.',
-              default='MIT')
-def prompt_general_template_configuration(full_name, email, github_username, project_name, project_slug,
-                                          project_short_description,
-                                          version, license):
+def prompt_general_template_configuration():
     """
     Prompts the user for general options that are required by all templates.
     Options are saved in the TEMPLACE_STRUCT dict.
     """
 
-    TEMPLATE_STRUCT['full_name'] = full_name
-    TEMPLATE_STRUCT['email'] = email
-    TEMPLATE_STRUCT['github_username'] = github_username
-    TEMPLATE_STRUCT['project_name'] = project_name
-    TEMPLATE_STRUCT['project_slug'] = project_slug
-    TEMPLATE_STRUCT['project_short_description'] = project_short_description
-    TEMPLATE_STRUCT['version'] = version
-    TEMPLATE_STRUCT['license'] = license
+    TEMPLATE_STRUCT['full_name'] = click.prompt('Please enter your full name',
+                                                type=str,
+                                                default='Homer Simpson')
+    TEMPLATE_STRUCT['email'] = click.prompt('Please enter your personal or work email',
+                                            type=str,
+                                            default='homer.simpson@example.com')
+    TEMPLATE_STRUCT['github_username'] = click.prompt('Please enter your Github account name',
+                                                      type=str,
+                                                      default='homersimpson')
+    TEMPLATE_STRUCT['project_name'] = click.prompt('Please enter your project name',
+                                                   type=str,
+                                                   default='Exploding Springfield')
+    TEMPLATE_STRUCT['project_slug'] = click.prompt('Please enter an URL friendly project slug. Refrain from using spaces or uncommon letters.',
+                                                   type=str,
+                                                   default='Exploding-Springfield')
+    TEMPLATE_STRUCT['project_short_description'] = click.prompt('Please enter a short description of yor project.',
+                                                                type=str,
+                                                                default='Exploding Springfield. How to get rid of your job in 3 simple steps.')
+    TEMPLATE_STRUCT['version'] = click.prompt('Please enter the initial version of your project.',
+                                              type=str,
+                                              default='0.1.0')
+    TEMPLATE_STRUCT['license'] = click.prompt('Please choose a license',
+                                              type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Not open source'], case_sensitive=False),
+                                              show_choices=True,
+                                              default='MIT')
 
 
 def create_dot_cookietemple(TEMPLATE_STRUCT: dict, template_version: str, template_handle: str):
@@ -89,15 +63,29 @@ def create_dot_cookietemple(TEMPLATE_STRUCT: dict, template_version: str, templa
         yaml.dump(TEMPLATE_STRUCT, f)
 
 
-def create_template_without_subdomain(domain_path, domain, language):
+def create_template_without_subdomain(domain_path: str, domain: str, language: str):
+    """
+    TODO
+    :param domain_path:
+    :param domain:
+    :param language:
+    :return:
+    """
     cookiecutter(f"{domain_path}/{domain}_{language}",
                  no_input=True,
                  overwrite_if_exists=True,
                  extra_context=TEMPLATE_STRUCT)
 
 
-def create_template_with_subdomain_framework(domain_path, subdomain, language, framework):
-    # create the chosen and configured website template
+def create_template_with_subdomain_framework(domain_path: str, subdomain: str, language: str, framework: str):
+    """
+    TODO
+    :param domain_path:
+    :param subdomain:
+    :param language:
+    :param framework:
+    :return:
+    """
     cookiecutter(f"{domain_path}/{subdomain}_{language}/{framework}",
                  no_input=True,
                  overwrite_if_exists=True,
