@@ -14,23 +14,22 @@ LOG = logging.getLogger("cookietemple create")
 LOG.addHandler(console)
 LOG.setLevel(logging.INFO)
 
-@click.command()
-@click.option('--domain',
-              type=click.Choice(['CLI', 'GUI', 'Web'], case_sensitive=False),
-              prompt="Choose between the following domains")
-def choose_domain(domain):
+
+def choose_domain():
     """
     Prompts the user for the template domain.
     Creates the .cookietemple file.
 
     :param domain: Template domain
     """
-    TEMPLATE_STRUCT["domain"] = domain
+    TEMPLATE_STRUCT["domain"] = click.prompt('Choose between the following domains',
+                                             type=click.Choice(['CLI', 'GUI', 'Web'], case_sensitive=False))
+
     switcher = {
         'cli': handle_cli,
         'web': handle_web,
         'gui': handle_gui
     }
 
-    template_version, template_handle = switcher.get(domain.lower(), lambda: 'Invalid')(standalone_mode=False)
+    template_version, template_handle = switcher.get(TEMPLATE_STRUCT["domain"].lower(), lambda: 'Invalid')()
     create_dot_cookietemple(TEMPLATE_STRUCT, template_version=template_version, template_handle=template_handle)
