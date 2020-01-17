@@ -9,7 +9,6 @@
   "version": "0.1.0",
   "use_pytest": "y",
   "use_pypi_deployment_with_travis": "y",
-  "add_pyup_badge": "n",
   "command_line_interface": ["Click", "Argparse", "No command-line interface"],
   "license": ["MIT", "BSD", "ISC", "Apache2.0", "GNUv3", "Not open source"]
 }

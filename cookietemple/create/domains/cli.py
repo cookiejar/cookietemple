@@ -16,9 +16,9 @@ TEMPLATES_CLI_PATH = f"{WD_Path.parent}/templates/cli"
 
 """ TEMPLATE VERSIONS """
 CLI_PYTHON_TEMPLATE_VERSION = '0.1.0'
-CLI_JAVA_TEMPLATE_VERSION   = '0.1.0'
+CLI_JAVA_TEMPLATE_VERSION = '0.1.0'
 CLI_KOTLIN_TEMPLATE_VERSION = '0.1.0'
-CLI_CPP_TEMPLATE_VERSION    = '0.1.0'
+CLI_CPP_TEMPLATE_VERSION = '0.1.0'
 
 
 def handle_cli():
@@ -59,7 +59,6 @@ def handle_cli():
     }
 
     return switcher_version.get(language.lower(), lambda: 'Invalid language!'), f"cli-{language.lower()}"
-
 
 
 def cli_java_options():
