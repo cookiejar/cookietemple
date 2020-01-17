@@ -79,12 +79,14 @@ def list():
 
 
 @cookietemple_cli.command(help_priority=4)
-def info():
+@click.option('--handle',
+              type=str)
+def info(handle):
     """
     Get detailed info on a COOKIETEMPLE template
 
     """
-    show_info()
+    show_info(handle)
 
 
 @cookietemple_cli.command(help_priority=5)

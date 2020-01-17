@@ -15,7 +15,7 @@ LOG.addHandler(console)
 LOG.setLevel(logging.INFO)
 
 
-def choose_domain(domain):
+def choose_domain(domain: str):
     """
     Prompts the user for the template domain.
     Creates the .cookietemple file.

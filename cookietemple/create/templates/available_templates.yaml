@@ -3,8 +3,8 @@ cli:
         handle: cli-python
         version: 0.0.1
         available libraries: click, argparse
-        short description: someShortDescription
-        long description: someLongDescription
+        short description: General Python package with command line interface
+        long description: Best practice Python package with optional command line support (click, argparse). Pytest or unittest are available as testing libraries. The package can be easily locally installed and distributed on pypi even with non python files.
     java:
         handle: cli-java
         version: 0.0.1
