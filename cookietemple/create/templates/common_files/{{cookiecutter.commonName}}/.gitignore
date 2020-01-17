@@ -1,4 +1,4 @@
-{% if cookiecutter.language == 'Python' -%}
+{% if cookiecutter.language == 'python' -%}
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
