@@ -2,6 +2,7 @@ import os
 import tempfile
 import shutil
 from distutils.dir_util import copy_tree
+
 import click
 import yaml
 from cookiecutter.main import cookiecutter
@@ -34,9 +35,10 @@ def prompt_general_template_configuration():
     TEMPLATE_STRUCT['project_name'] = click.prompt('Please enter your project name',
                                                    type=str,
                                                    default='Exploding Springfield')
-    TEMPLATE_STRUCT['project_slug'] = click.prompt('Please enter an URL friendly project slug. Refrain from using spaces or uncommon letters.',
-                                                   type=str,
-                                                   default='Exploding-Springfield')
+    TEMPLATE_STRUCT['project_slug'] = click.prompt(
+        'Please enter an URL friendly project slug. Refrain from using spaces or uncommon letters.',
+        type=str,
+        default='Exploding-Springfield')
     TEMPLATE_STRUCT['project_short_description'] = click.prompt('Please enter a short description of yor project.',
                                                                 type=str,
                                                                 default='Exploding Springfield. How to get rid of your job in 3 simple steps.')
@@ -44,7 +46,9 @@ def prompt_general_template_configuration():
                                               type=str,
                                               default='0.1.0')
     TEMPLATE_STRUCT['license'] = click.prompt('Please choose a license',
-                                              type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Not open source'], case_sensitive=False),
+                                              type=click.Choice(
+                                                  ['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Not open source'],
+                                                  case_sensitive=False),
                                               show_choices=True,
                                               default='MIT')
 
@@ -113,8 +117,21 @@ def cookiecutter_common_files():
                  overwrite_if_exists=True)
 
     common_files = os.listdir(f"{os.getcwd()}/common_files_util/")
-    for f in common_files:
-        shutil.move(f"{os.getcwd()}/common_files_util/" + f, f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
+
+    proceed = True
+
+    if os.path.isdir(f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}"):
+        click.echo(click.style('WARNING: ', fg='red') + click.style(
+            f"A directory named {TEMPLATE_STRUCT['project_slug']} already "
+            f"exists at", fg='red') + click.style(f"{os.getcwd()}", fg='white'))
+        click.echo()
+        click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
+        click.echo()
+        proceed = click.confirm("Do you really want to continue?")
+
+    if proceed:
+        for f in common_files:
+            shutil.move(f"{os.getcwd()}/common_files_util/" + f, f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
 
     os.removedirs(f"{os.getcwd()}/common_files_util")
     shutil.rmtree(dirpath)
