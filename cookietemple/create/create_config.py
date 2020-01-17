@@ -150,7 +150,8 @@ def cookiecutter_common_files():
 
     common_files = os.listdir(f"{os.getcwd()}/common_files_util/")
     for f in common_files:
-        shutil.move(f"{os.getcwd()}/common_files_util/" + f, f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
+        shutil.move(os.path.join(f"{os.getcwd()}/common_files_util/", f),
+                    os.path.join(f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}", f))
 
     os.removedirs(f"{os.getcwd()}/common_files_util")
     shutil.rmtree(dirpath)
