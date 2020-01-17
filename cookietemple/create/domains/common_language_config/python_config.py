@@ -6,7 +6,6 @@ from cookietemple.create.create_config import (TEMPLATE_STRUCT)
 def common_python_options():
     """
     TODO
-    :return:
     """
     TEMPLATE_STRUCT['pypi_username'] = click.prompt('Please enter your pipy username (if you have one)',
                                                     type=str,
@@ -30,11 +29,3 @@ def common_python_options():
         TEMPLATE_STRUCT['use_pypi_deployment_with_travis'] = 'y'
     else:
         TEMPLATE_STRUCT['use_pypi_deployment_with_travis'] = 'n'
-    add_pyup_badge = click.prompt('Please choose whether or not to include a pyup badge into your README',
-                                  type=bool,
-                                  show_choices=True,
-                                  default='Y')
-    if add_pyup_badge:
-        TEMPLATE_STRUCT['add_pyup_badge'] = 'y'
-    else:
-        TEMPLATE_STRUCT['add_pyup_badge'] = 'n'

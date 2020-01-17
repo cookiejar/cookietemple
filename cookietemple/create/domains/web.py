@@ -1,7 +1,7 @@
 import os
 import click
 from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration,
-                                               create_template_with_subdomain_framework, cookiecutter_common_files)
+                                               create_template_with_subdomain_framework, create_common_files)
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 
 WD = os.path.dirname(__file__)
@@ -88,7 +88,7 @@ def website_flask_options():
     create_template_with_subdomain_framework(TEMPLATES_WEB_PATH, TEMPLATE_STRUCT['webtype'],
                                              TEMPLATE_STRUCT['language'].lower(),
                                              TEMPLATE_STRUCT['web_framework'].lower())
-    cookiecutter_common_files()
+    create_common_files()
 
 
 def website_django_options():

@@ -92,7 +92,7 @@ def create_template_with_subdomain_framework(domain_path: str, subdomain: str, l
                  extra_context=TEMPLATE_STRUCT)
 
 
-def cookiecutter_common_files():
+def create_common_files():
     """
     This function creates a temporary directory for common files of all templates and applies cookiecutter on them.
 
