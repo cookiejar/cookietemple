@@ -75,10 +75,24 @@ def create_template_without_subdomain(domain_path: str, domain: str, language: s
     :param language:
     :return:
     """
-    cookiecutter(f"{domain_path}/{domain}_{language}",
-                 no_input=True,
-                 overwrite_if_exists=True,
-                 extra_context=TEMPLATE_STRUCT)
+    proceed = True
+
+    if os.path.isdir(f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}"):
+        click.echo(click.style('WARNING: ', fg='red') + click.style(
+            f"A directory named {TEMPLATE_STRUCT['project_slug']} already "
+            f"exists at", fg='red') + click.style(f"{os.getcwd()}", fg='green'))
+        click.echo()
+        click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
+        click.echo()
+        proceed = click.confirm("Do you really want to continue?")
+
+    if proceed:
+        cookiecutter(f"{domain_path}/{domain}_{language}",
+                     no_input=True,
+                     overwrite_if_exists=True,
+                     extra_context=TEMPLATE_STRUCT)
+
+    return proceed
 
 
 def create_template_with_subdomain_framework(domain_path: str, subdomain: str, language: str, framework: str):
@@ -90,10 +104,24 @@ def create_template_with_subdomain_framework(domain_path: str, subdomain: str, l
     :param framework:
     :return:
     """
-    cookiecutter(f"{domain_path}/{subdomain}_{language}/{framework}",
-                 no_input=True,
-                 overwrite_if_exists=True,
-                 extra_context=TEMPLATE_STRUCT)
+    proceed = True
+
+    if os.path.isdir(f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}"):
+        click.echo(click.style('WARNING: ', fg='red') + click.style(
+            f"A directory named {TEMPLATE_STRUCT['project_slug']} already "
+            f"exists at", fg='red') + click.style(f"{os.getcwd()}", fg='green'))
+        click.echo()
+        click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
+        click.echo()
+        proceed = click.confirm("Do you really want to continue?")
+
+    if proceed:
+        cookiecutter(f"{domain_path}/{subdomain}_{language}/{framework}",
+                     no_input=True,
+                     overwrite_if_exists=True,
+                     extra_context=TEMPLATE_STRUCT)
+
+    else: click.Context.abort()
 
 
 def cookiecutter_common_files():
@@ -117,21 +145,8 @@ def cookiecutter_common_files():
                  overwrite_if_exists=True)
 
     common_files = os.listdir(f"{os.getcwd()}/common_files_util/")
-
-    proceed = True
-
-    if os.path.isdir(f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}"):
-        click.echo(click.style('WARNING: ', fg='red') + click.style(
-            f"A directory named {TEMPLATE_STRUCT['project_slug']} already "
-            f"exists at", fg='red') + click.style(f"{os.getcwd()}", fg='white'))
-        click.echo()
-        click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
-        click.echo()
-        proceed = click.confirm("Do you really want to continue?")
-
-    if proceed:
-        for f in common_files:
-            shutil.move(f"{os.getcwd()}/common_files_util/" + f, f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
+    for f in common_files:
+        shutil.move(f"{os.getcwd()}/common_files_util/" + f, f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
 
     os.removedirs(f"{os.getcwd()}/common_files_util")
     shutil.rmtree(dirpath)
