@@ -7,6 +7,8 @@ import click
 import yaml
 from cookiecutter.main import cookiecutter
 
+from ..cookietemple_cli import cookietemple_cli
+
 # The main dictionary, which will be completed by first the general options prompts and then the chosen template
 # specific prompts. It is then passed onto cookiecutter as extra_content to facilitate the template creation.
 # Finally, it is also used for the creation of the .cookietemple file.
@@ -121,7 +123,7 @@ def create_template_with_subdomain_framework(domain_path: str, subdomain: str, l
                      overwrite_if_exists=True,
                      extra_context=TEMPLATE_STRUCT)
 
-    else: click.Context().abort()
+    else: click.Context(command=cookietemple_cli).abort()
 
 
 def cookiecutter_common_files():
