@@ -121,7 +121,7 @@ def create_template_with_subdomain_framework(domain_path: str, subdomain: str, l
                      overwrite_if_exists=True,
                      extra_context=TEMPLATE_STRUCT)
 
-    else: click.Context.abort()
+    else: click.Context().abort()
 
 
 def cookiecutter_common_files():
