@@ -20,7 +20,7 @@ def handle_web():
     """
     language = click.prompt('Please choose between the following languages',
                             type=click.Choice(['Python', 'JavaScript', 'Java'], case_sensitive=False))
-    TEMPLATE_STRUCT["language"] = language
+    TEMPLATE_STRUCT["language"] = language.capitalize()
 
     # prompt the user to fetch general template configurations
     prompt_general_template_configuration()
