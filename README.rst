@@ -1,5 +1,5 @@
 ============
-cookietemple
+COOKIETEMPLE
 ============
 
 
@@ -16,6 +16,12 @@ cookietemple
 .. image:: https://pyup.io/repos/github/zethson/cookietemple/shield.svg
      :target: https://pyup.io/repos/github/zethson/cookietemple/
      :alt: Updates
+
+.. image:: https://img.shields.io/twitter/follow/lukasheumos?color=green&style=flat-square
+    :alt: Twitter Follow
+
+.. image:: https://img.shields.io/twitter/follow/1207_philipp?color=green&style=flat-square
+    :alt: Twitter Follow
 
 
 
@@ -39,6 +45,6 @@ Features
 Authors
 -------
 
-cookietemple was initiated and developed by `Lukas Heumos <github.com/zethson>`_ and `Philipp Ehmele <https://github.com/imipenem>`_.
+COOKIETEMPLE was initiated and developed by `Lukas Heumos <https://github.com/zethson>`_ and `Philipp Ehmele <https://github.com/imipenem>`_.
 Follow us on Twitter: `Lukas Heumos <https://twitter.com/ZethSC>`_ and `Philipp Ehmele <https://twitter.com/Farwent1>`_.
 
