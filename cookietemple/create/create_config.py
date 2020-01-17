@@ -12,7 +12,7 @@ from cookiecutter.main import cookiecutter
 # The main dictionary, which will be completed by first the general options prompts and then the chosen template
 # specific prompts. It is then passed onto cookiecutter as extra_content to facilitate the template creation.
 # Finally, it is also used for the creation of the .cookietemple file.
-from cookietemple.cookietemple_cli import cookietemple_cli
+import cookietemple.cookietemple_cli
 
 TEMPLATE_STRUCT = {}
 
@@ -125,7 +125,7 @@ def create_template_with_subdomain_framework(domain_path: str, subdomain: str, l
                      overwrite_if_exists=True,
                      extra_context=TEMPLATE_STRUCT)
 
-    else: click.Context(command=cookietemple_cli).abort()
+    else: click.Context(command=cookietemple.cookietemple_cli.cookietemple_cli).abort()
 
 
 def cookiecutter_common_files():
