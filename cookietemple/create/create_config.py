@@ -152,9 +152,10 @@ def cookiecutter_common_files():
     common_files = os.listdir(f"{os.getcwd()}/common_files_util/")
     for f in common_files:
         path = Path(f"{Path.cwd()}/common_files_util/{f}")
+        poss_dir = Path(f"{Path.cwd()}/{TEMPLATE_STRUCT['project_slug']}/{f}")
 
-        if path.is_dir():
-            delete_dir_tree(path)
+        if poss_dir.is_dir():
+            delete_dir_tree(poss_dir)
         path.replace(f"{Path.cwd()}/{TEMPLATE_STRUCT['project_slug']}/{f}")
 
     os.removedirs(f"{os.getcwd()}/common_files_util")
@@ -167,7 +168,7 @@ def delete_dir_tree(directory: Path):
     Since there is no built-in function for this in the pathlib API and we want to keep
     it consistent, we have to use a self-written.
     :param directory: The directory that should be removed
-    :return: 
+    :return:
     """
     dir = directory
 
