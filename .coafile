@@ -2,10 +2,8 @@
 files = *.py, cookietemple/**/*.py, tests/**/*.py, docs/conf.py
 ignore =
     cookietemple/create/templates/**,
-    build/**
-#    tests/bearlib/languages/documentation/documentation_extraction_testdata/*.py,
-#    tests/collecting/collectors_test_dir/bears/incorrect_bear.py,
-#    coalib/misc/Asyncio.py,
+    build/**,
+    cookietemple/cookietemple_cli.py
 
 max_line_length = 160
 use_spaces = True
@@ -119,10 +117,10 @@ files = docs/_static/**.css
 bears = reSTLintBear
 files = README.rst
 
-#[rstcheck]
-#bears = RSTcheckBear
-#files = **.rst
-# ignore = docs/Developers/coala_settings.rst
+# TEMPORARILY DISABLED, SINCE IT SEEMS TO HANG
+# [rstcheck]
+# bears = RSTcheckBear
+# files = **.rst
 
 [text]
 bears = SpaceConsistencyBear
@@ -132,9 +130,9 @@ files =
     ./docs/_static/custom.css
 ignore = node_modules/
 
-[jinja2]
-bears = Jinja2Bear
-files = **.jj2
+# [jinja2]
+# bears = Jinja2Bear
+# files = **.jj2
 
 [TODOS]
 enabled = False

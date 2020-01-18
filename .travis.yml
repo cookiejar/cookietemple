@@ -23,7 +23,7 @@ deploy:
   user: zethson
   password:
     secure: PLEASE_REPLACE_ME
-  on:
+  on: # yamllint disable-line
     tags: true
     repo: zethson/cookietemple
     python: 3.6
