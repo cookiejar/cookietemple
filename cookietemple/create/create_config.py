@@ -2,6 +2,7 @@ import os
 import tempfile
 import shutil
 from distutils.dir_util import copy_tree
+from pathlib import Path
 
 import click
 import yaml
@@ -150,8 +151,7 @@ def cookiecutter_common_files():
 
     common_files = os.listdir(f"{os.getcwd()}/common_files_util/")
     for f in common_files:
-        shutil.move(os.path.join(f"{os.getcwd()}/common_files_util/", f),
-                    os.path.join(f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug'], f}"), copy_function = shutil.copytree)
+        Path.rename(Path(f"{Path.cwd()}/common_files_util/{f})", Path(f"{Path.cwd()}/{TEMPLATE_STRUCT['project_slug']}/{f}")))
 
     os.removedirs(f"{os.getcwd()}/common_files_util")
     shutil.rmtree(dirpath)
