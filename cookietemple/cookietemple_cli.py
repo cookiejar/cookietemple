@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Entry point for cookietemple."""
+'""Entry point for cookietemple.""'
 import logging
 import os
 import sys
@@ -20,10 +20,10 @@ COOKIETEMPLE_VERSION = '0.1.0'
 
 def main():
     click.echo(click.style(f"""
-      / __\___   ___ | | _(_) ___| |_ ___ _ __ ___  _ __ | | ___
-     / /  / _ \ / _ \| |/ / |/ _ \ __/ _ \\ '_ ` _ \| '_ \| |/ _ \\
-    / /__| (_) | (_) |   <| |  __/ ||  __/ | | | | | |_) | |  __/
-    \____/\___/ \___/|_|\_\_|\___|\__\___|_| |_| |_| .__/|_|\___|
+      / __\___   ___ | | _(_) ___| |_ ___ _ __ ___  _ __ | | ___  # Ignore PycodestyleBear (W605)
+     / /  / _ \ / _ \| |/ / |/ _ \ __/ _ \\ '_ ` _ \| '_ \| |/ _ \\  # Ignore PycodestyleBear (W605)
+    / /__| (_) | (_) |   <| |  __/ ||  __/ | | | | | |_) | |  __/ # Ignore PycodestyleBear (W605)
+    \____/\___/ \___/|_|\_\_|\___|\__\___|_| |_| |_| .__/|_|\___|  # Ignore PycodestyleBear (W605)
                                                    |_|
         """, fg='blue'))
 
@@ -40,13 +40,13 @@ def main():
     '-v', '--verbose',
     is_flag=True,
     default=False,
-    help="Verbose output (print debug statements)"
+    help='Verbose output (print debug statements)'
 )
 def cookietemple_cli(verbose):
     if verbose:
-        logging.basicConfig(level=logging.DEBUG, format="\n%(levelname)s: %(message)s")
+        logging.basicConfig(level=logging.DEBUG, format='\n%(levelname)s: %(message)s')
     else:
-        logging.basicConfig(level=logging.INFO, format="\n%(levelname)s: %(message)s")
+        logging.basicConfig(level=logging.INFO, format='\n%(levelname)s: %(message)s')
 
 
 @cookietemple_cli.command(help_priority=1)
@@ -107,5 +107,5 @@ def bump_version():
     bump_template_version()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     sys.exit(main())  # pragma: no cover

@@ -46,6 +46,6 @@ Features
 Authors
 -------
 
-COOKIETEMPLE was initiated and developed by `Lukas Heumos <https://github.com/zethson>`_ and `Philipp Ehmele <https://github.com/imipenem>`_.
+COOKIETEMPLE was initiated and developed by `Lukas Heumos (Github)  <https://github.com/zethson>`_ and `Philipp Ehmele (Github) <https://github.com/imipenem>`_.
 Follow us on Twitter: `Lukas Heumos <https://twitter.com/ZethSC>`_ and `Philipp Ehmele <https://twitter.com/Farwent1>`_.
 

@@ -12,8 +12,8 @@ from cookiecutter.main import cookiecutter
 TEMPLATE_STRUCT = {}
 
 WD = os.path.dirname(__file__)
-TEMPLATES_PATH = f"{WD}/templates"
-COMMON_FILES_PATH = f"{WD}/templates/common_files"
+TEMPLATES_PATH = f'{WD}/templates'
+COMMON_FILES_PATH = f'{WD}/templates/common_files'
 
 
 def prompt_general_template_configuration():
@@ -71,7 +71,7 @@ def create_template_without_subdomain(domain_path: str, domain: str, language: s
     :param language:
     :return:
     """
-    cookiecutter(f"{domain_path}/{domain}_{language}",
+    cookiecutter(f'{domain_path}/{domain}_{language}',
                  no_input=True,
                  overwrite_if_exists=True,
                  extra_context=TEMPLATE_STRUCT)
@@ -86,7 +86,7 @@ def create_template_with_subdomain_framework(domain_path: str, subdomain: str, l
     :param framework:
     :return:
     """
-    cookiecutter(f"{domain_path}/{subdomain}_{language}/{framework}",
+    cookiecutter(f'{domain_path}/{subdomain}_{language}/{framework}',
                  no_input=True,
                  overwrite_if_exists=True,
                  extra_context=TEMPLATE_STRUCT)
@@ -99,22 +99,22 @@ def create_common_files():
     It´ll be outputted to the created template directory.
     """
     dirpath = tempfile.mkdtemp()
-    copy_tree(f"{COMMON_FILES_PATH}", dirpath)
+    copy_tree(f'{COMMON_FILES_PATH}', dirpath)
     cookiecutter(dirpath,
-                 extra_context={"full_name": TEMPLATE_STRUCT['full_name'],
-                                "email": TEMPLATE_STRUCT['email'],
-                                "language": TEMPLATE_STRUCT['language'],
-                                "project_slug": TEMPLATE_STRUCT['project_slug'],
-                                "github_username": TEMPLATE_STRUCT['github_username'],
-                                "version": TEMPLATE_STRUCT['version'],
-                                "license": TEMPLATE_STRUCT['license'],
-                                "project_short_description": TEMPLATE_STRUCT['project_short_description']},
+                 extra_context={'full_name': TEMPLATE_STRUCT['full_name'],
+                                'email': TEMPLATE_STRUCT['email'],
+                                'language': TEMPLATE_STRUCT['language'],
+                                'project_slug': TEMPLATE_STRUCT['project_slug'],
+                                'github_username': TEMPLATE_STRUCT['github_username'],
+                                'version': TEMPLATE_STRUCT['version'],
+                                'license': TEMPLATE_STRUCT['license'],
+                                'project_short_description': TEMPLATE_STRUCT['project_short_description']},
                  no_input=True,
                  overwrite_if_exists=True)
 
-    common_files = os.listdir(f"{os.getcwd()}/common_files_util/")
+    common_files = os.listdir(f'{os.getcwd()}/common_files_util/')
     for f in common_files:
-        shutil.move(f"{os.getcwd()}/common_files_util/" + f, f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
+        shutil.move(f'{os.getcwd()}/common_files_util/' + f, f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
 
-    os.removedirs(f"{os.getcwd()}/common_files_util")
+    os.removedirs(f'{os.getcwd()}/common_files_util')
     shutil.rmtree(dirpath)
