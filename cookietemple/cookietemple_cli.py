@@ -27,8 +27,8 @@ def main():
                                                    |_|
         """, fg='blue'))
 
-    click.echo(click.style('Run ', fg='green') + click.style('cookietemple --help ', fg='red') + click.style(
-        'for an overview of all commands', fg='green'))
+    click.echo(click.style('Run ', fg='green') + click.style('cookietemple --help ', fg='red')
+               + click.style('for an overview of all commands', fg='green'))
     click.echo()
 
     cookietemple_cli()
