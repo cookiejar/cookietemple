@@ -23,8 +23,8 @@ def choose_domain(domain: str):
     :param domain: Template domain
     """
     if not domain:
-        TEMPLATE_STRUCT['domain'] = click.prompt('Choose between the following domains',
-                                                 type=click.Choice(['CLI', 'GUI', 'Web'], case_sensitive=False))
+        TEMPLATE_STRUCT['domain'] = click.prompt('Choose between the following domains [cli, gui, web]',
+                                                 type=click.Choice(['cli', 'gui', 'web']))
     else:
         TEMPLATE_STRUCT['domain'] = domain
 

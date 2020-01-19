@@ -19,8 +19,8 @@ def handle_web():
     :return: The version and handle of the chosen template for the .cookietemple file creation.
     """
     language = click.prompt('Please choose between the following languages',
-                            type=click.Choice(['Python', 'JavaScript', 'Java'], case_sensitive=False))
-    TEMPLATE_STRUCT["language"] = language.capitalize()
+                            type=click.Choice(['Python', 'JavaScript', 'Java']))
+    TEMPLATE_STRUCT['language'] = language
 
     # prompt the user to fetch general template configurations
     prompt_general_template_configuration()
@@ -49,7 +49,7 @@ def handle_web_project_type_python():
     :return:
     """
     TEMPLATE_STRUCT['webtype'] = click.prompt('Please choose between the following web domains',
-                                              type=click.Choice(['rest_api', 'website'], case_sensitive=False))
+                                              type=click.Choice(['rest_api', 'website']))
 
     switcher = {
         'website': handle_website_python,
@@ -64,7 +64,7 @@ def handle_website_python():
     :return:
     """
     TEMPLATE_STRUCT['web_framework'] = click.prompt('Please choose between the following frameworks',
-                                                    type=click.Choice(['Flask', 'Django'], case_sensitive=False))
+                                                    type=click.Choice(['Flask', 'Django']))
     TEMPLATE_STRUCT['url'] = click.prompt('Please enter the project\'s URL (if you have one)',
                                           type=str,
                                           default='dummy.com')
