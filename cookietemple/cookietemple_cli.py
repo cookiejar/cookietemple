@@ -51,7 +51,7 @@ def cookietemple_cli(verbose):
 
 @cookietemple_cli.command(help_priority=1)
 @click.option('--domain',
-              type=click.Choice(['CLI', 'GUI', 'Web'], case_sensitive=False))
+              type=click.Choice(['CLI', 'GUI', 'Web']))
 def create(domain):
     """
     Create a new project using one of our templates
