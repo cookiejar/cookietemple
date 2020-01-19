@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Entry point for cookietemple."""
+'""Entry point for cookietemple.""'
 import logging
 import os
 import sys
@@ -27,8 +27,8 @@ def main():
                                                    |_|
         """, fg='blue'))
 
-    click.echo(click.style('Run ', fg='green') + click.style('cookietemple --help ', fg='red') + click.style(
-        'for an overview of all commands', fg='green'))
+    click.echo(click.style('Run ', fg='green') + click.style('cookietemple --help ', fg='red')
+               + click.style('for an overview of all commands', fg='green'))
     click.echo()
 
     cookietemple_cli()
@@ -40,13 +40,13 @@ def main():
     '-v', '--verbose',
     is_flag=True,
     default=False,
-    help="Verbose output (print debug statements)"
+    help='Verbose output (print debug statements)'
 )
 def cookietemple_cli(verbose):
     if verbose:
-        logging.basicConfig(level=logging.DEBUG, format="\n%(levelname)s: %(message)s")
+        logging.basicConfig(level=logging.DEBUG, format='\n%(levelname)s: %(message)s')
     else:
-        logging.basicConfig(level=logging.INFO, format="\n%(levelname)s: %(message)s")
+        logging.basicConfig(level=logging.INFO, format='\n%(levelname)s: %(message)s')
 
 
 @cookietemple_cli.command(help_priority=1)
@@ -107,5 +107,5 @@ def bump_version():
     bump_template_version()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     sys.exit(main())  # pragma: no cover

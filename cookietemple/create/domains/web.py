@@ -5,10 +5,10 @@ from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_t
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 
 WD = os.path.dirname(__file__)
-TEMPLATES_PATH = f"{WD}/../templates"
-TEMPLATES_WEB_PATH = f"{WD}/../templates/web"
+TEMPLATES_PATH = f'{WD}/../templates'
+TEMPLATES_WEB_PATH = f'{WD}/../templates/web'
 
-"""Web Template Versions"""
+'""Web Template Versions""'
 WEB_WEBSITE_PYTHON_TEMPLATE_VERSION = '0.1.0'
 
 
@@ -20,7 +20,7 @@ def handle_web():
     """
     language = click.prompt('Please choose between the following languages',
                             type=click.Choice(['Python', 'JavaScript', 'Java'], case_sensitive=False))
-    TEMPLATE_STRUCT["language"] = language
+    TEMPLATE_STRUCT['language'] = language
 
     # prompt the user to fetch general template configurations
     prompt_general_template_configuration()
@@ -73,7 +73,7 @@ def handle_website_python():
         'flask': website_flask_options,
         'django': website_django_options
     }
-    switcher.get(TEMPLATE_STRUCT["web_framework"].lower(), lambda: 'Invalid Framework!')()
+    switcher.get(TEMPLATE_STRUCT['web_framework'].lower(), lambda: 'Invalid Framework!')()
 
 
 def website_flask_options():
@@ -92,17 +92,17 @@ def website_flask_options():
 
 
 def website_django_options():
-    print("TODO")
+    print('TODO')
 
 
 def handle_rest_api_python():
-    """Handle REST-API templates"""
-    print("TO IMPLEMENT - REST API etc.")
+    '""Handle REST-API templates""'
+    print('TO IMPLEMENT - REST API etc.')
 
 
 def web_javascript_options():
-    print("Implement me")
+    print('Implement me')
 
 
 def web_java_options(some_params):
-    print("Implement me")
+    print('Implement me')

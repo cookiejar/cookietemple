@@ -11,12 +11,12 @@ from cookietemple.list.list import load_available_templates
 console = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 console.setFormatter(formatter)
-LOG = logging.getLogger("cookietemple info")
+LOG = logging.getLogger('cookietemple info')
 LOG.addHandler(console)
 LOG.setLevel(logging.INFO)
 
 WD = os.path.dirname(__file__)
-TEMPLATES_PATH = f"{WD}/../create/templates"
+TEMPLATES_PATH = f'{WD}/../create/templates'
 
 
 def show_info(handle: str):
@@ -28,9 +28,9 @@ def show_info(handle: str):
     if not handle:
         handle = click.prompt('Please enter the possibly incomplete template handle. Examples: \'cli-python\' or \'cli\'',
                               type=str)
-    available_templates = load_available_templates(f"{TEMPLATES_PATH}/available_templates.yaml")
+    available_templates = load_available_templates(f'{TEMPLATES_PATH}/available_templates.yaml')
     click.echo()
-    click.echo(click.style(f"Template info for {handle}\n", fg='green'))
+    click.echo(click.style(f'Template info for {handle}\n', fg='green'))
 
     specifiers = handle.split('-')
     domain = specifiers[0]

@@ -11,10 +11,10 @@ from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_t
 
 WD = os.path.dirname(__file__)
 WD_Path = Path(WD)
-TEMPLATES_PATH = f"{WD}/../templates"
-TEMPLATES_CLI_PATH = f"{WD_Path.parent}/templates/cli"
+TEMPLATES_PATH = f'{WD}/../templates'
+TEMPLATES_CLI_PATH = f'{WD_Path.parent}/templates/cli'
 
-""" TEMPLATE VERSIONS """
+'"" TEMPLATE VERSIONS ""'
 CLI_PYTHON_TEMPLATE_VERSION = '0.1.0'
 CLI_JAVA_TEMPLATE_VERSION = '0.1.0'
 CLI_KOTLIN_TEMPLATE_VERSION = '0.1.0'
@@ -30,7 +30,7 @@ def handle_cli():
     language = click.prompt('Choose between the following languages',
                             type=click.Choice(['Python', 'Java', 'Kotlin', 'C++'], case_sensitive=False))
 
-    TEMPLATE_STRUCT["language"] = language
+    TEMPLATE_STRUCT['language'] = language
 
     # prompt the user to fetch general template configurations
     prompt_general_template_configuration()
@@ -45,7 +45,7 @@ def handle_cli():
     switcher.get(language.lower(), lambda: 'Invalid language!')()
 
     # create the chosen and configured template
-    create_template_without_subdomain(f"{TEMPLATES_CLI_PATH}", 'cli', language.lower())
+    create_template_without_subdomain(f'{TEMPLATES_CLI_PATH}', 'cli', language.lower())
 
     # create the common files and copy them into the templates directory
     create_common_files()
@@ -58,7 +58,7 @@ def handle_cli():
         'c++': CLI_CPP_TEMPLATE_VERSION
     }
 
-    return switcher_version.get(language.lower(), lambda: 'Invalid language!'), f"cli-{language.lower()}"
+    return switcher_version.get(language.lower(), lambda: 'Invalid language!'), f'cli-{language.lower()}'
 
 
 def cli_java_options():
