@@ -11,7 +11,7 @@ Welcome to {{cookiecutter.project_slug}}'s documentation!
    modules
    contributing
    authors
-   history
+   changelog
 
 Indices and tables
 ==================

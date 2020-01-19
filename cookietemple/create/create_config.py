@@ -18,8 +18,8 @@ import cookietemple.cookietemple_cli
 TEMPLATE_STRUCT = {}
 
 WD = os.path.dirname(__file__)
-TEMPLATES_PATH = f"{WD}/templates"
-COMMON_FILES_PATH = f"{WD}/templates/common_files"
+TEMPLATES_PATH = f'{WD}/templates'
+COMMON_FILES_PATH = f'{WD}/templates/common_files'
 
 
 def prompt_general_template_configuration():
@@ -129,27 +129,27 @@ def create_template_with_subdomain_framework(domain_path: str, subdomain: str, l
     else: click.Context(command=cookietemple.cookietemple_cli.cookietemple_cli).abort()
 
 
-def cookiecutter_common_files():
+def create_common_files():
     """
     This function creates a temporary directory for common files of all templates and applies cookiecutter on them.
 
     It´ll be outputted to the created template directory.
     """
     dirpath = tempfile.mkdtemp()
-    copy_tree(f"{COMMON_FILES_PATH}", dirpath)
+    copy_tree(f'{COMMON_FILES_PATH}', dirpath)
     cookiecutter(dirpath,
-                 extra_context={"full_name": TEMPLATE_STRUCT['full_name'],
-                                "email": TEMPLATE_STRUCT['email'],
-                                "language": TEMPLATE_STRUCT['language'],
-                                "project_slug": TEMPLATE_STRUCT['project_slug'],
-                                "github_username": TEMPLATE_STRUCT['github_username'],
-                                "version": TEMPLATE_STRUCT['version'],
-                                "license": TEMPLATE_STRUCT['license'],
-                                "project_short_description": TEMPLATE_STRUCT['project_short_description']},
+                 extra_context={'full_name': TEMPLATE_STRUCT['full_name'],
+                                'email': TEMPLATE_STRUCT['email'],
+                                'language': TEMPLATE_STRUCT['language'],
+                                'project_slug': TEMPLATE_STRUCT['project_slug'],
+                                'github_username': TEMPLATE_STRUCT['github_username'],
+                                'version': TEMPLATE_STRUCT['version'],
+                                'license': TEMPLATE_STRUCT['license'],
+                                'project_short_description': TEMPLATE_STRUCT['project_short_description']},
                  no_input=True,
                  overwrite_if_exists=True)
 
-    common_files = os.listdir(f"{os.getcwd()}/common_files_util/")
+    common_files = os.listdir(f'{os.getcwd()}/common_files_util/')
     for f in common_files:
         path = Path(f"{Path.cwd()}/common_files_util/{f}")
         poss_dir = Path(f"{Path.cwd()}/{TEMPLATE_STRUCT['project_slug']}/{f}")
@@ -158,7 +158,7 @@ def cookiecutter_common_files():
             delete_dir_tree(poss_dir)
         path.replace(f"{Path.cwd()}/{TEMPLATE_STRUCT['project_slug']}/{f}")
 
-    os.removedirs(f"{os.getcwd()}/common_files_util")
+    os.removedirs(f'{os.getcwd()}/common_files_util')
     shutil.rmtree(dirpath)
 
 

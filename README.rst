@@ -14,16 +14,13 @@ COOKIETEMPLE
         :alt: Documentation Status
 
 .. image:: https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot
-    :alt: Dependabot Enabled
+        :alt: Dependabot Enabled
 
 .. image:: https://img.shields.io/twitter/follow/lukasheumos?color=green&style=flat-square
-    :alt: Twitter Follow
+        :alt: Twitter Follow
 
 .. image:: https://img.shields.io/twitter/follow/1207_philipp?color=green&style=flat-square
-    :alt: Twitter Follow
-
-
-
+        :alt: Twitter Follow
 
 
 A cookiecutter based project template creation tool supporting several domains and languages with linting and template sync support.
@@ -46,6 +43,6 @@ Features
 Authors
 -------
 
-COOKIETEMPLE was initiated and developed by `Lukas Heumos <https://github.com/zethson>`_ and `Philipp Ehmele <https://github.com/imipenem>`_.
+COOKIETEMPLE was initiated and developed by `Lukas Heumos (Github)  <https://github.com/zethson>`_ and `Philipp Ehmele (Github) <https://github.com/imipenem>`_.
 Follow us on Twitter: `Lukas Heumos <https://twitter.com/ZethSC>`_ and `Philipp Ehmele <https://twitter.com/Farwent1>`_.
 

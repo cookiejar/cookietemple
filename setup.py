@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""The setup script."""
+'""The setup script.""'
 import os
 
 from setuptools import setup, find_packages
@@ -39,7 +39,7 @@ setup_requirements = ['pytest-runner', ]
 test_requirements = ['pytest', ]
 
 setup(
-    author="Lukas Heumos",
+    author='Lukas Heumos',
     author_email='lukas.heumos@posteo.net',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
@@ -51,14 +51,14 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8'
     ],
-    description="A cookiecutter based project template creation tool supporting several domains and languages with linting and template sync support.",
+    description='A cookiecutter based project template creation tool supporting several domains and languages with linting and template sync support.',
     entry_points={
         'console_scripts': [
             'cookietemple=cookietemple.cookietemple_cli:main',
         ],
     },
     install_requires=requirements,
-    license="GNU General Public License v3",
+    license='GNU General Public License v3',
     long_description=readme + '\n\n' + history,
     include_package_data=True,
     keywords='cookietemple',

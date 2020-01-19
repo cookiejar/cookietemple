@@ -11,32 +11,26 @@ from cookietemple.list.list import load_available_templates
 console = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 console.setFormatter(formatter)
-LOG = logging.getLogger("cookietemple info")
+LOG = logging.getLogger('cookietemple info')
 LOG.addHandler(console)
 LOG.setLevel(logging.INFO)
 
 WD = os.path.dirname(__file__)
-TEMPLATES_PATH = f"{WD}/../create/templates"
+TEMPLATES_PATH = f'{WD}/../create/templates'
 
 
-@click.command()
-@click.option('--handle',
-              type=str,
-              help='Possibly incomplete handle of the template. Use \'cookietemple list\' to show the handles of all templates or enter an incomplete handle to display all sub options.',
-              prompt=click.style('Please enter the possibly incomplete template handle.\n'
-                     'Examples: ')
-                     + click.style('cli-python', fg='blue')
-                     + click.style(' or ')
-                     + click.style('cli', fg='blue'))
 def show_info(handle: str):
     """
     Displays detailed information of a domain/language/template
 
     :param handle: domain/language/template handle (examples: cli or cli-python)
     """
-    available_templates = load_available_templates(f"{TEMPLATES_PATH}/available_templates.yaml")
+    if not handle:
+        handle = click.prompt('Please enter the possibly incomplete template handle. Examples: \'cli-python\' or \'cli\'',
+                              type=str)
+    available_templates = load_available_templates(f'{TEMPLATES_PATH}/available_templates.yaml')
     click.echo()
-    click.echo(click.style(f"Template info for {handle}\n", fg='green'))
+    click.echo(click.style(f'Template info for {handle}\n', fg='green'))
 
     specifiers = handle.split('-')
     domain = specifiers[0]

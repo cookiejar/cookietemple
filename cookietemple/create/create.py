@@ -10,12 +10,12 @@ from cookietemple.create.domains.web import handle_web
 console = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 console.setFormatter(formatter)
-LOG = logging.getLogger("cookietemple create")
+LOG = logging.getLogger('cookietemple create')
 LOG.addHandler(console)
 LOG.setLevel(logging.INFO)
 
 
-def choose_domain(domain):
+def choose_domain(domain: str):
     """
     Prompts the user for the template domain.
     Creates the .cookietemple file.
@@ -34,5 +34,5 @@ def choose_domain(domain):
         'gui': handle_gui
     }
 
-    template_version, template_handle = switcher.get(TEMPLATE_STRUCT["domain"].lower(), lambda: 'Invalid')()
+    template_version, template_handle = switcher.get(TEMPLATE_STRUCT['domain'].lower(), lambda: 'Invalid')()
     create_dot_cookietemple(TEMPLATE_STRUCT, template_version=template_version, template_handle=template_handle)

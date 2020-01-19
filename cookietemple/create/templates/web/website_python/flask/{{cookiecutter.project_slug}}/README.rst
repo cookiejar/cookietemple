@@ -13,15 +13,8 @@
         :target: https://{{cookiecutter.project_slug}}.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-
-.. image:: https://pyup.io/repos/github/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}/shield.svg
-     :target: https://pyup.io/repos/github/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}/
-     :alt: Updates
-
-
-
-
-
+.. image:: https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot
+    :alt: Dependabot Enabled
 
 * Free software: GNU General Public License v3
 * Documentation: https://{{cookiecutter.project_slug}}.readthedocs.io.

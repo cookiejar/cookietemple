@@ -15,11 +15,8 @@
         :alt: Documentation Status
 {%- endif %}
 
-{% if cookiecutter.add_pyup_badge == 'y' %}
-.. image:: https://pyup.io/repos/github/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/shield.svg
-     :target: https://pyup.io/repos/github/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/
-     :alt: Updates
-{% endif %}
+.. image:: https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot
+    :alt: Dependabot Enabled
 
 
 {{ cookiecutter.project_short_description }}

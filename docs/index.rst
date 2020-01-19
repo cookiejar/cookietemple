@@ -1,5 +1,5 @@
 Welcome to cookietemple's documentation!
-======================================
+========================================
 
 .. toctree::
    :maxdepth: 2
