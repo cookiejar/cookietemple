@@ -27,8 +27,8 @@ def handle_cli():
 
     :return: The version and handle of the chosen template for the .cookietemple file creation.
     """
-    language = click.prompt('Choose between the following languages',
-                            type=click.Choice(['Python', 'Java', 'Kotlin', 'C++']))
+    language = click.prompt('Choose between the following languages [python, java, kotlin, c++]',
+                            type=click.Choice(['python', 'java', 'kotlin', 'c++']))
 
     TEMPLATE_STRUCT['language'] = language
 

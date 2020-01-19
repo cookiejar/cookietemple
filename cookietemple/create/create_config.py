@@ -43,9 +43,8 @@ def prompt_general_template_configuration():
     TEMPLATE_STRUCT['version'] = click.prompt('Please enter the initial version of your project.',
                                               type=str,
                                               default='0.1.0')
-    TEMPLATE_STRUCT['license'] = click.prompt('Please choose a license',
-                                              type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Not open source'], case_sensitive=False),
-                                              show_choices=True,
+    TEMPLATE_STRUCT['license'] = click.prompt('Please choose a license [MIT, BSD, ISC, Apache2.0, GNUv3, Not open source]',
+                                              type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Not open source']),
                                               default='MIT')
 
 
