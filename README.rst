@@ -17,9 +17,11 @@ COOKIETEMPLE
         :alt: Dependabot Enabled
 
 .. image:: https://img.shields.io/twitter/follow/lukasheumos?color=green&style=flat-square
+        :target: https://twitter.com/LukasHeumos
         :alt: Twitter Follow
 
 .. image:: https://img.shields.io/twitter/follow/1207_philipp?color=green&style=flat-square
+        :target: https://twitter.com/1207_philipp
         :alt: Twitter Follow
 
 
