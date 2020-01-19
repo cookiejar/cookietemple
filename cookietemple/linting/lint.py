@@ -1,6 +1,7 @@
 import logging
+import sys
 
-import click
+from coalib.coala import main as run_coala
 
 console = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -11,4 +12,7 @@ LOG.setLevel(logging.INFO)
 
 
 def lint_project():
-    click.echo(click.style('NOT IMPLEMENTED YET', fg='red'))
+    """
+    TODO
+    """
+    sys.exit(run_coala())
