@@ -1,4 +1,4 @@
 click==6.6
 cookiecutter==1.6.0
-ruamel.yaml==0.16.6
+ruamel.yaml==0.16.9
 coala-bears==0.11.1
