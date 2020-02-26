@@ -23,9 +23,8 @@ def run(github_username, github_password, github_email):
     # clone the repository
     repoClone = pygit2.clone_repository(repo.git_url, '/tmp/test_clone')
 
-    # write a dummy file
-    # with open('/tmp/test_clone/test.txt', 'w') as f:
-    #     f.write('some_content')
+    # copy files into the repository if they should also be committed and pushed
+    #TODO
 
     # create some new files in the repo
     repo.create_file("README.md", "init commit", 'readmeText')
