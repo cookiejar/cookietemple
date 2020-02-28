@@ -7,7 +7,6 @@ import pytest
 
 from click.testing import CliRunner
 
-from cookietemple import cli
 
 
 @pytest.fixture
