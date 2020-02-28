@@ -1,13 +1,16 @@
+import os
+from os import path
+from subprocess import Popen, PIPE
+
 import click
-import pygit2
 from github import Github
 
 
 @click.command()
 @click.option('--github_username',  prompt='github username')
 @click.option('--github_password',  prompt='github_password', hide_input=True)
-@click.option('--github_email',  prompt='github_email')
-def run(github_username, github_password, github_email):
+@click.option('--private/--public', prompt='private')
+def run(github_username, github_password, private):
     # login to github
     authenticated_github_user = Github(github_username, github_password)
     user = authenticated_github_user.get_user()
@@ -16,42 +19,28 @@ def run(github_username, github_password, github_email):
     # create the new repository
     if is_org:
         org = authenticated_github_user.get_organization('someorg')
-        repo = org.create_repo('projectname', description='somedescription')
+        repo = org.create_repo('projectname', description='somedescription', private=private)
     else:
-        repo = user.create_repo('testrepo_github_api', description='this is a test')
+        repo = user.create_repo('testrepo_github_api', description='this is a test', private=private)
 
-    # clone the repository
-    repoClone = pygit2.clone_repository(repo.git_url, '/tmp/test_clone')
+    repository = path.dirname('/tmp/test_clone/')
+    git_query = Popen(['/usr/bin/git', 'clone', 'https://github.com/Zethson/testrepo_github_api', repository], stdout=PIPE, stderr=PIPE)
+    (git_status, error) = git_query.communicate()
 
-    # copy files into the repository if they should also be committed and pushed
-    #TODO
+    # create some dummy data
+    with open('/tmp/test_clone/test.txt', 'w') as f:
+        f.write('wtf')
 
-    # create some new files in the repo
-    repo.create_file("README.md", "init commit", 'readmeText')
-
-    # Commit it
-    repoClone.remotes.set_url("origin", repo.clone_url)
-    index = repoClone.index
-    index.add_all()
-    index.write()
-    author = pygit2.Signature("Jesus Christ", github_email)
-    commiter = pygit2.Signature("Jesus Christ", github_email)
-    tree = index.write_tree()
-    try:
-        oid = repoClone.create_commit('refs/heads/master', author, commiter, "init commit", tree, [repoClone.head.get_object().hex])
-    except pygit2.GitError:
-        pass # this occurs, since we do not have a master reference on a fresh, new repository
-    remote = repoClone.remotes["origin"]
-    credentials = pygit2.UserPass(github_username, github_password)
-    remote.credentials = credentials
-
-    callbacks = pygit2.RemoteCallbacks(credentials=credentials)
-
-    # push!
-    try:
-        remote.push(['refs/heads/master'], callbacks=callbacks)
-    except pygit2.GitError:
-        pass  # this occurs, since we do not have a master reference on a fresh, new repository
+    print(f"CLONE: {git_status} ___ {error}")
+    git_query = Popen(['git', 'add', '.'], cwd=repository, stdout=PIPE, stderr=PIPE)
+    (git_status, error) = git_query.communicate()
+    print(f"ADD: {git_status} ___ {error}")
+    git_query = Popen(['git', 'commit', '-m', r'"bla"'], cwd=repository, stdout=PIPE, stderr=PIPE)
+    (git_status, error) = git_query.communicate()
+    print(f"COMMIT: {git_status} ___ {error}")
+    git_query = Popen(['git', 'push', '-u', 'origin', 'master'], cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+    (git_status, error) = git_query.communicate()
+    print(f"PUSH: {git_status} ___ {error}")
 
 
 if __name__ == '__main__':
