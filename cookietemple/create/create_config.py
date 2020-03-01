@@ -112,8 +112,8 @@ def create_common_files():
                  overwrite_if_exists=True)
 
     common_files = os.listdir(f'{os.getcwd()}/common_files_util/')
-    for f in common_files:
-        shutil.move(f'{os.getcwd()}/common_files_util/' + f, f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
+    for file in common_files:
+        shutil.move(f'{os.getcwd()}/common_files_util/{file}', f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
 
     os.removedirs(f'{os.getcwd()}/common_files_util')
     shutil.rmtree(dirpath)
