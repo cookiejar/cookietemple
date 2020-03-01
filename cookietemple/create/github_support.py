@@ -16,6 +16,7 @@ class ConductedSubprocess:
     stderr: str
 
 
+# TODO Status logs -> show what it's doing!
 def create_push_github_repository(project_name: str, project_description: str, template_creation_path: str) -> None:
     """
     Creates a Github repository for the created template and pushes the template to it.
@@ -110,7 +111,7 @@ def verify_git_subprocesses(conducted_subprocesses: list) -> None:
     """
     for conducted_subprocess in conducted_subprocesses:
         if conducted_subprocess.subprocess.returncode != 0:
-            print(f'Subprocess {conducted_subprocess.name} ran with errors!')
+            print(f'Subprocess {conducted_subprocess.name} ran with errors!') # TODO RED
             print(f'Run command was: {conducted_subprocess.run_command}')
             print(f'Error was: {conducted_subprocess.stderr}')
 
