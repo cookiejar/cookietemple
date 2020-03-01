@@ -14,16 +14,18 @@ def run(github_username, github_password, private):
     authenticated_github_user = Github(github_username, github_password)
     user = authenticated_github_user.get_user()
 
+    project_name = 'testrepo_github_api'
+
     is_org: bool = False
     # create the new repository
     if is_org:
         org = authenticated_github_user.get_organization('someorg')
         repo = org.create_repo('projectname', description='somedescription', private=private)
     else:
-        repo = user.create_repo('testrepo_github_api', description='this is a test', private=private)
+        repo = user.create_repo(f'{project_name}', description='this is a test', private=private)
 
     repository = path.dirname('/tmp/test_clone/')
-    git_query = Popen(['/usr/bin/git', 'clone', f'https://{github_username}:{github_password}@github.com/{github_username}/testrepo_github_api', repository],
+    git_query = Popen(['/usr/bin/git', 'clone', f'https://{github_username}:{github_password}@github.com/{github_username}/{project_name}', repository],
                       stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_status, error) = git_query.communicate()
 
@@ -40,7 +42,7 @@ def run(github_username, github_password, private):
                       cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_status, error) = git_query.communicate()
     print(f"COMMIT: {git_status} ___ {error}")
-    git_query = Popen(['git', 'push', '-u', f'https://{github_username}:{github_password}@github.com/{github_username}/testrepo_github_api', '--all'],
+    git_query = Popen(['git', 'push', '-u', f'https://{github_username}:{github_password}@github.com/{github_username}/{project_name}', '--all'],
                       cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_status, error) = git_query.communicate()
     print(f"PUSH: {git_status} ___ {error}")
