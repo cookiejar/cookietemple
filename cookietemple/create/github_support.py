@@ -32,10 +32,12 @@ def run(github_username, github_password, private):
         f.write('wtf')
 
     print(f"CLONE: {git_status} ___ {error}")
-    git_query = Popen(['git', 'add', '.'], cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+    git_query = Popen(['git', 'add', '.'],
+                      cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_status, error) = git_query.communicate()
     print(f"ADD: {git_status} ___ {error}")
-    git_query = Popen(['git', 'commit', '-m', r'"bla"'], cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+    git_query = Popen(['git', 'commit', '-m', r'"bla"'],
+                      cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_status, error) = git_query.communicate()
     print(f"COMMIT: {git_status} ___ {error}")
     git_query = Popen(['git', 'push', '-u', f'https://{github_username}:{github_password}@github.com/{github_username}/testrepo_github_api', '--all'],
