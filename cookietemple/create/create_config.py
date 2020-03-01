@@ -1,14 +1,20 @@
 import os
+import sys
 import tempfile
 import shutil
 from distutils.dir_util import copy_tree
+from pathlib import Path
+
 import click
 import yaml
 from cookiecutter.main import cookiecutter
 
+
+
 # The main dictionary, which will be completed by first the general options prompts and then the chosen template
 # specific prompts. It is then passed onto cookiecutter as extra_content to facilitate the template creation.
 # Finally, it is also used for the creation of the .cookietemple file.
+
 TEMPLATE_STRUCT = {}
 
 WD = os.path.dirname(__file__)
@@ -34,15 +40,17 @@ def prompt_general_template_configuration():
     TEMPLATE_STRUCT['project_name'] = click.prompt('Please enter your project name',
                                                    type=str,
                                                    default='Exploding Springfield')
-    TEMPLATE_STRUCT['project_slug'] = click.prompt('Please enter an URL friendly project slug. Refrain from using spaces or uncommon letters.',
-                                                   type=str,
-                                                   default='Exploding-Springfield')
+    TEMPLATE_STRUCT['project_slug'] = click.prompt(
+        'Please enter an URL friendly project slug. Refrain from using spaces or uncommon letters.',
+        type=str,
+        default='Exploding-Springfield')
     TEMPLATE_STRUCT['project_short_description'] = click.prompt('Please enter a short description of yor project.',
                                                                 type=str,
                                                                 default='Exploding Springfield. How to get rid of your job in 3 simple steps.')
     TEMPLATE_STRUCT['version'] = click.prompt('Please enter the initial version of your project.',
                                               type=str,
                                               default='0.1.0')
+
     TEMPLATE_STRUCT['license'] = click.prompt('Please choose a license [MIT, BSD, ISC, Apache2.0, GNUv3, Not open source]',
                                               type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Not open source']),
                                               default='MIT')
@@ -70,10 +78,26 @@ def create_template_without_subdomain(domain_path: str, domain: str, language: s
     :param language:
     :return:
     """
-    cookiecutter(f'{domain_path}/{domain}_{language}',
-                 no_input=True,
-                 overwrite_if_exists=True,
-                 extra_context=TEMPLATE_STRUCT)
+    proceed = True
+
+    if os.path.isdir(f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}"):
+        click.echo(click.style('WARNING: ', fg='red') + click.style(
+            f"A directory named {TEMPLATE_STRUCT['project_slug']} already "
+            f"exists at", fg='red') + click.style(f"{os.getcwd()}", fg='green'))
+        click.echo()
+        click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
+        click.echo()
+        proceed = click.confirm("Do you really want to continue?")
+
+    if proceed:
+        cookiecutter(f"{domain_path}/{domain}_{language}",
+                     no_input=True,
+                     overwrite_if_exists=True,
+                     extra_context=TEMPLATE_STRUCT)
+
+    else:
+        click.echo(click.style('Aborted! Canceled template creation!', fg='red'))
+        sys.exit(0)
 
 
 def create_template_with_subdomain_framework(domain_path: str, subdomain: str, language: str, framework: str):
@@ -85,10 +109,26 @@ def create_template_with_subdomain_framework(domain_path: str, subdomain: str, l
     :param framework:
     :return:
     """
-    cookiecutter(f'{domain_path}/{subdomain}_{language}/{framework}',
-                 no_input=True,
-                 overwrite_if_exists=True,
-                 extra_context=TEMPLATE_STRUCT)
+    proceed = True
+
+    if os.path.isdir(f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}"):
+        click.echo(click.style('WARNING: ', fg='red') + click.style(
+            f"A directory named {TEMPLATE_STRUCT['project_slug']} already "
+            f"exists at", fg='red') + click.style(f"{os.getcwd()}", fg='green'))
+        click.echo()
+        click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
+        click.echo()
+        proceed = click.confirm("Do you really want to continue?")
+
+    if proceed:
+        cookiecutter(f"{domain_path}/{subdomain}_{language}/{framework}",
+                     no_input=True,
+                     overwrite_if_exists=True,
+                     extra_context=TEMPLATE_STRUCT)
+
+    else:
+        click.echo(click.style('Aborted! Canceled template creation!', fg='red'))
+        sys.exit(0)
 
 
 def create_common_files():
@@ -112,8 +152,32 @@ def create_common_files():
                  overwrite_if_exists=True)
 
     common_files = os.listdir(f'{os.getcwd()}/common_files_util/')
-    for file in common_files:
-        shutil.move(f'{os.getcwd()}/common_files_util/{file}', f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
+
+    for f in common_files:
+        path = Path(f"{Path.cwd()}/common_files_util/{f}")
+        poss_dir = Path(f"{Path.cwd()}/{TEMPLATE_STRUCT['project_slug']}/{f}")
+
+        if poss_dir.is_dir():
+            delete_dir_tree(poss_dir)
+        path.replace(f"{Path.cwd()}/{TEMPLATE_STRUCT['project_slug']}/{f}")
 
     os.removedirs(f'{os.getcwd()}/common_files_util')
     shutil.rmtree(dirpath)
+
+
+def delete_dir_tree(directory: Path):
+    """
+    Recursively delete a whole directory and its content.
+    Since there is no built-in function for this in the pathlib API and we want to keep
+    it consistent, we have to use a self-written.
+    :param directory: The directory that should be removed
+    :return:
+    """
+    dir = directory
+
+    for f in dir.iterdir():
+        if f.is_dir():
+            delete_dir_tree(f)
+        else:
+            f.unlink()
+    dir.rmdir()

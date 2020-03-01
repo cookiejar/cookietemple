@@ -30,7 +30,7 @@ def handle_cli():
     language = click.prompt('Choose between the following languages [python, java, kotlin, c++]',
                             type=click.Choice(['python', 'java', 'kotlin', 'c++']))
 
-    TEMPLATE_STRUCT['language'] = language
+    TEMPLATE_STRUCT["language"] = language.capitalize()
 
     # prompt the user to fetch general template configurations
     prompt_general_template_configuration()
