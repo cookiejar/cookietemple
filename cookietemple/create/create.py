@@ -7,13 +7,6 @@ from cookietemple.create.domains.cli import handle_cli
 from cookietemple.create.domains.gui import handle_gui
 from cookietemple.create.domains.web import handle_web
 
-console = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-console.setFormatter(formatter)
-LOG = logging.getLogger('cookietemple create')
-LOG.addHandler(console)
-LOG.setLevel(logging.INFO)
-
 
 def choose_domain(domain: str):
     """

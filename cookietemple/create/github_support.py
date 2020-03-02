@@ -1,5 +1,6 @@
 import click
 import os
+import logging
 
 from dataclasses import dataclass
 from distutils.dir_util import copy_tree
@@ -42,10 +43,12 @@ def create_push_github_repository(project_name: str, project_description: str, t
                                  default='No')
 
     # Login to Github
+    click.echo(click.style('Logging into Github.', fg='blue'))
     authenticated_github_user = Github(github_username, github_password)
     user = authenticated_github_user.get_user()
 
     # Create new repository
+    logging.info('Creating Github repository.')
     if is_github_org:
         org = authenticated_github_user.get_organization(github_org)
         org.create_repo(project_name, description=project_description, private=private)
@@ -57,6 +60,7 @@ def create_push_github_repository(project_name: str, project_description: str, t
                               #  if we ever add a 'output' parameter to COOKIETEMPLE create we also have change this here
 
     # git clone
+    click.echo(click.style('Cloning empty Github repoitory.', fg='blue'))
     git_clone = Popen(['git', 'clone', fr'https://{github_username}:{github_password}@github.com/{github_username}/{project_name}', repository],
                       stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_clone_stdout, git_clone_stderr) = git_clone.communicate()
@@ -70,6 +74,7 @@ def create_push_github_repository(project_name: str, project_description: str, t
     copy_tree(template_creation_path, repository)
 
     # git add
+    click.echo(click.style('Staging template.', fg='blue'))
     git_add = Popen(['git', 'add', '.'],
                     cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_add_stdout, git_add_stderr) = git_add.communicate()
@@ -90,6 +95,7 @@ def create_push_github_repository(project_name: str, project_description: str, t
                                                       git_commit_stderr))
 
     # git push
+    click.echo(click.style('Pushing template to Github.', fg='blue'))
     git_push = Popen(['git', 'push', '-u', f'https://{github_username}:{github_password}@github.com/{github_username}/{project_name}', '--all'],
                      cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_push_stdout, git_push_stderr) = git_push.communicate()
@@ -109,8 +115,10 @@ def verify_git_subprocesses(conducted_subprocesses: list) -> None:
 
     :param conducted_subprocesses: List of all git subprocesses that were run when creating and pushing to the repository
     """
+    logging.info('Verifying git subprocesses.')
     for conducted_subprocess in conducted_subprocesses:
         if conducted_subprocess.subprocess.returncode != 0:
+            logging.warning(f'Subprocess {conducted_subprocess.name} ran with errors!')
             click.echo(click.style(f'Subprocess {conducted_subprocess.name} ran with errors!', fg='red'))
             click.echo(click.style(f'Run command was: {conducted_subprocess.run_command}', fg='red'))
             click.echo(click.style(f'Error was: {conducted_subprocess.stderr}', fg='red'))
