@@ -61,8 +61,8 @@ def create_push_github_repository(project_name: str, project_description: str, t
                       stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_clone_stdout, git_clone_stderr) = git_clone.communicate()
     conducted_subprocesses.append(ConductedSubprocess(git_clone,
-                                                       'git clone',
-                                                       rf'git clone https://{github_username}:github_password@github.com/{github_username}/{project_name}',
+                                                      'git clone',
+                                                      rf'git clone https://{github_username}:github_password@github.com/{github_username}/{project_name}',
                                                       git_clone_stdout,
                                                       git_clone_stderr))
 
@@ -74,8 +74,8 @@ def create_push_github_repository(project_name: str, project_description: str, t
                     cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_add_stdout, git_add_stderr) = git_add.communicate()
     conducted_subprocesses.append(ConductedSubprocess(git_add,
-                                                       'git add',
-                                                       r'git add .',
+                                                      'git add',
+                                                      r'git add .',
                                                       git_add_stdout,
                                                       git_add_stderr))
 
@@ -84,8 +84,8 @@ def create_push_github_repository(project_name: str, project_description: str, t
                        cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_commit_stdout, git_commit_stderr) = git_commit.communicate()
     conducted_subprocesses.append(ConductedSubprocess(git_commit,
-                                                       'git commit',
-                                                       r'git commit -m "Initial COOKIETEMPLE commit"',
+                                                      'git commit',
+                                                      r'git commit -m "Initial COOKIETEMPLE commit"',
                                                       git_commit_stdout,
                                                       git_commit_stderr))
 
@@ -94,8 +94,8 @@ def create_push_github_repository(project_name: str, project_description: str, t
                      cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_push_stdout, git_push_stderr) = git_push.communicate()
     conducted_subprocesses.append(ConductedSubprocess(git_push,
-                                                       'git push',
-                                                       rf'git push -u https://{github_username}:github_password@github.com/{github_username}/{project_name} --all',
+                                                      'git push',
+                                                      rf'git push -u https://{github_username}:github_password@github.com/{github_username}/{project_name} --all',
                                                       git_push_stdout,
                                                       git_push_stderr))
 
@@ -111,9 +111,9 @@ def verify_git_subprocesses(conducted_subprocesses: list) -> None:
     """
     for conducted_subprocess in conducted_subprocesses:
         if conducted_subprocess.subprocess.returncode != 0:
-            print(f'Subprocess {conducted_subprocess.name} ran with errors!') # TODO RED
-            print(f'Run command was: {conducted_subprocess.run_command}')
-            print(f'Error was: {conducted_subprocess.stderr}')
+            click.echo(click.style(f'Subprocess {conducted_subprocess.name} ran with errors!', fg='red'))
+            click.echo(click.style(f'Run command was: {conducted_subprocess.run_command}', fg='red'))
+            click.echo(click.style(f'Error was: {conducted_subprocess.stderr}', fg='red'))
 
 
 if __name__ == '__main__':
