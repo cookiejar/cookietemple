@@ -17,7 +17,6 @@ class ConductedSubprocess:
     stderr: str
 
 
-# TODO Status logs -> show what it's doing!
 def create_push_github_repository(project_name: str, project_description: str, template_creation_path: str) -> None:
     """
     Creates a Github repository for the created template and pushes the template to it.
@@ -48,7 +47,7 @@ def create_push_github_repository(project_name: str, project_description: str, t
     user = authenticated_github_user.get_user()
 
     # Create new repository
-    logging.info('Creating Github repository.')
+    click.echo(click.style('Creating Github repository.', fg='blue'))
     if is_github_org:
         org = authenticated_github_user.get_organization(github_org)
         org.create_repo(project_name, description=project_description, private=private)
@@ -58,6 +57,9 @@ def create_push_github_repository(project_name: str, project_description: str, t
     conducted_subprocesses = []
     repository = f'{os.getcwd()}/{project_name}'  # TODO note that we are using the current working directory to clone to path
                               #  if we ever add a 'output' parameter to COOKIETEMPLE create we also have change this here
+
+    # TODO ORG SUPPORT NOT WORKING
+    # TODO We need to replace the username with the organization every time here, since it will be created at organization/project_name
 
     # git clone
     click.echo(click.style('Cloning empty Github repoitory.', fg='blue'))
@@ -104,8 +106,11 @@ def create_push_github_repository(project_name: str, project_description: str, t
                                                       rf'git push -u https://{github_username}:github_password@github.com/{github_username}/{project_name} --all',
                                                       git_push_stdout,
                                                       git_push_stderr))
+    # TODO create a development branch
+    # dependabot will complain!
 
     verify_git_subprocesses(conducted_subprocesses)
+    click.echo(click.style(f'Successfully created a Github repository at https://github.com/{github_username}/{project_name}', fg='green'))
 
 
 def verify_git_subprocesses(conducted_subprocesses: list) -> None:
@@ -115,7 +120,7 @@ def verify_git_subprocesses(conducted_subprocesses: list) -> None:
 
     :param conducted_subprocesses: List of all git subprocesses that were run when creating and pushing to the repository
     """
-    logging.info('Verifying git subprocesses.')
+    click.echo(click.style('Verifying git subprocesses.', fg='blue'))
     for conducted_subprocess in conducted_subprocesses:
         if conducted_subprocess.subprocess.returncode != 0:
             logging.warning(f'Subprocess {conducted_subprocess.name} ran with errors!')
@@ -123,6 +128,6 @@ def verify_git_subprocesses(conducted_subprocesses: list) -> None:
             click.echo(click.style(f'Run command was: {conducted_subprocess.run_command}', fg='red'))
             click.echo(click.style(f'Error was: {conducted_subprocess.stderr}', fg='red'))
 
-
-if __name__ == '__main__':
-    create_push_github_repository('test_project_4', 'some description', '/home/zeth/tmp/test')
+# TODO Check if git is installed and raise an error if not
+# TODO CHeck if git user.name and user.email are set properly
+# Reference: https://github.com/pyscaffold/pyscaffold/blob/master/src/pyscaffold/info.py

@@ -1,11 +1,15 @@
-import logging
-
+import os
+import shutil
 import click
 
 from cookietemple.create.create_config import (TEMPLATE_STRUCT, create_dot_cookietemple)
 from cookietemple.create.domains.cli import handle_cli
 from cookietemple.create.domains.gui import handle_gui
 from cookietemple.create.domains.web import handle_web
+from cookietemple.create.github_support import create_push_github_repository
+
+WD = os.path.dirname(__file__)
+CWD = os.getcwd()
 
 
 def choose_domain(domain: str):
@@ -29,3 +33,15 @@ def choose_domain(domain: str):
 
     template_version, template_handle = switcher.get(TEMPLATE_STRUCT['domain'].lower(), lambda: 'Invalid')()
     create_dot_cookietemple(TEMPLATE_STRUCT, template_version=template_version, template_handle=template_handle)
+
+    # ask user whether he wants to create a Github repository and do so if specified
+    create_github_repository = click.prompt('Do you want to create a Github repository and push your template to it? [y, n]:', type=bool, default='Yes')
+    if create_github_repository:
+        project_name = TEMPLATE_STRUCT['project_slug']
+        template_path = f'{CWD}/{project_name}'
+        tmp_project_path = f'{template_path}_cookietemple_tmp'
+
+        # rename the currently created template to a temporary name, create Github repo, push, remove temporary template
+        os.rename(template_path, tmp_project_path)
+        create_push_github_repository(project_name, 'some description', tmp_project_path)
+        shutil.rmtree(tmp_project_path, ignore_errors=True)
