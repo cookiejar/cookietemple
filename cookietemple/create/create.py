@@ -35,7 +35,9 @@ def choose_domain(domain: str):
     create_dot_cookietemple(TEMPLATE_STRUCT, template_version=template_version, template_handle=template_handle)
 
     # ask user whether he wants to create a Github repository and do so if specified
-    create_github_repository = click.prompt('Do you want to create a Github repository and push your template to it? [y, n]:', type=bool, default='Yes')
+    create_github_repository = click.prompt('Do you want to create a Github repository and push your template to it? [y, n]:',
+                                            type=bool,
+                                            default='Yes')
     if create_github_repository:
         project_name = TEMPLATE_STRUCT['project_slug']
         template_path = f'{CWD}/{project_name}'
