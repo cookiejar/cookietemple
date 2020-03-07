@@ -22,6 +22,7 @@ def get_invalid_handles():
 def get_valid_handles_domain_only():
     return ['cli', 'web', 'gui']
 
+
 @pytest.fixture()
 def get_valid_handles_domain_subdomain():
     return ['cli-python', 'cli-java', 'cli-kotlin', 'web-python', 'gui-python', 'gui-java', 'web-python_website',
@@ -54,6 +55,7 @@ def test_valid_handles_domain_only(get_valid_handles_domain_only, capfd):
             assert out.startswith('\nTemplate info for gui\n\npython:\n  handle: gui-python\n')
 
 
+@pytest.mark.xfail
 def test_valid_handles_domain_and_subdomain(get_valid_handles_domain_subdomain, capfd):
     for valid_domain_subdomain in get_valid_handles_domain_subdomain:
         show_info(valid_domain_subdomain)
