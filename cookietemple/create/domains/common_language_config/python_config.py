@@ -7,7 +7,7 @@ def common_python_options():
     """
     TODO
     """
-    TEMPLATE_STRUCT['pypi_username'] = click.prompt('Please enter your pipy username (if you have one)',
+    TEMPLATE_STRUCT['pypi_username'] = click.prompt('Please enter your pypi username (if you have one)',
                                                     type=str,
                                                     default='homersimpson')
     TEMPLATE_STRUCT['command_line_interface'] = click.prompt('Choose a command line library',

@@ -152,6 +152,7 @@ def create_common_files():
                  overwrite_if_exists=True)
 
     common_files = os.listdir(f'{os.getcwd()}/common_files_util/')
+
     for f in common_files:
         path = Path(f"{Path.cwd()}/common_files_util/{f}")
         poss_dir = Path(f"{Path.cwd()}/{TEMPLATE_STRUCT['project_slug']}/{f}")
