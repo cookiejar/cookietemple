@@ -1,8 +1,27 @@
 import pytest
 import pytest_mock
+from unittest.mock import patch, mock_open
 from pathlib import Path
-from cookietemple.create.create_config import (delete_dir_tree, TEMPLATE_STRUCT, prompt_general_template_configuration)
+from cookietemple.create.create_config import (delete_dir_tree, TEMPLATE_STRUCT, prompt_general_template_configuration,
+                                               create_dot_cookietemple)
 from io import StringIO
+
+
+# init a test TEMPLATE_STRUCT dict with valid values
+@pytest.fixture()
+def init_template_struct():
+    TEMPLATE_STRUCT['fullname'] = 'MyFullName'
+    TEMPLATE_STRUCT['email'] = 'MyEmail'
+    TEMPLATE_STRUCT['github_username'] = 'MyGitName'
+    TEMPLATE_STRUCT['project_name'] = 'ProjectName'
+    TEMPLATE_STRUCT['project_slug'] = 'MySlug'
+    TEMPLATE_STRUCT['project_short_description'] = 'MyDesc'
+    TEMPLATE_STRUCT['version'] = 'MyVersion'
+    TEMPLATE_STRUCT['license'] = 'MIT'
+    TEMPLATE_STRUCT['template_version'] = 'MyTemplateVersion'
+    TEMPLATE_STRUCT['template_handle'] = 'cli-python'  # CAVE!!! handler
+
+    return TEMPLATE_STRUCT
 
 
 # mock click prompt input
@@ -17,12 +36,20 @@ def test_general_prompts_all_input_valid(monkeypatch):
 
 
 # mock click prompt input
-def test_general_prompts_with_license_invalid_choice(monkeypatch,capfd):
+def test_general_prompts_with_license_invalid_choice(monkeypatch, capfd):
     prompts = StringIO('MyFullName\nMyEmail\nMyGitName\nMyProjectName\nMySlug\nMyDesc\nMyVersion\nIMALICENSE\nMIT')
     monkeypatch.setattr('sys.stdin', prompts)
     prompt_general_template_configuration()
     out, err = capfd.readouterr()
     assert 'Error: invalid choice: IMALICENSE.' in out.strip()
+
+
+def test_create_dot_cookietemple_file():
+    open_mock = mock_open()
+    with patch("cookietemple.create.create_config.open", open_mock, create=True):
+        create_dot_cookietemple(TEMPLATE_STRUCT, "MyOtherVersion", "MyOtherHandle")
+
+    open_mock.assert_called_with(f'{TEMPLATE_STRUCT["project_slug"]}/.cookietemple', "w")
 
 
 def test_del_dir_tree(tmp_path):
