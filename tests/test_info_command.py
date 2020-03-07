@@ -1,6 +1,4 @@
 import pytest
-import click
-from pytest_mock import mocker
 from cookietemple.info.info import (show_info, non_existing_handle)
 
 """
