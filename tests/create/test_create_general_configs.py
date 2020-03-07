@@ -68,6 +68,41 @@ def test_del_dir_tree(tmp_path):
     assert len(list(tmp_path.iterdir())) == 0
 
 
+# mock current working directory for common_files tests
+def test_get_cwd(mocker,tmp_path):
+    mocker.patch.object(Path, 'cwd', autospec=True)
+    Path.cwd.return_value = tmp_path
+
+    assert Path.cwd() == tmp_path
+
+
+
+
+
+
+
+# maybe for later on use
+def getcwd():
+    """Simple function to return current working directory."""
+    return Path.cwd()
+
+def test_cwd(monkeypatch,tmp_path):
+    # mocked return function to replace Path.home
+    # always return '/abc'
+
+    def mockreturn():
+        return tmp_path
+
+    # Application of the monkeypatch to replace Path.home
+    # with the behavior of mockreturn defined above.
+    monkeypatch.setattr(Path, "cwd", mockreturn)
+
+    # Calling getcwd() will use mockreturn in place of Path.home
+    # for this test with the monkeypatch.
+    x = getcwd()
+    assert x == tmp_path
+
+
 # some testing setup, will be deleted later (from pytest doc)
 def getssh():
     """Simple function to return expanded homedir ssh path."""
