@@ -1,8 +1,10 @@
 import os
 import shutil
+
 import click
 
-from cookietemple.create.create_config import (TEMPLATE_STRUCT, create_dot_cookietemple)
+from cookietemple.create.create_config import (TEMPLATE_STRUCT)
+from cookietemple.create.create_templates import create_dot_cookietemple
 from cookietemple.create.domains.cli import handle_cli
 from cookietemple.create.domains.gui import handle_gui
 from cookietemple.create.domains.web import handle_web
@@ -16,6 +18,7 @@ def choose_domain(domain: str):
     """
     Prompts the user for the template domain.
     Creates the .cookietemple file.
+    Prompts the user whether or not to create a Github repository
 
     :param domain: Template domain
     """

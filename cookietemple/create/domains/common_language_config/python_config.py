@@ -5,8 +5,11 @@ from cookietemple.create.create_config import (TEMPLATE_STRUCT)
 
 def common_python_options():
     """
-    TODO
+    # TODO
     """
+    TEMPLATE_STRUCT['github_username'] = click.prompt('Please enter your Github account name (required for automatic deployment)',
+                                                      type=str,
+                                                      default='homersimpson')
     TEMPLATE_STRUCT['pypi_username'] = click.prompt('Please enter your pypi username (if you have one)',
                                                     type=str,
                                                     default='homersimpson')
@@ -20,10 +23,3 @@ def common_python_options():
         TEMPLATE_STRUCT['use_pytest'] = 'y'
     else:
         TEMPLATE_STRUCT['use_pytest'] = 'n'
-    use_pypi_deployment_with_travis = click.prompt('Please choose whether or not your project should be automatically deployed on pypi via travis [y, n]',
-                                                   type=bool,
-                                                   default='Yes')
-    if use_pypi_deployment_with_travis:
-        TEMPLATE_STRUCT['use_pypi_deployment_with_travis'] = 'y'
-    else:
-        TEMPLATE_STRUCT['use_pypi_deployment_with_travis'] = 'n'

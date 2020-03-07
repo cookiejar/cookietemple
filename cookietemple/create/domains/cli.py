@@ -6,8 +6,8 @@ from pathlib import Path
 
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 
-from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration,
-                                               create_template_without_subdomain, create_common_files)
+from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration)
+from cookietemple.create.create_templates import create_template_without_subdomain, create_common_files
 
 WD = os.path.dirname(__file__)
 WD_Path = Path(WD)
@@ -27,10 +27,11 @@ def handle_cli():
 
     :return: The version and handle of the chosen template for the .cookietemple file creation.
     """
+
     language = click.prompt('Choose between the following languages [python, java, kotlin, c++]',
                             type=click.Choice(['python', 'java', 'kotlin', 'c++']))
 
-    TEMPLATE_STRUCT["language"] = language.capitalize()
+    TEMPLATE_STRUCT['language'] = language.capitalize()
 
     # prompt the user to fetch general template configurations
     prompt_general_template_configuration()

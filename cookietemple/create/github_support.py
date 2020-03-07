@@ -102,10 +102,11 @@ def create_push_github_repository(project_name: str, project_description: str, t
     # git push to origin master and set as default
     click.echo(click.style('Pushing template to Github origin master.', fg='blue'))
     git_push_master = Popen(['git', 'push', '-u', f'https://{github_username}:{github_password}@github.com/{github_username}/{project_name}', '--all'],
-                     cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+                            cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_push_master_stdout, git_push_master_stderr) = git_push_master.communicate()
     conducted_subprocesses.append(ConductedSubprocess(git_push_master,
                                                       'git push origin master',
+                                                      # Ignore PycodestyleBear (E501)
                                                       rf'git push -u https://{github_username}:github_password@github.com/{github_username}/{project_name} --all',
                                                       git_push_master_stdout,
                                                       git_push_master_stderr))
@@ -113,7 +114,7 @@ def create_push_github_repository(project_name: str, project_description: str, t
     # git create development branch
     click.echo(click.style('Creating development branch.', fg='blue'))
     git_checkout_b_development = Popen(['git', 'checkout', '-b', 'development'],
-                     cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+                                       cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_checkout_b_development_stdout, git_checkout_b_development_stderr) = git_checkout_b_development.communicate()
     conducted_subprocesses.append(ConductedSubprocess(git_checkout_b_development,
                                                       'git checkout -b development',
@@ -124,7 +125,7 @@ def create_push_github_repository(project_name: str, project_description: str, t
     # git push to origin development
     click.echo(click.style('Pushing template to Github origin development.', fg='blue'))
     git_push_development = Popen(['git', 'push', f'https://{github_username}:{github_password}@github.com/{github_username}/{project_name}'],
-                     cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+                                 cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_push_development_stdout, git_push_development_stderr) = git_push_development.communicate()
     conducted_subprocesses.append(ConductedSubprocess(git_push_development,
                                                       'git push origin development',
@@ -159,7 +160,7 @@ def is_git_accessible() -> bool:
 
     :return: True if accessible, false if not
     """
-    git_installed = Popen(['git'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
+    git_installed = Popen(['git', '--version'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_installed_stdout, git_installed_stderr) = git_installed.communicate()
     if git_installed.returncode != 0:
         click.echo(click.style(f'Could not find \'git\' in the PATH. Is it installed?', fg='red'))
