@@ -96,18 +96,38 @@ def create_push_github_repository(project_name: str, project_description: str, t
                                                       git_commit_stdout,
                                                       git_commit_stderr))
 
-    # git push
-    click.echo(click.style('Pushing template to Github.', fg='blue'))
-    git_push = Popen(['git', 'push', '-u', f'https://{github_username}:{github_password}@github.com/{github_username}/{project_name}', '--all'],
+    # git push to origin master and set as default
+    click.echo(click.style('Pushing template to Github origin master.', fg='blue'))
+    git_push_master = Popen(['git', 'push', '-u', f'https://{github_username}:{github_password}@github.com/{github_username}/{project_name}', '--all'],
                      cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
-    (git_push_stdout, git_push_stderr) = git_push.communicate()
-    conducted_subprocesses.append(ConductedSubprocess(git_push,
-                                                      'git push',
+    (git_push_master_stdout, git_push_master_stderr) = git_push_master.communicate()
+    conducted_subprocesses.append(ConductedSubprocess(git_push_master,
+                                                      'git push origin master',
                                                       rf'git push -u https://{github_username}:github_password@github.com/{github_username}/{project_name} --all',
-                                                      git_push_stdout,
-                                                      git_push_stderr))
-    # TODO create a development branch
-    # dependabot will complain!
+                                                      git_push_master_stdout,
+                                                      git_push_master_stderr))
+
+    # git create development branch
+    click.echo(click.style('Creating development branch.', fg='blue'))
+    git_checkout_b_development = Popen(['git', 'checkout', '-b', 'development'],
+                     cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+    (git_checkout_b_development_stdout, git_checkout_b_development_stderr) = git_checkout_b_development.communicate()
+    conducted_subprocesses.append(ConductedSubprocess(git_checkout_b_development,
+                                                      'git checkout -b development',
+                                                      rf'git checkout -b development',
+                                                      git_checkout_b_development_stdout,
+                                                      git_checkout_b_development_stderr))
+
+    # git push to origin development
+    click.echo(click.style('Pushing template to Github origin development.', fg='blue'))
+    git_push_development = Popen(['git', 'push', f'https://{github_username}:{github_password}@github.com/{github_username}/{project_name}'],
+                     cwd=repository, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+    (git_push_development_stdout, git_push_development_stderr) = git_push_development.communicate()
+    conducted_subprocesses.append(ConductedSubprocess(git_push_development,
+                                                      'git push origin development',
+                                                      rf'git push https://{github_username}:github_password@github.com/{github_username}/{project_name}',
+                                                      git_push_development_stdout,
+                                                      git_push_development_stderr))
 
     verify_git_subprocesses(conducted_subprocesses)
     click.echo(click.style(f'Successfully created a Github repository at https://github.com/{github_username}/{project_name}', fg='green'))
