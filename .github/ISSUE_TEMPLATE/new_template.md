@@ -1,24 +1,25 @@
 ---
 name: New template
-about: Suggest an idea for COOKIETEMPLE
+about: Suggest a new template for COOKIETEMPLE
 title: 'TEMPLATE/COMMAND/CORE'
 labels: ''
 assignees: ''
 
 ---
 
-**Associated Template/Command/Core**
-State the template handle (e.g. python-cli) and also add it in the title in the square brackets.
-If your feature request is not directly related to any template, please state either the associated COOKIETEMPLE command or 'core' if it is a general COOKIETEMPLE bug.
+**Proposed Template**
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when ...
+State a proposed new template handle (e.g. rust-cli) and also add it in the title in the squared brackets.
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+**Describe the proposed new template.**
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+A clear and concise description of what the new template is supposed to achieve.
+
+**Describe the suggested technology stack.**
+
+A clear and concise list of associated technologies, frameworks and details of the suggested template.
+Note, that we try to adhere to mainstream best practices and try to automate as much as possible.
 
 **Additional context**
-Add any other context or screenshots about the feature request here.
+
+Add any other context or screenshots about the new template here.
