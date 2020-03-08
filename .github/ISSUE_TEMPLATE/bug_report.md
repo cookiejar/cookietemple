@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: 'TEMPLATE/COMMAND/CORE'
+title: '[TEMPLATE/COMMAND/CORE]'
 labels: ''
 assignees: ''
 
