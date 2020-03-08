@@ -4,6 +4,7 @@ about: Suggest an idea for COOKIETEMPLE
 title: '\[TEMPLATENAME/COMMAND/CORE\]' Feature Request Title
 labels: ''
 assignees: ''
+
 ---
 
 **Associated Template/Command/Core**
