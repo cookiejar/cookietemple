@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **Associated Template/Command/Core**
-State the template handle (e.g. python-cli) and also add it in the title in the square brackets.
+State the template handle (e.g. python-cli) and also add it in the title.
 If your feature request is not directly related to any template, please state either the associated COOKIETEMPLE command or 'core' if it is a general COOKIETEMPLE bug.
 
 **Is your feature request related to a problem? Please describe.**

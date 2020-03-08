@@ -9,7 +9,7 @@ assignees: ''
 
 **Proposed Template**
 
-State a proposed new template handle (e.g. rust-cli) and also add it in the title in the squared brackets.
+State a proposed new template handle (e.g. rust-cli) and also add it in the title.
 
 **Describe the proposed new template.**
 
