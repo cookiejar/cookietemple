@@ -1,7 +1,7 @@
 ---
 name: New template
 about: Suggest a new template for COOKIETEMPLE
-title: 'TEMPLATE/COMMAND/CORE'
+title: '[TEMPLATE/COMMAND/CORE] new template summary'
 labels: ''
 assignees: ''
 

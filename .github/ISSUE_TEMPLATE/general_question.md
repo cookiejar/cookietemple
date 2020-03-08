@@ -1,7 +1,7 @@
 ---
 name: General question
 about: Ask a question about anything COOKIETEMPLE
-title: 'TEMPLATE/COMMAND/CORE'
+title: '[TEMPLATE/COMMAND/CORE] question'
 labels: ''
 assignees: ''
 
