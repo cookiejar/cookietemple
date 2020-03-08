@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Report a bug and get help
-title: '[TEMPLATENAME/COMMAND/CORE]' Bug Title
+title: '\[TEMPLATENAME/COMMAND/CORE\]' Bug Title
 labels: 'BUG'
 assignees: ''
 ---
