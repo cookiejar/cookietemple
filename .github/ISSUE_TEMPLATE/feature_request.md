@@ -2,7 +2,7 @@
 name: Feature request
 about: Suggest an idea for COOKIETEMPLE
 title: '\[TEMPLATENAME/COMMAND/CORE\]' Feature Request Title
-labels: 'FEATURE REQUEST'
+labels: ''
 assignees: ''
 ---
 
