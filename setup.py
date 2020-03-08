@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 import cookietemple as module
 
 
-def walker(base, *paths):
+def walker(base: str, *paths) -> list:
     file_list = set([])
     cur_dir = os.path.abspath(os.curdir)
 
@@ -27,9 +27,6 @@ def walker(base, *paths):
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
-
-with open('HISTORY.rst') as history_file:
-    history = history_file.read()
 
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
@@ -59,7 +56,7 @@ setup(
     },
     install_requires=requirements,
     license='GNU General Public License v3',
-    long_description=readme + '\n\n' + history,
+    long_description=readme,
     include_package_data=True,
     keywords='cookietemple',
     name='cookietemple',
