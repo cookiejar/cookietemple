@@ -28,10 +28,10 @@ A clear and concise description of what you expected to happen.
 
 **System (please complete the following information):**
 
- - OS: [e.g. Ubuntu 18.04]
- - Python: [e.g. 3.8]
- - Virtual environment: [e.g. conda]
- - COOKIETEMPLE: [e.g. 1.0.0]
+ - OS: (e.g. Ubuntu 18.04)
+ - Python: (e.g. 3.8)
+ - Virtual environment: (e.g. conda)
+ - COOKIETEMPLE: (e.g. 1.0.0)
 
 **Additional context**
 
