@@ -1,7 +1,7 @@
 ---
 name: Feature request
-about: Suggest an idea for COOKIETEMPLE
-title: 'TEMPLATENAME/COMMAND/CORE' Feature Request Title
+about: Suggest an idea for this project
+title: ''
 labels: ''
 assignees: ''
 
