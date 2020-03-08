@@ -71,7 +71,6 @@ def create_template_with_subdomain_framework(domain_path: str, subdomain: str, l
     :param subdomain: Subdomain of the chosen template
     :param language: Primary chosen language
     :param framework: Chosen framework
-    :return:
     """
     occupied = os.path.isdir(f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
     if occupied:
