@@ -1,17 +1,32 @@
-Hi! Thanks for contributing to Nextflow project.
+---
+name: Pull request
+about: Submit a pull request to COOKIETEMPLE
+title: '[TEMPLATENAME/COMMAND/CORE]' Pull Request Title
+labels: ''
+assignees: ''
 
-When submitting a Pull Request please make sure to not include
-in the changeset any modification in these files:
+---
 
-* `nextflow`
-* `docs/conf.py`
-* `modules/nextflow/src/main/groovy/nextflow/Const.groovy`
+Many thanks for contributing to COOKIETEMPLE!
 
-Also, please sign-off the DCO [1] to certify you are the author of the contribution
-and you adhere to Nextflow open source license [2] adding a `Signed-off-by` line to
-the contribution commit message. For more details check [3].
+**Associated Template/Command/Core**
+State the template handle (e.g. python-cli) and also add it in the title in the square brackets.
+If your pull request is not directly related to any template, please state either the associated COOKIETEMPLE command or '[CORE]' if it is a general COOKIETEMPLE bug.
 
-1. https://developercertificate.org/
-2. https://github.com/nextflow-io/nextflow/blob/master/COPYING
-3. https://github.com/apps/dco
+**PR Checklist**
+Please fill in the appropriate checklist below (delete whatever is not relevant). These are the most common things requested on pull requests (PRs).
 
+ - [ ] This comment contains a description of changes (with reason)
+ - [ ] Referenced issue is linked
+ - [ ] If you've fixed a bug or added code that should be tested, add tests!
+ - [ ] Documentation in `docs` is updated
+ - [ ] `CHANGELOG.rst` is updated
+
+**Description of changes**
+Please state what you've changed and how it might affect the user.
+
+**Technical details**
+Please state any technical details such as limitations, reasons for additional dependencies, benchmarks etc. here.
+
+**Additional context**
+Add any other context or screenshots here.
