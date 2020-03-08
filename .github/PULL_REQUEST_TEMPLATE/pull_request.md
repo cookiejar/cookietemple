@@ -1,36 +1,38 @@
 ---
-name: Pull request
-about: Submit a pull request to COOKIETEMPLE
-title: '[TEMPLATENAME/COMMAND/CORE]' Pull Request Title
-labels: ''
+name: Bug report
+about: Report a bug and get help
+title: '[TEMPLATENAME/COMMAND/CORE]' Bug Title
+labels: 'BUG'
 assignees: ''
 ---
-
-Many thanks for contributing to COOKIETEMPLE!
 
 **Associated Template/Command/Core**
 
 State the template handle (e.g. python-cli) and also add it in the title in the square brackets.
-If your pull request is not directly related to any template, please state either the associated COOKIETEMPLE command or '[CORE]' if it is a general COOKIETEMPLE bug.
+If your bug is not directly related to any template, please state either the associated COOKIETEMPLE command or 'core' if it is a general COOKIETEMPLE bug.
 
-**PR Checklist**
+**Describe the bug**
 
-Please fill in the appropriate checklist below (delete whatever is not relevant). These are the most common things requested on pull requests (PRs).
+A clear and concise description of what the bug is.
 
- - [ ] This comment contains a description of changes (with reason)
- - [ ] Referenced issue is linked
- - [ ] If you've fixed a bug or added code that should be tested, add tests!
- - [ ] Documentation in `docs` is updated
- - [ ] `CHANGELOG.rst` is updated
+**To Reproduce**
 
-**Description of changes**
+Steps to reproduce the behavior:
+1. Run COOKIETEMPLE with command: '...'
+2. Select: '...'
+3. See error
 
-Please state what you've changed and how it might affect the user.
+**Expected behavior**
 
-**Technical details**
+A clear and concise description of what you expected to happen.
 
-Please state any technical details such as limitations, reasons for additional dependencies, benchmarks etc. here.
+**System (please complete the following information):**
+
+ - OS: [e.g. Ubuntu 18.04]
+ - Python: [e.g. 3.8]
+ - Virtual environment: [e.g. conda]
+ - COOKIETEMPLE: [e.g. 1.0.0]
 
 **Additional context**
 
-Add any other context or screenshots here.
+Add any other context about the problem here.
