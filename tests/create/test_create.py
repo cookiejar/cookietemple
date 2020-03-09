@@ -13,6 +13,12 @@ def valid_domains():
     return ['cli', 'gui', 'web']
 
 
+def docs_subdir(path):
+    return [Path(f"{path}/docs/conf.py"),Path(f"{path}/docs/Makefile"),Path(f"{path}/docs/contributing.rst"),Path(f"{path}/docs/authors.rst"),
+            Path(f"{path}/docs/installation.rst"),Path(f"{path}/docs/make.bat"),Path(f"{path}/docs/index.rst"),Path(f"{path}/docs/usage.rst"),
+            Path(f"{path}/docs/changelog.rst"),Path(f"{path}/docs/readme.rst")]
+
+
 def posix_path_super_dir(path):
     return [Path(f"{path}/MANIFEST.in"),Path(f"{path}/.editorconfig"),Path(f"{path}/Makefile"),Path(f"{path}/README.rst"),
             Path(f"{path}/tests"),Path(f"{path}/readthedocs.yml"),Path(f"{path}/tox.ini"),Path(f"{path}/requirements_dev.txt"),
@@ -32,4 +38,4 @@ def test_choose_domain_cli(monkeypatch,valid_domains,tmp_path):
     choose_domain("")
     copy_tree(f'{Path.cwd()}/slug', str(tmp_path))
     delete_dir_tree(Path(f"{Path.cwd()}/slug"))
-    assert list(tmp_path.iterdir()) == posix_path_super_dir(tmp_path)
+    assert (list(tmp_path.iterdir()) == posix_path_super_dir(tmp_path) and list(Path(tmp_path/"docs").iterdir()) == docs_subdir(tmp_path))
