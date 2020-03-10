@@ -56,15 +56,15 @@ def test_choose_domain_cli(monkeypatch,valid_domains,tmp_path):
     choose_domain("")
     copy_tree(f'{Path.cwd()}/slug', str(tmp_path))
     delete_dir_tree(Path(f"{Path.cwd()}/slug"))
-    assert (list(tmp_path.iterdir()) == posix_path_super_dir(tmp_path) and list(Path(tmp_path/"docs").iterdir()) == docs_subdir(tmp_path)
-            and list(Path(tmp_path/"tests").iterdir()) == subdir_tests(tmp_path) and
-            list(Path(tmp_path/".dependabot").iterdir()) == subdir_dependabot(tmp_path) and
-            list(Path(tmp_path/".github").iterdir()) == subdir_github(tmp_path)and
-            list(Path(tmp_path/"slug").iterdir()) == subdir_maindir(tmp_path))
+    assert (sorted(list(tmp_path.iterdir())) == sorted(posix_path_super_dir(tmp_path)) and sorted(list(Path(tmp_path/"docs").iterdir())) == sorted(docs_subdir(tmp_path))
+            and sorted(list(Path(tmp_path/"tests").iterdir())) == sorted(subdir_tests(tmp_path)) and
+            sorted(list(Path(tmp_path/".dependabot").iterdir())) == sorted(subdir_dependabot(tmp_path)) and
+            sorted(list(Path(tmp_path/".github").iterdir())) == sorted(subdir_github(tmp_path))and
+            sorted(list(Path(tmp_path/"slug").iterdir())) == sorted(subdir_maindir(tmp_path)))
 
 
 # TODO: Use Linter to ensure that nothing changed (cookiecutter extra content)
-def test_repo_already_exists_no_overwrite_if_false(mocker,monkeypatch,capfd,valid_domains):
+def test_repo_already_exists_no_overwrite_if_false(mocker,monkeypatch,capfd,valid_domains) -> None:
     mocker.patch.object(os.path, 'isdir', autospec=True)
     os.path.isdir.return_value = True
     prompt = StringIO(f"{valid_domains[0]}\npython\nname\nmail\naccname\nprojectname\nslug\ndesc\n0.1"
