@@ -4,8 +4,9 @@ import pytest
 import pytest_mock
 from unittest.mock import patch, mock_open
 from pathlib import Path
-from cookietemple.create.create_config import (delete_dir_tree, TEMPLATE_STRUCT, prompt_general_template_configuration,
-                                               create_dot_cookietemple, create_common_files)
+from cookietemple.util.dir_util import delete_dir_tree
+from cookietemple.create.create_templates import (create_dot_cookietemple,create_common_files)
+from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration)
 from io import StringIO
 
 
@@ -14,9 +15,7 @@ from io import StringIO
 def init_template_struct():
     TEMPLATE_STRUCT['fullname'] = 'MyFullName'
     TEMPLATE_STRUCT['email'] = 'MyEmail'
-    TEMPLATE_STRUCT['github_username'] = 'MyGitName'
     TEMPLATE_STRUCT['project_name'] = 'ProjectName'
-    TEMPLATE_STRUCT['project_slug'] = 'MySlug'
     TEMPLATE_STRUCT['project_short_description'] = 'MyDesc'
     TEMPLATE_STRUCT['version'] = 'MyVersion'
     TEMPLATE_STRUCT['license'] = 'MIT'
@@ -29,18 +28,18 @@ def init_template_struct():
 
 # mock click prompt input
 def test_general_prompts_all_input_valid(monkeypatch):
-    prompts = StringIO('MyFullName\nMyEmail\nMyGitName\nMyProjectName\nMySlug\nMyDesc\nMyVersion\nMIT')
+    prompts = StringIO('MyFullName\nMyEmail\nMyProjectName\nMyDesc\nMyVersion\nMIT')
     monkeypatch.setattr('sys.stdin', prompts)
     prompt_general_template_configuration()
     assert (TEMPLATE_STRUCT['full_name'] == 'MyFullName' and TEMPLATE_STRUCT['email'] == 'MyEmail'
-            and TEMPLATE_STRUCT['github_username'] == 'MyGitName' and TEMPLATE_STRUCT['project_name'] == 'MyProjectName'
-            and TEMPLATE_STRUCT['project_slug'] == 'MySlug' and TEMPLATE_STRUCT['project_short_description'] == 'MyDesc'
+            and TEMPLATE_STRUCT['project_name'] == 'MyProjectName'
+            and TEMPLATE_STRUCT['project_short_description'] == 'MyDesc'
             and TEMPLATE_STRUCT['version'] == 'MyVersion' and TEMPLATE_STRUCT['license'] == 'MIT')
 
 
 # mock click prompt input
 def test_general_prompts_with_license_invalid_choice(monkeypatch, capfd):
-    prompts = StringIO('MyFullName\nMyEmail\nMyGitName\nMyProjectName\nMySlug\nMyDesc\nMyVersion\nIMALICENSE\nMIT')
+    prompts = StringIO('MyFullName\nMyEmail\nMyProjectName\nMyDesc\nMyVersion\nIMALICENSE\nMIT')
     monkeypatch.setattr('sys.stdin', prompts)
     prompt_general_template_configuration()
     out, err = capfd.readouterr()
@@ -49,10 +48,10 @@ def test_general_prompts_with_license_invalid_choice(monkeypatch, capfd):
 
 def test_create_dot_cookietemple_file():
     open_mock = mock_open()
-    with patch("cookietemple.create.create_config.open", open_mock, create=True):
+    with patch("cookietemple.create.create_templates.open", open_mock, create=True):
         create_dot_cookietemple(TEMPLATE_STRUCT, "MyOtherVersion", "MyOtherHandle")
 
-    open_mock.assert_called_with(f'{TEMPLATE_STRUCT["project_slug"]}/.cookietemple', "w")
+    open_mock.assert_called_with(f'{TEMPLATE_STRUCT["project_name"]}/.cookietemple', "w")
 
 
 def test_del_dir_tree(tmp_path):
