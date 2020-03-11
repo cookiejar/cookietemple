@@ -8,10 +8,9 @@ Welcome to cookietemple's documentation!
    readme
    installation
    usage
-   modules
    contributing
+   changelog
    authors
-   history
 
 Indices and tables
 ==================

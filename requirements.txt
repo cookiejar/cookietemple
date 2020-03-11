@@ -2,3 +2,5 @@ click==6.6
 cookiecutter==1.6.0
 ruamel.yaml==0.16.10
 coala-bears==0.11.1
+pygithub==1.46
+pyyaml~=3.12

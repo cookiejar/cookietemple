@@ -1,7 +1,7 @@
 import os
 import click
-from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration,
-                                               create_template_with_subdomain_framework, create_common_files)
+from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration)
+from cookietemple.create.create_templates import create_template_with_subdomain_framework, create_common_files
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 
 WD = os.path.dirname(__file__)

@@ -1,15 +1,5 @@
 import os
-import sys
-import tempfile
-import shutil
-from distutils.dir_util import copy_tree
-from pathlib import Path
-
 import click
-import yaml
-from cookiecutter.main import cookiecutter
-
-
 
 # The main dictionary, which will be completed by first the general options prompts and then the chosen template
 # specific prompts. It is then passed onto cookiecutter as extra_content to facilitate the template creation.
@@ -25,7 +15,7 @@ COMMON_FILES_PATH = f'{WD}/templates/common_files'
 def prompt_general_template_configuration():
     """
     Prompts the user for general options that are required by all templates.
-    Options are saved in the TEMPLACE_STRUCT dict.
+    Options are saved in the TEMPLATE_STRUCT dict.
     """
 
     TEMPLATE_STRUCT['full_name'] = click.prompt('Please enter your full name',
@@ -34,149 +24,16 @@ def prompt_general_template_configuration():
     TEMPLATE_STRUCT['email'] = click.prompt('Please enter your personal or work email',
                                             type=str,
                                             default='homer.simpson@example.com')
-    TEMPLATE_STRUCT['github_username'] = click.prompt('Please enter your Github account name',
-                                                      type=str,
-                                                      default='homersimpson')
     TEMPLATE_STRUCT['project_name'] = click.prompt('Please enter your project name',
                                                    type=str,
                                                    default='Exploding Springfield')
-    TEMPLATE_STRUCT['project_slug'] = click.prompt(
-        'Please enter an URL friendly project slug. Refrain from using spaces or uncommon letters.',
-        type=str,
-        default='Exploding-Springfield')
+    TEMPLATE_STRUCT['project_slug'] = TEMPLATE_STRUCT['project_name'].replace(' ', '_')
     TEMPLATE_STRUCT['project_short_description'] = click.prompt('Please enter a short description of yor project.',
                                                                 type=str,
-                                                                default='Exploding Springfield. How to get rid of your job in 3 simple steps.')
+                                                                default=f'{TEMPLATE_STRUCT["project_name"]}. A best practice .')
     TEMPLATE_STRUCT['version'] = click.prompt('Please enter the initial version of your project.',
                                               type=str,
                                               default='0.1.0')
-
     TEMPLATE_STRUCT['license'] = click.prompt('Please choose a license [MIT, BSD, ISC, Apache2.0, GNUv3, Not open source]',
                                               type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Not open source']),
                                               default='MIT')
-
-
-def create_dot_cookietemple(TEMPLATE_STRUCT: dict, template_version: str, template_handle: str):
-    """
-    Overrides the version with the version of the template.
-    Dumps the configuration for the template generation into a .cookietemple yaml file.
-
-    :param TEMPLATE_STRUCT: Global variable containing all cookietemple creation configuration variables
-    :param template_version: Version of the specific template
-    """
-    TEMPLATE_STRUCT['template_version'] = template_version
-    TEMPLATE_STRUCT['template_handle'] = template_handle
-    with open(f'{TEMPLATE_STRUCT["project_slug"]}/.cookietemple', 'w') as f:
-        yaml.dump(TEMPLATE_STRUCT, f)
-
-
-def create_template_without_subdomain(domain_path: str, domain: str, language: str):
-    """
-    TODO
-    :param domain_path:
-    :param domain:
-    :param language:
-    :return:
-    """
-    proceed = True
-
-    if os.path.isdir(f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}"):
-        click.echo(click.style('WARNING: ', fg='red') + click.style(
-            f"A directory named {TEMPLATE_STRUCT['project_slug']} already "
-            f"exists at", fg='red') + click.style(f"{os.getcwd()}", fg='green'))
-        click.echo()
-        click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
-        click.echo()
-        proceed = click.confirm("Do you really want to continue?")
-
-    if proceed:
-        cookiecutter(f"{domain_path}/{domain}_{language}",
-                     no_input=True,
-                     overwrite_if_exists=True,
-                     extra_context=TEMPLATE_STRUCT)
-
-    else:
-        click.echo(click.style('Aborted! Canceled template creation!', fg='red'))
-        sys.exit(0)
-
-
-def create_template_with_subdomain_framework(domain_path: str, subdomain: str, language: str, framework: str):
-    """
-    TODO
-    :param domain_path:
-    :param subdomain:
-    :param language:
-    :param framework:
-    :return:
-    """
-    proceed = True
-
-    if os.path.isdir(f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}"):
-        click.echo(click.style('WARNING: ', fg='red') + click.style(
-            f"A directory named {TEMPLATE_STRUCT['project_slug']} already "
-            f"exists at", fg='red') + click.style(f"{os.getcwd()}", fg='green'))
-        click.echo()
-        click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
-        click.echo()
-        proceed = click.confirm("Do you really want to continue?")
-
-    if proceed:
-        cookiecutter(f"{domain_path}/{subdomain}_{language}/{framework}",
-                     no_input=True,
-                     overwrite_if_exists=True,
-                     extra_context=TEMPLATE_STRUCT)
-
-    else:
-        click.echo(click.style('Aborted! Canceled template creation!', fg='red'))
-        sys.exit(0)
-
-
-def create_common_files():
-    """
-    This function creates a temporary directory for common files of all templates and applies cookiecutter on them.
-
-    It´ll be outputted to the created template directory.
-    """
-    dirpath = tempfile.mkdtemp()
-    copy_tree(f'{COMMON_FILES_PATH}', dirpath)
-    cookiecutter(dirpath,
-                 extra_context={'full_name': TEMPLATE_STRUCT['full_name'],
-                                'email': TEMPLATE_STRUCT['email'],
-                                'language': TEMPLATE_STRUCT['language'],
-                                'project_slug': TEMPLATE_STRUCT['project_slug'],
-                                'github_username': TEMPLATE_STRUCT['github_username'],
-                                'version': TEMPLATE_STRUCT['version'],
-                                'license': TEMPLATE_STRUCT['license'],
-                                'project_short_description': TEMPLATE_STRUCT['project_short_description']},
-                 no_input=True,
-                 overwrite_if_exists=True)
-
-    common_files = os.listdir(f'{os.getcwd()}/common_files_util/')
-    for f in common_files:
-        path = Path(f"{Path.cwd()}/common_files_util/{f}")
-        poss_dir = Path(f"{Path.cwd()}/{TEMPLATE_STRUCT['project_slug']}/{f}")
-
-        if poss_dir.is_dir():
-            delete_dir_tree(poss_dir)
-        path.replace(f"{Path.cwd()}/{TEMPLATE_STRUCT['project_slug']}/{f}")
-
-    os.removedirs(f'{os.getcwd()}/common_files_util')
-    shutil.rmtree(dirpath)
-
-
-def delete_dir_tree(directory: Path):
-    """
-    Recursively delete a whole directory and its content.
-    Since there is no built-in function for this in the pathlib API and we want to keep
-    it consistent, we have to use a self-written.
-    :param directory: The directory that should be removed
-    :return:
-    """
-    dir = directory
-
-    for f in dir.iterdir():
-        if f.is_dir():
-            delete_dir_tree(f)
-        else:
-            f.unlink()
-    dir.rmdir()

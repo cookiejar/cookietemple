@@ -44,9 +44,9 @@ def main():
 )
 def cookietemple_cli(verbose):
     if verbose:
-        logging.basicConfig(level=logging.DEBUG, format='\n%(levelname)s: %(message)s')
+        logging.basicConfig(level=logging.DEBUG, format='\n%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     else:
-        logging.basicConfig(level=logging.INFO, format='\n%(levelname)s: %(message)s')
+        logging.basicConfig(level=logging.INFO, format='\n%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 
 @cookietemple_cli.command(help_priority=1)
