@@ -54,8 +54,12 @@ def posix_path_super_dir(path) -> set:
             Path(f"{path}/.dependabot")}
 
 
-# test creation of a simple cli python template
 # TODO: USE LINTING (LIKE NF CORE TOOLS) TO TEST COOKIECUTTER WITH EXTRA_CONTENT
+"""
+    This test tests the creation of a whole python cli template without GitHub Repo creation!
+"""
+
+
 def test_choose_domain_cli(monkeypatch, valid_domains, tmp_path) -> None:
     prompt = StringIO(f"{valid_domains[0]}\npython\nname\nmail\nprojectname\ndesc\n0.1"
                       f"\nMIT\nmyGitHubName\npypiname\nClick\npytest\nn")
@@ -71,6 +75,12 @@ def test_choose_domain_cli(monkeypatch, valid_domains, tmp_path) -> None:
 
 
 # TODO: Use Linter to ensure that nothing changed (cookiecutter extra content)
+"""
+    This test ensures that if a repo with the same name already exists the user can decide to overwrite or not.
+    If no, template creation will be canceled an nothing changes.
+"""
+
+
 def test_repo_already_exists_no_overwrite_if_false(mocker, monkeypatch, capfd, valid_domains) -> None:
     mocker.patch.object(os.path, 'isdir', autospec=True)
     os.path.isdir.return_value = True

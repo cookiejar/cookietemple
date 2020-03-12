@@ -6,6 +6,7 @@ from distutils.dir_util import copy_tree
 
 from cookietemple.create.create import choose_domain
 from cookietemple.util.dir_util import delete_dir_tree
+from tests.create.test_create import (subdir_dependabot, subdir_github)
 
 
 @pytest.fixture
@@ -39,14 +40,6 @@ def subdir_tests(path) -> set:
     return {Path(f"{path}/tests/__init__.py"), Path(f"{path}/tests/projectname.py")}
 
 
-def subdir_dependabot(path) -> set:
-    return {Path(f"{path}/.dependabot/config.yml")}
-
-
-def subdir_github(path) -> set:
-    return {Path(f"{path}/.github/ISSUE_TEMPLATE.md")}
-
-
 def posix_path_super_dir(path) -> set:
     return {Path(f"{path}/MANIFEST.in"), Path(f"{path}/.editorconfig"), Path(f"{path}/Makefile"),
             Path(f"{path}/README.rst"),
@@ -64,6 +57,11 @@ def posix_path_super_dir(path) -> set:
 
 
 # test creation of a simple cli python template
+"""
+    This test tests the creation of a whole python flask website template without GitHub Repo creation!
+"""
+
+
 # TODO: USE LINTING (LIKE NF CORE TOOLS) TO TEST COOKIECUTTER WITH EXTRA_CONTENT
 def test_choose_domain_web_website_flask(monkeypatch, valid_domains, tmp_path) -> None:
     prompt = StringIO(f"{valid_domains[2]}\npython\nname\nmail\nprojectname\ndesc\n0.1"
@@ -78,6 +76,12 @@ def test_choose_domain_web_website_flask(monkeypatch, valid_domains, tmp_path) -
             set(Path(tmp_path / ".github").iterdir()) == subdir_github(tmp_path) and
             set(Path(tmp_path / "projectname").iterdir()) == website_front_end_tests(tmp_path) and
             set(Path(tmp_path / "deployment_scripts").iterdir()) == deployment_script_tests(tmp_path))
+
+
+"""
+    This test ensures that the creation of a flask website template is canceled if it already exists and the user
+    doesn´t want it to be overwritten.
+"""
 
 
 # TODO: Use Linter to ensure that nothing changed (cookiecutter extra content)

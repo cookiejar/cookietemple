@@ -32,12 +32,22 @@ def test_empty_info_handle():
     show_info('')
 
 
+"""
+    Ensure that a non-valid/existing handle will trigger an error message
+"""
+
+
 def test_non_existing_handle(get_invalid_handles, capfd) -> None:
     for invalid in get_invalid_handles:
         with pytest.raises(SystemExit):
             show_info(invalid)
             out, err = capfd.readouterr()
             assert out == 'Handle does not exist. Please enter a valid handle. Use ' + 'cookietemple list' + ' to display all template handles.'
+
+
+"""
+    Ensure that valid handles will be displayed properly by the info command.
+"""
 
 
 def test_valid_handles_domain_only(get_valid_handles_domain_only, capfd) -> None:
