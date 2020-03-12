@@ -1,18 +1,17 @@
 import os
 import tempfile
 import pytest
-import pytest_mock
 from unittest.mock import patch, mock_open
 from pathlib import Path
 from cookietemple.util.dir_util import delete_dir_tree
-from cookietemple.create.create_templates import (create_dot_cookietemple,create_common_files)
+from cookietemple.create.create_templates import (create_dot_cookietemple, create_common_files)
 from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration)
 from io import StringIO
 
 
 # init a test TEMPLATE_STRUCT dict with valid values
 @pytest.fixture()
-def init_template_struct():
+def init_template_struct() -> set:
     TEMPLATE_STRUCT['fullname'] = 'MyFullName'
     TEMPLATE_STRUCT['email'] = 'MyEmail'
     TEMPLATE_STRUCT['project_name'] = 'ProjectName'
@@ -27,7 +26,7 @@ def init_template_struct():
 
 
 # mock click prompt input
-def test_general_prompts_all_input_valid(monkeypatch):
+def test_general_prompts_all_input_valid(monkeypatch) -> None:
     prompts = StringIO('MyFullName\nMyEmail\nMyProjectName\nMyDesc\nMyVersion\nMIT')
     monkeypatch.setattr('sys.stdin', prompts)
     prompt_general_template_configuration()
@@ -38,7 +37,7 @@ def test_general_prompts_all_input_valid(monkeypatch):
 
 
 # mock click prompt input
-def test_general_prompts_with_license_invalid_choice(monkeypatch, capfd):
+def test_general_prompts_with_license_invalid_choice(monkeypatch, capfd) -> None:
     prompts = StringIO('MyFullName\nMyEmail\nMyProjectName\nMyDesc\nMyVersion\nIMALICENSE\nMIT')
     monkeypatch.setattr('sys.stdin', prompts)
     prompt_general_template_configuration()
@@ -46,7 +45,7 @@ def test_general_prompts_with_license_invalid_choice(monkeypatch, capfd):
     assert 'Error: invalid choice: IMALICENSE.' in out.strip()
 
 
-def test_create_dot_cookietemple_file():
+def test_create_dot_cookietemple_file() -> None:
     open_mock = mock_open()
     with patch("cookietemple.create.create_templates.open", open_mock, create=True):
         create_dot_cookietemple(TEMPLATE_STRUCT, "MyOtherVersion", "MyOtherHandle")
@@ -54,7 +53,7 @@ def test_create_dot_cookietemple_file():
     open_mock.assert_called_with(f'{TEMPLATE_STRUCT["project_name"]}/.cookietemple', "w")
 
 
-def test_del_dir_tree(tmp_path):
+def test_del_dir_tree(tmp_path) -> None:
     dir = tmp_path / "testIT"
     a = dir / "a"
     b = dir / "b"
@@ -70,9 +69,9 @@ def test_del_dir_tree(tmp_path):
     assert len(list(tmp_path.iterdir())) == 0
 
 
-# mock current working directory for common_files tests
+# mock current working directory for common_files tests TODO:FIX TEST
 @pytest.mark.skip(reason="Fix this test later on")
-def test_get_cwd(mocker,tmp_path):
+def test_create_common_files(mocker, tmp_path) -> None:
     mocker.patch.object(Path, 'cwd', autospec=True)
     mocker.patch.object(os, 'getcwd', autospec=True)
     mocker.patch.object(tempfile, 'mkdtemp', autospec=True)
@@ -94,58 +93,4 @@ def test_get_cwd(mocker,tmp_path):
 
     create_common_files()
 
-    assert 1 == 1
-
-
-
-
-
-
-# =================================================================================
-# =================================================================================
-# =================================================================================
-
-
-# maybe for later on use
-def getcwd():
-    """Simple function to return current working directory."""
-    return Path.cwd()
-
-def test_cwd(monkeypatch,tmp_path):
-    # mocked return function to replace Path.home
-    # always return '/abc'
-
-    def mockreturn():
-        return tmp_path
-
-    # Application of the monkeypatch to replace Path.home
-    # with the behavior of mockreturn defined above.
-    monkeypatch.setattr(Path, "cwd", mockreturn)
-
-    # Calling getcwd() will use mockreturn in place of Path.home
-    # for this test with the monkeypatch.
-    x = getcwd()
-    assert x == tmp_path
-
-
-# some testing setup, will be deleted later (from pytest doc)
-def getssh():
-    """Simple function to return expanded homedir ssh path."""
-    return Path.home() / ".ssh"
-
-
-def test_getssh(monkeypatch):
-    # mocked return function to replace Path.home
-    # always return '/abc'
-
-    def mockreturn():
-        return Path("/abc")
-
-    # Application of the monkeypatch to replace Path.home
-    # with the behavior of mockreturn defined above.
-    monkeypatch.setattr(Path, "home", mockreturn)
-
-    # Calling getssh() will use mockreturn in place of Path.home
-    # for this test with the monkeypatch.
-    x = getssh()
-    assert x == Path("/abc/.ssh")
+    assert 1 == 1  # PLACEHOLDER

@@ -1,5 +1,5 @@
 import pytest
-from cookietemple.info.info import (show_info, non_existing_handle)
+from cookietemple.info.info import show_info
 
 """
     This test class is for testing the info subcommand:
@@ -29,10 +29,10 @@ def get_valid_handles_domain_subdomain():
 
 @pytest.mark.skip(reason="Idk how to test this: We have to use mocking in some way")
 def test_empty_info_handle():
-    show_info('')  # how to test interactive functions (click.prompt)?
+    show_info('')
 
 
-def test_non_existing_handle(get_invalid_handles, capfd):
+def test_non_existing_handle(get_invalid_handles, capfd) -> None:
     for invalid in get_invalid_handles:
         with pytest.raises(SystemExit):
             show_info(invalid)
@@ -40,7 +40,7 @@ def test_non_existing_handle(get_invalid_handles, capfd):
             assert out == 'Handle does not exist. Please enter a valid handle. Use ' + 'cookietemple list' + ' to display all template handles.'
 
 
-def test_valid_handles_domain_only(get_valid_handles_domain_only, capfd):
+def test_valid_handles_domain_only(get_valid_handles_domain_only, capfd) -> None:
     for valid_domain in get_valid_handles_domain_only:
         show_info(valid_domain)
         out, err = capfd.readouterr()
@@ -48,13 +48,14 @@ def test_valid_handles_domain_only(get_valid_handles_domain_only, capfd):
         if valid_domain is 'cli':
             assert out.startswith('\nTemplate info for cli\n\npython:\n  handle: cli-python\n  version: 0.0.1\n')
         elif valid_domain is 'web':
-            assert out.startswith('\nTemplate info for web\n\nwebsite:\n  python:\n    handle: web-website-python\n    version: 0.0.1\n')
+            assert out.startswith(
+                '\nTemplate info for web\n\nwebsite:\n  python:\n    handle: web-website-python\n    version: 0.0.1\n')
         elif valid_domain is 'gui':
             assert out.startswith('\nTemplate info for gui\n\npython:\n  handle: gui-python\n')
 
 
 @pytest.mark.xfail
-def test_valid_handles_domain_and_subdomain(get_valid_handles_domain_subdomain, capfd):
+def test_valid_handles_domain_and_subdomain(get_valid_handles_domain_subdomain, capfd) -> None:
     for valid_domain_subdomain in get_valid_handles_domain_subdomain:
         show_info(valid_domain_subdomain)
         out, err = capfd.readouterr()
@@ -68,6 +69,6 @@ def test_valid_handles_domain_and_subdomain(get_valid_handles_domain_subdomain, 
             'web-python': '\nTemplate info for web\n\nwebsite:\n  python:\n',
             'web-python_website': '\nSOME TEXT!!',
             'web-python-rest': '\nSOME TEXTAGAIN!!'
-            }
+        }
 
         assert out.startswith(switcher.get(valid_domain_subdomain))
