@@ -32,8 +32,8 @@ def website_front_end_tests(path) -> set:
     return {Path(f"{path}/projectname/handlers"), Path(f"{path}/projectname/static"),
             Path(f"{path}/projectname/templates"),
             Path(f"{path}/projectname/translations"), Path(f"{path}/projectname/app.py"),
-            Path(f"{path}/projectname/config.py")
-        , Path(f"{path}/projectname/__init__.py"), Path(f"{path}/projectname/server.py")}
+            Path(f"{path}/projectname/config.py"),
+            Path(f"{path}/projectname/__init__.py"), Path(f"{path}/projectname/server.py")}
 
 
 def subdir_tests(path) -> set:
@@ -56,14 +56,15 @@ def posix_path_super_dir(path) -> set:
             Path(f"{path}/tox.ini")}
 
 
-# test creation of a simple cli python template
-"""
-    This test tests the creation of a whole python flask website template without GitHub Repo creation!
-"""
-
-
 # TODO: USE LINTING (LIKE NF CORE TOOLS) TO TEST COOKIECUTTER WITH EXTRA_CONTENT
 def test_choose_domain_web_website_flask(monkeypatch, valid_domains, tmp_path) -> None:
+    """
+    This test tests the creation of a whole python flask website template without GitHub Repo creation!
+
+    :param monkeypatch:
+    :param valid_domains:
+    :param tmp_path:
+    """
     prompt = StringIO(f"{valid_domains[2]}\npython\nname\nmail\nprojectname\ndesc\n0.1"
                       f"\nMIT\nmyGitHubName\npypiname\nClick\npytest\nwebsite\nflask\ndmydomain.com\nvmname\nn")
     monkeypatch.setattr('sys.stdin', prompt)
@@ -78,14 +79,17 @@ def test_choose_domain_web_website_flask(monkeypatch, valid_domains, tmp_path) -
             set(Path(tmp_path / "deployment_scripts").iterdir()) == deployment_script_tests(tmp_path))
 
 
-"""
-    This test ensures that the creation of a flask website template is canceled if it already exists and the user
-    doesn´t want it to be overwritten.
-"""
-
-
 # TODO: Use Linter to ensure that nothing changed (cookiecutter extra content)
 def test_repo_already_exists_no_overwrite_if_false(mocker, monkeypatch, capfd, valid_domains) -> None:
+    """
+    This test ensures that the creation of a flask website template is canceled if it already exists and the user
+    doesn´t want it to be overwritten.
+
+    :param mocker:
+    :param monkeypatch:
+    :param capfd:
+    :param valid_domains:
+    """
     mocker.patch.object(os.path, 'isdir', autospec=True)
     os.path.isdir.return_value = True
     prompt = StringIO(f"{valid_domains[2]}\npython\nname\nmail\nprojectname\ndesc\n0.1"

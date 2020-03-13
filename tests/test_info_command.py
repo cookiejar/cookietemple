@@ -55,12 +55,12 @@ def test_valid_handles_domain_only(get_valid_handles_domain_only, capfd) -> None
         show_info(valid_domain)
         out, err = capfd.readouterr()
 
-        if valid_domain is 'cli':
+        if valid_domain == 'cli':
             assert out.startswith('\nTemplate info for cli\n\npython:\n  handle: cli-python\n  version: 0.0.1\n')
-        elif valid_domain is 'web':
+        elif valid_domain == 'web':
             assert out.startswith(
                 '\nTemplate info for web\n\nwebsite:\n  python:\n    handle: web-website-python\n    version: 0.0.1\n')
-        elif valid_domain is 'gui':
+        elif valid_domain == 'gui':
             assert out.startswith('\nTemplate info for gui\n\npython:\n  handle: gui-python\n')
 
 

@@ -107,7 +107,8 @@ def create_push_github_repository(project_name: str, project_description: str, t
     conducted_subprocesses.append(ConductedSubprocess(git_push_master,
                                                       'git push origin master',
                                                       # Ignore PycodestyleBear (E501)
-                                                      rf'git push -u https://{github_username}:github_password@github.com/{github_username}/{project_name} --all',
+                                                      (rf'git push -u'
+                                                       rf' https://{github_username}:github_password@github.com/{github_username}/{project_name} --all'),
                                                       git_push_master_stdout,
                                                       git_push_master_stderr))
 
