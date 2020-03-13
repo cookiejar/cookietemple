@@ -1,4 +1,4 @@
-name: Run Cookietemple Tox Test Suite
+name: Build Cookietemple Package
 
 on: [push]
 
@@ -12,11 +12,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        name: Check out source-code repository
+
       - name: Setup Python
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python }}
-      - name: Install Tox
-        run: pip install tox
-      - name: Run Tox
-        run: tox -e py  # Run tox using the version of Python in `PATH`
+
+      - name: Build Cookietemple
+        run: python setup.py clean --all install
