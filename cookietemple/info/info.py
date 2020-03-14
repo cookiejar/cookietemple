@@ -80,7 +80,9 @@ def non_existing_handle():
 def handle_errorness_command(handle: str):
     most_sim = most_similar_command(handle)
     if most_sim != "":
-        click.echo(click.style(f'Unknown handle \'{handle}\'.\n\nDid you mean \'{most_sim}\'?', fg='red'))
+        click.echo(click.style(
+            f'cookietemple info: unknown handle \'{handle}\'. See cookietemple list for all valid handles.\n\nDid you mean\n    \'{most_sim}\'?',
+            fg='red'))
         sys.exit(0)
     else:
         non_existing_handle()
