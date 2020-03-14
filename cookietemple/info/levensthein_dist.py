@@ -17,8 +17,8 @@ def levensthein_dist(input_command: str, candidate: str) -> int:
     :return: The similarity between the two strings measured by the levensthein distance
     """
 
-    if not input_command or not candidate: return max(len(input_command),
-                                                      len(candidate))  # at least one string is empty
+    if not input_command or not candidate:
+        return max(len(input_command), len(candidate))  # at least one string is empty
 
     dp_table = [[0 for col in range(len(input_command) + 1)] for row in range(len(candidate) + 1)]
 
