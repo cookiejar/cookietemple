@@ -28,8 +28,10 @@ def show_info(handle: str):
     """
     if not handle:
         handle = click.prompt('Please enter the possibly incomplete template handle as <<domain-(subdomain)-('
-                              'language)>>. Examples: \'cli-python\' or \'cli\'',
+                              'language)>>.\nExamples: \'cli-python\' or \'cli\'',
                               type=str)
+    click.echo()
+    click.echo()
     available_templates = load_available_templates(f'{TEMPLATES_PATH}/available_templates.yaml')
 
     specifiers = handle.split('-')
@@ -81,7 +83,8 @@ def handle_errorness_command(handle: str):
     most_sim = most_similar_command(handle)
     if most_sim != "":
         click.echo(click.style(
-            f'cookietemple info: unknown handle \'{handle}\'. See cookietemple list for all valid handles.\n\nDid you mean\n    \'{most_sim}\'?',
+            f'cookietemple info: ', fg='white') + click.style(
+            f'unknown handle \'{handle}\'. See cookietemple list for all valid handles.\n\nDid you mean\n    \'{most_sim}\'?',
             fg='red'))
         sys.exit(0)
     else:
