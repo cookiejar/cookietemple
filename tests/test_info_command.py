@@ -94,7 +94,7 @@ def test_levensthein_dist() -> None:
             levensthein_dist("lululul", "") == 7 and levensthein_dist("intention", "execution") == 5)
 
 
-@pytest.skip
+@pytest.mark.skip(reason="Tomorrow")
 def test_most_similar_command() -> None:
     """
     TODO: TIRED WILL DO THIS TOMORROW BECAUSE WE NEED GOOD TESTCASES
