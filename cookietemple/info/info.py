@@ -41,11 +41,7 @@ def show_info(handle: str):
         try:
             template_info = available_templates[domain]
         except KeyError:
-            most_sim = most_similar_command(handle)
-            if most_sim != "":
-                click.echo(click.style(f'Unknown handle \'{handle}\'.\n Did you mean \'{most_sim}\'', fg='red'))
-            else:
-                non_existing_handle()
+            handle_errorness_command(handle)
     # domain, subdomain, language
     elif len(specifiers) > 2:
         try:
@@ -53,22 +49,14 @@ def show_info(handle: str):
             language = specifiers[2]
             template_info = available_templates[domain][sub_domain][language]
         except KeyError:
-            most_sim = most_similar_command(handle)
-            if most_sim != "":
-                click.echo(click.style(f'Unknown handle \'{handle}\'.\n Did you mean \'{most_sim}\'', fg='red'))
-            else:
-                non_existing_handle()
+            handle_errorness_command(handle)
     # domain, language OR domain, subdomain
     else:
         try:
             second_specifier = specifiers[1]
             template_info = available_templates[domain][second_specifier]
         except KeyError:
-            most_sim = most_similar_command(handle)
-            if most_sim != "":
-                click.echo(click.style(f'Unknown handle \'{handle}\'.\n Did you mean \'{most_sim}\'', fg='red'))
-            else:
-                non_existing_handle()
+            handle_errorness_command(handle)
 
     yaml = YAML()
     click.echo(click.style(f'Template info for {handle}\n', fg='green'))
@@ -87,3 +75,12 @@ def non_existing_handle():
                + click.style('cookietemple list', fg='blue')
                + click.style(' to display all template handles.', fg='red'))
     sys.exit(0)
+
+
+def handle_errorness_command(handle: str):
+    most_sim = most_similar_command(handle)
+    if most_sim != "":
+        click.echo(click.style(f'Unknown handle \'{handle}\'.\n\nDid you mean \'{most_sim}\'?', fg='red'))
+        sys.exit(0)
+    else:
+        non_existing_handle()
