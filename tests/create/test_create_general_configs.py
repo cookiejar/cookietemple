@@ -80,6 +80,8 @@ def test_del_dir_tree(tmp_path) -> None:
     b.mkdir()
     p = dir / "hello.txt"
     p.write_text("HelloTESTFILE")
+    af = a / "MyATestFile"  # noqa: F841
+    bf = b / "MyBTestFile"  # noqa: F841
 
     delete_dir_tree(dir)
     assert len(list(tmp_path.iterdir())) == 0

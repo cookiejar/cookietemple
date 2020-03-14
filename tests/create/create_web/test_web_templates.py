@@ -60,10 +60,6 @@ def posix_path_super_dir(path) -> set:
 def test_choose_domain_web_website_flask(monkeypatch, valid_domains, tmp_path) -> None:
     """
     This test tests the creation of a whole python flask website template without GitHub Repo creation!
-
-    :param monkeypatch:
-    :param valid_domains:
-    :param tmp_path:
     """
     prompt = StringIO(f"{valid_domains[2]}\npython\nname\nmail\nprojectname\ndesc\n0.1"
                       f"\nMIT\nmyGitHubName\npypiname\nClick\npytest\nwebsite\nflask\ndmydomain.com\nvmname\nn")
@@ -84,11 +80,6 @@ def test_repo_already_exists_no_overwrite_if_false(mocker, monkeypatch, capfd, v
     """
     This test ensures that the creation of a flask website template is canceled if it already exists and the user
     doesn´t want it to be overwritten.
-
-    :param mocker:
-    :param monkeypatch:
-    :param capfd:
-    :param valid_domains:
     """
     mocker.patch.object(os.path, 'isdir', autospec=True)
     os.path.isdir.return_value = True
