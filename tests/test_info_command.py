@@ -2,17 +2,19 @@ import pytest
 from cookietemple.info.info import show_info
 
 """
-    This test class is for testing the info subcommand:
+This test class is for testing the info subcommand:
 
-    Syntax: cookietemple info [domain](-)([subdomain])
+Syntax: cookietemple info [domain](-)([subdomain])
 
-    A non existing or not understood domain/subdomain should result in a KeyError
+A non existing or not understood domain/subdomain should result in a KeyError
 """
 
 
-# define some invalid handles
 @pytest.fixture()
 def get_invalid_handles():
+    """
+    Defines invalids handlers
+    """
     return ['pythOn', '1234', 'Aw3s0m3', 'javaa', 'python--web', 'java-web', 'web-kotlin']
 
 
@@ -32,12 +34,11 @@ def test_empty_info_handle():
     show_info('')
 
 
-"""
-    Ensure that a non-valid/existing handle will trigger an error message
-"""
-
-
 def test_non_existing_handle(get_invalid_handles, capfd) -> None:
+    """
+    Ensure that a non-valid/existing handle will trigger an error message
+    """
+
     for invalid in get_invalid_handles:
         with pytest.raises(SystemExit):
             show_info(invalid)
@@ -45,12 +46,11 @@ def test_non_existing_handle(get_invalid_handles, capfd) -> None:
             assert out == 'Handle does not exist. Please enter a valid handle. Use ' + 'cookietemple list' + ' to display all template handles.'
 
 
-"""
-    Ensure that valid handles will be displayed properly by the info command.
-"""
-
-
 def test_valid_handles_domain_only(get_valid_handles_domain_only, capfd) -> None:
+    """
+    Ensure that valid handles will be displayed properly by the info command.
+    """
+
     for valid_domain in get_valid_handles_domain_only:
         show_info(valid_domain)
         out, err = capfd.readouterr()
