@@ -7,6 +7,7 @@ import click
 from ruamel.yaml import YAML
 
 from cookietemple.list.list import load_available_templates
+from .levensthein_dist import most_similar_command
 
 console = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -26,11 +27,10 @@ def show_info(handle: str):
     :param handle: domain/language/template handle (examples: cli or cli-python)
     """
     if not handle:
-        handle = click.prompt('Please enter the possibly incomplete template handle. Examples: \'cli-python\' or \'cli\'',
+        handle = click.prompt('Please enter the possibly incomplete template handle as <<domain-(subdomain)-('
+                              'language)>>. Examples: \'cli-python\' or \'cli\'',
                               type=str)
     available_templates = load_available_templates(f'{TEMPLATES_PATH}/available_templates.yaml')
-    click.echo()
-    click.echo(click.style(f'Template info for {handle}\n', fg='green'))
 
     specifiers = handle.split('-')
     domain = specifiers[0]
@@ -41,7 +41,11 @@ def show_info(handle: str):
         try:
             template_info = available_templates[domain]
         except KeyError:
-            non_existing_handle()
+            most_sim = most_similar_command(handle)
+            if most_sim != "":
+                click.echo(click.style(f'Unknown handle \'{handle}\'.\n Did you mean \'{most_sim}\'', fg='red'))
+            else:
+                non_existing_handle()
     # domain, subdomain, language
     elif len(specifiers) > 2:
         try:
@@ -49,16 +53,26 @@ def show_info(handle: str):
             language = specifiers[2]
             template_info = available_templates[domain][sub_domain][language]
         except KeyError:
-            non_existing_handle()
+            most_sim = most_similar_command(handle)
+            if most_sim != "":
+                click.echo(click.style(f'Unknown handle \'{handle}\'.\n Did you mean \'{most_sim}\'', fg='red'))
+            else:
+                non_existing_handle()
     # domain, language OR domain, subdomain
     else:
         try:
             second_specifier = specifiers[1]
             template_info = available_templates[domain][second_specifier]
         except KeyError:
-            non_existing_handle()
+            most_sim = most_similar_command(handle)
+            if most_sim != "":
+                click.echo(click.style(f'Unknown handle \'{handle}\'.\n Did you mean \'{most_sim}\'', fg='red'))
+            else:
+                non_existing_handle()
 
     yaml = YAML()
+    click.echo(click.style(f'Template info for {handle}\n', fg='green'))
+    click.echo()
     yaml.dump(template_info, sys.stdout)
 
 
