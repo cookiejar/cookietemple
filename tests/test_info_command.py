@@ -1,6 +1,6 @@
 import pytest
 from cookietemple.info.info import show_info
-from cookietemple.info.levensthein_dist import (levensthein_dist,most_similar_command)
+from cookietemple.info.levensthein_dist import (levensthein_dist, most_similar_command)
 
 """
 This test class is for testing the info subcommand:
@@ -94,8 +94,10 @@ def test_levensthein_dist() -> None:
             levensthein_dist("lululul", "") == 7 and levensthein_dist("intention", "execution") == 5)
 
 
+@pytest.skip
 def test_most_similar_command() -> None:
     """
     TODO: TIRED WILL DO THIS TOMORROW BECAUSE WE NEED GOOD TESTCASES
     :return:
     """
+    most_similar_command()
