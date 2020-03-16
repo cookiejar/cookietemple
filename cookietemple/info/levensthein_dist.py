@@ -50,7 +50,7 @@ def most_similar_command(command: str) -> str:
     :param command: The command given by the user
     :return: A similar command or the empty string if there's none
     """
-    min = 1000  # some random large integer -> we will never have handles that are larger than 1000 character
+    min = 999999  # some random large integer -> we will never have handles that are larger than 1000 character
     sim_command = ""
 
     # for each valid handle calculate the levensthein distance and if one is found that is a new minimal distance,
