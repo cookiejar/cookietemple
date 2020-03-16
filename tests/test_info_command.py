@@ -88,7 +88,6 @@ def test_levensthein_dist() -> None:
     """
     This test tests our implemented levensthein distance function for measuring string similarity.
     (Accepted at leetcode so should be correct)
-    :return:
     """
     assert (levensthein_dist("horse", "ros") == 3 and levensthein_dist("", "hello") == 5 and
             levensthein_dist("lululul", "") == 7 and levensthein_dist("intention", "execution") == 5)
