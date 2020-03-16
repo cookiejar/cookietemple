@@ -27,7 +27,7 @@ web:
             long description: someLongDescription
     rest_api:
         python:
-            handle: web-rest_api-python
+            handle: web-restapi-python
             version: 0.0.1
             available libraries: flask
             short description: someShortDescription

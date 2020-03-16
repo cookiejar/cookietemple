@@ -6,7 +6,9 @@ import click
 
 from ruamel.yaml import YAML
 
+from cookietemple.info.levensthein_dist import most_similar_command
 from cookietemple.list.list import load_available_templates
+
 
 console = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -26,11 +28,12 @@ def show_info(handle: str):
     :param handle: domain/language/template handle (examples: cli or cli-python)
     """
     if not handle:
-        handle = click.prompt('Please enter the possibly incomplete template handle. Examples: \'cli-python\' or \'cli\'',
+        handle = click.prompt('Please enter the possibly incomplete template handle as <<domain-(subdomain)-('
+                              'language)>>.\nExamples: \'cli-python\' or \'cli\'',
                               type=str)
-    available_templates = load_available_templates(f'{TEMPLATES_PATH}/available_templates.yaml')
     click.echo()
-    click.echo(click.style(f'Template info for {handle}\n', fg='green'))
+    click.echo()
+    available_templates = load_available_templates(f'{TEMPLATES_PATH}/available_templates.yaml')
 
     specifiers = handle.split('-')
     domain = specifiers[0]
@@ -41,7 +44,7 @@ def show_info(handle: str):
         try:
             template_info = available_templates[domain]
         except KeyError:
-            non_existing_handle()
+            handle_non_existing_command(handle)
     # domain, subdomain, language
     elif len(specifiers) > 2:
         try:
@@ -49,16 +52,18 @@ def show_info(handle: str):
             language = specifiers[2]
             template_info = available_templates[domain][sub_domain][language]
         except KeyError:
-            non_existing_handle()
+            handle_non_existing_command(handle)
     # domain, language OR domain, subdomain
     else:
         try:
             second_specifier = specifiers[1]
             template_info = available_templates[domain][second_specifier]
         except KeyError:
-            non_existing_handle()
+            handle_non_existing_command(handle)
 
     yaml = YAML()
+    click.echo(click.style(f'Template info for {handle}\n', fg='green'))
+    click.echo()
     yaml.dump(template_info, sys.stdout)
 
 
@@ -73,3 +78,15 @@ def non_existing_handle():
                + click.style('cookietemple list', fg='blue')
                + click.style(' to display all template handles.', fg='red'))
     sys.exit(0)
+
+
+def handle_non_existing_command(handle: str):
+    most_sim = most_similar_command(handle)
+    if most_sim != "":
+        click.echo(click.style(
+            f'cookietemple info: ', fg='white') + click.style(
+            f'unknown handle \'{handle}\'. See cookietemple list for all valid handles.\n\nDid you mean\n    \'{most_sim}\'?',
+            fg='red'))
+        sys.exit(0)
+    else:
+        non_existing_handle()
