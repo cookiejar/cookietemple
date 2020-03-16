@@ -26,23 +26,15 @@ def bump_template_version() -> None:
     new_version = parser.get('bumpversion', 'new_version')
 
     for file, path in parser.items('bumpversion_files'):
-        replace(path,'v[0-9]+.[0-9]+.[0-9]+',str(new_version))
+        replace(path, 'v[0-9]+.[0-9]+.[0-9]+', str(new_version))
 
-
-def handle_bump_version_per_file(path: str) -> None:
-    """
-    This function is a helper function for above. It gets a path as input, reads the file and updates
-    the version number unless its marked (blacklisted: <<COOKIETEMPLE_NO_BUMP>>)
-    :param path: Path to the file, where version numbers should be updated
-    """
-    replace(path,'^v[0-9]+.[0-9]+.[0-9]+$')
 
 def replace(file_path, pattern, subst) -> None:
     """
-    This
-    :param file_path:
-    :param pattern:
-    :param subst:
+    This function actually replaces a version with the new version unless its blacklisted!
+    :param file_path: The file where the version should be updated
+    :param pattern: Constantly were searching for v[0-9]+.[0-9]+.[0-9]+
+    :param subst: This should be replaced with the new version
     """
     # Create temp file
     fh, abs_path = mkstemp()
