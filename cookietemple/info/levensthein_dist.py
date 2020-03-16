@@ -53,6 +53,8 @@ def most_similar_command(command: str) -> str:
     min = 1000  # some random large integer -> we will never have handles that are larger than 1000 character
     sim_command = ""
 
+    # for each valid handle calculate the levensthein distance and if one is found that is a new minimal distance,
+    # replace it and take this handle as the most similar command.
     for handle in AVAILABLE_HANDLES:
         dist = levensthein_dist(command, handle)
         lim = int(len(command) * SIMILARITY_FACTOR)

@@ -6,8 +6,9 @@ import click
 
 from ruamel.yaml import YAML
 
+from cookietemple.info.levensthein_dist import most_similar_command
 from cookietemple.list.list import load_available_templates
-from .levensthein_dist import most_similar_command
+
 
 console = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -43,7 +44,7 @@ def show_info(handle: str):
         try:
             template_info = available_templates[domain]
         except KeyError:
-            handle_errorness_command(handle)
+            handle_non_existing_command(handle)
     # domain, subdomain, language
     elif len(specifiers) > 2:
         try:
@@ -51,14 +52,14 @@ def show_info(handle: str):
             language = specifiers[2]
             template_info = available_templates[domain][sub_domain][language]
         except KeyError:
-            handle_errorness_command(handle)
+            handle_non_existing_command(handle)
     # domain, language OR domain, subdomain
     else:
         try:
             second_specifier = specifiers[1]
             template_info = available_templates[domain][second_specifier]
         except KeyError:
-            handle_errorness_command(handle)
+            handle_non_existing_command(handle)
 
     yaml = YAML()
     click.echo(click.style(f'Template info for {handle}\n', fg='green'))
@@ -79,7 +80,7 @@ def non_existing_handle():
     sys.exit(0)
 
 
-def handle_errorness_command(handle: str):
+def handle_non_existing_command(handle: str):
     most_sim = most_similar_command(handle)
     if most_sim != "":
         click.echo(click.style(
