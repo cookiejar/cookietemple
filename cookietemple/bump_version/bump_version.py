@@ -23,27 +23,35 @@ def bump_template_version() -> None:
     parser = SafeConfigParser()
     parser.read('cookietemple/bump_version/bump_version.cfg')
 
+    current_version = parser.get('bumpversion', 'current_version')
     new_version = parser.get('bumpversion', 'new_version')
 
+    click.echo(click.style(f'Changing version number.\nCurrent version is {current_version}.'
+                           f'\nNew version will be {new_version}\n', fg='blue'))
+
     for file, path in parser.items('bumpversion_files'):
-        replace(path, 'v[0-9]+.[0-9]+.[0-9]+', str(new_version))
+        replace(path, str(new_version)[1:])
 
 
-def replace(file_path, pattern, subst) -> None:
+def replace(file_path, subst) -> None:
     """
     This function actually replaces a version with the new version unless its blacklisted!
     :param file_path: The file where the version should be updated
-    :param pattern: Constantly were searching for v[0-9]+.[0-9]+.[0-9]+
-    :param subst: This should be replaced with the new version
+    :param subst: The new version that replaced
     """
     # Create temp file
     fh, abs_path = mkstemp()
     with fdopen(fh, 'w') as new_file:
         with open(file_path) as old_file:
+            click.echo(click.style(f'Updating version number in {file_path}', fg='blue'))
             for line in old_file:
                 if "<<COOKIETEMPLE_NO_BUMP>>" not in line:
-                    tmp = re.sub(pattern, subst, line)
+                    tmp = re.sub(r"[0-9]+.[0-9]+.[0-9]+", subst, line)
                     new_file.write(tmp)
+                    if tmp != line:
+                        click.echo(click.style(
+                            f'- {line}', fg='red') + click.style(
+                            f'+ {tmp}', fg='green'))
                 else:
                     new_file.write(line)
     # Copy the file permissions from the old file to the new file
