@@ -8,6 +8,8 @@ from tempfile import mkstemp
 from shutil import move, copymode
 from os import fdopen, remove
 
+import sys
+
 console = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 console.setFormatter(formatter)
@@ -16,7 +18,7 @@ LOG.addHandler(console)
 LOG.setLevel(logging.INFO)
 
 
-def bump_template_version() -> None:
+def bump_template_version(new_version: str) -> None:
     """
     This function updates the function for all files that are whitelisted in the config file
     """
@@ -24,13 +26,13 @@ def bump_template_version() -> None:
     parser.read('cookietemple/bump_version/bump_version.cfg')
 
     current_version = parser.get('bumpversion', 'current_version')
-    new_version = parser.get('bumpversion', 'new_version')
+    # TODO Write new version to current version
 
     click.echo(click.style(f'Changing version number.\nCurrent version is {current_version}.'
                            f'\nNew version will be {new_version}\n', fg='blue'))
 
     for file, path in parser.items('bumpversion_files'):
-        replace(path, str(new_version)[1:])
+        replace(path, new_version)
 
 
 def replace(file_path, subst) -> None:

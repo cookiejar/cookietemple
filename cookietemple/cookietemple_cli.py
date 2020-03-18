@@ -5,6 +5,7 @@ import logging
 import os
 import sys
 import click
+import re
 
 from cookietemple.bump_version.bump_version import bump_template_version
 from cookietemple.create.create import choose_domain
@@ -99,12 +100,23 @@ def sync():
 
 
 @cookietemple_cli.command(help_priority=6)
-def bump_version():
+@click.option('--new_version', type=str)
+def bump_version(new_version):
     """
     Bump the version of an existing COOKIETEMPLE project
 
     """
-    bump_template_version()
+    if not new_version:
+        click.echo(click.style(f'No new version specified.\nPlease specify a new version using '
+                               f'\'cookietemple bump_version --new_version=my.new.version\'', fg='red'))
+        sys.exit(0)
+
+    elif not re.match(r"[0-9]+.[0-9]+.[0-9]+", new_version):
+        click.echo(click.style(f'Invalid version specified!\nEnsure your version number has the form like '
+                               f'0.0.0 or 15.100.239', fg='red'))
+        sys.exit(0)
+
+    bump_template_version(new_version)
 
 
 if __name__ == '__main__':
