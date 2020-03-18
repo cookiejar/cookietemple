@@ -6,6 +6,7 @@ import os
 import sys
 import click
 import re
+from pathlib import Path
 
 from cookietemple.bump_version.bump_version import bump_template_version
 from cookietemple.create.create import choose_domain
@@ -100,8 +101,9 @@ def sync():
 
 
 @cookietemple_cli.command(help_priority=6)
-@click.option('--new_version', type=str)
-def bump_version(new_version):
+@click.argument('new_version', type=str)
+@click.argument('pipeline_dir', type=click.Path(), default=Path(f'{Path.cwd()}'))
+def bump_version(new_version, pipeline_dir):
     """
     Bump the version of an existing COOKIETEMPLE project
 
@@ -116,7 +118,12 @@ def bump_version(new_version):
                                f'0.0.0 or 15.100.239', fg='red'))
         sys.exit(0)
 
-    bump_template_version(new_version)
+    elif not Path(f'{pipeline_dir}/bump_version.cfg').is_file():
+        click.echo(click.style(f'Did not found a bump_version.cfg file. Make sure you are in the right directory'
+                               f'or specify the path to your projects bump_version.cfg file', fg='red'))
+        sys.exit(0)
+
+    bump_template_version(new_version, pipeline_dir)
 
 
 if __name__ == '__main__':
