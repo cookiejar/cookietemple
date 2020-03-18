@@ -8,7 +8,6 @@ from tempfile import mkstemp
 from shutil import move, copymode
 from os import fdopen, remove
 
-import sys
 
 console = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -24,15 +23,17 @@ def bump_template_version(new_version: str) -> None:
     """
     parser = SafeConfigParser()
     parser.read('cookietemple/bump_version/bump_version.cfg')
-
     current_version = parser.get('bumpversion', 'current_version')
-    # TODO Write new version to current version
 
     click.echo(click.style(f'Changing version number.\nCurrent version is {current_version}.'
                            f'\nNew version will be {new_version}\n', fg='blue'))
 
     for file, path in parser.items('bumpversion_files'):
         replace(path, new_version)
+
+    parser.set('bumpversion', 'current_version', new_version)
+    with open('cookietemple/bump_version/bump_version.cfg', 'w') as configfile:
+        parser.write(configfile)
 
 
 def replace(file_path, subst) -> None:
