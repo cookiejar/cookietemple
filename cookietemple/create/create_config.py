@@ -1,5 +1,6 @@
 import os
 import click
+import re
 
 # The main dictionary, which will be completed by first the general options prompts and then the chosen template
 # specific prompts. It is then passed onto cookiecutter as extra_content to facilitate the template creation.
@@ -31,9 +32,21 @@ def prompt_general_template_configuration():
     TEMPLATE_STRUCT['project_short_description'] = click.prompt('Please enter a short description of yor project.',
                                                                 type=str,
                                                                 default=f'{TEMPLATE_STRUCT["project_name"]}. A best practice .')
-    TEMPLATE_STRUCT['version'] = click.prompt('Please enter the initial version of your project.',
-                                              type=str,
-                                              default='0.1.0')
-    TEMPLATE_STRUCT['license'] = click.prompt('Please choose a license [MIT, BSD, ISC, Apache2.0, GNUv3, Not open source]',
-                                              type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Not open source']),
-                                              default='MIT')
+
+    poss_vers = click.prompt('Please enter the initial version of your project.',
+                             type=str,
+                             default='0.1.0')
+
+    while not re.match(r"[0-9]+.[0-9]+.[0-9]+", poss_vers):
+        click.echo(click.style(f'The version number entered does not match cookietemples pattern.\n'
+                               f'Please enter the version in the format [number].[number].[number]!', fg='red'))
+        poss_vers = click.prompt('Please enter the initial version of your project.',
+                                 type=str,
+                                 default='0.1.0')
+
+    TEMPLATE_STRUCT['version'] = poss_vers
+
+    TEMPLATE_STRUCT['license'] = click.prompt(
+        'Please choose a license [MIT, BSD, ISC, Apache2.0, GNUv3, Not open source]',
+        type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Not open source']),
+        default='MIT')

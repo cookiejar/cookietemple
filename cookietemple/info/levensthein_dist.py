@@ -63,7 +63,7 @@ def most_similar_command(command: str, command_list: list) -> list:
         lim = int(len(command) * SIMILARITY_FACTOR)
 
         if lim >= dist:
-            if min > dist: #and min >= dist:
+            if min > dist:  # and min >= dist:
                 min = dist
                 sim_command = [handle]
             elif min == dist:
