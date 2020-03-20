@@ -22,8 +22,7 @@ def docs_subdir(path) -> set:
 
 
 def subdir_tests(path) -> set:
-    return {Path(f"{path}/tests/__init__.py"), Path(f"{path}/tests/test_projectname.py"),
-            Path(f"{path}/tests/__pycache__")}
+    return {Path(f"{path}/tests/__init__.py"), Path(f"{path}/tests/test_projectname.py")}
 
 
 def subdir_maindir(path) -> set:
