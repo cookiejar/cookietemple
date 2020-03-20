@@ -1,6 +1,6 @@
 import pytest
 from cookietemple.info.info import show_info
-from cookietemple.info.levensthein_dist import (levensthein_dist, most_similar_command)
+from cookietemple.info.levensthein_dist import (levensthein_dist, most_similar_command, AVAILABLE_HANDLES)
 
 """
 This test class is for testing the info subcommand:
@@ -28,6 +28,31 @@ def get_valid_handles_domain_only():
 def get_valid_handles_domain_subdomain():
     return ['cli-python', 'cli-java', 'cli-kotlin', 'web-python', 'gui-python', 'gui-java', 'web-python_website',
             'web-python-rest']
+
+
+@pytest.fixture()
+def get_commands_with_similar_command_cli():
+    return ['clo', 'clk', 'vli', 'xli', 'cl i']
+
+
+@pytest.fixture()
+def get_commands_with_similar_command_gui():
+    return ['guo', 'gzi', 'hui', 'fui', 'gui']
+
+
+@pytest.fixture()
+def get_commands_with_similar_command_web():
+    return ['wsb', 'wrb', 'eeb', 'wev', 'wen', 'weg']
+
+
+@pytest.fixture()
+def get_commands_with_similar_command_cli_with_language():
+    return ['cli-pyton', 'clipython', 'cli pyton', 'clipyton', 'clupython']
+
+
+@pytest.fixture()
+def get_commands_with_similar_command_gui_with_language():
+    return ['gui-pyton', 'guipyton', 'gui python', 'gui pyton', 'guipyton']
 
 
 @pytest.mark.skip(reason="Idk how to test this: We have to use mocking in some way")
@@ -93,10 +118,47 @@ def test_levensthein_dist() -> None:
             levensthein_dist("lululul", "") == 7 and levensthein_dist("intention", "execution") == 5)
 
 
-@pytest.mark.skip(reason="Tomorrow")
-def test_most_similar_command() -> None:
+def test_most_similar_command_cli(get_commands_with_similar_command_cli) -> None:
     """
-    TODO: TIRED WILL DO THIS TOMORROW BECAUSE WE NEED GOOD TESTCASES
-    :return:
+    This test tests our most similar command suggestion if the user enters a domain/subdomain unknown
+    to cookietemple.
+    It should suggest a similar command within a certain range of similarity (e.g clo -> cli;
+    but not cko -> cli).
+
+    The output is a (possible empty) list with similar commands (thus, having the same levensthein distance to
+    what the user entered).
     """
-    most_similar_command()
+    for com in get_commands_with_similar_command_cli:
+        assert most_similar_command(com, AVAILABLE_HANDLES) == ['cli']
+
+
+def test_most_similar_command_web(get_commands_with_similar_command_web) -> None:
+    """
+    This test the most similar command for web (without any subdomain)
+    """
+    for com in get_commands_with_similar_command_web:
+        assert most_similar_command(com, AVAILABLE_HANDLES) == ['web']
+
+
+def test_most_similar_command_gui(get_commands_with_similar_command_gui) -> None:
+    """
+    This test the most similar command for gui (without any subdomain)
+    """
+    for com in get_commands_with_similar_command_gui:
+        assert most_similar_command(com, AVAILABLE_HANDLES) == ['gui']
+
+
+def test_most_similar_command_cli_with_language(get_commands_with_similar_command_cli_with_language) -> None:
+    """
+    This test the most similar command for cli with language specified
+    """
+    for com in get_commands_with_similar_command_cli_with_language:
+        assert most_similar_command(com, AVAILABLE_HANDLES) == ['cli-python']
+
+
+def test_most_similar_command_gui_with_language(get_commands_with_similar_command_gui_with_language) -> None:
+    """
+    This test the most similar command for gui with language specified
+    """
+    for com in get_commands_with_similar_command_gui_with_language:
+        assert most_similar_command(com, AVAILABLE_HANDLES) == ['gui-python']
