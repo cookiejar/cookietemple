@@ -1,17 +1,20 @@
 cli:
     python:
+        name: Python Commandline Package
         handle: cli-python
         version: 0.0.1
         available libraries: click, argparse
         short description: General Python package with command line interface
         long description: Best practice Python package with optional command line support (click, argparse). Pytest or unittest are available as testing libraries. The package can be easily locally installed and distributed on pypi even with non python files.
     java:
+        name: Java Commandline Tool
         handle: cli-java
         version: 0.0.1
         available libraries: picocli
         short description: someShortDescription
         long description: someLongDescription
     kotlin:
+        name: Kotlin Commandline Tool
         handle: cli-kotlin
         version: 0.0.1
         available libraries: picocli
@@ -20,6 +23,7 @@ cli:
 web:
     website:
         python:
+            name: TODO
             handle: web-website-python
             version: 0.0.1
             available libraries: flask
@@ -27,6 +31,7 @@ web:
             long description: someLongDescription
     rest_api:
         python:
+            name: TODO
             handle: web-restapi-python
             version: 0.0.1
             available libraries: flask
@@ -34,13 +39,22 @@ web:
             long description: someLongDescription
 gui:
     python:
+        name: TODO
         handle: gui-python
         version: 0.0.1
         available libraries: Qt
         short description: someShortDescription
         long description: someLongDescription
     java:
+        name: TODO
         handle: gui-java
+        version: 0.0.1
+        available libraries: JavaFX
+        short description: someShortDescription
+        long description: someLongDescription
+    kotlin:
+        name: TODO
+        handle: gui-kotlin
         version: 0.0.1
         available libraries: JavaFX
         short description: someShortDescription

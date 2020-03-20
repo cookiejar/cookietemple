@@ -1,4 +1,3 @@
-import logging
 import os
 import sys
 
@@ -6,14 +5,10 @@ import click
 
 from pathlib import Path
 from ruamel.yaml import YAML
-from cookietemple.util.dict_util import delete_keys_from_dict
+from tabulate import tabulate
+from flatten_dict import flatten
 
-console = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-console.setFormatter(formatter)
-LOG = logging.getLogger('cookietemple list')
-LOG.addHandler(console)
-LOG.setLevel(logging.INFO)
+from cookietemple.util.dict_util import delete_keys_from_dict
 
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f'{WD}/../create/templates'
@@ -30,12 +25,12 @@ def list_available_templates():
     # listing does not need to display the long descriptions of the templates
     # users should use info for long descriptions
     delete_keys_from_dict(available_templates, ['long description'])
-
     click.echo(click.style('Run cookietemple info for long descriptions of your template of interest.', fg='green'))
     click.echo(click.style('All available templates:\n', fg='green'))
 
-    yaml = YAML()
-    yaml.dump(available_templates, sys.stdout)
+    # What we want to have are lists like
+    desired_result = [['Python Commandline Package', 'cli-python', '0.0.1', 'click, argparse', 'General Python package with command line interface']]
+    print(tabulate(desired_result, headers=['name', 'handle', 'version', 'available libraries', 'short description']))
 
 
 def load_available_templates(AVAILABLE_TEMPLATES_PATH):
@@ -47,3 +42,5 @@ def load_available_templates(AVAILABLE_TEMPLATES_PATH):
     path = Path(AVAILABLE_TEMPLATES_PATH)
     yaml = YAML(typ='safe')
     return yaml.load(path)
+
+list_available_templates()
