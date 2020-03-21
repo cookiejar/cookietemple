@@ -17,7 +17,8 @@ def test_non_empty_output(capfd):
     list_available_templates()
     out, err = capfd.readouterr()
 
-    assert len(out) > 20
+    assert not err
+    assert out
 
 
 def test_header(capfd):
