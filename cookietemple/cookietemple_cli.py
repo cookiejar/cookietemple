@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-'""Entry point for cookietemple.""'
+"""Entry point for COOKIETEMPLE."""
 import logging
 import os
 import sys
@@ -52,7 +52,7 @@ def cookietemple_cli(verbose):
 @cookietemple_cli.command(help_priority=1)
 @click.option('--domain',
               type=click.Choice(['CLI', 'GUI', 'Web']))
-def create(domain):
+def create(domain: str) -> None:
     """
     Create a new project using one of our templates
 
@@ -61,7 +61,7 @@ def create(domain):
 
 
 @cookietemple_cli.command(help_priority=2)
-def lint():
+def lint() -> None:
     """
     Lint your existing COOKIETEMPLE project
 
@@ -70,7 +70,7 @@ def lint():
 
 
 @cookietemple_cli.command(help_priority=3)
-def list():
+def list() -> None:
     """
     List all available COOKIETEMPLE templates
 
@@ -81,7 +81,7 @@ def list():
 @cookietemple_cli.command(help_priority=4)
 @click.option('--handle',
               type=str)
-def info(handle):
+def info(handle: str) -> None:
     """
     Get detailed info on a COOKIETEMPLE template
 
@@ -90,7 +90,7 @@ def info(handle):
 
 
 @cookietemple_cli.command(help_priority=5)
-def sync():
+def sync() -> None:
     """
     Sync your project with the latest template release
 
@@ -99,7 +99,7 @@ def sync():
 
 
 @cookietemple_cli.command(help_priority=6)
-def bump_version():
+def bump_version() -> None:
     """
     Bump the version of an existing COOKIETEMPLE project
 
