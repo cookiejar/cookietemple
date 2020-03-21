@@ -29,7 +29,7 @@ def get_valid_handles_domain_subdomain():
     return ['cli-python', 'cli-java', 'cli-kotlin', 'web-python', 'gui-python', 'gui-java', 'web-python_website', 'web-python-rest']
 
 
-@pytest.mark.skip(reason="Idk how to test this: We have to use mocking in some way")
+@pytest.mark.skip(reason='Idk how to test this: We have to use mocking in some way')
 def test_empty_info_handle():
     show_info('')
 
@@ -87,11 +87,11 @@ def test_levensthein_dist() -> None:
     """
     This test tests our implemented levensthein distance function for measuring string similarity.
     """
-    assert (levensthein_dist("horse", "ros") == 3 and levensthein_dist("", "hello") == 5 and
-            levensthein_dist("lululul", "") == 7 and levensthein_dist("intention", "execution") == 5)
+    assert (levensthein_dist('horse', 'ros') == 3 and levensthein_dist('', 'hello') == 5 and
+            levensthein_dist('lululul', '') == 7 and levensthein_dist('intention', 'execution') == 5)
 
 
-@pytest.mark.skip(reason="Tomorrow")
+@pytest.mark.skip(reason='Tomorrow')
 def test_most_similar_command() -> None:
     """
     TODO: TIRED WILL DO THIS TOMORROW BECAUSE WE NEED GOOD TESTCASES

@@ -82,7 +82,7 @@ def non_existing_handle():
 
 def handle_non_existing_command(handle: str):
     most_sim = most_similar_command(handle)
-    if most_sim != "":
+    if most_sim != '':
         click.echo(click.style(
             f'cookietemple info: ', fg='white') + click.style(
             f'unknown handle \'{handle}\'. See cookietemple list for all valid handles.\n\nDid you mean\n    \'{most_sim}\'?',

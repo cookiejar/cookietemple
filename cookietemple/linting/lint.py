@@ -3,19 +3,21 @@ from subprocess import Popen, PIPE
 
 import click
 
-from cookietemple.linting.PipelineLint import PipelineLint
+from cookietemple.linting.TemplateLinter import TemplateLinter
 from cookietemple.linting.domains.cli import CliPythonLint
 
 
-def lint_project() -> PipelineLint:
+def lint_project() -> TemplateLinter:
     """
     Verifies the integrity of a project to best coding and practices.
     Runs coala (https://github.com/coala/coala) as a subprocess.
     """
+    # TODO Insert a switch statement here, which checks the .cookietemple file to decide which linter to apply next
     lint_obj = CliPythonLint()
     # Run the linting tests
     try:
-        lint_obj.lint_pipeline(super(lint_obj.__class__, lint_obj), ['check_files_exist'])
+        # Run non project specific linting
+        lint_obj.lint_pipeline(super(lint_obj.__class__, lint_obj))
         lint_obj.lint_python()
     except AssertionError as e:
         click.echo(click.style(f'Critical error: {e}', fg='red'))
@@ -30,7 +32,7 @@ def lint_project() -> PipelineLint:
         click.echo(click.style('Sorry, some tests failed - exiting with a non-zero error code...\n'))
 
     # Lint the project with Coala
-    # A preconfigured .coa file should exist in the project
+    # A preconfigured .coa file should exist in the project, which is tested beforehand via linting
     call_coala()
 
 
