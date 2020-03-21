@@ -16,9 +16,9 @@ def init_template_struct() -> set:
     TEMPLATE_STRUCT['email'] = 'MyEmail'
     TEMPLATE_STRUCT['project_name'] = 'ProjectName'
     TEMPLATE_STRUCT['project_short_description'] = 'MyDesc'
-    TEMPLATE_STRUCT['version'] = 'MyVersion'
+    TEMPLATE_STRUCT['version'] = '0.1.0'
     TEMPLATE_STRUCT['license'] = 'MIT'
-    TEMPLATE_STRUCT['template_version'] = 'MyTemplateVersion'
+    TEMPLATE_STRUCT['template_version'] = '0.1.1'
     TEMPLATE_STRUCT['template_handle'] = 'cli-python'  # CAVE!!! handler
     TEMPLATE_STRUCT['language'] = 'python'
 
@@ -29,20 +29,20 @@ def test_general_prompts_all_input_valid(monkeypatch) -> None:
     """
     Ensure that valid inputs for the genereal prompts for all template are processed properly.
     """
-    prompts = StringIO('MyFullName\nMyEmail\nMyProjectName\nMyDesc\nMyVersion\nMIT')
+    prompts = StringIO('MyFullName\nMyEmail\nMyProjectName\nMyDesc\n0.1.0\nMIT')
     monkeypatch.setattr('sys.stdin', prompts)
     prompt_general_template_configuration()
     assert (TEMPLATE_STRUCT['full_name'] == 'MyFullName' and TEMPLATE_STRUCT['email'] == 'MyEmail'
             and TEMPLATE_STRUCT['project_name'] == 'MyProjectName'
             and TEMPLATE_STRUCT['project_short_description'] == 'MyDesc'
-            and TEMPLATE_STRUCT['version'] == 'MyVersion' and TEMPLATE_STRUCT['license'] == 'MIT')
+            and TEMPLATE_STRUCT['version'] == '0.1.0' and TEMPLATE_STRUCT['license'] == 'MIT')
 
 
 def test_general_prompts_with_license_invalid_choice(monkeypatch, capfd) -> None:
     """
     Ensure that entering an invalid license will trigger an error message.
     """
-    prompts = StringIO('MyFullName\nMyEmail\nMyProjectName\nMyDesc\nMyVersion\nIMALICENSE\nMIT')
+    prompts = StringIO('MyFullName\nMyEmail\nMyProjectName\nMyDesc\n0.1.0\nIMALICENSE\nMIT')
     monkeypatch.setattr('sys.stdin', prompts)
     prompt_general_template_configuration()
     out, err = capfd.readouterr()
@@ -99,9 +99,9 @@ def test_create_common_files(mocker, tmp_path) -> None:
     TEMPLATE_STRUCT['project_name'] = 'ProjectName'
     TEMPLATE_STRUCT['project_slug'] = 'MySlug'
     TEMPLATE_STRUCT['project_short_description'] = 'MyDesc'
-    TEMPLATE_STRUCT['version'] = 'MyVersion'
+    TEMPLATE_STRUCT['version'] = '0.1.0'
     TEMPLATE_STRUCT['license'] = 'MIT'
-    TEMPLATE_STRUCT['template_version'] = 'MyTemplateVersion'
+    TEMPLATE_STRUCT['template_version'] = '0.1.1'
     TEMPLATE_STRUCT['template_handle'] = 'cli-python'  # CAVE!!! handler
     TEMPLATE_STRUCT['language'] = 'python'
 

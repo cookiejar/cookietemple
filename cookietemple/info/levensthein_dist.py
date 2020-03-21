@@ -2,6 +2,8 @@ AVAILABLE_HANDLES = ['cli', 'web', 'gui', 'cli-python', 'cli-java', 'cli-kotlin'
                      'web-restapi-python',
                      'gui-python', 'gui-java']
 
+MAIN_COMMANDS = ['create', 'lint', 'list', 'info', 'bump_version', 'sync']
+
 SIMILARITY_FACTOR = (1 / 3)
 
 
@@ -41,26 +43,30 @@ def levensthein_dist(input_command: str, candidate: str) -> int:
     return dp_table[len(candidate)][len(input_command)]
 
 
-def most_similar_command(command: str) -> str:
+def most_similar_command(command: str, command_list: list) -> list:
     """
     This function determines whether its possible to suggest a similar command.
     The similarity is determined by the levensthein distance and a factor (currently 1/3)
     sets a limit where a similar command is useful to be suggested.
 
+    :param command_list: The commands that are available by the users specific action
     :param command: The command given by the user
     :return: A similar command or the empty string if there's none
     """
     min = 999999  # some random large integer -> we will never have handles that are larger than 1000 character
-    sim_command = ''
+    sim_command = []
 
     # for each valid handle calculate the levensthein distance and if one is found that is a new minimal distance,
     # replace it and take this handle as the most similar command.
-    for handle in AVAILABLE_HANDLES:
+    for handle in command_list:
         dist = levensthein_dist(command, handle)
         lim = int(len(command) * SIMILARITY_FACTOR)
 
-        if lim >= dist and min >= dist:
-            min = dist
-            sim_command = handle
+        if lim >= dist:
+            if min > dist:  # and min >= dist:
+                min = dist
+                sim_command = [handle]
+            elif min == dist:
+                sim_command.append(handle)
 
     return sim_command

@@ -41,19 +41,19 @@ def subdir_tests(path) -> set:
 
 
 def posix_path_super_dir(path) -> set:
-    return {Path(f'{path}/MANIFEST.in'), Path(f'{path}/.editorconfig'), Path(f'{path}/Makefile'),
-            Path(f'{path}/README.rst'),
-            Path(f'{path}/tests'), Path(f'{path}/readthedocs.yml'), Path(f'{path}/babel.cfg'),
-            Path(f'{path}/requirements_dev.txt'),
-            Path(f'{path}/.travis.yml'), Path(f'{path}/.gitignore'), Path(f'{path}/projectname'),
-            Path(f'{path}/.github'),
-            Path(f'{path}/setup.py'), Path(f'{path}/.cookietemple'), Path(f'{path}/CODE_OF_CONDUCT.rst'),
-            Path(f'{path}/docs'),
-            Path(f'{path}/deployment_scripts'), Path(f'{path}/requirements.txt'), Path(f'{path}/setup.cfg'),
-            Path(f'{path}/CHANGELOG.rst'),
-            Path(f'{path}/CONTRIBUTING.rst'), Path(f'{path}/LICENSE'), Path(f'{path}/AUTHORS.rst'),
-            Path(f'{path}/.dependabot'),
-            Path(f'{path}/tox.ini')}
+    return {Path(f"{path}/MANIFEST.in"), Path(f"{path}/.editorconfig"), Path(f"{path}/Makefile"),
+            Path(f"{path}/README.rst"),
+            Path(f"{path}/tests"), Path(f"{path}/readthedocs.yml"), Path(f"{path}/babel.cfg"),
+            Path(f"{path}/requirements_dev.txt"),
+            Path(f"{path}/.travis.yml"), Path(f"{path}/.gitignore"), Path(f"{path}/projectname"),
+            Path(f"{path}/.github"),
+            Path(f"{path}/setup.py"), Path(f"{path}/.cookietemple"), Path(f"{path}/CODE_OF_CONDUCT.rst"),
+            Path(f"{path}/docs"),
+            Path(f"{path}/deployment_scripts"), Path(f"{path}/requirements.txt"), Path(f"{path}/setup.cfg"),
+            Path(f"{path}/CHANGELOG.rst"),
+            Path(f"{path}/CONTRIBUTING.rst"), Path(f"{path}/LICENSE"), Path(f"{path}/AUTHORS.rst"),
+            Path(f"{path}/.dependabot"),
+            Path(f"{path}/tox.ini"), Path(f"{path}/bump_version.cfg")}
 
 
 # TODO: USE LINTING (LIKE NF CORE TOOLS) TO TEST COOKIECUTTER WITH EXTRA_CONTENT
@@ -61,8 +61,8 @@ def test_choose_domain_web_website_flask(monkeypatch, valid_domains, tmp_path) -
     """
     This test tests the creation of a whole python flask website template without GitHub Repo creation!
     """
-    prompt = StringIO(f'{valid_domains[2]}\npython\nname\nmail\nprojectname\ndesc\n0.1'
-                      f'\nMIT\nmyGitHubName\npypiname\nClick\npytest\nwebsite\nflask\ndmydomain.com\nvmname\nn')
+    prompt = StringIO(f"{valid_domains[2]}\npython\nname\nmail\nprojectname\ndesc\n0.1.0"
+                      f"\nMIT\nmyGitHubName\npypiname\nClick\npytest\nwebsite\nflask\ndmydomain.com\nvmname\nn")
     monkeypatch.setattr('sys.stdin', prompt)
     choose_domain('')
     copy_tree(f'{Path.cwd()}/projectname', str(tmp_path))
@@ -83,8 +83,8 @@ def test_repo_already_exists_no_overwrite_if_false(mocker, monkeypatch, capfd, v
     """
     mocker.patch.object(os.path, 'isdir', autospec=True)
     os.path.isdir.return_value = True
-    prompt = StringIO(f'{valid_domains[2]}\npython\nname\nmail\nprojectname\ndesc\n0.1'
-                      f'\nMIT\nmyGitHubName\npypiname\nClick\npytest\nwebsite\nflask\ndmydomain.com\nvmname\nn')
+    prompt = StringIO(f"{valid_domains[2]}\npython\nname\nmail\nprojectname\ndesc\n0.1.0"
+                      f"\nMIT\nmyGitHubName\npypiname\nClick\npytest\nwebsite\nflask\ndmydomain.com\nvmname\nn")
     monkeypatch.setattr('sys.stdin', prompt)
 
     with pytest.raises(SystemExit):
