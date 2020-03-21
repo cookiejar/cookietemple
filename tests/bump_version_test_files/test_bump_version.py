@@ -1,4 +1,5 @@
 import re
+import pytest
 from pathlib import Path
 from cookietemple.bump_version.bump_version import bump_template_version
 
@@ -11,6 +12,7 @@ def get_file_versions_after_bump() -> list:
     return bumped_versions
 
 
+@pytest.skip
 def test_bump_version() -> None:
     """
     This function test the bump version function with various cases in a test file
