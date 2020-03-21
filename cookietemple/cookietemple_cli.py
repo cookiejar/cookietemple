@@ -5,6 +5,8 @@ import logging
 import os
 import sys
 import click
+import re
+from pathlib import Path
 
 from cookietemple.bump_version.bump_version import bump_template_version
 from cookietemple.create.create import choose_domain
@@ -99,12 +101,29 @@ def sync() -> None:
 
 
 @cookietemple_cli.command(help_priority=6)
-def bump_version() -> None:
+@click.argument('new_version', type=str)
+@click.argument('pipeline_dir', type=click.Path(), default=Path(f'{Path.cwd()}'))
+def bump_version(new_version, pipeline_dir):
     """
     Bump the version of an existing COOKIETEMPLE project
 
     """
-    bump_template_version()
+    if not new_version:
+        click.echo(click.style('No new version specified.\nPlease specify a new version using '
+                               '\'cookietemple bump_version --new_version=my.new.version\'', fg='red'))
+        sys.exit(0)
+
+    elif not re.match(r"[0-9]+.[0-9]+.[0-9]+", new_version):
+        click.echo(click.style('Invalid version specified!\nEnsure your version number has the form '
+                               'like 0.0.0 or 15.100.239', fg='red'))
+        sys.exit(0)
+
+    elif not Path(f'{pipeline_dir}/bump_version.cfg').is_file():
+        click.echo(click.style('Did not found a bump_version.cfg file. Make sure you are in the right directory '
+                               'or specify the path to your projects bump_version.cfg file', fg='red'))
+        sys.exit(0)
+
+    bump_template_version(new_version, pipeline_dir)
 
 
 if __name__ == '__main__':

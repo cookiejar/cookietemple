@@ -51,7 +51,7 @@ def posix_path_super_dir(path) -> set:
             Path(f"{path}/Dockerfile"), Path(f"{path}/requirements.txt"), Path(f"{path}/setup.cfg"),
             Path(f"{path}/CHANGELOG.rst"),
             Path(f"{path}/CONTRIBUTING.rst"), Path(f"{path}/LICENSE"), Path(f"{path}/AUTHORS.rst"),
-            Path(f"{path}/.dependabot")}
+            Path(f"{path}/.dependabot"), Path(f"{path}/bump_version.cfg")}
 
 
 def test_choose_domain_cli(monkeypatch, valid_domains, tmp_path) -> None:
@@ -59,7 +59,7 @@ def test_choose_domain_cli(monkeypatch, valid_domains, tmp_path) -> None:
     """
     This test tests the creation of a whole python cli template without GitHub Repo creation!
     """
-    prompt = StringIO(f"{valid_domains[0]}\npython\nname\nmail\nprojectname\ndesc\n0.1"
+    prompt = StringIO(f"{valid_domains[0]}\npython\nname\nmail\nprojectname\ndesc\n0.1.1"
                       f"\nMIT\nmyGitHubName\npypiname\nClick\npytest\nn")
     monkeypatch.setattr('sys.stdin', prompt)
     choose_domain("")
@@ -80,7 +80,7 @@ def test_repo_already_exists_no_overwrite_if_false(mocker, monkeypatch, capfd, v
     """
     mocker.patch.object(os.path, 'isdir', autospec=True)
     os.path.isdir.return_value = True
-    prompt = StringIO(f"{valid_domains[0]}\npython\nname\nmail\nprojectname\ndesc\n0.1"
+    prompt = StringIO(f"{valid_domains[0]}\npython\nname\nmail\nprojectname\ndesc\n0.1.1"
                       f"\nMIT\nmyGitHubName\npypiname\nClick\npytest\nN")
     monkeypatch.setattr('sys.stdin', prompt)
 

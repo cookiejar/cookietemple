@@ -6,9 +6,8 @@ import click
 
 from ruamel.yaml import YAML
 
-from cookietemple.info.levensthein_dist import most_similar_command
+from cookietemple.info.levensthein_dist import (most_similar_command, AVAILABLE_HANDLES)
 from cookietemple.list.list import load_available_templates
-
 
 console = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -81,12 +80,21 @@ def non_existing_handle():
 
 
 def handle_non_existing_command(handle: str):
-    most_sim = most_similar_command(handle)
-    if most_sim != "":
-        click.echo(click.style(
-            f'cookietemple info: ', fg='white') + click.style(
-            f'unknown handle \'{handle}\'. See cookietemple list for all valid handles.\n\nDid you mean\n    \'{most_sim}\'?',
-            fg='red'))
+    most_sim = most_similar_command(handle, AVAILABLE_HANDLES)
+    if most_sim:
+        if len(most_sim) == 1:
+            click.echo(click.style(
+                f'cookietemple info: ', fg='white') + click.style(
+                f'unknown handle \'{handle}\'. See cookietemple list for all valid handles.\n\nDid you mean\n    \'{most_sim[0]}\'?',
+                fg='red'))
+        else:
+            click.echo(click.style(
+                f'cookietemple info: ', fg='white') + click.style(
+                f'unknown handle \'{handle}\'. See cookietemple list for all valid handles.\n\nMost similar commands are:',
+                fg='red'))
+            for command in most_sim:
+                click.echo(click.style(f'     {command}', fg='red'))
         sys.exit(0)
+
     else:
         non_existing_handle()

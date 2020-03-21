@@ -53,7 +53,7 @@ def posix_path_super_dir(path) -> set:
             Path(f"{path}/CHANGELOG.rst"),
             Path(f"{path}/CONTRIBUTING.rst"), Path(f"{path}/LICENSE"), Path(f"{path}/AUTHORS.rst"),
             Path(f"{path}/.dependabot"),
-            Path(f"{path}/tox.ini")}
+            Path(f"{path}/tox.ini"), Path(f"{path}/bump_version.cfg")}
 
 
 # TODO: USE LINTING (LIKE NF CORE TOOLS) TO TEST COOKIECUTTER WITH EXTRA_CONTENT
@@ -61,7 +61,7 @@ def test_choose_domain_web_website_flask(monkeypatch, valid_domains, tmp_path) -
     """
     This test tests the creation of a whole python flask website template without GitHub Repo creation!
     """
-    prompt = StringIO(f"{valid_domains[2]}\npython\nname\nmail\nprojectname\ndesc\n0.1"
+    prompt = StringIO(f"{valid_domains[2]}\npython\nname\nmail\nprojectname\ndesc\n0.1.0"
                       f"\nMIT\nmyGitHubName\npypiname\nClick\npytest\nwebsite\nflask\ndmydomain.com\nvmname\nn")
     monkeypatch.setattr('sys.stdin', prompt)
     choose_domain("")
@@ -83,7 +83,7 @@ def test_repo_already_exists_no_overwrite_if_false(mocker, monkeypatch, capfd, v
     """
     mocker.patch.object(os.path, 'isdir', autospec=True)
     os.path.isdir.return_value = True
-    prompt = StringIO(f"{valid_domains[2]}\npython\nname\nmail\nprojectname\ndesc\n0.1"
+    prompt = StringIO(f"{valid_domains[2]}\npython\nname\nmail\nprojectname\ndesc\n0.1.0"
                       f"\nMIT\nmyGitHubName\npypiname\nClick\npytest\nwebsite\nflask\ndmydomain.com\nvmname\nn")
     monkeypatch.setattr('sys.stdin', prompt)
 
