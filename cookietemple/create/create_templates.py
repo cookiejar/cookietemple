@@ -4,7 +4,6 @@ import sys
 import tempfile
 from distutils.dir_util import copy_tree
 from pathlib import Path
-from configparser import SafeConfigParser
 
 import click
 from ruamel.yaml import YAML
