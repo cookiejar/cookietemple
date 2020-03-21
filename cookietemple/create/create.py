@@ -37,7 +37,7 @@ def choose_domain(domain: str):
 
     template_version, template_handle = switcher.get(TEMPLATE_STRUCT['domain'].lower(), lambda: 'Invalid')()
     create_dot_cookietemple(TEMPLATE_STRUCT, template_version=template_version, template_handle=template_handle)
-    update_version_on_create(Path(f'{Path.cwd()}/bump_version.cfg'), TEMPLATE_STRUCT['version'])
+    update_version_on_create(Path('bump_version.cfg'), TEMPLATE_STRUCT['version'])
 
     # ask user whether he wants to create a Github repository and do so if specified
     create_github_repository = click.prompt('Do you want to create a Github repository and push your template to it? [y, n]:',
