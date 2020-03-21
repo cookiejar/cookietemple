@@ -2,9 +2,10 @@ import os
 import shutil
 
 import click
+from pathlib import Path
 
 from cookietemple.create.create_config import (TEMPLATE_STRUCT)
-from cookietemple.create.create_templates import create_dot_cookietemple
+from cookietemple.create.create_templates import (create_dot_cookietemple, update_version_on_create)
 from cookietemple.create.domains.cli import handle_cli
 from cookietemple.create.domains.gui import handle_gui
 from cookietemple.create.domains.web import handle_web
@@ -36,6 +37,7 @@ def choose_domain(domain: str):
 
     template_version, template_handle = switcher.get(TEMPLATE_STRUCT['domain'].lower(), lambda: 'Invalid')()
     create_dot_cookietemple(TEMPLATE_STRUCT, template_version=template_version, template_handle=template_handle)
+    update_version_on_create(Path(f'{Path.cwd()}/bump_version.cfg'), TEMPLATE_STRUCT['version'])
 
     # ask user whether he wants to create a Github repository and do so if specified
     create_github_repository = click.prompt('Do you want to create a Github repository and push your template to it? [y, n]:',

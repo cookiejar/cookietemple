@@ -12,6 +12,10 @@ from pathlib import Path
 def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
     """
     This function updates the function for all files that are whitelisted in the config file
+    :param new_version: The new version number that should replace the old one in a cookietemple project
+    :param pipeline_dir: The default value is the current working directory, so we´re initially assuming the user
+                         bumps the version from the projects top level directory. If this is not the case this parameter
+                         shows the path where the projects top level directory is and bumps the version there
     """
     parser = SafeConfigParser()
     parser.read(f'{pipeline_dir}/bump_version.cfg')

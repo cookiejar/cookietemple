@@ -4,6 +4,7 @@ import sys
 import tempfile
 from distutils.dir_util import copy_tree
 from pathlib import Path
+from configparser import SafeConfigParser
 
 import click
 from ruamel.yaml import YAML
@@ -137,3 +138,19 @@ def directory_exists_warning() -> None:
     click.echo()
     click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
     click.echo()
+
+
+def update_version_on_create(cfg_file_path: Path, initial_version: str) -> None:
+    """
+    This function updates the version in the bump_version.cfg file when a new template has been created with
+    the version the user entered as initial project version.
+    :param cfg_file_path: The path where the bump_version.cfg file is located.
+    :param initial_version: The initial version number entered by the project creator.
+    """
+
+    parser = SafeConfigParser()
+    parser.read(f'{cfg_file_path}')
+
+    parser.set('bumpversion', 'current_version', initial_version)
+    with open(f'{cfg_file_path}', 'w') as configfile:
+        parser.write(configfile)
