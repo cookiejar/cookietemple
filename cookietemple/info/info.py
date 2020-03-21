@@ -57,8 +57,11 @@ def show_info(handle: str):
             handle_non_existing_command(handle)
 
     flatten_nested_dict(template_info)
-    click.echo(tabulate(templates_to_print, headers=['Name', 'Handle', 'Description', 'Available Libraries', 'Version']))
 
+    for template in templates_to_print:
+        template[2] = set_linebreaks(template[2])
+
+    click.echo(tabulate(templates_to_print, headers=['Name', 'Handle', 'Description', 'Available Libraries', 'Version']))
 
     #yaml = YAML()
     #click.echo(click.style(f'Template info for {handle}\n', fg='green'))
@@ -83,6 +86,33 @@ def flatten_nested_dict(template_info_) -> None:
     else:
         templates_to_print.append([template_info_['name'], template_info_['handle'], template_info_['long description'],
                                    template_info_['available libraries'], template_info_['version']])
+
+
+def set_linebreaks(desc: str) -> str:
+    """
+    Sets newlines after max 45 characters (or the latest space to avoid non-sense separation)
+    :param desc: The parsed long description for the sepcific template
+    :return: The formatted string with inserted newlines
+    """
+
+    X = 45  # Limit
+    last_space = -1
+    cnt = 0
+    idx = 0
+
+    while idx < len(desc):
+        if cnt == X:
+            desc = desc[:last_space] + '\n' + desc[last_space + 1:]
+            cnt = 0
+        elif desc[idx] == ' ':
+            last_space = idx
+        cnt += 1
+        idx += 1
+
+    return desc
+
+
+
 
 
 def non_existing_handle():
