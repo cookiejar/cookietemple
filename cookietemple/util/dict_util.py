@@ -2,9 +2,9 @@ from collections import MutableMapping
 from contextlib import suppress
 
 
-def delete_keys_from_dict(dictionary: MutableMapping, keys: list):
+def delete_keys_from_dict(dictionary: MutableMapping, keys: list) -> None:
     """
-    deletes all key instances in an arbitrarily nested dictionary inplace
+    Deletes all key instances in an arbitrarily nested dictionary inplace
 
     :param dictionary: dictionary of which the keys are deleted
     :param keys: list of keys to delete
@@ -15,3 +15,13 @@ def delete_keys_from_dict(dictionary: MutableMapping, keys: list):
     for value in dictionary.values():
         if isinstance(value, MutableMapping):
             delete_keys_from_dict(value, keys)
+
+
+def is_nested_dictionary(dictionary: dict) -> bool:
+    """
+    Determines whether a dictionary is nested or not
+
+    :param dictionary: dictionary to examine
+    :return: True if dictionary is nested, false otherwise
+    """
+    return any(isinstance(_, dict) for _ in dictionary.values())

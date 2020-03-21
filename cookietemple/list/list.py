@@ -1,25 +1,18 @@
-import logging
 import os
-import sys
 
 import click
 
 from pathlib import Path
 from ruamel.yaml import YAML
-from cookietemple.util.dict_util import delete_keys_from_dict
+from tabulate import tabulate
 
-console = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-console.setFormatter(formatter)
-LOG = logging.getLogger('cookietemple list')
-LOG.addHandler(console)
-LOG.setLevel(logging.INFO)
+from cookietemple.util.dict_util import is_nested_dictionary
 
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f'{WD}/../create/templates'
 
 
-def list_available_templates():
+def list_available_templates() -> None:
     """
     Displays all available templates to stdout in nicely formatted yaml format.
     Omits long descriptions.
@@ -27,18 +20,31 @@ def list_available_templates():
     """
 
     available_templates = load_available_templates(f'{TEMPLATES_PATH}/available_templates.yaml')
-    # listing does not need to display the long descriptions of the templates
-    # users should use info for long descriptions
-    delete_keys_from_dict(available_templates, ['long description'])
-
     click.echo(click.style('Run cookietemple info for long descriptions of your template of interest.', fg='green'))
     click.echo(click.style('All available templates:\n', fg='green'))
 
-    yaml = YAML()
-    yaml.dump(available_templates, sys.stdout)
+    # What we want to have are lists like
+    # [['name', 'handle', 'short description', 'available libraries', 'version'], ['name', 'handle', 'short description', 'available libraries', 'version']]
+    templates_to_tabulate = []
+    for language in available_templates.values():
+        assert is_nested_dictionary(language)
+        for val in language.values():
+            # has a subdomain -> traverse dictionary a level deeper
+            if is_nested_dictionary(val):
+                for val_2 in val.values():
+                    templates_to_tabulate.append([
+                        val_2['name'], val_2['handle'], val_2['short description'], val_2['available libraries'], val_2['version']
+                    ])
+            else:
+                templates_to_tabulate.append([
+                    val['name'], val['handle'], val['short description'], val['available libraries'], val['version']
+                ])
+
+    # Print nicely to console
+    click.echo(tabulate(templates_to_tabulate, headers=['Name', 'Handle', 'Short Description', 'Available Libraries', 'Version']))
 
 
-def load_available_templates(AVAILABLE_TEMPLATES_PATH):
+def load_available_templates(AVAILABLE_TEMPLATES_PATH) -> dict:
     """
     Loads 'available_templates.yaml' as a yaml file and returns the content as nested dictionary.
 
