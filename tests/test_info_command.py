@@ -26,8 +26,7 @@ def get_valid_handles_domain_only():
 
 @pytest.fixture()
 def get_valid_handles_domain_subdomain():
-    return ['cli-python', 'cli-java', 'cli-kotlin', 'web-python', 'gui-python', 'gui-java', 'web-python_website',
-            'web-python-rest']
+    return ['cli-python', 'cli-java', 'cli-kotlin', 'web-python', 'gui-python', 'gui-java', 'web-python_website', 'web-python-rest']
 
 
 @pytest.mark.skip(reason="Idk how to test this: We have to use mocking in some way")
@@ -87,7 +86,6 @@ def test_valid_handles_domain_and_subdomain(get_valid_handles_domain_subdomain, 
 def test_levensthein_dist() -> None:
     """
     This test tests our implemented levensthein distance function for measuring string similarity.
-    (Accepted at leetcode so should be correct)
     """
     assert (levensthein_dist("horse", "ros") == 3 and levensthein_dist("", "hello") == 5 and
             levensthein_dist("lululul", "") == 7 and levensthein_dist("intention", "execution") == 5)
