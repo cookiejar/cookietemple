@@ -1,25 +1,46 @@
+import sys
 from subprocess import Popen, PIPE
 
 import click
 
+from cookietemple.linting.PipelineLint import PipelineLint
+from cookietemple.linting.domains.cli import CliPythonLint
 
-def lint_project():
+
+def lint_project() -> PipelineLint:
     """
     Verifies the integrity of a project to best coding and practices.
     Runs coala (https://github.com/coala/coala) as a subprocess.
     """
+    lint_obj = CliPythonLint()
+    # Run the linting tests
+    try:
+        lint_obj.lint_pipeline(super(lint_obj.__class__, lint_obj), ['check_files_exist'])
+        lint_obj.lint_python()
+    except AssertionError as e:
+        click.echo(click.style(f'Critical error: {e}', fg='red'))
+        click.echo(click.style(f'Stopping tests...', fg='red'))
+        return lint_obj
 
+    # Print the results
+    lint_obj.print_results()
+
+    # Exit code
+    if len(lint_obj.failed) > 0:
+        click.echo(click.style('Sorry, some tests failed - exiting with a non-zero error code...\n'))
+
+    # Lint the project with Coala
+    # A preconfigured .coa file should exist in the project
     call_coala()
 
 
-def call_coala():
+def call_coala() -> None:
     """
     Calls coala interactively as a subprocess.
     Verifies that coala is indeed installed.
-    :return:
     """
     if not is_coala_accessible():
-        return
+        sys.exit(1)
 
     # We are calling coala as a subprocess, since it is not possible to run any of it's executable functions.
     # Coala has several interactive parts and therefore does not play nicely with our click setup.
