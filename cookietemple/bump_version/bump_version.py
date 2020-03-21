@@ -1,5 +1,3 @@
-import logging
-
 import click
 import re
 
@@ -10,20 +8,12 @@ from os import fdopen, remove
 
 from pathlib import Path
 
-console = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-console.setFormatter(formatter)
-LOG = logging.getLogger('cookietemple bump_version')
-LOG.addHandler(console)
-LOG.setLevel(logging.INFO)
-
 
 def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
     """
     This function updates the function for all files that are whitelisted in the config file
     """
     parser = SafeConfigParser()
-    print(str(pipeline_dir))
     parser.read(f'{pipeline_dir}/bump_version.cfg')
     current_version = parser.get('bumpversion', 'current_version')
 
@@ -38,11 +28,12 @@ def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
         parser.write(configfile)
 
 
-def replace(file_path, subst) -> None:
+def replace(file_path: str, subst: str) -> None:
     """
-    This function actually replaces a version with the new version unless its blacklisted!
-    :param file_path: The file where the version should be updated
-    :param subst: The new version that replaced
+    This function actually replaces a version with the new version unless its blacklisted (marked with
+    <<COOKIETEMPLE_NO_BUMP>>)!
+    :param file_path: The path of the file where the version should be updated
+    :param subst: The new version that replaces the old one
     """
     # Create temp file
     fh, abs_path = mkstemp()

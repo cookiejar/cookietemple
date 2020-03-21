@@ -38,8 +38,8 @@ def prompt_general_template_configuration():
                              default='0.1.0')
 
     while not re.match(r"[0-9]+.[0-9]+.[0-9]+", poss_vers):
-        click.echo(click.style(f'The version number entered does not match cookietemples pattern.\n'
-                               f'Please enter the version in the format [number].[number].[number]!', fg='red'))
+        click.echo(click.style('The version number entered does not match cookietemples pattern.\n'
+                               'Please enter the version in the format [number].[number].[number]!', fg='red'))
         poss_vers = click.prompt('Please enter the initial version of your project.',
                                  type=str,
                                  default='0.1.0')
