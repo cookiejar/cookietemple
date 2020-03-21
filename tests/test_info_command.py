@@ -29,7 +29,6 @@ def get_valid_handles_domain_subdomain():
     return ['cli-python', 'cli-java', 'cli-kotlin', 'web-python', 'gui-python', 'gui-java', 'web-python_website', 'web-python-rest']
 
 
-
 @pytest.fixture()
 def get_commands_with_similar_command_cli():
     return ['clo', 'clk', 'vli', 'xli', 'cl i']
