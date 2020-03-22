@@ -7,9 +7,9 @@ class CliPythonLint(TemplateLinter):
     def __init__(self, path):
         super().__init__(path)
 
-    def lint(self):
+    def lint(self, label):
         methods = ['python_files_exist', 'python_version_consistent']
-        super().lint_project(self, methods)
+        super().lint_project(self, methods, label=label)
 
     def python_files_exist(self) -> None:
         """

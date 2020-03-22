@@ -26,7 +26,7 @@ class TemplateLinter(object):
         self.warned = []
         self.failed = []
 
-    def lint_project(self, calling_class, check_functions=None, label: str = 'Running pipeline tests') -> None:
+    def lint_project(self, calling_class, check_functions=None, label: str = 'Running template tests') -> None:
         """Main linting function.
         Takes the pipeline directory as the primary input and iterates through
         the different linting checks in order. Collects any warnings or errors

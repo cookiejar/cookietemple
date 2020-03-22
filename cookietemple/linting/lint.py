@@ -26,9 +26,11 @@ def lint_project(project_dir: str) -> TemplateLinter:
     # Run the linting tests
     try:
         # Run non project specific linting
-        lint_obj.lint_project(super(lint_obj.__class__, lint_obj))
+        click.echo(click.style('Running general linting', fg='blue'))
+        lint_obj.lint_project(super(lint_obj.__class__, lint_obj), label='General Linting')
         # Run the project specific linting
-        lint_obj.lint()
+        click.echo(click.style(f'Running {template_handle} linting', fg='blue'))
+        lint_obj.lint(f'{template_handle} Linting')
     except AssertionError as e:
         click.echo(click.style(f'Critical error: {e}', fg='red'))
         click.echo(click.style(f'Stopping tests...', fg='red'))
