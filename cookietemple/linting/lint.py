@@ -1,4 +1,3 @@
-import os
 import sys
 from pathlib import Path
 from subprocess import Popen, PIPE
@@ -47,7 +46,7 @@ def lint_project(project_dir: str) -> TemplateLinter:
     call_coala()
 
 
-def get_template_handle(dot_cookietemple_path: str='.cookietemple') -> str:
+def get_template_handle(dot_cookietemple_path: str = '.cookietemple') -> str:
     """
     Reads the .cookietemple file and extracts the template handle
     :param dot_cookietemple_path: path to the .cookietemple file
