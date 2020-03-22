@@ -1,24 +1,35 @@
+import os
 import sys
+from pathlib import Path
 from subprocess import Popen, PIPE
 
 import click
+from ruamel.yaml import YAML
 
 from cookietemple.linting.TemplateLinter import TemplateLinter
 from cookietemple.linting.domains.cli import CliPythonLint
 
 
-def lint_project() -> TemplateLinter:
+def lint_project(project_dir: str) -> TemplateLinter:
     """
     Verifies the integrity of a project to best coding and practices.
     Runs coala (https://github.com/coala/coala) as a subprocess.
     """
-    # TODO Insert a switch statement here, which checks the .cookietemple file to decide which linter to apply next
-    lint_obj = CliPythonLint()
+    # Detect which template the project is based on
+    template_handle = get_template_handle(project_dir)
+
+    switcher = {
+        'cli-python': CliPythonLint,
+        # 'cli-java': CliJavaLint,
+    }
+
+    lint_obj = switcher.get(template_handle, lambda: 'Invalid')(project_dir)
     # Run the linting tests
     try:
         # Run non project specific linting
-        lint_obj.lint_pipeline(super(lint_obj.__class__, lint_obj))
-        lint_obj.lint_python()
+        lint_obj.lint_project(super(lint_obj.__class__, lint_obj))
+        # Run the project specific linting
+        lint_obj.lint()
     except AssertionError as e:
         click.echo(click.style(f'Critical error: {e}', fg='red'))
         click.echo(click.style(f'Stopping tests...', fg='red'))
@@ -34,6 +45,19 @@ def lint_project() -> TemplateLinter:
     # Lint the project with Coala
     # A preconfigured .coa file should exist in the project, which is tested beforehand via linting
     call_coala()
+
+
+def get_template_handle(dot_cookietemple_path: str='.cookietemple') -> str:
+    """
+    Reads the .cookietemple file and extracts the template handle
+    :param dot_cookietemple_path: path to the .cookietemple file
+    :return: found template handle
+    """
+    path = Path(f'{dot_cookietemple_path}/.cookietemple')
+    yaml = YAML(typ='safe')
+    dot_cookietemple_content = yaml.load(path)
+
+    return dot_cookietemple_content['template_handle']
 
 
 def call_coala() -> None:

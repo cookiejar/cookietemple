@@ -1,4 +1,6 @@
+import io
 import os
+import re
 
 import click
 
@@ -24,7 +26,7 @@ class TemplateLinter(object):
         self.warned = []
         self.failed = []
 
-    def lint_pipeline(self, calling_class, check_functions=None, label: str = 'Running pipeline tests') -> None:
+    def lint_project(self, calling_class, check_functions=None, label: str = 'Running pipeline tests') -> None:
         """Main linting function.
         Takes the pipeline directory as the primary input and iterates through
         the different linting checks in order. Collects any warnings or errors
@@ -37,7 +39,7 @@ class TemplateLinter(object):
         """
         # Called on its own, so not from a subclass
         if check_functions is None:
-            check_functions = ['check_files_exist', 'check_docker']
+            check_functions = ['check_files_exist', 'check_docker', 'check_cookietemple_todos', 'check_no_cookiecutter_strings']
 
         # Show a progessbar and run all linting functions
         with click.progressbar(check_functions, label=label, item_show_func=repr) as function_names:  # item_show_func=repr leads to some Nones in the bar
@@ -129,6 +131,52 @@ class TemplateLinter(object):
             return
 
         self.failed.append((2, 'Dockerfile check failed'))
+
+    def check_cookietemple_todos(self) -> None:
+        """
+        Go through all template files looking for the string 'TODO COOKIETEMPLE:'
+        """
+
+        ignore = ['.git']
+        if os.path.isfile(os.path.join(self.path, '.gitignore')):
+            with io.open(os.path.join(self.path, '.gitignore'), 'rt', encoding='latin1') as file:
+                for line in file:
+                    ignore.append(os.path.basename(line.strip().rstrip('/')))
+        for root, dirs, files in os.walk(self.path):
+            # Ignore files
+            for ignore_file in ignore:
+                if ignore_file in dirs:
+                    dirs.remove(ignore_file)
+                if ignore_file in files:
+                    files.remove(ignore_file)
+            for fname in files:
+                with io.open(os.path.join(root, fname), 'rt', encoding='latin1') as file:
+                    for line in file:
+                        if 'TODO COOKIETEMPLE' in line:
+                            line = line.replace('<!--', '')\
+                                .replace('-->', '')\
+                                .replace('# TODO COOKIETEMPLE: ', '')\
+                                .replace('// TODO COOKIETEMPLE: ', '')\
+                                .replace('TODO COOKIETEMPLE: ', '').strip()
+                            if len(fname) + len(line) > 50:
+                                line = f'{line[:50 - len(fname)]}..'
+                            self.warned.append((3, f'TODO string found in \'{fname}\': {line}'))
+
+    def check_no_cookiecutter_strings(self) -> None:
+        """
+        Verifies that no cookiecutter strings are in any of the files
+        """
+
+        for root, dirs, files in os.walk(self.path):
+            for fname in files:
+                with io.open(os.path.join(root, fname), 'rt', encoding='latin1') as file:
+                    for line in file:
+                        # TODO We should also add some of the more advanced cookiecutter if statements, raw statements etc
+                        regex = re.compile('{{ cookiecutter.* }}')
+                        if regex.match(line):
+                            if len(fname) + len(line) > 50:
+                                line = f'{line[:50 - len(fname)]}..'
+                            self.warned.append((4, f'Cookiecutter string found in \'{fname}\': {line}'))
 
     def print_results(self) -> None:
         """

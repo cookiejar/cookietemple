@@ -1,21 +1,20 @@
 import os
 
 from cookietemple.linting.TemplateLinter import TemplateLinter, files_exist_linting
-from cookietemple.util.dir_util import pf
 
 
 class CliPythonLint(TemplateLinter):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, path):
+        super().__init__(path)
 
-    def lint_python(self):
-        methods = ['python_files_exist']
-        super().lint_pipeline(self, methods)
+    def lint(self):
+        methods = ['python_files_exist', 'python_version_consistent']
+        super().lint_project(self, methods)
 
     def python_files_exist(self) -> None:
-        """Checks a given pipeline directory for required files.
-        Iterates through the pipeline's directory content and checkmarks files
-        for presence.
+        """
+        Checks a given pipeline directory for required files.
+        Iterates through the templates's directory content and checkmarks files for presence.
         Files that **must** be present::
             'setup.py',
             'setup.cfg',
@@ -57,8 +56,11 @@ class CliPythonLint(TemplateLinter):
 
         ]
 
-        # First - critical files. Check that this is actually a COOKIETEMPLE based project
-        if not os.path.isfile(pf(self, '.cookietemple')):
-            raise AssertionError('.cookietemple not found!! Is this a COOKIETEMPLE project?')
-
         files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists)
+
+    def python_version_consistent(self) -> None:
+        """
+        # TODO implement this
+        This method should check that the version is consistent across all files.
+        """
+        pass
