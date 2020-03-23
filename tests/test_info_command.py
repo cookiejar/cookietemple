@@ -114,8 +114,8 @@ def test_levensthein_dist() -> None:
     """
     This test tests our implemented levensthein distance function for measuring string similarity.
     """
-    assert (levensthein_dist("horse", "ros") == 3 and levensthein_dist("", "hello") == 5 and
-            levensthein_dist("lululul", "") == 7 and levensthein_dist("intention", "execution") == 5)
+    assert (levensthein_dist('horse', 'ros') == 3 and levensthein_dist('', 'hello') == 5 and
+            levensthein_dist('lululul', '') == 7 and levensthein_dist('intention', 'execution') == 5)
 
 
 def test_most_similar_command_cli(get_commands_with_similar_command_cli) -> None:
