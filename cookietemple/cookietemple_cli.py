@@ -39,7 +39,8 @@ def main():
 
 
 @click.group(cls=CustomHelpOrder)
-@click.version_option(cookietemple.__version__)
+@click.version_option(cookietemple.__version__, message=click.style(f'Cookietemple Version: {cookietemple.__version__}',
+                                                                    fg='blue'))
 @click.option(
     '-v', '--verbose',
     is_flag=True,
