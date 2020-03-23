@@ -17,6 +17,7 @@ def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
                          bumps the version from the projects top level directory. If this is not the case this parameter
                          shows the path where the projects top level directory is and bumps the version there
     """
+
     parser = SafeConfigParser()
     parser.read(f'{pipeline_dir}/bump_version.cfg')
     current_version = parser.get('bumpversion', 'current_version')

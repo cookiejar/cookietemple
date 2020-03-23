@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 
@@ -17,3 +18,13 @@ def delete_dir_tree(directory: Path) -> None:
         else:
             file.unlink()
     dir.rmdir()
+
+
+def pf(calling_class, file_path: str) -> str:
+    """
+
+    :param calling_class: the class of which this method is called
+    :param file_path: path to file
+    :return: joined path
+    """
+    return os.path.join(calling_class.path, file_path)

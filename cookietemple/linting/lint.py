@@ -1,25 +1,73 @@
+import sys
+from pathlib import Path
 from subprocess import Popen, PIPE
 
 import click
+from ruamel.yaml import YAML
+
+from cookietemple.linting.TemplateLinter import TemplateLinter
+from cookietemple.linting.domains.cli import CliPythonLint
 
 
-def lint_project():
+def lint_project(project_dir: str) -> TemplateLinter:
     """
     Verifies the integrity of a project to best coding and practices.
     Runs coala (https://github.com/coala/coala) as a subprocess.
     """
+    # Detect which template the project is based on
+    template_handle = get_template_handle(project_dir)
 
+    switcher = {
+        'cli-python': CliPythonLint,
+        # 'cli-java': CliJavaLint,
+    }
+
+    lint_obj = switcher.get(template_handle, lambda: 'Invalid')(project_dir)
+    # Run the linting tests
+    try:
+        # Run non project specific linting
+        click.echo(click.style('Running general linting', fg='blue'))
+        lint_obj.lint_project(super(lint_obj.__class__, lint_obj), label='General Linting')
+        # Run the project specific linting
+        click.echo(click.style(f'Running {template_handle} linting', fg='blue'))
+        lint_obj.lint(f'{template_handle} Linting')
+    except AssertionError as e:
+        click.echo(click.style(f'Critical error: {e}', fg='red'))
+        click.echo(click.style(f'Stopping tests...', fg='red'))
+        return lint_obj
+
+    # Print the results
+    lint_obj.print_results()
+
+    # Exit code
+    if len(lint_obj.failed) > 0:
+        click.echo(click.style('Sorry, some tests failed - exiting with a non-zero error code...\n'))
+
+    # Lint the project with Coala
+    # A preconfigured .coa file should exist in the project, which is tested beforehand via linting
     call_coala()
 
 
-def call_coala():
+def get_template_handle(dot_cookietemple_path: str = '.cookietemple') -> str:
+    """
+    Reads the .cookietemple file and extracts the template handle
+    :param dot_cookietemple_path: path to the .cookietemple file
+    :return: found template handle
+    """
+    path = Path(f'{dot_cookietemple_path}/.cookietemple')
+    yaml = YAML(typ='safe')
+    dot_cookietemple_content = yaml.load(path)
+
+    return dot_cookietemple_content['template_handle']
+
+
+def call_coala() -> None:
     """
     Calls coala interactively as a subprocess.
     Verifies that coala is indeed installed.
-    :return:
     """
     if not is_coala_accessible():
-        return
+        sys.exit(1)
 
     # We are calling coala as a subprocess, since it is not possible to run any of it's executable functions.
     # Coala has several interactive parts and therefore does not play nicely with our click setup.
