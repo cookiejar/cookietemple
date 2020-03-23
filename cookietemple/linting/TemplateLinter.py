@@ -76,7 +76,7 @@ class TemplateLinter(object):
         Files that *should not* be present::
             '.travis.yml'
         Raises:
-            An AssertionError if .cookietemple is not found found.
+            An AssertionError if .cookietemple.yml is not found found.
         """
 
         # NB: Should all be files, not directories

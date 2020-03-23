@@ -57,7 +57,7 @@ def test_create_dot_cookietemple_file() -> None:
     with patch('cookietemple.create.create_templates.open', open_mock, create=True):
         create_dot_cookietemple(TEMPLATE_STRUCT, 'MyOtherVersion', 'MyOtherHandle')
 
-    open_mock.assert_called_with(f'{TEMPLATE_STRUCT["project_name"]}/.cookietemple', 'w')
+    open_mock.assert_called_with(f'{TEMPLATE_STRUCT["project_name"]}/.cookietemple.yml', 'w')
 
 
 def test_del_dir_tree(tmp_path) -> None:

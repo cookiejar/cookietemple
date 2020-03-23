@@ -69,8 +69,8 @@ def create(domain: str) -> None:
 def lint(project_dir) -> None:
     """
     Lint your existing COOKIETEMPLE project
-
     """
+
     lint_project(project_dir)
 
 
@@ -78,8 +78,8 @@ def lint(project_dir) -> None:
 def list() -> None:
     """
     List all available COOKIETEMPLE templates
-
     """
+
     list_available_templates()
 
 
@@ -98,8 +98,8 @@ def info(handle: str) -> None:
 def sync() -> None:
     """
     Sync your project with the latest template release
-
     """
+
     snyc_template()
 
 
@@ -109,8 +109,8 @@ def sync() -> None:
 def bump_version(new_version, project_dir):
     """
     Bump the version of an existing COOKIETEMPLE project
-
     """
+
     if not new_version:
         click.echo(click.style('No new version specified.\nPlease specify a new version using '
                                '\'cookietemple bump_version my.new.version\'', fg='red'))
