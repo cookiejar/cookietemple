@@ -8,7 +8,7 @@ import click
 import re
 from pathlib import Path
 
-from . import __version__
+from cookietemple import __version__
 from cookietemple.bump_version.bump_version import bump_template_version
 from cookietemple.create.create import choose_domain
 from cookietemple.info.info import show_info
