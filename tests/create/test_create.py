@@ -51,7 +51,7 @@ def posix_path_super_dir(path) -> set:
             Path(f"{path}/Dockerfile"), Path(f"{path}/requirements.txt"), Path(f"{path}/setup.cfg"),
             Path(f"{path}/CHANGELOG.rst"),
             Path(f"{path}/CONTRIBUTING.rst"), Path(f"{path}/LICENSE"), Path(f"{path}/AUTHORS.rst"),
-            Path(f"{path}/.dependabot"), Path(f"{path}/bump_version.cfg")}
+            Path(f"{path}/.dependabot"), Path(f"{path}/cookietemple.cfg")}
 
 
 def test_choose_domain_cli(monkeypatch, valid_domains, tmp_path) -> None:
