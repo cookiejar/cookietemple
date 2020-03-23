@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
-try:
-    from importlib import metadata
-except ImportError:
-    # Running on pre-3.8 Python; use importlib-metadata package
-    import importlib_metadata as metadata
+# try:
+# from importlib import metadata
+# except ImportError:
+# Running on pre-3.8 Python; use importlib-metadata package
+# import importlib_metadata as metadata
 
-__version__ = metadata.version('cookietemple')
+# __version__ = metadata.version('cookietemple')
+
+import pkg_resources
+__version__ = pkg_resources.get_distribution('cookietemple').version

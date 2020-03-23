@@ -4,4 +4,3 @@ ruamel.yaml==0.16.10
 coala-bears==0.11.1
 pygithub==1.47
 tabulate==0.8.6
-importlib_metadata==1.5.0
