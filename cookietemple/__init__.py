@@ -7,5 +7,4 @@
 
 # __version__ = metadata.version('cookietemple')
 
-import pkg_resources
-__version__ = pkg_resources.get_distribution('cookietemple').version
+__version__ = '0.1.0'
