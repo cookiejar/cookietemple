@@ -110,7 +110,7 @@ def bump_version(new_version, pipeline_dir):
     """
     if not new_version:
         click.echo(click.style('No new version specified.\nPlease specify a new version using '
-                               '\'cookietemple bump_version --new_version=my.new.version\'', fg='red'))
+                               '\'cookietemple bump_version my.new.version\'', fg='red'))
         sys.exit(0)
 
     elif not re.match(r"[0-9]+.[0-9]+.[0-9]+", new_version):
@@ -118,8 +118,8 @@ def bump_version(new_version, pipeline_dir):
                                'like 0.0.0 or 15.100.239', fg='red'))
         sys.exit(0)
 
-    elif not Path(f'{pipeline_dir}/bump_version.cfg').is_file():
-        click.echo(click.style('Did not found a bump_version.cfg file. Make sure you are in the right directory '
+    elif not Path(f'{pipeline_dir}/cookietemple.cfg').is_file():
+        click.echo(click.style('Did not found a cookietemple.cfg file. Make sure you are in the right directory '
                                'or specify the path to your projects bump_version.cfg file', fg='red'))
         sys.exit(0)
 

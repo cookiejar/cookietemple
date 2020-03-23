@@ -2,13 +2,11 @@ import os
 import sys
 import click
 
-from ruamel.yaml import YAML
 from tabulate import tabulate
 
 from cookietemple.info.levensthein_dist import (most_similar_command, AVAILABLE_HANDLES)
 from cookietemple.list.list import load_available_templates
 from cookietemple.util.dict_util import is_nested_dictionary
-
 
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f'{WD}/../create/templates'
@@ -61,12 +59,8 @@ def show_info(handle: str):
     for template in templates_to_print:
         template[2] = set_linebreaks(template[2])
 
-    click.echo(tabulate(templates_to_print, headers=['Name', 'Handle', 'Description', 'Available Libraries', 'Version']))
-
-    #yaml = YAML()
-    #click.echo(click.style(f'Template info for {handle}\n', fg='green'))
-    #click.echo()
-    #yaml.dump(template_info, sys.stdout)
+    click.echo(
+        tabulate(templates_to_print, headers=['Name', 'Handle', 'Description', 'Available Libraries', 'Version']))
 
 
 def flatten_nested_dict(template_info_) -> None:
@@ -110,9 +104,6 @@ def set_linebreaks(desc: str) -> str:
         idx += 1
 
     return desc
-
-
-
 
 
 def non_existing_handle():
