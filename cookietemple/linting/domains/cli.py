@@ -29,8 +29,6 @@ class CliPythonLint(TemplateLinter):
             none
         Files that *should not* be present::
             '__pycache__'
-        Raises:
-            An AssertionError if .cookietemple is not found found.
         """
 
         # NB: Should all be files, not directories

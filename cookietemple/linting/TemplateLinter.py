@@ -111,8 +111,8 @@ class TemplateLinter(object):
         ]
 
         # First - critical files. Check that this is actually a COOKIETEMPLE based project
-        if not os.path.isfile(pf(self, '.cookietemple')):
-            raise AssertionError('.cookietemple not found!! Is this a COOKIETEMPLE project?')
+        if not os.path.isfile(pf(self, '.cookietemple.yml')):
+            raise AssertionError('.cookietemple.yml not found!! Is this a COOKIETEMPLE project?')
 
         files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists)
 
