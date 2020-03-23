@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+try:
+    from importlib import metadata
+except ImportError:
+    # Running on pre-3.8 Python; use importlib-metadata package
+    import importlib_metadata as metadata
 
-'""Top-level package for cookietemple.""'
-
-__author__ = '""Lukas Heumos""'
-__email__ = 'lukas.heumos@posteo.net'
-__version__ = '0.1.0'
+__version__ = metadata.version('cookietemple')

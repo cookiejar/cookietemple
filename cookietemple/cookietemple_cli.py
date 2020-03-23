@@ -8,6 +8,8 @@ import click
 import re
 from pathlib import Path
 
+import cookietemple
+
 from cookietemple.bump_version.bump_version import bump_template_version
 from cookietemple.create.create import choose_domain
 from cookietemple.info.info import show_info
@@ -17,7 +19,6 @@ from cookietemple.synchronization.sync import snyc_template
 from cookietemple.util.click_util import CustomHelpOrder
 
 WD = os.path.dirname(__file__)
-COOKIETEMPLE_VERSION = '0.1.0'
 
 
 def main():
@@ -37,7 +38,7 @@ def main():
 
 
 @click.group(cls=CustomHelpOrder)
-@click.version_option(COOKIETEMPLE_VERSION)
+@click.version_option(cookietemple.__version__)
 @click.option(
     '-v', '--verbose',
     is_flag=True,
