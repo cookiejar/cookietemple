@@ -51,7 +51,7 @@ def test_general_prompts_with_license_invalid_choice(monkeypatch, capfd) -> None
 
 def test_create_dot_cookietemple_file() -> None:
     """
-    Ensure that the .cookietemple file is created using the right arguments.
+    Ensure that the .cookietemple.yml file is created using the right arguments.
     """
     open_mock = mock_open()
     with patch('cookietemple.create.create_templates.open', open_mock, create=True):
