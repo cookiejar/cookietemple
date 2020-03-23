@@ -46,7 +46,7 @@ def posix_path_super_dir(path) -> set:
             Path(f"{path}/requirements_dev.txt"),
             Path(f"{path}/.travis.yml"), Path(f"{path}/.gitignore"), Path(f"{path}/projectname"),
             Path(f"{path}/.github"),
-            Path(f"{path}/setup.py"), Path(f"{path}/.cookietemple"), Path(f"{path}/CODE_OF_CONDUCT.rst"),
+            Path(f"{path}/setup.py"), Path(f"{path}/.cookietemple.yml"), Path(f"{path}/CODE_OF_CONDUCT.rst"),
             Path(f"{path}/docs"),
             Path(f"{path}/Dockerfile"), Path(f"{path}/requirements.txt"), Path(f"{path}/setup.cfg"),
             Path(f"{path}/CHANGELOG.rst"),

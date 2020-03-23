@@ -23,7 +23,7 @@ def create_dot_cookietemple(TEMPLATE_STRUCT: dict, template_version: str, templa
     """
     TEMPLATE_STRUCT['template_version'] = template_version
     TEMPLATE_STRUCT['template_handle'] = template_handle
-    with open(f'{TEMPLATE_STRUCT["project_slug"]}/.cookietemple', 'w') as f:
+    with open(f'{TEMPLATE_STRUCT["project_slug"]}/.cookietemple.yml', 'w') as f:
         yaml = YAML()
         yaml.dump(TEMPLATE_STRUCT, f)
 
