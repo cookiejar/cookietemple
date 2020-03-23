@@ -14,29 +14,29 @@ def valid_domains():
 
 
 def docs_subdir(path) -> set:
-    return {Path(f"{path}/docs/conf.py"), Path(f"{path}/docs/Makefile"), Path(f"{path}/docs/contributing.rst"),
-            Path(f"{path}/docs/authors.rst"),
-            Path(f"{path}/docs/installation.rst"), Path(f"{path}/docs/make.bat"), Path(f"{path}/docs/index.rst"),
-            Path(f"{path}/docs/usage.rst"),
-            Path(f"{path}/docs/changelog.rst"), Path(f"{path}/docs/readme.rst")}
+    return {Path(f'{path}/docs/conf.py'), Path(f'{path}/docs/Makefile'), Path(f'{path}/docs/contributing.rst'),
+            Path(f'{path}/docs/authors.rst'),
+            Path(f'{path}/docs/installation.rst'), Path(f'{path}/docs/make.bat'), Path(f'{path}/docs/index.rst'),
+            Path(f'{path}/docs/usage.rst'),
+            Path(f'{path}/docs/changelog.rst'), Path(f'{path}/docs/readme.rst')}
 
 
 def subdir_tests(path) -> set:
-    return {Path(f"{path}/tests/__init__.py"), Path(f"{path}/tests/test_projectname.py")}
+    return {Path(f'{path}/tests/__init__.py'), Path(f'{path}/tests/test_projectname.py')}
 
 
 def subdir_maindir(path) -> set:
-    return {Path(f"{path}/projectname/__init__.py"), Path(f"{path}/projectname/cli.py"),
-            Path(f"{path}/projectname/projectname.py"),
-            Path(f"{path}/projectname/files")}
+    return {Path(f'{path}/projectname/__init__.py'), Path(f'{path}/projectname/cli.py'),
+            Path(f'{path}/projectname/projectname.py'),
+            Path(f'{path}/projectname/files')}
 
 
 def subdir_dependabot(path) -> set:
-    return {Path(f"{path}/.dependabot/config.yml")}
+    return {Path(f'{path}/.dependabot/config.yml')}
 
 
 def subdir_github(path) -> set:
-    return {Path(f"{path}/.github/ISSUE_TEMPLATE.md")}
+    return {Path(f'{path}/.github/ISSUE_TEMPLATE.md')}
 
 
 def posix_path_super_dir(path) -> set:
@@ -62,14 +62,14 @@ def test_choose_domain_cli(monkeypatch, valid_domains, tmp_path) -> None:
     prompt = StringIO(f"{valid_domains[0]}\npython\nname\nmail\nprojectname\ndesc\n0.1.1"
                       f"\nMIT\nmyGitHubName\npypiname\nClick\npytest\nn")
     monkeypatch.setattr('sys.stdin', prompt)
-    choose_domain("")
+    choose_domain('')
     copy_tree(f'{Path.cwd()}/projectname', str(tmp_path))
-    delete_dir_tree(Path(f"{Path.cwd()}/projectname"))
-    assert (set(tmp_path.iterdir()) == posix_path_super_dir(tmp_path) and set(Path(tmp_path / "docs").iterdir())
-            == docs_subdir(tmp_path) and set(Path(tmp_path / "tests").iterdir()) == subdir_tests(tmp_path) and
-            set(Path(tmp_path / ".dependabot").iterdir()) == subdir_dependabot(tmp_path) and
-            set(Path(tmp_path / ".github").iterdir()) == subdir_github(tmp_path) and
-            set(Path(tmp_path / "projectname").iterdir()) == subdir_maindir(tmp_path))
+    delete_dir_tree(Path(f'{Path.cwd()}/projectname'))
+    assert (set(tmp_path.iterdir()) == posix_path_super_dir(tmp_path) and set(Path(tmp_path / 'docs').iterdir())
+            == docs_subdir(tmp_path) and set(Path(tmp_path / 'tests').iterdir()) == subdir_tests(tmp_path) and
+            set(Path(tmp_path / '.dependabot').iterdir()) == subdir_dependabot(tmp_path) and
+            set(Path(tmp_path / '.github').iterdir()) == subdir_github(tmp_path) and
+            set(Path(tmp_path / 'projectname').iterdir()) == subdir_maindir(tmp_path))
 
 
 def test_repo_already_exists_no_overwrite_if_false(mocker, monkeypatch, capfd, valid_domains) -> None:
@@ -85,6 +85,6 @@ def test_repo_already_exists_no_overwrite_if_false(mocker, monkeypatch, capfd, v
     monkeypatch.setattr('sys.stdin', prompt)
 
     with pytest.raises(SystemExit):
-        choose_domain("")
+        choose_domain('')
         out, err = capfd.readouterr()
         assert out.strip() == 'Aborted! Canceled template creation!'

@@ -63,12 +63,13 @@ def create(domain: str) -> None:
 
 
 @cookietemple_cli.command(help_priority=2)
-def lint() -> None:
+@click.argument('project_dir', type=click.Path(), default=Path(f'{Path.cwd()}'))
+def lint(project_dir) -> None:
     """
     Lint your existing COOKIETEMPLE project
 
     """
-    lint_project()
+    lint_project(project_dir)
 
 
 @cookietemple_cli.command(help_priority=3)
@@ -102,8 +103,8 @@ def sync() -> None:
 
 @cookietemple_cli.command(help_priority=6)
 @click.argument('new_version', type=str)
-@click.argument('pipeline_dir', type=click.Path(), default=Path(f'{Path.cwd()}'))
-def bump_version(new_version, pipeline_dir):
+@click.argument('project_dir', type=click.Path(), default=Path(f'{Path.cwd()}'))
+def bump_version(new_version, project_dir):
     """
     Bump the version of an existing COOKIETEMPLE project
 
@@ -123,7 +124,7 @@ def bump_version(new_version, pipeline_dir):
                                'or specify the path to your projects bump_version.cfg file', fg='red'))
         sys.exit(0)
 
-    bump_template_version(new_version, pipeline_dir)
+    bump_template_version(new_version, project_dir)
 
 
 if __name__ == '__main__':
