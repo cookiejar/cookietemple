@@ -8,8 +8,7 @@ import click
 import re
 from pathlib import Path
 
-import cookietemple
-
+from . import __version__
 from cookietemple.bump_version.bump_version import bump_template_version
 from cookietemple.create.create import choose_domain
 from cookietemple.info.info import show_info
@@ -38,7 +37,7 @@ def main():
 
 
 @click.group(cls=CustomHelpOrder)
-@click.version_option(cookietemple.__version__)
+@click.version_option(__version__)
 @click.option(
     '-v', '--verbose',
     is_flag=True,
