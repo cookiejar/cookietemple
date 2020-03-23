@@ -1,7 +1,7 @@
 import click
 import re
 
-from configparser import SafeConfigParser
+from configparser import ConfigParser
 from tempfile import mkstemp
 from shutil import move, copymode
 from os import fdopen, remove
@@ -17,9 +17,8 @@ def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
                          bumps the version from the projects top level directory. If this is not the case this parameter
                          shows the path where the projects top level directory is and bumps the version there
     """
-
-    parser = SafeConfigParser()
-    parser.read(f'{pipeline_dir}/bump_version.cfg')
+    parser = ConfigParser()
+    parser.read(f'{pipeline_dir}/cookietemple.cfg')
     current_version = parser.get('bumpversion', 'current_version')
 
     click.echo(click.style(f'Changing version number.\nCurrent version is {current_version}.'
@@ -29,7 +28,7 @@ def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
         replace(path, new_version)
 
     parser.set('bumpversion', 'current_version', new_version)
-    with open(f'{pipeline_dir}/bump_version.cfg', 'w') as configfile:
+    with open(f'{pipeline_dir}/cookietemple.cfg', 'w') as configfile:
         parser.write(configfile)
 
 

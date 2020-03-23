@@ -1,23 +1,17 @@
-import logging
 import os
 import sys
-
 import click
 
-from ruamel.yaml import YAML
+from tabulate import tabulate
 
 from cookietemple.info.levensthein_dist import (most_similar_command, AVAILABLE_HANDLES)
 from cookietemple.list.list import load_available_templates
-
-console = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-console.setFormatter(formatter)
-LOG = logging.getLogger('cookietemple info')
-LOG.addHandler(console)
-LOG.setLevel(logging.INFO)
+from cookietemple.util.dict_util import is_nested_dictionary
 
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f'{WD}/../create/templates'
+
+templates_to_print = []
 
 
 def show_info(handle: str):
@@ -60,10 +54,56 @@ def show_info(handle: str):
         except KeyError:
             handle_non_existing_command(handle)
 
-    yaml = YAML()
-    click.echo(click.style(f'Template info for {handle}\n', fg='green'))
-    click.echo()
-    yaml.dump(template_info, sys.stdout)
+    flatten_nested_dict(template_info)
+
+    for template in templates_to_print:
+        template[2] = set_linebreaks(template[2])
+
+    click.echo(
+        tabulate(templates_to_print, headers=['Name', 'Handle', 'Description', 'Available Libraries', 'Version']))
+
+
+def flatten_nested_dict(template_info_) -> None:
+    """
+    This function flattens an arbitrarily deep nested dict and creates a list of list containing all available
+    templates for the specified doamin/subdomain and/or language
+    :param template_info_: The dict containing the yaml parsed info for all available templates the user wants to
+                           gather some information
+    """
+    if is_nested_dictionary(template_info_):
+        for templ in template_info_.values():
+            if not is_nested_dictionary(templ):
+                templates_to_print.append([templ['name'], templ['handle'], templ['long description'],
+                                           templ['available libraries'], templ['version']])
+            else:
+                flatten_nested_dict(templ)
+    else:
+        templates_to_print.append([template_info_['name'], template_info_['handle'], template_info_['long description'],
+                                   template_info_['available libraries'], template_info_['version']])
+
+
+def set_linebreaks(desc: str) -> str:
+    """
+    Sets newlines after max 45 characters (or the latest space to avoid non-sense separation)
+    :param desc: The parsed long description for the sepcific template
+    :return: The formatted string with inserted newlines
+    """
+
+    X = 45  # Limit
+    last_space = -1
+    cnt = 0
+    idx = 0
+
+    while idx < len(desc):
+        if cnt == X:
+            desc = desc[:last_space] + '\n' + desc[last_space + 1:]
+            cnt = 0
+        elif desc[idx] == ' ':
+            last_space = idx
+        cnt += 1
+        idx += 1
+
+    return desc
 
 
 def non_existing_handle():

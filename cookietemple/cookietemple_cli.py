@@ -8,6 +8,9 @@ import click
 import re
 from pathlib import Path
 
+
+import cookietemple
+
 from cookietemple.bump_version.bump_version import bump_template_version
 from cookietemple.create.create import choose_domain
 from cookietemple.info.info import show_info
@@ -17,7 +20,6 @@ from cookietemple.synchronization.sync import snyc_template
 from cookietemple.util.click_util import CustomHelpOrder
 
 WD = os.path.dirname(__file__)
-COOKIETEMPLE_VERSION = '0.1.0'
 
 
 def main():
@@ -29,15 +31,15 @@ def main():
                                                    |_|
         """, fg='blue'))
 
-    click.echo(click.style('Run ', fg='green') + click.style('cookietemple --help ', fg='red')
-               + click.style('for an overview of all commands', fg='green'))
+    click.echo(click.style('Run ', fg='green') + click.style('cookietemple --help ', fg='red') + click.style('for an overview of all commands', fg='green'))
     click.echo()
 
     cookietemple_cli()
 
 
 @click.group(cls=CustomHelpOrder)
-@click.version_option(COOKIETEMPLE_VERSION)
+@click.version_option(cookietemple.__version__, message=click.style(f'Cookietemple Version: {cookietemple.__version__}',
+                                                                    fg='blue'))
 @click.option(
     '-v', '--verbose',
     is_flag=True,
@@ -111,7 +113,7 @@ def bump_version(new_version, project_dir):
     """
     if not new_version:
         click.echo(click.style('No new version specified.\nPlease specify a new version using '
-                               '\'cookietemple bump_version --new_version=my.new.version\'', fg='red'))
+                               '\'cookietemple bump_version my.new.version\'', fg='red'))
         sys.exit(0)
 
     elif not re.match(r"[0-9]+.[0-9]+.[0-9]+", new_version):
@@ -119,8 +121,8 @@ def bump_version(new_version, project_dir):
                                'like 0.0.0 or 15.100.239', fg='red'))
         sys.exit(0)
 
-    elif not Path(f'{project_dir}/bump_version.cfg').is_file():
-        click.echo(click.style('Did not found a bump_version.cfg file. Make sure you are in the right directory '
+    elif not Path(f'{project_dir}/cookietemple.cfg').is_file():
+        click.echo(click.style('Did not found a cookietemple.cfg file. Make sure you are in the right directory '
                                'or specify the path to your projects bump_version.cfg file', fg='red'))
         sys.exit(0)
 
