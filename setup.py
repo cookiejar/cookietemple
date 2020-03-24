@@ -4,7 +4,6 @@
 '""The setup script.""'
 import os
 
-import click
 from setuptools import setup, find_packages
 from setuptools.command.install import install
 
@@ -25,8 +24,8 @@ class OverrideInstall(install):
             executables = filepath.split('/')[-1]
             WARP_EXECUTABLES = ['linux-x64.warp-packer', 'macos-x64.warp-packer', 'windows-x64.warp-packer.exe']
             if executables in WARP_EXECUTABLES:
-                click.echo(click.style('Overriding setuptools mode of scripts ...', fg='blue'))
-                click.echo(click.style(f'Changing permissions of {executables} to {oct(MODE)} ...', fg='blue'))
+                print(click.style('Overriding setuptools mode of scripts ...', fg='blue'))
+                print(click.style(f'Changing permissions of {executables} to {oct(MODE)} ...', fg='blue'))
                 os.chmod(filepath, MODE)
 
 
