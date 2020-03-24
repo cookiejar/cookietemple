@@ -9,6 +9,7 @@ from ruamel.yaml import YAML
 
 WD = os.path.dirname(__file__)
 
+
 def warp_project(input_dir: str, exec: str, output: str) -> None:
     """
     Packages a JVM based project into a single executable using Warp (https://github.com/dgiagio/warp).
@@ -34,6 +35,7 @@ def warp_project(input_dir: str, exec: str, output: str) -> None:
         run_unix_warp(WARP_MACOS_PATH, 'macos-x64', input_dir, exec, output)
     elif platform == 'win32' or platform == 'win64':
         click.echo(click.style('Warning! Windows support is experimental! Consider using Linux', fg='blue'))
+        run_windows_warp(WARP_WINDOWS_PATH)
 
 
 def run_unix_warp(warp_unix_path: str, arch: str, input_dir: str, exec: str, output: str) -> None:
