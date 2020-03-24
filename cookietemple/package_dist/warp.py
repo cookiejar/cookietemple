@@ -25,7 +25,7 @@ def warp_project(input_dir: str, exec: str, output: str) -> None:
     yaml = YAML(typ='safe')
     warp_info = yaml.load(Path(WARP_INFO_PATH))
     click.echo(click.style(f'Packaging using {warp_info["name"]} version: {warp_info["version"]}', fg='blue'))
-    click.echo(click.style(f'For more details please visit:    {warp_info["url"]}    for more information.', fg='blue'))
+    click.echo(click.style(f'For more details please visit:    {warp_info["url"]}', fg='blue'))
 
     # Depending on the platform we need to call different Warp executables
     # NOTE: Windows support is experimental, since we may run into permission issues!
