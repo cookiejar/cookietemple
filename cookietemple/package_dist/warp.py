@@ -35,7 +35,7 @@ def warp_project(input_dir: str, exec: str, output: str) -> None:
     elif platform == 'darwin':
         run_warp(WARP_MACOS_PATH, 'macos-x64', input_dir, exec, output)
     elif platform == 'win32' or platform == 'win64':
-        click.echo(click.style('Warning! Windows support is experimental! Consider using Linux', fg='blue'))
+        click.echo(click.style('Warning! Windows support is experimental! Consider using Linux or running Warp as a standalone.', fg='blue'))
         run_warp(WARP_WINDOWS_PATH, 'windows-x64', input_dir, exec, output)
 
 
