@@ -1,5 +1,4 @@
 import os
-import stat
 from pathlib import Path
 from subprocess import Popen, PIPE
 from sys import platform
@@ -9,6 +8,7 @@ from ruamel.yaml import YAML
 
 WD = os.path.dirname(__file__)
 WARP_FOLDER_PATH = f'{WD}/warp'
+
 
 def warp_project(input_dir: str, exec: str, output: str) -> None:
     """
