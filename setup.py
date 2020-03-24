@@ -9,6 +9,16 @@ from setuptools.command.install import install
 
 import cookietemple as module
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 class OverrideInstall(install):
     """
     Used to set the file permissions of the Warp executables to 755. Overrides the installation process
@@ -24,8 +34,7 @@ class OverrideInstall(install):
             executables = filepath.split('/')[-1]
             WARP_EXECUTABLES = ['linux-x64.warp-packer', 'macos-x64.warp-packer', 'windows-x64.warp-packer.exe']
             if executables in WARP_EXECUTABLES:
-                print(click.style('Overriding setuptools mode of scripts ...', fg='blue'))
-                print(click.style(f'Changing permissions of {executables} to {oct(MODE)} ...', fg='blue'))
+                print(f'{bcolors.OKBLUE}Changing permissions of {executables} to {oct(MODE)} ...')
                 os.chmod(filepath, MODE)
 
 
