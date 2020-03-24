@@ -41,6 +41,13 @@ class OverrideInstall(install):
 
 
 def walker(base: str, *paths) -> list:
+    """
+    Used to fetch a list of files below a given directory
+
+    :param base:
+    :param paths:
+    :return:
+    """
     file_list = set([])
     cur_dir = os.path.abspath(os.curdir)
 
@@ -75,7 +82,6 @@ setup(
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8'
     ],
