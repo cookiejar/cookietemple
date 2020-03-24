@@ -4,6 +4,7 @@
 import logging
 import os
 import sys
+
 import click
 import re
 from pathlib import Path
@@ -16,6 +17,7 @@ from cookietemple.create.create import choose_domain
 from cookietemple.info.info import show_info
 from cookietemple.linting.lint import lint_project
 from cookietemple.list.list import list_available_templates
+from cookietemple.package_dist.warp import warp_project
 from cookietemple.synchronization.sync import snyc_template
 from cookietemple.util.click_util import CustomHelpOrder
 
@@ -106,7 +108,7 @@ def sync() -> None:
 @cookietemple_cli.command(help_priority=6)
 @click.argument('new_version', type=str)
 @click.argument('project_dir', type=click.Path(), default=Path(f'{Path.cwd()}'))
-def bump_version(new_version, project_dir):
+def bump_version(new_version, project_dir) -> None:
     """
     Bump the version of an existing COOKIETEMPLE project
     """
@@ -127,6 +129,18 @@ def bump_version(new_version, project_dir):
         sys.exit(0)
 
     bump_template_version(new_version, project_dir)
+
+
+@cookietemple_cli.command(help_priority=7)
+@click.option('--input_dir', type=str)
+@click.option('--exec', type=str)
+@click.option('--output', type=str)
+def warp(input_dir: str, exec: str, output: str) -> None:
+    """
+    Create a self contained executable with bundled JRE
+    """
+
+    warp_project(input_dir, exec, output)
 
 
 if __name__ == '__main__':

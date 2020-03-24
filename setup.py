@@ -4,9 +4,30 @@
 '""The setup script.""'
 import os
 
+import click
 from setuptools import setup, find_packages
+from setuptools.command.install import install
 
 import cookietemple as module
+
+class OverrideInstall(install):
+    """
+    Used to set the file permissions of the Warp executables to 755. Overrides the installation process
+    Source: https://stackoverflow.com/questions/5932804/set-file-permissions-in-setup-py-file
+    """
+
+    def run(self):
+        MODE = 0o755
+        install.run(self)  # calling install.run(self) insures that everything that happened previously still happens, so the installation does not break!
+
+        # Set the permissions to 755 when installing the Warp executables
+        for filepath in self.get_outputs():
+            executables = filepath.split('/')[-1]
+            WARP_EXECUTABLES = ['linux-x64.warp-packer', 'macos-x64.warp-packer', 'windows-x64.warp-packer.exe']
+            if executables in WARP_EXECUTABLES:
+                click.echo(click.style('Overriding setuptools mode of scripts ...', fg='blue'))
+                click.echo(click.style(f'Changing permissions of {executables} to {oct(MODE)} ...', fg='blue'))
+                os.chmod(filepath, MODE)
 
 
 def walker(base: str, *paths) -> list:
@@ -64,7 +85,7 @@ setup(
     package_data={
         module.__name__: walker(
             os.path.dirname(module.__file__),
-            'create/templates'
+            'create/templates', 'package_dist/warp'
         ),
     },
     setup_requires=setup_requirements,
@@ -73,4 +94,5 @@ setup(
     url='https://github.com/zethson/cookietemple',
     version='0.1.0',
     zip_safe=False,
+    cmdclass={'install': OverrideInstall}
 )
