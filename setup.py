@@ -29,9 +29,9 @@ class OverrideInstall(install):
 
     def run(self):
         MODE = 0o755
-        install.run(self)  # calling install.run(self) insures that everything that happened previously still happens, so the installation does not break!
+        install.run(self)  # calling install.run(self) ensures that everything that happened previously still happens, so the installation does not break!
 
-        # Set the permissions to 755 when installing the Warp executables
+        # Set the permissions to 755 when copying the Warp executables
         for filepath in self.get_outputs():
             executables = filepath.split('/')[-1]
             WARP_EXECUTABLES = ['linux-x64.warp-packer', 'macos-x64.warp-packer', 'windows-x64.warp-packer.exe']
