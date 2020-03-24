@@ -36,7 +36,7 @@ class OverrideInstall(install):
             executables = filepath.split('/')[-1]
             WARP_EXECUTABLES = ['linux-x64.warp-packer', 'macos-x64.warp-packer', 'windows-x64.warp-packer.exe']
             if executables in WARP_EXECUTABLES:
-                print(f'{bcolors.OKBLUE}Changing permissions of {executables} to {oct(MODE)} ...')
+                print(f'{bcolors.OKBLUE}Changing permissions of {executables} to {oct(MODE)[2:]} ...')
                 os.chmod(filepath, MODE)
 
 
