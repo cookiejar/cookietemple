@@ -57,6 +57,7 @@ def posix_path_super_dir(path) -> set:
 
 
 # TODO: USE LINTING (LIKE NF CORE TOOLS) TO TEST COOKIECUTTER WITH EXTRA_CONTENT
+@pytest.mark.skip(reason="MAJOR REFACTORING HAPPENING")
 def test_choose_domain_web_website_flask(monkeypatch, valid_domains, tmp_path) -> None:
     """
     This test tests the creation of a whole python flask website template without GitHub Repo creation!
