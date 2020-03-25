@@ -5,11 +5,50 @@
 import os
 
 from setuptools import setup, find_packages
+from setuptools.command.install import install
 
 import cookietemple as module
 
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
+class OverrideInstall(install):
+    """
+    Used to set the file permissions of the Warp executables to 755. Overrides the installation process
+    Source: https://stackoverflow.com/questions/5932804/set-file-permissions-in-setup-py-file
+    """
+
+    def run(self):
+        MODE = 0o755
+        install.run(self)  # calling install.run(self) ensures that everything that happened previously still happens, so the installation does not break!
+
+        # Set the permissions to 755 when copying the Warp executables
+        for filepath in self.get_outputs():
+            executables = filepath.split('/')[-1]
+            WARP_EXECUTABLES = ['linux-x64.warp-packer', 'macos-x64.warp-packer', 'windows-x64.warp-packer.exe']
+            if executables in WARP_EXECUTABLES:
+                print(f'{bcolors.OKBLUE}Changing permissions of {executables} to {oct(MODE)[2:]} ...')
+                os.chmod(filepath, MODE)
+
+
 def walker(base: str, *paths) -> list:
+    """
+    Used to fetch a list of files below a given directory.
+    They are to be packaged with COOKIETEMPLE
+
+    :param base: Base directory to start from
+    :param paths: Unpacked directories to return
+    :return: List of filenames, which are supposed to be packaged with COOKIETEMPLE
+    """
     file_list = set([])
     cur_dir = os.path.abspath(os.curdir)
 
@@ -44,7 +83,6 @@ setup(
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8'
     ],
@@ -64,7 +102,7 @@ setup(
     package_data={
         module.__name__: walker(
             os.path.dirname(module.__file__),
-            'create/templates'
+            'create/templates', 'package_dist/warp'
         ),
     },
     setup_requires=setup_requirements,
@@ -73,4 +111,5 @@ setup(
     url='https://github.com/zethson/cookietemple',
     version='0.1.0',
     zip_safe=False,
+    cmdclass={'install': OverrideInstall}
 )
