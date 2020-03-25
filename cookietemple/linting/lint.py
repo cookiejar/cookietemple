@@ -45,23 +45,24 @@ def lint_project(project_dir: str) -> TemplateLinter:
 
     # Lint the project with Coala
     # A preconfigured .coa file should exist in the project, which is tested beforehand via linting
-    call_coala()
+    # TODO TEMPORARILY DISABLED
+    # call_coala(False)
 
 
-def get_template_handle(dot_cookietemple_path: str = '.cookietemple') -> str:
+def get_template_handle(dot_cookietemple_path: str = '.cookietemple.yml') -> str:
     """
     Reads the .cookietemple file and extracts the template handle
     :param dot_cookietemple_path: path to the .cookietemple file
     :return: found template handle
     """
-    path = Path(f'{dot_cookietemple_path}/.cookietemple')
+    path = Path(f'{dot_cookietemple_path}/.cookietemple.yml')
     yaml = YAML(typ='safe')
     dot_cookietemple_content = yaml.load(path)
 
     return dot_cookietemple_content['template_handle']
 
 
-def call_coala() -> None:
+def call_coala(interactive: bool) -> None:
     """
     Calls coala interactively as a subprocess.
     Verifies that coala is indeed installed.
@@ -72,7 +73,10 @@ def call_coala() -> None:
     # We are calling coala as a subprocess, since it is not possible to run any of it's executable functions.
     # Coala has several interactive parts and therefore does not play nicely with our click setup.
     # (Leads to issues like 'lint' being passed as a parameter to coala), which it does of course not recognize.
-    coala = Popen(['coala'], universal_newlines=True, shell=False)
+    if interactive:
+        coala = Popen(['coala'], universal_newlines=True, shell=False)
+    else:
+        coala = Popen(['coala', '--non-interactive'], universal_newlines=True, shell=False)
     (coala_stdout, coala_stderr) = coala.communicate()
 
 

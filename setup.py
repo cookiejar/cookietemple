@@ -111,5 +111,5 @@ setup(
     url='https://github.com/zethson/cookietemple',
     version='0.1.0',
     zip_safe=False,
-    cmdclass={'install': OverrideInstall}
+    # cmdclass={'install': OverrideInstall} # This breaks the copying of some files! They seem to be cached or something. Dependencies are also not installed?
 )

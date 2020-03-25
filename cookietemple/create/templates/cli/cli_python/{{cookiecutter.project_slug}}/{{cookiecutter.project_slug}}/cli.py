@@ -1,8 +1,5 @@
 """Console script for {{cookiecutter.project_slug}}."""
 import os
-
-WD = os.path.dirname(__file__)
-
 {%- if cookiecutter.command_line_interface|lower == 'argparse' %}
 import argparse
 {%- endif %}
@@ -10,6 +7,8 @@ import sys
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
 import click
 {%- endif %}
+
+WD = os.path.dirname(__file__)
 
 {% if cookiecutter.command_line_interface|lower == 'click' %}
 @click.command()
