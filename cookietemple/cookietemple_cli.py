@@ -73,7 +73,7 @@ def lint(project_dir) -> None:
     Lint your existing COOKIETEMPLE project
     """
 
-    lint_project(project_dir)
+    lint_project(project_dir, True)
 
 
 @cookietemple_cli.command(help_priority=3)

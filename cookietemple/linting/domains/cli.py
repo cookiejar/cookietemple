@@ -1,7 +1,6 @@
 import os
 from subprocess import Popen
 
-import autopep8
 import click
 
 from cookietemple.create.create_config import TEMPLATE_STRUCT

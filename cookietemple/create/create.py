@@ -41,7 +41,7 @@ def choose_domain(domain: str):
     # Lint the project to verify that the new template adheres to all standards
     project_name = TEMPLATE_STRUCT['project_slug']
     project_path = f'{CWD}/{project_name}'
-    lint_project(project_path)
+    lint_project(project_path, False)
 
     # ask user whether he wants to create a Github repository and do so if specified
     create_github_repository = click.prompt('Do you want to create a Github repository and push your template to it? [y, n]:',

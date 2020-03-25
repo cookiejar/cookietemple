@@ -9,7 +9,7 @@ from cookietemple.linting.TemplateLinter import TemplateLinter
 from cookietemple.linting.domains.cli import CliPythonLint
 
 
-def lint_project(project_dir: str) -> TemplateLinter:
+def lint_project(project_dir: str, coala_interactive: bool = False) -> TemplateLinter:
     """
     Verifies the integrity of a project to best coding and practices.
     Runs coala (https://github.com/coala/coala) as a subprocess.
@@ -45,8 +45,7 @@ def lint_project(project_dir: str) -> TemplateLinter:
 
     # Lint the project with Coala
     # A preconfigured .coa file should exist in the project, which is tested beforehand via linting
-    # TODO TEMPORARILY DISABLED
-    # call_coala(False)
+    call_coala(coala_interactive)
 
 
 def get_template_handle(dot_cookietemple_path: str = '.cookietemple.yml') -> str:
