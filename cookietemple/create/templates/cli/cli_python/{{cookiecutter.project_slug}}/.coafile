@@ -113,7 +113,7 @@ bears = InvalidLinkBear
 
 [rst]
 bears = reSTLintBear
-files = README.rst
+files = **.rst
 
 # TEMPORARILY DISABLED, SINCE IT SEEMS TO HANG
 # [rstcheck]
@@ -123,7 +123,10 @@ files = README.rst
 [text]
 bears = SpaceConsistencyBear
 files =
-    LICENSE, .github/ISSUE_TEMPLATE.md, .github/PULL_REQUEST_TEMPLATE.md, MANIFEST.in,
+    LICENSE, .github/ISSUE_TEMPLATE/bug_report.md,
+     .github/ISSUE_TEMPLATE/feature_request.md,
+     .github/ISSUE_TEMPLATE/general_question.md,
+     .github/PULL_REQUEST_TEMPLATE.md, MANIFEST.in,
     **.sh, setup.cfg,
     ./docs/_static/custom.css
 ignore = node_modules/

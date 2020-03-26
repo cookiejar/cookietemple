@@ -68,12 +68,13 @@ def create(domain: str) -> None:
 
 @cookietemple_cli.command(help_priority=2)
 @click.argument('project_dir', type=click.Path(), default=Path(f'{Path.cwd()}'))
-def lint(project_dir) -> None:
+@click.option('--run-coala/--no-run-coala', default=True)
+def lint(project_dir, run_coala) -> None:
     """
     Lint your existing COOKIETEMPLE project
     """
 
-    lint_project(project_dir, True)
+    lint_project(project_dir, run_coala, True)
 
 
 @cookietemple_cli.command(help_priority=3)
