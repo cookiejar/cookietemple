@@ -157,7 +157,7 @@ class TemplateLinter(object):
             for fname in files:
                 with io.open(os.path.join(root, fname), 'rt', encoding='latin1') as file:
                     for line in file:
-                        if 'TODO COOKIETEMPLE' in line:
+                        if 'TODO COOKIETEMPLE:' in line:
                             line = line.replace('<!--', '')\
                                 .replace('-->', '')\
                                 .replace('# TODO COOKIETEMPLE: ', '')\
