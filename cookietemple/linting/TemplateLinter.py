@@ -70,7 +70,9 @@ class TemplateLinter(object):
             '.gitignore',
             '.dependabot/config.yml',
             '.github/ISSUE_TEMPLATE/bug_report.md',
+            '.github/ISSUE_TEMPLATE/general_question.md',
             '.github/ISSUE_TEMPLATE/feature_request.md',
+            '.github/PULL_REQUEST_TEMPLATE/pull_request.md',
         Files that *must not* be present::
             none
         Files that *should not* be present::
@@ -94,18 +96,22 @@ class TemplateLinter(object):
             [os.path.join('docs', 'installation.rst')],
             [os.path.join('docs', 'usage.rst')],
         ]
+
         files_warn = [
             ['.coafile'],
             ['.gitignore'],
             ['.dependabot/config.yml'],
             [os.path.join('.github', 'ISSUE_TEMPLATE', 'bug_report.md')],
-            [os.path.join('.github', 'ISSUE_TEMPLATE', 'feature_request.md')]
+            [os.path.join('.github', 'ISSUE_TEMPLATE', 'feature_request.md')],
+            [os.path.join('.github', 'ISSUE_TEMPLATE', 'general_question.md')],
+            [os.path.join('.github', 'PULL_REQUESTE_TEMPLATE', 'pull_request.md')]
         ]
 
         # List of strings. Fails / warns if any of the strings exist.
         files_fail_ifexists = [
 
         ]
+
         files_warn_ifexists = [
             '.travis.yml'
         ]
@@ -136,7 +142,6 @@ class TemplateLinter(object):
         """
         Go through all template files looking for the string 'TODO COOKIETEMPLE:'
         """
-
         ignore = ['.git']
         if os.path.isfile(os.path.join(self.path, '.gitignore')):
             with io.open(os.path.join(self.path, '.gitignore'), 'rt', encoding='latin1') as file:
@@ -183,7 +188,6 @@ class TemplateLinter(object):
         Prints the linting results nicely formatted to the console.
         Output is divided into three sections: Passed (green), Warnings (yellow), Failures (red)
         """
-
         click.echo(f"{click.style('=' * 35, dim=True)}\n          LINTING RESULTS\n{click.style('=' * 35, dim=True)}\n"
                    + click.style('  [{}] {:>4} tests passed\n'.format(u'\u2714', len(self.passed)), fg='green') +
                    click.style('  [!] {:>4} tests had warnings\n'.format(len(self.warned)), fg='yellow') +
@@ -233,6 +237,7 @@ def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files
             self.files.extend(files)
         else:
             self.failed.append((1, f'File not found: {self._bold_list_items(files)}'))
+
     # Files that cause a warning if they don't exist
     for files in files_warn:
         if any([os.path.isfile(pf(self, f)) for f in files]):
@@ -240,12 +245,14 @@ def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files
             self.files.extend(files)
         else:
             self.warned.append((1, f'File not found: {self._bold_list_items(files)}'))
+
     # Files that cause an error if they exist
     for file in files_fail_ifexists:
         if os.path.isfile(pf(self, file)):
             self.failed.append((1, f'File must be removed: {self._bold_list_items(file)}'))
         else:
             self.passed.append((1, f'File not found check: {self._bold_list_items(file)}'))
+            
     # Files that cause a warning if they exist
     for file in files_warn_ifexists:
         if os.path.isfile(pf(self, file)):
