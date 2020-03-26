@@ -252,7 +252,7 @@ def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files
             self.failed.append((1, f'File must be removed: {self._bold_list_items(file)}'))
         else:
             self.passed.append((1, f'File not found check: {self._bold_list_items(file)}'))
-            
+
     # Files that cause a warning if they exist
     for file in files_warn_ifexists:
         if os.path.isfile(pf(self, file)):
