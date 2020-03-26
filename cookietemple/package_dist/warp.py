@@ -61,7 +61,7 @@ def run_unix_warp(warp_unix_path: str, arch: str, input_dir: str, exec: str, out
             click.echo(click.style(f'Run command was: \'sudo chmod +x {warp_unix_path}\'', fg='red'))
             click.echo(click.style(f'Error was: {set_warp_executable.stderr}', fg='red'))
 
-    run_warp(arch, exec, input_dir, output, warp_unix_path)
+    run_warp(warp_unix_path, arch, input_dir, exec, output)
 
 
 def run_warp(warp_executable_path, arch, input_dir, exec, output) -> None:
