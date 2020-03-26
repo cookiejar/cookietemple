@@ -9,7 +9,6 @@ Welcome to {{ cookiecutter.project_name }}'s documentation!
    installation
    usage
    modules
-   contributing
    authors
    changelog
 

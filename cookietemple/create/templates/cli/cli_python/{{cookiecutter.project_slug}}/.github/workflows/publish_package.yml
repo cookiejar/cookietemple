@@ -24,6 +24,7 @@ jobs:
     - name: Build and publish
       env:
         TWINE_USERNAME: {% raw %}${{ secrets.PYPI_USERNAME }}{% endraw %}
+        # TODO COOKIETEMPLE: Configure your secrets to enable automatic deployment to PyPi on releases
         # https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
         TWINE_PASSWORD: {% raw %}${{ secrets.PYPI_PASSWORD }}{% endraw %}
       run: |

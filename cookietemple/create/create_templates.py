@@ -105,7 +105,6 @@ def create_common_files() -> None:
                                 'email': TEMPLATE_STRUCT['email'],
                                 'language': TEMPLATE_STRUCT['language'],
                                 'project_slug': TEMPLATE_STRUCT['project_slug'],
-                                'github_username': TEMPLATE_STRUCT['github_username'],
                                 'version': TEMPLATE_STRUCT['version'],
                                 'license': TEMPLATE_STRUCT['license'],
                                 'project_short_description': TEMPLATE_STRUCT['project_short_description']},

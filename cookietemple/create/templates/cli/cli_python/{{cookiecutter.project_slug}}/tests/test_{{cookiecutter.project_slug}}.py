@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 """Tests for `{{ cookiecutter.project_slug }}` package."""
+import os
 
 {% if cookiecutter.use_pytest == 'y' -%}
 import pytest
@@ -25,8 +26,8 @@ def response():
 
     See more at: http://doc.pytest.org/en/latest/fixture.html
     """
-    # import requests
-    # return requests.get('https://github.com/audreyr/cookiecutter-pypackage')
+    import requests
+    return requests.get('https://github.com/torvalds/linux')
 
 
 def test_content(response):
@@ -34,6 +35,18 @@ def test_content(response):
     # from bs4 import BeautifulSoup
     # assert 'GitHub' in BeautifulSoup(response.content).title.string
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
+
+
+class UnixFS:
+
+    @staticmethod
+    def rm(filename):
+        os.remove(filename)
+
+def test_unix_fs(mocker):
+    mocker.patch('os.remove')
+    UnixFS.rm('file')
+    os.remove.assert_called_once_with('file')
 
 
 def test_command_line_interface():
@@ -60,6 +73,18 @@ class Test{{ cookiecutter.project_slug|title }}(unittest.TestCase):
 
     def test_000_something(self):
         """Test something."""
+
+def rm(filename):
+    os.remove(filename)
+
+    from unittest import mock
+    class RmTestCase(unittest.TestCase):
+        @mock.patch('mymodule.os')
+        def test_rm(self, mock_os):
+            rm("any path")
+            # test that rm called os.remove with the right parameters
+            mock_os.remove.assert_called_with("any path")
+
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
 
     def test_command_line_interface(self):

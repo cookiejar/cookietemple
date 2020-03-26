@@ -104,7 +104,7 @@ class TemplateLinter(object):
             [os.path.join('.github', 'ISSUE_TEMPLATE', 'bug_report.md')],
             [os.path.join('.github', 'ISSUE_TEMPLATE', 'feature_request.md')],
             [os.path.join('.github', 'ISSUE_TEMPLATE', 'general_question.md')],
-            [os.path.join('.github', 'PULL_REQUESTE_TEMPLATE', 'pull_request.md')]
+            [os.path.join('.github', 'PULL_REQUEST_TEMPLATE', 'pull_request.md')]
         ]
 
         # List of strings. Fails / warns if any of the strings exist.
