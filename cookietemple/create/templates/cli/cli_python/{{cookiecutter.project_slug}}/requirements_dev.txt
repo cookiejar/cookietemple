@@ -5,10 +5,11 @@ flake8==3.7.9
 tox==3.14.6
 coverage==5.0.4
 Sphinx==2.4.4
+sphinx-automodapi==0.12
 twine==3.1.1
 {% if cookiecutter.command_line_interface|lower == 'click' -%}
-Click==7.0{% endif %}
+Click==7.1.1{% endif %}
 {% if cookiecutter.use_pytest == 'y' -%}
 pytest==5.4.1
-pytest-runner==5.1
+pytest-runner==5.2
 pytest-mock==2.0.0{% endif %}

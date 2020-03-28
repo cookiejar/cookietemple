@@ -1,5 +1,5 @@
 ==========
-CHANGELOG
+Changelog
 ==========
 
 This document records all notable changes to `HTTPie <https://httpie.org>`_.

@@ -1,1 +1,5 @@
+=======
+Modules
+=======
+
 .. include:: ../CHANGELOG.rst
