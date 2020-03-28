@@ -108,7 +108,7 @@ def sync() -> None:
     snyc_template()
 
 
-@cookietemple_cli.command(help_priority=6)
+@cookietemple_cli.command('bump-version', help_priority=6)
 @click.argument('new_version', type=str)
 @click.argument('project_dir', type=click.Path(),
                 default=Path(f'{Path.cwd()}'))

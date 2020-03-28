@@ -163,8 +163,8 @@ class TemplateLinter(object):
                                 .replace('# TODO COOKIETEMPLE: ', '')\
                                 .replace('// TODO COOKIETEMPLE: ', '')\
                                 .replace('TODO COOKIETEMPLE: ', '').strip()
-                            if len(fname) + len(line) > 50:
-                                line = f'{line[:50 - len(fname)]}..'
+                            if len(fname) + len(line) > 70:
+                                line = f'{line[:70 - len(fname)]}..'
                             self.warned.append((3, f'TODO string found in \'{fname}\': {line}'))
 
     def check_no_cookiecutter_strings(self) -> None:
