@@ -121,7 +121,7 @@ def create_common_files() -> None:
 
         if is_dir:
             if not not any(Path(poss_dir).iterdir()):
-                copy_into_already_existing_directory(path,poss_dir)
+                copy_into_already_existing_directory(path, poss_dir)
 
         else:
             if is_dir:
@@ -148,11 +148,9 @@ def copy_into_already_existing_directory(common_path, dir: Path) -> None:
                 copy_into_already_existing_directory(child.resolve(), p)
             else:
                 p.mkdir()
-                shutil.move(child,p)
+                shutil.move(child, p)
         if not child.is_dir():
             copy2(str(child), str(dir))
-
-
 
 
 def directory_exists_warning() -> None:
