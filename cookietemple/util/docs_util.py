@@ -25,4 +25,3 @@ def fix_short_title_underline(path_to_rst_file: str) -> None:
                 file.writelines(content)
     except FileNotFoundError:
         click.echo(click.style(f'Unable to find rst file: {path_to_rst_file}', fg='yellow'))
-
