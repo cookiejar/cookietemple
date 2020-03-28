@@ -141,7 +141,6 @@ def copy_into_already_existing_directory(common_path, dir: Path) -> None:
     """
 
     for child in common_path.iterdir():
-        print(child.name)
         if child.is_dir():
             p = Path(f'{dir}/{child.name}')
             if p.exists():
