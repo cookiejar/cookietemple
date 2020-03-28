@@ -10,6 +10,7 @@ from cookietemple.create.domains.gui import handle_gui
 from cookietemple.create.domains.web import handle_web
 from cookietemple.create.github_support import create_push_github_repository
 from cookietemple.linting.lint import lint_project
+from cookietemple.util.docs_util import fix_short_title_underline
 
 WD = os.path.dirname(__file__)
 CWD = os.getcwd()
@@ -38,9 +39,13 @@ def choose_domain(domain: str):
     template_version, template_handle = switcher.get(TEMPLATE_STRUCT['domain'].lower(), lambda: 'Invalid')()
     create_dot_cookietemple(TEMPLATE_STRUCT, template_version=template_version, template_handle=template_handle)
 
-    # Lint the project to verify that the new template adheres to all standards
     project_name = TEMPLATE_STRUCT['project_slug']
     project_path = f'{CWD}/{project_name}'
+
+    # Ensure that docs are looking good
+    fix_short_title_underline(f'{project_path}/docs/index.rst')
+
+    # Lint the project to verify that the new template adheres to all standards
     lint_project(project_path, run_coala=False)
 
     # ask user whether he wants to create a Github repository and do so if specified
