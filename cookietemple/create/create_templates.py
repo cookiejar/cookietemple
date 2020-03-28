@@ -21,7 +21,7 @@ def create_dot_cookietemple(TEMPLATE_STRUCT: dict, template_version: str, templa
     :param TEMPLATE_STRUCT: Global variable containing all cookietemple creation configuration variables
     :param template_version: Version of the specific template
     """
-    TEMPLATE_STRUCT['template_version'] = f'{template_version} <<COOKIETEMPLE_NO_BUMP>>'
+    TEMPLATE_STRUCT['template_version'] = f'{template_version} # <<COOKIETEMPLE_NO_BUMP>>'
     TEMPLATE_STRUCT['template_handle'] = template_handle
     with open(f'{TEMPLATE_STRUCT["project_slug"]}/.cookietemple.yml', 'w') as f:
         yaml = YAML()
