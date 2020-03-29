@@ -114,7 +114,6 @@ def create_common_files() -> None:
                  no_input=True,
                  overwrite_if_exists=True)
 
-    print(os.listdir(f'{dirpath}'))
     common_files = os.listdir(f'{os.getcwd()}/common_files_util/')
 
     for f in common_files:
@@ -152,7 +151,7 @@ def copy_into_already_existing_directory(common_path, dir: Path) -> None:
                 copy_into_already_existing_directory(child.resolve(), p)
             else:
                 p.mkdir()
-                shutil.move(child, p)
+                shutil.move(str(child), str(p))
         if not child.is_dir():
             copy2(str(child), str(dir))
 
