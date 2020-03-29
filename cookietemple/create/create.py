@@ -37,7 +37,6 @@ def choose_domain(domain: str):
     }
 
     template_version, template_handle = switcher.get(TEMPLATE_STRUCT['domain'].lower(), lambda: 'Invalid')()
-    print(os.getcwd())
     create_dot_cookietemple(TEMPLATE_STRUCT, template_version=template_version, template_handle=template_handle)
 
     project_name = TEMPLATE_STRUCT['project_slug']
@@ -50,9 +49,10 @@ def choose_domain(domain: str):
     lint_project(project_path, run_coala=False)
 
     # ask user whether he wants to create a Github repository and do so if specified
-    create_github_repository = click.prompt('Do you want to create a Github repository and push your template to it? [y, n]:',
-                                            type=bool,
-                                            default='Yes')
+    create_github_repository = click.prompt(
+        'Do you want to create a Github repository and push your template to it? [y, n]:',
+        type=bool,
+        default='Yes')
     if create_github_repository:
         tmp_project_path = f'{project_path}_cookietemple_tmp'
         # rename the currently created template to a temporary name, create Github repo, push, remove temporary template
