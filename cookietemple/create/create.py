@@ -37,6 +37,7 @@ def choose_domain(domain: str):
     }
 
     template_version, template_handle = switcher.get(TEMPLATE_STRUCT['domain'].lower(), lambda: 'Invalid')()
+    print(os.getcwd())
     create_dot_cookietemple(TEMPLATE_STRUCT, template_version=template_version, template_handle=template_handle)
 
     project_name = TEMPLATE_STRUCT['project_slug']

@@ -101,6 +101,8 @@ def create_common_files() -> None:
 
     dirpath = tempfile.mkdtemp()
     copy_tree(f'{COMMON_FILES_PATH}', dirpath)
+    cwd_project = Path.cwd()
+    os.chdir(dirpath)
     cookiecutter(dirpath,
                  extra_context={'full_name': TEMPLATE_STRUCT['full_name'],
                                 'email': TEMPLATE_STRUCT['email'],
@@ -112,11 +114,12 @@ def create_common_files() -> None:
                  no_input=True,
                  overwrite_if_exists=True)
 
+    print(os.listdir(f'{dirpath}'))
     common_files = os.listdir(f'{os.getcwd()}/common_files_util/')
 
     for f in common_files:
         path = Path(f'{Path.cwd()}/common_files_util/{f}')
-        poss_dir = Path(f"{Path.cwd()}/{TEMPLATE_STRUCT['project_slug']}/{f}")
+        poss_dir = Path(f"{cwd_project}/{TEMPLATE_STRUCT['project_slug']}/{f}")
         is_dir = poss_dir.is_dir()
 
         if is_dir:
@@ -126,9 +129,11 @@ def create_common_files() -> None:
         else:
             if is_dir:
                 delete_dir_tree(poss_dir)
-            path.replace(f"{Path.cwd()}/{TEMPLATE_STRUCT['project_slug']}/{f}")
+            path.replace(f"{cwd_project}/{TEMPLATE_STRUCT['project_slug']}/{f}")
 
+    delete_dir_tree(Path(f'{Path.cwd()}/common_files_util'))
     shutil.rmtree(dirpath)
+    os.chdir(str(cwd_project))
 
 
 def copy_into_already_existing_directory(common_path, dir: Path) -> None:
