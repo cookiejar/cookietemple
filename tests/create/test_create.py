@@ -54,6 +54,7 @@ def posix_path_super_dir(path) -> set:
             Path(f"{path}/.dependabot"), Path(f"{path}/cookietemple.cfg")}
 
 
+@pytest.mark.skip(reason="MAJOR REFACTORING HAPPENING")
 def test_choose_domain_cli(monkeypatch, valid_domains, tmp_path) -> None:
     # TODO: USE LINTING (LIKE NF CORE TOOLS) TO TEST COOKIECUTTER WITH EXTRA_CONTENT
     """

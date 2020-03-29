@@ -29,7 +29,7 @@ def prompt_general_template_configuration():
                                                    type=str,
                                                    default='Exploding Springfield')
     TEMPLATE_STRUCT['project_slug'] = TEMPLATE_STRUCT['project_name'].replace(' ', '_')
-    TEMPLATE_STRUCT['project_short_description'] = click.prompt('Please enter a short description of yor project.',
+    TEMPLATE_STRUCT['project_short_description'] = click.prompt('Please enter a short description of your project.',
                                                                 type=str,
                                                                 default=f'{TEMPLATE_STRUCT["project_name"]}. A best practice .')
 

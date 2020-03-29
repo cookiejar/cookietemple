@@ -1,3 +1,4 @@
+import os
 import sys
 from pathlib import Path
 from subprocess import Popen, PIPE
@@ -9,7 +10,7 @@ from cookietemple.linting.TemplateLinter import TemplateLinter
 from cookietemple.linting.domains.cli import CliPythonLint
 
 
-def lint_project(project_dir: str) -> TemplateLinter:
+def lint_project(project_dir: str, run_coala: bool = False, coala_interactive: bool = False) -> TemplateLinter:
     """
     Verifies the integrity of a project to best coding and practices.
     Runs coala (https://github.com/coala/coala) as a subprocess.
@@ -45,23 +46,24 @@ def lint_project(project_dir: str) -> TemplateLinter:
 
     # Lint the project with Coala
     # A preconfigured .coa file should exist in the project, which is tested beforehand via linting
-    call_coala()
+    if run_coala:
+        call_coala(project_dir, coala_interactive)
 
 
-def get_template_handle(dot_cookietemple_path: str = '.cookietemple') -> str:
+def get_template_handle(dot_cookietemple_path: str = '.cookietemple.yml') -> str:
     """
     Reads the .cookietemple file and extracts the template handle
     :param dot_cookietemple_path: path to the .cookietemple file
     :return: found template handle
     """
-    path = Path(f'{dot_cookietemple_path}/.cookietemple')
+    path = Path(f'{dot_cookietemple_path}/.cookietemple.yml')
     yaml = YAML(typ='safe')
     dot_cookietemple_content = yaml.load(path)
 
     return dot_cookietemple_content['template_handle']
 
 
-def call_coala() -> None:
+def call_coala(path: str, interactive: bool) -> None:
     """
     Calls coala interactively as a subprocess.
     Verifies that coala is indeed installed.
@@ -72,7 +74,11 @@ def call_coala() -> None:
     # We are calling coala as a subprocess, since it is not possible to run any of it's executable functions.
     # Coala has several interactive parts and therefore does not play nicely with our click setup.
     # (Leads to issues like 'lint' being passed as a parameter to coala), which it does of course not recognize.
-    coala = Popen(['coala'], universal_newlines=True, shell=False)
+    os.chdir(path)
+    if interactive:
+        coala = Popen(['coala'], universal_newlines=True, shell=False)
+    else:
+        coala = Popen(['coala', '--non-interactive'], universal_newlines=True, shell=False)
     (coala_stdout, coala_stderr) = coala.communicate()
 
 

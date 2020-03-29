@@ -156,5 +156,3 @@ hs_err_pid*
 
 .idea/
 {% endif %}
-
-TEST IF ITS GENERALLY EMPTY with {{cookiecutter.language}}

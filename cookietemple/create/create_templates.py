@@ -3,6 +3,7 @@ import shutil
 import sys
 import tempfile
 from distutils.dir_util import copy_tree
+from shutil import copy2
 from pathlib import Path
 
 import click
@@ -21,7 +22,7 @@ def create_dot_cookietemple(TEMPLATE_STRUCT: dict, template_version: str, templa
     :param TEMPLATE_STRUCT: Global variable containing all cookietemple creation configuration variables
     :param template_version: Version of the specific template
     """
-    TEMPLATE_STRUCT['template_version'] = template_version
+    TEMPLATE_STRUCT['template_version'] = f'{template_version} # <<COOKIETEMPLE_NO_BUMP>>'
     TEMPLATE_STRUCT['template_handle'] = template_handle
     with open(f'{TEMPLATE_STRUCT["project_slug"]}/.cookietemple.yml', 'w') as f:
         yaml = YAML()
@@ -100,12 +101,13 @@ def create_common_files() -> None:
 
     dirpath = tempfile.mkdtemp()
     copy_tree(f'{COMMON_FILES_PATH}', dirpath)
+    cwd_project = Path.cwd()
+    os.chdir(dirpath)
     cookiecutter(dirpath,
                  extra_context={'full_name': TEMPLATE_STRUCT['full_name'],
                                 'email': TEMPLATE_STRUCT['email'],
                                 'language': TEMPLATE_STRUCT['language'],
                                 'project_slug': TEMPLATE_STRUCT['project_slug'],
-                                'github_username': TEMPLATE_STRUCT['github_username'],
                                 'version': TEMPLATE_STRUCT['version'],
                                 'license': TEMPLATE_STRUCT['license'],
                                 'project_short_description': TEMPLATE_STRUCT['project_short_description']},
@@ -115,15 +117,41 @@ def create_common_files() -> None:
     common_files = os.listdir(f'{os.getcwd()}/common_files_util/')
 
     for f in common_files:
-        path = Path(f'{Path.cwd()}/common_files_util/{f}')
-        poss_dir = Path(f"{Path.cwd()}/{TEMPLATE_STRUCT['project_slug']}/{f}")
+        path = Path(f'{os.getcwd()}/common_files_util/{f}')
+        poss_dir = Path(f"{cwd_project}/{TEMPLATE_STRUCT['project_slug']}/{f}")
+        is_dir = poss_dir.is_dir()
 
-        if poss_dir.is_dir():
-            delete_dir_tree(poss_dir)
-        path.replace(f"{Path.cwd()}/{TEMPLATE_STRUCT['project_slug']}/{f}")
+        if is_dir:
+            if not not any(Path(poss_dir).iterdir()):
+                copy_into_already_existing_directory(path, poss_dir)
 
-    os.removedirs(f'{os.getcwd()}/common_files_util')
+        else:
+            if is_dir:
+                delete_dir_tree(poss_dir)
+            path.replace(f"{cwd_project}/{TEMPLATE_STRUCT['project_slug']}/{f}")
+
+    delete_dir_tree(Path(f'{Path.cwd()}/common_files_util'))
     shutil.rmtree(dirpath)
+    os.chdir(str(cwd_project))
+
+
+def copy_into_already_existing_directory(common_path, dir: Path) -> None:
+    """
+    This function copies all files of an arbitrarily deep nested directory that is already on the main directory
+    and just adds them where they belong.
+
+    :param common_path: Path where the common files are located
+    :param dir: The projects directory where collisions occurred (co-existence)
+    """
+    for child in common_path.iterdir():
+        if child.is_dir():
+            p = Path(f'{dir}/{child.name}')
+            if p.exists():
+                copy_into_already_existing_directory(child.resolve(), p)
+            else:
+                shutil.copytree(str(child), str(p))
+        if not child.is_dir():
+            copy2(str(child), str(dir))
 
 
 def directory_exists_warning() -> None:

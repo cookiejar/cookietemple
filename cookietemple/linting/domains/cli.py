@@ -1,6 +1,11 @@
 import os
+from subprocess import Popen
+
+import click
 
 from cookietemple.linting.TemplateLinter import TemplateLinter, files_exist_linting
+
+CWD = os.getcwd()
 
 
 class CliPythonLint(TemplateLinter):
@@ -10,6 +15,11 @@ class CliPythonLint(TemplateLinter):
     def lint(self, label):
         methods = ['python_files_exist', 'python_version_consistent']
         super().lint_project(self, methods, label=label)
+
+        # Call autopep8
+        click.echo(click.style('Running autopep8 to fix pep8 issues in place', ))
+        autopep8 = Popen(['autopep8', self.path, '--recursive', '--in-place', '--pep8-passes', '2000'], universal_newlines=True, shell=False, close_fds=True)
+        (autopep8_stdout, autopep8_stderr) = autopep8.communicate()
 
     def python_files_exist(self) -> None:
         """
