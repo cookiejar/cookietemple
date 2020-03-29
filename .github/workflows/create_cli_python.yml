@@ -28,6 +28,6 @@ jobs:
           echo -e "cli\npython\nHomer\nhomer.simpson@hotmail.com\nExplodingSpringfield\ndescription\n1.0.0\nMIT\nClick\npytest\nn" | cookietemple create
 
       - name: Build Package
-       - run: |
+        run: |
              cd ExplodingSpringfield
              make install
