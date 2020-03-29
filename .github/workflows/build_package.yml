@@ -21,3 +21,6 @@ jobs:
 
       - name: Build Cookietemple
         run: python setup.py clean --all install
+
+      - name: Call Help Command
+        run: cookietemple --help
