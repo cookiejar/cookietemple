@@ -117,7 +117,7 @@ def create_common_files() -> None:
     common_files = os.listdir(f'{os.getcwd()}/common_files_util/')
 
     for f in common_files:
-        path = Path(f'{Path.cwd()}/common_files_util/{f}')
+        path = Path(f'{os.getcwd()}/common_files_util/{f}')
         poss_dir = Path(f"{cwd_project}/{TEMPLATE_STRUCT['project_slug']}/{f}")
         is_dir = poss_dir.is_dir()
 
@@ -143,15 +143,13 @@ def copy_into_already_existing_directory(common_path, dir: Path) -> None:
     :param common_path: Path where the common files are located
     :param dir: The projects directory where collisions occurred (co-existence)
     """
-
     for child in common_path.iterdir():
         if child.is_dir():
             p = Path(f'{dir}/{child.name}')
             if p.exists():
                 copy_into_already_existing_directory(child.resolve(), p)
             else:
-                p.mkdir()
-                shutil.move(str(child), str(p))
+                shutil.copytree(str(child), str(p))
         if not child.is_dir():
             copy2(str(child), str(dir))
 
