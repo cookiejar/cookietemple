@@ -1,4 +1,4 @@
-name: Run {{cookiecutter.project_slug}} Tox Test Suite
+name: Run {{ cookiecutter.project_slug }} Tox Test Suite
 
 on: [push]
 
@@ -17,7 +17,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v1
         with:
-          python-version: ${{ matrix.python }}
+          python-version: {% raw %}${{ matrix.python }}{% endraw %}
 
       - name: Install Tox
         run: pip install tox
