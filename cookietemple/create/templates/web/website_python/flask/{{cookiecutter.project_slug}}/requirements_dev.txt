@@ -7,7 +7,7 @@ coverage==5.0.4
 Sphinx==2.4.4
 twine==3.1.1
 {% if cookiecutter.command_line_interface|lower == 'click' -%}
-Click==7.0
+Click==7.1.1{% endif %}
 {% if cookiecutter.use_pytest == 'y' -%}
 pytest==5.4.1
 pytest-runner==5.2
