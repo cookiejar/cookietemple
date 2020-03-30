@@ -128,7 +128,8 @@ def create_common_files() -> None:
         else:
             if is_dir:
                 delete_dir_tree(poss_dir)
-            path.replace(f"{cwd_project}/{TEMPLATE_STRUCT['project_slug']}/{f}")
+            shutil.copy(path, f"{cwd_project}/{TEMPLATE_STRUCT['project_slug']}/{f}")
+            os.remove(path)
 
     delete_dir_tree(Path(f'{Path.cwd()}/common_files_util'))
     shutil.rmtree(dirpath)
