@@ -11,5 +11,8 @@
   "command_line_interface": ["Click", "Argparse", "No command-line interface"],
   "license": ["MIT", "BSD", "ISC", "Apache2.0", "GNUv3", "Not open source"],
   "vmusername": "cookietempleVM",
-  "url": "myDomain.com"
+  "url": "myDomain.com",
+    "_copy_without_render": [
+        "*.html"
+    ]
 }
