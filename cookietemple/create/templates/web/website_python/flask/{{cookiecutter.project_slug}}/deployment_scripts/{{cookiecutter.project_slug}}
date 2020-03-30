@@ -1,22 +1,22 @@
 server {
-    server_name {{cookiecutter.url}} www.{{cookiecutter.url}};
+    server_name dummy.com www.dummy.com;
 
     location / {
         include proxy_params;
-        proxy_pass http://unix:/home/{{cookiecutter.uservmname}}/{{cookiecutter.project_slug}}/{{cookiecutter.project_slug}}.sock;
+        proxy_pass http://unix:/home/dummyVM/flask_it/flask_it.sock;
     }
 }
 
 server {
-    if ($host = {{cookiecutter.url}}) {
+    if ($host = dummy.com) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
-    if ($host = www.{{cookiecutter.url}}) {
+    if ($host = www.dummy.com) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
     listen 80;
-    server_name www.{{cookiecutter.url}} {{cookiecutter.url}}.com;
+    server_name www.dummy.com dummy.com.com;
     return 301 https://$host$request_uri;
 }

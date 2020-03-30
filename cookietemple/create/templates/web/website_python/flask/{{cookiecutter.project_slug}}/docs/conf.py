@@ -21,7 +21,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
-import {{cookiecutter.project_slug}}
+import flask_it
 
 # -- General configuration ---------------------------------------------
 
@@ -47,7 +47,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = '{{cookiecutter.project_slug}}'
-copyright = "2019, {{cookiecutter.full_name}}"
+copyright = "2020, {{cookiecutter.full_name}}"
 author = "{{cookiecutter.full_name}}"
 
 # The version info for the project you're documenting, acts as replacement

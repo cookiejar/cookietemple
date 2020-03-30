@@ -27,8 +27,8 @@ def walker(base, *paths):
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
-with open('HISTORY.rst') as history_file:
-    history = history_file.read()
+#  with open('CHANGELOG.rst') as history_file:
+#  history = history_file.read()
 
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
@@ -38,8 +38,8 @@ setup_requirements = ['pytest-runner', ]
 test_requirements = ['pytest>=3', ]
 
 setup(
-    author="{{cookiecutter.full_name}}",
-    author_email='{{cookiecutter.email}}',
+    author="Homer Simpson",
+    author_email='homer.simpson@example.com',
     python_requires='>=3.5',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
@@ -52,7 +52,7 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
     ],
-    description="{{cookiecutter.project_short_description}}",
+    description="{{cookiecutter.project_slug}}. A best practice .",
     entry_points={
         'console_scripts': [
             '{{cookiecutter.project_slug}}={}.server:main'.format(module.__name__),
@@ -60,7 +60,7 @@ setup(
     },
     install_requires=requirements,
     license="GNU General Public License v3",
-    long_description=readme + '\n\n' + history,
+    long_description=readme + '\n\n',
     include_package_data=True,
     keywords='{{cookiecutter.project_slug}}',
     name='{{cookiecutter.project_slug}}',
@@ -74,7 +74,7 @@ setup(
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}',
-    version='{{cookiecutter.version}}',
+    url='https://github.com/homersimpson/flask_it',
+    version='0.1.0',
     zip_safe=False,
 )

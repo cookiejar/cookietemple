@@ -3,11 +3,11 @@ Description=Gunicorn instance to serve {{cookiecutter.project_slug}}
 After=network.target
 
 [Service]
-User={{cookiecutter.uservmname}}
+User={{cookiecutter.vmusername}}
 Group=www-data
-WorkingDirectory=/home/{{cookiecutter.uservmname}}/{{cookiecutter.project_slug}}
-Environment="PATH=/home/{{cookiecutter.uservmname}}/{{cookiecutter.project_slug}}/dpenv/bin"
-ExecStart=/home/{{cookiecutter.uservmname}}/{{cookiecutter.project_slug}}/dpenv/bin/gunicorn --workers 3 --bind unix:{{cookiecutter.project_slug}}.sock -m 007 {{cookiecutter.project_slug}}.app:app
+WorkingDirectory=/home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug}}
+Environment="PATH=/home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug}}/dpenv/bin"
+ExecStart=/home/dummyVM/{{cookiecutter.project_slug}}/dpenv/bin/gunicorn --workers 3 --bind unix:{{cookiecutter.project_slug}}.sock -m 007 {{cookiecutter.project_slug}}.app:app
 
 [Install]
 WantedBy=multi-user.target
