@@ -8,6 +8,7 @@
   "pypi_username": "{{ cookiecutter.github_username }}",
   "version": "0.1.0",
   "use_pytest": "y",
+  "is_basic_website": "y",
   "command_line_interface": ["Click", "Argparse", "No command-line interface"],
   "license": ["MIT", "BSD", "ISC", "Apache2.0", "GNUv3", "Not open source"],
   "vmusername": "cookietempleVM",

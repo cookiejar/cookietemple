@@ -1,7 +1,8 @@
 import os
 import click
+from pathlib import Path
 from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration)
-from cookietemple.create.create_templates import create_template_with_subdomain_framework, create_common_files
+from cookietemple.create.create_templates import create_template_with_subdomain_framework, create_common_files, delete_dir_tree
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 
 WD = os.path.dirname(__file__)
@@ -65,6 +66,15 @@ def handle_website_python():
     """
     TEMPLATE_STRUCT['web_framework'] = click.prompt('Please choose between the following frameworks [flask, django]',
                                                     type=click.Choice(['flask', 'django']))
+    setup = click.prompt(
+        'Do you want a basic website setup or including features like database, translation config and more [basic, advanced]:',
+        type=click.Choice(['basic', 'advanced']),
+        default='basic')
+    TEMPLATE_STRUCT['is_basic_website'] = 'y'
+
+    if setup == 'advanced':
+        TEMPLATE_STRUCT['is_basic_website'] = 'n'
+
     TEMPLATE_STRUCT['url'] = click.prompt('Please enter the project\'s URL (if you have one)',
                                           type=str,
                                           default='dummy.com')
@@ -89,6 +99,33 @@ def website_flask_options():
                                              TEMPLATE_STRUCT['language'].lower(),
                                              TEMPLATE_STRUCT['web_framework'].lower())
     create_common_files()
+    #  TODO: The following function removes some dir and files depending on basic/advanced website ->
+    #   we may need reconsider this
+    remove_basic_or_advanced_files(TEMPLATE_STRUCT['is_basic_website'])
+
+
+def remove_basic_or_advanced_files(is_basic: str) -> None:
+    """
+
+    :param mode:
+    """
+    cwd = os.getcwd()
+    os.chdir(f"{cwd}/{TEMPLATE_STRUCT['project_slug']}/{TEMPLATE_STRUCT['project_slug']}")
+
+    if is_basic == 'y':
+        delete_dir_tree(Path('translations'))
+        delete_dir_tree(Path('auth'))
+        delete_dir_tree(Path('models'))
+        delete_dir_tree(Path('services'))
+        delete_dir_tree(Path('templates/auth'))
+        os.remove('templates/index.html')
+        os.remove('templates/base.html')
+
+    elif is_basic == 'n':
+        delete_dir_tree(Path('templates/basic'))
+        delete_dir_tree(Path('basic'))
+
+    os.chdir(cwd)
 
 
 def website_django_options():

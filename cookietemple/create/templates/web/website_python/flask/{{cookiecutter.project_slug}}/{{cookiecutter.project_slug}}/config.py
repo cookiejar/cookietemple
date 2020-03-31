@@ -1,4 +1,5 @@
 import os
+{% if cookiecutter.is_basic_website == 'n' -%}
 import configparser
 
 from flask_babel import Babel
@@ -8,7 +9,6 @@ from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
-basedir = os.path.abspath(os.path.dirname(__file__))
 
 migrate = Migrate()
 db = SQLAlchemy()
@@ -26,6 +26,8 @@ class Config:
     STATIC_PATH = os.path.join(MODULE_DIR, 'static')
     TEMPLATES_PATH = os.path.join(MODULE_DIR, 'templates')
 
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'SOME_SUPERSECRETKEY'
+
     LANGUAGES = {
         'en': 'English',
         'de': 'German'
@@ -38,7 +40,6 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'SOME_SUPERSECRETKEY'
     BABEL_DEFAULT_LOCALE = 'en'
     BABEL_TRANSLATION_DIRECTORIES = 'translations'
-
 
 def config_mail(app):
     try:
@@ -63,4 +64,13 @@ def config_mail(app):
             MAIL_USE_SSL=True,
             MAIL_USERNAME="username_not_available",
             MAIL_PASSWORD="password_not_available"
-        )
+        ){% endif %}
+
+{% if cookiecutter.is_basic_website == 'y' -%}
+class Config:
+    CURRENT_DIR = os.path.abspath(os.getcwd())
+    MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
+    STATIC_PATH = os.path.join(MODULE_DIR, 'static')
+    TEMPLATES_PATH = os.path.join(MODULE_DIR, 'templates')
+
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'SOME_SUPERSECRETKEY'{% endif %}
