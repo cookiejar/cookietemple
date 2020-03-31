@@ -1,5 +1,7 @@
 import os
+import re
 from subprocess import Popen
+import configparser
 
 import click
 
@@ -68,7 +70,31 @@ class CliPythonLint(TemplateLinter):
 
     def python_version_consistent(self) -> None:
         """
-        # TODO implement this
         This method should check that the version is consistent across all files.
+        TODO STRANGE THINGS HAPPENING; TOMORROW FIX
         """
-        pass
+        #parser = configparser.ConfigParser()
+        #parser.read(f'{self.path}/cookietemple.cfg')
+
+        #current_version = parser.get('bumpversion', 'current_version')
+
+        #for file, path in parser.items('bumpversion_files'):
+            #self.check_python_version_match(path, current_version)
+
+    @staticmethod
+    def check_python_version_match(path: str, version: str) -> None:
+        """
+        Check if the versions in a file are consistent with the current version in the cookietemple.cfg
+        :param path: The current file-path to check
+        :param version: The current version of the project specified in the cookietemple.cfg file
+        """
+        with open(path) as file:
+            for line in file:
+                if "<<COOKIETEMPLE_NO_BUMP>>" not in line:
+                    line_version = re.search(r"[0-9]+.[0-9]+.[0-9]+", line)
+                    if line_version:
+                        line_version = line_version.group(0)
+                        if line_version != version:
+                            click.echo(click.style(
+                                f'Inconsistent version number in {path}\n', fg='blue') + click.style(
+                                f'{line} should be {version}', fg='red'))
