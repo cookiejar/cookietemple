@@ -2,7 +2,8 @@ import os
 import click
 from pathlib import Path
 from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration)
-from cookietemple.create.create_templates import create_template_with_subdomain_framework, create_common_files, delete_dir_tree
+from cookietemple.create.create_templates import create_template_with_subdomain_framework, create_common_files, \
+    delete_dir_tree
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 
 WD = os.path.dirname(__file__)
@@ -41,7 +42,8 @@ def handle_web():
         'python': WEB_WEBSITE_PYTHON_TEMPLATE_VERSION
     }
 
-    return switcher_version.get(language.lower(), lambda: 'Invalid language!'), f"web-{TEMPLATE_STRUCT['webtype']}-{language.lower()}"
+    return switcher_version.get(language.lower(),
+                                lambda: 'Invalid language!'), f"web-{TEMPLATE_STRUCT['webtype']}-{language.lower()}"
 
 
 def handle_web_project_type_python():
@@ -106,8 +108,9 @@ def website_flask_options():
 
 def remove_basic_or_advanced_files(is_basic: str) -> None:
     """
+    This function removes the dir/files that do not belong in a basic/advanced template.
 
-    :param mode:
+    :param is_basic: Shows whether the user sets up a basic or advanced website setup
     """
     cwd = os.getcwd()
     os.chdir(f"{cwd}/{TEMPLATE_STRUCT['project_slug']}/{TEMPLATE_STRUCT['project_slug']}")
