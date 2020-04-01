@@ -45,8 +45,8 @@ def replace(file_path: str, subst: str) -> None:
         with open(file_path) as old_file:
             click.echo(click.style(f'Updating version number in {file_path}', fg='blue'))
             for line in old_file:
-                if "<<COOKIETEMPLE_NO_BUMP>>" not in line:
-                    tmp = re.sub(r"[0-9]+.[0-9]+.[0-9]+", subst, line)
+                if '<<COOKIETEMPLE_NO_BUMP>>' not in line:
+                    tmp = re.sub(r'[0-9]+\.[0-9]+\.[0-9]+', subst, line)
                     new_file.write(tmp)
                     if tmp != line:
                         click.echo(click.style(

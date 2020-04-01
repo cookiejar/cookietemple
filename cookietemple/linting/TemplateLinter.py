@@ -3,6 +3,7 @@ import os
 import re
 
 import click
+import configparser
 
 from cookietemple.util.dir_util import pf
 
@@ -39,10 +40,12 @@ class TemplateLinter(object):
         """
         # Called on its own, so not from a subclass
         if check_functions is None:
-            check_functions = ['check_files_exist', 'check_docker', 'check_cookietemple_todos', 'check_no_cookiecutter_strings']
+            check_functions = ['check_files_exist', 'check_docker', 'check_cookietemple_todos',
+                               'check_no_cookiecutter_strings', 'check_version_consistent']
 
         # Show a progessbar and run all linting functions
-        with click.progressbar(check_functions, label=label, item_show_func=repr) as function_names:  # item_show_func=repr leads to some Nones in the bar
+        with click.progressbar(check_functions, label=label,
+                               item_show_func=repr) as function_names:  # item_show_func=repr leads to some Nones in the bar
             for fun_name in function_names:
                 getattr(calling_class, fun_name)()
                 if len(self.failed) > 0:
@@ -158,10 +161,10 @@ class TemplateLinter(object):
                 with io.open(os.path.join(root, fname), 'rt', encoding='latin1') as file:
                     for line in file:
                         if 'TODO COOKIETEMPLE:' in line:
-                            line = line.replace('<!--', '')\
-                                .replace('-->', '')\
-                                .replace('# TODO COOKIETEMPLE: ', '')\
-                                .replace('// TODO COOKIETEMPLE: ', '')\
+                            line = line.replace('<!--', '') \
+                                .replace('-->', '') \
+                                .replace('# TODO COOKIETEMPLE: ', '') \
+                                .replace('// TODO COOKIETEMPLE: ', '') \
                                 .replace('TODO COOKIETEMPLE: ', '').strip()
                             if len(fname) + len(line) > 70:
                                 line = f'{line[:70 - len(fname)]}..'
@@ -182,6 +185,39 @@ class TemplateLinter(object):
                             if len(fname) + len(line) > 50:
                                 line = f'{line[:50 - len(fname)]}..'
                             self.warned.append((4, f'Cookiecutter string found in \'{fname}\': {line}'))
+
+    def check_version_consistent(self) -> None:
+        """
+        This method should check that the version is consistent across all files.
+        """
+        parser = configparser.ConfigParser()
+        parser.read(f'{self.path}/cookietemple.cfg')
+
+        current_version = parser.get('bumpversion', 'current_version')
+
+        print(os.listdir(f'{self.path}/Exploding_Springfield'))
+
+        for file, path in parser.items('bumpversion_files'):
+            self.check_version_match(path, current_version)
+
+    def check_version_match(self, path: str, version: str) -> None:
+        """
+        Check if the versions in a file are consistent with the current version in the cookietemple.cfg
+        :param path: The current file-path to check
+        :param version: The current version of the project specified in the cookietemple.cfg file
+        """
+        with open(path) as file:
+            for line in file:
+                if '<<COOKIETEMPLE_NO_BUMP>>' not in line:
+                    line_version = re.search(r'[0-9]+\.[0-9]+\.[0-9]+', line)
+                    if line_version:
+                        line_version = line_version.group(0)
+                        if line_version != version:
+                            corrected_line = re.sub(r'[0-9]+\.[0-9]+\.[0-9]+', version, line)
+                            self.failed.append((5, click.style(
+                                f'Version number don´t match in\n {self.path}/{path}:', fg='blue')
+                                               + click.style(f'\n {line.strip()} should be '
+                                                             f'{corrected_line.strip()}', fg='red')))
 
     def print_results(self) -> None:
         """
@@ -219,7 +255,8 @@ class TemplateLinter(object):
         return ' or '.join(bfiles)
 
 
-def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files_warn: list, files_warn_ifexists: list) -> None:
+def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files_warn: list,
+                        files_warn_ifexists: list) -> None:
     """
     Verifies that passed lists of files exist or do not exist.
     Depending on the desired result passing, warning or failing results are appended to the linter object.
