@@ -195,8 +195,6 @@ class TemplateLinter(object):
 
         current_version = parser.get('bumpversion', 'current_version')
 
-        print(os.listdir(f'{self.path}/Exploding_Springfield'))
-
         for file, path in parser.items('bumpversion_files'):
             self.check_version_match(path, current_version)
 

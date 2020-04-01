@@ -7,7 +7,7 @@ User={{cookiecutter.vmusername}}
 Group=www-data
 WorkingDirectory=/home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug}}
 Environment="PATH=/home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug}}/dpenv/bin"
-ExecStart=/home/dummyVM/{{cookiecutter.project_slug}}/dpenv/bin/gunicorn --workers 3 --bind unix:{{cookiecutter.project_slug}}.sock -m 007 {{cookiecutter.project_slug}}.app:app
+ExecStart=/home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug}}/dpenv/bin/gunicorn --workers 3 --bind unix:{{cookiecutter.project_slug}}.sock -m 007 {{cookiecutter.project_slug}}.app:app
 
 [Install]
 WantedBy=multi-user.target

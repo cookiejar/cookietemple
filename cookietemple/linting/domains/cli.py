@@ -1,7 +1,5 @@
 import os
-import re
 from subprocess import Popen
-import configparser
 
 import click
 

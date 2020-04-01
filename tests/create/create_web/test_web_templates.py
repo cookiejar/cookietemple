@@ -58,12 +58,32 @@ def posix_path_super_dir(path) -> set:
 
 # TODO: USE LINTING (LIKE NF CORE TOOLS) TO TEST COOKIECUTTER WITH EXTRA_CONTENT
 @pytest.mark.skip(reason='MAJOR REFACTORING HAPPENING')
-def test_choose_domain_web_website_flask(monkeypatch, valid_domains, tmp_path) -> None:
+def test_choose_domain_web_basic_website_flask(monkeypatch, valid_domains, tmp_path) -> None:
     """
     This test tests the creation of a whole python flask website template without GitHub Repo creation!
     """
     prompt = StringIO(f'{valid_domains[2]}\npython\nname\nmail\nprojectname\ndesc\n0.1.0'
-                      f'\nMIT\nmyGitHubName\npypiname\nClick\npytest\nwebsite\nflask\ndmydomain.com\nvmname\nn')
+                      f'\nMIT\nmyGitHubName\npypiname\nClick\npytest\nwebsite\nflask\nbasic\ndmydomain.com\nvmname\nn')
+    monkeypatch.setattr('sys.stdin', prompt)
+    choose_domain('')
+    copy_tree(f'{Path.cwd()}/projectname', str(tmp_path))
+    delete_dir_tree(Path(f'{Path.cwd()}/projectname'))
+    assert (set(tmp_path.iterdir()) == posix_path_super_dir(tmp_path) and set(Path(tmp_path / 'docs').iterdir())
+            == docs_subdir(tmp_path) and set(Path(tmp_path / 'tests').iterdir()) == subdir_tests(tmp_path) and
+            set(Path(tmp_path / '.dependabot').iterdir()) == subdir_dependabot(tmp_path) and
+            set(Path(tmp_path / '.github').iterdir()) == subdir_github(tmp_path) and
+            set(Path(tmp_path / 'projectname').iterdir()) == website_front_end_tests(tmp_path) and
+            set(Path(tmp_path / 'deployment_scripts').iterdir()) == deployment_script_tests(tmp_path))
+
+
+# TODO: USE LINTING (LIKE NF CORE TOOLS) TO TEST COOKIECUTTER WITH EXTRA_CONTENT
+@pytest.mark.skip(reason='MAJOR REFACTORING HAPPENING')
+def test_choose_domain_web_advanced_website_flask(monkeypatch, valid_domains, tmp_path) -> None:
+    """
+    This test tests the creation of a whole python flask website template without GitHub Repo creation!
+    """
+    prompt = StringIO(f'{valid_domains[2]}\npython\nname\nmail\nprojectname\ndesc\n0.1.0'
+                      f'\nMIT\nmyGitHubName\npypiname\nClick\npytest\nwebsite\nflask\nadvanced\ndmydomain.com\nvmname\nn')
     monkeypatch.setattr('sys.stdin', prompt)
     choose_domain('')
     copy_tree(f'{Path.cwd()}/projectname', str(tmp_path))
@@ -85,7 +105,7 @@ def test_repo_already_exists_no_overwrite_if_false(mocker, monkeypatch, capfd, v
     mocker.patch.object(os.path, 'isdir', autospec=True)
     os.path.isdir.return_value = True
     prompt = StringIO(f'{valid_domains[2]}\npython\nname\nmail\nprojectname\ndesc\n0.1.0'
-                      f'\nMIT\nmyGitHubName\npypiname\nClick\npytest\nwebsite\nflask\ndmydomain.com\nvmname\nn')
+                      f'\nMIT\nmyGitHubName\npypiname\nClick\npytest\nwebsite\nflask\nbasic\ndmydomain.com\nvmname\nn')
     monkeypatch.setattr('sys.stdin', prompt)
 
     with pytest.raises(SystemExit):

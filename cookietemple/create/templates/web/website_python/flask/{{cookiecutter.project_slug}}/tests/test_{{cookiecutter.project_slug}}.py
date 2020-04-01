@@ -2,16 +2,16 @@
 
 """Tests for `{{cookiecutter.project_slug}}` package."""
 
-import pytest
 from flask import Flask
+from {{cookiecutter.project_slug}}.config import Config
+{% if cookiecutter.is_basic_website == 'n' -%}
+import pytest
 from flask_babel import Babel
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-
-from {{cookiecutter.project_slug}}.config import Config
 
 
 @pytest.fixture
@@ -71,3 +71,29 @@ def test_something():
     testing_client = flask_app.test_client()
     response = testing_client.get('/')
     assert response.status_code == 302  # assert redirecting
+    {% endif %}
+{% if cookiecutter.is_basic_website == 'y' -%}
+def create_test_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    from {{cookiecutter.project_slug}}.errors import bp as errors_bp  # noqa: E402
+
+    app.register_blueprint(errors_bp)
+
+    from {{cookiecutter.project_slug}}.basic import bp as basic_bp
+
+    app.register_blueprint(basic_bp)
+
+    return app
+
+
+def test_something():
+    flask_app = create_test_app()
+
+    # Flask provides a way to test your application by exposing the Werkzeug test Client
+    # and handling the context locals for you.
+    testing_client = flask_app.test_client()
+    response = testing_client.get('/')
+    assert response.status_code == 302  # assert redirecting
+    {% endif %}
