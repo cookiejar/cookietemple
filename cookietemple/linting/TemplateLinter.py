@@ -195,8 +195,12 @@ class TemplateLinter(object):
 
         current_version = parser.get('bumpversion', 'current_version')
 
+        cwd = os.getcwd()
+        os.chdir(self.path)
+
         for file, path in parser.items('bumpversion_files'):
             self.check_version_match(path, current_version)
+        os.chdir(cwd)
 
     def check_version_match(self, path: str, version: str) -> None:
         """
