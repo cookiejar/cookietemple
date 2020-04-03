@@ -16,6 +16,7 @@
 
 .. image:: https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot
     :alt: Dependabot Enabled
+{% endif %}
 
 
 {{ cookiecutter.project_short_description }}

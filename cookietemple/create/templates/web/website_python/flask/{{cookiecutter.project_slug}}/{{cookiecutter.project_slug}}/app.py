@@ -3,7 +3,7 @@ from flask import Flask{% endif %}
 {% if cookiecutter.is_basic_website == 'n' -%}
 import os
 import click
-from flask import Flask, request
+from flask import request
 from .config import Config, config_mail, login, db, migrate, mail, bootstrap, babel
 from flask import session{% endif %}
 {% if cookiecutter.is_basic_website == 'y' -%}

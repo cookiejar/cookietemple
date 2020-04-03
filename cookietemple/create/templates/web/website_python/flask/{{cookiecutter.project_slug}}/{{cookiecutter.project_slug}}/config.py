@@ -17,7 +17,7 @@ login.login_view = 'auth.login'
 login.login_message = 'Please log in to access this page.'
 mail = Mail()
 bootstrap = Bootstrap()
-babel = Babel()
+babel = Babel(){% endif %}
 
 
 class Config:
@@ -25,19 +25,18 @@ class Config:
     MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
     STATIC_PATH = os.path.join(MODULE_DIR, 'static')
     TEMPLATES_PATH = os.path.join(MODULE_DIR, 'templates')
+    basedir = os.path.abspath(os.path.dirname(__file__))
 
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'SOME_SUPERSECRETKEY'
-
+    {% if cookiecutter.is_basic_website == 'n' -%}
     LANGUAGES = {
         'en': 'English',
         'de': 'German'
     }
 
-    basedir = os.path.abspath(os.path.dirname(__file__))
     SQLALCHEMY_DATABASE_URI = 'sqlite:///'+os.path.abspath(os.getcwd())+"/{{cookiecutter.project_slug}}/database.db"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'SOME_SUPERSECRETKEY'
     BABEL_DEFAULT_LOCALE = 'en'
     BABEL_TRANSLATION_DIRECTORIES = 'translations'
 
@@ -65,12 +64,3 @@ def config_mail(app):
             MAIL_USERNAME="username_not_available",
             MAIL_PASSWORD="password_not_available"
         ){% endif %}
-
-{% if cookiecutter.is_basic_website == 'y' -%}
-class Config:
-    CURRENT_DIR = os.path.abspath(os.getcwd())
-    MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
-    STATIC_PATH = os.path.join(MODULE_DIR, 'static')
-    TEMPLATES_PATH = os.path.join(MODULE_DIR, 'templates')
-
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'SOME_SUPERSECRETKEY'{% endif %}

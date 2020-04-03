@@ -123,6 +123,7 @@ def remove_basic_or_advanced_files(is_basic: str) -> None:
         delete_dir_tree(Path('templates/auth'))
         os.remove('templates/index.html')
         os.remove('templates/base.html')
+        os.remove('static/mail_stub.conf')
 
     elif is_basic == 'n':
         delete_dir_tree(Path('templates/basic'))
