@@ -38,11 +38,11 @@ setup_requirements = [{%- if cookiecutter.use_pytest == 'y' %}'pytest-runner',{%
 test_requirements = [{%- if cookiecutter.use_pytest == 'y' %}'pytest>=3',{%- endif %} ]
 
 {%- set license_classifiers = {
-    'MIT license': 'License :: OSI Approved :: MIT License',
-    'BSD license': 'License :: OSI Approved :: BSD License',
-    'ISC license': 'License :: OSI Approved :: ISC License (ISCL)',
-    'Apache Software License 2.0': 'License :: OSI Approved :: Apache Software License',
-    'GNU General Public License v3': 'License :: OSI Approved :: GNU General Public License v3 (GPLv3)'
+    'MIT': 'License :: OSI Approved :: MIT License',
+    'BSD': 'License :: OSI Approved :: BSD License',
+    'ISC': 'License :: OSI Approved :: ISC License (ISCL)',
+    'Apache2.0': 'License :: OSI Approved :: Apache Software License',
+    'GNUv3': 'License :: OSI Approved :: GNU General Public License v3 (GPLv3)'
 } %}
 
 setup(
