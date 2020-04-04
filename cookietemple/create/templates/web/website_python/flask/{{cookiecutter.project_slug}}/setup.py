@@ -71,9 +71,9 @@ setup(
     },
     {%- endif %}
     install_requires=requirements,
-    { % - if cookiecutter.license in license_classifiers %}
+    {%- if cookiecutter.license in license_classifiers %}
     license = "{{ cookiecutter.license }}",
-    { % - endif %}
+    {%- endif %}
     long_description=readme + '\n\n',
     include_package_data=True,
     keywords='{{cookiecutter.project_slug}}',

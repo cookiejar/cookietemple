@@ -1,11 +1,12 @@
 {% if cookiecutter.is_basic_website == 'y' -%}
-from flask import Flask{% endif %}
+from flask import Flask
+{% endif %}
 {% if cookiecutter.is_basic_website == 'n' -%}
 import os
 import click
-from flask import request
+from flask import Flask, request, session
 from .config import Config, config_mail, login, db, migrate, mail, bootstrap, babel
-from flask import session{% endif %}
+{% endif %}
 {% if cookiecutter.is_basic_website == 'y' -%}
 from .config import Config{% endif %}
 
@@ -31,7 +32,7 @@ from {{cookiecutter.project_slug}}.errors import bp as errors_bp  # noqa: E402
 app.register_blueprint(errors_bp)
 
 {% if cookiecutter.is_basic_website == 'y' -%}
-from {{cookiecutter.project_slug}}.basic import bp as basic_bp
+from {{cookiecutter.project_slug}}.basic import bp as basic_bp  # noqa: E402
 
 app.register_blueprint(basic_bp)
 {% endif %}
