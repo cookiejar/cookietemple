@@ -216,10 +216,8 @@ class TemplateLinter(object):
                         line_version = line_version.group(0)
                         if line_version != version:
                             corrected_line = re.sub(r'[0-9]+\.[0-9]+\.[0-9]+', version, line)
-                            self.failed.append((5, click.style(
-                                f'Version number don´t match in\n {self.path}/{path}:', fg='blue')
-                                               + click.style(f'\n {line.strip()} should be '
-                                                             f'{corrected_line.strip()}', fg='red')))
+                            self.failed.append((5, click.style(f'Version number don´t match in\n {self.path}/{path}:', fg='blue')
+                                                + click.style(f'\n {line.strip()} should be {corrected_line.strip()}', fg='red')))
 
     def print_results(self) -> None:
         """
@@ -257,8 +255,7 @@ class TemplateLinter(object):
         return ' or '.join(bfiles)
 
 
-def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files_warn: list,
-                        files_warn_ifexists: list) -> None:
+def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files_warn: list, files_warn_ifexists: list) -> None:
     """
     Verifies that passed lists of files exist or do not exist.
     Depending on the desired result passing, warning or failing results are appended to the linter object.

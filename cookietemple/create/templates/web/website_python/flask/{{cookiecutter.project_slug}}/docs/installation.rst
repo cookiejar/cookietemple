@@ -26,7 +26,7 @@ you through the process.
 From sources
 ------------
 
-The sources for flask_it can be downloaded from the `Github repo`_.
+The sources for {{cookiecutter.project_slug}} can be downloaded from the `Github repo`_.
 
 You can either clone the public repository:
 

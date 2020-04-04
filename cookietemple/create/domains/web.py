@@ -2,8 +2,7 @@ import os
 import click
 from pathlib import Path
 from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration)
-from cookietemple.create.create_templates import create_template_with_subdomain_framework, create_common_files, \
-    delete_dir_tree
+from cookietemple.create.create_templates import create_template_with_subdomain_framework, create_common_files, delete_dir_tree
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 
 WD = os.path.dirname(__file__)
@@ -42,14 +41,12 @@ def handle_web():
         'python': WEB_WEBSITE_PYTHON_TEMPLATE_VERSION
     }
 
-    return switcher_version.get(language.lower(),
-                                lambda: 'Invalid language!'), f"web-{TEMPLATE_STRUCT['webtype']}-{language.lower()}"
+    return switcher_version.get(language.lower(), lambda: 'Invalid language!'), f"web-{TEMPLATE_STRUCT['webtype']}-{language.lower()}"
 
 
 def handle_web_project_type_python():
     """
-    TODO
-    :return:
+    Determine the type of web application and handle it further.
     """
     TEMPLATE_STRUCT['webtype'] = click.prompt('Please choose between the following web domains [rest_api, website]',
                                               type=click.Choice(['rest_api', 'website']))
@@ -69,7 +66,7 @@ def handle_website_python():
     TEMPLATE_STRUCT['web_framework'] = click.prompt('Please choose between the following frameworks [flask, django]',
                                                     type=click.Choice(['flask', 'django']))
     setup = click.prompt(
-        'Do you want a basic website setup or including features like database, translation config and more [basic, advanced]:',
+        'Choose between basic or advanced (database, translations, deployment scripts) [basic, advanced]:',
         type=click.Choice(['basic', 'advanced']),
         default='basic')
     TEMPLATE_STRUCT['is_basic_website'] = 'y'
@@ -101,14 +98,13 @@ def website_flask_options():
                                              TEMPLATE_STRUCT['language'].lower(),
                                              TEMPLATE_STRUCT['web_framework'].lower())
     create_common_files()
-    #  TODO: The following function removes some dir and files depending on basic/advanced website ->
-    #   we may need reconsider this
+
     remove_basic_or_advanced_files(TEMPLATE_STRUCT['is_basic_website'])
 
 
 def remove_basic_or_advanced_files(is_basic: str) -> None:
     """
-    This function removes the dir/files that do not belong in a basic/advanced template.
+    Remove the dir/files that do not belong in a basic/advanced template.
 
     :param is_basic: Shows whether the user sets up a basic or advanced website setup
     """
