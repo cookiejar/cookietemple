@@ -20,9 +20,9 @@ source dpenv/bin/activate
 
 pip3 install gunicorn
 
-python setup.py clean --all install
+python3 setup.py clean --all install
 
-cp /home/{{cookiecutter.uservmname}}/{{cookiecutter.project_slug}}/deployment_scripts/{{cookiecutter.project_slug}}.service \
+cp /home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug}}/deployment_scripts/{{cookiecutter.project_slug}}.service \
 /etc/systemd/system/{{cookiecutter.project_slug}}.service
 
 systemctl start {{cookiecutter.project_slug}}

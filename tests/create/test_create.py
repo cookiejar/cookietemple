@@ -40,28 +40,28 @@ def subdir_github(path) -> set:
 
 
 def posix_path_super_dir(path) -> set:
-    return {Path(f"{path}/MANIFEST.in"), Path(f"{path}/.editorconfig"), Path(f"{path}/Makefile"),
-            Path(f"{path}/README.rst"),
-            Path(f"{path}/tests"), Path(f"{path}/readthedocs.yml"), Path(f"{path}/tox.ini"),
-            Path(f"{path}/requirements_dev.txt"),
-            Path(f"{path}/.travis.yml"), Path(f"{path}/.gitignore"), Path(f"{path}/projectname"),
-            Path(f"{path}/.github"),
-            Path(f"{path}/setup.py"), Path(f"{path}/.cookietemple.yml"), Path(f"{path}/CODE_OF_CONDUCT.rst"),
-            Path(f"{path}/docs"),
-            Path(f"{path}/Dockerfile"), Path(f"{path}/requirements.txt"), Path(f"{path}/setup.cfg"),
-            Path(f"{path}/CHANGELOG.rst"),
-            Path(f"{path}/CONTRIBUTING.rst"), Path(f"{path}/LICENSE"), Path(f"{path}/AUTHORS.rst"),
-            Path(f"{path}/.dependabot"), Path(f"{path}/cookietemple.cfg")}
+    return {Path(f'{path}/MANIFEST.in'), Path(f'{path}/.editorconfig'), Path(f'{path}/Makefile'),
+            Path(f'{path}/README.rst'),
+            Path(f'{path}/tests'), Path(f'{path}/readthedocs.yml'), Path(f'{path}/tox.ini'),
+            Path(f'{path}/requirements_dev.txt'),
+            Path(f'{path}/.travis.yml'), Path(f'{path}/.gitignore'), Path(f'{path}/projectname'),
+            Path(f'{path}/.github'),
+            Path(f'{path}/setup.py'), Path(f'{path}/.cookietemple.yml'), Path(f'{path}/CODE_OF_CONDUCT.rst'),
+            Path(f'{path}/docs'),
+            Path(f'{path}/Dockerfile'), Path(f'{path}/requirements.txt'), Path(f'{path}/setup.cfg'),
+            Path(f'{path}/CHANGELOG.rst'),
+            Path(f'{path}/CONTRIBUTING.rst'), Path(f'{path}/LICENSE'), Path(f'{path}/AUTHORS.rst'),
+            Path(f'{path}/.dependabot'), Path(f'{path}/cookietemple.cfg')}
 
 
-@pytest.mark.skip(reason="MAJOR REFACTORING HAPPENING")
+@pytest.mark.skip(reason='MAJOR REFACTORING HAPPENING')
 def test_choose_domain_cli(monkeypatch, valid_domains, tmp_path) -> None:
     # TODO: USE LINTING (LIKE NF CORE TOOLS) TO TEST COOKIECUTTER WITH EXTRA_CONTENT
     """
     This test tests the creation of a whole python cli template without GitHub Repo creation!
     """
-    prompt = StringIO(f"{valid_domains[0]}\npython\nname\nmail\nprojectname\ndesc\n0.1.1"
-                      f"\nMIT\nmyGitHubName\npypiname\nClick\npytest\nn")
+    prompt = StringIO(f'{valid_domains[0]}\npython\nname\nmail\nprojectname\ndesc\n0.1.1'
+                      f'\nMIT\nmyGitHubName\npypiname\nClick\npytest\nn')
     monkeypatch.setattr('sys.stdin', prompt)
     choose_domain('')
     copy_tree(f'{Path.cwd()}/projectname', str(tmp_path))
@@ -81,8 +81,8 @@ def test_repo_already_exists_no_overwrite_if_false(mocker, monkeypatch, capfd, v
     """
     mocker.patch.object(os.path, 'isdir', autospec=True)
     os.path.isdir.return_value = True
-    prompt = StringIO(f"{valid_domains[0]}\npython\nname\nmail\nprojectname\ndesc\n0.1.1"
-                      f"\nMIT\nmyGitHubName\npypiname\nClick\npytest\nN")
+    prompt = StringIO(f'{valid_domains[0]}\npython\nname\nmail\nprojectname\ndesc\n0.1.1'
+                      f'\nMIT\nmyGitHubName\npypiname\nClick\npytest\nN')
     monkeypatch.setattr('sys.stdin', prompt)
 
     with pytest.raises(SystemExit):

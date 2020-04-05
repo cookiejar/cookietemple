@@ -46,6 +46,7 @@ def choose_domain(domain: str):
     fix_short_title_underline(f'{project_path}/docs/index.rst')
 
     # Lint the project to verify that the new template adheres to all standards
+
     lint_project(project_path, run_coala=False)
 
     # ask user whether he wants to create a Github repository and do so if specified

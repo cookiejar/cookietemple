@@ -13,7 +13,7 @@ class CliPythonLint(TemplateLinter):
         super().__init__(path)
 
     def lint(self, label):
-        methods = ['python_files_exist', 'python_version_consistent']
+        methods = ['python_files_exist']
         super().lint_project(self, methods, label=label)
 
         # Call autopep8
@@ -65,10 +65,3 @@ class CliPythonLint(TemplateLinter):
         ]
 
         files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists)
-
-    def python_version_consistent(self) -> None:
-        """
-        # TODO implement this
-        This method should check that the version is consistent across all files.
-        """
-        pass

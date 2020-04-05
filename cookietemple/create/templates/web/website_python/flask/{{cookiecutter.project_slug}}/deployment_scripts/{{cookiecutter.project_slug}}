@@ -3,7 +3,7 @@ server {
 
     location / {
         include proxy_params;
-        proxy_pass http://unix:/home/{{cookiecutter.uservmname}}/{{cookiecutter.project_slug}}/{{cookiecutter.project_slug}}.sock;
+        proxy_pass http://unix:/home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug}}/{{cookiecutter.project_slug}}.sock;
     }
 }
 
@@ -17,6 +17,6 @@ server {
     } # managed by Certbot
 
     listen 80;
-    server_name www.{{cookiecutter.url}} {{cookiecutter.url}}.com;
+    server_name www.{{cookiecutter.url}} {{cookiecutter.url}};
     return 301 https://$host$request_uri;
 }

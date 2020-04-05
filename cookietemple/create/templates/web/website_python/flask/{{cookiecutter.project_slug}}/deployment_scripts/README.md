@@ -2,11 +2,11 @@
 
 2. Create an account with superuser privileges if not yet existing:
 ```bash
-adduser {{cookiecutter.uservmname}}
+adduser {{cookiecutter.vmusername}}
 
-usermod -aG sudo {{cookiecutter.uservmname}}
+usermod -aG sudo {{cookiecutter.vmusername}}
 
-su {{cookiecutter.uservmname}}
+su {{cookiecutter.vmusername}}
 ```
 
 3. Enable firewall

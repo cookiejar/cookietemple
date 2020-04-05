@@ -1,48 +1,50 @@
-import logging
-import configparser
-from flask import Flask, request, session
-from flask_babel import Babel
-from .config import Config
+{% if cookiecutter.is_basic_website == 'y' -%}
+from flask import Flask
+{% endif %}
+{% if cookiecutter.is_basic_website == 'n' -%}
 import os
 import click
-
-console = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-console.setFormatter(formatter)
-LOG = logging.getLogger("App")
-LOG.addHandler(console)
-LOG.setLevel(logging.INFO)
-
+from flask import Flask, request, session
+from .config import Config, config_mail, login, db, migrate, mail, bootstrap, babel
+{% endif %}
+{% if cookiecutter.is_basic_website == 'y' -%}
+from .config import Config{% endif %}
 
 app = Flask(__name__)
 app.config.from_object(Config)
-babel = Babel(app)
+{% if cookiecutter.is_basic_website == 'n' -%}
+migrate.init_app(app, db)
+login.init_app(app)
+mail.init_app(app)
+bootstrap.init_app(app)
+babel.init_app(app)
 
-try:
-    config = configparser.ConfigParser()
-    config.read(Config.STATIC_PATH + '/mail.conf')
-    mail_username = config['DEFAULT']['gmail_user_name']
-    mail_password = config['DEFAULT']['gmail_password']
+db.init_app(app)
 
-    # EMAIL SETTINGS
-    app.config.update(
-        MAIL_SERVER='smtp.gmail.com',
-        MAIL_PORT=465,
-        MAIL_USE_SSL=True,
-        MAIL_USERNAME=mail_username,
-        MAIL_PASSWORD=mail_password
-    )
-except KeyError:
-    LOG.warning("Mail config file could not be found! Sending emails via form has been disabled!")
+with app.app_context():
+    db.drop_all()
+    db.create_all()
 
-    # EMAIL SETTINGS
-    app.config.update(
-        MAIL_SERVER='smtp.gmail.com',
-        MAIL_PORT=465,
-        MAIL_USE_SSL=True,
-        MAIL_USERNAME="username_not_available",
-        MAIL_PASSWORD="password_not_available"
-    )
+config_mail(app){% endif %}
+
+from {{cookiecutter.project_slug}}.errors import bp as errors_bp  # noqa: E402
+
+app.register_blueprint(errors_bp)
+
+{% if cookiecutter.is_basic_website == 'y' -%}
+from {{cookiecutter.project_slug}}.basic import bp as basic_bp  # noqa: E402
+
+app.register_blueprint(basic_bp)
+{% endif %}
+
+{% if cookiecutter.is_basic_website == 'n' -%}
+from {{cookiecutter.project_slug}}.auth import bp as auth_bp  # noqa: E402
+
+app.register_blueprint(auth_bp, url_prefix='/auth')
+
+from {{cookiecutter.project_slug}}.main import bp as main_bp  # noqa: E402
+
+app.register_blueprint(main_bp)
 
 
 @app.cli.group()
@@ -82,11 +84,12 @@ def compile():
 
 
 """This selector checks, if the user selected a language manually and in that case uses this language for translations.
-    
-   However, if the user has not selected any language (when accessing the page for the first time, new browser session,
-   ...) it will choose the best matching language out of the configured ones, using browser settings and request headers
-   "Accept-Language:" property
+    However, if the user has not selected any language (when accessing the page for the first time, new browser session,
+    ...) it will choose the best matching language out of the configured ones, using browser settings and request headers
+    "Accept-Language:" property
 """
+
+
 @babel.localeselector
 def get_locale():
     # if the user has set up the language manually it will be stored in the session,
@@ -101,12 +104,10 @@ def get_locale():
 
 
 """This function allows us to use all possible language options and the current language in our templates"""
+
+
 @app.context_processor
 def inject_conf_var():
     return dict(
-                AVAILABLE_LANGUAGES=Config.LANGUAGES,
-                CURRENT_LANGUAGE=session.get('language', request.accept_languages.best_match(Config.LANGUAGES.keys())))
-
-
-
-from . import handlers
+        AVAILABLE_LANGUAGES=Config.LANGUAGES,
+        CURRENT_LANGUAGE=session.get('language', request.accept_languages.best_match(Config.LANGUAGES.keys()))){% endif %}

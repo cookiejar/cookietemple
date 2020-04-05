@@ -8,11 +8,12 @@
   "pypi_username": "{{ cookiecutter.github_username }}",
   "version": "0.1.0",
   "use_pytest": "y",
-  "use_pypi_deployment_with_travis": "y",
-  "add_pyup_badge": "n",
+  "is_basic_website": "y",
   "command_line_interface": ["Click", "Argparse", "No command-line interface"],
-  "create_author_file": "y",
-  "open_source_license": ["MIT license", "BSD license", "ISC license", "Apache Software License 2.0", "GNU General Public License v3", "Not open source"],
-  "uservmname": "dummyVM",
-  "url": "dummy.com"
+  "license": ["MIT", "BSD", "ISC", "Apache2.0", "GNUv3", "Not open source"],
+  "vmusername": "cookietempleVM",
+  "url": "myDomain.com",
+    "_copy_without_render": [
+        "*.html"
+    ]
 }

@@ -55,7 +55,7 @@ def get_commands_with_similar_command_gui_with_language():
     return ['gui-pyton', 'guipyton', 'gui python', 'gui pyton', 'guipyton']
 
 
-@pytest.mark.skip(reason="Idk how to test this: We have to use mocking in some way")
+@pytest.mark.skip(reason='Idk how to test this: We have to use mocking in some way')
 def test_empty_info_handle():
     show_info('')
 
@@ -72,7 +72,7 @@ def test_non_existing_handle(get_invalid_handles, capfd) -> None:
             assert out == 'Handle does not exist. Please enter a valid handle. Use ' + 'cookietemple list' + ' to display all template handles.'
 
 
-@pytest.mark.skip(reason="")
+@pytest.mark.skip(reason='')
 def test_valid_handles_domain_only(get_valid_handles_domain_only, capfd) -> None:
     """
     Ensure that valid handles will be displayed properly by the info command.
