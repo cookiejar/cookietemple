@@ -61,3 +61,12 @@ gui:
         available libraries: JavaFX
         short description: someShortDescription
         long description: someLongDescription
+pub:
+    latex:
+        name: Latex Thesis template
+        handle: pub-latex
+        version: 0.0.1
+        available libraries: latex
+        short description: Template for BSc./MSc./PhD/... thesis
+        long description: someLongDescription
+

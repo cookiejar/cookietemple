@@ -9,6 +9,8 @@ from ruamel.yaml import YAML
 from cookietemple.linting.TemplateLinter import TemplateLinter
 from cookietemple.linting.domains.cli import CliPythonLint
 from cookietemple.linting.domains.web import WebWebsitePythonLint
+from cookietemple.linting.domains.pub import PubLatexLint
+
 
 
 def lint_project(project_dir: str, run_coala: bool = False, coala_interactive: bool = False) -> TemplateLinter:
@@ -21,7 +23,8 @@ def lint_project(project_dir: str, run_coala: bool = False, coala_interactive: b
 
     switcher = {
         'cli-python': CliPythonLint,
-        'web-website-python': WebWebsitePythonLint
+        'web-website-python': WebWebsitePythonLint,
+        'pub-latex': PubLatexLint
         # 'cli-java': CliJavaLint,
     }
 
