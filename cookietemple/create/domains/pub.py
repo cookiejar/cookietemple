@@ -21,7 +21,7 @@ def handle_pub():
     :return:
     """
 
-    #language = click.prompt('Choose between the following languages [latex]',
+    # language = click.prompt('Choose between the following languages [latex]',
     #                        type=click.Choice(['latex']))
     language = 'latex'
     TEMPLATE_STRUCT['language'] = language
@@ -47,6 +47,7 @@ def handle_pub():
     }
 
     return switcher_version.get(language.lower(), lambda: 'Invalid language!'), f'pub-{language.lower()}'
+
 
 def latex_options() -> None:
     """

@@ -12,7 +12,6 @@ from cookietemple.linting.domains.web import WebWebsitePythonLint
 from cookietemple.linting.domains.pub import PubLatexLint
 
 
-
 def lint_project(project_dir: str, run_coala: bool = False, coala_interactive: bool = False) -> TemplateLinter:
     """
     Verifies the integrity of a project to best coding and practices.
