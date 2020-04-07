@@ -1,21 +1,10 @@
 import click
 import os
-import logging
 
-from dataclasses import dataclass
 from distutils.dir_util import copy_tree
 from subprocess import Popen, PIPE
 from github import Github, GithubException
 from git import Repo
-
-
-@dataclass
-class ConductedSubprocess:
-    subprocess: Popen
-    name: str
-    run_command: str
-    stdout: str
-    stderr: str
 
 
 def create_push_github_repository(project_name: str, project_description: str, template_creation_path: str) -> None:
@@ -64,7 +53,6 @@ def create_push_github_repository(project_name: str, project_description: str, t
 
     create_dependabot_label(repo=repo, name="Dependabot")
 
-    conducted_subprocesses = []
     repository = f'{os.getcwd()}/{project_name}'
 
     # NOTE: github_username is the organizations name, if an organization repository is to be created
@@ -95,24 +83,7 @@ def create_push_github_repository(project_name: str, project_description: str, t
     cloned_repo.remotes.origin.push(refspec='development:development')
 
     # did any errors occur?
-    verify_git_subprocesses(conducted_subprocesses)
     click.echo(click.style(f'Successfully created a Github repository at https://github.com/{github_username}/{project_name}', fg='green'))
-
-
-def verify_git_subprocesses(conducted_subprocesses: list) -> None:
-    """
-    Verifies that all subprocesses during Github repository creation ran without errors.
-    Logs any occuring errors.
-
-    :param conducted_subprocesses: List of all git subprocesses that were run when creating and pushing to the repository
-    """
-    click.echo(click.style('Verifying git subprocesses.', fg='blue'))
-    for conducted_subprocess in conducted_subprocesses:
-        if conducted_subprocess.subprocess.returncode != 0:
-            logging.error(f'Subprocess {conducted_subprocess.name} ran with errors!')
-            click.echo(click.style(f'Subprocess {conducted_subprocess.name} ran with errors!', fg='red'))
-            click.echo(click.style(f'Run command was: {conducted_subprocess.run_command}', fg='red'))
-            click.echo(click.style(f'Error was: {conducted_subprocess.stderr}', fg='red'))
 
 
 def is_git_accessible() -> bool:
@@ -131,7 +102,13 @@ def is_git_accessible() -> bool:
     return True
 
 
-def create_dependabot_label(repo, name):
+def create_dependabot_label(repo, name: str) -> None:
+    """
+    Create a dependabot label and add it to the repository.
+    If failed, print error message.
+    :param repo: The repository where the label needs to be added
+    :param name: The name of the new label
+    """
     try:
         repo.create_label(name=name, color="1BB0CE")
     except GithubException:
