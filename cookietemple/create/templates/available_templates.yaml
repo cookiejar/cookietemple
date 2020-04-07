@@ -62,11 +62,20 @@ gui:
         short description: someShortDescription
         long description: someLongDescription
 pub:
-    latex:
-        name: Latex Thesis template
-        handle: pub-latex
-        version: 0.0.1
-        available libraries: latex
-        short description: Template for BSc./MSc./PhD/... thesis
-        long description: someLongDescription
+    thesis:
+        latex:
+            name: Latex Thesis
+            handle: pub-thesis-latex
+            version: 0.0.1
+            available libraries: latex
+            short description: Template for BSc./MSc./PhD/... thesis
+            long description: someLongDescription
+    paper:
+        latex:
+            name: Latex Paper
+                handle: pub-paper-latex
+                version: 0.0.1
+                available libraries: latex
+                short description: Template for scientific papers
+                long description: someLongDescription
 

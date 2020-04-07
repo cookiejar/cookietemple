@@ -23,7 +23,7 @@ def lint_project(project_dir: str, run_coala: bool = False, coala_interactive: b
     switcher = {
         'cli-python': CliPythonLint,
         'web-website-python': WebWebsitePythonLint,
-        'pub-latex': PubLatexLint
+        'pub-thesis-latex': PubLatexLint
         # 'cli-java': CliJavaLint,
     }
 
