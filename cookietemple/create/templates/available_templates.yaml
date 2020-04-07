@@ -73,9 +73,8 @@ pub:
     paper:
         latex:
             name: Latex Paper
-                handle: pub-paper-latex
-                version: 0.0.1
-                available libraries: latex
-                short description: Template for scientific papers
-                long description: someLongDescription
-
+            handle: pub-paper-latex
+            version: 0.0.1
+            available libraries: latex
+            short description: Template for scientific papers
+            long description: someLongDescription

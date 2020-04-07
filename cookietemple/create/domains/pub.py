@@ -4,7 +4,7 @@ from pathlib import Path
 import click
 
 from cookietemple.create.create_config import TEMPLATE_STRUCT
-from cookietemple.create.create_templates import create_template_without_subdomain, create_template_with_subdomain_framework, create_template_with_subdomain
+from cookietemple.create.create_templates import create_template_with_subdomain
 
 WD = os.path.dirname(__file__)
 WD_Path = Path(WD)
@@ -41,7 +41,7 @@ def handle_pub():
     handle_pub_type()
 
     create_template_with_subdomain(TEMPLATES_PUB_PATH, TEMPLATE_STRUCT['pubtype'],
-                                             TEMPLATE_STRUCT['language'].lower())
+                                   TEMPLATE_STRUCT['language'].lower())
 
     # create the common files and copy them into the templates directory
     # create_common_files()
