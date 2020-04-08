@@ -31,4 +31,4 @@ jobs:
         uses: xu-cheng/latex-action@master
         with:
           root_file: thesis.tex
-        working-directory: ExplodingSpringfield
+          working-directory: ExplodingSpringfield
