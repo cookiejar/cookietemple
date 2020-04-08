@@ -27,7 +27,7 @@ jobs:
         run: |
           echo -e "pub\nthesis\nHomer\nExplodingSpringfield\nTitle\nSpringfieldUniversity\nNuclearDepartment\nPhD\nn" | cookietemple create
 
-      - name: Build Thesis
-        run: |
-             cd ExplodingSpringfield
-             make
+      - name: Build thesis
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: ExplodingSpringfield/thesis.tex
