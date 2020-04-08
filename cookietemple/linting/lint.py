@@ -24,15 +24,21 @@ def lint_project(project_dir: str, run_coala: bool = False, coala_interactive: b
         'cli-python': CliPythonLint,
         'web-website-python': WebWebsitePythonLint,
         'pub-thesis-latex': PubLatexLint
-        # 'cli-java': CliJavaLint,
     }
 
     lint_obj = switcher.get(template_handle, lambda: 'Invalid')(project_dir)
     # Run the linting tests
     try:
+        # Disable check files?
+        disable_check_files_templates = ['pub-thesis-latex']
+        if template_handle in disable_check_files_templates:
+            disable_check_files = True
+        else:
+            disable_check_files = False
         # Run non project specific linting
         click.echo(click.style('Running general linting', fg='blue'))
-        lint_obj.lint_project(super(lint_obj.__class__, lint_obj), label='General Linting')
+        lint_obj.lint_project(super(lint_obj.__class__, lint_obj), label='General Linting', custom_check_files=disable_check_files)
+
         # Run the project specific linting
         click.echo(click.style(f'Running {template_handle} linting', fg='blue'))
         lint_obj.lint(f'{template_handle} Linting')

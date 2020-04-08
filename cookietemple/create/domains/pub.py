@@ -17,17 +17,13 @@ PUB_LATEX_TEMPLATE_VERSION = '0.1.0'
 
 def handle_pub():
     """
-
-    :return:
+    Prompts the user for the publication type and forwards to subsequent prompts.
+    Creates the pub template.
     """
 
-    # language = click.prompt('Choose between the following languages [latex]',
-    #                        type=click.Choice(['latex']))
+    # Set latex as default
     language = 'latex'
     TEMPLATE_STRUCT['language'] = language
-
-    # prompt the user to fetch general template configurations
-    # prompt_general_template_configuration()
 
     TEMPLATE_STRUCT['pubtype'] = click.prompt('Please choose between the following publication types [thesis, paper]',
                                               type=click.Choice(['thesis', 'paper']))
@@ -42,9 +38,6 @@ def handle_pub():
 
     create_template_with_subdomain(TEMPLATES_PUB_PATH, TEMPLATE_STRUCT['pubtype'],
                                    TEMPLATE_STRUCT['language'].lower())
-
-    # create the common files and copy them into the templates directory
-    # create_common_files()
 
     # switch case statement to fetch the template version
     switcher_version = {
@@ -78,15 +71,15 @@ def common_latex_options() -> None:
     """
 
     """
+    TEMPLATE_STRUCT['author'] = click.prompt('Author:',
+                                             type=str,
+                                             default='Homer Simpson')
     TEMPLATE_STRUCT['project_slug'] = click.prompt('Project Slug:',
                                                    type=str,
                                                    default='Cookietemple_thesis_template')
     TEMPLATE_STRUCT['title'] = click.prompt('Thesis Title:',
                                             type=str,
                                             default='On how Springfield exploded')
-    TEMPLATE_STRUCT['author'] = click.prompt('Author:',
-                                             type=str,
-                                             default='Homer Simpson')
     TEMPLATE_STRUCT['university'] = click.prompt('University:',
                                                  type=str,
                                                  default='Homer J. Simpson University')

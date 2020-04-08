@@ -27,7 +27,11 @@ class TemplateLinter(object):
         self.warned = []
         self.failed = []
 
-    def lint_project(self, calling_class, check_functions=None, label: str = 'Running template tests') -> None:
+    def lint_project(self,
+                     calling_class,
+                     check_functions: list = None,
+                     label: str = 'Running general template tests',
+                     custom_check_files: bool = False) -> None:
         """Main linting function.
         Takes the pipeline directory as the primary input and iterates through
         the different linting checks in order. Collects any warnings or errors
@@ -35,17 +39,21 @@ class TemplateLinter(object):
         critical error that makes the rest of the tests pointless (eg. no
         pipeline script). Results from this function are printed by the main script.
 
-        Raises:
-            If a critical problem is found, an ``AssertionError`` is raised.
+        :param calling_class: The class that calls the function -> used to get the class methods, which are the linting methods
+        :param check_functions: List of functions of the calling class that should be checked. If not set, the default TemplateLinter check functions are called
+        :param label: Status message of the current linting method that is about to run
+        :param custom_check_files: Set to true if TemplateLinter check_files_exist should not be run
         """
         # Called on its own, so not from a subclass
         if check_functions is None:
             check_functions = ['check_files_exist', 'check_docker', 'check_cookietemple_todos',
                                'check_no_cookiecutter_strings', 'check_version_consistent']
+        # Some templates (e.g. latex based) do not adhere to the common programming based templates and therefore do not need to check for e.g. docs
+        if custom_check_files:
+            check_functions.remove('check_files_exist')
 
         # Show a progessbar and run all linting functions
-        with click.progressbar(check_functions, label=label,
-                               item_show_func=repr) as function_names:  # item_show_func=repr leads to some Nones in the bar
+        with click.progressbar(check_functions, label=label, item_show_func=repr) as function_names:  # item_show_func=repr leads to some Nones in the bar
             for fun_name in function_names:
                 getattr(calling_class, fun_name)()
                 if len(self.failed) > 0:

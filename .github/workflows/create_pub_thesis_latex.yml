@@ -1,0 +1,33 @@
+name: Create pub-thesis-template Template
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: [3.7, 3.8]
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out source-code repository
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Build Cookietemple
+        run: |
+          python setup.py clean --all install
+
+      - name: Create cli-python Template
+        run: |
+          echo -e "pub\nthesis\nHomer\nExplodingSpringfield\nTitle\nSpringfieldUniversity\nNuclearDepartment\nPhD" | cookietemple create
+
+      - name: Build Thesis
+        run: |
+             cd ExplodingSpringfield
+             make
