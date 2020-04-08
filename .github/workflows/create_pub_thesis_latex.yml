@@ -23,11 +23,12 @@ jobs:
         run: |
           python setup.py clean --all install
 
-      - name: Create cli-python Template
+      - name: Create pub-thesis-latex Template
         run: |
           echo -e "pub\nthesis\nHomer\nExplodingSpringfield\nTitle\nSpringfieldUniversity\nNuclearDepartment\nPhD\nn" | cookietemple create
 
       - name: Build thesis
         uses: xu-cheng/latex-action@master
         with:
-          root_file: ExplodingSpringfield/thesis.tex
+          root_file: thesis.tex
+        working-directory: ExplodingSpringfield
