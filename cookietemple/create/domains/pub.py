@@ -53,8 +53,8 @@ def handle_pub_type() -> None:
     """
 
     switcher = {
-        'website': handle_thesis_latex,
-        'rest_api': handle_paper_latex
+        'thesis': handle_thesis_latex,
+        'paper': handle_paper_latex
     }
     switcher.get(TEMPLATE_STRUCT['pubtype'].lower(), lambda: 'Invalid Pub Project Type!')()
 
