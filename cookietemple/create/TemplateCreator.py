@@ -33,8 +33,11 @@ class TemplateCreator:
     def create_common(self, template_version, template_handle) -> None:
         """
         Create all stuff that is common for cookietemples template creation process; in detail those things are:
-        fix docs style, lint the project and ask whether the user wants to create a github repo.
+        create and copy common files, fix docs style, lint the project and ask whether the user wants to create a github repo.
         """
+        # create the common files and copy them into the templates directory
+        self.create_common_files()
+
         self.create_dot_cookietemple(TEMPLATE_STRUCT, template_version=template_version, template_handle=template_handle)
 
         project_name = TEMPLATE_STRUCT['project_slug']
@@ -88,6 +91,63 @@ class TemplateCreator:
                 sys.exit(0)
         else:
             cookiecutter(f'{domain_path}/{domain}_{language}',
+                         no_input=True,
+                         overwrite_if_exists=True,
+                         extra_context=TEMPLATE_STRUCT)
+
+    def create_template_with_subdomain(self, domain_path: str, subdomain: str, language: str) -> None:
+        """
+        Creates a chosen template that **does** have a subdomain.
+        Calls cookiecutter on the main chosen template.
+
+        :param domain_path: Path to the template, which is still in cookiecutter format
+        :param subdomain: Subdomain of the chosen template
+        :param language: Primary chosen language
+        """
+        occupied = os.path.isdir(f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
+        if occupied:
+            self.directory_exists_warning()
+
+            if click.confirm('Do you really want to continue?'):
+                cookiecutter(f'{domain_path}/{subdomain}_{language}',
+                             no_input=True,
+                             overwrite_if_exists=True,
+                             extra_context=TEMPLATE_STRUCT)
+
+            else:
+                click.echo(click.style('Aborted! Canceled template creation!', fg='red'))
+                sys.exit(0)
+        else:
+            cookiecutter(f'{domain_path}/{subdomain}_{language}',
+                         no_input=True,
+                         overwrite_if_exists=True,
+                         extra_context=TEMPLATE_STRUCT)
+
+    def create_template_with_subdomain_framework(self, domain_path: str, subdomain: str, language: str, framework: str) -> None:
+        """
+        Creates a chosen template that **does** have a subdomain.
+        Calls cookiecutter on the main chosen template.
+
+        :param domain_path: Path to the template, which is still in cookiecutter format
+        :param subdomain: Subdomain of the chosen template
+        :param language: Primary chosen language
+        :param framework: Chosen framework
+        """
+        occupied = os.path.isdir(f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
+        if occupied:
+            self.directory_exists_warning()
+
+            if click.confirm('Do you really want to continue?'):
+                cookiecutter(f'{domain_path}/{subdomain}_{language}/{framework}',
+                             no_input=True,
+                             overwrite_if_exists=True,
+                             extra_context=TEMPLATE_STRUCT)
+
+            else:
+                click.echo(click.style('Aborted! Canceled template creation!', fg='red'))
+                sys.exit(0)
+        else:
+            cookiecutter(f'{domain_path}/{subdomain}_{language}/{framework}',
                          no_input=True,
                          overwrite_if_exists=True,
                          extra_context=TEMPLATE_STRUCT)

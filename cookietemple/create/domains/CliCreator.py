@@ -13,7 +13,7 @@ class CliCreator(TemplateCreator):
         super().__init__()
         self.WD = os.path.dirname(__file__)
         self.WD_Path = Path(self.WD)
-        self.TEMPLATES_PATH = f'{self.WD}/../templates'
+        self.TEMPLATES_PATH = f'{self.WD}/../templates'  # this may be inherited, review after final setup
         self.TEMPLATES_CLI_PATH = f'{self.WD_Path.parent}/templates/cli'
 
         '"" TEMPLATE VERSIONS ""'
@@ -48,9 +48,6 @@ class CliCreator(TemplateCreator):
 
         # create the chosen and configured template
         super().create_template_without_subdomain(f'{self.TEMPLATES_CLI_PATH}', 'cli', language.lower())
-
-        # create the common files and copy them into the templates directory
-        super().create_common_files()
 
         # switch case statement to fetch the template version
         switcher_version = {

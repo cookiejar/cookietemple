@@ -1,9 +1,11 @@
 import os
 import click
 
-from cookietemple.create.create_config import (TEMPLATE_STRUCT)
+from cookietemple.create.create_config import TEMPLATE_STRUCT
 from cookietemple.create.domains.CliCreator import CliCreator
-from cookietemple.create.domains.pub import handle_pub
+from cookietemple.create.domains.WebCreator import WebCreator
+from cookietemple.create.domains.GuiCreator import GuiCreator
+from cookietemple.create.domains.PubCreator import PubCreator
 
 WD = os.path.dirname(__file__)
 CWD = os.getcwd()
@@ -27,11 +29,10 @@ def choose_domain(domain: str):
     switcher = {
 
         'cli': CliCreator,
-        'web': 'web',
-        'gui': 'gui',
-        'pub': handle_pub
+        'web': WebCreator,
+        'gui': GuiCreator,
+        'pub': PubCreator
     }
 
     creator_obj = switcher.get(TEMPLATE_STRUCT['domain'].lower(), lambda: 'Invalid domain!')()
     creator_obj.create_template()
-
