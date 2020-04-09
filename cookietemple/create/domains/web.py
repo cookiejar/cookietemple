@@ -1,7 +1,7 @@
 import os
 import click
 from pathlib import Path
-from cookietemple.create.create_config import (TEMPLATE_STRUCT, prompt_general_template_configuration)
+from cookietemple.create.create_config import (TEMPLATE_STRUCT)
 from cookietemple.create.create_templates import create_template_with_subdomain_framework, create_common_files, delete_dir_tree
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 
@@ -24,7 +24,7 @@ def handle_web():
     TEMPLATE_STRUCT['language'] = language
 
     # prompt the user to fetch general template configurations
-    prompt_general_template_configuration()
+    #prompt_general_template_configuration()
 
     # switch case statement to prompt the user to fetch template specific configurations
     switcher = {
