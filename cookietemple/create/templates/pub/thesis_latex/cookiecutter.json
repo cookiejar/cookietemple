@@ -1,0 +1,17 @@
+{
+  "project_slug": "Project Slug",
+  "title": "Thesis title",
+  "author": "Thesis author",
+  "university": "Affiliated University",
+  "department": "Affiliated department",
+  "degree": "Thesis degree",
+  "_copy_without_render": [
+        "Makefile",
+        "*.cls",
+        "*.ps",
+        "*.sty",
+        "Chapter*",
+        "Preamble/*",
+        "References/*"
+    ]
+}
