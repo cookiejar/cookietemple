@@ -30,11 +30,13 @@ class TemplateCreator:
         self.COMMON_FILES_PATH = f'{self.WD}/templates/common_files'
         self.CWD = os.getcwd()
 
-    def create_common(self) -> None:
+    def create_common(self, template_version, template_handle) -> None:
         """
         Create all stuff that is common for cookietemples template creation process; in detail those things are:
         fix docs style, lint the project and ask whether the user wants to create a github repo.
         """
+        self.create_dot_cookietemple(TEMPLATE_STRUCT, template_version=template_version, template_handle=template_handle)
+
         project_name = TEMPLATE_STRUCT['project_slug']
         project_path = f'{self.CWD}/{project_name}'
 

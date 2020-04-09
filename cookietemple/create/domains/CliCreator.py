@@ -60,8 +60,7 @@ class CliCreator(TemplateCreator):
             'c++': self.CLI_CPP_TEMPLATE_VERSION
         }
         template_version, template_handle = switcher_version.get(language.lower(), lambda: 'Invalid language!'), f'cli-{language.lower()}'
-        super().create_dot_cookietemple(TEMPLATE_STRUCT, template_version=template_version, template_handle=template_handle)
-        super().create_common()
+        super().create_common(template_version, template_handle)
 
 
 def cli_java_options():
