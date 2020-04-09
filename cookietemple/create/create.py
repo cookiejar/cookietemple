@@ -7,6 +7,7 @@ from cookietemple.create.create_config import (TEMPLATE_STRUCT)
 from cookietemple.create.create_templates import create_dot_cookietemple
 from cookietemple.create.domains.cli import handle_cli
 from cookietemple.create.domains.gui import handle_gui
+from cookietemple.create.domains.pub import handle_pub
 from cookietemple.create.domains.web import handle_web
 from cookietemple.create.github_support import create_push_github_repository
 from cookietemple.linting.lint import lint_project
@@ -25,15 +26,16 @@ def choose_domain(domain: str):
     :param domain: Template domain
     """
     if not domain:
-        TEMPLATE_STRUCT['domain'] = click.prompt('Choose between the following domains [cli, gui, web]',
-                                                 type=click.Choice(['cli', 'gui', 'web']))
+        TEMPLATE_STRUCT['domain'] = click.prompt('Choose between the following domains [cli, gui, web, pub]',
+                                                 type=click.Choice(['cli', 'gui', 'web', 'pub']))
     else:
         TEMPLATE_STRUCT['domain'] = domain
 
     switcher = {
         'cli': handle_cli,
         'web': handle_web,
-        'gui': handle_gui
+        'gui': handle_gui,
+        'pub': handle_pub
     }
 
     template_version, template_handle = switcher.get(TEMPLATE_STRUCT['domain'].lower(), lambda: 'Invalid')()
@@ -46,7 +48,6 @@ def choose_domain(domain: str):
     fix_short_title_underline(f'{project_path}/docs/index.rst')
 
     # Lint the project to verify that the new template adheres to all standards
-
     lint_project(project_path, run_coala=False)
 
     # ask user whether he wants to create a Github repository and do so if specified
