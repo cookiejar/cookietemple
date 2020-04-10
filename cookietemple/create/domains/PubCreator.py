@@ -60,7 +60,6 @@ class PubCreator(TemplateCreator):
         project_path = f'{self.CWD}/{project_name}'
 
         # Lint the project to verify that the new template adheres to all standards
-
         lint_project(project_path, run_coala=False)
 
         # ask user whether he wants to create a Github repository and do so if specified
@@ -88,7 +87,9 @@ class PubCreator(TemplateCreator):
         switcher.get(TEMPLATE_STRUCT['pubtype'].lower(), lambda: 'Invalid Pub Project Type!')()
 
     def handle_thesis_latex(self) -> None:
-        pass
+        TEMPLATE_STRUCT['degree'] = click.prompt('Degree:',
+                                                 type=str,
+                                                 default='PhD')
 
     def handle_paper_latex(self) -> None:
         pass
@@ -103,7 +104,7 @@ class PubCreator(TemplateCreator):
         TEMPLATE_STRUCT['project_slug'] = click.prompt('Project Slug:',
                                                        type=str,
                                                        default='Cookietemple_thesis_template')
-        TEMPLATE_STRUCT['title'] = click.prompt('Thesis Title:',
+        TEMPLATE_STRUCT['title'] = click.prompt('Publication title:',
                                                 type=str,
                                                 default='On how Springfield exploded')
         TEMPLATE_STRUCT['university'] = click.prompt('University:',
@@ -112,6 +113,3 @@ class PubCreator(TemplateCreator):
         TEMPLATE_STRUCT['department'] = click.prompt('Department:',
                                                      type=str,
                                                      default='Department of nuclear physics')
-        TEMPLATE_STRUCT['degree'] = click.prompt('Degree:',
-                                                 type=str,
-                                                 default='PhD')
