@@ -6,6 +6,8 @@ import tempfile
 from distutils.dir_util import copy_tree
 from shutil import copy2
 from pathlib import Path
+from dataclasses import asdict
+
 import click
 from ruamel.yaml import YAML
 from cookiecutter.main import cookiecutter
@@ -161,18 +163,18 @@ class TemplateCreator:
         """
 
         self.creator_ctx.full_name = click.prompt('Please enter your full name',
-                                                    type=str,
-                                                    default='Homer Simpson')
+                                                  type=str,
+                                                  default='Homer Simpson')
         self.creator_ctx.email = click.prompt('Please enter your personal or work email',
-                                                type=str,
-                                                default='homer.simpson@example.com')
+                                              type=str,
+                                              default='homer.simpson@example.com')
         self.creator_ctx.project_name = click.prompt('Please enter your project name',
-                                                       type=str,
-                                                       default='Exploding Springfield')
+                                                     type=str,
+                                                     default='Exploding Springfield')
         self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_')
         self.creator_ctx.project_short_description = click.prompt('Please enter a short description of your project.',
-                                                                    type=str,
-                                                                    default=f'{self.creator_ctx.project_name}. A best practice .')
+                                                                  type=str,
+                                                                  default=f'{self.creator_ctx.project_name}. A best practice .')
 
         poss_vers = click.prompt('Please enter the initial version of your project.',
                                  type=str,
@@ -279,20 +281,7 @@ class TemplateCreator:
 
     def creator_ctx_to_dict(self) -> dict:
         """
-        TODO THIS IS JUST FOR NOW: WE NEED TO FIND A WAY TO DUMP OUR DATACLASS DIRECTLY INTO YAML FILE
+        Create a dict from the our Template Structure dataclass
+        :return: The dict containing all key-value pairs with non empty values
         """
-        if self.creator_ctx.domain == 'cli':
-            return {
-                'domain': self.creator_ctx.domain,
-                'language': self.creator_ctx.language,
-                'full_name': self.creator_ctx.full_name,
-                'email': self.creator_ctx.email,
-                'project_name': self.creator_ctx.project_name,
-                'project_slug': self.creator_ctx.project_slug,
-                'project_short_description': self.creator_ctx.project_short_description,
-                'version': self.creator_ctx.version,
-                'license': self.creator_ctx.license,
-                'command_line_interface': self.creator_ctx.command_line_interface,
-                'use_pytest': self.creator_ctx.use_pytest,
-                'template_handle': self.creator_ctx.template_handle
-            }
+        return {key: val for key, val in asdict(self.creator_ctx).items() if val != ''}
