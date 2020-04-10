@@ -15,6 +15,7 @@ from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.create.github_support import create_push_github_repository
 from cookietemple.linting.lint import lint_project
 from cookietemple.util.docs_util import fix_short_title_underline
+from cookietemple.util.cookietemple_template_struct import CookietempleTemplateStruct
 
 
 class TemplateCreator:
@@ -24,13 +25,14 @@ class TemplateCreator:
     Furthermore it defines methods that are basic for the template creation process.
     """
 
-    def __init__(self):
+    def __init__(self, creator_ctx: CookietempleTemplateStruct):
         self.WD = os.path.dirname(__file__)
         self.TEMPLATES_PATH = f'{self.WD}/templates'
         self.COMMON_FILES_PATH = f'{self.WD}/templates/common_files'
         self.CWD = os.getcwd()
+        self.creator_ctx = creator_ctx
 
-    def create_common(self, template_version, template_handle) -> None:
+    def create_common(self) -> None:
         """
         Create all stuff that is common for cookietemples template creation process; in detail those things are:
         create and copy common files, fix docs style, lint the project and ask whether the user wants to create a github repo.
@@ -38,9 +40,9 @@ class TemplateCreator:
         # create the common files and copy them into the templates directory
         self.create_common_files()
 
-        self.create_dot_cookietemple(TEMPLATE_STRUCT, template_version=template_version, template_handle=template_handle)
+        self.create_dot_cookietemple(template_version=self.creator_ctx.template_version)
 
-        project_name = TEMPLATE_STRUCT['project_slug']
+        project_name = self.creator_ctx.project_slug
         project_path = f'{self.CWD}/{project_name}'
 
         # Ensure that docs are looking good
@@ -72,10 +74,10 @@ class TemplateCreator:
         :param language: Primary chosen language
         """
         # Target directory is already occupied -> overwrite?
-        occupied = os.path.isdir(f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
+        occupied = os.path.isdir(f"{os.getcwd()}/{self.creator_ctx.project_slug}")
         if occupied:
             click.echo(click.style('WARNING: ', fg='red')
-                       + click.style(f"A directory named {TEMPLATE_STRUCT['project_slug']} already exists at", fg='red')
+                       + click.style(f"A directory named {self.creator_ctx.project_slug} already exists at", fg='red')
                        + click.style(f'{os.getcwd()}', fg='green'))
             click.echo()
             click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
@@ -85,7 +87,7 @@ class TemplateCreator:
                 cookiecutter(f'{domain_path}/{domain}_{language}',
                              no_input=True,
                              overwrite_if_exists=True,
-                             extra_context=TEMPLATE_STRUCT)
+                             extra_context=self.creator_ctx_to_dict())
             else:
                 click.echo(click.style('Aborted! Canceled template creation!', fg='red'))
                 sys.exit(0)
@@ -93,7 +95,7 @@ class TemplateCreator:
             cookiecutter(f'{domain_path}/{domain}_{language}',
                          no_input=True,
                          overwrite_if_exists=True,
-                         extra_context=TEMPLATE_STRUCT)
+                         extra_context=self.creator_ctx_to_dict())
 
     def create_template_with_subdomain(self, domain_path: str, subdomain: str, language: str) -> None:
         """
@@ -104,7 +106,7 @@ class TemplateCreator:
         :param subdomain: Subdomain of the chosen template
         :param language: Primary chosen language
         """
-        occupied = os.path.isdir(f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
+        occupied = os.path.isdir(f"{os.getcwd()}/{self.creator_ctx.project_slug}")
         if occupied:
             self.directory_exists_warning()
 
@@ -133,7 +135,7 @@ class TemplateCreator:
         :param language: Primary chosen language
         :param framework: Chosen framework
         """
-        occupied = os.path.isdir(f"{os.getcwd()}/{TEMPLATE_STRUCT['project_slug']}")
+        occupied = os.path.isdir(f"{os.getcwd()}/{self.creator_ctx.project_slug}")
         if occupied:
             self.directory_exists_warning()
 
@@ -155,37 +157,37 @@ class TemplateCreator:
     def prompt_general_template_configuration(self):
         """
         Prompts the user for general options that are required by all templates.
-        Options are saved in the TEMPLATE_STRUCT dict.
+        Options are saved in the creator context manager object.
         """
 
-        TEMPLATE_STRUCT['full_name'] = click.prompt('Please enter your full name',
+        self.creator_ctx.full_name = click.prompt('Please enter your full name',
                                                     type=str,
                                                     default='Homer Simpson')
-        TEMPLATE_STRUCT['email'] = click.prompt('Please enter your personal or work email',
+        self.creator_ctx.email = click.prompt('Please enter your personal or work email',
                                                 type=str,
                                                 default='homer.simpson@example.com')
-        TEMPLATE_STRUCT['project_name'] = click.prompt('Please enter your project name',
+        self.creator_ctx.project_name = click.prompt('Please enter your project name',
                                                        type=str,
                                                        default='Exploding Springfield')
-        TEMPLATE_STRUCT['project_slug'] = TEMPLATE_STRUCT['project_name'].replace(' ', '_')
-        TEMPLATE_STRUCT['project_short_description'] = click.prompt('Please enter a short description of your project.',
+        self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_')
+        self.creator_ctx.project_short_description = click.prompt('Please enter a short description of your project.',
                                                                     type=str,
-                                                                    default=f'{TEMPLATE_STRUCT["project_name"]}. A best practice .')
+                                                                    default=f'{self.creator_ctx.project_name}. A best practice .')
 
         poss_vers = click.prompt('Please enter the initial version of your project.',
                                  type=str,
                                  default='0.1.0')
 
-        while not re.match(r'[0-9]+.[0-9]+.[0-9]+', poss_vers):
+        while not re.match(r'[0-9]+\.[0-9]+\.[0-9]+', poss_vers):
             click.echo(click.style('The version number entered does not match cookietemples pattern.\n'
                                    'Please enter the version in the format [number].[number].[number]!', fg='red'))
             poss_vers = click.prompt('Please enter the initial version of your project.',
                                      type=str,
                                      default='0.1.0')
 
-        TEMPLATE_STRUCT['version'] = poss_vers
+        self.creator_ctx.version = poss_vers
 
-        TEMPLATE_STRUCT['license'] = click.prompt(
+        self.creator_ctx.license = click.prompt(
             'Please choose a license [MIT, BSD, ISC, Apache2.0, GNUv3, Not open source]',
             type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Not open source']),
             default='MIT')
@@ -201,13 +203,13 @@ class TemplateCreator:
         cwd_project = Path.cwd()
         os.chdir(dirpath)
         cookiecutter(dirpath,
-                     extra_context={'full_name': TEMPLATE_STRUCT['full_name'],
-                                    'email': TEMPLATE_STRUCT['email'],
-                                    'language': TEMPLATE_STRUCT['language'],
-                                    'project_slug': TEMPLATE_STRUCT['project_slug'],
-                                    'version': TEMPLATE_STRUCT['version'],
-                                    'license': TEMPLATE_STRUCT['license'],
-                                    'project_short_description': TEMPLATE_STRUCT['project_short_description']},
+                     extra_context={'full_name': self.creator_ctx.full_name,
+                                    'email': self.creator_ctx.email,
+                                    'language': self.creator_ctx.language,
+                                    'project_slug': self.creator_ctx.project_slug,
+                                    'version': self.creator_ctx.version,
+                                    'license': self.creator_ctx.license,
+                                    'project_short_description': self.creator_ctx.project_short_description},
                      no_input=True,
                      overwrite_if_exists=True)
 
@@ -215,7 +217,7 @@ class TemplateCreator:
 
         for f in common_files:
             path = Path(f'{os.getcwd()}/common_files_util/{f}')
-            poss_dir = Path(f"{cwd_project}/{TEMPLATE_STRUCT['project_slug']}/{f}")
+            poss_dir = Path(f"{cwd_project}/{self.creator_ctx.project_slug}/{f}")
             is_dir = poss_dir.is_dir()
 
             if is_dir:
@@ -225,7 +227,7 @@ class TemplateCreator:
             else:
                 if is_dir:
                     delete_dir_tree(poss_dir)
-                shutil.copy(path, f"{cwd_project}/{TEMPLATE_STRUCT['project_slug']}/{f}")
+                shutil.copy(path, f"{cwd_project}/{self.creator_ctx.project_slug}/{f}")
                 os.remove(path)
 
         delete_dir_tree(Path(f'{Path.cwd()}/common_files_util'))
@@ -256,22 +258,41 @@ class TemplateCreator:
         """
 
         click.echo(click.style('WARNING: ', fg='red')
-                   + click.style(f"A directory named {TEMPLATE_STRUCT['project_slug']} already exists at", fg='red')
+                   + click.style(f"A directory named {self.creator_ctx.project_slug} already exists at", fg='red')
                    + click.style(f'{os.getcwd()}', fg='green'))
         click.echo()
         click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
         click.echo()
 
-    def create_dot_cookietemple(self, TEMPLATE_STRUCT: dict, template_version: str, template_handle: str):
+    def create_dot_cookietemple(self, template_version: str):
         """
         Overrides the version with the version of the template.
         Dumps the configuration for the template generation into a .cookietemple yaml file.
 
-        :param TEMPLATE_STRUCT: Global variable containing all cookietemple creation configuration variables
         :param template_version: Version of the specific template
         """
-        TEMPLATE_STRUCT['template_version'] = f'{template_version} # <<COOKIETEMPLE_NO_BUMP>>'
-        TEMPLATE_STRUCT['template_handle'] = template_handle
-        with open(f'{TEMPLATE_STRUCT["project_slug"]}/.cookietemple.yml', 'w') as f:
+        self.creator_ctx.template_version = f'{template_version} # <<COOKIETEMPLE_NO_BUMP>>'
+        with open(f'{self.creator_ctx.project_slug}/.cookietemple.yml', 'w') as f:
             yaml = YAML()
-            yaml.dump(TEMPLATE_STRUCT, f)
+            struct_to_dict = self.creator_ctx_to_dict()
+            yaml.dump(struct_to_dict, f)
+
+    def creator_ctx_to_dict(self) -> dict:
+        """
+        TODO THIS IS JUST FOR NOW: WE NEED TO FIND A WAY TO DUMP OUR DATACLASS DIRECTLY INTO YAML FILE
+        """
+        if self.creator_ctx.domain == 'cli':
+            return {
+                'domain': self.creator_ctx.domain,
+                'language': self.creator_ctx.language,
+                'full_name': self.creator_ctx.full_name,
+                'email': self.creator_ctx.email,
+                'project_name': self.creator_ctx.project_name,
+                'project_slug': self.creator_ctx.project_slug,
+                'project_short_description': self.creator_ctx.project_short_description,
+                'version': self.creator_ctx.version,
+                'license': self.creator_ctx.license,
+                'command_line_interface': self.creator_ctx.command_line_interface,
+                'use_pytest': self.creator_ctx.use_pytest,
+                'template_handle': self.creator_ctx.template_handle
+            }
