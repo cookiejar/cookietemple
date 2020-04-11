@@ -2,7 +2,7 @@ import os
 import click
 from pathlib import Path
 
-from cookietemple.create.create_config import TEMPLATE_STRUCT
+from cookietemple.util.template_struct_dataclasses.Template_Struct_WEB import TemplateStructWeb as Tsw
 from cookietemple.create.TemplateCreator import TemplateCreator
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 from cookietemple.util.dir_util import delete_dir_tree
@@ -11,7 +11,8 @@ from cookietemple.util.dir_util import delete_dir_tree
 class WebCreator(TemplateCreator):
 
     def __init__(self):
-        super().__init__()
+        self.web_struct = Tsw(domain='web')
+        super().__init__(self.web_struct)
         self.WD = os.path.dirname(__file__)
         self.TEMPLATES_PATH = f'{self.WD}/../templates'  # this may be inherited, review after final setup
         self.TEMPLATES_WEB_PATH = f'{self.WD}/../templates/web'
@@ -23,9 +24,8 @@ class WebCreator(TemplateCreator):
         """
         Handles the Web domain. Prompts the user for the language, general and domain specific options.
         """
-        language = click.prompt('Please choose between the following languages [python, javascript, java]',
-                                type=click.Choice(['python', 'javascript', 'java']))
-        TEMPLATE_STRUCT['language'] = language
+        self.web_struct.language = click.prompt('Please choose between the following languages [python, javascript, java]',
+                                                type=click.Choice(['python', 'javascript', 'java']))
 
         # prompt the user to fetch general template configurations
         super().prompt_general_template_configuration()
@@ -36,9 +36,9 @@ class WebCreator(TemplateCreator):
             'javascript': web_javascript_options,
             'java': web_java_options
         }
-        switcher.get(language.lower(), lambda: 'Invalid language!')()
+        switcher.get(self.web_struct.language.lower(), lambda: 'Invalid language!')(self.creator_ctx)
 
-        if language == 'python':
+        if self.web_struct.language == 'python':
             self.handle_web_project_type_python()
 
         # switch case statement to fetch the template version
@@ -46,64 +46,61 @@ class WebCreator(TemplateCreator):
             'python': self.WEB_WEBSITE_PYTHON_TEMPLATE_VERSION
         }
 
-        template_version, template_handle = switcher_version.get(TEMPLATE_STRUCT['language'].lower(),
-                                                                 lambda: 'Invalid language!'), f"web-{TEMPLATE_STRUCT['webtype']}-" \
-                                                f"{TEMPLATE_STRUCT['language'].lower()}"
+        self.web_struct.template_version, self.web_struct.template_handle = switcher_version.get(
+            self.web_struct.language.lower(), lambda: 'Invalid language!'), f"web-{self.web_struct.webtype}-{self.web_struct.language.lower()}"
 
-        super().create_common(template_version, template_handle)
+        super().create_common()
 
     def handle_web_project_type_python(self) -> None:
         """
         Determine the type of web application and handle it further.
         """
-        TEMPLATE_STRUCT['webtype'] = click.prompt('Please choose between the following web domains [rest_api, website]',
-                                                  type=click.Choice(['rest_api', 'website']))
+        self.web_struct.webtype = click.prompt('Please choose between the following web domains [rest_api, website]',
+                                               type=click.Choice(['rest_api', 'website']))
 
         switcher = {
             'website': self.handle_website_python,
             'rest_api': self.handle_rest_api_python
         }
-        switcher.get(TEMPLATE_STRUCT['webtype'].lower(), lambda: 'Invalid Web Project Type!')()
+        switcher.get(self.web_struct.webtype.lower(), lambda: 'Invalid Web Project Type!')()
 
     def handle_website_python(self) -> None:
         """
         Handle the website template creation. The user can choose between a basic website setup and a more advanced
         with database support, mail, translation, cli commands for translation, login and register function.
         """
-        TEMPLATE_STRUCT['web_framework'] = click.prompt('Please choose between the following frameworks [flask, django]',
-                                                        type=click.Choice(['flask', 'django']))
+        self.web_struct.web_framework = click.prompt('Please choose between the following frameworks [flask, django]',
+                                                     type=click.Choice(['flask', 'django']))
         setup = click.prompt(
             'Choose between basic or advanced (database, translations, deployment scripts) [basic, advanced]:',
             type=click.Choice(['basic', 'advanced']),
             default='basic')
-        TEMPLATE_STRUCT['is_basic_website'] = 'y'
+        self.web_struct.is_basic_website = 'y'
 
         if setup == 'advanced':
-            TEMPLATE_STRUCT['is_basic_website'] = 'n'
+            self.web_struct.is_basic_website = 'n'
 
-        TEMPLATE_STRUCT['url'] = click.prompt('Please enter the project\'s URL (if you have one)',
-                                              type=str,
-                                              default='dummy.com')
+        self.web_struct.url = click.prompt('Please enter the project\'s URL (if you have one)',
+                                           type=str,
+                                           default='dummy.com')
 
         switcher = {
             'flask': self.website_flask_options,
             'django': self.website_django_options
         }
-        switcher.get(TEMPLATE_STRUCT['web_framework'].lower(), lambda: 'Invalid Framework!')()
+        switcher.get(self.web_struct.web_framework.lower(), lambda: 'Invalid Framework!')()
 
     def website_flask_options(self) -> None:
         """
         Create a flask website template.
         """
-        TEMPLATE_STRUCT['vm_username'] = click.prompt('Please enter your VM username (if you have one)',
-                                                      type=str,
-                                                      default='cookietempleuser')
+        self.web_struct.vm_username = click.prompt('Please enter your VM username (if you have one)',
+                                                   type=str,
+                                                   default='cookietempleuser')
 
-        super().create_template_with_subdomain_framework(self.TEMPLATES_WEB_PATH, TEMPLATE_STRUCT['webtype'],
-                                                         TEMPLATE_STRUCT['language'].lower(),
-                                                         TEMPLATE_STRUCT['web_framework'].lower())
+        super().create_template_with_subdomain_framework(self.TEMPLATES_WEB_PATH, self.web_struct.webtype, self.web_struct.web_framework.lower())
 
-        self.remove_basic_or_advanced_files(TEMPLATE_STRUCT['is_basic_website'])
+        self.remove_basic_or_advanced_files(self.web_struct.is_basic_website)
 
     def remove_basic_or_advanced_files(self, is_basic: str) -> None:
         """
@@ -112,7 +109,7 @@ class WebCreator(TemplateCreator):
         :param is_basic: Shows whether the user sets up a basic or advanced website setup
         """
         cwd = os.getcwd()
-        os.chdir(f"{cwd}/{TEMPLATE_STRUCT['project_slug']}/{TEMPLATE_STRUCT['project_slug']}")
+        os.chdir(f"{cwd}/{self.web_struct.project_slug}/{self.web_struct.project_slug}")
 
         if is_basic == 'y':
             delete_dir_tree(Path('translations'))

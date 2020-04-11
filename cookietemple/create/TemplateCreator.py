@@ -12,7 +12,6 @@ import click
 from ruamel.yaml import YAML
 from cookiecutter.main import cookiecutter
 
-from cookietemple.create.create_config import TEMPLATE_STRUCT
 from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.create.github_support import create_push_github_repository
 from cookietemple.linting.lint import lint_project
@@ -51,7 +50,6 @@ class TemplateCreator:
         fix_short_title_underline(f'{project_path}/docs/index.rst')
 
         # Lint the project to verify that the new template adheres to all standards
-
         lint_project(project_path, run_coala=False)
 
         # ask user whether he wants to create a Github repository and do so if specified
@@ -66,7 +64,7 @@ class TemplateCreator:
             create_push_github_repository(project_name, 'some description', tmp_project_path)
             shutil.rmtree(tmp_project_path, ignore_errors=True)
 
-    def create_template_without_subdomain(self, domain_path: str, domain: str, language: str) -> None:
+    def create_template_without_subdomain(self, domain_path: str) -> None:
         """
         Creates a chosen template that does **not** have a subdomain.
         Calls cookiecutter on the main chosen template.
@@ -86,7 +84,7 @@ class TemplateCreator:
             click.echo()
 
             if click.confirm('Do you really want to continue?'):
-                cookiecutter(f'{domain_path}/{domain}_{language}',
+                cookiecutter(f'{domain_path}/{self.creator_ctx.domain}_{self.creator_ctx.language.lower()}',
                              no_input=True,
                              overwrite_if_exists=True,
                              extra_context=self.creator_ctx_to_dict())
@@ -94,12 +92,12 @@ class TemplateCreator:
                 click.echo(click.style('Aborted! Canceled template creation!', fg='red'))
                 sys.exit(0)
         else:
-            cookiecutter(f'{domain_path}/{domain}_{language}',
+            cookiecutter(f'{domain_path}/{self.creator_ctx.domain}_{self.creator_ctx.language.lower()}',
                          no_input=True,
                          overwrite_if_exists=True,
                          extra_context=self.creator_ctx_to_dict())
 
-    def create_template_with_subdomain(self, domain_path: str, subdomain: str, language: str) -> None:
+    def create_template_with_subdomain(self, domain_path: str, subdomain: str) -> None:
         """
         Creates a chosen template that **does** have a subdomain.
         Calls cookiecutter on the main chosen template.
@@ -113,21 +111,21 @@ class TemplateCreator:
             self.directory_exists_warning()
 
             if click.confirm('Do you really want to continue?'):
-                cookiecutter(f'{domain_path}/{subdomain}_{language}',
+                cookiecutter(f'{domain_path}/{subdomain}_{self.creator_ctx.language.lower()}',
                              no_input=True,
                              overwrite_if_exists=True,
-                             extra_context=TEMPLATE_STRUCT)
+                             extra_context=self.creator_ctx_to_dict())
 
             else:
                 click.echo(click.style('Aborted! Canceled template creation!', fg='red'))
                 sys.exit(0)
         else:
-            cookiecutter(f'{domain_path}/{subdomain}_{language}',
+            cookiecutter(f'{domain_path}/{subdomain}_{self.creator_ctx.language.lower()}',
                          no_input=True,
                          overwrite_if_exists=True,
-                         extra_context=TEMPLATE_STRUCT)
+                         extra_context=self.creator_ctx_to_dict())
 
-    def create_template_with_subdomain_framework(self, domain_path: str, subdomain: str, language: str, framework: str) -> None:
+    def create_template_with_subdomain_framework(self, domain_path: str, subdomain: str, framework: str) -> None:
         """
         Creates a chosen template that **does** have a subdomain.
         Calls cookiecutter on the main chosen template.
@@ -142,19 +140,19 @@ class TemplateCreator:
             self.directory_exists_warning()
 
             if click.confirm('Do you really want to continue?'):
-                cookiecutter(f'{domain_path}/{subdomain}_{language}/{framework}',
+                cookiecutter(f'{domain_path}/{subdomain}_{self.creator_ctx.language.lower()}/{framework}',
                              no_input=True,
                              overwrite_if_exists=True,
-                             extra_context=TEMPLATE_STRUCT)
+                             extra_context=self.creator_ctx_to_dict())
 
             else:
                 click.echo(click.style('Aborted! Canceled template creation!', fg='red'))
                 sys.exit(0)
         else:
-            cookiecutter(f'{domain_path}/{subdomain}_{language}/{framework}',
+            cookiecutter(f'{domain_path}/{subdomain}_{self.creator_ctx.language.lower()}/{framework}',
                          no_input=True,
                          overwrite_if_exists=True,
-                         extra_context=TEMPLATE_STRUCT)
+                         extra_context=self.creator_ctx_to_dict())
 
     def prompt_general_template_configuration(self):
         """

@@ -3,15 +3,14 @@ import click
 from pathlib import Path
 
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
-from cookietemple.create.create_config import TEMPLATE_STRUCT
 from cookietemple.create.TemplateCreator import TemplateCreator
-from cookietemple.util.cookietemple_template_struct import CookietempleTemplateStruct as cts
+from cookietemple.util.template_struct_dataclasses.Template_Struct_CLI import TemplateStructCli as Tsc
 
 
 class CliCreator(TemplateCreator):
 
     def __init__(self):
-        self.cli_struct = cts(domain='cli')
+        self.cli_struct = Tsc(domain='cli')
         super().__init__(self.cli_struct)
         self.WD = os.path.dirname(__file__)
         self.WD_Path = Path(self.WD)
@@ -29,11 +28,8 @@ class CliCreator(TemplateCreator):
         Handles the CLI domain. Prompts the user for the language, general and domain specific options.
         """
 
-        language = click.prompt('Choose between the following languages [python, java, kotlin, c++]',
-                                type=click.Choice(['python', 'java', 'kotlin', 'c++']))
-
-        TEMPLATE_STRUCT['language'] = language.capitalize()
-        self.cli_struct.language = language.capitalize()
+        self.cli_struct.language = click.prompt('Choose between the following languages [python, java, kotlin, c++]',
+                                                type=click.Choice(['python', 'java', 'kotlin', 'c++'])).capitalize()
 
         # prompt the user to fetch general template configurations
         super().prompt_general_template_configuration()
@@ -45,10 +41,10 @@ class CliCreator(TemplateCreator):
             'kotlin': cli_kotlin_options,
             'c++': cli_cpp_options
         }
-        switcher.get(language.lower(), lambda: 'Invalid language!')(self.creator_ctx)
+        switcher.get(self.cli_struct.language.lower(), lambda: 'Invalid language!')(self.creator_ctx)
 
         # create the chosen and configured template
-        super().create_template_without_subdomain(f'{self.TEMPLATES_CLI_PATH}', 'cli', language.lower())
+        super().create_template_without_subdomain(f'{self.TEMPLATES_CLI_PATH}')
 
         # switch case statement to fetch the template version
         switcher_version = {
@@ -57,8 +53,9 @@ class CliCreator(TemplateCreator):
             'kotlin': self.CLI_KOTLIN_TEMPLATE_VERSION,
             'c++': self.CLI_CPP_TEMPLATE_VERSION
         }
-        self.cli_struct.template_version, self.cli_struct.template_handle = switcher_version.get(language.lower(), lambda: 'Invalid language!'), f'cli-' \
-            f'{language.lower()}'
+        self.cli_struct.template_version, self.cli_struct.template_handle = switcher_version.get(
+            self.cli_struct.language.lower(), lambda: 'Invalid language!'), f'cli-{self.cli_struct.language.lower()}'
+
         super().create_common()
 
 

@@ -1,7 +1,6 @@
 import os
 import click
 
-from cookietemple.create.create_config import TEMPLATE_STRUCT
 from cookietemple.create.domains.CliCreator import CliCreator
 from cookietemple.create.domains.WebCreator import WebCreator
 from cookietemple.create.domains.GuiCreator import GuiCreator
@@ -21,10 +20,10 @@ def choose_domain(domain: str):
     """
 
     if not domain:
-        TEMPLATE_STRUCT['domain'] = click.prompt('Choose between the following domains [cli, gui, web, pub]',
-                                                 type=click.Choice(['cli', 'gui', 'web', 'pub']))
+        _domain = click.prompt('Choose between the following domains [cli, gui, web, pub]',
+                               type=click.Choice(['cli', 'gui', 'web', 'pub']))
     else:
-        TEMPLATE_STRUCT['domain'] = domain
+        _domain = domain
 
     switcher = {
 
@@ -34,5 +33,5 @@ def choose_domain(domain: str):
         'pub': PubCreator
     }
 
-    creator_obj = switcher.get(TEMPLATE_STRUCT['domain'].lower(), lambda: 'Invalid domain!')()
+    creator_obj = switcher.get(_domain.lower(), lambda: 'Invalid domain!')()
     creator_obj.create_template()
