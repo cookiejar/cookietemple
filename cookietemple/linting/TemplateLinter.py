@@ -209,6 +209,8 @@ class TemplateLinter(object):
         for file, path in parser.items('bumpversion_files'):
             self.check_version_match(path, current_version)
         os.chdir(cwd)
+        if self.failed.count((5, r'*')) == 0:
+            self.passed.append((5, click.style('Versions were consistent over all files', fg='green')))
 
     def check_version_match(self, path: str, version: str) -> None:
         """
