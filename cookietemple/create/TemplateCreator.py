@@ -16,6 +16,7 @@ from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.create.github_support import create_push_github_repository
 from cookietemple.linting.lint import lint_project
 from cookietemple.util.docs_util import fix_short_title_underline
+from cookietemple.list.list import load_available_templates
 from cookietemple.util.cookietemple_template_struct import CookietempleTemplateStruct
 
 
@@ -30,16 +31,19 @@ class TemplateCreator:
         self.WD = os.path.dirname(__file__)
         self.TEMPLATES_PATH = f'{self.WD}/templates'
         self.COMMON_FILES_PATH = f'{self.WD}/templates/common_files'
+        self.AVAILABLE_TEMPLATES_PATH = f'{self.WD}/templates/available_templates.yaml'
+        self.AVAILABLE_TEMPLATES = load_available_templates(self.AVAILABLE_TEMPLATES_PATH)
         self.CWD = os.getcwd()
         self.creator_ctx = creator_ctx
 
-    def create_common(self) -> None:
+    def process_common_operations(self, skip_common_files=False, skip_fix_underline=False) -> None:
         """
         Create all stuff that is common for cookietemples template creation process; in detail those things are:
         create and copy common files, fix docs style, lint the project and ask whether the user wants to create a github repo.
         """
         # create the common files and copy them into the templates directory
-        self.create_common_files()
+        if not skip_common_files:
+            self.create_common_files()
 
         self.create_dot_cookietemple(template_version=self.creator_ctx.template_version)
 
@@ -47,7 +51,8 @@ class TemplateCreator:
         project_path = f'{self.CWD}/{project_name}'
 
         # Ensure that docs are looking good
-        fix_short_title_underline(f'{project_path}/docs/index.rst')
+        if not skip_fix_underline:
+            fix_short_title_underline(f'{project_path}/docs/index.rst')
 
         # Lint the project to verify that the new template adheres to all standards
         lint_project(project_path, run_coala=False)
@@ -283,3 +288,18 @@ class TemplateCreator:
         :return: The dict containing all key-value pairs with non empty values
         """
         return {key: val for key, val in asdict(self.creator_ctx).items() if val != ''}
+
+    def load_version(self, handle: str) -> str:
+        """
+        Load the version of the template specified by the handler
+        TODO: Maybe recursive one for arbitray length (tough I Dont think we will need it)
+        :param handle: The template handle
+        :return: The version number
+        """
+        parts = handle.split('-')
+
+        if len(parts) == 2:
+            return self.AVAILABLE_TEMPLATES[parts[0]][parts[1]]['version']
+
+        elif len(parts) == 3:
+            return self.AVAILABLE_TEMPLATES[parts[0]][parts[1]][parts[2]]['version']

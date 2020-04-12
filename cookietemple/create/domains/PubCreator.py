@@ -1,19 +1,32 @@
 import os
-import shutil
 from pathlib import Path
-
+from dataclasses import dataclass
 import click
 
 from cookietemple.create.TemplateCreator import TemplateCreator
-from cookietemple.util.template_struct_dataclasses.Template_Struct_PUB import TemplateStructPub as Tsp
-from cookietemple.create.github_support import create_push_github_repository
-from cookietemple.linting.lint import lint_project
+from cookietemple.util.cookietemple_template_struct import CookietempleTemplateStruct
+
+
+@dataclass
+class TemplateStructPub(CookietempleTemplateStruct):
+    """
+    This class contains all attributes specific for PUB projects
+    """
+    """
+    This section contains some PUB-domain specific attributes
+    """
+    pubtype: str = ""
+    author: str = ""
+    title: str = ""
+    university: str = ""
+    department: str = ""
+    degree: str = ""
 
 
 class PubCreator(TemplateCreator):
 
     def __init__(self):
-        self.pub_struct = Tsp(domain='pub', language='latex')
+        self.pub_struct = TemplateStructPub(domain='pub', language='latex')
         super().__init__(self.pub_struct)
         self.WD_Path = Path(os.path.dirname(__file__))
         self.TEMPLATES_PATH = f'{self.WD_Path}/../templates'
@@ -21,7 +34,7 @@ class PubCreator(TemplateCreator):
         self.CWD = os.getcwd()
 
         '"" TEMPLATE VERSIONS ""'
-        self.PUB_LATEX_TEMPLATE_VERSION = '0.1.0'
+        self.PUB_LATEX_TEMPLATE_VERSION = super().load_version('pub-thesis-latex')
 
     def create_template(self):
         """
@@ -52,27 +65,9 @@ class PubCreator(TemplateCreator):
         # TODO: REFACTOR THIS, MAYBE DIFFERENCIATE IN TEMPLATECREATOR!
         # WE DONT NEED COMMON FILES AND SHORT UNDERLINES FIX HERE!
         self.pub_struct.template_version = switcher_version.get(self.pub_struct.language.lower(), lambda: 'Invalid language!')
-        self.pub_struct.template_version, self.pub_struct.template_handle = switcher_version.get(self.pub_struct.language.lower(), lambda: 'Invalid language!') \
-            , f"pub-{self.pub_struct.pubtype}-{self.pub_struct.language.lower()}"
-        self.create_dot_cookietemple(self.pub_struct.template_version)
-
-        project_name = self.pub_struct.project_slug
-        project_path = f'{self.CWD}/{project_name}'
-
-        # Lint the project to verify that the new template adheres to all standards
-        lint_project(project_path, run_coala=False)
-
-        # ask user whether he wants to create a Github repository and do so if specified
-        create_github_repository = click.prompt(
-            'Do you want to create a Github repository and push your template to it? [y, n]:',
-            type=bool,
-            default='Yes')
-        if create_github_repository:
-            tmp_project_path = f'{project_path}_cookietemple_tmp'
-            # rename the currently created template to a temporary name, create Github repo, push, remove temporary template
-            os.rename(project_path, tmp_project_path)
-            create_push_github_repository(project_name, 'some description', tmp_project_path)
-            shutil.rmtree(tmp_project_path, ignore_errors=True)
+        self.pub_struct.template_version, self.pub_struct.template_handle = switcher_version.get(
+            self.pub_struct.language.lower(), lambda: 'Invalid language!'), f"pub-{self.pub_struct.pubtype}-{self.pub_struct.language.lower()}"
+        super().process_common_operations(True, True)
 
     # TODO: IMPLEMENT BELOW
     def handle_pub_type(self) -> None:

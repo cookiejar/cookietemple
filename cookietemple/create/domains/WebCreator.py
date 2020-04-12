@@ -1,24 +1,49 @@
 import os
 import click
 from pathlib import Path
+from dataclasses import dataclass
 
-from cookietemple.util.template_struct_dataclasses.Template_Struct_WEB import TemplateStructWeb as Tsw
 from cookietemple.create.TemplateCreator import TemplateCreator
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 from cookietemple.util.dir_util import delete_dir_tree
+from cookietemple.util.cookietemple_template_struct import CookietempleTemplateStruct
+
+
+@dataclass
+class TemplateStructWeb(CookietempleTemplateStruct):
+    """
+        This class contains all attributes specific for WEB projects
+        """
+    """
+        This section contains some attributes specific for WEB-domain projects
+        """
+    # TODO: Currently only python but this will be refactored as we have more templates
+    webtype: str = ""  # the type of web project like website or REST-API
+
+    """
+        This section contains some attributes specific for website projects
+    """
+    web_framework: str = ""  # the framework, the user wants to use (if any)
+    is_basic_website: str = ""  # indicates whether the user wants a basic website setup or a more advanced with database support etc.
+    url: str = ""  # the url for the website (if any)
+
+    """
+        This section contains some attributes specific for website projects
+    """
+    vm_username: str = ""  # the username (if any) for a VM (only necessary for Deployment in a Linux VM)
 
 
 class WebCreator(TemplateCreator):
 
     def __init__(self):
-        self.web_struct = Tsw(domain='web')
+        self.web_struct = TemplateStructWeb(domain='web')
         super().__init__(self.web_struct)
         self.WD = os.path.dirname(__file__)
         self.TEMPLATES_PATH = f'{self.WD}/../templates'  # this may be inherited, review after final setup
         self.TEMPLATES_WEB_PATH = f'{self.WD}/../templates/web'
 
         '""Web Template Versions""'
-        self.WEB_WEBSITE_PYTHON_TEMPLATE_VERSION = '0.1.0'
+        self.WEB_WEBSITE_PYTHON_TEMPLATE_VERSION = super().load_version('web-website-python')
 
     def create_template(self) -> None:
         """
@@ -49,7 +74,7 @@ class WebCreator(TemplateCreator):
         self.web_struct.template_version, self.web_struct.template_handle = switcher_version.get(
             self.web_struct.language.lower(), lambda: 'Invalid language!'), f"web-{self.web_struct.webtype}-{self.web_struct.language.lower()}"
 
-        super().create_common()
+        super().process_common_operations()
 
     def handle_web_project_type_python(self) -> None:
         """

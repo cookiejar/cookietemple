@@ -1,8 +1,17 @@
 import os
 import click
+from dataclasses import dataclass
 
 from cookietemple.create.TemplateCreator import TemplateCreator
-from cookietemple.util.template_struct_dataclasses.Template_Struct_GUI import TemplateStructGui as Tsg
+from cookietemple.util.cookietemple_template_struct import CookietempleTemplateStruct
+
+
+@dataclass
+class TemplateStructGui(CookietempleTemplateStruct):
+    """
+    This class contains all attributes specific to GUI templates
+    """
+    pass
 
 
 class GuiCreator(TemplateCreator):
@@ -11,7 +20,7 @@ class GuiCreator(TemplateCreator):
     """
 
     def __init(self):
-        self.gui_struct = Tsg(domain='gui')
+        self.gui_struct = TemplateStructGui(domain='gui')
         super().__init__(self.gui_struct)
         self.WD = os.path.dirname(__file__)
         self.TEMPLATES_PATH = f'{self.WD}/../templates'  # this may be inherited, review after final setup
