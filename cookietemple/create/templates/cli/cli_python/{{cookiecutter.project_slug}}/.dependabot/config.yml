@@ -5,6 +5,6 @@ update_configs:
     update_schedule: "live"
     target_branch: "development"
     default_labels:
-        - "dependabot"
+        - "DEPENDABOT"
     commit_message:
         prefix: "[DEPENDABOT]"

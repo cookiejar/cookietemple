@@ -129,7 +129,11 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# Jetbrains IDE
 .idea/
+
+# Coala
+*.orig
 {% elif cookiecutter.language == 'Java' %}
 
 # Compiled class file
@@ -154,5 +158,11 @@ dmypy.json
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
+# Jetbrains IDE
 .idea/
+
+# Coala
+*.orig
 {% endif %}
+
+
