@@ -63,8 +63,8 @@ class TemplateCreator:
             type=bool,
             default='Yes')
         if create_github_repository:
-            tmp_project_path = f'{project_path}_cookietemple_tmp'
             # rename the currently created template to a temporary name, create Github repo, push, remove temporary template
+            tmp_project_path = f'{project_path}_cookietemple_tmp'
             os.rename(project_path, tmp_project_path)
             create_push_github_repository(project_name, 'some description', tmp_project_path)
             shutil.rmtree(tmp_project_path, ignore_errors=True)
@@ -81,12 +81,7 @@ class TemplateCreator:
         # Target directory is already occupied -> overwrite?
         occupied = os.path.isdir(f"{os.getcwd()}/{self.creator_ctx.project_slug}")
         if occupied:
-            click.echo(click.style('WARNING: ', fg='red')
-                       + click.style(f"A directory named {self.creator_ctx.project_slug} already exists at", fg='red')
-                       + click.style(f'{os.getcwd()}', fg='green'))
-            click.echo()
-            click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
-            click.echo()
+            self.directory_exists_warning()
 
             if click.confirm('Do you really want to continue?'):
                 cookiecutter(f'{domain_path}/{self.creator_ctx.domain}_{self.creator_ctx.language.lower()}',
@@ -226,7 +221,7 @@ class TemplateCreator:
             is_dir = poss_dir.is_dir()
 
             if is_dir:
-                if not not any(Path(poss_dir).iterdir()):
+                if any(Path(poss_dir).iterdir()):
                     self.copy_into_already_existing_directory(path, poss_dir)
 
             else:

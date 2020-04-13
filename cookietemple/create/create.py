@@ -20,18 +20,15 @@ def choose_domain(domain: str):
     """
 
     if not domain:
-        _domain = click.prompt('Choose between the following domains [cli, gui, web, pub]',
+        domain = click.prompt('Choose between the following domains [cli, gui, web, pub]',
                                type=click.Choice(['cli', 'gui', 'web', 'pub']))
-    else:
-        _domain = domain
 
     switcher = {
-
         'cli': CliCreator,
         'web': WebCreator,
         'gui': GuiCreator,
         'pub': PubCreator
     }
 
-    creator_obj = switcher.get(_domain.lower(), lambda: 'Invalid domain!')()
+    creator_obj = switcher.get(domain.lower(), lambda: 'Invalid domain!')()
     creator_obj.create_template()

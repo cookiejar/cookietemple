@@ -24,7 +24,6 @@ class CliCreator(TemplateCreator):
         super().__init__(self.cli_struct)
         self.WD = os.path.dirname(__file__)
         self.WD_Path = Path(self.WD)
-        self.TEMPLATES_PATH = f'{self.WD}/../templates'  # this may be inherited, review after final setup
         self.TEMPLATES_CLI_PATH = f'{self.WD_Path.parent}/templates/cli'
 
         '"" TEMPLATE VERSIONS ""'

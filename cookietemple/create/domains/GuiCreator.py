@@ -23,7 +23,6 @@ class GuiCreator(TemplateCreator):
         self.gui_struct = TemplateStructGui(domain='gui')
         super().__init__(self.gui_struct)
         self.WD = os.path.dirname(__file__)
-        self.TEMPLATES_PATH = f'{self.WD}/../templates'  # this may be inherited, review after final setup
 
     def create_template(self):
         self.gui_struct.language = click.prompt('Please choose between the following languages [c++, c#, java]',

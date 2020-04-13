@@ -29,7 +29,6 @@ class PubCreator(TemplateCreator):
         self.pub_struct = TemplateStructPub(domain='pub', language='latex')
         super().__init__(self.pub_struct)
         self.WD_Path = Path(os.path.dirname(__file__))
-        self.TEMPLATES_PATH = f'{self.WD_Path}/../templates'
         self.TEMPLATES_PUB_PATH = f'{self.WD_Path.parent}/templates/pub'
         self.CWD = os.getcwd()
 
@@ -62,11 +61,10 @@ class PubCreator(TemplateCreator):
             'latex': self.PUB_LATEX_TEMPLATE_VERSION,
         }
 
-        # TODO: REFACTOR THIS, MAYBE DIFFERENCIATE IN TEMPLATECREATOR!
-        # WE DONT NEED COMMON FILES AND SHORT UNDERLINES FIX HERE!
         self.pub_struct.template_version = switcher_version.get(self.pub_struct.language.lower(), lambda: 'Invalid language!')
         self.pub_struct.template_version, self.pub_struct.template_handle = switcher_version.get(
             self.pub_struct.language.lower(), lambda: 'Invalid language!'), f"pub-{self.pub_struct.pubtype}-{self.pub_struct.language.lower()}"
+
         super().process_common_operations(True, True)
 
     # TODO: IMPLEMENT BELOW
