@@ -1,7 +1,6 @@
 import os
 import tempfile
 import pytest
-from unittest.mock import mock_open
 from pathlib import Path
 from cookietemple.util.dir_util import delete_dir_tree
 from io import StringIO
