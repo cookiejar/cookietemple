@@ -1,7 +1,7 @@
 import os
 import tempfile
 import pytest
-from unittest.mock import patch, mock_open
+from unittest.mock import mock_open
 from pathlib import Path
 from cookietemple.util.dir_util import delete_dir_tree
 from io import StringIO
@@ -56,7 +56,7 @@ def test_create_dot_cookietemple_file() -> None:
     """
     Ensure that the .cookietemple.yml file is created using the right arguments.
     """
-    open_mock = mock_open()
+    # open_mock = mock_open()
     # with patch('cookietemple.create.create_templates.open', open_mock, create=True):
     #     create_dot_cookietemple(TEMPLATE_STRUCT, 'MyOtherVersion', 'MyOtherHandle')
     #
