@@ -25,10 +25,6 @@ def create_push_github_repository(project_name: str, project_description: str, t
     github_username: str = click.prompt('Please enter your Github account username: ',
                                         type=str)
 
-    click.echo(click.style('Please navigate to Github -> Your profile -> Developer Settings -> Personal access token -> Generate a new Token', fg='blue'))
-    click.echo(click.style('Please only tick \'repo\'. Note that the token is a hidden input to COOKIETEMPLE.', fg='blue'))
-    click.echo(click.style('For more information please read'
-                           ' https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line', fg='blue'))
     access_token = handle_pat_authentification()
 
     is_github_org: bool = click.prompt('Do you want to create an organization repository? [y, n]',
@@ -98,6 +94,7 @@ def handle_pat_authentification() -> str:
     :return: The decrypted PAT
     """
 
+    # check if the key and encrypted PAT already exist
     if os.path.exists(f'{Path.home()}/.ct_keys') and os.path.exists(f'{Path.home()}/cookietemple_conf'):
         pat = decrypt_pat()
         return pat
@@ -114,6 +111,7 @@ def handle_pat_authentification() -> str:
                                          hide_input=True)
         access_token_b = access_token.encode('utf-8')
 
+        # encrypt the given PAT and save the encryption key and encrypted PAT in separate files
         key = Fernet.generate_key()
         fer = Fernet(key)
         encrypted_pat = fer.encrypt(access_token_b)
@@ -141,6 +139,8 @@ def decrypt_pat() -> str:
         encrypted_pat = f.readline()
 
     fer = Fernet(key)
+
+    # decrypt the PAT and decode it to string
     decrypted_pat = fer.decrypt(encrypted_pat).decode('utf-8')
 
     return decrypted_pat

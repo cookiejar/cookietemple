@@ -25,7 +25,10 @@ def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
                            f'\nNew version will be {new_version}\n', fg='blue'))
 
     for file, path in parser.items('bumpversion_files'):
-        replace(path, new_version)
+        if not str(pipeline_dir)[-1] == '/':
+            replace(f'{pipeline_dir}/{path}', new_version)
+        else:
+            replace(f'{pipeline_dir}{path}', new_version)
 
     parser.set('bumpversion', 'current_version', new_version)
     with open(f'{pipeline_dir}/cookietemple.cfg', 'w') as configfile:
