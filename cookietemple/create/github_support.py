@@ -1,10 +1,12 @@
 import click
 import os
 
+from cryptography.fernet import Fernet
 from distutils.dir_util import copy_tree
 from subprocess import Popen, PIPE
 from github import Github, GithubException
 from git import Repo
+from pathlib import Path
 
 
 def create_push_github_repository(project_name: str, project_description: str, template_creation_path: str) -> None:
@@ -27,9 +29,7 @@ def create_push_github_repository(project_name: str, project_description: str, t
     click.echo(click.style('Please only tick \'repo\'. Note that the token is a hidden input to COOKIETEMPLE.', fg='blue'))
     click.echo(click.style('For more information please read'
                            ' https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line', fg='blue'))
-    access_token: str = click.prompt('Please enter your GitHub access token: ',
-                                     type=str,
-                                     hide_input=True)
+    access_token = handle_pat_authentification()
 
     is_github_org: bool = click.prompt('Do you want to create an organization repository? [y, n]',
                                        type=bool,
@@ -89,6 +89,61 @@ def create_push_github_repository(project_name: str, project_description: str, t
 
     # did any errors occur?
     click.echo(click.style(f'Successfully created a Github repository at https://github.com/{github_username}/{project_name}', fg='green'))
+
+
+def handle_pat_authentification() -> str:
+    """
+    Try to read the encrypted Personal Acess Token for GitHub.
+    If this fails (maybe there was no generated key before) then encrypt and return the PAT afterwards.
+    :return: The decrypted PAT
+    """
+
+    if os.path.exists(f'{Path.home()}/.ct_keys') and os.path.exists(f'{Path.home()}/cookietemple_conf'):
+        pat = decrypt_pat()
+        return pat
+
+    else:
+        click.echo(click.style("Could not read key from ~/cookietemple_conf!", fg='red'))
+        click.echo()
+        click.echo(click.style('Please navigate to Github -> Your profile -> Developer Settings -> Personal access token -> Generate a new Token', fg='blue'))
+        click.echo(click.style('Please only tick \'repo\'. Note that the token is a hidden input to COOKIETEMPLE.', fg='blue'))
+        click.echo(click.style('For more information please read'
+                               ' https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line', fg='blue'))
+        access_token: str = click.prompt('Please enter your GitHub access token: ',
+                                         type=str,
+                                         hide_input=True)
+        access_token_b = access_token.encode('utf-8')
+
+        key = Fernet.generate_key()
+        fer = Fernet(key)
+        encrypted_pat = fer.encrypt(access_token_b)
+
+        with open(f'{Path.home()}/cookietemple_conf', 'wb') as f:
+            f.write(encrypted_pat)
+
+        with open(f'{Path.home()}/.ct_keys', 'wb') as f:
+            f.write(key)
+
+        pat = decrypt_pat()
+        return pat
+
+
+def decrypt_pat() -> str:
+    """
+    Decrypt the encrypted PAT.
+    :return: The decrypted Personal Access Token for GitHub
+    """
+
+    with open(f'{Path.home()}/.ct_keys', 'rb') as f:
+        key = f.readline()
+
+    with open(f'{Path.home()}/cookietemple_conf', 'rb') as f:
+        encrypted_pat = f.readline()
+
+    fer = Fernet(key)
+    decrypted_pat = fer.decrypt(encrypted_pat).decode('utf-8')
+
+    return decrypted_pat
 
 
 def is_git_accessible() -> bool:

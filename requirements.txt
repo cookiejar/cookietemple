@@ -6,3 +6,5 @@ pygithub==1.47
 tabulate==0.8.7
 GitPython
 autopep8
+cffi
+cryptography
