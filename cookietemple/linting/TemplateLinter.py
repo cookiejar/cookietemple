@@ -200,27 +200,30 @@ class TemplateLinter(object):
         """
         parser = configparser.ConfigParser()
         parser.read(f'{self.path}/cookietemple.cfg')
+        sections = ['bumpversion_files_whitelisted', 'bumpversion_files_blacklisted']
 
         current_version = parser.get('bumpversion', 'current_version')
 
         cwd = os.getcwd()
         os.chdir(self.path)
 
-        for file, path in parser.items('bumpversion_files'):
-            self.check_version_match(path, current_version)
+        for section in sections:
+            for file, path in parser.items(section):
+                self.check_version_match(path, current_version, section)
         os.chdir(cwd)
         if self.failed.count((5, r'*')) == 0:
             self.passed.append((5, click.style('Versions were consistent over all files', fg='green')))
 
-    def check_version_match(self, path: str, version: str) -> None:
+    def check_version_match(self, path: str, version: str, section: str) -> None:
         """
         Check if the versions in a file are consistent with the current version in the cookietemple.cfg
         :param path: The current file-path to check
         :param version: The current version of the project specified in the cookietemple.cfg file
+        :param section: The current section (blacklisted or whitelisted files)
         """
         with open(path) as file:
             for line in file:
-                if '<<COOKIETEMPLE_NO_BUMP>>' not in line:
+                if ('<<COOKIETEMPLE_NO_BUMP>>' not in line and not section == 'bumpversion_files_blacklisted') or '<<COOKIETEMPLE_FORCE_BUMP>>' in line:
                     line_version = re.search(r'[0-9]+\.[0-9]+\.[0-9]+', line)
                     if line_version:
                         line_version = line_version.group(0)
