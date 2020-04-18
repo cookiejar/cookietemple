@@ -24,7 +24,7 @@ def create_push_github_repository(project_name: str, project_description: str, t
     # Prompt for Github username, organization name if wished and whether private repository
     github_username: str = click.prompt('Please enter your Github account username: ',
                                         type=str)
-
+    # the personal access token for GitHub
     access_token = handle_pat_authentification()
 
     is_github_org: bool = click.prompt('Do you want to create an organization repository? [y, n]',
@@ -132,6 +132,7 @@ def decrypt_pat() -> str:
     :return: The decrypted Personal Access Token for GitHub
     """
 
+    # read key and encrypted PAT from files
     with open(f'{Path.home()}/.ct_keys', 'rb') as f:
         key = f.readline()
 

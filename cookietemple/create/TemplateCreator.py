@@ -41,7 +41,7 @@ class TemplateCreator:
         Create all stuff that is common for cookietemples template creation process; in detail those things are:
         create and copy common files, fix docs style, lint the project and ask whether the user wants to create a github repo.
         """
-        # create the common files and copy them into the templates directory
+        # create the common files and copy them into the templates directory (skip if flag is set)
         if not skip_common_files:
             self.create_common_files()
 
@@ -50,7 +50,7 @@ class TemplateCreator:
         project_name = self.creator_ctx.project_slug
         project_path = f'{self.CWD}/{project_name}'
 
-        # Ensure that docs are looking good
+        # Ensure that docs are looking good (skip if flag is set)
         if not skip_fix_underline:
             fix_short_title_underline(f'{project_path}/docs/index.rst')
 
@@ -83,6 +83,7 @@ class TemplateCreator:
         if occupied:
             self.directory_exists_warning()
 
+            # Confirm proceeding with overwriting existing directory
             if click.confirm('Do you really want to continue?'):
                 cookiecutter(f'{domain_path}/{self.creator_ctx.domain}_{self.creator_ctx.language.lower()}',
                              no_input=True,
@@ -110,6 +111,7 @@ class TemplateCreator:
         if occupied:
             self.directory_exists_warning()
 
+            # Confirm proceeding with overwriting existing directory
             if click.confirm('Do you really want to continue?'):
                 cookiecutter(f'{domain_path}/{subdomain}_{self.creator_ctx.language.lower()}',
                              no_input=True,
@@ -139,6 +141,7 @@ class TemplateCreator:
         if occupied:
             self.directory_exists_warning()
 
+            # Confirm proceeding with overwriting existing directory
             if click.confirm('Do you really want to continue?'):
                 cookiecutter(f'{domain_path}/{subdomain}_{self.creator_ctx.language.lower()}/{framework}',
                              no_input=True,
@@ -178,6 +181,7 @@ class TemplateCreator:
                                  type=str,
                                  default='0.1.0')
 
+        # make sure that the version has the right format
         while not re.match(r'[0-9]+\.[0-9]+\.[0-9]+', poss_vers):
             click.echo(click.style('The version number entered does not match cookietemples pattern.\n'
                                    'Please enter the version in the format [number].[number].[number]!', fg='red'))
@@ -220,11 +224,13 @@ class TemplateCreator:
             poss_dir = Path(f"{cwd_project}/{self.creator_ctx.project_slug}/{f}")
             is_dir = poss_dir.is_dir()
 
+            # if directory already exists add the missing files
             if is_dir:
                 if any(Path(poss_dir).iterdir()):
                     self.copy_into_already_existing_directory(path, poss_dir)
 
             else:
+                # if its a directory delete it and copy new content
                 if is_dir:
                     delete_dir_tree(poss_dir)
                 shutil.copy(path, f"{cwd_project}/{self.creator_ctx.project_slug}/{f}")
