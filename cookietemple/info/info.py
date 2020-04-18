@@ -11,8 +11,6 @@ from cookietemple.util.dict_util import is_nested_dictionary
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f'{WD}/../create/templates'
 
-templates_to_print = []
-
 
 def show_info(handle: str):
     """
@@ -20,6 +18,8 @@ def show_info(handle: str):
 
     :param handle: domain/language/template handle (examples: cli or cli-python)
     """
+    templates_to_print = []
+
     if not handle:
         handle = click.prompt('Please enter the possibly incomplete template handle as <<domain-(subdomain)-('
                               'language)>>.\nExamples: \'cli-python\' or \'cli\'',
@@ -54,7 +54,7 @@ def show_info(handle: str):
         except KeyError:
             handle_non_existing_command(handle)
 
-    flatten_nested_dict(template_info)
+    flatten_nested_dict(template_info, templates_to_print)
 
     for template in templates_to_print:
         template[2] = set_linebreaks(template[2])
@@ -63,7 +63,7 @@ def show_info(handle: str):
         tabulate(templates_to_print, headers=['Name', 'Handle', 'Description', 'Available Libraries', 'Version']))
 
 
-def flatten_nested_dict(template_info_) -> None:
+def flatten_nested_dict(template_info_, templates_to_print) -> None:
     """
     This function flattens an arbitrarily deep nested dict and creates a list of list containing all available
     templates for the specified doamin/subdomain and/or language
@@ -76,7 +76,7 @@ def flatten_nested_dict(template_info_) -> None:
                 templates_to_print.append([templ['name'], templ['handle'], templ['long description'],
                                            templ['available libraries'], templ['version']])
             else:
-                flatten_nested_dict(templ)
+                flatten_nested_dict(templ, templates_to_print)
     else:
         templates_to_print.append([template_info_['name'], template_info_['handle'], template_info_['long description'],
                                    template_info_['available libraries'], template_info_['version']])
@@ -89,7 +89,7 @@ def set_linebreaks(desc: str) -> str:
     :return: The formatted string with inserted newlines
     """
 
-    X = 45  # Limit
+    X = 50  # Limit
     last_space = -1
     cnt = 0
     idx = 0

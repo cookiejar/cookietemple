@@ -9,7 +9,6 @@ import click
 import re
 from pathlib import Path
 
-
 import cookietemple
 
 from cookietemple.bump_version.bump_version import bump_template_version
@@ -41,7 +40,7 @@ def main():
 
 @click.group(cls=CustomHelpOrder)
 @click.version_option(cookietemple.__version__,
-                      message=click.style(f'Cookietemple Version: {cookietemple.__version__}',fg='blue'))
+                      message=click.style(f'Cookietemple Version: {cookietemple.__version__}', fg='blue'))
 @click.option(
     '-v', '--verbose',
     is_flag=True,
@@ -67,7 +66,7 @@ def create(domain: str) -> None:
 
 
 @cookietemple_cli.command(help_priority=2)
-@click.argument('project_dir',type=click.Path(),
+@click.argument('project_dir', type=click.Path(),
                 default=Path(f'{Path.cwd()}'))
 @click.option('--run-coala/--no-run-coala',
               default=True)
@@ -89,11 +88,11 @@ def list() -> None:
 
 
 @cookietemple_cli.command(help_priority=4)
-@click.option('--handle',
-              type=str)
+@click.argument('handle',
+                type=str)
 def info(handle: str) -> None:
     """
-    Get detailed info on a COOKIETEMPLE template
+    Get detailed info on a COOKIETEMPLE template domain or a single template
 
     """
     show_info(handle)
