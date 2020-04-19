@@ -52,7 +52,7 @@ def create_push_github_repository(project_name: str, project_description: str, t
         repo = user.create_repo(project_name, description=project_description, private=private)
 
     click.echo(click.style('Creating labels and default Github settings.', fg='blue'))
-    create_dependabot_label(repo=repo, name="DEPENDABOT")
+    create_github_labels(repo=repo, labels=[("DEPENDABOT", "1BB0CE")])
 
     repository = f'{os.getcwd()}/{project_name}'
 
@@ -89,19 +89,18 @@ def create_push_github_repository(project_name: str, project_description: str, t
 
 def handle_pat_authentification() -> str:
     """
-    Try to read the encrypted Personal Acess Token for GitHub.
+    Try to read the encrypted Personal Access Token for GitHub.
     If this fails (maybe there was no generated key before) then encrypt and return the PAT afterwards.
     :return: The decrypted PAT
     """
 
     # check if the key and encrypted PAT already exist
-    if os.path.exists(f'{Path.home()}/.ct_keys') and os.path.exists(f'{Path.home()}/cookietemple_conf'):
+    if os.path.exists(f'{Path.home()}/.ct_keys') and os.path.exists(f'{Path.home()}/cookietemple_conf.cfg'):
         pat = decrypt_pat()
         return pat
 
     else:
-        click.echo(click.style("Could not read key from ~/cookietemple_conf!", fg='red'))
-        click.echo()
+        click.echo(click.style('Could not find key in ~/.ct_keys!\n\n', fg='red'))
         click.echo(click.style('Please navigate to Github -> Your profile -> Developer Settings -> Personal access token -> Generate a new Token', fg='blue'))
         click.echo(click.style('Please only tick \'repo\'. Note that the token is a hidden input to COOKIETEMPLE.', fg='blue'))
         click.echo(click.style('For more information please read'
@@ -112,11 +111,13 @@ def handle_pat_authentification() -> str:
         access_token_b = access_token.encode('utf-8')
 
         # encrypt the given PAT and save the encryption key and encrypted PAT in separate files
+        click.echo(click.style('Generating key for encryption.', fg='blue'))
         key = Fernet.generate_key()
         fer = Fernet(key)
+        click.echo(click.style('Encrypting personal access token.', fg='blue'))
         encrypted_pat = fer.encrypt(access_token_b)
 
-        with open(f'{Path.home()}/cookietemple_conf', 'wb') as f:
+        with open(f'{Path.home()}/cookietemple_conf.cfg', 'wb') as f:
             f.write(encrypted_pat)
 
         with open(f'{Path.home()}/.ct_keys', 'wb') as f:
@@ -136,12 +137,13 @@ def decrypt_pat() -> str:
     with open(f'{Path.home()}/.ct_keys', 'rb') as f:
         key = f.readline()
 
-    with open(f'{Path.home()}/cookietemple_conf', 'rb') as f:
+    with open(f'{Path.home()}/cookietemple_conf.cfg', 'rb') as f:
         encrypted_pat = f.readline()
 
     fer = Fernet(key)
 
     # decrypt the PAT and decode it to string
+    click.echo(click.style('Decrypting personal access token.', fg='blue'))
     decrypted_pat = fer.decrypt(encrypted_pat).decode('utf-8')
 
     return decrypted_pat
@@ -163,14 +165,15 @@ def is_git_accessible() -> bool:
     return True
 
 
-def create_dependabot_label(repo, name: str) -> None:
+def create_github_labels(repo, labels: list) -> None:
     """
-    Create a dependabot label and add it to the repository.
+    Create github labels and add them to the repository.
     If failed, print error message.
     :param repo: The repository where the label needs to be added
-    :param name: The name of the new label
+    :param labels: A list of the new labels to be added
     """
-    try:
-        repo.create_label(name=name, color="1BB0CE")
-    except GithubException:
-        click.echo(click.style("Unable to create label {} due to permissions".format(name), fg='red'))
+    for label in labels:
+        try:
+            repo.create_label(name=label[0], color=label[1])
+        except GithubException:
+            click.echo(click.style("Unable to create label {} due to permissions".format(label[0]), fg='red'))

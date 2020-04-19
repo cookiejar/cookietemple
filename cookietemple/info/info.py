@@ -92,13 +92,13 @@ def set_linebreaks(desc: str) -> str:
     :return: The formatted string with inserted newlines
     """
 
-    X = 50  # Limit
+    linebreak_limit = 50
     last_space = -1
     cnt = 0
     idx = 0
 
     while idx < len(desc):
-        if cnt == X:
+        if cnt == linebreak_limit:
             # set a line break at the last space encountered to avoid separating words
             desc = desc[:last_space] + '\n' + desc[last_space + 1:]
             cnt = 0

@@ -66,7 +66,7 @@ class PubCreator(TemplateCreator):
         self.pub_struct.template_version, self.pub_struct.template_handle = switcher_version.get(
             self.pub_struct.language.lower(), lambda: 'Invalid language!'), f"pub-{self.pub_struct.pubtype}-{self.pub_struct.language.lower()}"
 
-        # do operations like create a github repositry and general linting, but skip common_files copying and rst linting
+        # perform general operations like creating a GitHub repository and general linting, but skip common_files copying and rst linting
         super().process_common_operations(True, True)
 
     # TODO: IMPLEMENT BELOW

@@ -4,7 +4,7 @@ ruamel.yaml==0.16.10
 coala-bears==0.11.1
 pygithub==1.47
 tabulate==0.8.7
-GitPython
-autopep8
-cffi
-cryptography
+GitPython==3.1.1
+autopep8==1.5.1
+cffi==1.14.0
+cryptography==2.9
