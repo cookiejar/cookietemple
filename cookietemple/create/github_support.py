@@ -9,7 +9,7 @@ from git import Repo
 from pathlib import Path
 
 
-def create_push_github_repository(project_name: str, project_description: str, template_creation_path: str) -> None:
+def create_push_github_repository(project_name: str, project_description: str, template_creation_path: str, github_username: str) -> None:
     """
     Creates a Github repository for the created template and pushes the template to it.
     Prompts the user for the required specifications.
@@ -17,13 +17,13 @@ def create_push_github_repository(project_name: str, project_description: str, t
     :param project_name: Name of the created project
     :param project_description: Description of the created project
     :param template_creation_path: Path to the already created template
+    :param github_username: the users github name
     """
     if not is_git_accessible():
         return
 
-    # Prompt for Github username, organization name if wished and whether private repository
-    github_username: str = click.prompt('Please enter your Github account username: ',
-                                        type=str)
+    # load username from template creator
+    github_username = github_username
     # the personal access token for GitHub
     access_token = handle_pat_authentification()
 
@@ -117,7 +117,7 @@ def handle_pat_authentification() -> str:
         click.echo(click.style('Encrypting personal access token.', fg='blue'))
         encrypted_pat = fer.encrypt(access_token_b)
 
-        with open(f'{Path.home()}/cookietemple_conf.cfg', 'wb') as f:
+        with open(f'{Path.home()}/cookietemple_conf.cfg', 'ab') as f:
             f.write(encrypted_pat)
 
         with open(f'{Path.home()}/.ct_keys', 'wb') as f:
@@ -138,6 +138,7 @@ def decrypt_pat() -> str:
         key = f.readline()
 
     with open(f'{Path.home()}/cookietemple_conf.cfg', 'rb') as f:
+        f.readline()
         encrypted_pat = f.readline()
 
     fer = Fernet(key)
@@ -147,6 +148,31 @@ def decrypt_pat() -> str:
     decrypted_pat = fer.decrypt(encrypted_pat).decode('utf-8')
 
     return decrypted_pat
+
+
+def load_github_username() -> str:
+    """
+    Load the username from cfg file.
+    If not found, prompt for it and save it in the cfg file. CAVE: Username is the first entry in the cfg file.
+    :return: The users github account name
+    """
+
+    if not os.path.exists(f'{Path.home()}/cookietemple_conf.cfg'):
+        click.echo(click.style('Could not load github username. Creating new file!', fg='red'))
+        github_username: str = click.prompt('Please enter your Github account username: ',
+                                            type=str)
+        github_username_b = github_username.encode('utf-8')
+
+        # write the username to cfg file
+        with open(f'{Path.home()}/cookietemple_conf.cfg', 'wb') as f:
+            f.write(github_username_b)
+            f.write(b'\n')
+        return github_username
+
+    # load name from cfg file, if it exists
+    with open(f'{Path.home()}/cookietemple_conf.cfg', 'rb') as f:
+        github_username = f.readline().decode('utf-8')
+        return github_username.replace('\n', '')
 
 
 def is_git_accessible() -> bool:
@@ -176,4 +202,4 @@ def create_github_labels(repo, labels: list) -> None:
         try:
             repo.create_label(name=label[0], color=label[1])
         except GithubException:
-            click.echo(click.style("Unable to create label {} due to permissions".format(label[0]), fg='red'))
+            click.echo(click.style(f'Unable to create label {label[0]} due to permissions', fg='red'))

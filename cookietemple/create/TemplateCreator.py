@@ -13,7 +13,7 @@ from ruamel.yaml import YAML
 from cookiecutter.main import cookiecutter
 
 from cookietemple.util.dir_util import delete_dir_tree
-from cookietemple.create.github_support import create_push_github_repository
+from cookietemple.create.github_support import create_push_github_repository, load_github_username
 from cookietemple.linting.lint import lint_project
 from cookietemple.util.docs_util import fix_short_title_underline
 from cookietemple.list.list import load_available_templates
@@ -66,7 +66,7 @@ class TemplateCreator:
             # rename the currently created template to a temporary name, create Github repo, push, remove temporary template
             tmp_project_path = f'{project_path}_cookietemple_tmp'
             os.rename(project_path, tmp_project_path)
-            create_push_github_repository(project_name, 'some description', tmp_project_path)
+            create_push_github_repository(project_name, 'some description', tmp_project_path, self.creator_ctx.github_username)
             shutil.rmtree(tmp_project_path, ignore_errors=True)
 
     def create_template_without_subdomain(self, domain_path: str) -> None:
@@ -195,6 +195,8 @@ class TemplateCreator:
             'Please choose a license [MIT, BSD, ISC, Apache2.0, GNUv3, Not open source]',
             type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Not open source']),
             default='MIT')
+
+        self.creator_ctx.github_username = load_github_username()
 
     def create_common_files(self) -> None:
         """
