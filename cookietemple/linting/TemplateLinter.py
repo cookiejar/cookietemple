@@ -200,30 +200,38 @@ class TemplateLinter(object):
         """
         parser = configparser.ConfigParser()
         parser.read(f'{self.path}/cookietemple.cfg')
+        sections = ['bumpversion_files_whitelisted', 'bumpversion_files_blacklisted']
 
         current_version = parser.get('bumpversion', 'current_version')
 
         cwd = os.getcwd()
         os.chdir(self.path)
 
-        for file, path in parser.items('bumpversion_files'):
-            self.check_version_match(path, current_version)
+        # check if the version matches current version in each listed file (depending on whitelisted or blacklisted)
+        for section in sections:
+            for file, path in parser.items(section):
+                self.check_version_match(path, current_version, section)
         os.chdir(cwd)
+
+        # Pass message if there weren't any inconsistencies within the version numbers
         if self.failed.count((5, r'*')) == 0:
             self.passed.append((5, click.style('Versions were consistent over all files', fg='green')))
 
-    def check_version_match(self, path: str, version: str) -> None:
+    def check_version_match(self, path: str, version: str, section: str) -> None:
         """
         Check if the versions in a file are consistent with the current version in the cookietemple.cfg
         :param path: The current file-path to check
         :param version: The current version of the project specified in the cookietemple.cfg file
+        :param section: The current section (blacklisted or whitelisted files)
         """
         with open(path) as file:
             for line in file:
-                if '<<COOKIETEMPLE_NO_BUMP>>' not in line:
+                # if a tag is found and (depending on wether its a white or blacklisted file) check if the versions are matching
+                if ('<<COOKIETEMPLE_NO_BUMP>>' not in line and not section == 'bumpversion_files_blacklisted') or '<<COOKIETEMPLE_FORCE_BUMP>>' in line:
                     line_version = re.search(r'[0-9]+\.[0-9]+\.[0-9]+', line)
                     if line_version:
                         line_version = line_version.group(0)
+                        # No match between the current version number and version in source code file
                         if line_version != version:
                             corrected_line = re.sub(r'[0-9]+\.[0-9]+\.[0-9]+', version, line)
                             self.failed.append((5, click.style(f'Version number don´t match in\n {self.path}/{path}:', fg='blue')

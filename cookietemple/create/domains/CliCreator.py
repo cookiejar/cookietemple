@@ -62,6 +62,7 @@ class CliCreator(TemplateCreator):
         self.cli_struct.template_version, self.cli_struct.template_handle = switcher_version.get(
             self.cli_struct.language.lower(), lambda: 'Invalid language!'), f'cli-{self.cli_struct.language.lower()}'
 
+        # perform general operations like creating a GitHub repository and general linting
         super().process_common_operations()
 
 

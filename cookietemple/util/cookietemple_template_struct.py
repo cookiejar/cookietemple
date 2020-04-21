@@ -11,6 +11,7 @@ class CookietempleTemplateStruct:
     project_slug: str = ""  # the project name Cookietemple uses for almost all further processing
     template_version: str = ""  # the version of the provided Cookietemple template
     template_handle: str = ""  # the handle of the specific template, indicating which template is currently used
+    github_username: str = ""  # github username
 
     """
     This section contains some attributes common to the CLI, WEB and GUI domains

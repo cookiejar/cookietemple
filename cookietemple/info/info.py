@@ -11,8 +11,6 @@ from cookietemple.util.dict_util import is_nested_dictionary
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f'{WD}/../create/templates'
 
-templates_to_print = []
-
 
 def show_info(handle: str):
     """
@@ -20,6 +18,9 @@ def show_info(handle: str):
 
     :param handle: domain/language/template handle (examples: cli or cli-python)
     """
+    # list of all templates that should be printed according to the passed handle
+    templates_to_print = []
+
     if not handle:
         handle = click.prompt('Please enter the possibly incomplete template handle as <<domain-(subdomain)-('
                               'language)>>.\nExamples: \'cli-python\' or \'cli\'',
@@ -54,7 +55,8 @@ def show_info(handle: str):
         except KeyError:
             handle_non_existing_command(handle)
 
-    flatten_nested_dict(template_info)
+    # Add all templates under template_info to list
+    flatten_nested_dict(template_info, templates_to_print)
 
     for template in templates_to_print:
         template[2] = set_linebreaks(template[2])
@@ -63,9 +65,9 @@ def show_info(handle: str):
         tabulate(templates_to_print, headers=['Name', 'Handle', 'Description', 'Available Libraries', 'Version']))
 
 
-def flatten_nested_dict(template_info_) -> None:
+def flatten_nested_dict(template_info_, templates_to_print) -> None:
     """
-    This function flattens an arbitrarily deep nested dict and creates a list of list containing all available
+    Flatten an arbitrarily deep nested dict and creates a list of list containing all available
     templates for the specified doamin/subdomain and/or language
     :param template_info_: The dict containing the yaml parsed info for all available templates the user wants to
                            gather some information
@@ -76,8 +78,9 @@ def flatten_nested_dict(template_info_) -> None:
                 templates_to_print.append([templ['name'], templ['handle'], templ['long description'],
                                            templ['available libraries'], templ['version']])
             else:
-                flatten_nested_dict(templ)
+                flatten_nested_dict(templ, templates_to_print)
     else:
+        # a single template to append was reached
         templates_to_print.append([template_info_['name'], template_info_['handle'], template_info_['long description'],
                                    template_info_['available libraries'], template_info_['version']])
 
@@ -89,13 +92,14 @@ def set_linebreaks(desc: str) -> str:
     :return: The formatted string with inserted newlines
     """
 
-    X = 45  # Limit
+    linebreak_limit = 50
     last_space = -1
     cnt = 0
     idx = 0
 
     while idx < len(desc):
-        if cnt == X:
+        if cnt == linebreak_limit:
+            # set a line break at the last space encountered to avoid separating words
             desc = desc[:last_space] + '\n' + desc[last_space + 1:]
             cnt = 0
         elif desc[idx] == ' ':
@@ -122,12 +126,14 @@ def non_existing_handle():
 def handle_non_existing_command(handle: str):
     most_sim = most_similar_command(handle, AVAILABLE_HANDLES)
     if most_sim:
+        # found exactly one similar command
         if len(most_sim) == 1:
             click.echo(click.style(
                 f'cookietemple info: ', fg='white') + click.style(
                 f'unknown handle \'{handle}\'. See cookietemple list for all valid handles.\n\nDid you mean\n    \'{most_sim[0]}\'?',
                 fg='red'))
         else:
+            # found multiple similar commands
             click.echo(click.style(
                 f'cookietemple info: ', fg='white') + click.style(
                 f'unknown handle \'{handle}\'. See cookietemple list for all valid handles.\n\nMost similar commands are:',
@@ -137,4 +143,5 @@ def handle_non_existing_command(handle: str):
         sys.exit(0)
 
     else:
+        # found no similar commands
         non_existing_handle()
