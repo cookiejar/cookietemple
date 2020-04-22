@@ -101,7 +101,7 @@ def handle_pat_authentification() -> str:
         return pat
 
     else:
-        click.echo(click.style('Could not find key in ~/.ct_keys!\n\n', fg='red'))
+        click.echo(click.style('Could not find encrypted personal access token!\n', fg='red'))
         click.echo(click.style('Please navigate to Github -> Your profile -> Developer Settings -> Personal access token -> Generate a new Token', fg='blue'))
         click.echo(click.style('Only tick \'repo\'. The token is a hidden input to COOKIETEMPLE and stored encrypted locally on your machine.',  fg='blue'))
         click.echo(click.style('For more information please read'
