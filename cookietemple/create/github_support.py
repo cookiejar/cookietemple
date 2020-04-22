@@ -164,11 +164,12 @@ def load_github_username() -> str:
     if not os.path.exists(f'{Path.home()}/cookietemple_conf.cfg'):
         click.echo(click.style('Could not load Github username. Creating new cookietemple_conf.cfg file!', fg='red'))
         github_username = click.prompt('Please enter your Github account username: ',
-                                       type=str).encode('utf-8')
+                                       type=str)
+        github_username_b = github_username.encode('utf-8')
 
         # write the username to cfg file
         with open(f'{Path.home()}/cookietemple_conf.cfg', 'wb') as f:
-            f.write(github_username)
+            f.write(github_username_b)
             f.write(b'\n')
 
         return github_username
