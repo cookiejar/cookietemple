@@ -25,7 +25,7 @@ jobs:
 
       - name: Create pub-thesis-latex Template
         run: |
-          echo -e "pub\nthesis\nHomer\nExplodingSpringfield\nTitle\nSpringfieldUniversity\nNuclearDepartment\nPhD\nn" | cookietemple create
+          echo -e "pub\nthesis\nHomer\nExplodingSpringfield\nTitle\nSpringfieldUniversity\nNuclearDepartment\nhomergithub\nPhD\nn" | cookietemple create
 
       - name: Build thesis
         uses: xu-cheng/latex-action@master

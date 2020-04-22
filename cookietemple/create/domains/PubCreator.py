@@ -4,6 +4,7 @@ from dataclasses import dataclass
 import click
 
 from cookietemple.create.TemplateCreator import TemplateCreator
+from cookietemple.create.github_support import load_github_username
 from cookietemple.util.cookietemple_template_struct import CookietempleTemplateStruct
 
 
@@ -15,12 +16,13 @@ class TemplateStructPub(CookietempleTemplateStruct):
     """
     This section contains some PUB-domain specific attributes
     """
-    pubtype: str = ""
-    author: str = ""
-    title: str = ""
-    university: str = ""
-    department: str = ""
-    degree: str = ""
+    pubtype: str = ''
+    author: str = ''
+    title: str = ''
+    university: str = ''
+    department: str = ''
+    degree: str = ''
+    github_username = ''
 
 
 class PubCreator(TemplateCreator):
@@ -108,3 +110,4 @@ class PubCreator(TemplateCreator):
         self.pub_struct.department = click.prompt('Department:',
                                                   type=str,
                                                   default='Department of nuclear physics')
+        self.pub_struct.github_username = load_github_username()  # Required for Github support
