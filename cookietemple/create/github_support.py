@@ -91,6 +91,7 @@ def handle_pat_authentification() -> str:
     """
     Try to read the encrypted Personal Access Token for GitHub.
     If this fails (maybe there was no generated key before) then encrypt and return the PAT afterwards.
+
     :return: The decrypted PAT
     """
 
@@ -102,7 +103,7 @@ def handle_pat_authentification() -> str:
     else:
         click.echo(click.style('Could not find key in ~/.ct_keys!\n\n', fg='red'))
         click.echo(click.style('Please navigate to Github -> Your profile -> Developer Settings -> Personal access token -> Generate a new Token', fg='blue'))
-        click.echo(click.style('Please only tick \'repo\'. Note that the token is a hidden input to COOKIETEMPLE.', fg='blue'))
+        click.echo(click.style('Please only tick \'repo\'. Note that the token is a hidden input to COOKIETEMPLE and stored encrypted locally on your machine.', fg='blue'))
         click.echo(click.style('For more information please read'
                                ' https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line', fg='blue'))
         access_token: str = click.prompt('Please enter your GitHub access token: ',
@@ -130,6 +131,7 @@ def handle_pat_authentification() -> str:
 def decrypt_pat() -> str:
     """
     Decrypt the encrypted PAT.
+
     :return: The decrypted Personal Access Token for GitHub
     """
 
@@ -154,6 +156,7 @@ def load_github_username() -> str:
     """
     Load the username from cfg file.
     If not found, prompt for it and save it in the cfg file. CAVE: Username is the first entry in the cfg file.
+
     :return: The users github account name
     """
 
@@ -195,6 +198,7 @@ def create_github_labels(repo, labels: list) -> None:
     """
     Create github labels and add them to the repository.
     If failed, print error message.
+    
     :param repo: The repository where the label needs to be added
     :param labels: A list of the new labels to be added
     """
