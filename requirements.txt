@@ -7,4 +7,4 @@ tabulate==0.8.7
 GitPython==3.1.1
 autopep8==1.5.1
 cffi==1.14.0
-cryptography==2.9
+cryptography==2.9.1
