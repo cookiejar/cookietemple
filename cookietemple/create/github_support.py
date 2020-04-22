@@ -103,7 +103,7 @@ def handle_pat_authentification() -> str:
     else:
         click.echo(click.style('Could not find key in ~/.ct_keys!\n\n', fg='red'))
         click.echo(click.style('Please navigate to Github -> Your profile -> Developer Settings -> Personal access token -> Generate a new Token', fg='blue'))
-        click.echo(click.style('Please only tick \'repo\'. Note that the token is a hidden input to COOKIETEMPLE and stored encrypted locally on your machine.', fg='blue'))
+        click.echo(click.style('Only tick \'repo\'. The token is a hidden input to COOKIETEMPLE and stored encrypted locally on your machine.',  fg='blue'))
         click.echo(click.style('For more information please read'
                                ' https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line', fg='blue'))
         access_token: str = click.prompt('Please enter your GitHub access token: ',
@@ -198,7 +198,7 @@ def create_github_labels(repo, labels: list) -> None:
     """
     Create github labels and add them to the repository.
     If failed, print error message.
-    
+
     :param repo: The repository where the label needs to be added
     :param labels: A list of the new labels to be added
     """
