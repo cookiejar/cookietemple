@@ -103,7 +103,7 @@ def handle_pat_authentification() -> str:
     else:
         click.echo(click.style('Could not find encrypted personal access token!\n', fg='red'))
         click.echo(click.style('Please navigate to Github -> Your profile -> Developer Settings -> Personal access token -> Generate a new Token', fg='blue'))
-        click.echo(click.style('Only tick \'repo\'. The token is a hidden input to COOKIETEMPLE and stored encrypted locally on your machine.',  fg='blue'))
+        click.echo(click.style('Only tick \'repo\'. The token is a hidden input to COOKIETEMPLE and stored encrypted locally on your machine.', fg='blue'))
         click.echo(click.style('For more information please read'
                                ' https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line', fg='blue'))
         access_token: str = click.prompt('Please enter your GitHub access token: ',
@@ -125,6 +125,7 @@ def handle_pat_authentification() -> str:
             f.write(key)
 
         pat = decrypt_pat()
+
         return pat
 
 
@@ -161,20 +162,21 @@ def load_github_username() -> str:
     """
 
     if not os.path.exists(f'{Path.home()}/cookietemple_conf.cfg'):
-        click.echo(click.style('Could not load github username. Creating new file!', fg='red'))
-        github_username: str = click.prompt('Please enter your Github account username: ',
-                                            type=str)
-        github_username_b = github_username.encode('utf-8')
+        click.echo(click.style('Could not load Github username. Creating new cookietemple_conf.cfg file!', fg='red'))
+        github_username = click.prompt('Please enter your Github account username: ',
+                                       type=str).encode('utf-8')
 
         # write the username to cfg file
         with open(f'{Path.home()}/cookietemple_conf.cfg', 'wb') as f:
-            f.write(github_username_b)
+            f.write(github_username)
             f.write(b'\n')
+
         return github_username
 
     # load name from cfg file, if it exists
     with open(f'{Path.home()}/cookietemple_conf.cfg', 'rb') as f:
         github_username = f.readline().decode('utf-8')
+
         return github_username.replace('\n', '')
 
 
