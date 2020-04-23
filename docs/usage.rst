@@ -1,6 +1,6 @@
-=====
-Usage
-=====
+=============
+General usage
+=============
 
 To use cookietemple in a project::
 

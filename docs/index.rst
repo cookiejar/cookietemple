@@ -8,9 +8,19 @@ Welcome to cookietemple's documentation!
    readme
    installation
    usage
+   create
+   list_info
+   lint
+   bump_version
+   sync
+   warp
+   available_templates
    contributing
+   adding_new_templates
+   troubleshooting
    changelog
-   authors
+   community
+   code_of_conduct
 
 Indices and tables
 ==================

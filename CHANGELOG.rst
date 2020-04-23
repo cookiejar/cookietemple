@@ -1,8 +1,31 @@
-=======
-History
-=======
+==========
+Changelog
+==========
 
-0.1.0 (2019-08-14)
+This document records all notable changes to `HTTPie <https://httpie.org>`_.
+This project adheres to `Semantic Versioning <https://semver.org/>`_.
+
+0.1.0 (01.05.2020)
 ------------------
 
-* First release on PyPI.
+**Added**
+
+* Creating templates
+* cli-python template
+* web-website-python template
+* cli-java template
+* cli-kotlin template
+* gui-java template
+* gui-kotlin template
+* pub-thesis template
+* Linting templates
+* Listing templates
+* Getting detailed info on templates
+* Bumping the version of templates
+* Packaging templates using Warp
+
+**Fixed**
+
+**Dependencies**
+
+**Deprecated**
