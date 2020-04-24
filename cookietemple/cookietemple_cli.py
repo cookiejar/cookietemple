@@ -54,7 +54,7 @@ def cookietemple_cli(verbose):
         logging.basicConfig(level=logging.INFO, format='\n%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 
-@cookietemple_cli.command(help_priority=1)
+@cookietemple_cli.command(help_priority=1, short_help='Create a new project using one of our templates.')
 @click.option('--domain',
               type=click.Choice(['CLI', 'GUI', 'Web']))
 def create(domain: str) -> None:
@@ -65,7 +65,7 @@ def create(domain: str) -> None:
     choose_domain(domain)
 
 
-@cookietemple_cli.command(help_priority=2)
+@cookietemple_cli.command(help_priority=2, short_help='Lint your existing COOKIETEMPLE project.')
 @click.argument('project_dir', type=click.Path(),
                 default=Path(f'{Path.cwd()}'))
 @click.option('--run-coala/--no-run-coala',
@@ -78,7 +78,7 @@ def lint(project_dir, run_coala) -> None:
     lint_project(project_dir, run_coala, True)
 
 
-@cookietemple_cli.command(help_priority=3)
+@cookietemple_cli.command(help_priority=3, short_help='List all available COOKIETEMPLE templates.')
 def list() -> None:
     """
     List all available COOKIETEMPLE templates
@@ -87,7 +87,7 @@ def list() -> None:
     list_available_templates()
 
 
-@cookietemple_cli.command(help_priority=4)
+@cookietemple_cli.command(help_priority=4, short_help='Get detailed info on a COOKIETEMPLE template domain or a single template.')
 @click.argument('handle',
                 type=str)
 def info(handle: str) -> None:
@@ -98,7 +98,7 @@ def info(handle: str) -> None:
     show_info(handle)
 
 
-@cookietemple_cli.command(help_priority=5)
+@cookietemple_cli.command(help_priority=5, short_help='Sync your project with the latest template release.')
 def sync() -> None:
     """
     Sync your project with the latest template release
@@ -107,7 +107,7 @@ def sync() -> None:
     snyc_template()
 
 
-@cookietemple_cli.command('bump-version', help_priority=6)
+@cookietemple_cli.command('bump-version', help_priority=6, short_help='Bump the version of an existing COOKIETEMPLE project.')
 @click.argument('new_version', type=str)
 @click.argument('project_dir', type=click.Path(),
                 default=Path(f'{Path.cwd()}'))
@@ -134,7 +134,7 @@ def bump_version(new_version, project_dir) -> None:
     bump_template_version(new_version, project_dir)
 
 
-@cookietemple_cli.command(help_priority=7)
+@cookietemple_cli.command(help_priority=7, short_help='Create a self contained executable with bundled JRE.')
 @click.option('--input_dir', type=str)
 @click.option('--exec', type=str)
 @click.option('--output', type=str)
