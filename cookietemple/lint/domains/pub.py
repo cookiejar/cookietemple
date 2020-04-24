@@ -1,6 +1,6 @@
 import os
 
-from cookietemple.linting.TemplateLinter import TemplateLinter, files_exist_linting
+from cookietemple.lint.TemplateLinter import TemplateLinter, files_exist_linting
 
 CWD = os.getcwd()
 

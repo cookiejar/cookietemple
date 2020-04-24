@@ -27,7 +27,7 @@ def show_info(handle: str):
                               type=str)
     click.echo()
     click.echo()
-    available_templates = load_available_templates(f'{TEMPLATES_PATH}/available_templates.yaml')
+    available_templates = load_available_templates(f'{TEMPLATES_PATH}/available_templates.yml')
 
     specifiers = handle.split('-')
     domain = specifiers[0]

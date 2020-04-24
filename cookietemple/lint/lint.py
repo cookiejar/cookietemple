@@ -6,10 +6,10 @@ from subprocess import Popen, PIPE
 import click
 from ruamel.yaml import YAML
 
-from cookietemple.linting.TemplateLinter import TemplateLinter
-from cookietemple.linting.domains.cli import CliPythonLint
-from cookietemple.linting.domains.web import WebWebsitePythonLint
-from cookietemple.linting.domains.pub import PubLatexLint
+from cookietemple.lint.TemplateLinter import TemplateLinter
+from cookietemple.lint.domains.cli import CliPythonLint
+from cookietemple.lint.domains.web import WebWebsitePythonLint
+from cookietemple.lint.domains.pub import PubLatexLint
 
 
 def lint_project(project_dir: str, run_coala: bool = False, coala_interactive: bool = False) -> TemplateLinter:

@@ -3,7 +3,7 @@ import click
 from dataclasses import dataclass
 
 from cookietemple.create.TemplateCreator import TemplateCreator
-from cookietemple.util.cookietemple_template_struct import CookietempleTemplateStruct
+from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 
 
 @dataclass
