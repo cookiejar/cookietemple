@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 
 """Tests for `{{ cookiecutter.project_slug }}` package."""
-from {{cookiecutter.project_slug}} import cli
-from click.testing import CliRunner
-import unittest
-import pytest
 import os
 
 { % if cookiecutter.use_pytest == 'y' - %}
+import pytest
 { % else % }
+import unittest
 {%- endif %}
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
+from click.testing import CliRunner
 {%- endif %}
 
 # from {{ cookiecutter.project_slug }} import {{ cookiecutter.project_slug }}
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
+from {{cookiecutter.project_slug}} import cli
 {%- endif %}
 
 {%- if cookiecutter.use_pytest == 'y' %}
