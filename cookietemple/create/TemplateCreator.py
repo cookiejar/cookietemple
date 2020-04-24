@@ -14,10 +14,10 @@ from cookiecutter.main import cookiecutter
 
 from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.create.github_support import create_push_github_repository, load_github_username
-from cookietemple.linting.lint import lint_project
+from cookietemple.lint.lint import lint_project
 from cookietemple.util.docs_util import fix_short_title_underline
 from cookietemple.list.list import load_available_templates
-from cookietemple.util.cookietemple_template_struct import CookietempleTemplateStruct
+from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 
 
 class TemplateCreator:

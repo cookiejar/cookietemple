@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 from cookietemple.create.TemplateCreator import TemplateCreator
-from cookietemple.util.cookietemple_template_struct import CookietempleTemplateStruct
+from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 
 
 @dataclass

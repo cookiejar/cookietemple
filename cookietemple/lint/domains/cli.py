@@ -3,12 +3,12 @@ from subprocess import Popen
 
 import click
 
-from cookietemple.linting.TemplateLinter import TemplateLinter, files_exist_linting
+from cookietemple.lint.TemplateLinter import TemplateLinter, files_exist_linting
 
 CWD = os.getcwd()
 
 
-class WebWebsitePythonLint(TemplateLinter):
+class CliPythonLint(TemplateLinter):
     def __init__(self, path):
         super().__init__(path)
 
@@ -32,6 +32,7 @@ class WebWebsitePythonLint(TemplateLinter):
             'tox.ini',
         Files that *should* be present::
             '.github/workflows/build_package.yml',
+            '.github/workflows/publish_package.yml',
             '.github/workflows/tox_testsuite.yml',
             '.github/workflows/flake8.yml',
         Files that *must not* be present::
@@ -50,6 +51,7 @@ class WebWebsitePythonLint(TemplateLinter):
         ]
         files_warn = [
             [os.path.join('.github', 'workflows', 'build_package.yml')],
+            [os.path.join('.github', 'workflows', 'publish_package.yml')],
             [os.path.join('.github', 'workflows', 'tox_testsuite.yml')],
             [os.path.join('.github', 'workflows', 'flake8_linting.yml')],
         ]

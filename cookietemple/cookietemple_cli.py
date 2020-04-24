@@ -14,7 +14,7 @@ import cookietemple
 from cookietemple.bump_version.bump_version import bump_template_version
 from cookietemple.create.create import choose_domain
 from cookietemple.info.info import show_info
-from cookietemple.linting.lint import lint_project
+from cookietemple.lint.lint import lint_project
 from cookietemple.list.list import list_available_templates
 from cookietemple.package_dist.warp import warp_project
 from cookietemple.synchronization.sync import snyc_template
@@ -47,7 +47,12 @@ def main():
     default=False,
     help='Verbose output (print debug statements)'
 )
-def cookietemple_cli(verbose):
+@click.pass_context
+def cookietemple_cli(ctx, verbose):
+
+    if str(ctx.invoked_subcommand) not in ['create', 'lint', 'list', 'info', 'bump-version', 'warp', 'sync']:
+        print("NONO")
+
     if verbose:
         logging.basicConfig(level=logging.DEBUG, format='\n%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     else:

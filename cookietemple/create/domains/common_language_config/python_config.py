@@ -1,6 +1,6 @@
 import click
 
-from cookietemple.util.cookietemple_template_struct import CookietempleTemplateStruct
+from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 
 
 def common_python_options(creator_ctx: CookietempleTemplateStruct):
