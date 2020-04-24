@@ -36,8 +36,8 @@ class CliCreator(TemplateCreator):
         Handles the CLI domain. Prompts the user for the language, general and domain specific options.
         """
 
-        self.cli_struct.language = click.prompt('Choose between the following languages [python, java, kotlin, c++]',
-                                                type=click.Choice(['python', 'java', 'kotlin', 'c++'])).capitalize()
+        self.cli_struct.language = click.prompt('Choose between the following languages [python, java, kotlin]',
+                                                type=click.Choice(['python', 'java', 'kotlin'])).capitalize()
 
         # prompt the user to fetch general template configurations
         super().prompt_general_template_configuration()
