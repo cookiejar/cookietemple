@@ -19,7 +19,7 @@ def list_available_templates() -> None:
 
     """
 
-    available_templates = load_available_templates(f'{TEMPLATES_PATH}/available_templates.yaml')
+    available_templates = load_available_templates(f'{TEMPLATES_PATH}/available_templates.yml')
     click.echo(click.style('Run cookietemple info for long descriptions of your template of interest.', fg='green'))
     click.echo(click.style('All available templates:\n', fg='green'))
 

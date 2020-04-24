@@ -27,4 +27,5 @@ class CookietempleTemplateStruct:
     This section contains some attributes specific for any python project
     """
     command_line_interface: str = ''  # the cmd line lib used, if any. TODO: Maybe this should go in common (as Java etc may also have this)
+    testing_library: str = ''  # the testing library that is (mainly) used for the project
     use_pytest: str = ''  # indicates of the project wants to use pytest as the default testing framework

@@ -30,8 +30,8 @@ class TemplateCreator:
     def __init__(self, creator_ctx: CookietempleTemplateStruct):
         self.WD = os.path.dirname(__file__)
         self.TEMPLATES_PATH = f'{self.WD}/templates'
-        self.COMMON_FILES_PATH = f'{self.WD}/templates/common_files'
-        self.AVAILABLE_TEMPLATES_PATH = f'{self.WD}/templates/available_templates.yaml'
+        self.COMMON_FILES_PATH = f'{self.TEMPLATES_PATH}/common_files'
+        self.AVAILABLE_TEMPLATES_PATH = f'{self.TEMPLATES_PATH}/available_templates.yml'
         self.AVAILABLE_TEMPLATES = load_available_templates(self.AVAILABLE_TEMPLATES_PATH)
         self.CWD = os.getcwd()
         self.creator_ctx = creator_ctx

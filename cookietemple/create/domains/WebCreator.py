@@ -36,8 +36,8 @@ class WebCreator(TemplateCreator):
     def __init__(self):
         self.web_struct = TemplateStructWeb(domain='web')
         super().__init__(self.web_struct)
-        self.WD = os.path.dirname(__file__)
-        self.TEMPLATES_WEB_PATH = f'{self.WD}/../templates/web'
+        self.WD_Path = Path(os.path.dirname(__file__))
+        self.TEMPLATES_WEB_PATH = f'{self.WD_Path.parent}/templates/web'
 
         '""Web Template Versions""'
         self.WEB_WEBSITE_PYTHON_TEMPLATE_VERSION = super().load_version('web-website-python')
