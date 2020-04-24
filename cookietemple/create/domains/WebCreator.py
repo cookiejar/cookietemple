@@ -16,19 +16,19 @@ class TemplateStructWeb(CookietempleTemplateStruct):
     This section contains some attributes specific for WEB-domain projects
     """
     # TODO: Currently only python but this will be refactored as we have more templates
-    webtype: str = ""  # the type of web project like website or REST-API
+    webtype: str = ''  # the type of web project like website or REST-API
 
     """
     This section contains some attributes specific for website projects
     """
-    web_framework: str = ""  # the framework, the user wants to use (if any)
-    is_basic_website: str = ""  # indicates whether the user wants a basic website setup or a more advanced with database support etc.
-    url: str = ""  # the url for the website (if any)
+    web_framework: str = ''  # the framework, the user wants to use (if any)
+    is_basic_website: str = ''  # indicates whether the user wants a basic website setup or a more advanced with database support etc.
+    url: str = ''  # the url for the website (if any)
 
     """
     This section contains some attributes specific for website projects
     """
-    vm_username: str = ""  # the username (if any) for a VM (only necessary for Deployment in a Linux VM)
+    vm_username: str = ''  # the username (if any) for a VM (only necessary for Deployment in a Linux VM)
 
 
 class WebCreator(TemplateCreator):
@@ -69,7 +69,7 @@ class WebCreator(TemplateCreator):
         }
 
         self.web_struct.template_version, self.web_struct.template_handle = switcher_version.get(
-            self.web_struct.language.lower(), lambda: 'Invalid language!'), f"web-{self.web_struct.webtype}-{self.web_struct.language.lower()}"
+            self.web_struct.language.lower(), lambda: 'Invalid language!'), f'web-{self.web_struct.webtype}-{self.web_struct.language.lower()}'
 
         # perform general operations like creating a GitHub repository and general linting
         super().process_common_operations()
@@ -132,7 +132,7 @@ class WebCreator(TemplateCreator):
         :param is_basic: Shows whether the user sets up a basic or advanced website setup
         """
         cwd = os.getcwd()
-        os.chdir(f"{cwd}/{self.web_struct.project_slug}/{self.web_struct.project_slug}")
+        os.chdir(f'{cwd}/{self.web_struct.project_slug}/{self.web_struct.project_slug}')
 
         if is_basic == 'y':
             delete_dir_tree(Path('translations'))
@@ -155,7 +155,7 @@ class WebCreator(TemplateCreator):
         print('TODO')
 
     def handle_rest_api_python(self):
-        """Handle REST-API templates"""
+        '""Handle REST-API templates""'
         print('TO IMPLEMENT - REST API etc.')
 
 

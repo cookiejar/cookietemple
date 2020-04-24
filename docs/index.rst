@@ -12,8 +12,8 @@ Welcome to cookietemple's documentation!
    list_info
    lint
    bump_version
-   sync
    warp
+   sync
    available_templates
    contributing
    adding_new_templates

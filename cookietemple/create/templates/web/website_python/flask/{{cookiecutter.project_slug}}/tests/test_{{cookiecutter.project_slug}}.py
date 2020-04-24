@@ -2,16 +2,16 @@
 
 """Tests for `{{cookiecutter.project_slug}}` package."""
 
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_mail import Mail
+from flask_login import LoginManager
+from flask_bootstrap import Bootstrap
+from flask_babel import Babel
+import pytest
 from flask import Flask
 from {{cookiecutter.project_slug}}.config import Config
-{% if cookiecutter.is_basic_website == 'n' -%}
-import pytest
-from flask_babel import Babel
-from flask_bootstrap import Bootstrap
-from flask_login import LoginManager
-from flask_mail import Mail
-from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
+{ % if cookiecutter.is_basic_website == 'n' - %}
 
 
 @pytest.fixture
@@ -71,8 +71,10 @@ def test_something():
     testing_client = flask_app.test_client()
     response = testing_client.get('/')
     assert response.status_code == 302  # assert redirecting
-    {% endif %}
-{% if cookiecutter.is_basic_website == 'y' -%}
+    { % endif % }
+{ % if cookiecutter.is_basic_website == 'y' - %}
+
+
 def create_test_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -96,4 +98,4 @@ def test_something():
     testing_client = flask_app.test_client()
     response = testing_client.get('/')
     assert response.status_code == 302  # assert redirecting
-    {% endif %}
+    { % endif % }

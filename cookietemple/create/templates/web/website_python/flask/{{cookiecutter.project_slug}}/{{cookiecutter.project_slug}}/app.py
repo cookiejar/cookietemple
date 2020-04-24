@@ -1,18 +1,18 @@
-{% if cookiecutter.is_basic_website == 'y' -%}
-from flask import Flask
-{% endif %}
-{% if cookiecutter.is_basic_website == 'n' -%}
-import os
-import click
-from flask import Flask, request, session
 from .config import Config, config_mail, login, db, migrate, mail, bootstrap, babel
-{% endif %}
-{% if cookiecutter.is_basic_website == 'y' -%}
-from .config import Config{% endif %}
+from flask import Flask, request, session
+import click
+import os
+from flask import Flask
+{ % if cookiecutter.is_basic_website == 'y' - %}
+{ % endif % }
+{ % if cookiecutter.is_basic_website == 'n' - %}
+{ % endif % }
+{ % if cookiecutter.is_basic_website == 'y' - %}
+from .config import Config{ % endif % }
 
 app = Flask(__name__)
 app.config.from_object(Config)
-{% if cookiecutter.is_basic_website == 'n' -%}
+{ % if cookiecutter.is_basic_website == 'n' - %}
 migrate.init_app(app, db)
 login.init_app(app)
 mail.init_app(app)
@@ -25,19 +25,19 @@ with app.app_context():
     db.drop_all()
     db.create_all()
 
-config_mail(app){% endif %}
+config_mail(app){ % endif % }
 
 from {{cookiecutter.project_slug}}.errors import bp as errors_bp  # noqa: E402
 
 app.register_blueprint(errors_bp)
 
-{% if cookiecutter.is_basic_website == 'y' -%}
+{ % if cookiecutter.is_basic_website == 'y' - %}
 from {{cookiecutter.project_slug}}.basic import bp as basic_bp  # noqa: E402
 
 app.register_blueprint(basic_bp)
-{% endif %}
+{ % endif % }
 
-{% if cookiecutter.is_basic_website == 'n' -%}
+{ % if cookiecutter.is_basic_website == 'n' - %}
 from {{cookiecutter.project_slug}}.auth import bp as auth_bp  # noqa: E402
 
 app.register_blueprint(auth_bp, url_prefix='/auth')
@@ -110,4 +110,4 @@ def get_locale():
 def inject_conf_var():
     return dict(
         AVAILABLE_LANGUAGES=Config.LANGUAGES,
-        CURRENT_LANGUAGE=session.get('language', request.accept_languages.best_match(Config.LANGUAGES.keys()))){% endif %}
+        CURRENT_LANGUAGE=session.get('language', request.accept_languages.best_match(Config.LANGUAGES.keys()))){ % endif % }

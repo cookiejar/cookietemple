@@ -46,6 +46,12 @@ Once you have a copy of the source, you can install it with:
 
     $ python setup.py install
 
+Alternatively you can also install it using the Makefile:
+
+.. code-block:: console
+
+    $ make install
+
 
 .. _Github repo: https://github.com/zethson/cookietemple
 .. _tarball: https://github.com/zethson/cookietemple/tarball/master

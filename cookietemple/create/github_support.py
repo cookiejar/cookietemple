@@ -52,7 +52,7 @@ def create_push_github_repository(project_name: str, project_description: str, t
         repo = user.create_repo(project_name, description=project_description, private=private)
 
     click.echo(click.style('Creating labels and default Github settings.', fg='blue'))
-    create_github_labels(repo=repo, labels=[("DEPENDABOT", "1BB0CE")])
+    create_github_labels(repo=repo, labels=[('DEPENDABOT', '1BB0CE')])
 
     repository = f'{os.getcwd()}/{project_name}'
 

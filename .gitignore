@@ -106,3 +106,6 @@ ENV/
 
 # coala original files
 *.orig
+
+# vscode
+*.vscode

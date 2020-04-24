@@ -79,7 +79,7 @@ class TemplateCreator:
         :param language: Primary chosen language
         """
         # Target directory is already occupied -> overwrite?
-        occupied = os.path.isdir(f"{os.getcwd()}/{self.creator_ctx.project_slug}")
+        occupied = os.path.isdir(f'{os.getcwd()}/{self.creator_ctx.project_slug}')
         if occupied:
             self.directory_exists_warning()
 
@@ -107,7 +107,7 @@ class TemplateCreator:
         :param subdomain: Subdomain of the chosen template
         :param language: Primary chosen language
         """
-        occupied = os.path.isdir(f"{os.getcwd()}/{self.creator_ctx.project_slug}")
+        occupied = os.path.isdir(f'{os.getcwd()}/{self.creator_ctx.project_slug}')
         if occupied:
             self.directory_exists_warning()
 
@@ -137,7 +137,7 @@ class TemplateCreator:
         :param language: Primary chosen language
         :param framework: Chosen framework
         """
-        occupied = os.path.isdir(f"{os.getcwd()}/{self.creator_ctx.project_slug}")
+        occupied = os.path.isdir(f'{os.getcwd()}/{self.creator_ctx.project_slug}')
         if occupied:
             self.directory_exists_warning()
 
@@ -223,7 +223,7 @@ class TemplateCreator:
 
         for f in common_files:
             path = Path(f'{os.getcwd()}/common_files_util/{f}')
-            poss_dir = Path(f"{cwd_project}/{self.creator_ctx.project_slug}/{f}")
+            poss_dir = Path(f'{cwd_project}/{self.creator_ctx.project_slug}/{f}')
             is_dir = poss_dir.is_dir()
 
             # if directory already exists add the missing files
@@ -235,7 +235,7 @@ class TemplateCreator:
                 # if its a directory delete it and copy new content
                 if is_dir:
                     delete_dir_tree(poss_dir)
-                shutil.copy(path, f"{cwd_project}/{self.creator_ctx.project_slug}/{f}")
+                shutil.copy(path, f'{cwd_project}/{self.creator_ctx.project_slug}/{f}')
                 os.remove(path)
 
         delete_dir_tree(Path(f'{Path.cwd()}/common_files_util'))
@@ -266,7 +266,7 @@ class TemplateCreator:
         """
 
         click.echo(click.style('WARNING: ', fg='red')
-                   + click.style(f"A directory named {self.creator_ctx.project_slug} already exists at", fg='red')
+                   + click.style(f'A directory named {self.creator_ctx.project_slug} already exists at', fg='red')
                    + click.style(f'{os.getcwd()}', fg='green'))
         click.echo()
         click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
