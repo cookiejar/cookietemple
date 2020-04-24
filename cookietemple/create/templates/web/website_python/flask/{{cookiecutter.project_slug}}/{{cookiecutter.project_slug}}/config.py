@@ -1,13 +1,12 @@
-import os
-{% if cookiecutter.is_basic_website == 'n' -%}
-import configparser
-
-from flask_babel import Babel
-from flask_bootstrap import Bootstrap
-from flask_login import LoginManager
-from flask_mail import Mail
-from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_mail import Mail
+from flask_login import LoginManager
+from flask_bootstrap import Bootstrap
+from flask_babel import Babel
+import configparser
+import os
+{ % if cookiecutter.is_basic_website == 'n' - %}
 
 
 migrate = Migrate()
@@ -17,7 +16,7 @@ login.login_view = 'auth.login'
 login.login_message = 'Please log in to access this page.'
 mail = Mail()
 bootstrap = Bootstrap()
-babel = Babel(){% endif %}
+babel = Babel(){ % endif % }
 
 
 class Config:
@@ -28,7 +27,7 @@ class Config:
     basedir = os.path.abspath(os.path.dirname(__file__))
 
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'SOME_SUPERSECRETKEY'
-    {% if cookiecutter.is_basic_website == 'n' -%}
+    { % if cookiecutter.is_basic_website == 'n' - %}
     LANGUAGES = {
         'en': 'English',
         'de': 'German'
@@ -39,6 +38,7 @@ class Config:
 
     BABEL_DEFAULT_LOCALE = 'en'
     BABEL_TRANSLATION_DIRECTORIES = 'translations'
+
 
 def config_mail(app):
     try:
@@ -63,4 +63,4 @@ def config_mail(app):
             MAIL_USE_SSL=True,
             MAIL_USERNAME="username_not_available",
             MAIL_PASSWORD="password_not_available"
-        ){% endif %}
+        ){ % endif % }

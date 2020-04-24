@@ -1,16 +1,16 @@
 """Console script for {{cookiecutter.project_slug}}."""
-import os
-{%- if cookiecutter.command_line_interface|lower == 'argparse' %}
-import argparse
-{%- endif %}
-import sys
-{%- if cookiecutter.command_line_interface|lower == 'click' %}
 import click
-{%- endif %}
+import sys
+import argparse
+import os
+{%- if cookiecutter.command_line_interface|lower == 'argparse' % }
+{%- endif % }
+{%- if cookiecutter.command_line_interface|lower == 'click' % }
+{%- endif % }
 
 WD = os.path.dirname(__file__)
 
-{% if cookiecutter.command_line_interface|lower == 'click' %}
+{% if cookiecutter.command_line_interface|lower == 'click' % }
 @click.command()
 def main(args=None):
     """Console script for {{cookiecutter.project_slug}}."""
@@ -20,8 +20,12 @@ def main(args=None):
                "{{cookiecutter.project_slug}}.cli.main")
     click.echo("See click documentation at https://click.palletsprojects.com/")
     return 0
-{%- endif %}
-{%- if cookiecutter.command_line_interface|lower == 'argparse' %}
+
+
+{%- endif % }
+{%- if cookiecutter.command_line_interface|lower == 'argparse' % }
+
+
 def main():
     """Console script for {{cookiecutter.project_slug}}."""
     read_included_file('test.txt')
@@ -34,7 +38,10 @@ def main():
     print("Replace this message by putting your code into "
           "{{cookiecutter.project_slug}}.cli.main")
     return 0
-{%- endif %}
+
+
+{%- endif % }
+
 
 def read_included_file(filename):
     """
@@ -44,8 +51,10 @@ def read_included_file(filename):
     @param filename: Name of the file to read, which has to be in a folder, that is included in the python package as specified in setup.py
     """
     print("function is called")
-    with open(f"{WD}/files/{filename}") as f: content = f.readlines()
+    with open(f"{WD}/files/{filename}") as f:
+        content = f.readlines()
     print(content)
+
 
 if __name__ == "__main__":
     sys.exit(main())  # pragma: no cover

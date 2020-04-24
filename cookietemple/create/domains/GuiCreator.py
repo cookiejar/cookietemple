@@ -27,4 +27,4 @@ class GuiCreator(TemplateCreator):
     def create_template(self):
         self.gui_struct.language = click.prompt('Please choose between the following languages [c++, c#, java]',
                                                 type=click.Choice(['c++', 'c#', 'java']))
-        print("NOT IMPLEMENTED YET")
+        print('NOT IMPLEMENTED YET')

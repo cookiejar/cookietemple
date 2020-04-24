@@ -22,7 +22,7 @@ COOKIETEMPLE
         :alt: Twitter Follow
 
 
-A cookiecutter based project template creation tool supporting several domains and languages with linting and template sync support.
+A cookiecutter based project template creation tool supporting several domains and languages with advanced linting and continuous integration.
 
 
 * Free  and open-source software: GNU General Public License v3
@@ -33,10 +33,10 @@ Features
 --------
 
 * Kickstart your project using a production ready project template
-* Choose from a variety of domains, technologies and languages
+* Choose from a variety of domains, languages and frameworks
 * All project templates feature a common structure, but allow flexibility where needed
-* Ensure that your project follows common high standards and best practices using cookietemple lint
-* Syncing ensures that all template updates are applied to your project
+* Ensure that your project follows common high standards and best practices using advanced linting and continuous integration pipelines
+* Templates share consistent commands like bump-version or make install even over different domains and languages
 * Benefit from detailed documentation and support
 
 Available Templates
