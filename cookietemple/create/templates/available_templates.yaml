@@ -40,13 +40,6 @@ web:
             short description: someShortDescription
             long description: someLongDescription
 gui:
-    python:
-        name: TODO
-        handle: gui-python
-        version: 0.0.1
-        available libraries: Qt
-        short description: someShortDescription
-        long description: someLongDescription
     java:
         name: TODO
         handle: gui-java
