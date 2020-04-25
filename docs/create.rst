@@ -4,3 +4,5 @@
 Create a project
 ================
 
+Github support
+-----------------

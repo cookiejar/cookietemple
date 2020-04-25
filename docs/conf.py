@@ -38,7 +38,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'cookietemple'
-copyright = u'2019, Lukas Heumos'
+copyright = u'2020, Lukas Heumos'
 author = u'Lukas Heumos'
 
 # The version info for the project you're documenting, acts as replacement
