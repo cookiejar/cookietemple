@@ -124,11 +124,11 @@ Hence, at this level we see :code:`cookietemple_cli.py` and a folder per CLI com
 
    We were pleasently surprised to see that someone already made a Github Action for brainfuck.
 
-7. | Finally, we add some documentation to :code:``
+7. | Finally, we add some documentation to :code:`/docs/available_templates.rst` and explain the purpose, design and frameworks/libraries.
 
-   That's it! You should now be able to try out your new template using :code:`cookietemple create`
-   The template should be creatable, it should automatically lint after the creation and Github support should be enabled as well! If you run :code:`cookietemple list`
-   Your new template should show up as well!
+   That's it! We should now be able to try out your new template using :code:`cookietemple create`
+   The template should be creatable, it should automatically lint after the creation and Github support should be enabled as well! If we run :code:`cookietemple list`
+   Our new template should show up as well!
    I'm sure that you noticed that there's not actually a brainfuck template in COOKIETEMPLE (yet!).
 
    To quote our mighty Math professors: 'We'll leave this as an exercise to the reader.'
