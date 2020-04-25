@@ -2,9 +2,6 @@
 name: Pull request
 about: Submit a pull request to COOKIETEMPLE
 title: '[TEMPLATENAME/COMMAND/CORE] Pull Request Title'
-labels: ''
-assignees: ''
-
 ---
 
 Many thanks for contributing to COOKIETEMPLE!
