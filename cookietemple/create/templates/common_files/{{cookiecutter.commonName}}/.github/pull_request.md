@@ -1,12 +1,3 @@
----
-name: Pull request
-about: Submit a pull request
-title: 'Pull Request Title'
-labels: ''
-assignees: ''
-
----
-
 Many thanks for contributing to this project!
 
 **PR Checklist**

@@ -1,9 +1,3 @@
----
-name: Pull request
-about: Submit a pull request to COOKIETEMPLE
-
----
-
 Many thanks for contributing to COOKIETEMPLE!
 
 **Associated Template/Command/Core**
