@@ -1,7 +1,7 @@
 Many thanks for contributing to COOKIETEMPLE!
 
 **Associated Template/Command/Core**
-State the template handle (e.g. python-cli) and also add it in the title in the square brackets.
+State the template handle (e.g. python-cli) and also add it in the title.
 If your pull request is not directly related to any template, please state either the associated COOKIETEMPLE command or '[CORE]' if it is a general COOKIETEMPLE bug.
 
 **PR Checklist**
