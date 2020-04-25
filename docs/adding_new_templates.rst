@@ -66,7 +66,7 @@ Hence, at this level we see :code:`cookietemple_cli.py` and a folder per CLI com
    Addition of a cli-brainfuck template to available_templates.yml.
 
 2. | Next, we add our brainfuck template to :code:`/create/templates`
-   | Note that it should adhere to the standards mentioned above and include all required files.
+   | Note that it should adhere to the standards mentioned above and include all required files. Don't forget to edit the cookietemple.cfg file to facilitate bump-version. See :ref:`bump-version` for details.
     It is **mandatory** to name the top level folder {{ cookiecutter.project_slug }}, which ensures that the project after creation will have a proper name.
     Furthermore, the cookiecutter.json file should have at least the following variables:
 
@@ -123,6 +123,8 @@ Hence, at this level we see :code:`cookietemple_cli.py` and a folder per CLI com
    :alt: Available Templates Brainfuck example
 
    We were pleasently surprised to see that someone already made a Github Action for brainfuck.
+
+7. | Finally, we add some documentation to :code:``
 
    That's it! You should now be able to try out your new template using :code:`cookietemple create`
    The template should be creatable, it should automatically lint after the creation and Github support should be enabled as well! If you run :code:`cookietemple list`

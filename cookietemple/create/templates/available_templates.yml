@@ -31,14 +31,6 @@ web:
             available libraries: flask
             short description: someShortDescription
             long description: someLongDescription
-    rest_api:
-        python:
-            name: TODO
-            handle: web-restapi-python
-            version: 0.0.1
-            available libraries: flask
-            short description: someShortDescription
-            long description: someLongDescription
 gui:
     java:
         name: TODO
@@ -64,11 +56,3 @@ pub:
             short description: Template for BSc./MSc./PhD/... thesis
             long description: A modern LaTeX/XeLaTeX/LuaLaTeX thesis template based on the Cambridge University Engineering Department template.
                 The template is still highly customizable but offers very reasonable defaults and should not require a lot if any configuration.
-    paper:
-        latex:
-            name: Latex Paper
-            handle: pub-paper-latex
-            version: 0.0.1
-            available libraries: latex
-            short description: Template for scientific papers
-            long description: someLongDescription
