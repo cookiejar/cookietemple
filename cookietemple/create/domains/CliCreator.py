@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 from cookietemple.create.TemplateCreator import TemplateCreator
-from cookietemple.util.cookietemple_template_struct import CookietempleTemplateStruct
+from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 
 
 @dataclass
@@ -22,8 +22,7 @@ class CliCreator(TemplateCreator):
     def __init__(self):
         self.cli_struct = TemplateStructCli(domain='cli')
         super().__init__(self.cli_struct)
-        self.WD = os.path.dirname(__file__)
-        self.WD_Path = Path(self.WD)
+        self.WD_Path = Path(os.path.dirname(__file__))
         self.TEMPLATES_CLI_PATH = f'{self.WD_Path.parent}/templates/cli'
 
         '"" TEMPLATE VERSIONS ""'

@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from cookietemple.create.TemplateCreator import TemplateCreator
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 from cookietemple.util.dir_util import delete_dir_tree
-from cookietemple.util.cookietemple_template_struct import CookietempleTemplateStruct
+from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 
 
 @dataclass
@@ -36,8 +36,8 @@ class WebCreator(TemplateCreator):
     def __init__(self):
         self.web_struct = TemplateStructWeb(domain='web')
         super().__init__(self.web_struct)
-        self.WD = os.path.dirname(__file__)
-        self.TEMPLATES_WEB_PATH = f'{self.WD}/../templates/web'
+        self.WD_Path = Path(os.path.dirname(__file__))
+        self.TEMPLATES_WEB_PATH = f'{self.WD_Path.parent}/templates/web'
 
         '""Web Template Versions""'
         self.WEB_WEBSITE_PYTHON_TEMPLATE_VERSION = super().load_version('web-website-python')
