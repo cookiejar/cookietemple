@@ -115,17 +115,23 @@ def bump_version(new_version, project_dir) -> None:
     """
     Bump the version of an existing COOKIETEMPLE project
     """
+    # if the path entered ends with a trailing slash remove it for consistent output
+    if str(project_dir).endswith('/'):
+        project_dir = Path(str(project_dir).replace(str(project_dir)[len(str(project_dir))-1:], ''))
 
+    # print error message if now new version was specified
     if not new_version:
         click.echo(click.style('No new version specified.\nPlease specify a new version using '
                                '\'cookietemple bump_version my.new.version\'', fg='red'))
         sys.exit(0)
 
+    # ensure that the entered version number matches correct format
     elif not re.match(r"[0-9]+.[0-9]+.[0-9]+", new_version):
         click.echo(click.style('Invalid version specified!\nEnsure your version number has the form '
                                'like 0.0.0 or 15.100.239', fg='red'))
         sys.exit(0)
 
+    # ensure the version is bumped within a project created by Cookietemple
     elif not Path(f'{project_dir}/cookietemple.cfg').is_file():
         click.echo(click.style('Did not found a cookietemple.cfg file. Make sure you are in the right directory '
                                'or specify the path to your projects bump_version.cfg file', fg='red'))

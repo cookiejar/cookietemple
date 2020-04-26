@@ -46,20 +46,25 @@ def replace(file_path: str, subst: str, section: str) -> None:
     :param subst: The new version that replaces the old one
     :param section: The current section (whitelisted or blacklisted files)
     """
+    # flag that indicates whether no changes were made inside a file
+    change_flag = True
+
     # Create temp file
     fh, abs_path = mkstemp()
     with fdopen(fh, 'w') as new_file:
         with open(file_path) as old_file:
-            click.echo(click.style(f'Updating version number in {file_path}', fg='blue'))
             for line in old_file:
                 # update version if tags were found (and were in the right section)
                 if ('<<COOKIETEMPLE_NO_BUMP>>' not in line and not section == 'bumpversion_files_blacklisted') or '<<COOKIETEMPLE_FORCE_BUMP>>' in line:
                     tmp = re.sub(r'[0-9]+\.[0-9]+\.[0-9]+', subst, line)
                     new_file.write(tmp)
                     if tmp != line:
+                        if change_flag:
+                            click.echo(click.style(f'Updating version number in {file_path}', fg='blue'))
+                            change_flag = False
                         click.echo(click.style(
-                            f'- {line.strip()}\n', fg='red') + click.style(
-                            f'+ {tmp.strip()}', fg='green'))
+                            f'- {line.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->","")}\n', fg='red') + click.style(
+                            f'+ {tmp.strip().replace("<<COOKIETEMPLE_FORCE_BUMP>>","")}', fg='green'))
                         click.echo()
                 else:
                     new_file.write(line)
