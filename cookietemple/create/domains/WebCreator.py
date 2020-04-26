@@ -28,7 +28,7 @@ class TemplateStructWeb(CookietempleTemplateStruct):
     """
     This section contains some attributes specific for website projects
     """
-    vm_username: str = ''  # the username (if any) for a VM (only necessary for Deployment in a Linux VM)
+    vmusername: str = ''  # the username (if any) for a VM (only necessary for Deployment in a Linux VM)
 
 
 class WebCreator(TemplateCreator):
@@ -117,9 +117,9 @@ class WebCreator(TemplateCreator):
         """
         Create a flask website template.
         """
-        self.web_struct.vm_username = click.prompt('Please enter your VM username (if you have one)',
-                                                   type=str,
-                                                   default='cookietempleuser')
+        self.web_struct.vmusername = click.prompt('Please enter your VM username (if you have one)',
+                                                  type=str,
+                                                  default='cookietempleuser')
 
         super().create_template_with_subdomain_framework(self.TEMPLATES_WEB_PATH, self.web_struct.webtype, self.web_struct.web_framework.lower())
 

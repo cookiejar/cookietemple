@@ -29,7 +29,7 @@ systemctl start {{cookiecutter.project_slug}}
 
 systemctl enable {{cookiecutter.project_slug}}
 
-cp /home/{{cookiecutter.project_slug}}/{{cookiecutter.project_slug}}/deployment_scripts/{{cookiecutter.project_slug}} \
+cp /home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug}}/deployment_scripts/{{cookiecutter.project_slug}} \
 /etc/nginx/sites-available/{{cookiecutter.project_slug}}
 
 ln -s /etc/nginx/sites-available/{{cookiecutter.project_slug}} /etc/nginx/sites-enabled
