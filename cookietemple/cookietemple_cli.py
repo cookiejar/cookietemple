@@ -47,12 +47,7 @@ def main():
     default=False,
     help='Verbose output (print debug statements)'
 )
-@click.pass_context
-def cookietemple_cli(ctx, verbose):
-
-    if str(ctx.invoked_subcommand) not in ['create', 'lint', 'list', 'info', 'bump-version', 'warp', 'sync']:
-        print("NONO")
-
+def cookietemple_cli(verbose):
     if verbose:
         logging.basicConfig(level=logging.DEBUG, format='\n%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     else:

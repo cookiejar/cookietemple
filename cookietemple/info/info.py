@@ -4,9 +4,10 @@ import click
 
 from tabulate import tabulate
 
-from cookietemple.info.levensthein_dist import (most_similar_command, AVAILABLE_HANDLES)
+from cookietemple.info.levensthein_dist import most_similar_command
 from cookietemple.list.list import load_available_templates
 from cookietemple.util.dict_util import is_nested_dictionary
+from cookietemple.util.suggest_similar_commands import load_available_handles
 
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f'{WD}/../create/templates'
@@ -124,7 +125,8 @@ def non_existing_handle():
 
 
 def handle_non_existing_command(handle: str):
-    most_sim = most_similar_command(handle, AVAILABLE_HANDLES)
+    available_handles = load_available_handles()
+    most_sim = most_similar_command(handle, available_handles)
     if most_sim:
         # found exactly one similar command
         if len(most_sim) == 1:
