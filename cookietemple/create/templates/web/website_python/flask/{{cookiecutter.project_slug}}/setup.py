@@ -33,17 +33,17 @@ with open('CHANGELOG.rst') as history_file:  # will fail in tox because not crea
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 
-setup_requirements = [{%- if cookiecutter.use_pytest == 'y' % }'pytest-runner', {%- endif % } ]
+setup_requirements = [{%- if cookiecutter.use_pytest == 'y' %}'pytest-runner', {%- endif %} ]
 
-test_requirements = [{%- if cookiecutter.use_pytest == 'y' % }'pytest>=3', {%- endif % } ]
+test_requirements = [{%- if cookiecutter.use_pytest == 'y' %}'pytest>=3', {%- endif %} ]
 
-{% - set license_classifiers = {
+{%- set license_classifiers = {
     'MIT': 'License :: OSI Approved :: MIT License',
     'BSD': 'License :: OSI Approved :: BSD License',
     'ISC': 'License :: OSI Approved :: ISC License (ISCL)',
     'Apache2.0': 'License :: OSI Approved :: Apache Software License',
     'GNUv3': 'License :: OSI Approved :: GNU General Public License v3 (GPLv3)'
-} % }
+} %}
 
 setup(
     author="{{ cookiecutter.full_name.replace('\"', '\\\"') }}",
@@ -52,9 +52,9 @@ setup(
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
-        {%- if cookiecutter.license in license_classifiers % }
+        {%- if cookiecutter.license in license_classifiers %}
         '{{ license_classifiers[cookiecutter.license] }}',
-        {%- endif % }
+        {%- endif %}
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
@@ -63,17 +63,17 @@ setup(
         'Programming Language :: Python :: 3.8',
     ],
     description="{{cookiecutter.project_slug}}. A best practice .",
-    {%- if 'no' not in cookiecutter.command_line_interface|lower % }
+    {%- if 'no' not in cookiecutter.command_line_interface|lower %}
     entry_points={
         'console_scripts': [
             '{{cookiecutter.project_slug}}={}.server:main'.format(module.__name__),
         ],
     },
-    {%- endif % }
+    {%- endif %}
     install_requires=requirements,
-    {%- if cookiecutter.license in license_classifiers % }
+    {%- if cookiecutter.license in license_classifiers %}
     license="{{ cookiecutter.license }}",
-    {%- endif % }
+    {%- endif %}
     long_description=readme + '\n\n',
     include_package_data=True,
     keywords='{{cookiecutter.project_slug}}',
