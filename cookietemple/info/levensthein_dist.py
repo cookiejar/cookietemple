@@ -1,10 +1,4 @@
-AVAILABLE_HANDLES = ['cli', 'web', 'gui', 'cli-python', 'cli-java', 'cli-kotlin', 'web-website-python',
-                     'web-restapi-python',
-                     'gui-python', 'gui-java']
-
-MAIN_COMMANDS = ['create', 'lint', 'list', 'info', 'bump_version', 'sync']
-
-SIMILARITY_FACTOR = (1 / 3)
+from cookietemple.util.suggest_similar_commands import SIMILARITY_FACTOR
 
 
 def levensthein_dist(input_command: str, candidate: str) -> int:
@@ -43,7 +37,7 @@ def levensthein_dist(input_command: str, candidate: str) -> int:
     return dp_table[len(candidate)][len(input_command)]
 
 
-def most_similar_command(command: str, command_list: list) -> list:
+def most_similar_command(command: str, command_list: set) -> list:
     """
     This function determines whether its possible to suggest a similar command.
     The similarity is determined by the levensthein distance and a factor (currently 1/3)
