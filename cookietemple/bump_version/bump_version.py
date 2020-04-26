@@ -64,7 +64,7 @@ def replace(file_path: str, subst: str, section: str) -> None:
                             change_flag = False
                         click.echo(click.style(
                             f'- {line.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->","")}\n', fg='red') + click.style(
-                            f'+ {tmp.strip().replace("<<COOKIETEMPLE_FORCE_BUMP>>","")}', fg='green'))
+                            f'+ {tmp.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->","")}', fg='green'))
                         click.echo()
                 else:
                     new_file.write(line)
