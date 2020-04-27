@@ -47,7 +47,7 @@ def replace(file_path: str, subst: str, section: str) -> None:
     :param section: The current section (whitelisted or blacklisted files)
     """
     # flag that indicates whether no changes were made inside a file
-    change_flag = True
+    file_is_unchanged = True
 
     # Create temp file
     fh, abs_path = mkstemp()
@@ -59,12 +59,12 @@ def replace(file_path: str, subst: str, section: str) -> None:
                     tmp = re.sub(r'[0-9]+\.[0-9]+\.[0-9]+', subst, line)
                     new_file.write(tmp)
                     if tmp != line:
-                        if change_flag:
+                        if file_is_unchanged:
                             click.echo(click.style(f'Updating version number in {file_path}', fg='blue'))
-                            change_flag = False
+                            file_is_unchanged = False
                         click.echo(click.style(
-                            f'- {line.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->","")}\n', fg='red') + click.style(
-                            f'+ {tmp.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->","")}', fg='green'))
+                            f'- {line.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->", "")}\n', fg='red') + click.style(
+                            f'+ {tmp.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->", "")}', fg='green'))
                         click.echo()
                 else:
                     new_file.write(line)
@@ -74,3 +74,56 @@ def replace(file_path: str, subst: str, section: str) -> None:
     remove(file_path)
     # Move new file
     move(abs_path, file_path)
+
+
+def can_do_bump_version(new_version: str, project_dir: str) -> bool:
+    """
+    Ensure that all requirements are met, so that the bump version command can be run successfully.
+    This included the following requirements:
+    1.) A new version is specified
+    2.) The new version matches the format [0-9]+.[0-9]+.[0-9]+
+    3.) The new version is greater than the current one
+    4.) The project is a Cookietemple project
+
+    :param new_version: The new version
+    :param project_dir: The directory of the project
+    :return: True if bump version can be run, false otherwise.
+    """
+    # print error message if no new version was specified
+    if not new_version:
+        click.echo(click.style('No new version specified.\nPlease specify a new version using '
+                               '\'cookietemple bump_version my.new.version\'', fg='red'))
+        return False
+
+    # ensure that the entered version number matches correct format
+    elif not re.match(r"[0-9]+\.[0-9]+\.[0-9]+", new_version):
+        click.echo(click.style('Invalid version specified!\nEnsure your version number has the form '
+                               'like 0.0.0 or 15.100.239', fg='red'))
+        return False
+
+    # ensure the version is bumped within a project created by Cookietemple
+    elif not Path(f'{project_dir}/cookietemple.cfg').is_file():
+        click.echo(click.style('Did not found a cookietemple.cfg file. Make sure you are in the right directory '
+                               'or specify the path to your projects bump_version.cfg file', fg='red'))
+        return False
+
+    # ensure the new version is greater than the current one
+    else:
+        parser = ConfigParser()
+        parser.read(f'{project_dir}/cookietemple.cfg')
+        current_version = parser.get('bumpversion', 'current_version').split('.')
+        new_version = new_version.split('.')
+        is_greater = False
+
+        if new_version[0] > current_version[0] or new_version[0] == current_version[0] and new_version[1] > current_version[1]:
+            is_greater = True
+        elif new_version[0] == current_version[0] and new_version[1] == current_version[1] and new_version[2] > current_version[2]:
+            is_greater = True
+
+        # the new version is not greater than the current one
+        if not is_greater:
+            click.echo(click.style(
+                f'The new version {".".join(n for n in new_version)} is not greater than the current version {".".join(n for n in current_version)}.'
+                f'\nThe new version must be greater than the old one.', fg='red'))
+
+        return is_greater
