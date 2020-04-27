@@ -11,7 +11,7 @@ from pathlib import Path
 
 import cookietemple
 
-from cookietemple.bump_version.bump_version import bump_template_version, can_do_bump_version
+from cookietemple.bump_version.bump_version import bump_template_version, can_run_bump_version
 from cookietemple.create.create import choose_domain
 from cookietemple.info.info import show_info
 from cookietemple.lint.lint import lint_project
@@ -117,7 +117,7 @@ def bump_version(new_version, project_dir) -> None:
         project_dir = Path(str(project_dir).replace(str(project_dir)[len(str(project_dir)) - 1:], ''))
 
     # check if the command met all requirements for successful bump
-    if can_do_bump_version(new_version, project_dir):
+    if can_run_bump_version(new_version, project_dir):
         bump_template_version(new_version, project_dir)
     else:
         sys.exit(0)

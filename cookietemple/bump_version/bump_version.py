@@ -76,14 +76,14 @@ def replace(file_path: str, subst: str, section: str) -> None:
     move(abs_path, file_path)
 
 
-def can_do_bump_version(new_version: str, project_dir: str) -> bool:
+def can_run_bump_version(new_version: str, project_dir: str) -> bool:
     """
     Ensure that all requirements are met, so that the bump version command can be run successfully.
     This included the following requirements:
     1.) A new version is specified
     2.) The new version matches the format [0-9]+.[0-9]+.[0-9]+
     3.) The new version is greater than the current one
-    4.) The project is a Cookietemple project
+    4.) The project is a COOKIETEMPLE project
 
     :param new_version: The new version
     :param project_dir: The directory of the project
@@ -123,7 +123,7 @@ def can_do_bump_version(new_version: str, project_dir: str) -> bool:
         # the new version is not greater than the current one
         if not is_greater:
             click.echo(click.style(
-                f'The new version {".".join(n for n in new_version)} is not greater than the current version {".".join(n for n in current_version)}.'
-                f'\nThe new version must be greater than the old one.', fg='red'))
+                f'The new version {".".join(n for n in new_version)} is not greater than the current version {".".join(n for n in current_version)}.\n'
+                f'The new version must be greater than the old one.', fg='red'))
 
         return is_greater
