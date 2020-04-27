@@ -11,7 +11,7 @@ from pathlib import Path
 
 import cookietemple
 
-from cookietemple.bump_version.bump_version import bump_template_version
+from cookietemple.bump_version.bump_version import bump_template_version, can_run_bump_version
 from cookietemple.create.create import choose_domain
 from cookietemple.info.info import show_info
 from cookietemple.lint.lint import lint_project
@@ -74,7 +74,6 @@ def lint(project_dir, run_coala) -> None:
     """
     Lint your existing COOKIETEMPLE project
     """
-
     lint_project(project_dir, run_coala, True)
 
 
@@ -83,7 +82,6 @@ def list() -> None:
     """
     List all available COOKIETEMPLE templates
     """
-
     list_available_templates()
 
 
@@ -103,7 +101,6 @@ def sync() -> None:
     """
     Sync your project with the latest template release
     """
-
     snyc_template()
 
 
@@ -115,23 +112,15 @@ def bump_version(new_version, project_dir) -> None:
     """
     Bump the version of an existing COOKIETEMPLE project
     """
+    # if the path entered ends with a trailing slash remove it for consistent output
+    if str(project_dir).endswith('/'):
+        project_dir = Path(str(project_dir).replace(str(project_dir)[len(str(project_dir)) - 1:], ''))
 
-    if not new_version:
-        click.echo(click.style('No new version specified.\nPlease specify a new version using '
-                               '\'cookietemple bump_version my.new.version\'', fg='red'))
+    # check if the command met all requirements for successful bump
+    if can_run_bump_version(new_version, project_dir):
+        bump_template_version(new_version, project_dir)
+    else:
         sys.exit(0)
-
-    elif not re.match(r"[0-9]+.[0-9]+.[0-9]+", new_version):
-        click.echo(click.style('Invalid version specified!\nEnsure your version number has the form '
-                               'like 0.0.0 or 15.100.239', fg='red'))
-        sys.exit(0)
-
-    elif not Path(f'{project_dir}/cookietemple.cfg').is_file():
-        click.echo(click.style('Did not found a cookietemple.cfg file. Make sure you are in the right directory '
-                               'or specify the path to your projects bump_version.cfg file', fg='red'))
-        sys.exit(0)
-
-    bump_template_version(new_version, project_dir)
 
 
 @cookietemple_cli.command(help_priority=7, short_help='Create a self contained executable with bundled JRE.')
@@ -142,7 +131,6 @@ def warp(input_dir: str, exec: str, output: str) -> None:
     """
     Create a self contained executable with bundled JRE
     """
-
     warp_project(input_dir, exec, output)
 
 
