@@ -2,7 +2,7 @@ cli:
     python:
         name: Python Commandline Package
         handle: cli-python
-        version: 0.0.1
+        version: 1.0.0
         available libraries: click, argparse
         short description: General Python package with command line interface
         long description: Best practice Python package with optional command line support (click, argparse).
@@ -51,7 +51,7 @@ pub:
         latex:
             name: Latex Thesis
             handle: pub-thesis-latex
-            version: 0.0.1
+            version: 1.0.0
             available libraries: latex
             short description: Template for BSc./MSc./PhD/... thesis
             long description: A modern LaTeX/XeLaTeX/LuaLaTeX thesis template based on the Cambridge University Engineering Department template.
