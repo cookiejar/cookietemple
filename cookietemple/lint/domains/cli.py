@@ -12,7 +12,7 @@ class CliPythonLint(TemplateLinter):
     def __init__(self, path):
         super().__init__(path)
 
-    def lint(self, label, is_create=False):
+    def lint(self, label, is_create):
         methods = ['python_files_exist']
         super().lint_project(self, methods, label=label)
 

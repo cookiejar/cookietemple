@@ -74,7 +74,7 @@ def lint(project_dir, run_coala) -> None:
     """
     Lint your existing COOKIETEMPLE project
     """
-    lint_project(project_dir, run_coala, is_create=False)
+    lint_project(project_dir, run_coala, coala_interactive=True)
 
 
 @cookietemple_cli.command(help_priority=3, short_help='List all available COOKIETEMPLE templates.')
