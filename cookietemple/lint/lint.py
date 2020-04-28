@@ -12,7 +12,7 @@ from cookietemple.lint.domains.web import WebWebsitePythonLint
 from cookietemple.lint.domains.pub import PubLatexLint
 
 
-def lint_project(project_dir: str, run_coala: bool = False, coala_interactive: bool = False) -> TemplateLinter:
+def lint_project(project_dir: str, run_coala: bool = False, coala_interactive: bool = False, is_create: bool = False) -> TemplateLinter:
     """
     Verifies the integrity of a project to best coding and practices.
     Runs coala (https://github.com/coala/coala) as a subprocess.
@@ -41,7 +41,10 @@ def lint_project(project_dir: str, run_coala: bool = False, coala_interactive: b
 
         # Run the project specific linting
         click.echo(click.style(f'Running {template_handle} linting', fg='blue'))
-        lint_obj.lint(f'{template_handle} Linting')
+        if 'python' in template_handle:
+            lint_obj.lint(f'{template_handle} Linting', is_create)
+        else:
+            lint_obj.lint(f'{template_handle} Linting')
     except AssertionError as e:
         click.echo(click.style(f'Critical error: {e}', fg='red'))
         click.echo(click.style(f'Stopping tests...', fg='red'))
