@@ -1,3 +1,5 @@
+.. _changelog_f:
+
 ==========
 Changelog
 ==========

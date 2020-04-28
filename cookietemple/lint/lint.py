@@ -68,7 +68,7 @@ def get_template_handle(dot_cookietemple_path: str = '.cookietemple.yml') -> str
     """
     path = Path(f'{dot_cookietemple_path}/.cookietemple.yml')
     if not path.exists():
-        click.echo(click.style('.cookietemple.yml not found. Is this a COOKIETEPLE project?', fg='red'))
+        click.echo(click.style('.cookietemple.yml not found. Is this a COOKIETEMPLE project?', fg='red'))
         sys.exit(1)
     yaml = YAML(typ='safe')
     dot_cookietemple_content = yaml.load(path)

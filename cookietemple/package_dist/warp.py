@@ -74,6 +74,5 @@ def run_warp(warp_executable_path, arch, input_dir, exec, output) -> None:
     :param output: Output binary name
     """
     warp_run = Popen([warp_executable_path, '--arch', arch, '--input_dir', input_dir, '--exec', exec, '--output', output],
-                     stdout=PIPE, stderr=PIPE, universal_newlines=True)
+                     universal_newlines=True)
     (warp_run_stdout, warp_run_stderr) = warp_run.communicate()
-    click.echo(click.style(warp_run_stdout, fg='blue'))

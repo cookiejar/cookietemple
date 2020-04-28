@@ -32,7 +32,7 @@ def main():
                                                    |_|
         """, fg='blue'))
 
-    click.echo(click.style('Run ', fg='green') + click.style('cookietemple --help ', fg='red') + click.style('for an overview of all commands', fg='green'))
+    click.echo(click.style('Run ', fg='blue') + click.style('cookietemple --help ', fg='green') + click.style('for an overview of all commands', fg='blue'))
     click.echo()
 
     cookietemple_cli()
@@ -69,7 +69,7 @@ def create(domain: str) -> None:
 @click.argument('project_dir', type=click.Path(),
                 default=Path(f'{Path.cwd()}'))
 @click.option('--run-coala/--no-run-coala',
-              default=True)
+              default=False)
 def lint(project_dir, run_coala) -> None:
     """
     Lint your existing COOKIETEMPLE project
