@@ -6,6 +6,9 @@ from tempfile import mkstemp
 from shutil import move, copymode
 from os import fdopen, remove
 from pathlib import Path
+from git import Repo
+
+from cookietemple.create.github_support import is_git_repo
 
 
 def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
@@ -21,21 +24,44 @@ def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
     current_version = parser.get('bumpversion', 'current_version')
     sections = ['bumpversion_files_whitelisted', 'bumpversion_files_blacklisted']
 
+    # if pipeline_dir was given as handle use cwd since we need it for git add
+    ct_cfg_path = f'{str(pipeline_dir)}/cookietemple.cfg' if str(pipeline_dir).startswith(str(Path.cwd())) else \
+                  f'{str(Path.cwd())}/{pipeline_dir}/cookietemple.cfg'
+
+    # keep path of all files that were changed during bump version
+    changed_files = [ct_cfg_path]
+
     click.echo(click.style(f'Changing version number.\nCurrent version is {current_version}.'
                            f'\nNew version will be {new_version}\n', fg='blue'))
 
     # for each section (whitelisted and blacklisted files) bump the version (if allowed)
     for section in sections:
         for file, path in parser.items(section):
-            replace(f'{pipeline_dir}/{path}', new_version, section)
+            not_changed, file_path = replace(f'{pipeline_dir}/{path}', new_version, section)
+            # only add file if the version(s) in the file were bumped
+            if not not_changed:
+                path_changed = file_path if file_path.startswith(str(Path.cwd())) else f'{str(Path.cwd())}/{file_path}'
+                changed_files.append(path_changed)
 
     # update new version in cookietemple.cfg file
     parser.set('bumpversion', 'current_version', new_version)
     with open(f'{pipeline_dir}/cookietemple.cfg', 'w') as configfile:
         parser.write(configfile)
 
+    # check if a project is a git repository and if so, commit bumped version changes
+    if is_git_repo(pipeline_dir):
+        repo = Repo(pipeline_dir)
 
-def replace(file_path: str, subst: str, section: str) -> None:
+        # git add
+        click.echo(click.style('Staging template.', fg='blue'))
+        repo.git.add(changed_files)
+
+        # git commit
+        click.echo(click.style('Committing changes to local git repository.', fg='blue'))
+        repo.index.commit(f'Bump version from {current_version} to {new_version}')
+
+
+def replace(file_path: str, subst: str, section: str) -> (bool, str):
     """
     Replace a version with the new version unless the line is explicitly excluded (marked with
     <<COOKIETEMPLE_NO_BUMP>>).
@@ -45,9 +71,12 @@ def replace(file_path: str, subst: str, section: str) -> None:
     :param file_path: The path of the file where the version should be updated
     :param subst: The new version that replaces the old one
     :param section: The current section (whitelisted or blacklisted files)
+
+    :return: Whether a file has been changed during bumped and the path of changed file
     """
     # flag that indicates whether no changes were made inside a file
     file_is_unchanged = True
+    path_changed = ''
 
     # Create temp file
     fh, abs_path = mkstemp()
@@ -62,6 +91,7 @@ def replace(file_path: str, subst: str, section: str) -> None:
                         if file_is_unchanged:
                             click.echo(click.style(f'Updating version number in {file_path}', fg='blue'))
                             file_is_unchanged = False
+                            path_changed = file_path
                         click.echo(click.style(
                             f'- {line.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->", "")}\n', fg='red') + click.style(
                             f'+ {tmp.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->", "")}', fg='green'))
@@ -74,6 +104,8 @@ def replace(file_path: str, subst: str, section: str) -> None:
     remove(file_path)
     # Move new file
     move(abs_path, file_path)
+
+    return file_is_unchanged, path_changed
 
 
 def can_run_bump_version(new_version: str, project_dir: str) -> bool:
