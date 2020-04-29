@@ -112,23 +112,16 @@ def can_run_bump_version(new_version: str, project_dir: str) -> bool:
     """
     Ensure that all requirements are met, so that the bump version command can be run successfully.
     This included the following requirements:
-    1.) A new version is specified
-    2.) The new version matches the format [0-9]+.[0-9]+.[0-9]+
-    3.) The new version is greater than the current one
-    4.) The project is a COOKIETEMPLE project
+    1.) The new version matches the format [0-9]+.[0-9]+.[0-9]+
+    2.) The new version is greater than the current one
+    3.) The project is a COOKIETEMPLE project
 
     :param new_version: The new version
     :param project_dir: The directory of the project
     :return: True if bump version can be run, false otherwise.
     """
-    # print error message if no new version was specified
-    if not new_version:
-        click.echo(click.style('No new version specified.\nPlease specify a new version using '
-                               '\'cookietemple bump_version my.new.version\'', fg='red'))
-        return False
-
     # ensure that the entered version number matches correct format
-    elif not re.match(r"[0-9]+\.[0-9]+\.[0-9]+", new_version):
+    if not re.match(r"[0-9]+\.[0-9]+\.[0-9]+", new_version):
         click.echo(click.style('Invalid version specified!\nEnsure your version number has the form '
                                'like 0.0.0 or 15.100.239', fg='red'))
         return False

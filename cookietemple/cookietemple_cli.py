@@ -47,7 +47,8 @@ def main():
     default=False,
     help='Verbose output (print debug statements)'
 )
-def cookietemple_cli(verbose):
+@click.pass_context
+def cookietemple_cli(ctx, verbose):
     if verbose:
         logging.basicConfig(level=logging.DEBUG, format='\n%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     else:
@@ -86,14 +87,17 @@ def list() -> None:
 
 
 @cookietemple_cli.command(help_priority=4, short_help='Get detailed info on a COOKIETEMPLE template domain or a single template.')
-@click.argument('handle',
-                type=str)
-def info(handle: str) -> None:
+@click.argument('handle', type=str, required=False)
+@click.pass_context
+def info(ctx, handle: str) -> None:
     """
     Get detailed info on a COOKIETEMPLE template domain or a single template
 
     """
-    show_info(handle)
+    if not handle:
+        CustomHelpOrder.args_not_provided(ctx, 'info')
+    else:
+        show_info(handle)
 
 
 @cookietemple_cli.command(help_priority=5, short_help='Sync your project with the latest template release.')
@@ -105,22 +109,25 @@ def sync() -> None:
 
 
 @cookietemple_cli.command('bump-version', help_priority=6, short_help='Bump the version of an existing COOKIETEMPLE project.')
-@click.argument('new_version', type=str)
-@click.argument('project_dir', type=click.Path(),
-                default=Path(f'{Path.cwd()}'))
-def bump_version(new_version, project_dir) -> None:
+@click.argument('new_version', type=str, required=False)
+@click.argument('project_dir', type=click.Path(), default=Path(f'{Path.cwd()}'))
+@click.pass_context
+def bump_version(ctx, new_version, project_dir) -> None:
     """
     Bump the version of an existing COOKIETEMPLE project
     """
-    # if the path entered ends with a trailing slash remove it for consistent output
-    if str(project_dir).endswith('/'):
-        project_dir = Path(str(project_dir).replace(str(project_dir)[len(str(project_dir)) - 1:], ''))
-
-    # check if the command met all requirements for successful bump
-    if can_run_bump_version(new_version, project_dir):
-        bump_template_version(new_version, project_dir)
+    if not new_version:
+        CustomHelpOrder.args_not_provided(ctx, 'bump-version')
     else:
-        sys.exit(0)
+        # if the path entered ends with a trailing slash remove it for consistent output
+        if str(project_dir).endswith('/'):
+            project_dir = Path(str(project_dir).replace(str(project_dir)[len(str(project_dir)) - 1:], ''))
+
+        # check if the command met all requirements for successful bump
+        if can_run_bump_version(new_version, project_dir):
+            bump_template_version(new_version, project_dir)
+        else:
+            sys.exit(0)
 
 
 @cookietemple_cli.command(help_priority=7, short_help='Create a self contained executable with bundled JRE.')

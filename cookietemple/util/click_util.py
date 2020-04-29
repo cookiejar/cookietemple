@@ -58,3 +58,19 @@ class CustomHelpOrder(click.Group):
             click.echo(click.style(f'Unknown command! Will use best match {matches[0]}.', fg='red'))
             return click.Group.get_command(self, ctx, matches[0])
         ctx.fail(click.style(f'Unknown command. Most similar commands were {", ".join(sorted(matches))}', fg='red'))
+
+    @staticmethod
+    def args_not_provided(ctx, cmd: str) -> None:
+        """
+        Print a fail message depending on the command.
+        :param ctx: Click app context
+        :param cmd: The invoked subcommand
+        """
+        if cmd == 'info':
+            ctx.fail('Failed to execute ' + click.style(f'{cmd.upper()}. ', fg='red') + 'Please provide a valid handle like \'cli\' as argument.')
+
+        elif cmd == 'bump-version':
+            ctx.fail('Failed to execute ' + click.style(f'{cmd.upper()}. ', fg='red') + 'Please specify a new version like \'1.2.3\' as first argument.')
+
+
+
