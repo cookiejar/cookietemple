@@ -212,7 +212,7 @@ def create_github_labels(repo, labels: list) -> None:
             click.echo(click.style(f'Unable to create label {label[0]} due to permissions', fg='red'))
 
 
-def is_git_repo(path) -> bool:
+def is_git_repo(path: Path) -> bool:
     """
     Check if directory is a git repo
 

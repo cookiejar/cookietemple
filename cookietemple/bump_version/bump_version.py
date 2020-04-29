@@ -70,7 +70,7 @@ def replace(file_path: str, subst: str, section: str) -> (bool, str):
     :param subst: The new version that replaces the old one
     :param section: The current section (whitelisted or blacklisted files)
 
-    :return: Path of changed file
+    :return: Whether a file has been changed during bumped and the path of changed file
     """
     # flag that indicates whether no changes were made inside a file
     file_is_unchanged = True
