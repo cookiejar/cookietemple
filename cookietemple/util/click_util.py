@@ -34,6 +34,7 @@ class CustomHelpOrder(click.Group):
             cmd = super(CustomHelpOrder, self).command(*args, **kwargs)(f)
             help_priorities[cmd.name] = help_priority
             return cmd
+
         return decorator
 
     def get_command(self, ctx, cmd_name):
@@ -71,6 +72,3 @@ class CustomHelpOrder(click.Group):
 
         elif cmd == 'bump-version':
             ctx.fail('Failed to execute ' + click.style(f'{cmd.upper()}. ', fg='red') + 'Please specify a new version like \'1.2.3\' as first argument.')
-
-
-

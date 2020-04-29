@@ -26,7 +26,7 @@ def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
 
     # if pipeline_dir was given as handle use cwd since we need it for git add
     ct_cfg_path = f'{str(pipeline_dir)}/cookietemple.cfg' if str(pipeline_dir).startswith(str(Path.cwd())) else \
-                  f'{str(Path.cwd())}/{pipeline_dir}/cookietemple.cfg'
+        f'{str(Path.cwd())}/{pipeline_dir}/cookietemple.cfg'
 
     # keep path of all files that were changed during bump version
     changed_files = [ct_cfg_path]
