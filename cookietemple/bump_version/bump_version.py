@@ -25,8 +25,11 @@ def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
     sections = ['bumpversion_files_whitelisted', 'bumpversion_files_blacklisted']
 
     # if pipeline_dir was given as handle use cwd since we need it for git add
-    changed_files = [f'{str(pipeline_dir)}/cookietemple.cfg' if str(pipeline_dir).startswith(str(Path.cwd()))
-                     else f'{str(Path.cwd())}/{pipeline_dir}/cookietemple.cfg']
+    ct_cfg_path = f'{str(pipeline_dir)}/cookietemple.cfg' if str(pipeline_dir).startswith(str(Path.cwd())) else \
+                  f'{str(Path.cwd())}/{pipeline_dir}/cookietemple.cfg'
+
+    # keep path of all files that were changed during bump version
+    changed_files = [ct_cfg_path]
 
     click.echo(click.style(f'Changing version number.\nCurrent version is {current_version}.'
                            f'\nNew version will be {new_version}\n', fg='blue'))
@@ -34,9 +37,10 @@ def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
     # for each section (whitelisted and blacklisted files) bump the version (if allowed)
     for section in sections:
         for file, path in parser.items(section):
-            not_changed, _ = replace(f'{pipeline_dir}/{path}', new_version, section)
+            not_changed, file_path = replace(f'{pipeline_dir}/{path}', new_version, section)
+            # only add file if the version(s) in the file were bumped
             if not not_changed:
-                path_changed = _ if _.startswith(str(Path.cwd())) else f'{str(Path.cwd())}/{_}'
+                path_changed = file_path if file_path.startswith(str(Path.cwd())) else f'{str(Path.cwd())}/{file_path}'
                 changed_files.append(path_changed)
 
     # update new version in cookietemple.cfg file
@@ -50,11 +54,9 @@ def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
 
         # git add
         click.echo(click.style('Staging template.', fg='blue'))
+        repo.git.add(changed_files)
 
-        for file in changed_files:
-            repo.git.add(file)
-
-    # git commit
+        # git commit
         click.echo(click.style('Committing changes to local git repository.', fg='blue'))
         repo.index.commit(f'Bump version from {current_version} to {new_version}')
 
