@@ -24,13 +24,20 @@ def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
     current_version = parser.get('bumpversion', 'current_version')
     sections = ['bumpversion_files_whitelisted', 'bumpversion_files_blacklisted']
 
+    # if pipeline_dir was given as handle use cwd since we need it for git add
+    changed_files = [f'{str(pipeline_dir)}/cookietemple.cfg' if str(pipeline_dir).startswith(str(Path.cwd()))
+                     else f'{str(Path.cwd())}/{pipeline_dir}/cookietemple.cfg']
+
     click.echo(click.style(f'Changing version number.\nCurrent version is {current_version}.'
                            f'\nNew version will be {new_version}\n', fg='blue'))
 
     # for each section (whitelisted and blacklisted files) bump the version (if allowed)
     for section in sections:
         for file, path in parser.items(section):
-            replace(f'{pipeline_dir}/{path}', new_version, section)
+            not_changed, _ = replace(f'{pipeline_dir}/{path}', new_version, section)
+            if not not_changed:
+                path_changed = _ if _.startswith(str(Path.cwd())) else f'{str(Path.cwd())}/{_}'
+                changed_files.append(path_changed)
 
     # update new version in cookietemple.cfg file
     parser.set('bumpversion', 'current_version', new_version)
@@ -43,14 +50,16 @@ def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
 
         # git add
         click.echo(click.style('Staging template.', fg='blue'))
-        repo.git.add(A=True)
 
-        # git commit
+        for file in changed_files:
+            repo.git.add(file)
+
+    # git commit
         click.echo(click.style('Committing changes to local git repository.', fg='blue'))
-        repo.index.commit(f'Bump Version from {current_version} to {new_version}')
+        repo.index.commit(f'Bump version from {current_version} to {new_version}')
 
 
-def replace(file_path: str, subst: str, section: str) -> None:
+def replace(file_path: str, subst: str, section: str) -> (bool, str):
     """
     Replace a version with the new version unless the line is explicitly excluded (marked with
     <<COOKIETEMPLE_NO_BUMP>>).
@@ -60,9 +69,12 @@ def replace(file_path: str, subst: str, section: str) -> None:
     :param file_path: The path of the file where the version should be updated
     :param subst: The new version that replaces the old one
     :param section: The current section (whitelisted or blacklisted files)
+
+    :return: Path of changed file
     """
     # flag that indicates whether no changes were made inside a file
     file_is_unchanged = True
+    path_changed = ''
 
     # Create temp file
     fh, abs_path = mkstemp()
@@ -77,6 +89,7 @@ def replace(file_path: str, subst: str, section: str) -> None:
                         if file_is_unchanged:
                             click.echo(click.style(f'Updating version number in {file_path}', fg='blue'))
                             file_is_unchanged = False
+                            path_changed = file_path
                         click.echo(click.style(
                             f'- {line.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->", "")}\n', fg='red') + click.style(
                             f'+ {tmp.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->", "")}', fg='green'))
@@ -89,6 +102,8 @@ def replace(file_path: str, subst: str, section: str) -> None:
     remove(file_path)
     # Move new file
     move(abs_path, file_path)
+
+    return file_is_unchanged, path_changed
 
 
 def can_run_bump_version(new_version: str, project_dir: str) -> bool:
