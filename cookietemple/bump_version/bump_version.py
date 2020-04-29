@@ -114,8 +114,6 @@ def can_run_bump_version(new_version: str, project_dir: str) -> bool:
         current_version = [int(digit) for digit in parser.get('bumpversion', 'current_version').split('.')]
         new_version = [int(digit) for digit in new_version.split('.')]
         is_greater = False
-        print(new_version)
-        print(current_version)
 
         if new_version[0] > current_version[0] or new_version[0] == current_version[0] and new_version[1] > current_version[1]:
             is_greater = True

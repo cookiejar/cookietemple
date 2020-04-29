@@ -22,7 +22,6 @@ class CliPythonLint(TemplateLinter):
             autopep8 = Popen(['autopep8', self.path, '--recursive', '--in-place', '--pep8-passes', '2000'], universal_newlines=True, shell=False,
                              close_fds=True)
             (autopep8_stdout, autopep8_stderr) = autopep8.communicate()
-
         elif click.confirm('Do you want to run autopep8 to fix pep8 issues?'):
             click.echo(click.style('Running autopep8 to fix pep8 issues in place', ))
             autopep8 = Popen(['autopep8', self.path, '--recursive', '--in-place', '--pep8-passes', '2000'], universal_newlines=True, shell=False,

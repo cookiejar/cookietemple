@@ -41,6 +41,10 @@ def lint_project(project_dir: str, run_coala: bool = False, coala_interactive: b
 
         # Run the project specific linting
         click.echo(click.style(f'Running {template_handle} linting', fg='blue'))
+
+        # for every python project that is created autopep8 will run one time
+        # when linting en existing python COOKIETEMPLE project, autopep8 should be now optional,
+        # because (for example) it messes up Jinja syntax (if included in project)
         if 'python' in template_handle:
             lint_obj.lint(f'{template_handle} Linting', is_create)
         else:
