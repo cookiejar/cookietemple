@@ -5,7 +5,7 @@ from cryptography.fernet import Fernet
 from distutils.dir_util import copy_tree
 from subprocess import Popen, PIPE
 from github import Github, GithubException
-from git import Repo
+from git import Repo, exc
 from pathlib import Path
 
 
@@ -210,3 +210,17 @@ def create_github_labels(repo, labels: list) -> None:
             repo.create_label(name=label[0], color=label[1])
         except GithubException:
             click.echo(click.style(f'Unable to create label {label[0]} due to permissions', fg='red'))
+
+
+def is_git_repo(path) -> bool:
+    """
+    Check if directory is a git repo
+
+    :param path: The directory to check
+    :return: true if path is git repo false otherwise
+    """
+    try:
+        _ = Repo(path).git_dir
+        return True
+    except exc.InvalidGitRepositoryError:
+        return False

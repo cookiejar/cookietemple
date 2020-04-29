@@ -6,6 +6,9 @@ from tempfile import mkstemp
 from shutil import move, copymode
 from os import fdopen, remove
 from pathlib import Path
+from git import Repo
+
+from cookietemple.create.github_support import is_git_repo
 
 
 def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
@@ -33,6 +36,18 @@ def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
     parser.set('bumpversion', 'current_version', new_version)
     with open(f'{pipeline_dir}/cookietemple.cfg', 'w') as configfile:
         parser.write(configfile)
+
+    # check if a project is a git repository and if so, commit bumped version changes
+    if is_git_repo(pipeline_dir):
+        repo = Repo(pipeline_dir)
+
+        # git add
+        click.echo(click.style('Staging template.', fg='blue'))
+        repo.git.add(A=True)
+
+        # git commit
+        click.echo(click.style('Committing changes to local git repository.', fg='blue'))
+        repo.index.commit(f'Bump Version from {current_version} to {new_version}')
 
 
 def replace(file_path: str, subst: str, section: str) -> None:
