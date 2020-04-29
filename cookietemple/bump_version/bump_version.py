@@ -111,9 +111,11 @@ def can_run_bump_version(new_version: str, project_dir: str) -> bool:
     else:
         parser = ConfigParser()
         parser.read(f'{project_dir}/cookietemple.cfg')
-        current_version = parser.get('bumpversion', 'current_version').split('.')
-        new_version = new_version.split('.')
+        current_version = [int(digit) for digit in parser.get('bumpversion', 'current_version').split('.')]
+        new_version = [int(digit) for digit in new_version.split('.')]
         is_greater = False
+        print(new_version)
+        print(current_version)
 
         if new_version[0] > current_version[0] or new_version[0] == current_version[0] and new_version[1] > current_version[1]:
             is_greater = True
@@ -123,7 +125,7 @@ def can_run_bump_version(new_version: str, project_dir: str) -> bool:
         # the new version is not greater than the current one
         if not is_greater:
             click.echo(click.style(
-                f'The new version {".".join(n for n in new_version)} is not greater than the current version {".".join(n for n in current_version)}.\n'
+                f'The new version {".".join(str(n) for n in new_version)} is not greater than the current version {".".join(str(n) for n in current_version)}.\n'
                 f'The new version must be greater than the old one.', fg='red'))
 
         return is_greater
