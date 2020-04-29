@@ -36,7 +36,7 @@ Exceptions, where applicable, but they would have to be discussed beforehand. He
 5. | All templates should provide a readthedocs setup (include changelog and a codeofconduct), a README.rst file, a LICENSE, Github issue and pull request templates and a .gitignore file. Moreover, a .dependabot configuration should be present if applicable.
    | Note that most of these are already included in our common_files and do not need to be rewritten. More on that below.
 
-6. All templates should privde a Makefile, which wraps heavily used commands to unify common operations such as installing, testing or distributing a project, independent of the language
+6. All templates should provide a Makefile, which wraps heavily used commands to unify common operations such as installing, testing or distributing a project, independent of the language
 
 7. All templates should have a Dockerfile, which provides an entrypoint for the project.
 
