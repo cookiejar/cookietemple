@@ -18,7 +18,7 @@ from cookietemple.lint.lint import lint_project
 from cookietemple.list.list import list_available_templates
 from cookietemple.package_dist.warp import warp_project
 from cookietemple.synchronization.sync import snyc_template
-from cookietemple.util.click_util import CustomHelpOrder
+from cookietemple.cli_tools.custom_click import CustomHelpAndCommands
 
 WD = os.path.dirname(__file__)
 
@@ -38,7 +38,7 @@ def main():
     cookietemple_cli()
 
 
-@click.group(cls=CustomHelpOrder)
+@click.group(cls=CustomHelpAndCommands)
 @click.version_option(cookietemple.__version__,
                       message=click.style(f'Cookietemple Version: {cookietemple.__version__}', fg='blue'))
 @click.option(
@@ -95,7 +95,7 @@ def info(ctx, handle: str) -> None:
 
     """
     if not handle:
-        CustomHelpOrder.args_not_provided(ctx, 'info')
+        CustomHelpAndCommands.args_not_provided(ctx, 'info')
     else:
         show_info(handle)
 
@@ -117,7 +117,7 @@ def bump_version(ctx, new_version, project_dir) -> None:
     Bump the version of an existing COOKIETEMPLE project
     """
     if not new_version:
-        CustomHelpOrder.args_not_provided(ctx, 'bump-version')
+        CustomHelpAndCommands.args_not_provided(ctx, 'bump-version')
     else:
         # if the path entered ends with a trailing slash remove it for consistent output
         if str(project_dir).endswith('/'):

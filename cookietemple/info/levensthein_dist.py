@@ -1,4 +1,4 @@
-from cookietemple.util.suggest_similar_commands import SIMILARITY_FACTOR
+from cookietemple.cli_tools.suggest_similar_commands import SIMILARITY_FACTOR
 
 
 def levensthein_dist(input_command: str, candidate: str) -> int:

@@ -1,10 +1,10 @@
 import click
 
-from cookietemple.util.suggest_similar_commands import MAIN_COMMANDS
+from cookietemple.cli_tools.suggest_similar_commands import MAIN_COMMANDS
 from cookietemple.info.levensthein_dist import most_similar_command
 
 
-class CustomHelpOrder(click.Group):
+class CustomHelpAndCommands(click.Group):
     """
     Customise the order of subcommands for --help
     https://stackoverflow.com/a/47984810/713980
@@ -12,15 +12,15 @@ class CustomHelpOrder(click.Group):
 
     def __init__(self, *args, **kwargs):
         self.help_priorities = {}
-        super(CustomHelpOrder, self).__init__(*args, **kwargs)
+        super(CustomHelpAndCommands, self).__init__(*args, **kwargs)
 
     def get_help(self, ctx):
         self.list_commands = self.list_commands_for_help
-        return super(CustomHelpOrder, self).get_help(ctx)
+        return super(CustomHelpAndCommands, self).get_help(ctx)
 
     def list_commands_for_help(self, ctx):
         """reorder the list of commands when listing the help"""
-        commands = super(CustomHelpOrder, self).list_commands(ctx)
+        commands = super(CustomHelpAndCommands, self).list_commands(ctx)
         return (c[1] for c in sorted((self.help_priorities.get(command, 1000), command) for command in commands))
 
     def command(self, *args, **kwargs):
@@ -31,7 +31,7 @@ class CustomHelpOrder(click.Group):
         help_priorities = self.help_priorities
 
         def decorator(f):
-            cmd = super(CustomHelpOrder, self).command(*args, **kwargs)(f)
+            cmd = super(CustomHelpAndCommands, self).command(*args, **kwargs)(f)
             help_priorities[cmd.name] = help_priority
             return cmd
 

@@ -26,7 +26,7 @@ def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
 
     # if pipeline_dir was given as handle use cwd since we need it for git add
     ct_cfg_path = f'{str(pipeline_dir)}/cookietemple.cfg' if str(pipeline_dir).startswith(str(Path.cwd())) else \
-        f'{str(Path.cwd())}/{pipeline_dir}/cookietemple.cfg'
+                  f'{str(Path.cwd())}/{pipeline_dir}/cookietemple.cfg'
 
     # keep path of all files that were changed during bump version
     changed_files = [ct_cfg_path]
@@ -148,7 +148,7 @@ def can_run_bump_version(new_version: str, project_dir: str) -> bool:
         # the new version is not greater than the current one
         if not is_greater:
             click.echo(click.style(
-                f'The new version {".".join(str(n) for n in new_version)} is not greater than the current version {".".join(str(n) for n in current_version)}.\n'
-                f'The new version must be greater than the old one.', fg='red'))
+                f'The new version {".".join(str(n) for n in new_version)} is not greater than the current version {".".join(str(n) for n in current_version)}.'
+                f'\nThe new version must be greater than the old one.', fg='red'))
 
         return is_greater
