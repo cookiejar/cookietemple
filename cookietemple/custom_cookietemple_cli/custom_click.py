@@ -1,10 +1,10 @@
 import click
 
-from cookietemple.util.suggest_similar_commands import MAIN_COMMANDS
+from cookietemple.custom_cookietemple_cli.suggest_similar_commands import MAIN_COMMANDS
 from cookietemple.info.levensthein_dist import most_similar_command
 
 
-class CustomHelpOrder(click.Group):
+class HelpErrorHandling(click.Group):
     """
     Customise the order of subcommands for --help
     https://stackoverflow.com/a/47984810/713980
@@ -12,15 +12,15 @@ class CustomHelpOrder(click.Group):
 
     def __init__(self, *args, **kwargs):
         self.help_priorities = {}
-        super(CustomHelpOrder, self).__init__(*args, **kwargs)
+        super(HelpErrorHandling, self).__init__(*args, **kwargs)
 
     def get_help(self, ctx):
         self.list_commands = self.list_commands_for_help
-        return super(CustomHelpOrder, self).get_help(ctx)
+        return super(HelpErrorHandling, self).get_help(ctx)
 
     def list_commands_for_help(self, ctx):
         """reorder the list of commands when listing the help"""
-        commands = super(CustomHelpOrder, self).list_commands(ctx)
+        commands = super(HelpErrorHandling, self).list_commands(ctx)
         return (c[1] for c in sorted((self.help_priorities.get(command, 1000), command) for command in commands))
 
     def command(self, *args, **kwargs):
@@ -31,9 +31,10 @@ class CustomHelpOrder(click.Group):
         help_priorities = self.help_priorities
 
         def decorator(f):
-            cmd = super(CustomHelpOrder, self).command(*args, **kwargs)(f)
+            cmd = super(HelpErrorHandling, self).command(*args, **kwargs)(f)
             help_priorities[cmd.name] = help_priority
             return cmd
+
         return decorator
 
     def get_command(self, ctx, cmd_name):
@@ -55,6 +56,19 @@ class CustomHelpOrder(click.Group):
         if not matches:
             ctx.fail(click.style('Unknown command and no similar command was found!', fg='red'))
         elif len(matches) == 1:
-            click.echo(click.style(f'Unknown command! Will use best match {matches[0]}.', fg='red'))
+            click.echo(click.style(f'Unknown command! Will use best match ', fg='red') + click.style(f'{matches[0]}.', fg='green'))
             return click.Group.get_command(self, ctx, matches[0])
         ctx.fail(click.style(f'Unknown command. Most similar commands were {", ".join(sorted(matches))}', fg='red'))
+
+    @staticmethod
+    def args_not_provided(ctx, cmd: str) -> None:
+        """
+        Print a fail message depending on the command.
+        :param ctx: Click app context
+        :param cmd: The invoked subcommand
+        """
+        if cmd == 'info':
+            ctx.fail('Failed to execute ' + click.style(f'{cmd.upper()}. ', fg='red') + 'Please provide a valid handle like \'cli\' as argument.')
+
+        elif cmd == 'bump-version':
+            ctx.fail('Failed to execute ' + click.style(f'{cmd.upper()}. ', fg='red') + 'Please specify a new version like \'1.2.3\' as first argument.')
