@@ -1,4 +1,5 @@
 import click
+import sys
 
 from cookietemple.custom_cookietemple_cli.suggest_similar_commands import MAIN_COMMANDS
 from cookietemple.info.levensthein_dist import most_similar_command
@@ -68,7 +69,13 @@ class HelpErrorHandling(click.Group):
         :param cmd: The invoked subcommand
         """
         if cmd == 'info':
-            ctx.fail('Failed to execute ' + click.style(f'{cmd.upper()}. ', fg='red') + 'Please provide a valid handle like \'cli\' as argument.')
+            click.echo(click.style('Failed to execute ', fg='red') + click.style(f'{cmd.upper()}. ', fg='red')
+                       + click.style('Please provide a valid handle like ', fg='blue')
+                       + click.style('cli ', fg='green') + click.style('as argument', fg='blue'))
+            sys.exit(1)
 
         elif cmd == 'bump-version':
-            ctx.fail('Failed to execute ' + click.style(f'{cmd.upper()}. ', fg='red') + 'Please specify a new version like \'1.2.3\' as first argument.')
+            click.echo('Failed to execute ', fg='red' + click.style(f'{cmd.upper()}. ', fg='red')
+                       + click.style('Please provide a new version like ', fg='blue')
+                       + click.style('1.2.3 ', fg='green') + click.style('as first argument', fg='blue'))
+            sys.exit(1)
