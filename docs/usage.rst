@@ -93,7 +93,7 @@ For more details please visit :ref:`sync`.
 External Python based projects
 ------------------------------
 
-To use COOKIETEMPLE in an exeternal Python based project::
+To use COOKIETEMPLE in an external Python based project::
 
     import cookietemple
 
