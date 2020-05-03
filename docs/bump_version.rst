@@ -14,7 +14,7 @@ The :code:`bump-version` command follows the syntax::
 
     cookietemple bump-version X.X.X <PATH>
 
-| where X corresponds to a numerical value of any range.
+| where ``X`` corresponds to a numerical value of any range.
 | The PATH corresponds to the path to the cookietemple.cfg file, which contains all locations, where the version should be increased.
 
 .. figure:: images/bump_version_example.png
@@ -42,10 +42,10 @@ where the current version is defined. Afterwards, the whitelisted files are list
     dot_cookietemple = .cookietemple.yml
     conf_py = docs/conf.py
 
-| All files, which are whitelisted are searched for patterns matching X.X.X, which are updated to the specified new versions.
+| All files, which are whitelisted are searched for patterns matching ``X.X.X``, which are updated to the specified new versions.
 | Any lines, which contain the string :code:`<<COOKIETEMPLE_NO_BUMP>>` are ignored.
 
-If files like Maven pom.xml files, contain many version patterns matching X.X.X, it may be a better idea to blacklist them and enable only specific lines to be updated::
+If files like Maven pom.xml files, contain many version patterns matching ``X.X.X``, it may be a better idea to blacklist them and enable only specific lines to be updated::
 
     [bumpversion_files_blacklisted]
     pom = pom.xml

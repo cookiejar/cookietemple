@@ -10,7 +10,7 @@ Getting information about available templates
 list
 -----
 
-COOKIETEMPLE list can be invoked via::
+COOKIETEMPLE list can be invoked *via*::
 
     cookietemple list
 
@@ -30,7 +30,7 @@ info
 | The :code:`info` command should be used when the short description of a template is not sufficient and a more detailed description is required.
 | Moreover, when you are unsure which template suits you best and you would like to read more about a specific subset of templates further, :code:`info` is your friend.
 
-Invoke :code:`cookietemple info` *via*:
+Invoke :code:`cookietemple info` *via*::
 
     cookietemple info <HANDLE>
 

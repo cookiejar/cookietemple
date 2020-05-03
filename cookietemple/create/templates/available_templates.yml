@@ -25,7 +25,7 @@ cli:
 web:
     website:
         python:
-            name: TODO
+            name: Python Based Website
             handle: web-website-python
             version: 0.0.1
             available libraries: flask
@@ -33,14 +33,14 @@ web:
             long description: someLongDescription
 gui:
     java:
-        name: TODO
+        name: JavaFX GUI with Java
         handle: gui-java
         version: 0.0.1
         available libraries: JavaFX
         short description: someShortDescription
         long description: someLongDescription
     kotlin:
-        name: TODO
+        name: JavaFX GUI with Kotlin
         handle: gui-kotlin
         version: 0.0.1
         available libraries: JavaFX

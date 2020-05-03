@@ -7,7 +7,7 @@ Linting your project
 | `Linting <https://en.wikipedia.org/wiki/Lint_(software)>`_ is the process of statically analyzing code to find code style violations and to detect errors.
 | COOKIETEMPLE implements a custom linting system, but depending on the template external tools liting tools may be additionally be called.
 | Furthermore, COOKIETEMPLE ships with `coala <https://github.com/coala/coala>`_ in the full version including all `coala-bears <https://github.com/coala/coala-bears>`_.
-  Hence, :code:`coala` can optionally be run on all templates, which include a .coa file.
+  Hence, :code:`coala` can optionally be run on all templates, which include a ``.coa`` file.
 
 COOKIETEMPLE linting
 -----------------------
