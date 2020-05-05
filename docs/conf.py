@@ -149,5 +149,5 @@ texinfo_documents = [
 ]
 
 html_css_files = [
-    'max_width.css',
+    'custom_cookietemple.css',
 ]
