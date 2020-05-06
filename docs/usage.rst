@@ -62,7 +62,7 @@ Default configurations for :code:`bump-version` are shipped with the template an
 All lines where the version was changed are printed to the console.
 Invoke :code:`bump-version` by running::
 
-    cookietemple bump-version <NEWVERSION>
+    cookietemple bump-version <NEWVERSION> <PATH>
 
 For more details please visit :ref:`bump-version`.
 
@@ -97,4 +97,4 @@ To use COOKIETEMPLE in an external Python based project::
 
     import cookietemple
 
-The main functions that you might be interested in can be found in :code:`cookietemple/cookietemple_cli.py` in our repository.
+The main functions that you might be interested in can be found `here <https://github.com/Zethson/cookietemple/blob/development/cookietemple/cookietemple_cli.py>`_ in our repository.
