@@ -12,7 +12,7 @@ new templates require the modification of several files.
 
 COOKIETEMPLE uses `cookiecutter <https://cookiecutter.readthedocs.io/en/1.7.2/>`_ to create all templates.
 You need to familiarize yourself beforehand with cookiecutter to able to write templates, but don't worry, it's pretty easy and you usually get by with very few cookiecutter variables.
-You can start with you `very first cookiecutter template <https://cookiecutter.readthedocs.io/en/1.7.2/first_steps.html>`_ and then simply see how the other existing COOKIETEMPLE templates are made and copy what you need.
+You can start with your `very first cookiecutter template <https://cookiecutter.readthedocs.io/en/1.7.2/first_steps.html>`_ and then simply see how the other existing COOKIETEMPLE templates are made and copy what you need.
 
 The following sections will line out the requirements for new templates and guide you through the process of adding new templates step by step.
 Nevertheless, we strongly encourage you to discuss your proposed template first with us in public *via* a Github issue.

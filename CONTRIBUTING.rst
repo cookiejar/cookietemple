@@ -16,7 +16,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/cookiejardealer/cookietemple/issues.
+Report bugs at https://github.com/cookiejar/cookietemple/issues.
 
 If you are reporting a bug, please:
 
