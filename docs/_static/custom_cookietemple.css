@@ -1,3 +1,95 @@
+@import "basic.css";
+
+div, span, code {
+    background-color:#181a1b !important;
+}
+
+.wy-menu, .wy-menu-vertical {
+    background-color: #2D2E2F !important;
+}
+
+.wy-side-scroll {
+    background-color: #2D2E2F !important;
+}
+
+.wy-menu .caption-text {
+    background-color: #2D2E2F !important;
+}
+
+.caption-text {
+    background-color: #181a1b !important;
+}
+
+.figure p{
+    background-color: #181a1b !important;
+}
+
+.toctree-wrapper .compound ul .toctree-l1, .toctree-wrapper .compound ul .toctree-l2 {
+    background-color: #181a1b !important;
+    color: #005fff !important;
+}
+
+.toctree-l1 .current{
+    background-color: #2D2E2F !important;
+    color: #005fff !important;
+    border-color: #2D2E2F !important;
+}
+
+.toctree-l1 .current .current {
+    background-color: #2D2E !important;
+    color: #2D2E !important;
+}
+
+ul .current .toctree-l2 {
+    background-color: #2D2E2F !important;
+    color: #005fff !important;
+    border-color: #2D2E2F !important;
+
+}
+
+ul .current .toctree-l2 a{
+    color: #FFFFFF !important;
+    border-color: #2D2E2F !important;
+
+}
+
+ul .current .toctree-l2 a:hover{
+    color: #005fff !important;
+}
+
+.code .docutils .literal .notranslate .pre {
+    background-color: #181a1b !important;
+}
+
+.wy-side-nav-search{
+    background-color: #005fff !important;
+}
+
+.wy-side-nav-search div {
+    background-color: #005fff !important;
+}
+
+.rst-content p, li, h1, h2, h3, h4, h5, h6, .highlight-console, .n, .section{
+    color: #FFFFFF;
+}
+
+footer {
+    color: #FFFFFF;
+}
+
+.rst-footer-buttons a ,.rst-footer-buttons a:hover, .rst-footer-buttons span{
+    background-color: #005fff !important;
+}
+
+.wy-side-nav-search a {
+    background-color: #005fff !important;
+}
+
+.version{
+    background-color: #005fff !important;
+    color: #FFFFFF !important;
+}
+
 .wy-nav-content {
     max-width: none;
 }
