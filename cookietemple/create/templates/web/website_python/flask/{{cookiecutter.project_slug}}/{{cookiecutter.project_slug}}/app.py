@@ -1,14 +1,13 @@
+{% if cookiecutter.is_basic_website == 'n' -%}
 from .config import Config, config_mail, login, db, migrate, mail, bootstrap, babel
 from flask import Flask, request, session
 import click
 import os
+{% endif %}
+{% if cookiecutter.is_basic_website == 'y' -%}
 from flask import Flask
-{% if cookiecutter.is_basic_website == 'y' -%}
+from .config import Config
 {% endif %}
-{% if cookiecutter.is_basic_website == 'n' -%}
-{% endif %}
-{% if cookiecutter.is_basic_website == 'y' -%}
-from .config import Config{% endif %}
 
 app = Flask(__name__)
 app.config.from_object(Config)

@@ -4,7 +4,7 @@
 
 apt-get update
 
-apt-get install python3-pip python3-dev nginx -y
+apt-get install python-pip python-dev nginx -y
 
 pip3 install virtualenv
 
@@ -20,7 +20,7 @@ source dpenv/bin/activate
 
 pip3 install gunicorn
 
-python3 setup.py clean --all install
+python setup.py clean --all install
 
 cp /home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug}}/deployment_scripts/{{cookiecutter.project_slug}}.service \
 /etc/systemd/system/{{cookiecutter.project_slug}}.service
