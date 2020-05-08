@@ -24,7 +24,7 @@ list
 :code:`list` allows you to list all available templates.
 The list command prints the name, handle, short description, available libraries for the template and its version to the console.
 Note that the long description is emitted and the :code:`info` command should be used to get a long description of the template.
-Invoke :code:`create` by running::
+Invoke :code:`list` by running::
 
     cookietemple list
 
@@ -35,7 +35,7 @@ info
 
 :code:`info` provides detailed information about a specific template or set of templates.
 It prints the name, handle, long description, available libraries and version of the selected subset or specific template.
-Invoke :code:`create` by running::
+Invoke :code:`info` by running::
 
     cookietemple info <HANDLE>
 
@@ -62,7 +62,7 @@ Default configurations for :code:`bump-version` are shipped with the template an
 All lines where the version was changed are printed to the console.
 Invoke :code:`bump-version` by running::
 
-    cookietemple bump-version <NEWVERSION>
+    cookietemple bump-version <NEWVERSION> <PATH>
 
 For more details please visit :ref:`bump-version`.
 
@@ -84,7 +84,7 @@ sync
 :code:`sync` is unfortunately not yet implemented.
 It is supposed to sync any changes to the templates by opening pull requests to your already existing projects.
 Due to this complexity of this task we are still at the drafting stage, but highly appreciate input and community contributions.
-Invoke :code`sync` by running::
+Invoke :code:`sync` by running::
 
     cookietemple sync
 
@@ -97,4 +97,4 @@ To use COOKIETEMPLE in an external Python based project::
 
     import cookietemple
 
-The main functions that you might be interested in can be found in :code:`cookietemple/cookietemple_cli.py` in our repository.
+The main functions that you might be interested in can be found `here <https://github.com/Zethson/cookietemple/blob/development/cookietemple/cookietemple_cli.py>`_ in our repository.
