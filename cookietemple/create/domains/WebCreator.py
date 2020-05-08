@@ -47,7 +47,7 @@ class WebCreator(TemplateCreator):
         Handles the Web domain. Prompts the user for the language, general and domain specific options.
         """
         self.web_struct.language = click.prompt('Please choose between the following languages [python, javascript, java]',
-                                                type=click.Choice(['python', 'javascript', 'java']))
+                                                type=click.Choice(['python', 'javascript', 'java'])).lower()
 
         # prompt the user to fetch general template configurations
         super().prompt_general_template_configuration()
