@@ -1,29 +1,24 @@
 @import "basic.css";
 
+/*Color main components with a dark theme*/
 div, span, code {
     background-color: #181a1b !important;
 }
 
-.wy-menu-vertical li.toctree-l1 a span.toctree-expand {
+.wy-side-nav-search {
     background-color: #005fff !important;
 }
 
-.wy-menu-vertical li.toctree-l2 a span.toctree-expand {
-    background-color: #2D2E2F !important;
-}
-
-.wy-menu-vertical li.toctree-l2 a:hover span.toctree-expand {
+.wy-side-nav-search div {
     background-color: #005fff !important;
 }
 
-.wy-menu-vertical li.toctree-l3 a span.toctree-expand {
-    background-color: #2D2E2F !important;
+/*Font color is mainly white*/
+.rst-content p, li, h1, h2, h3, h4, h5, h6, .highlight-console, .n, .section {
+    color: #FFFFFF;
 }
 
-.wy-menu-vertical li.toctree-l3 a:hover span.toctree-expand {
-    background-color: #005fff !important;
-}
-
+/*The side menu is slightly more grey and lighter than the overall theme*/
 .wy-menu, .wy-menu-vertical {
     background-color: #2D2E2F !important;
 }
@@ -44,30 +39,25 @@ div, span, code {
     background-color: #181a1b !important;
 }
 
+/*Toctree wrapper on index page has a dark background unlike the other menu items*/
 .toctree-wrapper .compound ul .toctree-l1, .toctree-wrapper .compound ul .toctree-l2 {
     background-color: #181a1b !important;
     color: #005fff !important;
 }
 
-.toctree-l1 .current {
-    background-color: #2D2E2F !important;
-    color: #005fff !important;
-    border-color: #2D2E2F !important;
-}
-
-
+/*The current menu section has a blue background*/
 .wy-menu-vertical li.toctree-l1.current li.toctree-l2 > a:hover {
     color: #FFFFFF !important;
     background: #005fff !important;
 }
 
-
+/*Subitems under the current section are displayed in grey again*/
 .wy-menu-vertical li.toctree-l1.current li.toctree-l2 > a {
     color: #FFFFFF !important;
     background: #2D2E2F !important;
 }
 
-
+/*Current hovered item has a blue background*/
 .wy-menu-vertical li.toctree-l2.current li.toctree-l3 > a:hover {
     color: #FFFFFF !important;
     background: #005fff !important;
@@ -102,44 +92,37 @@ div, span, code {
     border-color: #005fff !important;
 }
 
+/*The expand toctree items have the same background as its corresponding section*/
+.wy-menu-vertical li.toctree-l1 a span.toctree-expand {
+    background-color: #005fff !important;
+}
 
-ul .current .toctree-l2 {
+.wy-menu-vertical li.toctree-l2 a span.toctree-expand {
     background-color: #2D2E2F !important;
-    color: #005fff !important;
-    border-color: #2D2E2F !important;
-
 }
 
-ul .current .toctree-l2 a, ul .current .toctree-l3 a {
-    color: #FFFFFF !important;
-    border-color: #2D2E2F !important;
-
+.wy-menu-vertical li.toctree-l2 a:hover span.toctree-expand {
+    background-color: #005fff !important;
 }
 
-ul .current .toctree-l2 a:hover, ul .current .toctree-l3 a:hover {
-    color: #005fff !important;
+.wy-menu-vertical li.toctree-l3 a span.toctree-expand {
+    background-color: #2D2E2F !important;
+}
+
+.wy-menu-vertical li.toctree-l3 a:hover span.toctree-expand {
+    background-color: #005fff !important;
 }
 
 .code .docutils .literal .notranslate .pre {
     background-color: #181a1b !important;
 }
 
-.wy-side-nav-search {
-    background-color: #005fff !important;
-}
-
-.wy-side-nav-search div {
-    background-color: #005fff !important;
-}
-
-.rst-content p, li, h1, h2, h3, h4, h5, h6, .highlight-console, .n, .section {
-    color: #FFFFFF;
-}
-
+/*Color footer separately corresponding to overall dark theme*/
 footer {
     color: #FFFFFF;
 }
 
+/*Color footer buttons in blue*/
 .rst-footer-buttons a, .rst-footer-buttons a:hover, .rst-footer-buttons span {
     background-color: #005fff !important;
 }
@@ -153,6 +136,7 @@ footer {
     color: #FFFFFF !important;
 }
 
+/*Set max width to none so the theme uses all available width*/
 .wy-nav-content {
     max-width: none;
 }
