@@ -29,12 +29,66 @@ Design
 ^^^^^^^^
 
 | The Python package is based on a standard `setuptools <https://setuptools.readthedocs.io/en/latest/>`_ structure including a :code:`setup.py`, :code:`setup.cfg`, :code:`MANIFEST.in`,
-  :code: `requirements.txt` and :code:`requirements_dev.txt` file.
-| The main code resides in a folder, which shares the name of the *project_slug*.
-   Inside the *project_slug* folder :code:`cli.py` hosts any command line interface code, :code:`project_slug.py` includes any module code.
-   The folder :code:`files` can be used to include any files, which should also be included in the Python package.
-   Note, that if the folder is renamed or moved that this has to be reflected in the :code:`setup.py` file.
-| The folder :code:`tests` includes all unit tests.
+  :code:`requirements.txt` and :code:`requirements_dev.txt` file.
+
+.. code::
+
+    ├── AUTHORS.rst
+    ├── CHANGELOG.rst
+    ├── .coafile
+    ├── CODEOFCONDUCT.rst
+    ├── cookietemple.cfg
+    ├── .cookietemple.yml
+    ├── .dependabot
+    │   └── config.yml
+    ├── Dockerfile
+    ├── docs
+    │   ├── authors.rst
+    │   ├── changelog.rst
+    │   ├── codeofconduct.rst
+    │   ├── conf.py
+    │   ├── index.rst
+    │   ├── installation.rst
+    │   ├── make.bat
+    │   ├── Makefile
+    │   ├── modules.rst
+    │   ├── readme.rst
+    │   ├── requirements.txt
+    │   └── usage.rst
+    ├── .editorconfig
+    ├── Exploding_Springfield
+    │   ├── cli.py
+    │   ├── Exploding_Springfield.py
+    │   ├── files
+    │   │   └── test.txt
+    │   ├── __init__.py
+    ├── .github
+    │   ├── ISSUE_TEMPLATE
+    │   │   ├── bug_report.md
+    │   │   ├── feature_request.md
+    │   │   └── general_question.md
+    │   ├── pull_request.md
+    │   └── workflows
+    │       ├── build_docs.yml
+    │       ├── build_package.yml
+    │       ├── flake8_linting.yml
+    │       ├── publish_package.yml
+    │       └── tox_testsuite.yml
+    ├── .gitignore
+    ├── LICENSE
+    ├── Makefile
+    ├── MANIFEST.in
+    ├── README.rst
+    ├── .readthedocs.yml
+    ├── requirements_dev.txt
+    ├── requirements.txt
+    ├── setup.cfg
+    ├── setup.py
+    ├── tests
+    │   ├── __init__.py
+    │   └── test_Exploding_Springfield.py
+    ├── tox.ini
+    └── .travis.yml
 
 Included frameworks/libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -176,6 +230,91 @@ Design
 | :code:`thesis-info.tex` mostly defines general information such as name, degree, university etc and :code:`thesis.tex` includes all other tex files such as abstracts, chapters etc.
 | The tex files for these chapters are found in their respective subfolders.
 | All figures go inside the :code:`Figs` subfolder and all references should be included in :code:`References/references.bib`.
+
+.. code::
+
+    ├── Abstract
+    │   └── abstract.tex
+    ├── Acknowledgement
+    │   └── acknowledgement.tex
+    ├── Appendix1
+    │   └── appendix1.tex
+    ├── Chapter1
+    │   └── chapter1.tex
+    ├── Chapter2
+    │   ├── chapter2.tex
+    │   └── Figs
+    │       ├── Raster
+    │       │   ├── minion.png
+    │       │   ├── TomandJerry.png
+    │       │   └── WallE.png
+    │       └── Vector
+    │           ├── minion.eps
+    │           ├── TomandJerry.eps
+    │           └── WallE.eps
+    ├── Chapter3
+    │   └── chapter3.tex
+    ├── compile-thesis.sh
+    ├── compile-thesis-windows.bat
+    ├── cookietemple.cfg
+    ├── .cookietemple.yml
+    ├── Declaration
+    │   └── declaration.tex
+    ├── Dedication
+    │   └── dedication.tex
+    ├── Dockerfile
+    ├── Figs
+    │   ├── CollegeShields
+    │   │   ├── Downing.eps
+    │   │   ├── Downing.pdf
+    │   │   ├── Fitzwilliam.eps
+    │   │   ├── Fitzwilliam.pdf
+    │   │   ├── FitzwilliamRed.eps
+    │   │   ├── FitzwilliamRed.pdf
+    │   │   ├── Gonville_and_Caius.jpg
+    │   │   ├── Kings.eps
+    │   │   ├── Kings.pdf
+    │   │   ├── Licenses.md
+    │   │   ├── Peterhouse.pdf
+    │   │   ├── Queens.eps
+    │   │   ├── Queens.pdf
+    │   │   ├── src
+    │   │   │   ├── Downing.svg
+    │   │   │   ├── Kings.svg
+    │   │   │   ├── Peterhouse.svg
+    │   │   │   ├── Queens.svg
+    │   │   │   └── Trinity.svg
+    │   │   ├── StJohns.eps
+    │   │   ├── StJohns.pdf
+    │   │   ├── Trinity.eps
+    │   │   └── Trinity.pdf
+    │   ├── University_Crest.eps
+    │   ├── University_Crest_Long.eps
+    │   ├── University_Crest_Long.pdf
+    │   └── University_Crest.pdf
+    ├── .github
+    │   └── workflows
+    │       └── build_thesis.yml
+    ├── .gitignore
+    ├── glyphtounicode.tex
+    ├── hooks
+    │   ├── install.sh
+    │   └── pre-commit
+    ├── LICENSE
+    ├── Makefile
+    ├── PhDThesisPSnPDF.cls
+    ├── Preamble
+    │   └── preamble.tex
+    ├── README.rst
+    ├── References
+    │   └── references.bib
+    ├── sty
+    │   └── breakurl.sty
+    ├── thesis-info.tex
+    ├── thesis.pdf
+    ├── thesis.ps
+    ├── thesis.tex
+    └── Variables.ini
 
 
 Included frameworks/libraries

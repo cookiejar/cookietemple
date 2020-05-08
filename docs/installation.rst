@@ -32,13 +32,13 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/zethson/cookietemple
+    $ git clone git://github.com/cookiejardealer/cookietemple
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/zethson/cookietemple/tarball/master
+    $ curl  -OL https://github.com/cookiejardealer/cookietemple/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -53,5 +53,5 @@ Alternatively you can also install it using the Makefile:
     $ make install
 
 
-.. _Github repo: https://github.com/zethson/cookietemple
-.. _tarball: https://github.com/zethson/cookietemple/tarball/master
+.. _Github repo: https://github.com/cookiejardealer/cookietemple
+.. _tarball: https://github.com/cookiejardealer/cookietemple/tarball/master

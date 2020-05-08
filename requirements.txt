@@ -2,9 +2,9 @@ click==6.6
 cookiecutter==1.6.0
 ruamel.yaml==0.16.10
 coala-bears==0.11.1
-pygithub==1.50
+pygithub==1.51
 tabulate==0.8.7
-GitPython==3.1.1
+GitPython==3.1.2
 autopep8==1.5.2
 cffi==1.14.0
 cryptography==2.9.2

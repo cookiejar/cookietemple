@@ -6,19 +6,18 @@ import os
 import sys
 
 import click
-import re
 from pathlib import Path
 
 import cookietemple
 
-from cookietemple.bump_version.bump_version import bump_template_version
+from cookietemple.bump_version.bump_version import bump_template_version, can_run_bump_version
 from cookietemple.create.create import choose_domain
 from cookietemple.info.info import show_info
 from cookietemple.lint.lint import lint_project
 from cookietemple.list.list import list_available_templates
 from cookietemple.package_dist.warp import warp_project
 from cookietemple.synchronization.sync import snyc_template
-from cookietemple.util.click_util import CustomHelpOrder
+from cookietemple.custom_cookietemple_cli.custom_click import HelpErrorHandling
 
 WD = os.path.dirname(__file__)
 
@@ -32,13 +31,13 @@ def main():
                                                    |_|
         """, fg='blue'))
 
-    click.echo(click.style('Run ', fg='green') + click.style('cookietemple --help ', fg='red') + click.style('for an overview of all commands', fg='green'))
+    click.echo(click.style('Run ', fg='blue') + click.style('cookietemple --help ', fg='green') + click.style('for an overview of all commands', fg='blue'))
     click.echo()
 
     cookietemple_cli()
 
 
-@click.group(cls=CustomHelpOrder)
+@click.group(cls=HelpErrorHandling)
 @click.version_option(cookietemple.__version__,
                       message=click.style(f'Cookietemple Version: {cookietemple.__version__}', fg='blue'))
 @click.option(
@@ -47,7 +46,8 @@ def main():
     default=False,
     help='Verbose output (print debug statements)'
 )
-def cookietemple_cli(verbose):
+@click.pass_context
+def cookietemple_cli(ctx, verbose):
     if verbose:
         logging.basicConfig(level=logging.DEBUG, format='\n%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     else:
@@ -69,13 +69,12 @@ def create(domain: str) -> None:
 @click.argument('project_dir', type=click.Path(),
                 default=Path(f'{Path.cwd()}'))
 @click.option('--run-coala/--no-run-coala',
-              default=True)
+              default=False)
 def lint(project_dir, run_coala) -> None:
     """
     Lint your existing COOKIETEMPLE project
     """
-
-    lint_project(project_dir, run_coala, True)
+    lint_project(project_dir, run_coala, coala_interactive=True)
 
 
 @cookietemple_cli.command(help_priority=3, short_help='List all available COOKIETEMPLE templates.')
@@ -83,19 +82,21 @@ def list() -> None:
     """
     List all available COOKIETEMPLE templates
     """
-
     list_available_templates()
 
 
 @cookietemple_cli.command(help_priority=4, short_help='Get detailed info on a COOKIETEMPLE template domain or a single template.')
-@click.argument('handle',
-                type=str)
-def info(handle: str) -> None:
+@click.argument('handle', type=str, required=False)
+@click.pass_context
+def info(ctx, handle: str) -> None:
     """
     Get detailed info on a COOKIETEMPLE template domain or a single template
 
     """
-    show_info(handle)
+    if not handle:
+        HelpErrorHandling.args_not_provided(ctx, 'info')
+    else:
+        show_info(handle)
 
 
 @cookietemple_cli.command(help_priority=5, short_help='Sync your project with the latest template release.')
@@ -103,35 +104,29 @@ def sync() -> None:
     """
     Sync your project with the latest template release
     """
-
     snyc_template()
 
 
 @cookietemple_cli.command('bump-version', help_priority=6, short_help='Bump the version of an existing COOKIETEMPLE project.')
-@click.argument('new_version', type=str)
-@click.argument('project_dir', type=click.Path(),
-                default=Path(f'{Path.cwd()}'))
-def bump_version(new_version, project_dir) -> None:
+@click.argument('new_version', type=str, required=False)
+@click.argument('project_dir', type=click.Path(), default=Path(f'{Path.cwd()}'))
+@click.pass_context
+def bump_version(ctx, new_version, project_dir) -> None:
     """
     Bump the version of an existing COOKIETEMPLE project
     """
-
     if not new_version:
-        click.echo(click.style('No new version specified.\nPlease specify a new version using '
-                               '\'cookietemple bump_version my.new.version\'', fg='red'))
-        sys.exit(0)
+        HelpErrorHandling.args_not_provided(ctx, 'bump-version')
+    else:
+        # if the path entered ends with a trailing slash remove it for consistent output
+        if str(project_dir).endswith('/'):
+            project_dir = Path(str(project_dir).replace(str(project_dir)[len(str(project_dir)) - 1:], ''))
 
-    elif not re.match(r"[0-9]+.[0-9]+.[0-9]+", new_version):
-        click.echo(click.style('Invalid version specified!\nEnsure your version number has the form '
-                               'like 0.0.0 or 15.100.239', fg='red'))
-        sys.exit(0)
-
-    elif not Path(f'{project_dir}/cookietemple.cfg').is_file():
-        click.echo(click.style('Did not found a cookietemple.cfg file. Make sure you are in the right directory '
-                               'or specify the path to your projects bump_version.cfg file', fg='red'))
-        sys.exit(0)
-
-    bump_template_version(new_version, project_dir)
+        # check if the command met all requirements for successful bump
+        if can_run_bump_version(new_version, project_dir):
+            bump_template_version(new_version, project_dir)
+        else:
+            sys.exit(0)
 
 
 @cookietemple_cli.command(help_priority=7, short_help='Create a self contained executable with bundled JRE.')
@@ -142,7 +137,6 @@ def warp(input_dir: str, exec: str, output: str) -> None:
     """
     Create a self contained executable with bundled JRE
     """
-
     warp_project(input_dir, exec, output)
 
 

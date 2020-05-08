@@ -7,7 +7,7 @@ from tabulate import tabulate
 from cookietemple.info.levensthein_dist import most_similar_command
 from cookietemple.list.list import load_available_templates
 from cookietemple.util.dict_util import is_nested_dictionary
-from cookietemple.util.suggest_similar_commands import load_available_handles
+from cookietemple.custom_cookietemple_cli.suggest_similar_commands import load_available_handles
 
 WD = os.path.dirname(__file__)
 TEMPLATES_PATH = f'{WD}/../create/templates'
@@ -21,13 +21,6 @@ def show_info(handle: str):
     """
     # list of all templates that should be printed according to the passed handle
     templates_to_print = []
-
-    if not handle:
-        handle = click.prompt('Please enter the possibly incomplete template handle as <<domain-(subdomain)-('
-                              'language)>>.\nExamples: \'cli-python\' or \'cli\'',
-                              type=str)
-    click.echo()
-    click.echo()
     available_templates = load_available_templates(f'{TEMPLATES_PATH}/available_templates.yml')
 
     specifiers = handle.split('-')
@@ -130,18 +123,13 @@ def handle_non_existing_command(handle: str):
     if most_sim:
         # found exactly one similar command
         if len(most_sim) == 1:
-            click.echo(click.style(
-                f'cookietemple info: ', fg='white') + click.style(
-                f'unknown handle \'{handle}\'. See cookietemple list for all valid handles.\n\nDid you mean\n    \'{most_sim[0]}\'?',
-                fg='red'))
+            click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style(f'cookietemple list ', fg='blue') +
+                       click.style(f'for all valid handles.\nDid you mean \'{most_sim[0]}\'?', fg='red'))
         else:
             # found multiple similar commands
-            click.echo(click.style(
-                f'cookietemple info: ', fg='white') + click.style(
-                f'unknown handle \'{handle}\'. See cookietemple list for all valid handles.\n\nMost similar commands are:',
-                fg='red'))
-            for command in most_sim:
-                click.echo(click.style(f'     {command}', fg='red'))
+            nl = '\n'
+            click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style(f'cookietemple list ', fg='blue') +
+                       click.style(f'for all valid handles.\nMost similar commands are:{nl}{nl.join(most_sim)}', fg='red'))
         sys.exit(0)
 
     else:

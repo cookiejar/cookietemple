@@ -13,7 +13,6 @@ import sys
 
 sys.path.insert(0, os.path.abspath('..'))
 
-
 # -- General configuration ---------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -147,4 +146,8 @@ texinfo_documents = [
      'cookietemple',
      'One line description of project.',
      'Miscellaneous'),
+]
+
+html_css_files = [
+    'custom_cookietemple.css',
 ]

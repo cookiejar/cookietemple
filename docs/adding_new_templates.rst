@@ -36,7 +36,7 @@ Exceptions, where applicable, but they would have to be discussed beforehand. He
 5. | All templates should provide a readthedocs setup (include changelog and a codeofconduct), a README.rst file, a LICENSE, Github issue and pull request templates and a .gitignore file. Moreover, a .dependabot configuration should be present if applicable.
    | Note that most of these are already included in our common_files and do not need to be rewritten. More on that below.
 
-6. All templates should privde a Makefile, which wraps heavily used commands to unify common operations such as installing, testing or distributing a project, independent of the language
+6. All templates should provide a Makefile, which wraps heavily used commands to unify common operations such as installing, testing or distributing a project, independent of the language
 
 7. All templates should have a Dockerfile, which provides an entrypoint for the project.
 
@@ -66,9 +66,9 @@ Hence, at this level we see :code:`cookietemple_cli.py` and a folder per CLI com
    Addition of a cli-brainfuck template to available_templates.yml.
 
 2. | Next, we add our brainfuck template to :code:`/create/templates`
-   | Note that it should adhere to the standards mentioned above and include all required files. Don't forget to edit the cookietemple.cfg file to facilitate bump-version. See :ref:`bump-version` for details.
-    It is **mandatory** to name the top level folder {{ cookiecutter.project_slug }}, which ensures that the project after creation will have a proper name.
-    Furthermore, the cookiecutter.json file should have at least the following variables:
+   | Note that it should adhere to the standards mentioned above and include all required files. Don't forget to edit the cookietemple.cfg file to facilitate bump-version. See :ref:`bump-version-configuration` for details.
+    It is **mandatory** to name the top level folder ``{{ cookiecutter.project_slug }}``, which ensures that the project after creation will have a proper name.
+    Furthermore, the ``cookiecutter.json`` file should have at least the following variables:
 
 .. figure:: images/adding_templates_step_2_1.png
    :scale: 100 %

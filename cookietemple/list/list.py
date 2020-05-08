@@ -20,8 +20,10 @@ def list_available_templates() -> None:
     """
 
     available_templates = load_available_templates(f'{TEMPLATES_PATH}/available_templates.yml')
-    click.echo(click.style('Run cookietemple info for long descriptions of your template of interest.', fg='green'))
-    click.echo(click.style('All available templates:\n', fg='green'))
+    click.echo(click.style('Run ', fg='blue')
+               + click.style('cookietemple info ', fg='green')
+               + click.style('for long descriptions of your template of interest.', fg='blue'))
+    click.echo(click.style('All available templates:\n', fg='blue'))
 
     # What we want to have are lists like
     # [['name', 'handle', 'short description', 'available libraries', 'version'], ['name', 'handle', 'short description', 'available libraries', 'version']]
