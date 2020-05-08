@@ -1,7 +1,27 @@
 @import "basic.css";
 
 div, span, code {
-    background-color:#181a1b !important;
+    background-color: #181a1b !important;
+}
+
+.wy-menu-vertical li.toctree-l1 a span.toctree-expand {
+    background-color: #005fff !important;
+}
+
+.wy-menu-vertical li.toctree-l2 a span.toctree-expand {
+    background-color: #2D2E2F !important;
+}
+
+.wy-menu-vertical li.toctree-l2 a:hover span.toctree-expand {
+    background-color: #005fff !important;
+}
+
+.wy-menu-vertical li.toctree-l3 a span.toctree-expand {
+    background-color: #2D2E2F !important;
+}
+
+.wy-menu-vertical li.toctree-l3 a:hover span.toctree-expand {
+    background-color: #005fff !important;
 }
 
 .wy-menu, .wy-menu-vertical {
@@ -20,7 +40,7 @@ div, span, code {
     background-color: #181a1b !important;
 }
 
-.figure p{
+.figure p {
     background-color: #181a1b !important;
 }
 
@@ -29,16 +49,59 @@ div, span, code {
     color: #005fff !important;
 }
 
-.toctree-l1 .current{
+.toctree-l1 .current {
     background-color: #2D2E2F !important;
     color: #005fff !important;
     border-color: #2D2E2F !important;
 }
 
-.toctree-l1 .current .current {
-    background-color: #2D2E !important;
-    color: #2D2E !important;
+
+.wy-menu-vertical li.toctree-l1.current li.toctree-l2 > a:hover {
+    color: #FFFFFF !important;
+    background: #005fff !important;
 }
+
+
+.wy-menu-vertical li.toctree-l1.current li.toctree-l2 > a {
+    color: #FFFFFF !important;
+    background: #2D2E2F !important;
+}
+
+
+.wy-menu-vertical li.toctree-l2.current li.toctree-l3 > a:hover {
+    color: #FFFFFF !important;
+    background: #005fff !important;
+}
+
+.wy-menu-vertical li.toctree-l2.current > a:hover {
+    color: #FFFFFF !important;
+    background: #005fff !important;
+}
+
+
+.wy-menu-vertical li.toctree-l2.current li.toctree-l3 > a {
+    color: #FFFFFF !important;
+    background: #2D2E2F !important;
+}
+
+.wy-menu-vertical li.toctree-l1.current {
+    color: #FFFFFF !important;
+    background: #005fff !important;
+    border-color: #005fff !important;
+}
+
+.wy-menu-vertical li.toctree-l1.current > a {
+    color: #FFFFFF !important;
+    background: #005fff !important;
+    border-color: #005fff !important;
+}
+
+.wy-menu-vertical li.toctree-l1.current > a:hover {
+    color: #FFFFFF !important;
+    background: #005fff !important;
+    border-color: #005fff !important;
+}
+
 
 ul .current .toctree-l2 {
     background-color: #2D2E2F !important;
@@ -47,13 +110,13 @@ ul .current .toctree-l2 {
 
 }
 
-ul .current .toctree-l2 a{
+ul .current .toctree-l2 a, ul .current .toctree-l3 a {
     color: #FFFFFF !important;
     border-color: #2D2E2F !important;
 
 }
 
-ul .current .toctree-l2 a:hover{
+ul .current .toctree-l2 a:hover, ul .current .toctree-l3 a:hover {
     color: #005fff !important;
 }
 
@@ -61,7 +124,7 @@ ul .current .toctree-l2 a:hover{
     background-color: #181a1b !important;
 }
 
-.wy-side-nav-search{
+.wy-side-nav-search {
     background-color: #005fff !important;
 }
 
@@ -69,7 +132,7 @@ ul .current .toctree-l2 a:hover{
     background-color: #005fff !important;
 }
 
-.rst-content p, li, h1, h2, h3, h4, h5, h6, .highlight-console, .n, .section{
+.rst-content p, li, h1, h2, h3, h4, h5, h6, .highlight-console, .n, .section {
     color: #FFFFFF;
 }
 
@@ -77,7 +140,7 @@ footer {
     color: #FFFFFF;
 }
 
-.rst-footer-buttons a ,.rst-footer-buttons a:hover, .rst-footer-buttons span{
+.rst-footer-buttons a, .rst-footer-buttons a:hover, .rst-footer-buttons span {
     background-color: #005fff !important;
 }
 
@@ -85,7 +148,7 @@ footer {
     background-color: #005fff !important;
 }
 
-.version{
+.version {
     background-color: #005fff !important;
     color: #FFFFFF !important;
 }
