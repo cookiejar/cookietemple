@@ -14,7 +14,7 @@ Usage
 
 Invoke :code:`warp` by running::
 
-    cookietemple warp --input_dir <INPUTDIR> --exec <EXECUTABLE> --output <OUTPUT>
+    $ cookietemple warp --input_dir <INPUTDIR> --exec <EXECUTABLE> --output <OUTPUT>
 
 Please note that the :code:`--exec` operates relative to the packaged folder and may result in 'file not found' errors, if a wrongly relative path is given!
 

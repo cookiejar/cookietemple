@@ -12,7 +12,7 @@ list
 
 COOKIETEMPLE list can be invoked *via*::
 
-    cookietemple list
+    $ cookietemple list
 
 .. figure:: images/list_example.png
    :scale: 100 %
@@ -32,7 +32,7 @@ info
 
 Invoke :code:`cookietemple info` *via*::
 
-    cookietemple info <HANDLE>
+    $ cookietemple info <HANDLE>
 
 .. figure:: images/info_example.png
    :scale: 100 %

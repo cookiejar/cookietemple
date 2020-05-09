@@ -10,7 +10,6 @@ from cookietemple.util.dir_util import pf
 
 class TemplateLinter(object):
     """Object to hold linting information and results.
-    All objects attributes are set, after the :func:`PipelineLint.lint_pipeline` function was called.
     Attributes:
         files (list): A list of files found during the linting process.
         path (str): Path to the pipeline directory.
@@ -143,11 +142,11 @@ class TemplateLinter(object):
 
         # Implicitly also checks if empty.
         if 'FROM ' in content:
-            self.passed.append((2, 'Dockerfile check passed'))
+            self.passed.append((2, click.style('Dockerfile check passed', fg='green')))
             self.dockerfile = [line.strip() for line in content.splitlines()]
             return
 
-        self.failed.append((2, 'Dockerfile check failed'))
+        self.failed.append((2, click.style('Dockerfile check failed', fg='red')))
 
     def check_cookietemple_todos(self) -> None:
         """
@@ -176,7 +175,7 @@ class TemplateLinter(object):
                                 .replace('TODO COOKIETEMPLE: ', '').strip()
                             if len(fname) + len(line) > 70:
                                 line = f'{line[:70 - len(fname)]}..'
-                            self.warned.append((3, f'TODO string found in \'{fname}\': {line}'))
+                            self.warned.append((3, click.style(f'TODO string found in {self._bold_list_items(fname)}: {line}', fg='yellow')))
 
     def check_no_cookiecutter_strings(self) -> None:
         """
@@ -192,7 +191,7 @@ class TemplateLinter(object):
                         if regex.match(line):
                             if len(fname) + len(line) > 50:
                                 line = f'{line[:50 - len(fname)]}..'
-                            self.warned.append((4, f'Cookiecutter string found in \'{fname}\': {line}'))
+                            self.warned.append((4, click.style(f'Cookiecutter string found in \'{fname}\': {line}', fg='yellow')))
 
     def check_version_consistent(self) -> None:
         """
@@ -287,29 +286,29 @@ def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files
     # Files that cause an error if they don't exist
     for files in files_fail:
         if any([os.path.isfile(pf(self, f)) for f in files]):
-            self.passed.append((1, f'File found: {self._bold_list_items(files)}'))
+            self.passed.append((1, click.style(f'File found: {self._bold_list_items(files)}', fg='green')))
             self.files.extend(files)
         else:
-            self.failed.append((1, f'File not found: {self._bold_list_items(files)}'))
+            self.failed.append((1, click.style(f'File not found: {self._bold_list_items(files)}', fg='red')))
 
     # Files that cause a warning if they don't exist
     for files in files_warn:
         if any([os.path.isfile(pf(self, f)) for f in files]):
-            self.passed.append((1, f'File found: {self._bold_list_items(files)}'))
+            self.passed.append((1, click.style(f'File found: {self._bold_list_items(files)}', fg='green')))
             self.files.extend(files)
         else:
-            self.warned.append((1, f'File not found: {self._bold_list_items(files)}'))
+            self.warned.append((1, click.style(f'File not found: {self._bold_list_items(files)}', fg='yellow')))
 
     # Files that cause an error if they exist
     for file in files_fail_ifexists:
         if os.path.isfile(pf(self, file)):
-            self.failed.append((1, f'File must be removed: {self._bold_list_items(file)}'))
+            self.failed.append((1, click.style(f'File must be removed: {self._bold_list_items(file)}', fg='red')))
         else:
-            self.passed.append((1, f'File not found check: {self._bold_list_items(file)}'))
+            self.passed.append((1, click.style(f'File not found check: {self._bold_list_items(file)}', fg='green')))
 
     # Files that cause a warning if they exist
     for file in files_warn_ifexists:
         if os.path.isfile(pf(self, file)):
-            self.warned.append((1, f'File should be removed: {self._bold_list_items(file)}'))
+            self.warned.append((1, click.style(f'File should be removed: {self._bold_list_items(file)}', fg='yellow')))
         else:
-            self.passed.append((1, f'File not found check: {self._bold_list_items(file)}'))
+            self.passed.append((1, click.style(f'File not found check: {self._bold_list_items(file)}', fg='green')))

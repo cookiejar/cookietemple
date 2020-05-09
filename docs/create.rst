@@ -10,7 +10,7 @@ Create a project
 
 The creation of a new project can be invoked by::
 
-    cookietemple create
+    $ cookietemple create
 
 which will guide you through the creation process of your (customized) project via prompts.
 They usually follow the pattern of domain (e.g. cli, gui, ...), subdomain (if applicable, e.g. website), language (e.g. Python), general prompts (e.g. name, email, ...) followed by template specific prompts (e.g. testing frameworks, ...).
@@ -18,7 +18,7 @@ They usually follow the pattern of domain (e.g. cli, gui, ...), subdomain (if ap
 
 It is also possible to directly create a specific template using its handle::
 
-    cookietemple create --handle <HANDLE>
+    $ cookietemple create --handle <HANDLE>
 
 | After the template has been created, linting (see :ref:`lint`) is automatically performed to verify that the template creation process was successful.
 | Finally, you will be asked whether or not you want to automatically push your new project to Github.
