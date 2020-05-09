@@ -159,5 +159,5 @@ texinfo_documents = [
 ]
 
 html_css_files = [
-    'custom_{{cookiecutter.project_slug}}.css',
+    'custom_cookietemple.css',
 ]
