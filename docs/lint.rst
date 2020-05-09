@@ -25,9 +25,19 @@ COOKIETEMPLE's linting is divided into four distinct phases.
 
 The linting results of the first two phases are assigned into 3 groups:
 
-1. Passed
-2. Passed with warning
-3. Failed
+.. raw:: html
+
+    <style> .green {color:#008000; } </style>
+    <style> .yellow {color:#ffff00; } </style>
+    <style> .red {color:#aa0060; } </style>
+
+.. role:: green
+.. role:: yellow
+.. role:: red
+
+1. :green:`Passed`
+2. :yellow:`Passed with warning`
+3. :red:`Failed`
 
 If any of the checks failed linting stops and returns an error code.
 
@@ -48,7 +58,7 @@ Running coala
 
 To invoke linting with coala support, please invoke::
 
-    cookietemple lint --run-coala <PATH>
+    $ cookietemple lint --run-coala <PATH>
 
 | Since coala is not all that well maintained anymore and clashes with our dependency versions (click), we may remove coala support in the future.
 

@@ -12,7 +12,7 @@ Usage
 
 The :code:`bump-version` command follows the syntax::
 
-    cookietemple bump-version X.X.X <PATH>
+    $ cookietemple bump-version X.X.X <PATH>
 
 | where ``X`` corresponds to a (python)-integer value of any possible range.
 | The PATH corresponds to the path to the cookietemple.cfg file, which contains all locations, where the version should be increased.
@@ -22,7 +22,7 @@ The :code:`bump-version` command follows the syntax::
    :scale: 100 %
    :alt: bump-version example
 
-   bump-version applied to a fresh cli-python project
+   $ bump-version applied to a fresh cli-python project
 
 
 .. _bump-version-configuration:

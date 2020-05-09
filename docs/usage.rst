@@ -14,7 +14,7 @@ Additionally, the project is linted after creation to ensure that everything wen
 The user also has the option to push his just created project directly to Github.
 Invoke :code:`create` by running::
 
-    cookietemple create
+    $ cookietemple create
 
 For more details about project creation please visit :ref:`create` and for a detailed list of all available templates please visit :ref:`available_templates`.
 
@@ -26,7 +26,7 @@ The list command prints the name, handle, short description, available libraries
 Note that the long description is emitted and the :code:`info` command should be used to get a long description of the template.
 Invoke :code:`list` by running::
 
-    cookietemple list
+    $ cookietemple list
 
 For more details please visit :ref:`list_info`.
 
@@ -37,7 +37,7 @@ info
 It prints the name, handle, long description, available libraries and version of the selected subset or specific template.
 Invoke :code:`info` by running::
 
-    cookietemple info <HANDLE>
+    $ cookietemple info <HANDLE>
 
 For more details please visit :ref:`list_info`.
 
@@ -50,7 +50,7 @@ All results are collected and printed to the user. If any of the checks fail lin
 Optionally, `coala <https://coala.io/#/home>`_ can be applied to the project if it was created using a template which features a .coa file.
 Invoke :code:`lint` by running::
 
-    cookietemple lint
+    $ cookietemple lint
 
 For more details please visit :ref:`lint`.
 
@@ -62,7 +62,7 @@ Default configurations for :code:`bump-version` are shipped with the template an
 All lines where the version was changed are printed to the console.
 Invoke :code:`bump-version` by running::
 
-    cookietemple bump-version <NEWVERSION> <PATH>
+    $ cookietemple bump-version <NEWVERSION> <PATH>
 
 For more details please visit :ref:`bump-version`.
 
@@ -74,7 +74,7 @@ It is used to create single binary applications for various languages.
 COOKIETEMPLE mostly uses it to package JVM based projects, but it may also be used for projects based on .NET Core, Node JS and others.
 Invoke :code:`warp` by running::
 
-    cookietemple warp --input_dir <INPUTDIR> --exec <EXECUTABLE> --output <OUTPUT>
+    $ cookietemple warp --input_dir <INPUTDIR> --exec <EXECUTABLE> --output <OUTPUT>
 
 For more details please visit :ref:`warp_f`.
 
@@ -86,7 +86,7 @@ It is supposed to sync any changes to the templates by opening pull requests to 
 Due to this complexity of this task we are still at the drafting stage, but highly appreciate input and community contributions.
 Invoke :code:`sync` by running::
 
-    cookietemple sync
+    $ cookietemple sync
 
 For more details please visit :ref:`sync`.
 
@@ -95,6 +95,6 @@ External Python based projects
 
 To use COOKIETEMPLE in an external Python based project::
 
-    import cookietemple
+    $ import cookietemple
 
 The main functions that you might be interested in can be found `here <https://github.com/Zethson/cookietemple/blob/development/cookietemple/cookietemple_cli.py>`_ in our repository.

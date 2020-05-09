@@ -1,4 +1,4 @@
-Welcome to cookietemple's documentation!
+Welcome to COOKIETEMPLE's documentation!
 ========================================
 
 .. toctree::
