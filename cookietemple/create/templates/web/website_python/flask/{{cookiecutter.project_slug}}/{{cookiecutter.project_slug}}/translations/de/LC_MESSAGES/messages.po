@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-29 20:36+0200\n"
+"POT-Creation-Date: 2020-05-10 17:59+0200\n"
 "PO-Revision-Date: 2020-03-29 20:29+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -18,93 +18,135 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.0\n"
 
-#: flask_it/auth/routes.py:28
+#: Exploding_Springfield/auth/routes.py:28
+#: build/lib/Exploding_Springfield/auth/routes.py:28
 msgid "Invalid username or password"
 msgstr "Ungültiger Nutzername oder Passwort"
 
-#: flask_it/auth/forms/login_form.py:11 flask_it/auth/routes.py:35
-#: flask_it/templates/auth/login.html:5
+#: Exploding_Springfield/auth/forms/login_form.py:11
+#: Exploding_Springfield/auth/routes.py:35
+#: Exploding_Springfield/templates/auth/login.html:5
+#: build/lib/Exploding_Springfield/auth/forms/login_form.py:11
+#: build/lib/Exploding_Springfield/auth/routes.py:35
+#: build/lib/Exploding_Springfield/templates/auth/login.html:5
 msgid "Sign In"
 msgstr "Login"
 
-#: flask_it/auth/routes.py:54
+#: Exploding_Springfield/auth/routes.py:54
+#: build/lib/Exploding_Springfield/auth/routes.py:54
 msgid "Congratulations, you are now a registered user!"
 msgstr "Glückwunsch, du bist nun registriert!"
 
-#: flask_it/auth/forms/register_form.py:15
-#: flask_it/auth/routes.py:56
-#: flask_it/templates/auth/register.html:5
+#: Exploding_Springfield/auth/forms/register_form.py:15
+#: Exploding_Springfield/auth/routes.py:56
+#: Exploding_Springfield/templates/auth/register.html:5
+#: build/lib/Exploding_Springfield/auth/forms/register_form.py:15
+#: build/lib/Exploding_Springfield/auth/routes.py:56
+#: build/lib/Exploding_Springfield/templates/auth/register.html:5
 msgid "Register"
 msgstr "Registrieren"
 
-#: flask_it/auth/forms/login_form.py:8
-#: flask_it/auth/forms/register_form.py:9
+#: Exploding_Springfield/auth/forms/login_form.py:8
+#: Exploding_Springfield/auth/forms/register_form.py:9
+#: build/lib/Exploding_Springfield/auth/forms/login_form.py:8
+#: build/lib/Exploding_Springfield/auth/forms/register_form.py:9
 msgid "Username"
 msgstr "Nutzername"
 
-#: flask_it/auth/forms/login_form.py:9
-#: flask_it/auth/forms/register_form.py:11
+#: Exploding_Springfield/auth/forms/login_form.py:9
+#: Exploding_Springfield/auth/forms/register_form.py:11
+#: build/lib/Exploding_Springfield/auth/forms/login_form.py:9
+#: build/lib/Exploding_Springfield/auth/forms/register_form.py:11
 msgid "Password"
 msgstr "Passwort"
 
-#: flask_it/auth/forms/login_form.py:10
+#: Exploding_Springfield/auth/forms/login_form.py:10
+#: build/lib/Exploding_Springfield/auth/forms/login_form.py:10
 msgid "Remember Me"
 msgstr "Erinnere mich"
 
-#: flask_it/auth/forms/register_form.py:13
+#: Exploding_Springfield/auth/forms/register_form.py:13
+#: build/lib/Exploding_Springfield/auth/forms/register_form.py:13
 msgid "Repeat Password"
 msgstr "Passwort wiederholen"
 
-#: flask_it/auth/forms/register_form.py:20
+#: Exploding_Springfield/auth/forms/register_form.py:20
+#: build/lib/Exploding_Springfield/auth/forms/register_form.py:20
 msgid "Please use a different username."
 msgstr "Bitte nutze einen anderen Nutzernamen."
 
-#: flask_it/auth/forms/register_form.py:25
+#: Exploding_Springfield/auth/forms/register_form.py:25
+#: build/lib/Exploding_Springfield/auth/forms/register_form.py:25
 msgid "Please use a different email address."
 msgstr "Bitte nutze eine andere Mail Adresse"
 
-#: flask_it/templates/base.html:4
-msgid "Welcome to CookietempleProject"
-msgstr "Willkommen bei Cookietemple"
+#: Exploding_Springfield/templates/base.html:4
+#: build/lib/Exploding_Springfield/templates/base.html:4
+msgid "Welcome to MyProject"
+msgstr "Willkommen zu meinem Projekt"
 
-#: flask_it/templates/base.html:21
+#: Exploding_Springfield/templates/base.html:21
+#: build/lib/Exploding_Springfield/templates/base.html:21
 msgid "Home"
 msgstr ""
 
-#: flask_it/templates/base.html:22
+#: Exploding_Springfield/templates/base.html:22
+#: build/lib/Exploding_Springfield/templates/base.html:22
 msgid "Explore"
 msgstr "Entdecke mein Projekt"
 
-#: flask_it/templates/base.html:26
+#: Exploding_Springfield/templates/base.html:26
+#: build/lib/Exploding_Springfield/templates/base.html:26
 msgid "Login"
-msgstr ""
+msgstr "Einloggen"
 
-#: flask_it/templates/base.html:28
+#: Exploding_Springfield/templates/base.html:28
+#: build/lib/Exploding_Springfield/templates/base.html:28
 msgid "Profile"
 msgstr "Profil"
 
-#: flask_it/templates/base.html:29
+#: Exploding_Springfield/templates/base.html:29
+#: build/lib/Exploding_Springfield/templates/base.html:29
 msgid "Logout"
-msgstr ""
+msgstr "Ausloggen"
 
-#: flask_it/templates/index.html:6
+#: Exploding_Springfield/templates/index.html:51
+#: build/lib/Exploding_Springfield/templates/index.html:51
 #, python-format
-msgid "Hi, %(username)s!"
-msgstr ""
+msgid "Hi %(username)s!"
+msgstr "Hallo %(username)s!"
 
-#: flask_it/templates/index.html:18
-msgid "Login Here"
-msgstr "Login hier"
+#: Exploding_Springfield/templates/index.html:75
+#: build/lib/Exploding_Springfield/templates/index.html:75
+msgid "I am a headline"
+msgstr "Ich bin eine Überschrift"
 
-#: flask_it/templates/index.html:19
-msgid "Logout Here"
-msgstr "Logout hier"
+#: Exploding_Springfield/templates/index.html:76
+#: build/lib/Exploding_Springfield/templates/index.html:76
+msgid ""
+"I am a little text that will get translated by clicking the links in the "
+"headline above!"
+msgstr "Beim Klicke auf den Link oben werde ich ins Englische übersetzt!"
 
-#: flask_it/templates/auth/login.html:12
+#: Exploding_Springfield/templates/auth/login.html:12
+#: build/lib/Exploding_Springfield/templates/auth/login.html:12
 msgid "New User?"
 msgstr "Neu hier?"
 
-#: flask_it/templates/auth/login.html:12
+#: Exploding_Springfield/templates/auth/login.html:12
+#: build/lib/Exploding_Springfield/templates/auth/login.html:12
 msgid "Click to Register!"
 msgstr "Registrieren!"
+
+#~ msgid "Welcome to CookietempleProject"
+#~ msgstr "Willkommen bei Cookietemple"
+
+#~ msgid "Hi, %(username)s!"
+#~ msgstr ""
+
+#~ msgid "Login Here"
+#~ msgstr "Login hier"
+
+#~ msgid "Logout Here"
+#~ msgstr "Logout hier"
 

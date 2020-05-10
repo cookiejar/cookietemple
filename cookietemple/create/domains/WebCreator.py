@@ -2,6 +2,8 @@ import os
 import click
 from pathlib import Path
 from dataclasses import dataclass
+from distutils.dir_util import copy_tree
+from shutil import copy
 
 from cookietemple.create.TemplateCreator import TemplateCreator
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
@@ -23,6 +25,8 @@ class TemplateStructWeb(CookietempleTemplateStruct):
     """
     web_framework: str = ''  # the framework, the user wants to use (if any)
     is_basic_website: str = ''  # indicates whether the user wants a basic website setup or a more advanced with database support etc.
+    use_frontend: str = ''  # indicates whether the user wants a shipped with frontend template or not
+    frontend: str = ''  # the name of the frontend template (if any; the user has several options)
     url: str = ''  # the url for the website (if any)
 
     """
@@ -103,6 +107,15 @@ class WebCreator(TemplateCreator):
         if setup == 'advanced':
             self.web_struct.is_basic_website = 'n'
 
+        self.web_struct.use_frontend = click.confirm('Do you want to initialize your project with a advanced frontend template?')
+
+        # prompt the user for its frontend template, if he wants so
+        if self.web_struct.use_frontend:
+            click.echo('The following templates are available:')
+
+            self.web_struct.frontend = click.prompt('Enter your preferred template or None, if you didn´t like them [Solid State, None]',
+                                                    type=click.Choice(['SolidState', 'None']))
+
         self.web_struct.url = click.prompt('Please enter the project\'s URL (if you have one)',
                                            type=str,
                                            default='dummy.com')
@@ -123,13 +136,15 @@ class WebCreator(TemplateCreator):
 
         super().create_template_with_subdomain_framework(self.TEMPLATES_WEB_PATH, self.web_struct.webtype, self.web_struct.web_framework.lower())
 
-        self.remove_basic_or_advanced_files(self.web_struct.is_basic_website)
+        self.basic_or_advanced_files_with_frontend(self.web_struct.is_basic_website, self.web_struct.frontend.lower())
 
-    def remove_basic_or_advanced_files(self, is_basic: str) -> None:
+    def basic_or_advanced_files_with_frontend(self, is_basic: str, template_name: str) -> None:
         """
-        Remove the dir/files that do not belong in a basic/advanced template.
+        Remove the dir/files that do not belong in a basic/advanced template and add a full featured frontend template
+        if the user wants so.
 
         :param is_basic: Shows whether the user sets up a basic or advanced website setup
+        :param template_name: the name of the frontend template (if any)
         """
         cwd = os.getcwd()
         os.chdir(f'{cwd}/{self.web_struct.project_slug}/{self.web_struct.project_slug}')
@@ -145,17 +160,38 @@ class WebCreator(TemplateCreator):
             os.remove('static/mail_stub.conf')
             os.remove('../babel.cfg')
 
+            if not template_name or template_name == 'none':
+                os.remove('templates/basic_index_f.html')
+
         elif is_basic == 'n':
-            delete_dir_tree(Path('templates/basic'))
             delete_dir_tree(Path('basic'))
 
+        if template_name and template_name != 'none':
+            copy_tree(f'../frontend_templates/{template_name}/assets', 'static/assets')
+            copy(f'../frontend_templates/{template_name}/index.html', 'templates')
+
+            if is_basic == 'y':
+                os.remove('templates/basic_index.html')
+                os.remove('templates/index.html')
+            else:
+                os.remove('templates/basic_index_f.html')
+                os.remove('templates/basic_index.html')
+
+        else:
+            if is_basic == 'n':
+                os.remove('templates/basic_index.html')
+                os.remove('templates/basic_index_f.html')
+
+        delete_dir_tree(Path('../frontend_templates'))
+
         os.chdir(cwd)
+
 
     def website_django_options(self):
         print('TODO')
 
     def handle_rest_api_python(self):
-        '""Handle REST-API templates""'
+        """Handle REST-API templates"""
         print('TO IMPLEMENT - REST API etc.')
 
 
