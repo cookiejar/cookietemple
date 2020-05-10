@@ -111,10 +111,13 @@ class WebCreator(TemplateCreator):
 
         # prompt the user for its frontend template, if he wants so
         if self.web_struct.use_frontend:
-            click.echo('The following templates are available:')
+            click.echo(click.style('The following templates are available:\n', fg='blue'))
+
+            # strings that start with https: are recognized by most terminal (emulators) as links
+            click.echo(click.style('https://html5up.net/solid-state', fg='blue'))
 
             self.web_struct.frontend = click.prompt('Enter your preferred template or None, if you didn´t like them [Solid State, None]',
-                                                    type=click.Choice(['SolidState', 'None']))
+                                                    type=click.Choice(['SolidState', 'None'])).lower()
 
         self.web_struct.url = click.prompt('Please enter the project\'s URL (if you have one)',
                                            type=str,
@@ -149,6 +152,7 @@ class WebCreator(TemplateCreator):
         cwd = os.getcwd()
         os.chdir(f'{cwd}/{self.web_struct.project_slug}/{self.web_struct.project_slug}')
 
+        # remove all stuff, that is not necessary for the basic setup
         if is_basic == 'y':
             delete_dir_tree(Path('translations'))
             delete_dir_tree(Path('auth'))
@@ -160,32 +164,38 @@ class WebCreator(TemplateCreator):
             os.remove('static/mail_stub.conf')
             os.remove('../babel.cfg')
 
+            # the user wants only minimal frontend, so remove the index html file for this
             if not template_name or template_name == 'none':
                 os.remove('templates/basic_index_f.html')
 
+        # remove basic stuff in advanced setup
         elif is_basic == 'n':
             delete_dir_tree(Path('basic'))
 
+        # the user wants to init its project with a full frontend
         if template_name and template_name != 'none':
             copy_tree(f'../frontend_templates/{template_name}/assets', 'static/assets')
             copy(f'../frontend_templates/{template_name}/index.html', 'templates')
 
+            # remove unnecessary files for basic frontend setup
             if is_basic == 'y':
                 os.remove('templates/basic_index.html')
                 os.remove('templates/index.html')
+            # remove unnecessary files for advanced frontend setup
             else:
                 os.remove('templates/basic_index_f.html')
                 os.remove('templates/basic_index.html')
 
         else:
+            # remove basic html files if advanced setup
             if is_basic == 'n':
                 os.remove('templates/basic_index.html')
                 os.remove('templates/basic_index_f.html')
 
+        # remove all frontend stuff
         delete_dir_tree(Path('../frontend_templates'))
 
         os.chdir(cwd)
-
 
     def website_django_options(self):
         print('TODO')

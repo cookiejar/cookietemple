@@ -188,7 +188,7 @@ You can choose from two main options:
 The basic setup
 ++++++++++++++++++++++++++++++++++
 The basic theme is designed to provide only minimal code needed for getting started: Thus it comes
-with only minimal HTML/CSS/JS code and basic Flask configuration.
+with only minimal HTML/CSS/JS code (but you can initalize it with a full featured frontend, if you want to) and basic Flask configuration.
 However, it contains all the code needed for automatic deployment on a LinuxVM and adheres to the COOKIETEMPLE project structure standards.
 See :ref:`web usage` for more information.
 
@@ -287,7 +287,7 @@ See :ref:`web usage` for more information.
 
 The advanced setup
 ++++++++++++++++++++++++++++++++++
-The advanced theme comes with a lot more functionality by default:
+The advanced theme comes with a lot more functionality by default (and can also be initialized with a full featured, nice frontend):
 
 1. It uses `FlaskSQL-Alchemy <https://flask-sqlalchemy.palletsprojects.com/en/2.x/>`_ and `FlaskMigrate <https://flask-migrate.readthedocs.io/en/latest/>`_ to setup a `SQLite <https://www.sqlite.org/index.html>`_ application for simple User Login.
 
@@ -490,6 +490,10 @@ Using the advanced template, you have to consider a few steps more in order to m
 
 2. Now, you have to setup and initialize your SQLite database file using :bash:`$ make init_db`. This step is needed otherwise your app won't work!
 
+3. In order to make your translations working, we need to update and compile the recent translations
+   Therefore :bash:`$ flask translate update` and then :bash:`$ flask translate compile`. Note that you have to :bash:`$ export FLASK_APP=your/path/to/app.py`
+   if not already done. Then, again, run :bash:`$ make install` to pick up your translations into your actual build.
+
 3. Now, fire up :bash:`$ project_slug` and see your project setup working.
 
 A quick note on translations: Your advanced template comes with a basic translation setup for German and English translation.
@@ -500,7 +504,12 @@ As your project grows, you may need to add new translations. This can be easily 
 
 2. :bash:`$ flask translate update` to update all language repositories
 
+3. Now you can update your translations in :bash:`your/path/to/translations/yourlanguage/LC_MESSAGES/messages.po`.
+
 3. :bash:`$ flask translate compile` to compile all language repositories
+
+Note that you need to run :bash:`$ make install` each time after updating and compiling your new translations in order for them to take effect. However, this is not
+necessary, if you start your application via :bash:`$ flask run`.
 
 
 Automatic Deployment
