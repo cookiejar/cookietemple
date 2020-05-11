@@ -121,7 +121,7 @@ or alternatively::
 
 Your package is then installed globally (or in your virtual environment) on your machine and can be called from your favorite shell::
 
-    project_slug
+    <<your_project_name>>
 
 Other make targets include::
 
@@ -176,25 +176,24 @@ Purpose
 ^^^^^^^^
 
 This template is a `Flask <https://flask.palletsprojects.com/en/1.1.x/>`_  based Web Template that can be customized from two basic layouts and many available frontend templates.
-It contains all the code, necessary for project setup and automatic deployment on a LinuxVM.
+It contains all the code, necessary for project setup and automatic deployment on a Linux server.
 
 Design
 ^^^^^^^^
 The whole template is designed to be as customizable as possible. Note that all templates could be customized
-with a full featured Frontend template setup during the template creation process. However, if you don´t like the offered templates or simply
-want to create your own frontend, you can create your template with only a minimal frontend.
+with a full featured Frontend template setup during the template creation process. However, if you don´t like the offered templates or simply want to create your own frontend,
+you can create your template with only a minimal frontend.
 You can choose from two main options:
 
 The basic setup
 ++++++++++++++++++++++++++++++++++
 The basic theme is designed to provide only minimal code needed for getting started: Thus it comes
 with only minimal HTML/CSS/JS code (but you can initalize it with a full featured frontend, if you want to) and basic Flask configuration.
-However, it contains all the code needed for automatic deployment on a LinuxVM and adheres to the COOKIETEMPLE project structure standards.
+However, it contains all the code needed for automatic deployment on a Linux server and adheres to the COOKIETEMPLE project structure standards.
 See :ref:`web usage` for more information.
 
 .. code::
 
-    Exploding_Springfield/
     ├── AUTHORS.rst
     ├── CHANGELOG.rst
     ├── CODEOFCONDUCT.rst
@@ -294,12 +293,11 @@ The advanced theme comes with a lot more functionality by default (and can also 
 2. It provides translation for German and English using `Flask-Babel <https://pythonhosted.org/Flask-Babel/>`_.
 3. It provides sending mail through `Flask-Mail <https://pythonhosted.org/Flask-Mail/>`_.
 4. It provides error handling through custom error pages.
-5. Its configured to be automatically deployed in seconds on a LinuxVM.
+5. Its configured to be automatically deployed in seconds on a Linux server.
 6. More is WIP (Contributions are welcome).
 
 .. code::
 
-    Exploding_Springfield/
     ├── AUTHORS.rst
     ├── babel.cfg
     ├── CHANGELOG.rst
@@ -454,7 +452,7 @@ or alternatively::
 
 Your package is then installed globally (or in your virtual environment) on your machine and can be called from your favorite shell::
 
-    $ project_slug
+    $ <<your_project_name>>
 
 Other make targets include::
 
@@ -484,7 +482,7 @@ Note that, if your current directory contains your app.py file, you do not need 
 
 The advanced template usage
 ++++++++++++++++++++++++++++++++++
-Using the advanced template, you have to consider a few steps more in order to make it work properly:
+Using the advanced template, you have to consider a few more steps in order to make it work properly:
 
 1. You can install the project just like described above via :bash:`$ make install`.
 
@@ -494,7 +492,7 @@ Using the advanced template, you have to consider a few steps more in order to m
    Therefore :bash:`$ flask translate update` and then :bash:`$ flask translate compile`. Note that you have to :bash:`$ export FLASK_APP=your/path/to/app.py`
    if not already done. Then, again, run :bash:`$ make install` to pick up your translations into your actual build.
 
-3. Now, fire up :bash:`$ project_slug` and see your project setup working.
+3. Now, fire up :bash:`$ <<your_project_name>>` and see your project setup working.
 
 A quick note on translations: Your advanced template comes with a basic translation setup for German and English translation.
 As your project grows, you may need to add new translations. This can be easily done using the provided cli-commands by the template:
@@ -519,13 +517,13 @@ Both templates are ready for deployment using nginx and gunicorn and are therefo
 There are a few requirements needed in order to deploy:
 
  1. You need a registered Domain from your preferred DNS-Provider like `Namecheap <https://www.namecheap.com/>`_.
- 2. You need a LinuxVM, like a droplet at `DigitalOcean <https://www.digitalocean.com/>`_, in order to deploy your application.
+ 2. You need a Linux server, like a droplet at `DigitalOcean <https://www.digitalocean.com/>`_, in order to deploy your application.
  3. To start deployment, you have to setup your server initially. You can follow, for example, the steps `here <https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-18-04>`_
     in order to correctly setup your server.
 
 If you meet all the requirements above login (for example via :bash:`$ ssh yourvmusername@your-servers-IP`) into your server and start the setup script::
 
-    $ sudo bash project_slug/deployment_scripts/setup.sh
+    $ sudo bash <<your_project_name>>/deployment_scripts/setup.sh
 
 If everything went fine, you should now be able to access your application at your domain.
 TODO: IM NGINX.conf is atm a duplicate listen port 80. FIX IT?!
