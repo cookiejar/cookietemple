@@ -1,3 +1,4 @@
+/* stylelint-disable no-descending-specificity */
 @import 'libs/vars';
 @import 'libs/functions';
 @import 'libs/mixins';
@@ -15,42 +16,42 @@
 
 // Breakpoints.
 
-	@include breakpoints((
-		xlarge:    (1281px,   1680px   ),
-		large:     (981px,    1280px   ),
-		medium:    (737px,    980px    ),
-		small:     (481px,    736px    ),
-		xsmall:    (361px,    480px    ),
-		xxsmall:   (null,     360px    )
-	));
+@include breakpoints((
+    xlarge: (1281px, 1680px),
+    large: (981px, 1280px),
+    medium: (737px, 980px),
+    small: (481px, 736px),
+    xsmall: (361px, 480px),
+    xxsmall: (null, 360px)
+));
 
 // Base.
 
-	@import 'base/reset';
-	@import 'base/page';
-	@import 'base/typography';
+@import 'base/reset';
+@import 'base/page';
+@import 'base/typography';
 
 // Component.
 
-	@import 'components/row';
-	@import 'components/section';
-	@import 'components/form';
-	@import 'components/box';
-	@import 'components/icon';
-	@import 'components/image';
-	@import 'components/list';
-	@import 'components/actions';
-	@import 'components/icons';
-	@import 'components/contact';
-	@import 'components/pagination';
-	@import 'components/table';
-	@import 'components/button';
-	@import 'components/features';
+@import 'components/row';
+@import 'components/section';
+@import 'components/form';
+@import 'components/box';
+@import 'components/icon';
+@import 'components/image';
+@import 'components/list';
+@import 'components/actions';
+@import 'components/icons';
+@import 'components/contact';
+@import 'components/pagination';
+@import 'components/table';
+@import 'components/button';
+@import 'components/features';
 
 // Layout.
 
-	@import 'layout/header';
-	@import 'layout/menu';
-	@import 'layout/banner';
-	@import 'layout/wrapper';
-	@import 'layout/footer';
+@import 'layout/header';
+@import 'layout/menu';
+@import 'layout/banner';
+@import 'layout/wrapper';
+@import 'layout/footer';

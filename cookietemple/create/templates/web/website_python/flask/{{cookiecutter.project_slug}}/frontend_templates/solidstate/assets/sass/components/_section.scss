@@ -1,3 +1,4 @@
+/* stylelint-disable no-descending-specificity */
 ///
 /// Solid State by HTML5 UP
 /// html5up.net | @ajlkn
@@ -6,8 +7,8 @@
 
 /* Section/Article */
 
-	section, article {
-		&.special {
-			text-align: center;
-		}
-	}
+section, article {
+    &.special {
+        text-align: center;
+    }
+}

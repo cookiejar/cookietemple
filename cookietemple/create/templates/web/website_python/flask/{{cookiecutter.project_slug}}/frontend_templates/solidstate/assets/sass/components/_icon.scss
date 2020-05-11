@@ -1,3 +1,4 @@
+/* stylelint-disable no-descending-specificity */
 ///
 /// Solid State by HTML5 UP
 /// html5up.net | @ajlkn
@@ -6,28 +7,28 @@
 
 /* Icon */
 
-	.icon {
-		@include icon;
-		border-bottom: none;
-		position: relative;
+.icon {
+    @include icon;
+    border-bottom: none;
+    position: relative;
 
-		> .label {
-			display: none;
-		}
+    > .label {
+        display: none;
+    }
 
-		&:before {
-			line-height: inherit;
-		}
+    &:before {
+        line-height: inherit;
+    }
 
-		&.solid {
-			&:before {
-				font-weight: 900;
-			}
-		}
+    &.solid {
+        &:before {
+            font-weight: 900;
+        }
+    }
 
-		&.brands {
-			&:before {
-				font-family: 'Font Awesome 5 Brands';
-			}
-		}
-	}
+    &.brands {
+        &:before {
+            font-family: 'Font Awesome 5 Brands';
+        }
+    }
+}

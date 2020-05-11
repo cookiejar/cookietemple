@@ -1,3 +1,4 @@
+/* stylelint-disable no-descending-specificity */
 ///
 /// Solid State by HTML5 UP
 /// html5up.net | @ajlkn
@@ -6,30 +7,30 @@
 
 /* Row */
 
-	.row {
-		@include html-grid(1.75em);
+.row {
+    @include html-grid(1.75em);
 
-		@include breakpoint('<=xlarge') {
-			@include html-grid(1.75em, xlarge);
-		}
+    @include breakpoint('<=xlarge') {
+        @include html-grid(1.75em, xlarge);
+    }
 
-		@include breakpoint('<=large') {
-			@include html-grid(1.75em, large);
-		}
+    @include breakpoint('<=large') {
+        @include html-grid(1.75em, large);
+    }
 
-		@include breakpoint('<=medium') {
-			@include html-grid(1.75em, medium);
-		}
+    @include breakpoint('<=medium') {
+        @include html-grid(1.75em, medium);
+    }
 
-		@include breakpoint('<=small') {
-			@include html-grid(1.25em, small);
-		}
+    @include breakpoint('<=small') {
+        @include html-grid(1.25em, small);
+    }
 
-		@include breakpoint('<=xsmall') {
-			@include html-grid(1.25em, xsmall);
-		}
+    @include breakpoint('<=xsmall') {
+        @include html-grid(1.25em, xsmall);
+    }
 
-		@include breakpoint('<=xxsmall') {
-			@include html-grid(1.25em, xxsmall);
-		}
-	}
+    @include breakpoint('<=xxsmall') {
+        @include html-grid(1.25em, xxsmall);
+    }
+}

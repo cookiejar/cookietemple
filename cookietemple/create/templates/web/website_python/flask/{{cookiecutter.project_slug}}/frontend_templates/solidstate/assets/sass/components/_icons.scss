@@ -1,3 +1,4 @@
+/* stylelint-disable no-descending-specificity */
 ///
 /// Solid State by HTML5 UP
 /// html5up.net | @ajlkn
@@ -6,23 +7,23 @@
 
 /* Icons */
 
-	ul.icons {
-		cursor: default;
-		list-style: none;
-		padding-left: 0;
+ul.icons {
+    cursor: default;
+    list-style: none;
+    padding-left: 0;
 
-		li {
-			display: inline-block;
-			padding: 0 1em 0 0;
+    li {
+        display: inline-block;
+        padding: 0 1em 0 0;
 
-			&:last-child {
-				padding-right: 0;
-			}
+        &:last-child {
+            padding-right: 0;
+        }
 
-			.icon {
-				&:before {
-					font-size: 1.25em;
-				}
-			}
-		}
-	}
+        .icon {
+            &:before {
+                font-size: 1.25em;
+            }
+        }
+    }
+}
