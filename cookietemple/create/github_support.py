@@ -190,7 +190,7 @@ def is_git_accessible() -> bool:
     git_installed = Popen(['git', '--version'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_installed_stdout, git_installed_stderr) = git_installed.communicate()
     if git_installed.returncode != 0:
-        click.echo(click.style(f'Could not find \'git\' in the PATH. Is it installed?', fg='red'))
+        click.echo(click.style('Could not find \'git\' in the PATH. Is it installed?', fg='red'))
         click.echo(click.style('Run command was: git', fg='red'))
         return False
 

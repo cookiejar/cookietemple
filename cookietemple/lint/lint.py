@@ -51,7 +51,7 @@ def lint_project(project_dir: str, run_coala: bool = False, coala_interactive: b
             lint_obj.lint(f'{template_handle} Linting')
     except AssertionError as e:
         click.echo(click.style(f'Critical error: {e}', fg='red'))
-        click.echo(click.style(f'Stopping tests...', fg='red'))
+        click.echo(click.style('Stopping tests...', fg='red'))
         return lint_obj
 
     # Print the results
@@ -111,8 +111,8 @@ def is_coala_accessible() -> bool:
     coala_installed = Popen(['git', '--version'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (coala_installed_stdout, coala_installed_stderr) = coala_installed.communicate()
     if coala_installed.returncode != 0:
-        click.echo(click.style(f'Could not find \'coala\' in the PATH. Is it installed?', fg='red'))
-        click.echo(click.style(f'Coala should have been installed with COOKIETEMPLE. Please use a virtual environment for COOKIETEMPLE', fg='blue'))
+        click.echo(click.style('Could not find \'coala\' in the PATH. Is it installed?', fg='red'))
+        click.echo(click.style('Coala should have been installed with COOKIETEMPLE. Please use a virtual environment for COOKIETEMPLE', fg='blue'))
         click.echo(click.style('Run command was: coala', fg='red'))
         return False
 

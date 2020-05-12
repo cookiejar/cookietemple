@@ -57,7 +57,7 @@ class HelpErrorHandling(click.Group):
         if not matches:
             ctx.fail(click.style('Unknown command and no similar command was found!', fg='red'))
         elif len(matches) == 1:
-            click.echo(click.style(f'Unknown command! Will use best match ', fg='red') + click.style(f'{matches[0]}.', fg='green'))
+            click.echo(click.style('Unknown command! Will use best match ', fg='red') + click.style(f'{matches[0]}.', fg='green'))
             return click.Group.get_command(self, ctx, matches[0])
         ctx.fail(click.style(f'Unknown command. Most similar commands were {", ".join(sorted(matches))}', fg='red'))
 
