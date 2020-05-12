@@ -28,7 +28,7 @@ def warp_project(input_dir: str, exec: str, output: str) -> None:
     click.echo(click.style(f'For more details please visit:    {warp_info["url"]}    for more information.', fg='blue'))
 
     # Depending on the platform we need to call different Warp executables and handle permissions differently!
-    click.echo(click.style(f'Detected {platform}', fg='blue'))
+    click.echo(click.style(f'Detected {platform}', fg='green'))
     if platform == 'linux' or platform == 'linux2':
         run_unix_warp(WARP_LINUX_PATH, 'linux-x64', input_dir, exec, output)
     elif platform == 'darwin':

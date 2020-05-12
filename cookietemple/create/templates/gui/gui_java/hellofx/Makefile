@@ -39,6 +39,18 @@ verify: clean ## verify is more strict than test
 
 # coverage: ## check code coverage quickly with the default Python
 
+compile: clean
+	mvn compile
+
+binary: dist ## creates a self contained, platform specific executable with bundled JRE
+	cookietemple warp --input_dir target/{{ cookiecutter.project_slug }}/ --exec bin/launcher --output {{ cookiecutter.project_slug }}.bin
+
+dist: clean ## builds source and wheel package
+	mvn javafx:jlink
+
+install: clean ## install the package to the active local Maven repository
+	mvn install
+
 docs: ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/{{ cookiecutter.project_slug }}.rst
 	rm -f docs/modules.rst
@@ -49,12 +61,3 @@ docs: ## generate Sphinx HTML documentation, including API docs
 
 servedocs: docs ## compile the docs watching for changes
 	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
-
-release: dist ## creates a self contained, platform specific executable with bundled JRE
-	cookietemple warp --input_dir target/hellofx/ --exec bin/launcher --output java_gui.bin
-
-dist: clean ## builds source and wheel package
-	mvn javafx:jlink
-
-install: clean ## install the package to the active local Maven
-	mvn install
