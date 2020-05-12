@@ -416,12 +416,14 @@ make heavy use of its extensions.
 3. `pytest <https://docs.pytest.org/en/latest/>`_ or `unittest <https://docs.python.org/3/library/unittest.html>`_ as testing frameworks
 4. Preconfigured `tox <https://tox.readthedocs.io/en/latest/>`_ to run pytest matrices with different Python environments
 5. Preconfigured `readthedocs <https://readthedocs.org/>`_
-6. Four Github workflows:
+6. Five Github workflows:
 
   1. :code:`build_docs.yml`, which builds the readthedocs documentation.
   2. :code:`build_package.yml`, which builds the web-template package.
   3. :code:`flake8_linting.yml`, which runs `flake8 <https://flake8.pycqa.org/en/latest/>`_ linting.
   4. :code:`tox_testsuite.yml`, which runs the tox testing suite.
+  5. :code:`css_lint.yml`, which runs `Stylelint <https://stylelint.io/>`_ CSS linting.
+
 
 We highly recommend to use click (if commandline interface is required) together with pytest.
 
@@ -530,7 +532,7 @@ If everything went fine, you should now be able to access your application at yo
 TODO: IM NGINX.conf is atm a duplicate listen port 80. FIX IT?!
 Note that the setup process also includes HTTP to HTTPS redirecting.
 
-If you encounter any problems, dont hesitate to drop us a message in our discord or create an issue `at our github repo <https://github.com/Zethson/cookietemple/issues/new/choose>`_
+If you encounter any problems, dont hesitate to drop us a message in our `Discord <https://discord.com/channels/708008788505919599/708008788505919602>`_. or create an issue `at our github repo <https://github.com/cookiejar/cookietemple/issues/new/choose>`_
 
 gui-java
 ---------

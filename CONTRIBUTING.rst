@@ -7,7 +7,7 @@ Contributing
 ============
 
 Contributions are welcome, and they are greatly appreciated! Every little bit helps, and credit will always be given.
-A great start would be to join our `Discord server <https://discord.com/channels/708008788505919599/708008788505919602>`_.
+If you have any questions or want to get in touch with the core team feel free to join our `Discord server <https://discord.com/channels/708008788505919599/708008788505919602>`_.
 
 You can contribute in many ways:
 

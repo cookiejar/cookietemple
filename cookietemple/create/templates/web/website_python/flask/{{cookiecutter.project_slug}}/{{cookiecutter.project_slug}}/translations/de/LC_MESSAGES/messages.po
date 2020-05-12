@@ -73,12 +73,12 @@ msgstr "Passwort wiederholen"
 #: Exploding_Springfield/auth/forms/register_form.py:20
 #: build/lib/Exploding_Springfield/auth/forms/register_form.py:20
 msgid "Please use a different username."
-msgstr "Bitte nutze einen anderen Nutzernamen."
+msgstr "Bitte verwende einen anderen Nutzernamen."
 
 #: Exploding_Springfield/auth/forms/register_form.py:25
 #: build/lib/Exploding_Springfield/auth/forms/register_form.py:25
 msgid "Please use a different email address."
-msgstr "Bitte nutze eine andere Mail Adresse"
+msgstr "Bitte verwende eine andere Mail Adresse"
 
 #: Exploding_Springfield/templates/base.html:4
 #: build/lib/Exploding_Springfield/templates/base.html:4
