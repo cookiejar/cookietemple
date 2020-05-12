@@ -176,7 +176,8 @@ Purpose
 ^^^^^^^^
 
 This template is a `Flask <https://flask.palletsprojects.com/en/1.1.x/>`_  based Web Template that can be customized from two basic layouts and many available frontend templates.
-It contains all the code, necessary for project setup and automatic deployment on a Linux server.
+It contains all the code, necessary for project setup and automatic deployment on a Linux server. It also provides a GitHub Workflow for automatic CSS linting on push using
+`Stylelint <https://stylelint.io/>`_.
 
 Design
 ^^^^^^^^
