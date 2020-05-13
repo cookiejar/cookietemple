@@ -12,14 +12,21 @@ class WebWebsitePythonLint(TemplateLinter):
     def __init__(self, path):
         super().__init__(path)
 
-    def lint(self, label):
+    def lint(self, label, is_create):
         methods = ['python_files_exist']
         super().lint_project(self, methods, label=label)
 
-        # Call autopep8
-        click.echo(click.style('Running autopep8 to fix pep8 issues in place', ))
-        autopep8 = Popen(['autopep8', self.path, '--recursive', '--in-place', '--pep8-passes', '2000'], universal_newlines=True, shell=False, close_fds=True)
-        (autopep8_stdout, autopep8_stderr) = autopep8.communicate()
+        # Call autopep8, if needed
+        if is_create:
+            click.echo(click.style('Running autopep8 to fix pep8 issues in place', ))
+            autopep8 = Popen(['autopep8', self.path, '--recursive', '--in-place', '--pep8-passes', '2000'], universal_newlines=True, shell=False,
+                             close_fds=True)
+            (autopep8_stdout, autopep8_stderr) = autopep8.communicate()
+        elif click.confirm('Do you want to run autopep8 to fix pep8 issues?'):
+            click.echo(click.style('Running autopep8 to fix pep8 issues in place', ))
+            autopep8 = Popen(['autopep8', self.path, '--recursive', '--in-place', '--pep8-passes', '2000'], universal_newlines=True, shell=False,
+                             close_fds=True)
+            (autopep8_stdout, autopep8_stderr) = autopep8.communicate()
 
     def python_files_exist(self) -> None:
         """

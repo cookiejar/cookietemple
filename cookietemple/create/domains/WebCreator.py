@@ -2,6 +2,8 @@ import os
 import click
 from pathlib import Path
 from dataclasses import dataclass
+from distutils.dir_util import copy_tree
+from shutil import copy
 
 from cookietemple.create.TemplateCreator import TemplateCreator
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
@@ -23,12 +25,14 @@ class TemplateStructWeb(CookietempleTemplateStruct):
     """
     web_framework: str = ''  # the framework, the user wants to use (if any)
     is_basic_website: str = ''  # indicates whether the user wants a basic website setup or a more advanced with database support etc.
+    use_frontend: str = ''  # indicates whether the user wants a shipped with frontend template or not
+    frontend: str = ''  # the name of the frontend template (if any; the user has several options)
     url: str = ''  # the url for the website (if any)
 
     """
     This section contains some attributes specific for website projects
     """
-    vm_username: str = ''  # the username (if any) for a VM (only necessary for Deployment in a Linux VM)
+    vmusername: str = ''  # the username (if any) for a VM (only necessary for Deployment in a Linux VM)
 
 
 class WebCreator(TemplateCreator):
@@ -47,7 +51,7 @@ class WebCreator(TemplateCreator):
         Handles the Web domain. Prompts the user for the language, general and domain specific options.
         """
         self.web_struct.language = click.prompt('Please choose between the following languages [python, javascript, java]',
-                                                type=click.Choice(['python', 'javascript', 'java']))
+                                                type=click.Choice(['python', 'javascript', 'java'])).lower()
 
         # prompt the user to fetch general template configurations
         super().prompt_general_template_configuration()
@@ -103,6 +107,18 @@ class WebCreator(TemplateCreator):
         if setup == 'advanced':
             self.web_struct.is_basic_website = 'n'
 
+        self.web_struct.use_frontend = click.confirm('Do you want to initialize your project with a advanced frontend template?')
+
+        # prompt the user for its frontend template, if he wants so
+        if self.web_struct.use_frontend:
+            click.echo(click.style('The following templates are available:\n', fg='blue'))
+
+            # strings that start with https: are recognized by most terminal (emulators) as links
+            click.echo(click.style('https://html5up.net/solid-state', fg='blue'))
+
+            self.web_struct.frontend = click.prompt('Enter your preferred template or None, if you didn´t like them [Solid State, None]',
+                                                    type=click.Choice(['SolidState', 'None'])).lower()
+
         self.web_struct.url = click.prompt('Please enter the project\'s URL (if you have one)',
                                            type=str,
                                            default='dummy.com')
@@ -117,23 +133,26 @@ class WebCreator(TemplateCreator):
         """
         Create a flask website template.
         """
-        self.web_struct.vm_username = click.prompt('Please enter your VM username (if you have one)',
-                                                   type=str,
-                                                   default='cookietempleuser')
+        self.web_struct.vmusername = click.prompt('Please enter your VM username (if you have one)',
+                                                  type=str,
+                                                  default='cookietempleuser')
 
         super().create_template_with_subdomain_framework(self.TEMPLATES_WEB_PATH, self.web_struct.webtype, self.web_struct.web_framework.lower())
 
-        self.remove_basic_or_advanced_files(self.web_struct.is_basic_website)
+        self.basic_or_advanced_files_with_frontend(self.web_struct.is_basic_website, self.web_struct.frontend.lower())
 
-    def remove_basic_or_advanced_files(self, is_basic: str) -> None:
+    def basic_or_advanced_files_with_frontend(self, is_basic: str, template_name: str) -> None:
         """
-        Remove the dir/files that do not belong in a basic/advanced template.
+        Remove the dir/files that do not belong in a basic/advanced template and add a full featured frontend template
+        if the user wants so.
 
         :param is_basic: Shows whether the user sets up a basic or advanced website setup
+        :param template_name: the name of the frontend template (if any)
         """
         cwd = os.getcwd()
         os.chdir(f'{cwd}/{self.web_struct.project_slug}/{self.web_struct.project_slug}')
 
+        # remove all stuff, that is not necessary for the basic setup
         if is_basic == 'y':
             delete_dir_tree(Path('translations'))
             delete_dir_tree(Path('auth'))
@@ -145,9 +164,36 @@ class WebCreator(TemplateCreator):
             os.remove('static/mail_stub.conf')
             os.remove('../babel.cfg')
 
+            # the user wants only minimal frontend, so remove the index html file for this
+            if not template_name or template_name == 'none':
+                os.remove('templates/basic_index_f.html')
+
+        # remove basic stuff in advanced setup
         elif is_basic == 'n':
-            delete_dir_tree(Path('templates/basic'))
             delete_dir_tree(Path('basic'))
+
+        # the user wants to init its project with a full frontend
+        if template_name and template_name != 'none':
+            copy_tree(f'../frontend_templates/{template_name}/assets', 'static/assets')
+            copy(f'../frontend_templates/{template_name}/index.html', 'templates')
+
+            # remove unnecessary files for basic frontend setup
+            if is_basic == 'y':
+                os.remove('templates/basic_index.html')
+                os.remove('templates/index.html')
+            # remove unnecessary files for advanced frontend setup
+            else:
+                os.remove('templates/basic_index_f.html')
+                os.remove('templates/basic_index.html')
+
+        else:
+            # remove basic html files if advanced setup
+            if is_basic == 'n':
+                os.remove('templates/basic_index.html')
+                os.remove('templates/basic_index_f.html')
+
+        # remove all frontend stuff
+        delete_dir_tree(Path('../frontend_templates'))
 
         os.chdir(cwd)
 
@@ -155,7 +201,7 @@ class WebCreator(TemplateCreator):
         print('TODO')
 
     def handle_rest_api_python(self):
-        '""Handle REST-API templates""'
+        """Handle REST-API templates"""
         print('TO IMPLEMENT - REST API etc.')
 
 

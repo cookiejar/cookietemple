@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 
 """Tests for `{{cookiecutter.project_slug}}` package."""
-
+import pytest
+from flask import Flask
+from {{cookiecutter.project_slug}}.config import Config
+{% if cookiecutter.is_basic_website == 'n' -%}
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_mail import Mail
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_babel import Babel
-import pytest
-from flask import Flask
-from {{cookiecutter.project_slug}}.config import Config
-{ % if cookiecutter.is_basic_website == 'n' - %}
+{% endif %}
 
 
 @pytest.fixture
@@ -29,7 +29,7 @@ def test_content(response):
     # from bs4 import BeautifulSoup
     # assert 'GitHub' in BeautifulSoup(response.content).title.string
 
-
+{% if cookiecutter.is_basic_website == 'n' -%}
 def create_test_app():
     migrate = Migrate()
     db = SQLAlchemy()
@@ -63,7 +63,7 @@ def create_test_app():
     return app
 
 
-def test_something():
+def test_redirect():
     flask_app = create_test_app()
 
     # Flask provides a way to test your application by exposing the Werkzeug test Client
@@ -71,8 +71,8 @@ def test_something():
     testing_client = flask_app.test_client()
     response = testing_client.get('/')
     assert response.status_code == 302  # assert redirecting
-    { % endif % }
-{ % if cookiecutter.is_basic_website == 'y' - %}
+    {% endif %}
+{% if cookiecutter.is_basic_website == 'y' -%}
 
 
 def create_test_app():
@@ -90,7 +90,7 @@ def create_test_app():
     return app
 
 
-def test_something():
+def test_redirect():
     flask_app = create_test_app()
 
     # Flask provides a way to test your application by exposing the Werkzeug test Client
@@ -98,4 +98,4 @@ def test_something():
     testing_client = flask_app.test_client()
     response = testing_client.get('/')
     assert response.status_code == 302  # assert redirecting
-    { % endif % }
+    {% endif %}

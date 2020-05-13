@@ -1,0 +1,42 @@
+name: Create web-website-python Flask Template
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: [3.7, 3.8]
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out source-code repository
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Build Cookietemple
+        run: |
+          python setup.py clean --all install
+
+      - name: Create web-website-python basic Flask Template
+        run: |
+          echo -e "web\npython\nHomer\nhomer.simpson@hotmail.com\nExplodingSpringfield\ndescription\n1.0.0\nMIT\nhomergithub\nClick\npytest\nwebsite\nflask\nbasic\ndummy.com\ncookietempleuser\nn" | cookietemple create
+
+      - name: Create web-website-python advanced Flask Template
+        run: |
+          echo -e "web\npython\nHomer\nhomer.simpson@hotmail.com\nExplodingSpringfieldAdvanced\ndescription\n1.0.0\nMIT\nhomergithub\nClick\npytest\nwebsite\nflask\nadvanced\ndummy.com\ncookietempleuser\nn" | cookietemple create
+
+      - name: Build basic Package
+        run: |
+             cd ExplodingSpringfield
+             make install
+
+      - name: Build advanced Package
+        run: |
+             cd ExplodingSpringfieldAdvanced
+             make install

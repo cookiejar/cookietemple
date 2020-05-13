@@ -36,7 +36,7 @@ class CliCreator(TemplateCreator):
         """
 
         self.cli_struct.language = click.prompt('Choose between the following languages [python, java, kotlin]',
-                                                type=click.Choice(['python', 'java', 'kotlin'])).capitalize()
+                                                type=click.Choice(['python', 'java', 'kotlin'])).lower()
 
         # prompt the user to fetch general template configurations
         super().prompt_general_template_configuration()
