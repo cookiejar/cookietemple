@@ -98,13 +98,15 @@ Included frameworks/libraries
 3. `pytest <https://docs.pytest.org/en/latest/>`_ or `unittest <https://docs.python.org/3/library/unittest.html>`_ as testing frameworks
 4. Preconfigured `tox <https://tox.readthedocs.io/en/latest/>`_ to run pytest matrices with different Python environments
 5. Preconfigured `readthedocs <https://readthedocs.org/>`_
-6. Five Github workflows:
+6. Six Github workflows:
 
   1. :code:`build_docs.yml`, which builds the readthedocs documentation.
   2. :code:`build_package.yml`, which builds the cli-python package.
   3. :code:`flake8_linting.yml`, which runs `flake8 <https://flake8.pycqa.org/en/latest/>`_ linting.
   4. :code:`tox_testsuite.yml`, which runs the tox testing suite.
   5. :code:`publish_package.yml`, which publishes the package to PyPi. Note that it only runs on Github release and requires PyPi secrets to be set up.
+  6. :code:`pr_to_master_from_dev_only.yml`, checks, in a case of a PR to master branch, that the merged branch is development branch.
+
 
 We highly recommend to use click (if commandline interface is required) together with pytest.
 
@@ -197,26 +199,23 @@ See :ref:`web usage` for more information.
 
     ├── AUTHORS.rst
     ├── CHANGELOG.rst
+    ├── .coafile
     ├── CODEOFCONDUCT.rst
     ├── cookietemple.cfg
     ├── .cookietemple.yml
     ├── .dependabot
     │   └── config.yml
-    ├── deployment_scripts
-    │   ├── Exploding_Springfield
-    │   ├── Exploding_Springfield.service
-    │   ├── README.md
-    │   └── setup.sh
     ├── Dockerfile
     ├── docs
     │   ├── authors.rst
     │   ├── changelog.rst
+    │   ├── codeofconduct.rst
     │   ├── conf.py
-    │   ├── contributing.rst
     │   ├── index.rst
     │   ├── installation.rst
     │   ├── make.bat
     │   ├── Makefile
+    │   ├── modules.rst
     │   ├── readme.rst
     │   ├── requirements.txt
     │   ├── _static
@@ -224,39 +223,11 @@ See :ref:`web usage` for more information.
     │   └── usage.rst
     ├── .editorconfig
     ├── Exploding_Springfield
-    │   ├── app.py
-    │   ├── basic
-    │   │   ├── __init__.py
-    │   │   └── routes.py
-    │   ├── config.py
-    │   ├── errors
-    │   │   ├── handlers.py
-    │   │   └── __init__.py
-    │   ├── __init__.py
-    │   ├── main
-    │   │   ├── __init__.py
-    │   │   └── routes.py
-    │   ├── server.py
-    │   ├── static
-    │   │   └── assets
-    │   │       ├── css
-    │   │       │   ├── gitkeep
-    │   │       │   └── min_css.css
-    │   │       ├── fonts
-    │   │       │   └── gitkeep
-    │   │       └── js
-    │   │           ├── gitkeep
-    │   │           └── min_jss.js
-    │   └── templates
-    │       ├── basic
-    │       │   └── basic.html
-    │       └── errors
-    │           ├── 400.html
-    │           ├── 403.html
-    │           ├── 404.html
-    │           ├── 410.html
-    │           ├── 500.html
-    │           └── error_template.html
+    │   ├── cli.py
+    │   ├── Exploding_Springfield.py
+    │   ├── files
+    │   │   └── test.txt
+    │   └── __init__.py
     ├── .github
     │   ├── ISSUE_TEMPLATE
     │   │   ├── bug_report.md
@@ -267,6 +238,8 @@ See :ref:`web usage` for more information.
     │       ├── build_docs.yml
     │       ├── build_package.yml
     │       ├── flake8_linting.yml
+    │       ├── pr_to_master_from_dev_only.yml
+    │       ├── publish_package.yml
     │       └── tox_testsuite.yml
     ├── .gitignore
     ├── LICENSE
@@ -355,10 +328,21 @@ The advanced theme comes with a lot more functionality by default (and can also 
     │   │   ├── assets
     │   │   │   ├── css
     │   │   │   │   └── min_css.css
-    │   │   │   ├── fonts
+    │   │   │   ├── images
     │   │   │   │   └── gitkeep
-    │   │   │   └── js
-    │   │   │       └── min_jss.js
+    │   │   │   ├── js
+    │   │   │   │   └── min_jss.js
+    │   │   │   ├── sass
+    │   │   │   │   ├── base
+    │   │   │   │   │   └── gitkeep
+    │   │   │   │   ├── components
+    │   │   │   │   │   └── gitkeep
+    │   │   │   │   ├── layout
+    │   │   │   │   │   └── gitkeep
+    │   │   │   │   └── libs
+    │   │   │   │       └── gitkeep
+    │   │   │   └── webfonts
+    │   │   │       └── gitkeep
     │   │   └── mail_stub.conf
     │   ├── templates
     │   │   ├── auth
@@ -387,7 +371,9 @@ The advanced theme comes with a lot more functionality by default (and can also 
     │   └── workflows
     │       ├── build_docs.yml
     │       ├── build_package.yml
+    │       ├── css_lint.yml
     │       ├── flake8_linting.yml
+    │       ├── pr_to_master_from_dev_only.yml
     │       └── tox_testsuite.yml
     ├── .gitignore
     ├── LICENSE
@@ -399,6 +385,7 @@ The advanced theme comes with a lot more functionality by default (and can also 
     ├── requirements.txt
     ├── setup.cfg
     ├── setup.py
+    ├── .stylelintrc.json
     ├── tests
     │   ├── __init__.py
     │   └── test_Exploding_Springfield.py
@@ -416,13 +403,14 @@ make heavy use of its extensions.
 3. `pytest <https://docs.pytest.org/en/latest/>`_ or `unittest <https://docs.python.org/3/library/unittest.html>`_ as testing frameworks
 4. Preconfigured `tox <https://tox.readthedocs.io/en/latest/>`_ to run pytest matrices with different Python environments
 5. Preconfigured `readthedocs <https://readthedocs.org/>`_
-6. Five Github workflows:
+6. Six Github workflows:
 
   1. :code:`build_docs.yml`, which builds the readthedocs documentation.
   2. :code:`build_package.yml`, which builds the web-template package.
   3. :code:`flake8_linting.yml`, which runs `flake8 <https://flake8.pycqa.org/en/latest/>`_ linting.
   4. :code:`tox_testsuite.yml`, which runs the tox testing suite.
   5. :code:`css_lint.yml`, which runs `Stylelint <https://stylelint.io/>`_ CSS linting.
+  6. :code:`pr_to_master_from_dev_only.yml`, checks, in a case of a PR to master branch, that the merged branch is development branch.
 
 
 We highly recommend to use click (if commandline interface is required) together with pytest.

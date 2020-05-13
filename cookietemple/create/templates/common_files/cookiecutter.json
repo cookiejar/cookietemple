@@ -6,5 +6,9 @@
   "version": "0.1.0",
   "license": "MIT",
   "project_short_description" : "A cookietemple template",
-  "language": "Language"
+  "language": "Language",
+    "_copy_without_render": [
+        "*.yml"
+    ]
 }
+
