@@ -43,7 +43,7 @@ compile: clean
 	mvn compile
 
 binary: dist ## creates a self contained, platform specific executable with bundled JRE
-	cookietemple warp --input_dir target/{{ cookiecutter.project_slug}}/ --exec bin/launcher --output {{ cookiecutter.project_slug }}.bin
+	cookietemple warp --input_dir target/{{ cookiecutter.project_slug }}/ --exec bin/launcher --output {{ cookiecutter.project_slug }}.bin
 
 dist: clean ## builds source and wheel package
 	mvn javafx:jlink
