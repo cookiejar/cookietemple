@@ -50,7 +50,7 @@ class CliCreator(TemplateCreator):
         switcher.get(self.cli_struct.language.lower(), lambda: 'Invalid language!')(self.creator_ctx)
 
         # create the chosen and configured template
-        super().create_template_without_subdomain(f'{self.TEMPLATES_CLI_PATH}')
+        super().create_template_without_subdomain(self.TEMPLATES_CLI_PATH)
 
         # switch case statement to fetch the template version
         switcher_version = {

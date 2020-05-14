@@ -3,31 +3,29 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.openjfx</groupId>
-    <artifactId>hellofx</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>{{ cookiecutter.project_slug }}</artifactId>
+    <version>{{ cookiecutter.version }}-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>hellofx</name>
+    <name>{{ cookiecutter.project_slug }}</name>
 
     <organization>
         <!-- Used as the 'Vendor' for JNLP generation -->
-        <name>Your Organisation</name>
+        <name>openjfx</name>
     </organization>
 
     <developers>
         <developer>
-            <id>jt</id>
-            <name>John Thompson</name>
-            <email>john@springframework.guru</email>
+            <id>{{ cookiecutter.id }}</id>
+            <name>{{ cookiecutter.full_name }}</name>
+            <email>{{ cookiecutter.email }}</email>
         </developer>
     </developers>
 
-    <inceptionYear>2020</inceptionYear>
-
     <licenses>
         <license>
-            <name>The Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <name>{{ cookiecutter.license }}</name>
+            <!-- <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url> -->
         </license>
     </licenses>
 
@@ -114,9 +112,9 @@
                 <version>${javafx-maven-plugin.version}</version>
                 <configuration>
                     <release>${maven.compiler.release}</release>
-                    <jlinkImageName>hellofx</jlinkImageName>
+                    <jlinkImageName>{{ cookiecutter.project_slug }}</jlinkImageName>
                     <launcher>launcher</launcher>
-                    <mainClass>hellofx/org.openjfx.MainApp</mainClass>
+                    <mainClass>{{ cookiecutter.project_slug }}/org.openjfx.MainApp</mainClass>
                 </configuration>
             </plugin>
             <plugin>

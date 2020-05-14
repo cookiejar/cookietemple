@@ -1,4 +1,4 @@
-module hellofx {
+module openjfx {
     requires javafx.controls;
     requires javafx.fxml;
 
