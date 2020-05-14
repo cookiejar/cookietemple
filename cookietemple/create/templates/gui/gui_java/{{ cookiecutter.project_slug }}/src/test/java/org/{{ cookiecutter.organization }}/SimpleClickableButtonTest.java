@@ -1,4 +1,4 @@
-package test.java.org.openjfx;
+package test.java.org.{{ cookiecutter.organization }};
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

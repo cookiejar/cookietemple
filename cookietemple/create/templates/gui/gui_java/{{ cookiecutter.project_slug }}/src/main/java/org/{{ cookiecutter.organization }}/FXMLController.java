@@ -1,4 +1,4 @@
-package org.openjfx;
+package org.{{ cookiecutter.organization }};
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

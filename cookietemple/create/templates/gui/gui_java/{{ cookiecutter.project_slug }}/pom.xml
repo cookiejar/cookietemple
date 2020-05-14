@@ -2,16 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.openjfx</groupId>
+    <groupId>org.{{ cookiecutter.organization }}</groupId>
     <artifactId>{{ cookiecutter.project_slug }}</artifactId>
-    <version>{{ cookiecutter.version }}-SNAPSHOT</version>
+    <version>{{ cookiecutter.version }}-SNAPSHOT</version> <!-- <<COOKIETEMPLE_FORCE_BUMP>> -->
     <packaging>jar</packaging>
 
-    <name>{{ cookiecutter.project_slug }}</name>
+    <name>{{ cookiecutter.project_name }}</name>
 
     <organization>
         <!-- Used as the 'Vendor' for JNLP generation -->
-        <name>openjfx</name>
+        <name>{{ cookiecutter.organization }}</name>
     </organization>
 
     <developers>
@@ -34,17 +34,17 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>11</maven.compiler.release>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <javafx-maven-plugin.version>0.0.3</javafx-maven-plugin.version>
-        <javafx.version>13</javafx.version>
+        <javafx-maven-plugin.version>0.0.3</javafx-maven-plugin.version> <!-- Be aware when upgrading here! https://github.com/openjfx/javafx-maven-plugin/issues/68-->
+        <javafx.version>14</javafx.version>
         <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
         <junit5.surefireprovider.version>1.2.0</junit5.surefireprovider.version>
-        <junit5.jupterengine.version>5.5.2</junit5.jupterengine.version>
+        <junit5.jupterengine.version>5.6.2</junit5.jupterengine.version>
         <testfx-junit5.version>4.0.16-alpha</testfx-junit5.version>
         <spock-core.version>1.3-groovy-2.5</spock-core.version>
         <testfx-spock.version>4.0.16-alpha</testfx-spock.version>
-        <assertj-core.version>3.13.2</assertj-core.version>
-        <junit-jupiter-engine.version>5.5.2</junit-jupiter-engine.version>
-        <maven-failsafe-plugin.version>2.22.0</maven-failsafe-plugin.version>
+        <assertj-core.version>3.16.1</assertj-core.version>
+        <junit-jupiter-engine.version>5.6.2</junit-jupiter-engine.version>
+        <maven-failsafe-plugin.version>2.22.2</maven-failsafe-plugin.version>
     </properties>
 
     <dependencies>
@@ -114,7 +114,7 @@
                     <release>${maven.compiler.release}</release>
                     <jlinkImageName>{{ cookiecutter.project_slug }}</jlinkImageName>
                     <launcher>launcher</launcher>
-                    <mainClass>{{ cookiecutter.project_slug }}/org.openjfx.MainApp</mainClass>
+                    <mainClass>{{ cookiecutter.project_slug }}/org.{{ cookiecutter.organization }}.MainApp</mainClass>
                 </configuration>
             </plugin>
             <plugin>

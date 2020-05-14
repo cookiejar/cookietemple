@@ -179,7 +179,7 @@ class TemplateCreator:
 
         poss_vers = click.prompt('Please enter the initial version of your project.',
                                  type=str,
-                                 default='0.1.0')
+                                 default='1.0.0')
 
         # make sure that the version has the right format
         while not re.match(r'[0-9]+\.[0-9]+\.[0-9]+', poss_vers):
@@ -187,7 +187,7 @@ class TemplateCreator:
                                    'Please enter the version in the format [number].[number].[number]!', fg='red'))
             poss_vers = click.prompt('Please enter the initial version of your project.',
                                      type=str,
-                                     default='0.1.0')
+                                     default='1.0.0')
 
         self.creator_ctx.version = poss_vers
 

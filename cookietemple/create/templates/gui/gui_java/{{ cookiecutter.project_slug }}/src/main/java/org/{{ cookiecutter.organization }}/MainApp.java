@@ -1,4 +1,4 @@
-package org.openjfx;
+package org.{{ cookiecutter.organization }};
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
