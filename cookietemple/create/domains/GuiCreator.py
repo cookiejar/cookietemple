@@ -60,7 +60,7 @@ class GuiCreator(TemplateCreator):
         """
         # The user id is automatically determined from the full_name as first letter of first name and sur name
         full_name_split = self.creator_ctx.full_name.split()
-        self.gui_struct.id = f'{full_name_split[0][0]}{full_name_split[1][0]}' if len(full_name_split) > 1 else f'full_name_split[0][0]'
+        self.gui_struct.id = f'{full_name_split[0][0]}{full_name_split[1][0]}' if len(full_name_split) > 1 else f'{full_name_split[0][0]}'
         self.gui_struct.organization = click.prompt('Organization:',
                                                     type=str,
                                                     default='cookiejar')

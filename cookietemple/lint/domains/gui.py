@@ -1,7 +1,4 @@
 import os
-from subprocess import Popen
-
-import click
 
 from cookietemple.lint.TemplateLinter import TemplateLinter, files_exist_linting
 

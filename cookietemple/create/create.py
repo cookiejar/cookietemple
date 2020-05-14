@@ -1,4 +1,3 @@
-import os
 import click
 
 from cookietemple.create.domains.CliCreator import CliCreator
