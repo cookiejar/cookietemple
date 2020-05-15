@@ -1,13 +1,9 @@
-import os
 import click
 
 from cookietemple.create.domains.CliCreator import CliCreator
 from cookietemple.create.domains.WebCreator import WebCreator
 from cookietemple.create.domains.GuiCreator import GuiCreator
 from cookietemple.create.domains.PubCreator import PubCreator
-
-WD = os.path.dirname(__file__)
-CWD = os.getcwd()
 
 
 def choose_domain(domain: str):

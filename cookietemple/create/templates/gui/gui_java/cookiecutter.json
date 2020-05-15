@@ -1,0 +1,12 @@
+{
+  "full_name": "Homer Simpson",
+  "id": "HS",
+  "organization": "com",
+  "email": "homer.simpson@example.com",
+  "github_username": "homersimpson",
+  "project_name": "Java GUI project.",
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "project_short_description": "GUI Java contains all the boilerplate you need to create a standalone JavaFX application.",
+  "version": "1.0.0",
+  "license": ["MIT", "BSD", "ISC", "Apache2.0", "GNUv3", "Not open source"]
+}

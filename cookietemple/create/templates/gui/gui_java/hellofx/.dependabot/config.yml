@@ -1,9 +1,0 @@
-version: 1
-update_configs:
-  - package_manager: "java-maven"
-    directory: "/"
-    target_branch: "development"
-    default_labels:
-        - "dependabot"
-    commit_message:
-        prefix: "[DEPENDABOT]"

@@ -163,6 +163,9 @@ hs_err_pid*
 
 # Coala
 *.orig
+
+# Compiled classes
+target/
 {% endif %}
 
 

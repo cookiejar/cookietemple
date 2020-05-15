@@ -9,6 +9,7 @@ from ruamel.yaml import YAML
 from cookietemple.lint.TemplateLinter import TemplateLinter
 from cookietemple.lint.domains.cli import CliPythonLint
 from cookietemple.lint.domains.web import WebWebsitePythonLint
+from cookietemple.lint.domains.gui import GuiJavaLint
 from cookietemple.lint.domains.pub import PubLatexLint
 
 
@@ -23,6 +24,7 @@ def lint_project(project_dir: str, run_coala: bool = False, coala_interactive: b
     switcher = {
         'cli-python': CliPythonLint,
         'web-website-python': WebWebsitePythonLint,
+        'gui-java': GuiJavaLint,
         'pub-thesis-latex': PubLatexLint
     }
 
