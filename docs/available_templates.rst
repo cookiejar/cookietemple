@@ -272,7 +272,7 @@ Included frameworks/libraries
 1. `Apache Maven <https://maven.apache.org/>`_ to build and solve dependencies
 2. `JavaFX (14) <https://openjfx.io/>`_ to build a graphical user interface
 3. `JavaFX Maven plugin <https://github.com/openjfx/javafx-maven-plugin>`_ to build a modular package with a JRE
-4. :ref:`warp` to create a single, distributable, platform specific binary
+4. :ref:`warp_f` to create a single, distributable, platform specific binary
 5. `JUnit 5 <https://junit.org/junit5/>`_ for unit tests
 6. `TestFX <https://github.com/TestFX/TestFX>`_ for JavaFX GUI tests
 7. Preconfigured `readthedocs <https://readthedocs.org/>`_
@@ -287,8 +287,37 @@ Usage
 ^^^^^^^^
 
 | The usage of gui-java is primarily Makefile based. Please be aware that you need `Apache Maven <https://maven.apache.org/>`_ and Java 11+ installed.
+| All (Maven) commands are wrapped into Make commands, but can of course also be called directly:
 
-To
+The generated gui-java project can be installed using::
+
+    make install
+
+Other make targets include::
+
+    make clean
+
+which removes all build files::
+
+    make dist
+
+which runs jlink to build the gui-java project with a custom platform dependent JRE.
+Be aware, that this results in six folders. The executable binary can be found in the target/bin folder and is called ``launcher``.
+
+If you want to package the resulting custom JRE together with the launcher and all other required files (aka the six folders), then run the::
+
+    make binary
+
+goal. ``make binary`` calls the ``make dist`` goal and then packages the files into a single, platform dependent executable using :ref:`warp_f`.
+This executable can then be easily distributed.
+
+Tests can be run via::
+
+    make test
+
+All possible Makefile commands can be viewed using::
+
+    make help
 
 gui-kotlin
 -------------
