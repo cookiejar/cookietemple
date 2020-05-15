@@ -282,6 +282,7 @@ Included frameworks/libraries
   2. :code:`compile_package.yml`, which compiles the gui-java project.
   3. :code:`java_linting.yml`, which runs `checkstyle <https://checkstyle.sourceforge.io/>`_ linting using Google's ruleset.
   4. :code:`run_tests.yml`, which runs the Unit tests. Note that this workflow is currently disabled, since GUI unittests are not possible using Github Actions.
+  5. :code:`pr_to_master_from_dev_only.yml`, checks, in a case of a PR to master branch, that the merged branch is development branch.
 
 Usage
 ^^^^^^^^
