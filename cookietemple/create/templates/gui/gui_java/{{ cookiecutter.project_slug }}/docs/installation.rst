@@ -5,26 +5,8 @@ Installation
 ============
 
 
-Stable release
+From Sources
 --------------
-
-To install {{ cookiecutter.project_name }}, run this command in your terminal:
-
-.. code-block:: console
-
-    $ pip install {{ cookiecutter.project_slug }}
-
-This is the preferred method to install {{ cookiecutter.project_name }}, as it will always install the most recent stable release.
-
-If you don't have `pip`_ installed, this `Python installation guide`_ can guide
-you through the process.
-
-.. _pip: https://pip.pypa.io
-.. _Python installation guide: http://docs.python-guide.org/en/latest/starting/installation/
-
-
-From sources
-------------
 
 The sources for {{ cookiecutter.project_name }} can be downloaded from the `Github repo`_.
 
@@ -40,12 +22,26 @@ Or download the `tarball`_:
 
     $ curl -OJL https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/tarball/master
 
-Once you have a copy of the source, you can install it with:
+To install {{ cookiecutter.project_name }}, run this command in your terminal:
 
 .. code-block:: console
 
-    $ python setup.py install
+    $ make install
 
+The installation requires `Maven <https://maven.apache.org/>`_ and Java 11+.
+To compile {{ cookiecutter.project_name }} run::
 
-.. _Github repo: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}
-.. _tarball: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/tarball/master
+    $ make compile
+
+Moreover, to package {{ cookiecutter.project_name }} with a custom, platform dependent JRE run:
+
+    $ make dist
+
+To finally link all those files together into a single executable and distributable binary run:
+
+    $ make binary
+
+Please note that this functionality requires `COOKIETEMPLE <https://cookietemple.com>`_.
+
+.. _Github repo: https://github.com/cookiejardealer/cookietemple
+.. _tarball: https://github.com/cookiejardealer/cookietemple/tarball/master

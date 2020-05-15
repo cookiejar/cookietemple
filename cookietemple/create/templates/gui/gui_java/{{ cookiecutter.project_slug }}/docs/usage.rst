@@ -2,6 +2,7 @@
 Usage
 =====
 
-To use {{ cookiecutter.project_name }} in a project::
+Execute the distributed binary.
 
-    import {{ cookiecutter.project_slug }}
+..
+    TODO COOKIETEMPLE: Write your usage docs here
