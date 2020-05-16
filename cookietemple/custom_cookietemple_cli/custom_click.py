@@ -75,7 +75,7 @@ class HelpErrorHandling(click.Group):
             sys.exit(1)
 
         elif cmd == 'bump-version':
-            click.echo('Failed to execute ', fg='red' + click.style(f'{cmd.upper()}. ', fg='red')
+            click.echo(click.style('Failed to execute ', fg='red') + click.style(f'{cmd.upper()}. ', fg='red')
                        + click.style('Please provide a new version like ', fg='blue')
                        + click.style('1.2.3 ', fg='green') + click.style('as first argument', fg='blue'))
             sys.exit(1)

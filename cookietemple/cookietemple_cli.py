@@ -60,7 +60,6 @@ def cookietemple_cli(ctx, verbose):
 def create(domain: str) -> None:
     """
     Create a new project using one of our templates
-
     """
     choose_domain(domain)
 
@@ -91,12 +90,11 @@ def list() -> None:
 def info(ctx, handle: str) -> None:
     """
     Get detailed info on a COOKIETEMPLE template domain or a single template
-
     """
     if not handle:
         HelpErrorHandling.args_not_provided(ctx, 'info')
     else:
-        show_info(handle)
+        show_info(handle.lower())
 
 
 @cookietemple_cli.command(help_priority=5, short_help='Sync your project with the latest template release.')
