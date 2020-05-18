@@ -6,7 +6,7 @@ from distutils.dir_util import copy_tree
 
 from cookietemple.create.create import choose_domain
 from cookietemple.util.dir_util import delete_dir_tree
-from tests.create.test_create import (subdir_dependabot, subdir_github)
+from tests.create.create_cli.test_cli_template_creation import (subdir_dependabot, subdir_github)
 
 
 @pytest.fixture
@@ -94,21 +94,3 @@ def test_choose_domain_web_advanced_website_flask(monkeypatch, valid_domains, tm
             set(Path(tmp_path / '.github').iterdir()) == subdir_github(tmp_path) and
             set(Path(tmp_path / 'projectname').iterdir()) == website_front_end_tests(tmp_path) and
             set(Path(tmp_path / 'deployment_scripts').iterdir()) == deployment_script_tests(tmp_path))
-
-
-# TODO: Use Linter to ensure that nothing changed (cookiecutter extra content)
-def test_repo_already_exists_no_overwrite_if_false(mocker, monkeypatch, capfd, valid_domains) -> None:
-    """
-    This test ensures that the creation of a flask website template is canceled if it already exists and the user
-    doesn´t want it to be overwritten.
-    """
-    mocker.patch.object(os.path, 'isdir', autospec=True)
-    os.path.isdir.return_value = True
-    prompt = StringIO(f'{valid_domains[2]}\npython\nname\nmail\nprojectname\ndesc\n0.1.0'
-                      f'\nMIT\nmyGitHubName\npypiname\nClick\npytest\nwebsite\nflask\nbasic\ndmydomain.com\nvmname\nn')
-    monkeypatch.setattr('sys.stdin', prompt)
-
-    with pytest.raises(SystemExit):
-        choose_domain('')
-        out, err = capfd.readouterr()
-        assert out.strip() == 'Aborted! Canceled template creation!'

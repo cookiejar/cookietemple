@@ -10,12 +10,13 @@ def valid_version_bumpers():
     """
     Return a list of valid versions for bumping executed one after another (Order matters!).
     """
-    return ['12.12.12', '12.12.13', '12.13.0', '12.13.9', '13.0.0', '13.0.40', '100.0.0']
+    return ['12.12.12', '12.12.13', '12.13.0-SNAPSHOT', '12.13.9', '13.0.0', '13.0.40', '100.0.0', '100.0.1-SNAPSHOT', '100.0.1']
 
 
 def test_bump_version(mocker, valid_version_bumpers) -> None:
     """
-    Test bump version in white- and blacklisted files
+    Test bump version in white- and blacklisted files.
+    NOTE: If you edit the test files, you must edit the ranges here to (initially versions[0-9] are bumped, the rest should not be bumped)
     """
     mocker.patch.object(Path, 'cwd', autospec=True)
     Path.cwd.return_value = str(os.path.abspath(os.path.dirname(__file__)))
@@ -39,11 +40,11 @@ def get_file_versions_after_bump(cwd: Path) -> (list, list):
     """
     with open(f'{cwd}/bump_version_test_files/bump_test_file_whitelisting', 'r') as bumped_file_whitelisted:
         bumped_data = bumped_file_whitelisted.read()
-        bumped_versions_whitelisted = re.findall(r'(?<!\.)\d+(?:\.\d+){2}(?!\.)', bumped_data)
+        bumped_versions_whitelisted = re.findall(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', bumped_data)
 
     with open(f'{cwd}/bump_version_test_files/bump_test_file_blacklisting', 'r') as bumped_file_blacklisted:
         bumped_data = bumped_file_blacklisted.read()
-        bumped_versions_blacklisted = re.findall(r'(?<!\.)\d+(?:\.\d+){2}(?!\.)', bumped_data)
+        bumped_versions_blacklisted = re.findall(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', bumped_data)
 
     return bumped_versions_whitelisted, bumped_versions_blacklisted
 

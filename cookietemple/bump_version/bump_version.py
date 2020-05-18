@@ -85,7 +85,7 @@ def replace(file_path: str, subst: str, section: str) -> (bool, str):
             for line in old_file:
                 # update version if tags were found (and were in the right section)
                 if ('<<COOKIETEMPLE_NO_BUMP>>' not in line and not section == 'bumpversion_files_blacklisted') or '<<COOKIETEMPLE_FORCE_BUMP>>' in line:
-                    tmp = re.sub(r'(?<!\.)\d+(?:\.\d+){2}(?!\.)', subst, line)
+                    tmp = re.sub(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', subst, line)
                     new_file.write(tmp)
                     if tmp != line:
                         if file_is_unchanged:
@@ -112,7 +112,7 @@ def can_run_bump_version(new_version: str, project_dir: str) -> bool:
     """
     Ensure that all requirements are met, so that the bump version command can be run successfully.
     This included the following requirements:
-    1.) The new version matches the format [0-9]+.[0-9]+.[0-9]+
+    1.) The new version matches the format required by COOKIETEMPLE versions
     2.) The new version is greater than the current one
     3.) The project is a COOKIETEMPLE project
 
@@ -121,9 +121,9 @@ def can_run_bump_version(new_version: str, project_dir: str) -> bool:
     :return: True if bump version can be run, false otherwise.
     """
     # ensure that the entered version number matches correct format
-    if not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?!\.)', new_version):
+    if not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', new_version):
         click.echo(click.style('Invalid version specified!\nEnsure your version number has the form '
-                               'like 0.0.0 or 15.100.239', fg='red'))
+                               'like 0.0.0 or 15.100.239-SNAPSHOT', fg='red'))
         return False
 
     # ensure the version is bumped within a project created by Cookietemple
