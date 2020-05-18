@@ -4,7 +4,7 @@ import click
 
 from tabulate import tabulate
 
-from cookietemple.info.levensthein_dist import most_similar_command
+from cookietemple.custom_cookietemple_cli.levensthein_dist import most_similar_command
 from cookietemple.list.list import load_available_templates
 from cookietemple.util.dict_util import is_nested_dictionary
 from cookietemple.custom_cookietemple_cli.suggest_similar_commands import load_available_handles

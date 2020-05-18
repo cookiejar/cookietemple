@@ -85,7 +85,7 @@ def replace(file_path: str, subst: str, section: str) -> (bool, str):
             for line in old_file:
                 # update version if tags were found (and were in the right section)
                 if ('<<COOKIETEMPLE_NO_BUMP>>' not in line and not section == 'bumpversion_files_blacklisted') or '<<COOKIETEMPLE_FORCE_BUMP>>' in line:
-                    tmp = re.sub(r'[0-9]+\.[0-9]+\.[0-9]+', subst, line)
+                    tmp = re.sub(r'(?<!\.)\d+(?:\.\d+){2}(?!\.)', subst, line)
                     new_file.write(tmp)
                     if tmp != line:
                         if file_is_unchanged:
@@ -121,7 +121,7 @@ def can_run_bump_version(new_version: str, project_dir: str) -> bool:
     :return: True if bump version can be run, false otherwise.
     """
     # ensure that the entered version number matches correct format
-    if not re.match(r"[0-9]+\.[0-9]+\.[0-9]+", new_version):
+    if not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?!\.)', new_version):
         click.echo(click.style('Invalid version specified!\nEnsure your version number has the form '
                                'like 0.0.0 or 15.100.239', fg='red'))
         return False

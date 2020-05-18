@@ -1,0 +1,31 @@
+This simple text file contains some test strings with many possible combinations of a blacklisted file
+
+some_version = 0.0.0 #should be bumped;<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->
+some_version = 0.0.0 #should be bumped; <!-- <<COOKIETEMPLE_FORCE_BUMP>> -->
+some_version = 0.0.0 #should be bumped; <!-- <<COOKIETEMPLE_FORCE_BUMP>> -->
+some_version = f'{myvar} 0.0.0' # should be bumped; <<COOKIETEMPLE_FORCE_BUMP>>
+some_version = 0.0.0 #should be bumped; my project version <<COOKIETEMPLE_FORCE_BUMP>>
+
+#==================Some higher version should be bumped==========
+
+some_version = 0.0.0 should be bumped; my project version <<COOKIETEMPLE_FORCE_BUMP>>
+some_version=0.0.0 //should be bumped; my project version <<COOKIETEMPLE_FORCE_BUMP>>
+some_version= v0.0.0 #<<COOKIETEMPLE_FORCE_BUMP>>should be bumped; my project version
+some_version = f'{myvar} v0.0.0' #should be bumped; my project version<<COOKIETEMPLE_FORCE_BUMP>>
+some_version = 0.0.0dev #should be bumped; <<COOKIETEMPLE_FORCE_BUMP>> my project version
+
+#====================Now Dont bump===============================
+
+some_version = 0.0.0 # should not be bumped
+some_version = "0.0.0" # should not be bumped
+some_version = 'v0.0.0' # should be bumped
+some_version = f'{myvar} 0.0.0' # should not be bumped
+some_version = 0.0.0dev //should not be bumped
+some_decimal = 1.0 # my comment
+some_decimal = 0.123456 # my comment
+some_decimal = 123.4567
+some_string = "1.2 SomeString"
+some_string = 1.2.3.4 My String'
+some_string 1.2.3.4.5 dots .. My String'
+my.chained.function_call()
+

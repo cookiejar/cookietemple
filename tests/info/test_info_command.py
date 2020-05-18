@@ -3,7 +3,7 @@ import pytest
 from click.testing import CliRunner
 
 from cookietemple.info.info import show_info
-from cookietemple.info.levensthein_dist import most_similar_command
+from cookietemple.custom_cookietemple_cli.levensthein_dist import most_similar_command
 from cookietemple.cookietemple_cli import info
 
 """
@@ -233,7 +233,7 @@ def test_most_similar_command_gui_with_language(get_commands_with_similar_comman
 
 
 def test_most_similar_command_web_with_subdomain_and_language(get_commands_with_similar_command_web_with_subdomain_and_language, get_all_valid_handles_as_set) \
-     -> None:
+    -> None:
     """
     This test the most similar command for cli with language specified.
     All is needed in the rare case if there are multiple similar handles.
@@ -243,7 +243,7 @@ def test_most_similar_command_web_with_subdomain_and_language(get_commands_with_
 
 
 def test_most_similar_command_pub_with_subdomain_and_language(get_commands_with_similar_command_pub_with_subdomain_and_language, get_all_valid_handles_as_set) \
-     -> None:
+    -> None:
     """
     This test the most similar command for cli with language specified.
     All is needed in the rare case if there are multiple similar handles.

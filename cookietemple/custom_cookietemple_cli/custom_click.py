@@ -2,7 +2,7 @@ import click
 import sys
 
 from cookietemple.custom_cookietemple_cli.suggest_similar_commands import MAIN_COMMANDS
-from cookietemple.info.levensthein_dist import most_similar_command
+from cookietemple.custom_cookietemple_cli.levensthein_dist import most_similar_command
 
 
 class HelpErrorHandling(click.Group):
