@@ -156,6 +156,7 @@ class WebCreator(TemplateCreator):
         if is_basic == 'y':
             delete_dir_tree(Path('translations'))
             delete_dir_tree(Path('auth'))
+            delete_dir_tree(Path('main'))
             delete_dir_tree(Path('models'))
             delete_dir_tree(Path('services'))
             delete_dir_tree(Path('templates/auth'))
