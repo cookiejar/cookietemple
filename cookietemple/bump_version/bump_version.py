@@ -13,7 +13,14 @@ from cookietemple.create.github_support import is_git_repo
 
 def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
     """
-    Update the version number for all files that are whitelisted in the config file
+    Update the version number for all files that are whitelisted in the config file.
+
+    INFO on valid versions: All versions must match the format like 1.0.0 or 1.1.0-SNAPSHOT; these are the only valid
+    version formats COOKIETEMPLE allows. A valid version therefore contains a three digits (in the range from 0 to however large it will grow)
+    separated by two dots.
+    Optional is the -SNAPSHOT at the end (for JVM templates especially). NOTE that versions like 1.2.3.4 or 1.2 WILL NOT be recognized as valid versions as
+    well as no substring of them will be recognized.
+
     :param new_version: The new version number that should replace the old one in a cookietemple project
     :param pipeline_dir: The default value is the current working directory, so we´re initially assuming the user
                          bumps the version from the projects top level directory. If this is not the case this parameter
@@ -26,7 +33,7 @@ def bump_template_version(new_version: str, pipeline_dir: Path) -> None:
 
     # if pipeline_dir was given as handle use cwd since we need it for git add
     ct_cfg_path = f'{str(pipeline_dir)}/cookietemple.cfg' if str(pipeline_dir).startswith(str(Path.cwd())) else \
-                  f'{str(Path.cwd())}/{pipeline_dir}/cookietemple.cfg'
+        f'{str(Path.cwd())}/{pipeline_dir}/cookietemple.cfg'
 
     # keep path of all files that were changed during bump version
     changed_files = [ct_cfg_path]
@@ -85,6 +92,7 @@ def replace(file_path: str, subst: str, section: str) -> (bool, str):
             for line in old_file:
                 # update version if tags were found (and were in the right section)
                 if ('<<COOKIETEMPLE_NO_BUMP>>' not in line and not section == 'bumpversion_files_blacklisted') or '<<COOKIETEMPLE_FORCE_BUMP>>' in line:
+                    # for info on this regex, see bump_template docstring above
                     tmp = re.sub(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', subst, line)
                     new_file.write(tmp)
                     if tmp != line:
@@ -112,7 +120,7 @@ def can_run_bump_version(new_version: str, project_dir: str) -> bool:
     """
     Ensure that all requirements are met, so that the bump version command can be run successfully.
     This included the following requirements:
-    1.) The new version matches the format required by COOKIETEMPLE versions
+    1.) The new version number matches the format like 1.1.0 or 1.1.0-SNAPSHOT required by COOKIETEMPLE versions
     2.) The new version is greater than the current one
     3.) The project is a COOKIETEMPLE project
 
@@ -120,7 +128,7 @@ def can_run_bump_version(new_version: str, project_dir: str) -> bool:
     :param project_dir: The directory of the project
     :return: True if bump version can be run, false otherwise.
     """
-    # ensure that the entered version number matches correct format
+    # ensure that the entered version number matches correct format like 1.1.0 or 1.1.0-SNAPSHOT but not 1.2 or 1.2.3.4
     if not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', new_version):
         click.echo(click.style('Invalid version specified!\nEnsure your version number has the form '
                                'like 0.0.0 or 15.100.239-SNAPSHOT', fg='red'))
