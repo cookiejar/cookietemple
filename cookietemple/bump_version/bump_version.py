@@ -149,8 +149,7 @@ def can_run_bump_version(new_version: str, project_dir: str, downgrade: bool) ->
 
     # equal versions wont be accepted for bump-version
     elif new_version == current_version:
-        click.echo(click.style(
-            f'The new version {new_version} cannot be equal to the current version {current_version}.', fg='red'))
+        click.echo(click.style(f'The new version {new_version} cannot be equal to the current version {current_version}.', fg='red'))
         return False
 
     # ensure the new version is greater than the current one, if not the user wants to explicitly downgrade it
@@ -169,9 +168,8 @@ def can_run_bump_version(new_version: str, project_dir: str, downgrade: bool) ->
 
         # the new version is not greater than the current one
         if not is_greater:
-            click.echo(click.style(
-                f'The new version {new_version} is not greater than the current version {current_version}.'
-                f'\nThe new version must be greater than the old one.', fg='red'))
+            click.echo(click.style(f'The new version {new_version} is not greater than the current version {current_version}.'
+                                   f'\nThe new version must be greater than the old one.', fg='red'))
 
         return is_greater
     return True

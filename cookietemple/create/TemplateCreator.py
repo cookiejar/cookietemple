@@ -3,6 +3,7 @@ import sys
 import shutil
 import re
 import tempfile
+import requests
 from distutils.dir_util import copy_tree
 from shutil import copy2
 from pathlib import Path
@@ -66,7 +67,7 @@ class TemplateCreator:
             # rename the currently created template to a temporary name, create Github repo, push, remove temporary template
             tmp_project_path = f'{project_path}_cookietemple_tmp'
             os.rename(project_path, tmp_project_path)
-            create_push_github_repository(project_name, 'some description', tmp_project_path, self.creator_ctx.github_username)
+            create_push_github_repository(project_name, self.creator_ctx.project_short_description, tmp_project_path, self.creator_ctx.github_username)
             shutil.rmtree(tmp_project_path, ignore_errors=True)
 
     def create_template_without_subdomain(self, domain_path: str) -> None:
@@ -169,9 +170,15 @@ class TemplateCreator:
         self.creator_ctx.email = click.prompt('Please enter your personal or work email',
                                               type=str,
                                               default='homer.simpson@example.com')
-        self.creator_ctx.project_name = click.prompt('Please enter your project name',
-                                                     type=str,
-                                                     default='Exploding Springfield')
+        self.creator_ctx.project_name = click.prompt('Please enter your project name', type=str, default='Exploding Springfield')
+
+        # check if the project name is already taken on readthedocs.io
+        while self.readthedocs_slug_already_exists(self.creator_ctx.project_name):
+            click.echo(click.style(f'A project named {self.creator_ctx.project_name} already exists at readthedocs.io!', fg='red'))
+            if click.confirm(click.style('Do you want to choose another name for your project?\nOtherwise you are not able to host your docs at '
+                                         'readthedocs.io!', fg='blue')):
+                self.creator_ctx.project_name = click.prompt('Please enter your project name', type=str, default='Exploding Springfield')
+
         self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_')
         self.creator_ctx.project_short_description = click.prompt('Please enter a short description of your project.',
                                                                   type=str,
@@ -241,6 +248,17 @@ class TemplateCreator:
         delete_dir_tree(Path(f'{Path.cwd()}/common_files_util'))
         shutil.rmtree(dirpath)
         os.chdir(str(cwd_project))
+
+    def readthedocs_slug_already_exists(self, project_name: str) -> bool:
+        """
+        Test if there´s already a project with the same name on readthedocs
+        :param project_name Name of the project the user wants to create
+        """
+        request = requests.get(f'https://{project_name.replace(" ", "")}.readthedocs.io')
+        if request.status_code == 200:
+            return True
+        else:
+            return False
 
     def copy_into_already_existing_directory(self, common_path, dir: Path) -> None:
         """

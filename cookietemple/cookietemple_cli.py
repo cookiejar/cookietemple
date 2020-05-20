@@ -119,6 +119,9 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
     separated by two dots.
     Optional is the -SNAPSHOT at the end (for JVM templates especially). NOTE that versions like 1.2.3.4 or 1.2 WILL NOT be recognized as valid versions as
     well as no substring of them will be recognized.
+
+    Unless the user indicates downgrade via he -d flag, a downgrade of a version is never allowed. Note that bump-version with the new version
+    equals the current version is never allowed, either with or without -d.
     """
     if not new_version:
         HelpErrorHandling.args_not_provided(ctx, 'bump-version')

@@ -27,15 +27,10 @@ def create_push_github_repository(project_name: str, project_description: str, t
     # the personal access token for GitHub
     access_token = handle_pat_authentification()
 
-    is_github_org: bool = click.prompt('Do you want to create an organization repository? [y, n]',
-                                       type=bool,
-                                       default='No')
+    is_github_org: bool = click.prompt('Do you want to create an organization repository? [y, n]', type=bool, default='No')
     if is_github_org:
-        github_org: str = click.prompt('Please enter the name of the Github organization: ',
-                                       type=str)
-    private: bool = click.prompt('Do you want your repository to be private?  [y, n]',
-                                 type=bool,
-                                 default='No')
+        github_org: str = click.prompt('Please enter the name of the Github organization: ', type=str)
+    private: bool = click.prompt('Do you want your repository to be private?  [y, n]', type=bool, default='No')
 
     # Login to Github
     click.echo(click.style('Logging into Github.', fg='blue'))
@@ -70,7 +65,7 @@ def create_push_github_repository(project_name: str, project_description: str, t
     cloned_repo.git.add(A=True)
 
     # git commit
-    cloned_repo.index.commit('Initial commit')
+    cloned_repo.index.commit(f'Created {project_name} using COOKIETEMPLE.')
 
     click.echo(click.style('Pushing template to Github origin master.', fg='blue'))
     cloned_repo.remotes.origin.push(refspec='master:master')

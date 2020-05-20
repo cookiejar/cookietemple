@@ -129,8 +129,8 @@ Hence, at this level we see :code:`cookietemple_cli.py` and a folder per CLI com
    your python version or your environment you may run into an :code:`InterpreterNotFound-Exception`. To fix this, you may have to change :code:`envlist = py37, py38, flake8`
    to :code:`envlist = python3.7, python3.8, flake8`.
 
-   Another more simple option is to run :code:`pytest relative/path/to/tests` to run all tests or :code:`pytest relative/path/to/tests/my/test` to run just a subset
-   of the tests.
+   Another more simple option is to run :code:`make test` to run all tests (make sure your in the top level directory of cookietemple when calling this command)
+   or :code:`pytest relative/path/to/tests/my/test` to run just a subset of the tests.
 
 
 7. | The only things that is left to do now is to add a new Github Actions workflow for our template. Let's go one level up in the folder tree and create :code:`.github/workflows/create_cli_brainfuck.yml`.
