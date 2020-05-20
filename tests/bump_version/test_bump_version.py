@@ -2,7 +2,10 @@ import re
 import pytest
 import os
 from pathlib import Path
+from click.testing import CliRunner
+
 from cookietemple.bump_version.bump_version import bump_template_version, replace
+from cookietemple.cookietemple_cli import bump_version
 
 
 @pytest.fixture
@@ -30,6 +33,26 @@ def test_bump_version(mocker, valid_version_bumpers) -> None:
                (all(versions_blacklisted[i] == version for i in range(10)) and
                 all(versions_blacklisted[i] != version for i in range(10, len(versions_blacklisted))))
     reset_after_bump_test(Path.cwd())
+
+
+def test_same_version_throws_error() -> None:
+    """
+    Call bump-version with the same version as the current results in error.
+    """
+    runner = CliRunner()
+    result = runner.invoke(bump_version, ['0.0.0', str(os.path.abspath(os.path.dirname(__file__)))])
+
+    assert result.exit_code != 0
+
+
+def test_bad_dir_throws_error() -> None:
+    """
+    Call bump-version in a directory not containing a cookietemple.cfg file results in error.
+    """
+    runner = CliRunner()
+    result = runner.invoke(bump_version, ['0.0.0', str(os.path.abspath(os.path.dirname(__file__))) + '/bump_version_test_files'])
+
+    assert result.exit_code != 0
 
 
 def get_file_versions_after_bump(cwd: Path) -> (list, list):

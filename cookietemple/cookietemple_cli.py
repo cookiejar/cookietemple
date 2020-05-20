@@ -108,8 +108,9 @@ def sync() -> None:
 @cookietemple_cli.command('bump-version', help_priority=6, short_help='Bump the version of an existing COOKIETEMPLE project.')
 @click.argument('new_version', type=str, required=False)
 @click.argument('project_dir', type=click.Path(), default=Path(f'{Path.cwd()}'))
+@click.option('--downgrade', '-d', is_flag=True)
 @click.pass_context
-def bump_version(ctx, new_version, project_dir) -> None:
+def bump_version(ctx, new_version, project_dir, downgrade) -> None:
     """
     Bump the version of an existing COOKIETEMPLE project
 
@@ -126,11 +127,10 @@ def bump_version(ctx, new_version, project_dir) -> None:
         if str(project_dir).endswith('/'):
             project_dir = Path(str(project_dir).replace(str(project_dir)[len(str(project_dir)) - 1:], ''))
 
-        # check if the command met all requirements for successful bump
-        if can_run_bump_version(new_version, project_dir):
+        if can_run_bump_version(new_version, project_dir, downgrade):
             bump_template_version(new_version, project_dir)
         else:
-            sys.exit(0)
+            sys.exit(1)
 
 
 @cookietemple_cli.command(help_priority=7, short_help='Create a self contained executable with bundled JRE.')

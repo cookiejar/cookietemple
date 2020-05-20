@@ -23,6 +23,7 @@ div, span, code {
 
 .wy-side-nav-search .wy-form input:focus {
   background-color: #FFFFFF !important;
+  color: #000000 !important;
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */

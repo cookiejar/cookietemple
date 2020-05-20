@@ -1,5 +1,6 @@
 import click
 import re
+from packaging import version
 
 from configparser import ConfigParser
 from tempfile import mkstemp
@@ -116,7 +117,7 @@ def replace(file_path: str, subst: str, section: str) -> (bool, str):
     return file_is_unchanged, path_changed
 
 
-def can_run_bump_version(new_version: str, project_dir: str) -> bool:
+def can_run_bump_version(new_version: str, project_dir: str, downgrade: bool) -> bool:
     """
     Ensure that all requirements are met, so that the bump version command can be run successfully.
     This included the following requirements:
@@ -126,8 +127,14 @@ def can_run_bump_version(new_version: str, project_dir: str) -> bool:
 
     :param new_version: The new version
     :param project_dir: The directory of the project
+    :param downgrade: Flag that indicates whether the user wants to downgrade the project version or not
     :return: True if bump version can be run, false otherwise.
     """
+    # parse the current version from the cfg file
+    parser = ConfigParser()
+    parser.read(f'{project_dir}/cookietemple.cfg')
+    current_version = parser.get('bumpversion', 'current_version')
+
     # ensure that the entered version number matches correct format like 1.1.0 or 1.1.0-SNAPSHOT but not 1.2 or 1.2.3.4
     if not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', new_version):
         click.echo(click.style('Invalid version specified!\nEnsure your version number has the form '
@@ -140,23 +147,31 @@ def can_run_bump_version(new_version: str, project_dir: str) -> bool:
                                'or specify the path to your projects bump_version.cfg file', fg='red'))
         return False
 
-    # ensure the new version is greater than the current one
-    else:
-        parser = ConfigParser()
-        parser.read(f'{project_dir}/cookietemple.cfg')
-        current_version = [int(digit) for digit in parser.get('bumpversion', 'current_version').split('.')]
-        new_version = [int(digit) for digit in new_version.split('.')]
+    # equal versions wont be accepted for bump-version
+    elif new_version == current_version:
+        click.echo(click.style(
+            f'The new version {new_version} cannot be equal to the current version {current_version}.', fg='red'))
+        return False
+
+    # ensure the new version is greater than the current one, if not the user wants to explicitly downgrade it
+    elif not downgrade:
+        current_version_r = current_version.replace('-SNAPSHOT', '')
+        new_version_r = new_version.replace('-SNAPSHOT', '')
         is_greater = False
 
-        if new_version[0] > current_version[0] or new_version[0] == current_version[0] and new_version[1] > current_version[1]:
+        # when the current version and the new version are equal, but one is a -SNAPSHOT version return true
+        if version.parse(current_version_r) == version.parse(new_version_r) and ('-SNAPSHOT' in current_version or '-SNAPSHOT' in new_version):
             is_greater = True
-        elif new_version[0] == current_version[0] and new_version[1] == current_version[1] and new_version[2] > current_version[2]:
+
+        # else check if the new version is greater than the current version
+        elif version.parse(current_version_r) < version.parse(new_version_r):
             is_greater = True
 
         # the new version is not greater than the current one
         if not is_greater:
             click.echo(click.style(
-                f'The new version {".".join(str(n) for n in new_version)} is not greater than the current version {".".join(str(n) for n in current_version)}.'
+                f'The new version {new_version} is not greater than the current version {current_version}.'
                 f'\nThe new version must be greater than the old one.', fg='red'))
 
         return is_greater
+    return True
