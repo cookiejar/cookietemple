@@ -115,7 +115,25 @@ Hence, at this level we see :code:`cookietemple_cli.py` and a folder per CLI com
 
    Our shiny new CliBrainfuckLinter is now ready for action!
 
-6. | The only things that is left to do now is to add a new Github Actions workflow for our template. Let's go one level up in the folder tree and create :code:`.github/workflows/create_cli_brainfuck.yml`.
+6. | Now it´s time to add some tests for our new template
+
+   It´s important to add tests for the new template to COOKIETEMPLE, at least you should
+   test the creation and linting of the new template, besides any special code that comes with the new template.
+   The tests are located inside the :code:`tests` directory. They are further separated into the core commands of COOKIETEMPLE
+   where you should add at least some tests to :code:`tests/create` and :code:`tests/lint`. Especially if you developed a template
+   for a new domain, make sure to add the new :code:`Linter` and/or :code:`Creator`. Please note, that you have to name your test files and functions like
+   :code:`test_*` otherwise they won´t be recognized by :code:`pytest`.
+
+   You can run the tests using the :code:`tox` command. Make sure you run this command inside the directory where the :code:`tox.ini` file is.
+   An important note when using :code:`tox`: Tox is designed to run inside :code:`virtualenv` and not with :code:`conda`. Depending on your OS,
+   your python version or your environment you may run into an :code:`InterpreterNotFound-Exception`. To fix this, you may have to change :code:`envlist = py37, py38, flake8`
+   to :code:`envlist = python3.7, python3.8, flake8`.
+
+   Another more simple option is to run :code:`pytest relative/path/to/tests` to run all tests or :code:`pytest relative/path/to/tests/my/test` to run just a subset
+   of the tests.
+
+
+7. | The only things that is left to do now is to add a new Github Actions workflow for our template. Let's go one level up in the folder tree and create :code:`.github/workflows/create_cli_brainfuck.yml`.
    | We want to ensure that if we change something in our template, that it still builds!
 
 .. figure:: images/adding_templates_step_6.png
@@ -124,7 +142,7 @@ Hence, at this level we see :code:`cookietemple_cli.py` and a folder per CLI com
 
    We were pleasently surprised to see that someone already made a Github Action for brainfuck.
 
-7. | Finally, we add some documentation to :code:`/docs/available_templates.rst` and explain the purpose, design and frameworks/libraries.
+8. | Finally, we add some documentation to :code:`/docs/available_templates.rst` and explain the purpose, design and frameworks/libraries.
 
    That's it! We should now be able to try out your new template using :code:`cookietemple create`
    The template should be creatable, it should automatically lint after the creation and Github support should be enabled as well! If we run :code:`cookietemple list`
