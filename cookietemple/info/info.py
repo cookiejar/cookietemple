@@ -4,7 +4,7 @@ import click
 
 from tabulate import tabulate
 
-from cookietemple.info.levensthein_dist import most_similar_command
+from cookietemple.custom_cookietemple_cli.levensthein_dist import most_similar_command
 from cookietemple.list.list import load_available_templates
 from cookietemple.util.dict_util import is_nested_dictionary
 from cookietemple.custom_cookietemple_cli.suggest_similar_commands import load_available_handles
@@ -123,12 +123,12 @@ def handle_non_existing_command(handle: str):
     if most_sim:
         # found exactly one similar command
         if len(most_sim) == 1:
-            click.echo(click.style('Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
+            click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
                        click.style(f'for all valid handles.\nDid you mean \'{most_sim[0]}\'?', fg='red'))
         else:
             # found multiple similar commands
             nl = '\n'
-            click.echo(click.style('Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
+            click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
                        click.style(f'for all valid handles.\nMost similar commands are:{nl}{nl.join(most_sim)}', fg='red'))
         sys.exit(0)
 

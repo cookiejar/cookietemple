@@ -227,13 +227,13 @@ class TemplateLinter(object):
             for line in file:
                 # if a tag is found and (depending on wether its a white or blacklisted file) check if the versions are matching
                 if ('<<COOKIETEMPLE_NO_BUMP>>' not in line and not section == 'bumpversion_files_blacklisted') or '<<COOKIETEMPLE_FORCE_BUMP>>' in line:
-                    line_version = re.search(r'[0-9]+\.[0-9]+\.[0-9]+', line)
+                    line_version = re.search(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', line)
                     if line_version:
                         line_version = line_version.group(0)
                         # No match between the current version number and version in source code file
                         if line_version != version:
-                            corrected_line = re.sub(r'[0-9]+\.[0-9]+\.[0-9]+', version, line)
-                            self.failed.append((5, click.style(f'Version number don´t match in\n {self.path}/{path}:', fg='blue')
+                            corrected_line = re.sub(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', version, line)
+                            self.failed.append((5, click.style(f'Version number don´t match in\n {path}:', fg='blue')
                                                 + click.style(f'\n {line.strip()} should be {corrected_line.strip()}', fg='red')))
 
     def print_results(self) -> None:

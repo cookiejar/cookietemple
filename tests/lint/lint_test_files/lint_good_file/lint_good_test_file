@@ -1,0 +1,10 @@
+This file contains only valid cases
+myTodoString
+{{ jinja.ohforgetit }} # should not be marked as remaining cookiecutter string
+{{ no cookiecutter }} # should not be marked as remaining cookiecutter string
+{{ ima.nocookiecutter }} # should not be marked as remaining cookiecutter string
+{ cookiecutter.noiamnotremainder } # should not be marked as remaining cookiecutter string
+ima valid version 1.0.0-SNAPSHOT
+im also a valid version 1.0.0-SNAPSHOT and im consistent
+and iam no valid version number 4.3
+and me also 1.2.3.4 but this should not make a difference

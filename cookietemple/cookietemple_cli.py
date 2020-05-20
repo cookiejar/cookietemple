@@ -60,7 +60,6 @@ def cookietemple_cli(ctx, verbose):
 def create(domain: str) -> None:
     """
     Create a new project using one of our templates
-
     """
     choose_domain(domain)
 
@@ -91,12 +90,11 @@ def list() -> None:
 def info(ctx, handle: str) -> None:
     """
     Get detailed info on a COOKIETEMPLE template domain or a single template
-
     """
     if not handle:
         HelpErrorHandling.args_not_provided(ctx, 'info')
     else:
-        show_info(handle)
+        show_info(handle.lower())
 
 
 @cookietemple_cli.command(help_priority=5, short_help='Sync your project with the latest template release.')
@@ -114,6 +112,12 @@ def sync() -> None:
 def bump_version(ctx, new_version, project_dir) -> None:
     """
     Bump the version of an existing COOKIETEMPLE project
+
+    INFO on valid versions: All versions must match the format like 1.0.0 or 1.1.0-SNAPSHOT; these are the only valid
+    version formats COOKIETEMPLE allows. A valid version therefore contains a three digits (in the range from 0 to however large it will grow)
+    separated by two dots.
+    Optional is the -SNAPSHOT at the end (for JVM templates especially). NOTE that versions like 1.2.3.4 or 1.2 WILL NOT be recognized as valid versions as
+    well as no substring of them will be recognized.
     """
     if not new_version:
         HelpErrorHandling.args_not_provided(ctx, 'bump-version')
