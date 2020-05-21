@@ -263,7 +263,7 @@ class TemplateCreator:
                 return True
         # catch exceptions when server may be unavailable or the request timed out
         except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
-            click.echo(click.style('Cannot check if name already taken on readthedocs.io because its unreachable at the moment!', fg='red'))
+            click.echo(click.style('Cannot check whether name already taken on readthedocs.io because its unreachable at the moment!', fg='red'))
             return False
 
     def copy_into_already_existing_directory(self, common_path, dir: Path) -> None:

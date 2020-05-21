@@ -40,7 +40,7 @@ Features
 Credits
 -------
 
-This package was created with COOKIETEMPLE_ and Cookiecutter_.
+This package was created with `COOKIETEMPLE`_ and `Cookiecutter`_.
 
-.. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _COOKIETEMPLE: https://cookietemple.com
+.. _Cookiecutter: https://github.com/audreyr/cookiecutter

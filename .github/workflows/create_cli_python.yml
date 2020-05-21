@@ -31,3 +31,12 @@ jobs:
         run: |
              cd ExplodingSpringfield
              make install
+
+      - name: Install doc dependencies
+        run: |
+            pip install -r docs/requirements.txt
+
+      - name: Build docs
+        run: |
+            cd docs
+            make html
