@@ -4,7 +4,10 @@ import click
 
 from pathlib import Path
 from ruamel.yaml import YAML
-from tabulate import tabulate
+from rich.style import Style
+from rich.console import Console
+from rich.table import Table
+from rich.box import HEAVY_HEAD
 
 from cookietemple.util.dict_util import is_nested_dictionary
 
@@ -23,7 +26,6 @@ def list_available_templates() -> None:
     click.echo(click.style('Run ', fg='blue')
                + click.style('cookietemple info ', fg='green')
                + click.style('for long descriptions of your template of interest.', fg='blue'))
-    click.echo(click.style('All available templates:\n', fg='blue'))
 
     # What we want to have are lists like
     # [['name', 'handle', 'short description', 'available libraries', 'version'], ['name', 'handle', 'short description', 'available libraries', 'version']]
@@ -42,8 +44,19 @@ def list_available_templates() -> None:
                     val['name'], val['handle'], val['short description'], val['available libraries'], val['version']
                 ])
 
-    # Print nicely to console
-    click.echo(tabulate(templates_to_tabulate, headers=['Name', 'Handle', 'Short Description', 'Available Libraries', 'Version']))
+    table = Table(title="[bold]All available COOKIETEMPLE templates", title_style="blue", header_style=Style(color="blue", bold=True), box=HEAVY_HEAD)
+
+    table.add_column("Name", justify="center", style="green", no_wrap=True)
+    table.add_column("Handle", justify="center")
+    table.add_column("Short Description", justify="center")
+    table.add_column("Available Libraries", justify="center")
+    table.add_column("Version", justify="center")
+
+    for template in templates_to_tabulate:
+        table.add_row(f'[bold]{template[0]}', template[1], template[2], template[3], template[4])
+
+    console = Console()
+    console.print(table)
 
 
 def load_available_templates(AVAILABLE_TEMPLATES_PATH) -> dict:

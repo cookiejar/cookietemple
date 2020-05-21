@@ -1,11 +1,32 @@
 import io
 import os
 import re
-
 import click
 import configparser
+from rich.progress import (
+    BarColumn,
+    DownloadColumn,
+    TextColumn,
+    TransferSpeedColumn,
+    TimeRemainingColumn,
+    Progress,
+    TaskID,
+)
 
+from rich.progress import track
 from cookietemple.util.dir_util import pf
+
+progress = Progress(
+    TextColumn("[bold blue]{task.fields[filename]}", justify="right"),
+    BarColumn(bar_width=None),
+    "[progress.percentage]{task.percentage:>3.1f}%",
+    "•",
+    DownloadColumn(),
+    "•",
+    TransferSpeedColumn(),
+    "•",
+    TimeRemainingColumn(),
+)
 
 
 class TemplateLinter(object):
@@ -26,11 +47,7 @@ class TemplateLinter(object):
         self.warned = []
         self.failed = []
 
-    def lint_project(self,
-                     calling_class,
-                     check_functions: list = None,
-                     label: str = 'Running general template tests',
-                     custom_check_files: bool = False) -> None:
+    def lint_project(self, calling_class, check_functions: list = None, custom_check_files: bool = False) -> None:
         """Main linting function.
         Takes the pipeline directory as the primary input and iterates through
         the different linting checks in order. Collects any warnings or errors
@@ -52,12 +69,11 @@ class TemplateLinter(object):
             check_functions.remove('check_files_exist')
 
         # Show a progessbar and run all linting functions
-        with click.progressbar(check_functions, label=label, item_show_func=repr) as function_names:  # item_show_func=repr leads to some Nones in the bar
-            for fun_name in function_names:
-                getattr(calling_class, fun_name)()
-                if len(self.failed) > 0:
-                    click.echo(click.style(f' Found test failures in {fun_name}, halting lint run', fg='red'))
-                    break
+        for fun_name in track(check_functions, description="[blue]Processing..."):
+            getattr(calling_class, fun_name)()
+            if len(self.failed) > 0:
+                click.echo(click.style(f' Found test failures in {fun_name}, halting lint run', fg='red'))
+                break
 
     def check_files_exist(self):
         """Checks a given pipeline directory for required files.

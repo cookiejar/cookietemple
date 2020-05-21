@@ -178,6 +178,9 @@ class TemplateCreator:
             if click.confirm(click.style('Do you want to choose another name for your project?\nOtherwise you are not able to host your docs at '
                                          'readthedocs.io!', fg='blue')):
                 self.creator_ctx.project_name = click.prompt('Please enter your project name', type=str, default='Exploding Springfield')
+            # break if the project should be named anyways
+            else:
+                break
 
         self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_')
         self.creator_ctx.project_short_description = click.prompt('Please enter a short description of your project.',
@@ -254,10 +257,13 @@ class TemplateCreator:
         Test if there´s already a project with the same name on readthedocs
         :param project_name Name of the project the user wants to create
         """
-        request = requests.get(f'https://{project_name.replace(" ", "")}.readthedocs.io')
-        if request.status_code == 200:
-            return True
-        else:
+        try:
+            request = requests.get(f'https://{project_name.replace(" ", "")}.readthedocs.io')
+            if request.status_code == 200:
+                return True
+        # catch exceptions when server may be unavailable or the request timed out
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
+            click.echo(click.style('Cannot check if name already taken on readthedocs.io because its unreachable at the moment!', fg='red'))
             return False
 
     def copy_into_already_existing_directory(self, common_path, dir: Path) -> None:

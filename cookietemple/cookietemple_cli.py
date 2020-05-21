@@ -7,6 +7,7 @@ import sys
 
 import click
 from pathlib import Path
+from rich import traceback
 
 import cookietemple
 
@@ -23,6 +24,7 @@ WD = os.path.dirname(__file__)
 
 
 def main():
+    traceback.install()
     click.echo(click.style(f"""
       / __\___   ___ | | _(_) ___| |_ ___ _ __ ___  _ __ | | ___
      / /  / _ \ / _ \| |/ / |/ _ \ __/ _ \\ '_ ` _ \| '_ \| |/ _ \\

@@ -18,7 +18,7 @@ def test_create_cli_project() -> None:
         cli_linter_instance = CliPythonLint(project_path)
 
         # lint the created project to ensure everything worked fine
-        cli_linter_instance.lint_project(cli_linter_instance, label='Test General Linting', custom_check_files=False)
+        cli_linter_instance.lint_project(cli_linter_instance, custom_check_files=False)
 
         assert result.exit_code == 0 and matching_project_structure(project_path) and len(cli_linter_instance.failed) == 0
         delete_dir_tree(project_path)

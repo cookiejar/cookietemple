@@ -9,9 +9,9 @@ class PubLatexLint(TemplateLinter):
     def __init__(self, path):
         super().__init__(path)
 
-    def lint(self, label):
+    def lint(self):
         methods = ['latex_template_files_exist']
-        super().lint_project(self, methods, label=label)
+        super().lint_project(self, methods)
 
     def latex_template_files_exist(self) -> None:
         """

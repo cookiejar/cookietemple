@@ -12,9 +12,9 @@ class CliPythonLint(TemplateLinter):
     def __init__(self, path):
         super().__init__(path)
 
-    def lint(self, label, is_create):
+    def lint(self, is_create):
         methods = ['python_files_exist']
-        super().lint_project(self, methods, label=label)
+        super().lint_project(self, methods)
 
         # Call autopep8, if needed
         if is_create:
