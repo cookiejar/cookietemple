@@ -21,7 +21,7 @@ class TemplateInfo:
         self.WD = os.path.dirname(__file__)
         self.TEMPLATES_PATH = f'{self.WD}/../create/templates'
 
-    def show_info(self, handle: str):
+    def show_info(self, handle: str) -> None:
         """
         Displays detailed information of a domain/language/template
 
@@ -101,10 +101,10 @@ class TemplateInfo:
     def set_linebreaks(desc: str) -> str:
         """
         Sets newlines after max 45 characters (or the latest space to avoid non-sense separation)
+
         :param desc: The parsed long description for the sepcific template
         :return: The formatted string with inserted newlines
         """
-
         linebreak_limit = 50
         last_space = -1
         cnt = 0
@@ -123,26 +123,31 @@ class TemplateInfo:
         return desc
 
     @staticmethod
-    def non_existing_handle():
+    def non_existing_handle() -> None:
         """
         Handling key not found access error for non existing template handles.
         Displays an error message and terminates cookietemple.
-
         """
-
-        click.echo(click.style('Handle does not exist. Please enter a valid handle. Use ', fg='red')
+        click.echo(click.style('Handle does not exist. Please enter a valid handle.\nUse ', fg='red')
                    + click.style('cookietemple list', fg='blue')
                    + click.style(' to display all template handles.', fg='red'))
         sys.exit(0)
 
-    def handle_non_existing_command(self, handle: str):
+    def handle_non_existing_command(self, handle: str) -> None:
+        """
+        Handle the case, when an unknown handle was entered and try to find a similar handle.
+        :param handle: The non existing handle
+        """
         available_handles = load_available_handles()
         most_sim = most_similar_command(handle, available_handles)
         if most_sim:
             # found exactly one similar command
             if len(most_sim) == 1:
                 click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
-                           click.style(f'for all valid handles.\nDid you mean \'{most_sim[0]}\'?', fg='red'))
+                           click.style(f'for all valid handles.\n', fg='red'))
+                click.echo(click.style('Will use best match ', fg='red') + click.style(f'{most_sim[0]}.\n', fg='green'))
+                # use best match if exactly one similar handle was found
+                self.show_info(most_sim[0])
             else:
                 # found multiple similar commands
                 nl = '\n'

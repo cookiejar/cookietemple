@@ -4,13 +4,11 @@
 import logging
 import os
 import sys
-
 import click
 from pathlib import Path
 from rich import traceback
 
 import cookietemple
-
 from cookietemple.bump_version.bump_version import VersionBumper
 from cookietemple.create.create import choose_domain
 from cookietemple.info.info import TemplateInfo

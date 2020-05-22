@@ -25,7 +25,7 @@ class TemplateLister:
         """
         available_templates = load_available_templates(f'{self.TEMPLATES_PATH}/available_templates.yml')
         click.echo(click.style('Run ', fg='blue') + click.style('cookietemple info ', fg='green') +
-                   click.style('for long descriptions of your template of interest.', fg='blue'))
+                   click.style('for long descriptions of your template of interest.\n', fg='blue'))
 
         # What we want to have are lists like
         # [['name', 'handle', 'short description', 'available libraries', 'version'], ['name', 'handle', 'short description', 'available libraries', 'version']]
