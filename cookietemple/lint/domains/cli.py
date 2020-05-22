@@ -3,7 +3,7 @@ from subprocess import Popen
 
 import click
 
-from cookietemple.lint.TemplateLinter import TemplateLinter, files_exist_linting
+from cookietemple.lint.template_linter import TemplateLinter, files_exist_linting
 
 CWD = os.getcwd()
 

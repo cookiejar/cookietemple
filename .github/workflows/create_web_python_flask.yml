@@ -47,7 +47,7 @@ jobs:
 
       - name: Build advanced Package
         run: |
-          cd ../../ExplodingSpringfieldAdvanced
+          cd ExplodingSpringfieldAdvanced
           make install
 
       - name: Install doc dependencies

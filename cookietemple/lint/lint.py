@@ -6,7 +6,7 @@ from subprocess import Popen, PIPE
 import click
 from ruamel.yaml import YAML
 
-from cookietemple.lint.TemplateLinter import TemplateLinter
+from cookietemple.lint.template_linter import TemplateLinter
 from cookietemple.lint.domains.cli import CliPythonLint
 from cookietemple.lint.domains.web import WebWebsitePythonLint
 from cookietemple.lint.domains.gui import GuiJavaLint

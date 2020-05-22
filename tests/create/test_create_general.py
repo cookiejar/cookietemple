@@ -3,7 +3,7 @@ import pytest
 from io import StringIO
 
 from cookietemple.create.create import choose_domain
-from cookietemple.create.domains.CliCreator import CliCreator
+from cookietemple.create.domains.cli_creator import CliCreator
 
 
 @pytest.fixture

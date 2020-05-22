@@ -175,7 +175,7 @@ class TemplateCreator:
         # check if the project name is already taken on readthedocs.io
         while self.readthedocs_slug_already_exists(self.creator_ctx.project_name):
             click.echo(click.style(f'A project named {self.creator_ctx.project_name} already exists at readthedocs.io!', fg='red'))
-            if click.confirm(click.style('Do you want to choose another name for your project?\nOtherwise you are not able to host your docs at '
+            if click.confirm(click.style('Do you want to choose another name for your project?\nOtherwise you will not be able to host your docs at '
                                          'readthedocs.io!', fg='blue')):
                 self.creator_ctx.project_name = click.prompt('Please enter your project name', type=str, default='Exploding Springfield')
             # break if the project should be named anyways
@@ -254,7 +254,7 @@ class TemplateCreator:
 
     def readthedocs_slug_already_exists(self, project_name: str) -> bool:
         """
-        Test if there´s already a project with the same name on readthedocs
+        Test whether there´s already a project with the same name on readthedocs
         :param project_name Name of the project the user wants to create
         """
         try:

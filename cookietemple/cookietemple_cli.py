@@ -11,11 +11,11 @@ from rich import traceback
 
 import cookietemple
 
-from cookietemple.bump_version.bump_version import bump_template_version, can_run_bump_version
+from cookietemple.bump_version.bump_version import VersionBumper
 from cookietemple.create.create import choose_domain
-from cookietemple.info.info import show_info
+from cookietemple.info.info import TemplateInfo
 from cookietemple.lint.lint import lint_project
-from cookietemple.list.list import list_available_templates
+from cookietemple.list.list import TemplateLister
 from cookietemple.package_dist.warp import warp_project
 from cookietemple.synchronization.sync import snyc_template
 from cookietemple.custom_cookietemple_cli.custom_click import HelpErrorHandling
@@ -83,7 +83,8 @@ def list() -> None:
     """
     List all available COOKIETEMPLE templates
     """
-    list_available_templates()
+    template_lister = TemplateLister()
+    template_lister.list_available_templates()
 
 
 @cookietemple_cli.command(help_priority=4, short_help='Get detailed info on a COOKIETEMPLE template domain or a single template.')
@@ -96,7 +97,8 @@ def info(ctx, handle: str) -> None:
     if not handle:
         HelpErrorHandling.args_not_provided(ctx, 'info')
     else:
-        show_info(handle.lower())
+        template_info = TemplateInfo()
+        template_info.show_info(handle.lower())
 
 
 @cookietemple_cli.command(help_priority=5, short_help='Sync your project with the latest template release.')
@@ -128,12 +130,13 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
     if not new_version:
         HelpErrorHandling.args_not_provided(ctx, 'bump-version')
     else:
+        version_bumper = VersionBumper()
         # if the path entered ends with a trailing slash remove it for consistent output
         if str(project_dir).endswith('/'):
             project_dir = Path(str(project_dir).replace(str(project_dir)[len(str(project_dir)) - 1:], ''))
 
-        if can_run_bump_version(new_version, project_dir, downgrade):
-            bump_template_version(new_version, project_dir)
+        if version_bumper.can_run_bump_version(new_version, project_dir, downgrade):
+            version_bumper.bump_template_version(new_version, project_dir)
         else:
             sys.exit(1)
 

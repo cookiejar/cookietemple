@@ -2,7 +2,7 @@ import pytest
 
 from click.testing import CliRunner
 
-from cookietemple.info.info import show_info
+from cookietemple.info.info import TemplateInfo
 from cookietemple.custom_cookietemple_cli.levensthein_dist import most_similar_command
 from cookietemple.cookietemple_cli import info
 
@@ -133,7 +133,8 @@ def test_non_existing_handle(get_invalid_handles, capfd) -> None:
 
     for invalid in get_invalid_handles:
         with pytest.raises(SystemExit):
-            show_info(invalid)
+            template_info = TemplateInfo()
+            template_info.show_info(invalid)
             out, err = capfd.readouterr()
             assert out == 'Handle does not exist. Please enter a valid handle. Use cookietemple list to display all template handles.'
 
@@ -150,7 +151,8 @@ def test_valid_handles_domain_only(get_valid_handles_domain_only, capfd) -> None
     }
 
     for valid_domain in get_valid_handles_domain_only:
-        show_info(valid_domain)
+        template_info = TemplateInfo()
+        template_info.show_info(valid_domain)
         out, err = capfd.readouterr()
         for handle in switcher[valid_domain]:
             assert handle in out
@@ -161,7 +163,8 @@ def test_valid_handles_domain_and_subdomain(get_valid_handles_domain_subdomain, 
     Test if a valid combination of domain and subdomain produces correct ouput
     """
     for valid_domain_subdomain in get_valid_handles_domain_subdomain:
-        show_info(valid_domain_subdomain)
+        template_info = TemplateInfo()
+        template_info.show_info(valid_domain_subdomain)
         out, err = capfd.readouterr()
 
         # first entry of value list are expected handles present in output second are the ones that should not be in output
