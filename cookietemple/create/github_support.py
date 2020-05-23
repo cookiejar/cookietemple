@@ -9,14 +9,15 @@ from git import Repo, exc
 from pathlib import Path
 
 
-def create_push_github_repository(project_name: str, project_description: str, template_creation_path: str, github_username: str) -> None:
+def create_push_github_repository(project_path: str, project_name: str, project_description: str, tmp_repo_path: str, github_username: str) -> None:
     """
     Creates a Github repository for the created template and pushes the template to it.
     Prompts the user for the required specifications.
 
+    :param project_path: The path to the recently created project
     :param project_name: Name of the created project
     :param project_description: Description of the created project
-    :param template_creation_path: Path to the already created template
+    :param tmp_repo_path: Path to the empty cloned repo
     :param github_username: the users github name
     """
     if not is_git_accessible():
@@ -49,16 +50,19 @@ def create_push_github_repository(project_name: str, project_description: str, t
     click.echo(click.style('Creating labels and default Github settings.', fg='blue'))
     create_github_labels(repo=repo, labels=[('DEPENDABOT', '1BB0CE')])
 
-    repository = f'{os.getcwd()}/{project_name}'
+    repository = f'{tmp_repo_path}'
 
     # NOTE: github_username is the organizations name, if an organization repository is to be created
 
     # git clone
     click.echo(click.style('Cloning empty Github repoitory.', fg='blue'))
-    cloned_repo = Repo.clone_from(f'https://{github_username}:{access_token}@github.com/{github_username}/{project_name}', repository)
+    Repo.clone_from(f'https://{github_username}:{access_token}@github.com/{github_username}/{project_name}', repository)
 
     # Copy files which should be included in the initial commit -> basically the template
-    copy_tree(template_creation_path, repository)
+    copy_tree(f'{repository}', project_path)
+
+    # the created projct repository with the copied .git directory
+    cloned_repo = Repo(path=project_path)
 
     # git add
     click.echo(click.style('Staging template.', fg='blue'))

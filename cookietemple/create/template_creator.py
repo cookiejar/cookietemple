@@ -5,6 +5,7 @@ import shutil
 import re
 import tempfile
 import requests
+import time
 from distutils.dir_util import copy_tree
 from pathlib import Path
 from dataclasses import asdict
@@ -64,8 +65,9 @@ class TemplateCreator:
         if create_github_repository:
             # rename the currently created template to a temporary name, create Github repo, push, remove temporary template
             tmp_project_path = f'{project_path}_cookietemple_tmp'
-            os.rename(project_path, tmp_project_path)
-            create_push_github_repository(project_name, self.creator_ctx.project_short_description, tmp_project_path, self.creator_ctx.github_username)
+            os.mkdir(tmp_project_path)
+            create_push_github_repository(project_path, project_name, self.creator_ctx.project_short_description, tmp_project_path,
+                                          self.creator_ctx.github_username)
             shutil.rmtree(tmp_project_path, ignore_errors=True)
 
     def create_template_without_subdomain(self, domain_path: str) -> None:
@@ -157,12 +159,8 @@ class TemplateCreator:
         Prompts the user for general options that are required by all templates.
         Options are saved in the creator context manager object.
         """
-        self.creator_ctx.full_name = click.prompt('Please enter your full name',
-                                                  type=str,
-                                                  default='Homer Simpson')
-        self.creator_ctx.email = click.prompt('Please enter your personal or work email',
-                                              type=str,
-                                              default='homer.simpson@example.com')
+        self.creator_ctx.full_name = click.prompt('Please enter your full name', type=str, default='Homer Simpson')
+        self.creator_ctx.email = click.prompt('Please enter your personal or work email', type=str, default='homer.simpson@example.com')
         self.creator_ctx.project_name = click.prompt('Please enter your project name', type=str, default='Exploding Springfield')
 
         # check if the project name is already taken on readthedocs.io
@@ -174,23 +172,17 @@ class TemplateCreator:
             # break if the project should be named anyways
             else:
                 break
-
         self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_')
-        self.creator_ctx.project_short_description = click.prompt('Please enter a short description of your project.',
-                                                                  type=str,
+        self.creator_ctx.project_short_description = click.prompt('Please enter a short description of your project.', type=str,
                                                                   default=f'{self.creator_ctx.project_name}. A best practice .')
 
-        poss_vers = click.prompt('Please enter the initial version of your project.',
-                                 type=str,
-                                 default='1.0.0')
+        poss_vers = click.prompt('Please enter the initial version of your project.', type=str, default='1.0.0')
 
         # make sure that the version has the right format
-        while not re.match(r'[0-9]+\.[0-9]+\.[0-9]+', poss_vers):
+        while not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', poss_vers):
             click.echo(click.style('The version number entered does not match cookietemples pattern.\n'
                                    'Please enter the version in the format [number].[number].[number]!', fg='red'))
-            poss_vers = click.prompt('Please enter the initial version of your project.',
-                                     type=str,
-                                     default='1.0.0')
+            poss_vers = click.prompt('Please enter the initial version of your project.', type=str, default='1.0.0')
 
         self.creator_ctx.version = poss_vers
 
