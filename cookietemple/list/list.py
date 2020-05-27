@@ -29,7 +29,6 @@ def list_available_templates() -> None:
     # [['name', 'handle', 'short description', 'available libraries', 'version'], ['name', 'handle', 'short description', 'available libraries', 'version']]
     templates_to_tabulate = []
     for language in available_templates.values():
-        assert is_nested_dictionary(language)
         for val in language.values():
             # has a subdomain -> traverse dictionary a level deeper
             if is_nested_dictionary(val):

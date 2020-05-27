@@ -23,4 +23,4 @@ jobs:
         run: pip install bandit
 
       - name: Run bandit
-        run: bandit -r cookietemple
+        run: bandit -r cookietemple -x cookietemple/create/templates -c .bandit.yml
