@@ -1,0 +1,4 @@
+[bandit]
+exclude: /cookietemple/create/templates
+
+skips: ['B403', 'B404']
