@@ -17,6 +17,11 @@ class VersionBumper:
     Responsible for bumping the version across a COOKIETEMPLE project
     """
 
+    def __init__(self, pipeline_dir):
+        self.parser = ConfigParser()
+        self.parser.read(f'{pipeline_dir}/cookietemple.cfg')
+        self.CURRENT_VERSION = self.parser.get('bumpversion', 'current_version')
+
     def bump_template_version(self, new_version: str, pipeline_dir: Path) -> None:
         """
         Update the version number for all files that are whitelisted in the config file.
@@ -32,9 +37,6 @@ class VersionBumper:
                              bumps the version from the projects top level directory. If this is not the case this parameter
                              shows the path where the projects top level directory is and bumps the version there
         """
-        parser = ConfigParser()
-        parser.read(f'{pipeline_dir}/cookietemple.cfg')
-        current_version = parser.get('bumpversion', 'current_version')
         sections = ['bumpversion_files_whitelisted', 'bumpversion_files_blacklisted']
 
         # if pipeline_dir was given as handle use cwd since we need it for git add
@@ -44,12 +46,12 @@ class VersionBumper:
         # keep path of all files that were changed during bump version
         changed_files = [ct_cfg_path]
 
-        click.echo(click.style(f'Changing version number.\nCurrent version is {current_version}.'
+        click.echo(click.style(f'Changing version number.\nCurrent version is {self.CURRENT_VERSION}.'
                                f'\nNew version will be {new_version}\n', fg='blue'))
 
         # for each section (whitelisted and blacklisted files) bump the version (if allowed)
         for section in sections:
-            for file, path in parser.items(section):
+            for file, path in self.parser.items(section):
                 not_changed, file_path = self.replace(f'{pipeline_dir}/{path}', new_version, section)
                 # only add file if the version(s) in the file were bumped
                 if not not_changed:
@@ -57,9 +59,9 @@ class VersionBumper:
                     changed_files.append(path_changed)
 
         # update new version in cookietemple.cfg file
-        parser.set('bumpversion', 'current_version', new_version)
+        self.parser.set('bumpversion', 'current_version', new_version)
         with open(f'{pipeline_dir}/cookietemple.cfg', 'w') as configfile:
-            parser.write(configfile)
+            self.parser.write(configfile)
 
         # check if a project is a git repository and if so, commit bumped version changes
         if is_git_repo(pipeline_dir):
@@ -71,7 +73,7 @@ class VersionBumper:
 
             # git commit
             click.echo(click.style('Committing changes to local git repository.', fg='blue'))
-            repo.index.commit(f'Bump version from {current_version} to {new_version}')
+            repo.index.commit(f'Bump version from {self.CURRENT_VERSION} to {new_version}')
 
     def replace(self, file_path: str, subst: str, section: str) -> (bool, str):
         """
@@ -133,11 +135,6 @@ class VersionBumper:
         :param downgrade: Flag that indicates whether the user wants to downgrade the project version or not
         :return: True if bump version can be run, false otherwise.
         """
-        # parse the current version from the cfg file
-        parser = ConfigParser()
-        parser.read(f'{project_dir}/cookietemple.cfg')
-        current_version = parser.get('bumpversion', 'current_version')
-
         # ensure that the entered version number matches correct format like 1.1.0 or 1.1.0-SNAPSHOT but not 1.2 or 1.2.3.4
         if not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', new_version):
             click.echo(click.style('Invalid version specified!\nEnsure your version number has the form '
@@ -150,29 +147,60 @@ class VersionBumper:
                                    'or specify the path to your projects bump_version.cfg file', fg='red'))
             return False
 
-        # equal versions wont be accepted for bump-version
-        elif new_version == current_version:
-            click.echo(click.style(f'The new version {new_version} cannot be equal to the current version {current_version}.', fg='red'))
+        # equal versions won't be accepted for bump-version
+        elif new_version == self.CURRENT_VERSION:
+            click.echo(click.style(f'The new version {new_version} cannot be equal to the current version {self.CURRENT_VERSION}.', fg='red'))
             return False
 
         # ensure the new version is greater than the current one, if not the user wants to explicitly downgrade it
         elif not downgrade:
-            current_version_r = current_version.replace('-SNAPSHOT', '')
+            current_version_r = self.CURRENT_VERSION.replace('-SNAPSHOT', '')
             new_version_r = new_version.replace('-SNAPSHOT', '')
-            is_greater = False
+
+            # bump from x.x.x to x.x.x-SNAPSHOT should be only allowed when using the downgrade flag
+            if '-SNAPSHOT' in new_version and self.CURRENT_VERSION == new_version.split('-')[0]:
+                click.echo(click.style(f'Cannot downgrade {self.CURRENT_VERSION} to its version SNAPSHOT {new_version}.', fg='red') +
+                           click.style(f'\nUse the -d flag if you want to downgrade {self.CURRENT_VERSION} to its SNAPSHOT version.', fg='blue'))
+                return False
 
             # when the current version and the new version are equal, but one is a -SNAPSHOT version return true
-            if version.parse(current_version_r) == version.parse(new_version_r) and ('-SNAPSHOT' in current_version or '-SNAPSHOT' in new_version):
-                is_greater = True
+            elif version.parse(current_version_r) == version.parse(new_version_r) and ('-SNAPSHOT' in self.CURRENT_VERSION or '-SNAPSHOT' in new_version):
+                return True
 
             # else check if the new version is greater than the current version
             elif version.parse(current_version_r) < version.parse(new_version_r):
-                is_greater = True
+                return True
 
             # the new version is not greater than the current one
-            if not is_greater:
-                click.echo(click.style(f'The new version {new_version} is not greater than the current version {current_version}.'
-                                       f'\nThe new version must be greater than the old one.', fg='red'))
+            click.echo(click.style(f'The new version {new_version} is not greater than the current version {self.CURRENT_VERSION}.'
+                                   f'\nThe new version must be greater than the old one.', fg='red'))
+            return False
 
-            return is_greater
+        return True
+
+    def check_reasonability(self, current_version: str, new_version: str) -> bool:
+        """
+        Check if the new version seems to be a reasonable bump or not (ignored when using the downgrade flag).
+        This should not break the bump-version process, but it requires confirmation of the user.
+
+        :param current_version: The current version
+        :param new_version: The new version
+        :return: If it´s a reasonable bump
+        """
+        cur_v_split = current_version.split('.')
+        new_v_split = new_version.split('.')
+
+        # major update like bumping from 1.8.3 to 2.0.0
+        if new_v_split[0] != cur_v_split[0]:
+            return new_v_split[1] == '0' and new_v_split[2] == '0' and (int(new_v_split[0]) - int(cur_v_split[0]) == 1)
+
+        # minor update like bumping from 1.8.5 to 1.9.0
+        elif new_v_split[1] != cur_v_split[1]:
+            return new_v_split[0] == cur_v_split[0] and new_v_split[2] == '0' and (int(new_v_split[1]) - int(cur_v_split[1]) == 1)
+
+        # x-minor update like bumping from 1.8.5 to 1.8.6
+        elif new_v_split[2] != cur_v_split[2]:
+            return new_v_split[0] == cur_v_split[0] and new_v_split[1] == cur_v_split[1] and (int(new_v_split[2]) - int(cur_v_split[2]) == 1)
+
+        # case when we bumping like 3.0.0-SNAPSHOT to 3.0.0
         return True

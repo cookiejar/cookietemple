@@ -1,4 +1,4 @@
-from cookietemple.custom_cookietemple_cli.suggest_similar_commands import SIMILARITY_FACTOR
+from cookietemple.custom_cookietemple_cli.suggest_similar_commands import SIMILARITY_SUGGEST_FACTOR, SIMILARITY_USE_FACTOR
 
 
 def levensthein_dist(input_command: str, candidate: str) -> int:
@@ -37,30 +37,48 @@ def levensthein_dist(input_command: str, candidate: str) -> int:
     return dp_table[len(candidate)][len(input_command)]
 
 
-def most_similar_command(command: str, command_list: set) -> list:
+def most_similar_command(command: str, command_list: set) -> (list, str):
     """
     This function determines whether its possible to suggest a similar command.
     The similarity is determined by the levensthein distance and a factor (currently 1/3)
-    sets a limit where a similar command is useful to be suggested.
+    sets a limit where a similar command is useful to be automatically used. If the difference diff is 1/3 < diff <= 2/3, one
+    or more similar commands could be suggested, but not used automatically.
 
     :param command_list: The commands that are available by the users specific action
     :param command: The command given by the user
-    :return: A similar command or the empty string if there's none
+    :return: A list of similar command(s) or the empty string if there's none and a string that indicates the action to be taken
     """
-    min = 999999  # some random large integer -> we will never have handles that are larger than 1000 character
-    sim_command = []
+    min_use = 999999  # some random large integer -> we will never have handles that are larger than 1000 character
+    min_suggest = 999999
+    sim_command_use = []
+    sim_command_suggest = []
 
     # for each valid handle calculate the levensthein distance and if one is found that is a new minimal distance,
     # replace it and take this handle as the most similar command.
     for handle in command_list:
         dist = levensthein_dist(command, handle)
-        lim = int(len(command) * SIMILARITY_FACTOR)
 
-        if lim >= dist:
-            if min > dist:  # and min >= dist:
-                min = dist
-                sim_command = [handle]
-            elif min == dist:
-                sim_command.append(handle)
+        # the more restrict condition for automatic use
+        lim_use = int(len(command) * SIMILARITY_USE_FACTOR)
 
-    return sim_command
+        # the weaker condition for command suggestion
+        lim_suggest = int(len(command) * SIMILARITY_SUGGEST_FACTOR)
+
+        # check if the command is close to the inputted command so it can be automatically used
+        if lim_use >= dist:
+            if min_use > dist:  # and min >= dist:
+                min_use = dist
+                sim_command_use = [handle]
+            elif min_use == dist:
+                sim_command_use.append(handle)
+
+        # the input is not very close to any command, but maybe a similar one can be suggested?
+        elif lim_use < dist <= lim_suggest:
+            if min_suggest > dist:  # and min >= dist:
+                min_suggest = dist
+                sim_command_suggest = [handle]
+            elif min_suggest == dist:
+                sim_command_suggest.append(handle)
+
+    # return the use list, as those are closer, but if its empty, return the list of suggested commands
+    return (sim_command_use, 'use') if sim_command_use else (sim_command_suggest, "suggest")

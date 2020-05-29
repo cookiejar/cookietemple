@@ -28,10 +28,11 @@ def create_push_github_repository(project_path: str, project_name: str, project_
     # the personal access token for GitHub
     access_token = handle_pat_authentification()
 
-    is_github_org: bool = click.prompt('Do you want to create an organization repository? [y, n]', type=bool, default='No')
+    is_github_org: bool = True if click.prompt('Do you want to create an organization repository? [y, n]', type=click.Choice(['y', 'n']),
+                                               default='n') == 'y' else False
     if is_github_org:
         github_org: str = click.prompt('Please enter the name of the Github organization: ', type=str)
-    private: bool = click.prompt('Do you want your repository to be private?  [y, n]', type=bool, default='No')
+    private: bool = True if click.prompt('Do you want your repository to be private?  [y, n]', type=click.Choice(['y', 'n']), default='n') == 'y' else False
 
     # Login to Github
     click.echo(click.style('Logging into Github.', fg='blue'))
@@ -82,6 +83,14 @@ def create_push_github_repository(project_path: str, project_name: str, project_
     click.echo(click.style('Pushing template to Github origin development.', fg='blue'))
     cloned_repo.remotes.origin.push(refspec='development:development')
 
+    # git create TEMPLATE branch
+    click.echo(click.style('Creating TEMPLATE branch.', fg='blue'))
+    cloned_repo.git.checkout('-b', 'TEMPLATE')
+
+    # git push to origin development
+    click.echo(click.style('Pushing template to Github origin TEMPLATE.', fg='blue'))
+    cloned_repo.remotes.origin.push(refspec='TEMPLATE:TEMPLATE')
+
     # did any errors occur?
     click.echo(click.style(f'Successfully created a Github repository at https://github.com/{github_username}/{project_name}', fg='green'))
 
@@ -101,13 +110,12 @@ def handle_pat_authentification() -> str:
 
     else:
         click.echo(click.style('Could not find encrypted personal access token!\n', fg='red'))
-        click.echo(click.style('Please navigate to Github -> Your profile -> Developer Settings -> Personal access token -> Generate a new Token', fg='blue'))
+        click.echo(click.style('Please navigate to Github -> Your profile -> Settings -> Developer Settings -> Personal access token -> Generate a new Token',
+                               fg='blue'))
         click.echo(click.style('Only tick \'repo\'. The token is a hidden input to COOKIETEMPLE and stored encrypted locally on your machine.', fg='blue'))
         click.echo(click.style('For more information please read'
                                ' https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line', fg='blue'))
-        access_token: str = click.prompt('Please enter your GitHub access token: ',
-                                         type=str,
-                                         hide_input=True)
+        access_token: str = click.prompt('Please enter your GitHub access token: ', type=str, hide_input=True)
         access_token_b = access_token.encode('utf-8')
 
         # encrypt the given PAT and save the encryption key and encrypted PAT in separate files

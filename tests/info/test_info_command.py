@@ -186,70 +186,78 @@ def test_valid_handles_domain_and_subdomain(get_valid_handles_domain_subdomain, 
 
 def test_most_similar_command_cli(get_commands_with_similar_command_cli, get_all_valid_handles_as_set) -> None:
     """
-    This test tests our most similar command suggestion (here: cli) if the user enters a domain/subdomain unknown to cookietemple.
+    Test our most similar command suggestion (here: cli) if the user enters a domain/subdomain unknown to cookietemple.
     It should suggest a similar command within a certain range of similarity (e.g clo -> cli but not asd -> cli).
     """
     for com in get_commands_with_similar_command_cli:
-        assert most_similar_command(com.lower(), get_all_valid_handles_as_set) == ['cli']
+        test_tuple = most_similar_command(com.lower(), get_all_valid_handles_as_set)
+        assert test_tuple[0] == ['cli'] and test_tuple[1] == 'use'
 
 
 def test_most_similar_command_web(get_commands_with_similar_command_web, get_all_valid_handles_as_set) -> None:
     """
-    This test the most similar command for web (without any subdomain)
+    Test the most similar command for web (without any subdomain)
     """
     for com in get_commands_with_similar_command_web:
-        assert most_similar_command(com.lower(), get_all_valid_handles_as_set) == ['web']
+        test_tuple = most_similar_command(com.lower(), get_all_valid_handles_as_set)
+        assert test_tuple[0] == ['web'] and test_tuple[1] == 'use'
 
 
 def test_most_similar_command_gui(get_commands_with_similar_command_gui, get_all_valid_handles_as_set) -> None:
     """
-    This test the most similar command for web (without any subdomain)
+    Test the most similar command for web (without any subdomain)
     """
     for com in get_commands_with_similar_command_gui:
-        assert most_similar_command(com.lower(), get_all_valid_handles_as_set) == ['gui']
+        test_tuple = most_similar_command(com.lower(), get_all_valid_handles_as_set)
+        assert test_tuple[0] == ['gui'] and test_tuple[1] == 'use'
 
 
 def test_most_similar_command_pub(get_commands_with_similar_command_pub, get_all_valid_handles_as_set) -> None:
     """
-    This test the most similar command for web (without any subdomain)
+    Test the most similar command for web (without any subdomain)
     """
     for com in get_commands_with_similar_command_pub:
-        assert most_similar_command(com.lower(), get_all_valid_handles_as_set) == ['pub']
+        test_tuple = most_similar_command(com.lower(), get_all_valid_handles_as_set)
+        assert test_tuple[0] == ['pub'] and test_tuple[1] == 'use'
 
 
 def test_most_similar_command_cli_with_language(get_commands_with_similar_command_cli_with_language, get_all_valid_handles_as_set) -> None:
     """
-    This test the most similar command for cli with language specified.
+    Test the most similar command for cli with language specified.
     All is needed in the rare case if there are multiple similar handles.
     """
     for com in get_commands_with_similar_command_cli_with_language:
-        assert all(handle in {'cli-python', 'cli-java'} for handle in most_similar_command(com.lower(), get_all_valid_handles_as_set))
+        test_tuple = most_similar_command(com.lower(), get_all_valid_handles_as_set)
+        assert all(handle in {'cli-python', 'cli-java'} for handle in test_tuple[0])
 
 
 def test_most_similar_command_gui_with_language(get_commands_with_similar_command_gui_with_language, get_all_valid_handles_as_set) -> None:
     """
-    This test the most similar command for cli with language specified.
+    Test the most similar command for cli with language specified.
     All is needed in the rare case if there are multiple similar handles.
     """
     for com in get_commands_with_similar_command_gui_with_language:
-        assert all(handle in {'gui-kotlin', 'gui-java'} for handle in most_similar_command(com.lower(), get_all_valid_handles_as_set))
+        test_tuple = most_similar_command(com.lower(), get_all_valid_handles_as_set)
+        assert all(handle in {'gui-kotlin', 'gui-java'} for handle in test_tuple[0])
 
 
 def test_most_similar_command_web_with_subdomain_and_language(get_commands_with_similar_command_web_with_subdomain_and_language, get_all_valid_handles_as_set) \
-     -> None:
+    -> None:
     """
     This test the most similar command for cli with language specified.
     All is needed in the rare case if there are multiple similar handles.
     """
     for com in get_commands_with_similar_command_web_with_subdomain_and_language:
-        assert all(handle in {'web-website', 'web-website-python'} for handle in most_similar_command(com.lower(), get_all_valid_handles_as_set))
+        test_tuple = most_similar_command(com.lower(), get_all_valid_handles_as_set)
+        assert all(handle in {'web-website', 'web-website-python'} for handle in test_tuple[0])
 
 
 def test_most_similar_command_pub_with_subdomain_and_language(get_commands_with_similar_command_pub_with_subdomain_and_language, get_all_valid_handles_as_set) \
-     -> None:
+    -> None:
     """
     This test the most similar command for cli with language specified.
     All is needed in the rare case if there are multiple similar handles.
     """
     for com in get_commands_with_similar_command_pub_with_subdomain_and_language:
-        assert all(handle in {'pub-thesis', 'pub-thesis-latex'} for handle in most_similar_command(com.lower(), get_all_valid_handles_as_set))
+        test_tuple = most_similar_command(com.lower(), get_all_valid_handles_as_set)
+        assert all(handle in {'pub-thesis', 'pub-thesis-latex'} for handle in test_tuple[0])

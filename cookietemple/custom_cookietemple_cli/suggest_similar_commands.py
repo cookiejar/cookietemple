@@ -6,10 +6,13 @@ from cookietemple.util.dict_util import is_nested_dictionary
 TEMPLATES_PATH = f'{os.path.dirname(__file__)}/../create/templates'
 
 # Cookietemples main commands
-MAIN_COMMANDS = ['create', 'lint', 'list', 'info', 'bump_version', 'sync']
+MAIN_COMMANDS = ['create', 'lint', 'list', 'info', 'bump-version', 'sync']
 
-# the fraction a given command could differ from the "right one" to be counted as this command by Cookietemple
-SIMILARITY_FACTOR = (1 / 3)
+# the fraction relative to the commands length, a given input could differ from the real command to be automatically used instead
+SIMILARITY_USE_FACTOR = 1 / 3
+
+# the fraction relative to the commands length, a given input could differ from the real command to be suggested (if >1/3 of course)
+SIMILARITY_SUGGEST_FACTOR = 2 / 3
 
 
 def load_available_handles() -> set:
@@ -59,4 +62,4 @@ def split_handles(unsplitted_handles, all_handles) -> None:
             all_handles.add(parts[0])
         elif len(parts) == 3:
             all_handles.add(parts[0])
-            all_handles.add(f'{parts[0]}-'+parts[1])
+            all_handles.add(f'{parts[0]}-' + parts[1])

@@ -51,15 +51,21 @@ class HelpErrorHandling(click.Group):
         rv = click.Group.get_command(self, ctx, cmd_name)
         if rv is not None:
             return rv
-        sim_commands = most_similar_command(cmd_name, MAIN_COMMANDS)
+        sim_commands, action = most_similar_command(cmd_name, MAIN_COMMANDS)
 
         matches = [cmd for cmd in self.list_commands(ctx) if cmd in sim_commands]
+
+        # no similar commands could be found
         if not matches:
             ctx.fail(click.style('Unknown command and no similar command was found!', fg='red'))
-        elif len(matches) == 1:
+        elif len(matches) == 1 and action == 'use':
             click.echo(click.style('Unknown command! Will use best match ', fg='red') + click.style(f'{matches[0]}.', fg='green'))
             return click.Group.get_command(self, ctx, matches[0])
-        ctx.fail(click.style(f'Unknown command. Most similar commands were {", ".join(sorted(matches))}', fg='red'))
+        elif len(matches) == 1 and action == 'suggest':
+            ctx.fail(click.style('Unknown command! Did you mean ', fg='red') + click.style(f'{matches[0]}?', fg='green'))
+
+        # a few similar commands were found, print a info message
+        ctx.fail(click.style(f'Unknown command. Most similar commands were', fg='red') + click.style(f'{", ".join(sorted(matches))}', fg='red'))
 
     @staticmethod
     def args_not_provided(ctx, cmd: str) -> None:

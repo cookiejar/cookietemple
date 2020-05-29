@@ -5,7 +5,6 @@ from rich.style import Style
 from rich.console import Console
 from rich.table import Table
 from rich.box import HEAVY_HEAD
-
 from cookietemple.custom_cookietemple_cli.levensthein_dist import most_similar_command
 from cookietemple.util.templates_util import load_available_templates
 from cookietemple.util.dict_util import is_nested_dictionary
@@ -139,22 +138,27 @@ class TemplateInfo:
         :param handle: The non existing handle
         """
         available_handles = load_available_handles()
-        most_sim = most_similar_command(handle, available_handles)
+        most_sim, action = most_similar_command(handle, available_handles)
         if most_sim:
-            # found exactly one similar command
-            if len(most_sim) == 1:
+            # found exactly one similar handle
+            if len(most_sim) == 1 and action == 'use':
                 click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
                            click.style(f'for all valid handles.\n', fg='red'))
                 click.echo(click.style('Will use best match ', fg='red') + click.style(f'{most_sim[0]}.\n', fg='green'))
                 # use best match if exactly one similar handle was found
                 self.show_info(most_sim[0])
-            else:
-                # found multiple similar commands
-                nl = '\n'
+            elif len(most_sim) == 1 and action == 'suggest':
                 click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
-                           click.style(f'for all valid handles.\nMost similar commands are:{nl}{nl.join(most_sim)}', fg='red'))
+                           click.style(f'for all valid handles.\n', fg='red'))
+                click.echo(click.style('Did you mean ', fg='red') + click.style(f'{most_sim[0]}?\n', fg='green'))
+            else:
+                # found multiple similar handles
+                nl = '\n'
+                click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='green') +
+                           click.style(f'for all valid handles.\nMost similar handles are:', fg='red') + click.style(f'{nl}{nl.join(sorted(most_sim))}',
+                                                                                                                     fg='green'))
             sys.exit(0)
 
         else:
-            # found no similar commands
+            # found no similar handles
             TemplateInfo.non_existing_handle()

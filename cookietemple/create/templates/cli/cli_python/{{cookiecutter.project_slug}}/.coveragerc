@@ -1,0 +1,6 @@
+[run]
+omit =
+    # omit everything in tests
+    tests/*
+    # omit the setup.py
+    setup.py

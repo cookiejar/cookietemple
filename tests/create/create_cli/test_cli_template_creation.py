@@ -65,7 +65,7 @@ def subdir_github(path) -> set:
             Path(f'{path}/.github/workflows/flake8_linting.yml'), Path(f'{path}/.github/workflows/pr_to_master_from_dev_only.yml'),
             Path(f'{path}/.github/workflows/publish_package.yml'), Path(f'{path}/.github/workflows/tox_testsuite.yml'),
             Path(f'{path}/.github/ISSUE_TEMPLATE/bug_report.md'), Path(f'{path}/.github/ISSUE_TEMPLATE/feature_request.md'),
-            Path(f'{path}/.github/ISSUE_TEMPLATE/general_question.md')}
+            Path(f'{path}/.github/ISSUE_TEMPLATE/general_question.md'), Path(f'{path}/.github/workflows/codecov.yml')}
 
 
 def posix_path_super_dir(path) -> set:
@@ -75,4 +75,4 @@ def posix_path_super_dir(path) -> set:
             Path(f'{path}/.github'), Path(f'{path}/setup.py'), Path(f'{path}/.cookietemple.yml'), Path(f'{path}/CODEOFCONDUCT.rst'),
             Path(f'{path}/docs'), Path(f'{path}/Dockerfile'), Path(f'{path}/requirements.txt'), Path(f'{path}/setup.cfg'),
             Path(f'{path}/CHANGELOG.rst'), Path(f'{path}/LICENSE'), Path(f'{path}/AUTHORS.rst'),
-            Path(f'{path}/.dependabot'), Path(f'{path}/cookietemple.cfg'), Path(f'{path}/.coafile')}
+            Path(f'{path}/.dependabot'), Path(f'{path}/cookietemple.cfg'), Path(f'{path}/.coafile'), Path(f'{path}/.coveragerc')}

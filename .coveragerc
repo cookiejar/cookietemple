@@ -1,0 +1,8 @@
+[run]
+omit =
+    # omit anything in the templates dir
+    cookietemple/create/templates/*
+    # omit everything in tests
+    tests/*
+    # omit the setup.py
+    setup.py

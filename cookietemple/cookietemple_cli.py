@@ -128,13 +128,25 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
     if not new_version:
         HelpErrorHandling.args_not_provided(ctx, 'bump-version')
     else:
-        version_bumper = VersionBumper()
         # if the path entered ends with a trailing slash remove it for consistent output
         if str(project_dir).endswith('/'):
             project_dir = Path(str(project_dir).replace(str(project_dir)[len(str(project_dir)) - 1:], ''))
 
+        version_bumper = VersionBumper(project_dir)
+
         if version_bumper.can_run_bump_version(new_version, project_dir, downgrade):
-            version_bumper.bump_template_version(new_version, project_dir)
+            # only run "sanity" checker when the downgrade flag is not set
+            if not downgrade:
+                # if the check fails, ask the user for confirmation
+                if version_bumper.check_reasonability(version_bumper.CURRENT_VERSION.split('-')[0], new_version.split('-')[0]):
+                    version_bumper.bump_template_version(new_version, project_dir)
+                elif click.confirm(click.style(f'Bumping from {version_bumper.CURRENT_VERSION} to {new_version} seems not reasonable.\n'
+                                               f'Do you really want to bump the project version?', fg='blue')):
+                    click.echo('\n')
+                    version_bumper.bump_template_version(new_version, project_dir)
+            else:
+                version_bumper.bump_template_version(new_version, project_dir)
+
         else:
             sys.exit(1)
 
