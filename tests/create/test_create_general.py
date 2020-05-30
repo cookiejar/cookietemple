@@ -3,7 +3,7 @@ import pytest
 from io import StringIO
 
 from cookietemple.create.create import choose_domain
-from cookietemple.create.domains.CliCreator import CliCreator
+from cookietemple.create.domains.cli_creator import CliCreator
 
 
 @pytest.fixture
@@ -21,7 +21,7 @@ def test_if_repo_already_exists_no_overwrite(mocker, monkeypatch, capfd) -> None
     """
     mocker.patch.object(os.path, 'isdir', autospec=True)
     os.path.isdir.return_value = True
-    prompt = StringIO('cli\npython\ntestname\ntestmail\nprojectname\ndesc\n0.1.1\nMIT\nmyGitHubName\nClick\npytest\nN')
+    prompt = StringIO('cli\npython\ntestname\ntestmail\nblablakdsad\ndesc\n0.1.1\nMIT\nmyGitHubName\nClick\npytest\nN')
     monkeypatch.setattr('sys.stdin', prompt)
 
     with pytest.raises(SystemExit):

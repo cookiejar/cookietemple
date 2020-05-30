@@ -21,7 +21,7 @@ def test_create_basic_web_no_frontend() -> None:
         web_linter_instance = WebWebsitePythonLint(project_path)
 
         # lint the created project to ensure everything worked fine
-        web_linter_instance.lint_project(web_linter_instance, label='Test General Linting', custom_check_files=False)
+        web_linter_instance.lint_project(web_linter_instance, custom_check_files=False)
 
         assert result.exit_code == 0 and matching_project_structure(project_path) and len(web_linter_instance.failed) == 0 and \
                set(project_path.iterdir()) == set(basic_dirs(project_path)) and \
@@ -43,7 +43,7 @@ def test_create_advanced_web_no_frontend() -> None:
         web_linter_instance = WebWebsitePythonLint(project_path)
 
         # lint the created project to ensure everything worked fine
-        web_linter_instance.lint_project(web_linter_instance, label='Test General Linting', custom_check_files=False)
+        web_linter_instance.lint_project(web_linter_instance, custom_check_files=False)
 
         assert result.exit_code == 0 and matching_project_structure(project_path) and len(web_linter_instance.failed) == 0 and \
                set(project_path.iterdir()) == set(advanced_dirs(project_path)) and \
@@ -66,7 +66,7 @@ def test_create_basic_web_frontend() -> None:
         web_linter_instance = WebWebsitePythonLint(project_path)
 
         # lint the created project to ensure everything worked fine
-        web_linter_instance.lint_project(web_linter_instance, label='Test General Linting', custom_check_files=False)
+        web_linter_instance.lint_project(web_linter_instance, custom_check_files=False)
 
         # exit_code 0 indicates the project was linted and passed it
         assert result.exit_code == 0 and matching_project_structure(project_path) and set(project_path.iterdir()) == set(basic_dirs(project_path)) and \
@@ -90,7 +90,7 @@ def test_create_advanced_web_frontend() -> None:
         web_linter_instance = WebWebsitePythonLint(project_path)
 
         # lint the created project to ensure everything worked fine
-        web_linter_instance.lint_project(web_linter_instance, label='Test General Linting', custom_check_files=False)
+        web_linter_instance.lint_project(web_linter_instance, custom_check_files=False)
 
         assert result.exit_code == 0 and matching_project_structure(project_path) and set(project_path.iterdir()) == set(advanced_dirs(project_path)) and \
                len(web_linter_instance.failed) == 0 and \

@@ -1,14 +1,13 @@
 import os
 import sys
+import click
 import shutil
 import re
 import tempfile
+import requests
 from distutils.dir_util import copy_tree
-from shutil import copy2
 from pathlib import Path
 from dataclasses import asdict
-
-import click
 from ruamel.yaml import YAML
 from cookiecutter.main import cookiecutter
 
@@ -65,8 +64,9 @@ class TemplateCreator:
         if create_github_repository:
             # rename the currently created template to a temporary name, create Github repo, push, remove temporary template
             tmp_project_path = f'{project_path}_cookietemple_tmp'
-            os.rename(project_path, tmp_project_path)
-            create_push_github_repository(project_name, 'some description', tmp_project_path, self.creator_ctx.github_username)
+            os.mkdir(tmp_project_path)
+            create_push_github_repository(project_path, project_name, self.creator_ctx.project_short_description, tmp_project_path,
+                                          self.creator_ctx.github_username)
             shutil.rmtree(tmp_project_path, ignore_errors=True)
 
     def create_template_without_subdomain(self, domain_path: str) -> None:
@@ -75,8 +75,6 @@ class TemplateCreator:
         Calls cookiecutter on the main chosen template.
 
         :param domain_path: Path to the template, which is still in cookiecutter format
-        :param domain: Chosen domain
-        :param language: Primary chosen language
         """
         # Target directory is already occupied -> overwrite?
         occupied = os.path.isdir(f'{os.getcwd()}/{self.creator_ctx.project_slug}')
@@ -105,7 +103,6 @@ class TemplateCreator:
 
         :param domain_path: Path to the template, which is still in cookiecutter format
         :param subdomain: Subdomain of the chosen template
-        :param language: Primary chosen language
         """
         occupied = os.path.isdir(f'{os.getcwd()}/{self.creator_ctx.project_slug}')
         if occupied:
@@ -134,7 +131,6 @@ class TemplateCreator:
 
         :param domain_path: Path to the template, which is still in cookiecutter format
         :param subdomain: Subdomain of the chosen template
-        :param language: Primary chosen language
         :param framework: Chosen framework
         """
         occupied = os.path.isdir(f'{os.getcwd()}/{self.creator_ctx.project_slug}')
@@ -162,32 +158,30 @@ class TemplateCreator:
         Prompts the user for general options that are required by all templates.
         Options are saved in the creator context manager object.
         """
+        self.creator_ctx.full_name = click.prompt('Please enter your full name', type=str, default='Homer Simpson')
+        self.creator_ctx.email = click.prompt('Please enter your personal or work email', type=str, default='homer.simpson@example.com')
+        self.creator_ctx.project_name = click.prompt('Please enter your project name', type=str, default='Exploding Springfield')
 
-        self.creator_ctx.full_name = click.prompt('Please enter your full name',
-                                                  type=str,
-                                                  default='Homer Simpson')
-        self.creator_ctx.email = click.prompt('Please enter your personal or work email',
-                                              type=str,
-                                              default='homer.simpson@example.com')
-        self.creator_ctx.project_name = click.prompt('Please enter your project name',
-                                                     type=str,
-                                                     default='Exploding Springfield')
+        # check if the project name is already taken on readthedocs.io
+        while self.readthedocs_slug_already_exists(self.creator_ctx.project_name):
+            click.echo(click.style(f'A project named {self.creator_ctx.project_name} already exists at readthedocs.io!', fg='red'))
+            if click.confirm(click.style('Do you want to choose another name for your project?\nOtherwise you will not be able to host your docs at '
+                                         'readthedocs.io!', fg='blue')):
+                self.creator_ctx.project_name = click.prompt('Please enter your project name', type=str, default='Exploding Springfield')
+            # break if the project should be named anyways
+            else:
+                break
         self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_')
-        self.creator_ctx.project_short_description = click.prompt('Please enter a short description of your project.',
-                                                                  type=str,
+        self.creator_ctx.project_short_description = click.prompt('Please enter a short description of your project.', type=str,
                                                                   default=f'{self.creator_ctx.project_name}. A best practice .')
 
-        poss_vers = click.prompt('Please enter the initial version of your project.',
-                                 type=str,
-                                 default='1.0.0')
+        poss_vers = click.prompt('Please enter the initial version of your project.', type=str, default='1.0.0')
 
         # make sure that the version has the right format
-        while not re.match(r'[0-9]+\.[0-9]+\.[0-9]+', poss_vers):
+        while not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', poss_vers):
             click.echo(click.style('The version number entered does not match cookietemples pattern.\n'
                                    'Please enter the version in the format [number].[number].[number]!', fg='red'))
-            poss_vers = click.prompt('Please enter the initial version of your project.',
-                                     type=str,
-                                     default='1.0.0')
+            poss_vers = click.prompt('Please enter the initial version of your project.', type=str, default='1.0.0')
 
         self.creator_ctx.version = poss_vers
 
@@ -203,7 +197,6 @@ class TemplateCreator:
         This function creates a temporary directory for common files of all templates and applies cookiecutter on them.
         They are subsequently moved into the directory of the created template.
         """
-
         dirpath = tempfile.mkdtemp()
         copy_tree(f'{self.COMMON_FILES_PATH}', dirpath)
         cwd_project = Path.cwd()
@@ -219,46 +212,27 @@ class TemplateCreator:
                      no_input=True,
                      overwrite_if_exists=True)
 
-        common_files = os.listdir(f'{os.getcwd()}/common_files_util/')
-
-        for f in common_files:
-            path = Path(f'{os.getcwd()}/common_files_util/{f}')
-            poss_dir = Path(f'{cwd_project}/{self.creator_ctx.project_slug}/{f}')
-            is_dir = poss_dir.is_dir()
-
-            # if directory already exists add the missing files
-            if is_dir:
-                if any(Path(poss_dir).iterdir()):
-                    self.copy_into_already_existing_directory(path, poss_dir)
-
-            else:
-                # if its a directory delete it and copy new content
-                if is_dir:
-                    delete_dir_tree(poss_dir)
-                shutil.copy(path, f'{cwd_project}/{self.creator_ctx.project_slug}/{f}')
-                os.remove(path)
-
+        # recursively copy the common files directory content to the created project
+        copy_tree(f'{os.getcwd()}/common_files_util', f'{cwd_project}/{self.creator_ctx.project_slug}')
+        # delete the tmp cookiecuttered common files directory
         delete_dir_tree(Path(f'{Path.cwd()}/common_files_util'))
         shutil.rmtree(dirpath)
+        # change to recent cwd so lint etc can run properly
         os.chdir(str(cwd_project))
 
-    def copy_into_already_existing_directory(self, common_path, dir: Path) -> None:
+    def readthedocs_slug_already_exists(self, project_name: str) -> bool:
         """
-        This function copies all files of an arbitrarily deep nested directory that is already on the main directory
-        and just adds them where they belong.
-
-        :param common_path: Path where the common files are located
-        :param dir: The projects directory where collisions occurred (co-existence)
+        Test whether there´s already a project with the same name on readthedocs
+        :param project_name Name of the project the user wants to create
         """
-        for child in common_path.iterdir():
-            if child.is_dir():
-                p = Path(f'{dir}/{child.name}')
-                if p.exists():
-                    self.copy_into_already_existing_directory(child.resolve(), p)
-                else:
-                    shutil.copytree(str(child), str(p))
-            if not child.is_dir():
-                copy2(str(child), str(dir))
+        try:
+            request = requests.get(f'https://{project_name.replace(" ", "")}.readthedocs.io')
+            if request.status_code == 200:
+                return True
+        # catch exceptions when server may be unavailable or the request timed out
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
+            click.echo(click.style('Cannot check whether name already taken on readthedocs.io because its unreachable at the moment!', fg='red'))
+            return False
 
     def directory_exists_warning(self) -> None:
         """

@@ -18,7 +18,7 @@ def test_create_pub_thesis_project() -> None:
         pub_linter_instance = PubLatexLint(project_path)
 
         # lint the created project to ensure everything worked fine, but skip common files since its a pub template
-        pub_linter_instance.lint_project(pub_linter_instance, label='Test General Linting', custom_check_files=True)
+        pub_linter_instance.lint_project(pub_linter_instance, custom_check_files=True)
 
         assert result.exit_code == 0 and matching_project_structure(project_path) and len(pub_linter_instance.failed) == 0
         delete_dir_tree(project_path)

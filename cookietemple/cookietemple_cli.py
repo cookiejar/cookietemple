@@ -4,25 +4,25 @@
 import logging
 import os
 import sys
-
 import click
 from pathlib import Path
+from rich import traceback
 
 import cookietemple
-
-from cookietemple.bump_version.bump_version import bump_template_version, can_run_bump_version
+from cookietemple.bump_version.bump_version import VersionBumper
 from cookietemple.create.create import choose_domain
-from cookietemple.info.info import show_info
+from cookietemple.info.info import TemplateInfo
 from cookietemple.lint.lint import lint_project
-from cookietemple.list.list import list_available_templates
+from cookietemple.list.list import TemplateLister
 from cookietemple.package_dist.warp import warp_project
 from cookietemple.synchronization.sync import snyc_template
-from cookietemple.custom_cookietemple_cli.custom_click import HelpErrorHandling
+from cookietemple.custom_cookietemple_cli.custom_click import HelpErrorHandling, print_project_version
 
 WD = os.path.dirname(__file__)
 
 
 def main():
+    traceback.install()
     click.echo(click.style(f"""
       / __\___   ___ | | _(_) ___| |_ ___ _ __ ___  _ __ | | ___
      / /  / _ \ / _ \| |/ / |/ _ \ __/ _ \\ '_ ` _ \| '_ \| |/ _ \\
@@ -38,14 +38,8 @@ def main():
 
 
 @click.group(cls=HelpErrorHandling)
-@click.version_option(cookietemple.__version__,
-                      message=click.style(f'Cookietemple Version: {cookietemple.__version__}', fg='blue'))
-@click.option(
-    '-v', '--verbose',
-    is_flag=True,
-    default=False,
-    help='Verbose output (print debug statements)'
-)
+@click.version_option(cookietemple.__version__, message=click.style(f'Cookietemple Version: {cookietemple.__version__}', fg='blue'))
+@click.option('-v', '--verbose', is_flag=True, default=False, help='Verbose output (print debug statements)')
 @click.pass_context
 def cookietemple_cli(ctx, verbose):
     if verbose:
@@ -66,7 +60,7 @@ def create(domain: str) -> None:
 
 @cookietemple_cli.command(help_priority=2, short_help='Lint your existing COOKIETEMPLE project.')
 @click.argument('project_dir', type=click.Path(),
-                default=Path(f'{Path.cwd()}'))
+                default=Path(str(Path.cwd())))
 @click.option('--run-coala/--no-run-coala',
               default=False)
 def lint(project_dir, run_coala) -> None:
@@ -81,7 +75,8 @@ def list() -> None:
     """
     List all available COOKIETEMPLE templates
     """
-    list_available_templates()
+    template_lister = TemplateLister()
+    template_lister.list_available_templates()
 
 
 @cookietemple_cli.command(help_priority=4, short_help='Get detailed info on a COOKIETEMPLE template domain or a single template.')
@@ -94,7 +89,8 @@ def info(ctx, handle: str) -> None:
     if not handle:
         HelpErrorHandling.args_not_provided(ctx, 'info')
     else:
-        show_info(handle.lower())
+        template_info = TemplateInfo()
+        template_info.show_info(handle.lower())
 
 
 @cookietemple_cli.command(help_priority=5, short_help='Sync your project with the latest template release.')
@@ -108,8 +104,10 @@ def sync() -> None:
 @cookietemple_cli.command('bump-version', help_priority=6, short_help='Bump the version of an existing COOKIETEMPLE project.')
 @click.argument('new_version', type=str, required=False)
 @click.argument('project_dir', type=click.Path(), default=Path(f'{Path.cwd()}'))
+@click.option('--downgrade', '-d', is_flag=True)
+@click.option('--project-version', is_flag=True, callback=print_project_version, expose_value=False, is_eager=True)
 @click.pass_context
-def bump_version(ctx, new_version, project_dir) -> None:
+def bump_version(ctx, new_version, project_dir, downgrade) -> None:
     """
     Bump the version of an existing COOKIETEMPLE project
 
@@ -118,6 +116,9 @@ def bump_version(ctx, new_version, project_dir) -> None:
     separated by two dots.
     Optional is the -SNAPSHOT at the end (for JVM templates especially). NOTE that versions like 1.2.3.4 or 1.2 WILL NOT be recognized as valid versions as
     well as no substring of them will be recognized.
+
+    Unless the user indicates downgrade via he -d flag, a downgrade of a version is never allowed. Note that bump-version with the new version
+    equals the current version is never allowed, either with or without -d.
     """
     if not new_version:
         HelpErrorHandling.args_not_provided(ctx, 'bump-version')
@@ -126,11 +127,23 @@ def bump_version(ctx, new_version, project_dir) -> None:
         if str(project_dir).endswith('/'):
             project_dir = Path(str(project_dir).replace(str(project_dir)[len(str(project_dir)) - 1:], ''))
 
-        # check if the command met all requirements for successful bump
-        if can_run_bump_version(new_version, project_dir):
-            bump_template_version(new_version, project_dir)
+        version_bumper = VersionBumper(project_dir)
+
+        if version_bumper.can_run_bump_version(new_version, project_dir, downgrade):
+            # only run "sanity" checker when the downgrade flag is not set
+            if not downgrade:
+                # if the check fails, ask the user for confirmation
+                if version_bumper.check_bump_range(version_bumper.CURRENT_VERSION.split('-')[0], new_version.split('-')[0]):
+                    version_bumper.bump_template_version(new_version, project_dir)
+                elif click.confirm(click.style(f'Bumping from {version_bumper.CURRENT_VERSION} to {new_version} seems not reasonable.\n'
+                                               f'Do you really want to bump the project version?', fg='blue')):
+                    click.echo('\n')
+                    version_bumper.bump_template_version(new_version, project_dir)
+            else:
+                version_bumper.bump_template_version(new_version, project_dir)
+
         else:
-            sys.exit(0)
+            sys.exit(1)
 
 
 @cookietemple_cli.command(help_priority=7, short_help='Create a self contained executable with bundled JRE.')

@@ -9,14 +9,15 @@ from git import Repo, exc
 from pathlib import Path
 
 
-def create_push_github_repository(project_name: str, project_description: str, template_creation_path: str, github_username: str) -> None:
+def create_push_github_repository(project_path: str, project_name: str, project_description: str, tmp_repo_path: str, github_username: str) -> None:
     """
     Creates a Github repository for the created template and pushes the template to it.
     Prompts the user for the required specifications.
 
+    :param project_path: The path to the recently created project
     :param project_name: Name of the created project
     :param project_description: Description of the created project
-    :param template_creation_path: Path to the already created template
+    :param tmp_repo_path: Path to the empty cloned repo
     :param github_username: the users github name
     """
     if not is_git_accessible():
@@ -27,15 +28,11 @@ def create_push_github_repository(project_name: str, project_description: str, t
     # the personal access token for GitHub
     access_token = handle_pat_authentification()
 
-    is_github_org: bool = click.prompt('Do you want to create an organization repository? [y, n]',
-                                       type=bool,
-                                       default='No')
+    is_github_org: bool = True if click.prompt('Do you want to create an organization repository? [y, n]', type=click.Choice(['y', 'n']),
+                                               default='n') == 'y' else False
     if is_github_org:
-        github_org: str = click.prompt('Please enter the name of the Github organization: ',
-                                       type=str)
-    private: bool = click.prompt('Do you want your repository to be private?  [y, n]',
-                                 type=bool,
-                                 default='No')
+        github_org: str = click.prompt('Please enter the name of the Github organization: ', type=str)
+    private: bool = True if click.prompt('Do you want your repository to be private?  [y, n]', type=click.Choice(['y', 'n']), default='n') == 'y' else False
 
     # Login to Github
     click.echo(click.style('Logging into Github.', fg='blue'))
@@ -54,23 +51,26 @@ def create_push_github_repository(project_name: str, project_description: str, t
     click.echo(click.style('Creating labels and default Github settings.', fg='blue'))
     create_github_labels(repo=repo, labels=[('DEPENDABOT', '1BB0CE')])
 
-    repository = f'{os.getcwd()}/{project_name}'
+    repository = f'{tmp_repo_path}'
 
     # NOTE: github_username is the organizations name, if an organization repository is to be created
 
     # git clone
-    click.echo(click.style('Cloning empty Github repoitory.', fg='blue'))
-    cloned_repo = Repo.clone_from(f'https://{github_username}:{access_token}@github.com/{github_username}/{project_name}', repository)
+    click.echo(click.style('Cloning empty Github repository.', fg='blue'))
+    Repo.clone_from(f'https://{github_username}:{access_token}@github.com/{github_username}/{project_name}', repository)
 
     # Copy files which should be included in the initial commit -> basically the template
-    copy_tree(template_creation_path, repository)
+    copy_tree(f'{repository}', project_path)
+
+    # the created projct repository with the copied .git directory
+    cloned_repo = Repo(path=project_path)
 
     # git add
     click.echo(click.style('Staging template.', fg='blue'))
     cloned_repo.git.add(A=True)
 
     # git commit
-    cloned_repo.index.commit('Initial commit')
+    cloned_repo.index.commit(f'Created {project_name} using COOKIETEMPLE.')
 
     click.echo(click.style('Pushing template to Github origin master.', fg='blue'))
     cloned_repo.remotes.origin.push(refspec='master:master')
@@ -82,6 +82,18 @@ def create_push_github_repository(project_name: str, project_description: str, t
     # git push to origin development
     click.echo(click.style('Pushing template to Github origin development.', fg='blue'))
     cloned_repo.remotes.origin.push(refspec='development:development')
+
+    # git create TEMPLATE branch
+    click.echo(click.style('Creating TEMPLATE branch.', fg='blue'))
+    cloned_repo.git.checkout('-b', 'TEMPLATE')
+
+    # git push to TEMPLATE branch
+    click.echo(click.style('Pushing template to Github origin TEMPLATE.', fg='blue'))
+    cloned_repo.remotes.origin.push(refspec='TEMPLATE:TEMPLATE')
+
+    # checkout to development branch again
+    click.echo(click.style('Checkout to development branch.', fg='blue'))
+    cloned_repo.git.checkout('development')
 
     # did any errors occur?
     click.echo(click.style(f'Successfully created a Github repository at https://github.com/{github_username}/{project_name}', fg='green'))
@@ -102,13 +114,12 @@ def handle_pat_authentification() -> str:
 
     else:
         click.echo(click.style('Could not find encrypted personal access token!\n', fg='red'))
-        click.echo(click.style('Please navigate to Github -> Your profile -> Developer Settings -> Personal access token -> Generate a new Token', fg='blue'))
+        click.echo(click.style('Please navigate to Github -> Your profile -> Settings -> Developer Settings -> Personal access token -> Generate a new Token',
+                               fg='blue'))
         click.echo(click.style('Only tick \'repo\'. The token is a hidden input to COOKIETEMPLE and stored encrypted locally on your machine.', fg='blue'))
         click.echo(click.style('For more information please read'
                                ' https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line', fg='blue'))
-        access_token: str = click.prompt('Please enter your GitHub access token: ',
-                                         type=str,
-                                         hide_input=True)
+        access_token: str = click.prompt('Please enter your GitHub access token: ', type=str, hide_input=True)
         access_token_b = access_token.encode('utf-8')
 
         # encrypt the given PAT and save the encryption key and encrypted PAT in separate files

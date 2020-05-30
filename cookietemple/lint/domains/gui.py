@@ -1,6 +1,6 @@
 import os
 
-from cookietemple.lint.TemplateLinter import TemplateLinter, files_exist_linting
+from cookietemple.lint.template_linter import TemplateLinter, files_exist_linting
 
 CWD = os.getcwd()
 
@@ -9,9 +9,9 @@ class GuiJavaLint(TemplateLinter):
     def __init__(self, path):
         super().__init__(path)
 
-    def lint(self, label):
+    def lint(self):
         methods = ['java_files_exist']
-        super().lint_project(self, methods, label=label)
+        super().lint_project(self, methods)
 
     def java_files_exist(self) -> None:
         """

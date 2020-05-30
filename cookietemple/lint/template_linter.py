@@ -1,9 +1,9 @@
 import io
 import os
 import re
-
 import click
 import configparser
+from rich.progress import track
 
 from cookietemple.util.dir_util import pf
 
@@ -26,13 +26,9 @@ class TemplateLinter(object):
         self.warned = []
         self.failed = []
 
-    def lint_project(self,
-                     calling_class,
-                     check_functions: list = None,
-                     label: str = 'Running general template tests',
-                     custom_check_files: bool = False) -> None:
+    def lint_project(self, calling_class, check_functions: list = None, custom_check_files: bool = False, is_subclass_calling=True) -> None:
         """Main linting function.
-        Takes the pipeline directory as the primary input and iterates through
+        Takes the template directory as the primary input and iterates through
         the different linting checks in order. Collects any warnings or errors
         and returns summary at completion. Raises an exception if there is a
         critical error that makes the rest of the tests pointless (eg. no
@@ -40,8 +36,8 @@ class TemplateLinter(object):
 
         :param calling_class: The class that calls the function -> used to get the class methods, which are the linting methods
         :param check_functions: List of functions of the calling class that should be checked. If not set, the default TemplateLinter check functions are called
-        :param label: Status message of the current linting method that is about to run
         :param custom_check_files: Set to true if TemplateLinter check_files_exist should not be run
+        :param is_subclass_calling: Indicates whether a domain specific linter calls the linting or not
         """
         # Called on its own, so not from a subclass
         if check_functions is None:
@@ -52,14 +48,17 @@ class TemplateLinter(object):
             check_functions.remove('check_files_exist')
 
         # Show a progessbar and run all linting functions
-        with click.progressbar(check_functions, label=label, item_show_func=repr) as function_names:  # item_show_func=repr leads to some Nones in the bar
-            for fun_name in function_names:
+        for fun_name in track(check_functions, description="[blue]Processing..."):
+            if fun_name == 'check_files_exist':
+                getattr(calling_class, fun_name)(is_subclass_calling)
+            else:
                 getattr(calling_class, fun_name)()
-                if len(self.failed) > 0:
-                    click.echo(click.style(f' Found test failures in {fun_name}, halting lint run', fg='red'))
-                    break
 
-    def check_files_exist(self):
+            if len(self.failed) > 0:
+                click.echo(click.style(f' Found test failures in {fun_name}, halting lint run', fg='red'))
+                break
+
+    def check_files_exist(self, is_subclass_calling=True):
         """Checks a given pipeline directory for required files.
         Iterates through the pipeline's directory content and checkmarks files
         for presence.
@@ -130,7 +129,7 @@ class TemplateLinter(object):
         if not os.path.isfile(pf(self, '.cookietemple.yml')):
             raise AssertionError('.cookietemple.yml not found!! Is this a COOKIETEMPLE project?')
 
-        files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists)
+        files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists, is_subclass_calling)
 
     def check_docker(self):
         """
@@ -272,7 +271,7 @@ class TemplateLinter(object):
         return ' or '.join(bfiles)
 
 
-def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files_warn: list, files_warn_ifexists: list) -> None:
+def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files_warn: list, files_warn_ifexists: list, is_subclass_calling=True) -> None:
     """
     Verifies that passed lists of files exist or do not exist.
     Depending on the desired result passing, warning or failing results are appended to the linter object.
@@ -282,20 +281,28 @@ def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files
     :param files_fail_ifexists: list of files which are not allowed to exist or linting will fail
     :param files_warn: list of files which should exist or linting will warn
     :param files_warn_ifexists: list of files which should exist or linting will warn
+    :param is_subclass_calling: indicates whether the subclass of TemplateLinter called the linting (specific) or itw as the general linting
     """
     # Files that cause an error if they don't exist
+    all_exists = True
     for files in files_fail:
-        if any([os.path.isfile(pf(self, f)) for f in files]):
-            self.passed.append((1, click.style(f'File found: {self._bold_list_items(files)}', fg='green')))
-            self.files.extend(files)
-        else:
+        if not any([os.path.isfile(pf(self, f)) for f in files]):
+            all_exists = False
             self.failed.append((1, click.style(f'File not found: {self._bold_list_items(files)}', fg='red')))
+    # flag that indiactes whether all required files exist or not
+    if all_exists:
+        # called linting from a specific template linter
+        if is_subclass_calling:
+            self.passed.append((1, click.style('All required template specific files were found!', fg='green')))
+        # called as general linting
+        else:
+            self.passed.append((1, click.style('All required general files were found!', fg='green')))
 
     # Files that cause a warning if they don't exist
     for files in files_warn:
         if any([os.path.isfile(pf(self, f)) for f in files]):
-            self.passed.append((1, click.style(f'File found: {self._bold_list_items(files)}', fg='green')))
-            self.files.extend(files)
+            # pass cause if a file was found it will be summarised in one "all required files found" statement
+            pass
         else:
             self.warned.append((1, click.style(f'File not found: {self._bold_list_items(files)}', fg='yellow')))
 

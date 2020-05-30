@@ -1,9 +1,9 @@
 import click
 
-from cookietemple.create.domains.CliCreator import CliCreator
-from cookietemple.create.domains.WebCreator import WebCreator
-from cookietemple.create.domains.GuiCreator import GuiCreator
-from cookietemple.create.domains.PubCreator import PubCreator
+from cookietemple.create.domains.cli_creator import CliCreator
+from cookietemple.create.domains.web_creator import WebCreator
+from cookietemple.create.domains.gui_creator import GuiCreator
+from cookietemple.create.domains.pub_creator import PubCreator
 
 
 def choose_domain(domain: str):

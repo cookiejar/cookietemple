@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from distutils.dir_util import copy_tree
 from shutil import copy
 
-from cookietemple.create.TemplateCreator import TemplateCreator
+from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.domains.common_language_config.python_config import common_python_options
 from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct

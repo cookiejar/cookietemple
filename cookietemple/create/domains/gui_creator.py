@@ -3,7 +3,7 @@ import click
 from pathlib import Path
 from dataclasses import dataclass
 
-from cookietemple.create.TemplateCreator import TemplateCreator
+from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 
 

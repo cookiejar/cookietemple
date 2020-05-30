@@ -2,7 +2,10 @@ import re
 import pytest
 import os
 from pathlib import Path
-from cookietemple.bump_version.bump_version import bump_template_version, replace
+from click.testing import CliRunner
+
+from cookietemple.bump_version.bump_version import VersionBumper
+from cookietemple.cookietemple_cli import bump_version
 
 
 @pytest.fixture
@@ -20,9 +23,10 @@ def test_bump_version(mocker, valid_version_bumpers) -> None:
     """
     mocker.patch.object(Path, 'cwd', autospec=True)
     Path.cwd.return_value = str(os.path.abspath(os.path.dirname(__file__)))
+    version_bumper = VersionBumper(Path(str(os.path.abspath(os.path.dirname(__file__)))))
 
     for version in valid_version_bumpers:
-        bump_template_version(version, Path(str(os.path.abspath(os.path.dirname(__file__)))))
+        version_bumper.bump_template_version(version, Path(str(os.path.abspath(os.path.dirname(__file__)))))
         versions_whitelisted, versions_blacklisted = get_file_versions_after_bump(Path.cwd())
 
         assert (all(versions_whitelisted[i] == version for i in range(10)) and
@@ -30,6 +34,26 @@ def test_bump_version(mocker, valid_version_bumpers) -> None:
                (all(versions_blacklisted[i] == version for i in range(10)) and
                 all(versions_blacklisted[i] != version for i in range(10, len(versions_blacklisted))))
     reset_after_bump_test(Path.cwd())
+
+
+def test_same_version_throws_error() -> None:
+    """
+    Call bump-version with the same version as the current results in error.
+    """
+    runner = CliRunner()
+    result = runner.invoke(bump_version, ['0.0.0', str(os.path.abspath(os.path.dirname(__file__)))])
+
+    assert result.exit_code != 0
+
+
+def test_bad_dir_throws_error() -> None:
+    """
+    Call bump-version in a directory not containing a cookietemple.cfg file results in error.
+    """
+    runner = CliRunner()
+    result = runner.invoke(bump_version, ['0.0.0', str(os.path.abspath(os.path.dirname(__file__))) + '/bump_version_test_files'])
+
+    assert result.exit_code != 0
 
 
 def get_file_versions_after_bump(cwd: Path) -> (list, list):
@@ -56,6 +80,7 @@ def reset_after_bump_test(cwd: Path):
     Reset test files to initial state with initial version number for further testing.
     :param cwd: Current Work Dir
     """
-    replace(f'{str(cwd)}/bump_version_test_files/bump_test_file_whitelisting', '0.0.0', 'bumpversion_files_whitelisted')
-    replace(f'{str(cwd)}/bump_version_test_files/bump_test_file_blacklisting', '0.0.0', 'bumpversion_files_blacklisted')
-    replace(f'{str(cwd)}/cookietemple.cfg', '0.0.0', 'bumpversion_files_whitelisted')
+    version_bumper = VersionBumper(Path(str(os.path.abspath(os.path.dirname(__file__)))))
+    version_bumper.replace(f'{str(cwd)}/bump_version_test_files/bump_test_file_whitelisting', '0.0.0', 'bumpversion_files_whitelisted')
+    version_bumper.replace(f'{str(cwd)}/bump_version_test_files/bump_test_file_blacklisting', '0.0.0', 'bumpversion_files_blacklisted')
+    version_bumper.replace(f'{str(cwd)}/cookietemple.cfg', '0.0.0', 'bumpversion_files_whitelisted')
