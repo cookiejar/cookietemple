@@ -17,8 +17,8 @@ COOKIETEMPLE
         :target: https://twitter.com/LukasHeumos
         :alt: Twitter Follow
 
-.. image:: https://img.shields.io/twitter/follow/1207_philipp?color=green&style=flat-square
-        :target: https://twitter.com/1207_philipp
+.. image:: https://img.shields.io/twitter/follow/philippehmele?color=green&style=flat-square
+        :target: https://twitter.com/Farwent_
         :alt: Twitter Follow
 
 

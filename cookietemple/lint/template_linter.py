@@ -293,17 +293,16 @@ def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files
     if all_exists:
         # called linting from a specific template linter
         if is_subclass_calling:
-            self.passed.append((1, click.style(f'All required template specific files were found!', fg='green')))
+            self.passed.append((1, click.style('All required template specific files were found!', fg='green')))
         # called as general linting
         else:
-            self.passed.append((1, click.style(f'All required general files were found!', fg='green')))
+            self.passed.append((1, click.style('All required general files were found!', fg='green')))
 
     # Files that cause a warning if they don't exist
     for files in files_warn:
         if any([os.path.isfile(pf(self, f)) for f in files]):
+            # pass cause if a file was found it will be summarised in one "all required files found" statement
             pass
-        # self.passed.append((1, click.style(f'File found: {self._bold_list_items(files)}', fg='green')))
-        # self.files.extend(files)
         else:
             self.warned.append((1, click.style(f'File not found: {self._bold_list_items(files)}', fg='yellow')))
 

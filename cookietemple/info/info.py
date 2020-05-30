@@ -143,20 +143,20 @@ class TemplateInfo:
             # found exactly one similar handle
             if len(most_sim) == 1 and action == 'use':
                 click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
-                           click.style(f'for all valid handles.\n', fg='red'))
+                           click.style('for all valid handles.\n', fg='red'))
                 click.echo(click.style('Will use best match ', fg='red') + click.style(f'{most_sim[0]}.\n', fg='green'))
                 # use best match if exactly one similar handle was found
                 self.show_info(most_sim[0])
             elif len(most_sim) == 1 and action == 'suggest':
                 click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
-                           click.style(f'for all valid handles.\n', fg='red'))
+                           click.style('for all valid handles.\n', fg='red'))
                 click.echo(click.style('Did you mean ', fg='red') + click.style(f'{most_sim[0]}?\n', fg='green'))
             else:
                 # found multiple similar handles
                 nl = '\n'
                 click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='green') +
-                           click.style(f'for all valid handles.\nMost similar handles are:', fg='red') + click.style(f'{nl}{nl.join(sorted(most_sim))}',
-                                                                                                                     fg='green'))
+                           click.style('for all valid handles.\nMost similar handles are:', fg='red') + click.style(f'{nl}{nl.join(sorted(most_sim))}',
+                                                                                                                    fg='green'))
             sys.exit(0)
 
         else:

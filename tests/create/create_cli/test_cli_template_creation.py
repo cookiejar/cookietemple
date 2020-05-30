@@ -62,7 +62,7 @@ def subdir_dependabot(path) -> set:
 def subdir_github(path) -> set:
     return {Path(f'{path}/.github/pull_request_template.md'), Path(f'{path}/.github/workflows'), Path(f'{path}/.github/ISSUE_TEMPLATE'),
             Path(f'{path}/.github/workflows/build_docs.yml'), Path(f'{path}/.github/workflows/build_package.yml'),
-            Path(f'{path}/.github/workflows/flake8_linting.yml'), Path(f'{path}/.github/workflows/pr_to_master_from_dev_only.yml'),
+            Path(f'{path}/.github/workflows/flake8_linting.yml'), Path(f'{path}/.github/workflows/pr_to_master_from_patch_release_only.yml'),
             Path(f'{path}/.github/workflows/publish_package.yml'), Path(f'{path}/.github/workflows/tox_testsuite.yml'),
             Path(f'{path}/.github/ISSUE_TEMPLATE/bug_report.md'), Path(f'{path}/.github/ISSUE_TEMPLATE/feature_request.md'),
             Path(f'{path}/.github/ISSUE_TEMPLATE/general_question.md'), Path(f'{path}/.github/workflows/codecov.yml')}

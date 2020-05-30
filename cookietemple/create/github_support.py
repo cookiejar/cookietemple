@@ -75,6 +75,14 @@ def create_push_github_repository(project_path: str, project_name: str, project_
     click.echo(click.style('Pushing template to Github origin master.', fg='blue'))
     cloned_repo.remotes.origin.push(refspec='master:master')
 
+    # git create TEMPLATE branch
+    click.echo(click.style('Creating TEMPLATE branch.', fg='blue'))
+    cloned_repo.git.checkout('-b', 'TEMPLATE')
+
+    # git push to TEMPLATE branch
+    click.echo(click.style('Pushing template to Github origin TEMPLATE.', fg='blue'))
+    cloned_repo.remotes.origin.push(refspec='TEMPLATE:TEMPLATE')
+
     # git create development branch
     click.echo(click.style('Creating development branch.', fg='blue'))
     cloned_repo.git.checkout('-b', 'development')
@@ -82,14 +90,6 @@ def create_push_github_repository(project_path: str, project_name: str, project_
     # git push to origin development
     click.echo(click.style('Pushing template to Github origin development.', fg='blue'))
     cloned_repo.remotes.origin.push(refspec='development:development')
-
-    # git create TEMPLATE branch
-    click.echo(click.style('Creating TEMPLATE branch.', fg='blue'))
-    cloned_repo.git.checkout('-b', 'TEMPLATE')
-
-    # git push to origin development
-    click.echo(click.style('Pushing template to Github origin TEMPLATE.', fg='blue'))
-    cloned_repo.remotes.origin.push(refspec='TEMPLATE:TEMPLATE')
 
     # did any errors occur?
     click.echo(click.style(f'Successfully created a Github repository at https://github.com/{github_username}/{project_name}', fg='green'))

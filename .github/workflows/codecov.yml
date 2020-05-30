@@ -11,7 +11,7 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@master
       with:
-        python-version: {% raw %}${{ matrix.python }}{% endraw %}
+        python-version: ${{ matrix.python }}
 
     - name: Generate coverage report
       run: |

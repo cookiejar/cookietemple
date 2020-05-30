@@ -178,7 +178,7 @@ class VersionBumper:
 
         return True
 
-    def check_reasonability(self, current_version: str, new_version: str) -> bool:
+    def check_bump_range(self, current_version: str, new_version: str) -> bool:
         """
         Check if the new version seems to be a reasonable bump or not (ignored when using the downgrade flag).
         This should not break the bump-version process, but it requires confirmation of the user.

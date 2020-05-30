@@ -1,8 +1,11 @@
 import click
 import sys
+from pathlib import Path
+from configparser import NoSectionError
 
 from cookietemple.custom_cookietemple_cli.suggest_similar_commands import MAIN_COMMANDS
 from cookietemple.custom_cookietemple_cli.levensthein_dist import most_similar_command
+from cookietemple.bump_version.bump_version import VersionBumper
 
 
 class HelpErrorHandling(click.Group):
@@ -85,3 +88,18 @@ class HelpErrorHandling(click.Group):
                        + click.style('Please provide a new version like ', fg='blue')
                        + click.style('1.2.3 ', fg='green') + click.style('as first argument', fg='blue'))
             sys.exit(1)
+
+
+def print_project_version(ctx, param, value) -> None:
+    """
+    Print the current project version.
+    """
+    if not value or ctx.resilient_parsing:
+        return
+    try:
+        click.echo(click.style(f'Current project version is ', fg='blue') + click.style(VersionBumper(Path.cwd()).CURRENT_VERSION, fg='green'))
+        ctx.exit()
+    # currently, its only possible to get project version from top level project dir where the cookietemple.cfg file is
+    except NoSectionError:
+        ctx.fail(click.style('Unable to read from cookietemple.cfg file.\nMake sure your current working directory has a cookietemple.cfg file '
+                 'when running bump-version with the --project-version flag!', fg='red'))
