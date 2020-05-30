@@ -3,12 +3,12 @@ COOKIETEMPLE
 ============
 
 
-.. image:: https://github.com/zethson/cookietemple/workflows/Build%20cookietemple%20Package/badge.svg
-        :target: https://github.com/zethson/cookietemple/workflows/Build%20cookietemple%20Package/badge.svg
+.. image:: https://github.com/zethson/cookietemple/workflows/Build%20Cookietemple%20Package/badge.svg
+        :target: https://github.com/zethson/cookietemple/workflows/Build%20Cookietemple%20Package/badge.svg
         :alt: Github Workflow Build COOKIETEMPLE Status
 
-.. image:: https://github.com/zethson/cookietemple/workflows/Run%20cookietemple%20Tox%20Test%20Suite/badge.svg
-        :target: https://github.com/zethson/cookietemple/workflows/Run%20cookietemple%20Tox%20Test%20Suite/badge.svg
+.. image:: https://github.com/zethson/cookietemple/workflows/Run%20Cookietemple%20Tox%20Test%20Suite/badge.svg
+        :target: https://github.com/zethson/cookietemple/workflows/Run%20Cookietemple%20Tox%20Test%20Suite/badge.svg
         :alt: Github Workflow Tests Status
 
 .. image:: https://img.shields.io/pypi/v/cookietemple.svg
