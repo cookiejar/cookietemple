@@ -37,13 +37,6 @@ def main():
     cookietemple_cli()
 
 
-def print_version(ctx, param, value):
-    if not value or ctx.resilient_parsing:
-        return
-    click.echo(f'Current project version is {VersionBumper}')
-    ctx.exit()
-
-
 @click.group(cls=HelpErrorHandling)
 @click.version_option(cookietemple.__version__, message=click.style(f'Cookietemple Version: {cookietemple.__version__}', fg='blue'))
 @click.option('-v', '--verbose', is_flag=True, default=False, help='Verbose output (print debug statements)')

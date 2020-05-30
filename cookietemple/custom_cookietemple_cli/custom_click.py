@@ -68,7 +68,7 @@ class HelpErrorHandling(click.Group):
             ctx.fail(click.style('Unknown command! Did you mean ', fg='red') + click.style(f'{matches[0]}?', fg='green'))
 
         # a few similar commands were found, print a info message
-        ctx.fail(click.style(f'Unknown command. Most similar commands were', fg='red') + click.style(f'{", ".join(sorted(matches))}', fg='red'))
+        ctx.fail(click.style('Unknown command. Most similar commands were', fg='red') + click.style(f'{", ".join(sorted(matches))}', fg='red'))
 
     @staticmethod
     def args_not_provided(ctx, cmd: str) -> None:
@@ -94,12 +94,13 @@ def print_project_version(ctx, param, value) -> None:
     """
     Print the current project version.
     """
+    # if context uses resilient parsing (no changes of execution flow) or no flag value is provided, do nothing
     if not value or ctx.resilient_parsing:
         return
     try:
-        click.echo(click.style(f'Current project version is ', fg='blue') + click.style(VersionBumper(Path.cwd()).CURRENT_VERSION, fg='green'))
+        click.echo(click.style('Current project version is ', fg='blue') + click.style(VersionBumper(Path.cwd()).CURRENT_VERSION, fg='green'))
         ctx.exit()
     # currently, its only possible to get project version from top level project dir where the cookietemple.cfg file is
     except NoSectionError:
         ctx.fail(click.style('Unable to read from cookietemple.cfg file.\nMake sure your current working directory has a cookietemple.cfg file '
-                 'when running bump-version with the --project-version flag!', fg='red'))
+                             'when running bump-version with the --project-version flag!', fg='red'))
