@@ -56,7 +56,7 @@ def create_push_github_repository(project_path: str, project_name: str, project_
     # NOTE: github_username is the organizations name, if an organization repository is to be created
 
     # git clone
-    click.echo(click.style('Cloning empty Github repoitory.', fg='blue'))
+    click.echo(click.style('Cloning empty Github repository.', fg='blue'))
     Repo.clone_from(f'https://{github_username}:{access_token}@github.com/{github_username}/{project_name}', repository)
 
     # Copy files which should be included in the initial commit -> basically the template
@@ -75,6 +75,14 @@ def create_push_github_repository(project_path: str, project_name: str, project_
     click.echo(click.style('Pushing template to Github origin master.', fg='blue'))
     cloned_repo.remotes.origin.push(refspec='master:master')
 
+    # git create development branch
+    click.echo(click.style('Creating development branch.', fg='blue'))
+    cloned_repo.git.checkout('-b', 'development')
+
+    # git push to origin development
+    click.echo(click.style('Pushing template to Github origin development.', fg='blue'))
+    cloned_repo.remotes.origin.push(refspec='development:development')
+
     # git create TEMPLATE branch
     click.echo(click.style('Creating TEMPLATE branch.', fg='blue'))
     cloned_repo.git.checkout('-b', 'TEMPLATE')
@@ -83,13 +91,9 @@ def create_push_github_repository(project_path: str, project_name: str, project_
     click.echo(click.style('Pushing template to Github origin TEMPLATE.', fg='blue'))
     cloned_repo.remotes.origin.push(refspec='TEMPLATE:TEMPLATE')
 
-    # git create development branch
-    click.echo(click.style('Creating development branch.', fg='blue'))
-    cloned_repo.git.checkout('-b', 'development')
-
-    # git push to origin development
-    click.echo(click.style('Pushing template to Github origin development.', fg='blue'))
-    cloned_repo.remotes.origin.push(refspec='development:development')
+    # checkout to development branch again
+    click.echo(click.style('Checkout to development branch.', fg='blue'))
+    cloned_repo.git.checkout('development')
 
     # did any errors occur?
     click.echo(click.style(f'Successfully created a Github repository at https://github.com/{github_username}/{project_name}', fg='green'))
