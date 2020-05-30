@@ -3,22 +3,36 @@ COOKIETEMPLE
 ============
 
 
+.. image:: https://github.com/zethson/cookietemple/workflows/Build%20qube%20Package/badge.svg
+        :target: https://github.com/zethson/cookietemple/workflows/Build%20qube%20Package/badge.svg
+        :alt: Github Workflow Build COOKIETEMPLE Status
+
+.. image:: https://github.com/zethson/cookietemple/workflows/Run%20qube%20Tox%20Test%20Suite/badge.svg
+        :target: https://github.com/zethson/cookietemple/workflows/Run%20qube%20Tox%20Test%20Suite/badge.svg
+        :alt: Github Workflow Tests Status
+
 .. image:: https://img.shields.io/pypi/v/cookietemple.svg
         :target: https://pypi.python.org/pypi/cookietemple
+        :alt: PyPi Status
 
 .. image:: https://readthedocs.org/projects/cookietemple/badge/?version=latest
         :target: https://cookietemple.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
+.. image:: https://codecov.io/gh/Zethson/cookietemple/branch/master/graph/badge.svg?token=dijn0M0p7m
+        :target: https://codecov.io/gh/Zethson/cookietemple
+        :alt: Codecov Status
+
 .. image:: https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot
+        :target: https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot
         :alt: Dependabot Enabled
 
 .. image:: https://img.shields.io/twitter/follow/lukasheumos?color=green&style=flat-square
         :target: https://twitter.com/LukasHeumos
         :alt: Twitter Follow
 
-.. image:: https://img.shields.io/twitter/follow/philippehmele?color=green&style=flat-square
-        :target: https://twitter.com/Farwent_
+.. image:: https://img.shields.io/twitter/follow/https://twitter.com/Farwent_?color=green&style=flat-square
+        :target: https://twitter.com/Farwent\_
         :alt: Twitter Follow
 
 
