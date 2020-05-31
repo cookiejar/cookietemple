@@ -31,7 +31,7 @@ COOKIETEMPLE
         :target: https://twitter.com/LukasHeumos
         :alt: Twitter Follow
 
-.. image:: https://img.shields.io/twitter/follow/https://twitter.com/Farwent_?color=green&style=flat-square
+.. image:: https://img.shields.io/twitter/follow/Farwent_?color=green&style=flat-square   :alt: Twitter Follow
         :target: https://twitter.com/Farwent\_
         :alt: Twitter Follow
 
