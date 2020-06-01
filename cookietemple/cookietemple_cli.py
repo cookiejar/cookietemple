@@ -17,6 +17,8 @@ from cookietemple.list.list import TemplateLister
 from cookietemple.package_dist.warp import warp_project
 from cookietemple.synchronization.sync import snyc_template
 from cookietemple.custom_cookietemple_cli.custom_click import HelpErrorHandling, print_project_version
+from cookietemple.config_command.config import config_general_settings, config_github_settings
+from cookietemple.util.templates_util import load_available_templates
 
 WD = os.path.dirname(__file__)
 
@@ -155,6 +157,28 @@ def warp(input_dir: str, exec: str, output: str) -> None:
     Create a self contained executable with bundled JRE
     """
     warp_project(input_dir, exec, output)
+
+
+@cookietemple_cli.command(help_priority=8, short_help='Configure your general settings and github credentials.')
+@click.argument('section', type=str, required=False)
+@click.pass_context
+def config(ctx, section: str) -> None:
+    """
+    Configure your general settings and github credentials for reuse.
+    """
+    if section == 'general':
+        # set the full_name and email for reuse in the creation process
+        config_general_settings()
+    elif section == 'github':
+        # set github username and encrypted personal access token
+        config_github_settings()
+    elif section == 'all':
+        # set everything
+        config_general_settings()
+        config_github_settings()
+        print(load_available_templates(f'{Path.home()}/cookietemple_conf.yml'))
+    else:
+        HelpErrorHandling.args_not_provided(ctx, 'config')
 
 
 if __name__ == '__main__':
