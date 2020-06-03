@@ -1,0 +1,4 @@
+Sphinx==2.4.4
+{% if cookiecutter.language == 'python' -%}
+sphinx-automodapi==0.12{% endif %}
+-r ../requirements.txt

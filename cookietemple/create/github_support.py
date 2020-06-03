@@ -9,7 +9,7 @@ from github import Github, GithubException
 from git import Repo, exc
 
 from cookietemple.util.yaml_util import load_yaml_file
-from cookietemple.config_command.config import CONF_FILE_PATH
+from cookietemple.config_command.config import ConfigCommand
 
 
 def create_push_github_repository(project_path: str, project_name: str, project_description: str, tmp_repo_path: str, github_username: str) -> None:
@@ -111,7 +111,7 @@ def handle_pat_authentification() -> str:
     """
 
     # check if the key and encrypted PAT already exist
-    if os.path.exists(f'{Path.home()}/.ct_keys') and os.path.exists(CONF_FILE_PATH):
+    if os.path.exists(f'{Path.home()}/.ct_keys') and os.path.exists(ConfigCommand.CONF_FILE_PATH):
         pat = decrypt_pat()
         return pat
 
@@ -139,7 +139,7 @@ def decrypt_pat() -> str:
     with open(f'{Path.home()}/.ct_keys', 'rb') as f:
         key = f.readline()
     fer = Fernet(key)
-    encrypted_pat = load_yaml_file(CONF_FILE_PATH)['pat']
+    encrypted_pat = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['pat']
     # decrypt the PAT and decode it to string
     click.echo(click.style('Decrypting personal access token.', fg='blue'))
     decrypted_pat = fer.decrypt(encrypted_pat).decode('utf-8')
@@ -154,13 +154,13 @@ def load_github_username() -> str:
 
     :return: The users github account name
     """
-    if not os.path.exists(CONF_FILE_PATH):
+    if not os.path.exists(ConfigCommand.CONF_FILE_PATH):
         click.echo(click.style('Could not find cookietemple config file!', fg='red'))
         click.echo(click.style('Use cookietemple config github to configure your GitHub username for cookietemple!', fg='red'))
         sys.exit(1)
 
     else:
-        return load_yaml_file(CONF_FILE_PATH)['github_username']
+        return load_yaml_file(ConfigCommand.CONF_FILE_PATH)['github_username']
 
 
 def is_git_accessible() -> bool:

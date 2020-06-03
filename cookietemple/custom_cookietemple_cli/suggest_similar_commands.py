@@ -6,7 +6,7 @@ from cookietemple.util.dict_util import is_nested_dictionary
 TEMPLATES_PATH = f'{os.path.dirname(__file__)}/../create/templates'
 
 # Cookietemples main commands
-MAIN_COMMANDS = ['create', 'lint', 'list', 'info', 'bump-version', 'sync']
+MAIN_COMMANDS = ['create', 'lint', 'list', 'info', 'bump-version', 'sync', 'config']
 
 # the fraction relative to the commands length, a given input could differ from the real command to be automatically used instead
 SIMILARITY_USE_FACTOR = 1 / 3

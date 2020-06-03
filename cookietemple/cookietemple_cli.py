@@ -17,7 +17,7 @@ from cookietemple.list.list import TemplateLister
 from cookietemple.package_dist.warp import warp_project
 from cookietemple.synchronization.sync import snyc_template
 from cookietemple.custom_cookietemple_cli.custom_click import HelpErrorHandling, print_project_version
-from cookietemple.config_command.config import config_general_settings, config_github_settings
+from cookietemple.config_command.config import ConfigCommand
 
 WD = os.path.dirname(__file__)
 
@@ -167,14 +167,14 @@ def config(ctx, section: str) -> None:
     """
     if section == 'general':
         # set the full_name and email for reuse in the creation process
-        config_general_settings()
+        ConfigCommand.config_general_settings()
     elif section == 'github':
         # set github username and encrypted personal access token
-        config_github_settings()
+        ConfigCommand.config_github_settings()
     elif section == 'all':
         # set everything
-        config_general_settings()
-        config_github_settings()
+        ConfigCommand.config_general_settings()
+        ConfigCommand.config_github_settings()
     else:
         HelpErrorHandling.args_not_provided(ctx, 'config')
 

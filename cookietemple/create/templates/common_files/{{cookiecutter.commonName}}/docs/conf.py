@@ -33,7 +33,8 @@ import {{ cookiecutter.project_slug }}
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 
 # Add 'sphinx_automodapi.automodapi' if you want to build modules
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode', 'sphinx_automodapi.automodapi']
+{% if cookiecutter.language == 'python' -%}
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode', 'sphinx_automodapi.automodapi']{% endif %}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

@@ -16,7 +16,7 @@ from cookietemple.create.github_support import create_push_github_repository, lo
 from cookietemple.lint.lint import lint_project
 from cookietemple.util.docs_util import fix_short_title_underline
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
-from cookietemple.config_command.config import CONF_FILE_PATH
+from cookietemple.config_command.config import ConfigCommand
 from cookietemple.util.yaml_util import load_yaml_file
 
 
@@ -160,8 +160,8 @@ class TemplateCreator:
         Options are saved in the creator context manager object.
         """
         try:
-            self.creator_ctx.full_name = load_yaml_file(CONF_FILE_PATH)['full_name']
-            self.creator_ctx.email = load_yaml_file(CONF_FILE_PATH)['email']
+            self.creator_ctx.full_name = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['full_name']
+            self.creator_ctx.email = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['email']
         except FileNotFoundError:
             click.echo(
                 click.style('No cookietemple config file was found. Use cookietemple config general or all to configure your mail and full name', fg='red'))
@@ -211,6 +211,7 @@ class TemplateCreator:
                      extra_context={'full_name': self.creator_ctx.full_name,
                                     'email': self.creator_ctx.email,
                                     'language': self.creator_ctx.language,
+                                    'project_name': self.creator_ctx.project_name,
                                     'project_slug': self.creator_ctx.project_slug,
                                     'version': self.creator_ctx.version,
                                     'license': self.creator_ctx.license,
