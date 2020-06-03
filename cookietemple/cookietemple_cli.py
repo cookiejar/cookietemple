@@ -35,8 +35,6 @@ def main():
     click.echo(click.style('Run ', fg='blue') + click.style('cookietemple --help ', fg='green') + click.style('for an overview of all commands', fg='blue'))
     click.echo()
 
-    import bla
-
     cookietemple_cli()
 
 
