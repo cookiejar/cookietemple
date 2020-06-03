@@ -1,9 +1,11 @@
 import os
 import click
 from pathlib import Path
-
 from cryptography.fernet import Fernet
 from ruamel.yaml import YAML
+
+# path where the config file is stored for cookietemple
+CONF_FILE_PATH = f'{Path.home()}/cookietemple_conf.yml'
 
 
 def config_general_settings() -> None:
@@ -15,21 +17,21 @@ def config_general_settings() -> None:
     full_name_b, email_b = full_name, email
 
     # if the configs exist, just update them
-    if os.path.exists(f'{Path.home()}/cookietemple_conf.yml'):
-        path = Path(f'{Path.home()}/cookietemple_conf.yml')
+    if os.path.exists(CONF_FILE_PATH):
+        path = Path(CONF_FILE_PATH)
         yaml = YAML(typ='safe')
         settings = yaml.load(path)
 
         # update the full_name and email
         settings['full_name'] = full_name_b
         settings['email'] = email_b
-        yaml.dump(settings, Path(f'{Path.home()}/cookietemple_conf.yml'))
+        yaml.dump(settings, Path(CONF_FILE_PATH))
 
     # the configs don´t exist -> create them
     else:
         settings = {'full_name': full_name_b, 'email': email_b}
         yaml = YAML()
-        yaml.dump(settings, Path(f'{Path.home()}/cookietemple_conf.yml'))
+        yaml.dump(settings, Path(CONF_FILE_PATH))
 
 
 def config_github_settings() -> None:
@@ -57,18 +59,18 @@ def config_github_settings() -> None:
         f.write(key)
 
     # if the configs exist, just update them
-    if os.path.exists(f'{Path.home()}/cookietemple_conf.yml'):
-        path = Path(f'{Path.home()}/cookietemple_conf.yml')
+    if os.path.exists(CONF_FILE_PATH):
+        path = Path(CONF_FILE_PATH)
         yaml = YAML(typ='safe')
         settings = yaml.load(path)
 
         # update the full_name and email
         settings['github_username'] = github_username
         settings['pat'] = encrypted_pat
-        yaml.dump(settings, Path(f'{Path.home()}/cookietemple_conf.yml'))
+        yaml.dump(settings, Path(CONF_FILE_PATH))
 
     # the configs don´t exist -> create them
     else:
         settings = {'github_username': github_username, 'pat': encrypted_pat}
         yaml = YAML()
-        yaml.dump(settings, Path(f'{Path.home()}/cookietemple_conf.yml'))
+        yaml.dump(settings, Path(CONF_FILE_PATH))

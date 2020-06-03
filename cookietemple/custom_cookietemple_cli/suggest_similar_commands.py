@@ -1,6 +1,6 @@
 import os
 
-from cookietemple.list.list import load_available_templates
+from cookietemple.util.yaml_util import load_yaml_file
 from cookietemple.util.dict_util import is_nested_dictionary
 
 TEMPLATES_PATH = f'{os.path.dirname(__file__)}/../create/templates'
@@ -21,7 +21,7 @@ def load_available_handles() -> set:
 
     :return: A set of all available handles
     """
-    available_templates = load_available_templates(f'{TEMPLATES_PATH}/available_templates.yml')
+    available_templates = load_yaml_file(f'{TEMPLATES_PATH}/available_templates.yml')
     unsplitted_handles = set()
     all_handles = set()
     nested_dict_to_handle_set(available_templates, unsplitted_handles)

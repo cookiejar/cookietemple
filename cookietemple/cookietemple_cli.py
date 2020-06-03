@@ -18,7 +18,6 @@ from cookietemple.package_dist.warp import warp_project
 from cookietemple.synchronization.sync import snyc_template
 from cookietemple.custom_cookietemple_cli.custom_click import HelpErrorHandling, print_project_version
 from cookietemple.config_command.config import config_general_settings, config_github_settings
-from cookietemple.util.templates_util import load_available_templates
 
 WD = os.path.dirname(__file__)
 
@@ -176,7 +175,6 @@ def config(ctx, section: str) -> None:
         # set everything
         config_general_settings()
         config_github_settings()
-        print(load_available_templates(f'{Path.home()}/cookietemple_conf.yml'))
     else:
         HelpErrorHandling.args_not_provided(ctx, 'config')
 
