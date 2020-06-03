@@ -163,6 +163,7 @@ class TemplateCreator:
             self.creator_ctx.full_name = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['full_name']
             self.creator_ctx.email = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['email']
         except FileNotFoundError:
+            # style and automatic use config
             click.echo(
                 click.style('No cookietemple config file was found. Use cookietemple config general or all to configure your mail and full name', fg='red'))
             sys.exit(1)
@@ -211,6 +212,7 @@ class TemplateCreator:
                      extra_context={'full_name': self.creator_ctx.full_name,
                                     'email': self.creator_ctx.email,
                                     'language': self.creator_ctx.language,
+                                    'domain': self.creator_ctx.domain,
                                     'project_name': self.creator_ctx.project_name,
                                     'project_slug': self.creator_ctx.project_slug,
                                     'version': self.creator_ctx.version,

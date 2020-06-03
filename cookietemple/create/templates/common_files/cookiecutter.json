@@ -8,6 +8,7 @@
   "license": "MIT",
   "project_short_description" : "A cookietemple template",
   "language": "Language",
+  "domain": "domain",
     "_copy_without_render": [
         "*.yml"
     ]

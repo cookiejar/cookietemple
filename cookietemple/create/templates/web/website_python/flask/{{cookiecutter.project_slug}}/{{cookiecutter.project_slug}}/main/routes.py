@@ -3,7 +3,7 @@ from flask import session
 
 from {{cookiecutter.project_slug}}.main import bp
 
-"""This route is requested, whenever (and only if) the user changed the language manually"""
+
 @bp.route('/language/<language>')
 def set_language(language=None):
     session['language'] = language

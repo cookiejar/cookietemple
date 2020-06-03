@@ -4,7 +4,7 @@
 
     <groupId>org.{{ cookiecutter.organization }}</groupId>
     <artifactId>{{ cookiecutter.project_slug }}</artifactId>
-    <version>{{ cookiecutter.version }}-SNAPSHOT</version> <!-- <<COOKIETEMPLE_FORCE_BUMP>> -->
+    <version>{{ cookiecutter.version }}</version> <!-- <<COOKIETEMPLE_FORCE_BUMP>> -->
     <packaging>jar</packaging>
 
     <name>{{ cookiecutter.project_name }}</name>
