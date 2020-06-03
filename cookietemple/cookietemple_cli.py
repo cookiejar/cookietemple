@@ -23,7 +23,7 @@ WD = os.path.dirname(__file__)
 
 
 def main():
-    traceback.install()
+    traceback.install(width=200, word_wrap=True)
     click.echo(click.style(f"""
       / __\___   ___ | | _(_) ___| |_ ___ _ __ ___  _ __ | | ___
      / /  / _ \ / _ \| |/ / |/ _ \ __/ _ \\ '_ ` _ \| '_ \| |/ _ \\
@@ -34,6 +34,8 @@ def main():
 
     click.echo(click.style('Run ', fg='blue') + click.style('cookietemple --help ', fg='green') + click.style('for an overview of all commands', fg='blue'))
     click.echo()
+
+    import bla
 
     cookietemple_cli()
 

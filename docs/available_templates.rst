@@ -98,14 +98,20 @@ Included frameworks/libraries
 3. `pytest <https://docs.pytest.org/en/latest/>`_ or `unittest <https://docs.python.org/3/library/unittest.html>`_ as testing frameworks
 4. Preconfigured `tox <https://tox.readthedocs.io/en/latest/>`_ to run pytest matrices with different Python environments
 5. Preconfigured `readthedocs <https://readthedocs.org/>`_
-6. Six Github workflows:
+6. Eight Github workflows:
 
   1. :code:`build_docs.yml`, which builds the readthedocs documentation.
   2. :code:`build_package.yml`, which builds the cli-python package.
-  3. :code:`flake8_linting.yml`, which runs `flake8 <https://flake8.pycqa.org/en/latest/>`_ linting.
-  4. :code:`tox_testsuite.yml`, which runs the tox testing suite.
+  3. :code:`run_flake8_linting.yml`, which runs `flake8 <https://flake8.pycqa.org/en/latest/>`_ linting.
+  4. :code:`run_tox_testsuite.yml`, which runs the tox testing suite.
   5. :code:`publish_package.yml`, which publishes the package to PyPi. Note that it only runs on Github release and requires PyPi secrets to be set up.
-  6. :code:`pr_to_master_from_dev_only.yml`, checks, in a case of a PR to master branch, that the merged branch is development branch.
+  6. :code:`run_codecov`, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
+  7. :code:`run_bandit`, run `bandit <https://github.com/PyCQA/bandit>`_ to discover security issues in your python code
+  8. :code:`pr_to_master_from_patch_release_only`: This workflow runs everytime a PR to your projects master branch is created. It fails, if the PR to the :code:`master` branch
+     comes from a branch that does not containd :code:`PATCH` or :code:`release` in its branch name. Why? If you write your development code on a branch called :code:`development`
+     and want to make a new release of your project, one should create a :code:`release` branch only for this purpose and then merge it into :code:`master` branch.
+     The :code:`PATCH` branch should be used for required :code:`hotfixes` (checked out directly from :code:`master` branch) because, in the meantime, there might
+     multiple developments going on at :code:`development` branch and you dont want to interfere with them.
 
 
 We highly recommend to use click (if commandline interface is required) together with pytest.
@@ -403,14 +409,20 @@ make heavy use of its extensions.
 3. `pytest <https://docs.pytest.org/en/latest/>`_ or `unittest <https://docs.python.org/3/library/unittest.html>`_ as testing frameworks
 4. Preconfigured `tox <https://tox.readthedocs.io/en/latest/>`_ to run pytest matrices with different Python environments
 5. Preconfigured `readthedocs <https://readthedocs.org/>`_
-6. Six Github workflows:
+6. Eight Github workflows:
 
   1. :code:`build_docs.yml`, which builds the readthedocs documentation.
   2. :code:`build_package.yml`, which builds the web-template package.
-  3. :code:`flake8_linting.yml`, which runs `flake8 <https://flake8.pycqa.org/en/latest/>`_ linting.
-  4. :code:`tox_testsuite.yml`, which runs the tox testing suite.
-  5. :code:`css_lint.yml`, which runs `Stylelint <https://stylelint.io/>`_ CSS linting.
-  6. :code:`pr_to_master_from_dev_only.yml`, checks, in a case of a PR to master branch, that the merged branch is development branch.
+  3. :code:`run_flake8_linting.yml`, which runs `flake8 <https://flake8.pycqa.org/en/latest/>`_ linting.
+  4. :code:`run_tox_testsuite.yml`, which runs the tox testing suite.
+  5. :code:`run_css_lint.yml`, which runs `Stylelint <https://stylelint.io/>`_ CSS linting.
+  6. :code:`run_codecov`, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
+  7. :code:`run_bandit`, run `bandit <https://github.com/PyCQA/bandit>`_ to discover security issues in your python code
+  8. :code:`pr_to_master_from_patch_release_only`: This workflow runs everytime a PR to your projects master branch is created. It fails, if the PR to the :code:`master` branch
+     comes from a branch that does not containd :code:`PATCH` or :code:`release` in its branch name. Why? If you write your development code on a branch called :code:`development`
+     and want to make a new release of your project, one should create a :code:`release` branch only for this purpose and then merge it into :code:`master` branch.
+     The :code:`PATCH` branch should be used for required :code:`hotfixes` (checked out directly from :code:`master` branch) because, in the meantime, there might
+     multiple developments going on at :code:`development` branch and you dont want to interfere with them.
 
 
 We highly recommend to use click (if commandline interface is required) together with pytest.
@@ -614,13 +626,18 @@ Included frameworks/libraries
 5. `JUnit 5 <https://junit.org/junit5/>`_ for unit tests
 6. `TestFX <https://github.com/TestFX/TestFX>`_ for JavaFX GUI tests
 7. Preconfigured `readthedocs <https://readthedocs.org/>`_
-8. Five Github workflows:
+8. Six Github workflows:
 
   1. :code:`build_docs.yml`, which builds the readthedocs documentation.
   2. :code:`compile_package.yml`, which compiles the gui-java project.
-  3. :code:`java_linting.yml`, which runs `checkstyle <https://checkstyle.sourceforge.io/>`_ linting using Google's ruleset.
+  3. :code:`run_java_linting.yml`, which runs `checkstyle <https://checkstyle.sourceforge.io/>`_ linting using Google's ruleset.
   4. :code:`run_tests.yml`, which runs the Unit tests. Note that this workflow is currently disabled, since GUI unittests are not possible using Github Actions.
-  5. :code:`pr_to_master_from_dev_only.yml`, checks, in a case of a PR to master branch, that the merged branch is development branch.
+  5. :code:`run_codecov`, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
+  6. :code:`pr_to_master_from_patch_release_only`: This workflow runs everytime a PR to your projects master branch is created. It fails, if the PR to the :code:`master` branch
+     comes from a branch that does not containd :code:`PATCH` or :code:`release` in its branch name. Why? If you write your development code on a branch called :code:`development`
+     and want to make a new release of your project, one should create a :code:`release` branch only for this purpose and then merge it into :code:`master` branch.
+     The :code:`PATCH` branch should be used for required :code:`hotfixes` (checked out directly from :code:`master` branch) because, in the meantime, there might
+     multiple developments going on at :code:`development` branch and you dont want to interfere with them.
 
 Usage
 ^^^^^^^^
