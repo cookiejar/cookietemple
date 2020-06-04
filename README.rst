@@ -1,6 +1,6 @@
 |pic1| |pic2|
 
-.. |pic1| image:: https://user-images.githubusercontent.com/21954664/83796650-a962ee80-a6a1-11ea-9e2c-bc2ae80d304d.png
+.. |pic1| image:: https://user-images.githubusercontent.com/21954664/83797925-a7019400-a6a3-11ea-86ad-44ad00e24234.png
    :width: 25%
 
 .. |pic2| image:: https://user-images.githubusercontent.com/21954664/83797595-33f81d80-a6a3-11ea-9790-6c5dacef8161.png
