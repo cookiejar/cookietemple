@@ -1,7 +1,6 @@
-============
-COOKIETEMPLE
-============
+.. image:: https://user-images.githubusercontent.com/21954664/83796650-a962ee80-a6a1-11ea-9e2c-bc2ae80d304d.png
 
+|
 
 .. image:: https://github.com/zethson/cookietemple/workflows/Build%20Cookietemple%20Package/badge.svg
         :target: https://github.com/zethson/cookietemple/workflows/Build%20Cookietemple%20Package/badge.svg
