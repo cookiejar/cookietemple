@@ -1,2 +1,0 @@
-Sphinx==2.4.4
-sphinx-automodapi==0.12

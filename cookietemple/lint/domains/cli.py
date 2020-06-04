@@ -59,8 +59,8 @@ class CliPythonLint(TemplateLinter):
         files_warn = [
             [os.path.join('.github', 'workflows', 'build_package.yml')],
             [os.path.join('.github', 'workflows', 'publish_package.yml')],
-            [os.path.join('.github', 'workflows', 'tox_testsuite.yml')],
-            [os.path.join('.github', 'workflows', 'flake8_linting.yml')],
+            [os.path.join('.github', 'workflows', 'run_tox_testsuite.yml')],
+            [os.path.join('.github', 'workflows', 'run_flake8_linting.yml')],
         ]
 
         # List of strings. Fails / warns if any of the strings exist.

@@ -6,7 +6,7 @@ from rich.table import Table
 from rich.box import HEAVY_HEAD
 
 from cookietemple.util.dict_util import is_nested_dictionary
-from cookietemple.util.templates_util import load_available_templates
+from cookietemple.util.yaml_util import load_yaml_file
 
 
 class TemplateLister:
@@ -23,7 +23,7 @@ class TemplateLister:
         Displays all available templates to stdout in nicely formatted yaml format.
         Omits long descriptions.
         """
-        available_templates = load_available_templates(f'{self.TEMPLATES_PATH}/available_templates.yml')
+        available_templates = load_yaml_file(f'{self.TEMPLATES_PATH}/available_templates.yml')
         click.echo(click.style('Run ', fg='blue') + click.style('cookietemple info ', fg='green') +
                    click.style('for long descriptions of your template of interest.\n', fg='blue'))
 

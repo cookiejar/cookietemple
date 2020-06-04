@@ -36,10 +36,9 @@ class GuiJavaLint(TemplateLinter):
             ['pom.xml'],
         ]
         files_warn = [
-            [os.path.join('.github', 'workflows', 'build_package.yml')],
             [os.path.join('.github', 'workflows', 'build_docs.yml')],
             [os.path.join('.github', 'workflows', 'run_tests.yml')],
-            [os.path.join('.github', 'workflows', 'java_linting.yml')],
+            [os.path.join('.github', 'workflows', 'run_java_linting.yml')],
         ]
 
         # List of strings. Fails / warns if any of the strings exist.

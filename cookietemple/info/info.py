@@ -6,7 +6,7 @@ from rich.console import Console
 from rich.table import Table
 from rich.box import HEAVY_HEAD
 from cookietemple.custom_cookietemple_cli.levensthein_dist import most_similar_command
-from cookietemple.util.templates_util import load_available_templates
+from cookietemple.util.yaml_util import load_yaml_file
 from cookietemple.util.dict_util import is_nested_dictionary
 from cookietemple.custom_cookietemple_cli.suggest_similar_commands import load_available_handles
 
@@ -28,7 +28,7 @@ class TemplateInfo:
         """
         # list of all templates that should be printed according to the passed handle
         templates_to_print = []
-        available_templates = load_available_templates(f'{self.TEMPLATES_PATH}/available_templates.yml')
+        available_templates = load_yaml_file(f'{self.TEMPLATES_PATH}/available_templates.yml')
 
         specifiers = handle.split('-')
         domain = specifiers[0]

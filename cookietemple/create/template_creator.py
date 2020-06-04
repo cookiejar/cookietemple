@@ -15,8 +15,9 @@ from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.create.github_support import create_push_github_repository, load_github_username
 from cookietemple.lint.lint import lint_project
 from cookietemple.util.docs_util import fix_short_title_underline
-from cookietemple.list.list import load_available_templates
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
+from cookietemple.config_command.config import ConfigCommand
+from cookietemple.util.yaml_util import load_yaml_file
 
 
 class TemplateCreator:
@@ -31,7 +32,7 @@ class TemplateCreator:
         self.TEMPLATES_PATH = f'{self.WD}/templates'
         self.COMMON_FILES_PATH = f'{self.TEMPLATES_PATH}/common_files'
         self.AVAILABLE_TEMPLATES_PATH = f'{self.TEMPLATES_PATH}/available_templates.yml'
-        self.AVAILABLE_TEMPLATES = load_available_templates(self.AVAILABLE_TEMPLATES_PATH)
+        self.AVAILABLE_TEMPLATES = load_yaml_file(self.AVAILABLE_TEMPLATES_PATH)
         self.CWD = os.getcwd()
         self.creator_ctx = creator_ctx
 
@@ -158,8 +159,14 @@ class TemplateCreator:
         Prompts the user for general options that are required by all templates.
         Options are saved in the creator context manager object.
         """
-        self.creator_ctx.full_name = click.prompt('Please enter your full name', type=str, default='Homer Simpson')
-        self.creator_ctx.email = click.prompt('Please enter your personal or work email', type=str, default='homer.simpson@example.com')
+        try:
+            self.creator_ctx.full_name = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['full_name']
+            self.creator_ctx.email = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['email']
+        except FileNotFoundError:
+            # style and automatic use config
+            click.echo(
+                click.style('No cookietemple config file was found. Use cookietemple config general or all to configure your mail and full name', fg='red'))
+            sys.exit(1)
         self.creator_ctx.project_name = click.prompt('Please enter your project name', type=str, default='Exploding Springfield')
 
         # check if the project name is already taken on readthedocs.io
@@ -205,6 +212,8 @@ class TemplateCreator:
                      extra_context={'full_name': self.creator_ctx.full_name,
                                     'email': self.creator_ctx.email,
                                     'language': self.creator_ctx.language,
+                                    'domain': self.creator_ctx.domain,
+                                    'project_name': self.creator_ctx.project_name,
                                     'project_slug': self.creator_ctx.project_slug,
                                     'version': self.creator_ctx.version,
                                     'license': self.creator_ctx.license,

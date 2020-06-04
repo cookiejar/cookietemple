@@ -17,12 +17,13 @@ from cookietemple.list.list import TemplateLister
 from cookietemple.package_dist.warp import warp_project
 from cookietemple.synchronization.sync import snyc_template
 from cookietemple.custom_cookietemple_cli.custom_click import HelpErrorHandling, print_project_version
+from cookietemple.config_command.config import ConfigCommand
 
 WD = os.path.dirname(__file__)
 
 
 def main():
-    traceback.install()
+    traceback.install(width=200, word_wrap=True)
     click.echo(click.style(f"""
       / __\___   ___ | | _(_) ___| |_ ___ _ __ ___  _ __ | | ___
      / /  / _ \ / _ \| |/ / |/ _ \ __/ _ \\ '_ ` _ \| '_ \| |/ _ \\
@@ -155,6 +156,30 @@ def warp(input_dir: str, exec: str, output: str) -> None:
     Create a self contained executable with bundled JRE
     """
     warp_project(input_dir, exec, output)
+
+
+@cookietemple_cli.command(help_priority=8, short_help='Configure your general settings and github credentials.')
+@click.argument('section', type=str, required=False)
+@click.pass_context
+def config(ctx, section: str) -> None:
+    """
+    Configure your general settings and github credentials for reuse.
+    """
+    if section == 'general':
+        # set the full_name and email for reuse in the creation process
+        ConfigCommand.config_general_settings()
+    elif section == 'github':
+        # set github username and encrypted personal access token
+        ConfigCommand.config_github_settings()
+    elif section == 'all':
+        # set everything
+        ConfigCommand.all_settings()
+        # empty section argument causes a customized error
+    elif not section:
+        HelpErrorHandling.args_not_provided(ctx, 'config')
+        # check if a similar section handle can be used/suggested
+    else:
+        ConfigCommand.similar_handle(section)
 
 
 if __name__ == '__main__':

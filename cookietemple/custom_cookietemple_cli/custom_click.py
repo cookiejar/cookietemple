@@ -89,6 +89,11 @@ class HelpErrorHandling(click.Group):
                        + click.style('1.2.3 ', fg='green') + click.style('as first argument', fg='blue'))
             sys.exit(1)
 
+        elif cmd == 'config':
+            click.echo(click.style('Failed to execute ', fg='red') + click.style(f'{cmd.upper()}. ', fg='red')
+                       + click.style('Please provide a valid argument. You can choose general, github or all.', fg='blue'))
+            sys.exit(1)
+
 
 def print_project_version(ctx, param, value) -> None:
     """
