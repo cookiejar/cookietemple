@@ -1,8 +1,11 @@
 import os
+import sys
 import click
 from pathlib import Path
 from cryptography.fernet import Fernet
 from ruamel.yaml import YAML
+
+from cookietemple.custom_cookietemple_cli.levensthein_dist import most_similar_command
 
 
 class ConfigCommand:
@@ -11,6 +14,14 @@ class ConfigCommand:
     """
     # path where the config file is stored for cookietemple
     CONF_FILE_PATH = f'{Path.home()}/cookietemple_conf.yml'
+
+    @staticmethod
+    def all_settings() -> None:
+        """
+        Set general and github settings.
+        """
+        ConfigCommand.config_general_settings()
+        ConfigCommand.config_github_settings()
 
     @staticmethod
     def config_general_settings() -> None:
@@ -79,3 +90,42 @@ class ConfigCommand:
             settings = {'github_username': github_username, 'pat': encrypted_pat}
             yaml = YAML()
             yaml.dump(settings, Path(ConfigCommand.CONF_FILE_PATH))
+
+    @staticmethod
+    def similar_handle(section: str) -> None:
+        """
+        Try to use/suggest a similar handle if user missspelled it.
+        :param section: The handle inputted by the user.
+        """
+        com_list, action = most_similar_command(section.lower(), {'general', 'github', 'all'})
+        # use best match
+        if len(com_list) == 1 and action == 'use':
+            click.echo(click.style(f'Unknown handle {section}. Will use best match {com_list[0]}.\n', fg='blue'))
+            ConfigCommand.handle_switcher().get(com_list[0], lambda: 'Invalid handle!')()
+        # suggest best match
+        elif len(com_list) == 1 and action == 'suggest':
+            click.echo(click.style(f'Unknown handle {section}. Did you mean {com_list[0]}?', fg='blue'))
+            sys.exit(1)
+            # multiple best matches
+        elif len(com_list) > 1:
+            nl = '\n'
+            click.echo(click.style(f'Unknown handle \'{section}\'.\nMost similar handles are:', fg='red') + click.style(f'{nl}{nl.join(sorted(com_list))}',
+                                                                                                                        fg='green'))
+        else:
+            # unknown handle and no best match found
+            click.echo(
+                click.style('Unknown handle ', fg='red') + click.style(section, fg='green') + click.style(' See cookietemple --help for info on valid handles',
+                                                                                                          fg='red'))
+
+    @staticmethod
+    def handle_switcher() -> dict:
+        """
+        Just a helper to switch between handles.
+        :return: The switcher with all handles.
+        """
+        switcher = {
+            'all': ConfigCommand.all_settings,
+            'general': ConfigCommand.config_general_settings,
+            'github': ConfigCommand.config_github_settings
+        }
+        return switcher

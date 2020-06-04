@@ -173,10 +173,13 @@ def config(ctx, section: str) -> None:
         ConfigCommand.config_github_settings()
     elif section == 'all':
         # set everything
-        ConfigCommand.config_general_settings()
-        ConfigCommand.config_github_settings()
-    else:
+        ConfigCommand.all_settings()
+        # empty section argument causes a customized error
+    elif not section:
         HelpErrorHandling.args_not_provided(ctx, 'config')
+        # check if a similar section handle can be used/suggested
+    else:
+        ConfigCommand.similar_handle(section)
 
 
 if __name__ == '__main__':
