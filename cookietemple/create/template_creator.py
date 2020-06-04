@@ -12,7 +12,7 @@ from ruamel.yaml import YAML
 from cookiecutter.main import cookiecutter
 
 from cookietemple.util.dir_util import delete_dir_tree
-from cookietemple.create.github_support import create_push_github_repository, load_github_username
+from cookietemple.create.github_support import create_push_github_repository, load_github_username, is_git_repo
 from cookietemple.lint.lint import lint_project
 from cookietemple.util.docs_util import fix_short_title_underline
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
@@ -111,6 +111,7 @@ class TemplateCreator:
 
             # Confirm proceeding with overwriting existing directory
             if click.confirm('Do you really want to continue?'):
+                delete_dir_tree(Path(f'{os.getcwd()}/{self.creator_ctx.project_slug}'))
                 cookiecutter(f'{domain_path}/{subdomain}_{self.creator_ctx.language.lower()}',
                              no_input=True,
                              overwrite_if_exists=True,
@@ -245,15 +246,18 @@ class TemplateCreator:
 
     def directory_exists_warning(self) -> None:
         """
-        Prints warning that a directory already exists and any further action on the directory will overwrite its contents.
+        If the directory is already a git directory within the same project, print error message and exit.
+        Otherwise print a warning that a directory already exists and any further action on the directory will overwrite its contents.
         """
-
-        click.echo(click.style('WARNING: ', fg='red')
-                   + click.style(f'A directory named {self.creator_ctx.project_slug} already exists at', fg='red')
-                   + click.style(f'{os.getcwd()}', fg='green'))
-        click.echo()
-        click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
-        click.echo()
+        if is_git_repo(Path(f'{os.getcwd()}/{self.creator_ctx.project_slug}')):
+            click.echo(click.style('ERROR: ', fg='red') + click.style(f'A git project named {self.creator_ctx.project_slug} already exists at ', fg='red')
+                       + click.style(f'{os.getcwd()}\n', fg='green'))
+            click.echo(click.style('Aborting!', fg='red'))
+            sys.exit(1)
+        else:
+            click.echo(click.style('WARNING: ', fg='red') + click.style(f'A directory named {self.creator_ctx.project_slug} already exists at ', fg='red')
+                       + click.style(f'{os.getcwd()}\n', fg='blue'))
+            click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
 
     def create_dot_cookietemple(self, template_version: str):
         """
