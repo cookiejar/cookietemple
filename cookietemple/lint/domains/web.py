@@ -30,7 +30,7 @@ class WebWebsitePythonLint(TemplateLinter):
 
     def python_files_exist(self) -> None:
         """
-        Checks a given pipeline directory for required files.
+        Checks a given project directory for required files.
         Iterates through the templates's directory content and checkmarks files for presence.
         Files that **must** be present::
             'setup.py',

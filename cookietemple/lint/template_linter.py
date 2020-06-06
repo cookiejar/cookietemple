@@ -12,7 +12,7 @@ class TemplateLinter(object):
     """Object to hold linting information and results.
     Attributes:
         files (list): A list of files found during the linting process.
-        path (str): Path to the pipeline directory.
+        path (str): Path to the project directory.
         failed (list): A list of tuples of the form: `(<error no>, <reason>)`
         passed (list): A list of tuples of the form: `(<passed no>, <reason>)`
         warned (list): A list of tuples of the form: `(<warned no>, <reason>)`
@@ -21,7 +21,7 @@ class TemplateLinter(object):
     def __init__(self, path='.'):
         self.path = path
         self.files = []
-        self.pipeline_name = None
+        self.project_name = None
         self.passed = []
         self.warned = []
         self.failed = []
@@ -32,7 +32,7 @@ class TemplateLinter(object):
         the different linting checks in order. Collects any warnings or errors
         and returns summary at completion. Raises an exception if there is a
         critical error that makes the rest of the tests pointless (eg. no
-        pipeline script). Results from this function are printed by the main script.
+        project script). Results from this function are printed by the main script.
 
         :param calling_class: The class that calls the function -> used to get the class methods, which are the linting methods
         :param check_functions: List of functions of the calling class that should be checked. If not set, the default TemplateLinter check functions are called
@@ -59,8 +59,8 @@ class TemplateLinter(object):
                 break
 
     def check_files_exist(self, is_subclass_calling=True):
-        """Checks a given pipeline directory for required files.
-        Iterates through the pipeline's directory content and checkmarks files
+        """Checks a given project directory for required files.
+        Iterates through the project's directory content and checkmarks files
         for presence.
         Files that **must** be present::
             'Dockerfile',
@@ -75,7 +75,6 @@ class TemplateLinter(object):
             'docs/installation.rst'
             'docs/usage.rst'
         Files that *should* be present::
-            '.coafile',
             '.gitignore',
             '.dependabot/config.yml',
             '.github/ISSUE_TEMPLATE/bug_report.md',
@@ -107,7 +106,6 @@ class TemplateLinter(object):
         ]
 
         files_warn = [
-            ['.coafile'],
             ['.gitignore'],
             ['.dependabot/config.yml'],
             [os.path.join('.github', 'ISSUE_TEMPLATE', 'bug_report.md')],
