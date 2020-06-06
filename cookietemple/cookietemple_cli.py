@@ -140,6 +140,8 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
             else:
                 version_bumper.bump_template_version(new_version, project_dir)
 
+            # add a new CHANGELOG section
+            version_bumper.add_changelog_section(project_dir, new_version, downgrade)
         else:
             sys.exit(1)
 

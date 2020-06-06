@@ -1,13 +1,14 @@
+import sys
 import click
 import re
 from packaging import version
-
 from configparser import ConfigParser
 from tempfile import mkstemp
 from shutil import move, copymode
 from os import fdopen, remove
 from pathlib import Path
 from git import Repo
+from datetime import datetime
 
 from cookietemple.create.github_support import is_git_repo
 
@@ -152,13 +153,20 @@ class VersionBumper:
             click.echo(click.style(f'The new version {new_version} cannot be equal to the current version {self.CURRENT_VERSION}.', fg='red'))
             return False
 
+        # only allow bump from a SNAPSHOT version to its correlate with -SNAPSHOT removed (like 1.0.0-SNAPSHOT to 1.0.0 but not 2.0.0)
+        elif self.CURRENT_VERSION.endswith('-SNAPSHOT') and not self.CURRENT_VERSION.split('-')[0] == new_version:
+            click.echo(click.style(f'Cannot bump {self.CURRENT_VERSION} to {new_version}.', fg='red') +
+                       click.style(f'\n{self.CURRENT_VERSION} as a SNAPSHOT version can only be bumped to its non-snapshot correlate '
+                                   f'{self.CURRENT_VERSION.split("-")[0]}.', fg='blue'))
+            return False
+
         # ensure the new version is greater than the current one, if not the user wants to explicitly downgrade it
         elif not downgrade:
             current_version_r = self.CURRENT_VERSION.replace('-SNAPSHOT', '')
             new_version_r = new_version.replace('-SNAPSHOT', '')
 
             # bump from x.x.x to x.x.x-SNAPSHOT should be only allowed when using the downgrade flag
-            if '-SNAPSHOT' in new_version and self.CURRENT_VERSION == new_version.split('-')[0]:
+            if new_version.endswith('-SNAPSHOT') and self.CURRENT_VERSION == new_version.split('-')[0]:
                 click.echo(click.style(f'Cannot downgrade {self.CURRENT_VERSION} to its version SNAPSHOT {new_version}.', fg='red') +
                            click.style(f'\nUse the -d flag if you want to downgrade {self.CURRENT_VERSION} to its SNAPSHOT version.', fg='blue'))
                 return False
@@ -204,3 +212,57 @@ class VersionBumper:
 
         # case when we bumping like 3.0.0-SNAPSHOT to 3.0.0
         return True
+
+    def add_changelog_section(self, path: Path, new_version: str, is_downgrade: bool) -> None:
+        """
+        Each version bump will add a new section template to the CHANGELOG.rst
+        :param path: Path to top level project directory (where the CHANGELOG.rst file should lie)
+        :param new_version: The new version
+        :param is_downgrade: Indicates whether the bump runs in downgrade mode
+        """
+        if is_downgrade:
+            click.echo(click.style('WARNING: Running bump-version in downgrade mode will not add a new changelog section currently!', fg='yellow'))
+        else:
+            date = datetime.today().strftime("%Y-%m-%d")
+            # if no CHANGELOG.rst exists in the top level directory (where cookietemple.cfg lies), print error and exit
+            if not (path / 'CHANGELOG.rst').exists():
+                click.echo(click.style(f'No file named CHANGELOG.rst found at {path}. Aborting!'))
+                sys.exit(1)
+
+            # replace the SNAPSHOT SECTION header with its non-snapshot correlate
+            elif self.CURRENT_VERSION.endswith('-SNAPSHOT'):
+                self.replace_pattern(f'{str(path)}/CHANGELOG.rst', new_version, date)
+
+            else:
+                # the section template for a new changelog section
+                nl = '\n'
+                section = f'\n\n{new_version} ({date})\n{"-" * (len(new_version) + len(date) + 3)}\n\n' \
+                    f'{f"**{nl}{nl}".join(["**Added", "**Fixed", "**Dependencies", "**Deprecated**"])}'
+
+                with open(str(path / 'CHANGELOG.rst'), 'a') as changelog:
+                    changelog.write(section)
+
+    def replace_pattern(self, source_file_path, new_version: str, date: str) -> None:
+        """
+        Replace a pattern in a file.
+        :param source_file_path: Path to source file
+        :param new_version: The new version
+        :param date: Current date
+        """
+        fh, target_file_path = mkstemp()
+        with open(target_file_path, 'w') as target_file:
+            with open(source_file_path, 'r') as source_file:
+                for line in source_file:
+                    pattern, subst = '', ''
+                    if '-SNAPSHOT' in line:
+                        dotted_snapshot_line = source_file.readline()
+                        next_new_line = source_file.readline() # necessary to omit an additional newline
+                        snapshot_date = line.split('(')[1][:-2]
+                        pattern = f'{self.CURRENT_VERSION} ({snapshot_date})'
+                        subst = f'{new_version} ({date})\n{(len(new_version) + len(date) + 3) * "-"}'
+                        target_file.write(line.replace(pattern, subst))
+                        target_file.write(dotted_snapshot_line.replace('-', ''))
+                    else:
+                        target_file.write(line.replace(pattern, subst))
+        remove(source_file_path)
+        move(target_file_path, source_file_path)
