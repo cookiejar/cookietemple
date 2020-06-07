@@ -125,9 +125,9 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
         if str(project_dir).endswith('/'):
             project_dir = Path(str(project_dir).replace(str(project_dir)[len(str(project_dir)) - 1:], ''))
 
-        version_bumper = VersionBumper(project_dir)
+        version_bumper = VersionBumper(project_dir, downgrade)
 
-        if version_bumper.can_run_bump_version(new_version, project_dir, downgrade):
+        if version_bumper.can_run_bump_version(new_version, project_dir):
             # only run "sanity" checker when the downgrade flag is not set
             if not downgrade:
                 # if the check fails, ask the user for confirmation
@@ -139,9 +139,6 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
                     version_bumper.bump_template_version(new_version, project_dir)
             else:
                 version_bumper.bump_template_version(new_version, project_dir)
-
-            # add a new CHANGELOG section
-            version_bumper.add_changelog_section(project_dir, new_version, downgrade)
         else:
             sys.exit(1)
 

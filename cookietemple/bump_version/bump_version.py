@@ -18,10 +18,11 @@ class VersionBumper:
     Responsible for bumping the version across a COOKIETEMPLE project
     """
 
-    def __init__(self, pipeline_dir):
+    def __init__(self, pipeline_dir, downgrade):
         self.parser = ConfigParser()
         self.parser.read(f'{pipeline_dir}/cookietemple.cfg')
         self.CURRENT_VERSION = self.parser.get('bumpversion', 'current_version')
+        self.downgrade_mode = downgrade
 
     def bump_template_version(self, new_version: str, pipeline_dir: Path) -> None:
         """
@@ -43,9 +44,12 @@ class VersionBumper:
         # if pipeline_dir was given as handle use cwd since we need it for git add
         ct_cfg_path = f'{str(pipeline_dir)}/cookietemple.cfg' if str(pipeline_dir).startswith(str(Path.cwd())) else \
             f'{str(Path.cwd())}/{pipeline_dir}/cookietemple.cfg'
+        # path to CHANGELOG.rst file
+        changelog_path = f'{str(pipeline_dir)}/CHANGELOG.rst' if str(pipeline_dir).startswith(str(Path.cwd())) else \
+            f'{str(Path.cwd())}/{pipeline_dir}/CHANGELOG.rst'
 
         # keep path of all files that were changed during bump version
-        changed_files = [ct_cfg_path]
+        changed_files = [ct_cfg_path, changelog_path]
 
         click.echo(click.style(f'Changing version number.\nCurrent version is {self.CURRENT_VERSION}.'
                                f'\nNew version will be {new_version}\n', fg='blue'))
@@ -63,6 +67,9 @@ class VersionBumper:
         self.parser.set('bumpversion', 'current_version', new_version)
         with open(f'{pipeline_dir}/cookietemple.cfg', 'w') as configfile:
             self.parser.write(configfile)
+
+        # add a new changelog section when downgrade mode is disabled
+        self.add_changelog_section(pipeline_dir, new_version)
 
         # check if a project is a git repository and if so, commit bumped version changes
         if is_git_repo(pipeline_dir):
@@ -123,7 +130,7 @@ class VersionBumper:
 
         return file_is_unchanged, path_changed
 
-    def can_run_bump_version(self, new_version: str, project_dir: str, downgrade: bool) -> bool:
+    def can_run_bump_version(self, new_version: str, project_dir: str) -> bool:
         """
         Ensure that all requirements are met, so that the bump version command can be run successfully.
         This included the following requirements:
@@ -133,7 +140,6 @@ class VersionBumper:
 
         :param new_version: The new version
         :param project_dir: The directory of the project
-        :param downgrade: Flag that indicates whether the user wants to downgrade the project version or not
         :return: True if bump version can be run, false otherwise.
         """
         # ensure that the entered version number matches correct format like 1.1.0 or 1.1.0-SNAPSHOT but not 1.2 or 1.2.3.4
@@ -161,7 +167,7 @@ class VersionBumper:
             return False
 
         # ensure the new version is greater than the current one, if not the user wants to explicitly downgrade it
-        elif not downgrade:
+        elif not self.downgrade_mode:
             current_version_r = self.CURRENT_VERSION.replace('-SNAPSHOT', '')
             new_version_r = new_version.replace('-SNAPSHOT', '')
 
@@ -213,20 +219,19 @@ class VersionBumper:
         # case when we bumping like 3.0.0-SNAPSHOT to 3.0.0
         return True
 
-    def add_changelog_section(self, path: Path, new_version: str, is_downgrade: bool) -> None:
+    def add_changelog_section(self, path: Path, new_version: str) -> None:
         """
         Each version bump will add a new section template to the CHANGELOG.rst
         :param path: Path to top level project directory (where the CHANGELOG.rst file should lie)
         :param new_version: The new version
-        :param is_downgrade: Indicates whether the bump runs in downgrade mode
         """
-        if is_downgrade:
+        if self.downgrade_mode:
             click.echo(click.style('WARNING: Running bump-version in downgrade mode will not add a new changelog section currently!', fg='yellow'))
         else:
             date = datetime.today().strftime("%Y-%m-%d")
             # if no CHANGELOG.rst exists in the top level directory (where cookietemple.cfg lies), print error and exit
             if not (path / 'CHANGELOG.rst').exists():
-                click.echo(click.style(f'No file named CHANGELOG.rst found at {path}. Aborting!'))
+                click.echo(click.style(f'No file named CHANGELOG.rst found at {path}. Aborting!', fg='red'))
                 sys.exit(1)
 
             # replace the SNAPSHOT SECTION header with its non-snapshot correlate
@@ -236,7 +241,7 @@ class VersionBumper:
             else:
                 # the section template for a new changelog section
                 nl = '\n'
-                section = f'\n\n{new_version} ({date})\n{"-" * (len(new_version) + len(date) + 3)}\n\n' \
+                section = f'{nl}{nl}{new_version} ({date}){nl}{"-" * (len(new_version) + len(date) + 3)}{nl}{nl}' \
                     f'{f"**{nl}{nl}".join(["**Added", "**Fixed", "**Dependencies", "**Deprecated**"])}'
 
                 with open(str(path / 'CHANGELOG.rst'), 'a') as changelog:
@@ -244,25 +249,32 @@ class VersionBumper:
 
     def replace_pattern(self, source_file_path, new_version: str, date: str) -> None:
         """
-        Replace a pattern in a file.
+        Replace a pattern in a file. The pattern (currently) cannot include any newline characters, therefor no multiline support!
         :param source_file_path: Path to source file
         :param new_version: The new version
         :param date: Current date
         """
+        # create a temp file (requires to be explicitly deleted later)
         fh, target_file_path = mkstemp()
+        # read from old file (the source file) and write into new file (the target file)
         with open(target_file_path, 'w') as target_file:
             with open(source_file_path, 'r') as source_file:
                 for line in source_file:
                     pattern, subst = '', ''
+                    # check if the line contains a -SNAPSHOT version (maybe add a more safer check here?)
                     if '-SNAPSHOT' in line:
                         dotted_snapshot_line = source_file.readline()
                         next_new_line = source_file.readline() # necessary to omit an additional newline
-                        snapshot_date = line.split('(')[1][:-2]
+                        snapshot_date = line.split('(')[1][:-2] # extract date of SNAPSHOT version adding
                         pattern = f'{self.CURRENT_VERSION} ({snapshot_date})'
                         subst = f'{new_version} ({date})\n{(len(new_version) + len(date) + 3) * "-"}'
+                        # replace -SNASPHOT in the header and adjust the dotted line below to the new header length
                         target_file.write(line.replace(pattern, subst))
                         target_file.write(dotted_snapshot_line.replace('-', ''))
                     else:
+                        # else just write the line to the new file
                         target_file.write(line.replace(pattern, subst))
+        # remove old file
         remove(source_file_path)
+        # move new file to replace old file
         move(target_file_path, source_file_path)
