@@ -161,13 +161,24 @@ class TemplateCreator:
         Options are saved in the creator context manager object.
         """
         try:
+            # try to read name and email from existing config file
             self.creator_ctx.full_name = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['full_name']
             self.creator_ctx.email = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['email']
         except FileNotFoundError:
             # style and automatic use config
-            click.echo(
-                click.style('No cookietemple config file was found. Use cookietemple config general or all to configure your mail and full name', fg='red'))
-            sys.exit(1)
+            click.echo(click.style('No cookietemple config file was found. Is this your first time using Cookietemple?', fg='red'))
+            # inform the user and config all settings (with PAT optional)
+            click.echo(click.style('Lets set your name, email and github username and you´re ready to go!', fg='blue'))
+            ConfigCommand.config_general_settings()
+            ConfigCommand.config_github_settings(ask_username=False)
+            # load mail and full name
+            path = Path(ConfigCommand.CONF_FILE_PATH)
+            yaml = YAML(typ='safe')
+            settings = yaml.load(path)
+            # set full name and mail
+            self.creator_ctx.full_name = settings['full_name']
+            self.creator_ctx.email = settings['email']
+
         self.creator_ctx.project_name = click.prompt('Please enter your project name', type=str, default='Exploding Springfield')
 
         # check if the project name is already taken on readthedocs.io

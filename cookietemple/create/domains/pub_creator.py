@@ -6,6 +6,7 @@ import click
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.github_support import load_github_username
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
+from cookietemple.config_command.config import ConfigCommand
 
 
 @dataclass
@@ -47,6 +48,11 @@ class PubCreator(TemplateCreator):
 
         self.pub_struct.pubtype = click.prompt('Please choose between the following publication types [thesis, paper]',
                                                type=click.Choice(['thesis', 'paper']))
+        if not os.path.exists(ConfigCommand.CONF_FILE_PATH):
+            click.echo(click.style('No cookietemple config file was found! Is this your first time with Cookietemple?', fg='red'))
+            click.echo(click.style('\nLets set your configs for Cookietemple and you are ready to go!\n', fg='blue'))
+            ConfigCommand.config_general_settings()
+            ConfigCommand.config_github_settings(ask_username=False)
 
         # switch case statement to prompt the user to fetch template specific configurations
         switcher = {

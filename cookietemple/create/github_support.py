@@ -7,6 +7,7 @@ from distutils.dir_util import copy_tree
 from subprocess import Popen, PIPE
 from github import Github, GithubException
 from git import Repo, exc
+from ruamel.yaml import YAML
 
 from cookietemple.util.yaml_util import load_yaml_file
 from cookietemple.config_command.config import ConfigCommand
@@ -111,21 +112,36 @@ def handle_pat_authentification() -> str:
     """
 
     # check if the key and encrypted PAT already exist
-    if os.path.exists(f'{Path.home()}/.ct_keys') and os.path.exists(ConfigCommand.CONF_FILE_PATH):
-        pat = decrypt_pat()
-        return pat
-
+    if os.path.exists(ConfigCommand.CONF_FILE_PATH):
+        path = Path(ConfigCommand.CONF_FILE_PATH)
+        yaml = YAML(typ='safe')
+        settings = yaml.load(path)
+        if os.path.exists(f'{Path.home()}/.ct_keys') and 'pat' in settings:
+            pat = decrypt_pat()
+            return pat
+        else:
+            click.echo(click.style('Could not find encrypted personal access token!\n', fg='red'))
+            click.echo(
+                click.style('Please navigate to Github -> Your profile -> Settings -> Developer Settings -> Personal access token -> Generate a new Token',
+                            fg='blue'))
+            click.echo(click.style('Only tick \'repo\'. The token is a hidden input to COOKIETEMPLE and stored encrypted locally on your machine.', fg='blue'))
+            click.echo(click.style('For more information please read'
+                                   ' https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line\n\n',
+                                   fg='blue'))
+            click.echo(click.style('Lets move on to set your personal access token for your cookietemple project!', fg='blue'))
+            # set the PAT
+            ConfigCommand.config_github_settings()
+            # process further on
+            # handle some weird cases where the user tries to break Cookietemple
+            if not os.path.exists(f'{Path.home()}/.ct_keys'):
+                click.echo(click.style('No github personal access token found. Please set it using ', fg='red') + click.style('cookietemple config github',
+                                                                                                                              fg='green'))
+                sys.exit(1)
+            else:
+                pat = decrypt_pat()
+            return pat
     else:
-        # either key file or cookietemple_cfg.yml file (or both) are missing
-        click.echo(click.style('Could not find encrypted personal access token!\n', fg='red'))
-        click.echo(click.style('Please navigate to Github -> Your profile -> Settings -> Developer Settings -> Personal access token -> Generate a new Token',
-                               fg='blue'))
-        click.echo(click.style('Only tick \'repo\'. The token is a hidden input to COOKIETEMPLE and stored encrypted locally on your machine.', fg='blue'))
-        click.echo(click.style('For more information please read'
-                               ' https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line', fg='blue'))
-        click.echo(
-            click.style('Use', fg='red') + click.style('cookietemple config github (or config all)', fg='green') + click.style('to use your PAT!', fg='red'))
-        sys.exit(1)
+        click.echo(click.style('Did not found a Cookietemple config file! Did you deleted it?', fg='red'))
 
 
 def decrypt_pat() -> str:
@@ -134,7 +150,6 @@ def decrypt_pat() -> str:
 
     :return: The decrypted Personal Access Token for GitHub
     """
-
     # read key and encrypted PAT from files
     with open(f'{Path.home()}/.ct_keys', 'rb') as f:
         key = f.readline()
