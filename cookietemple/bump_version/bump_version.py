@@ -236,7 +236,7 @@ class VersionBumper:
 
             # replace the SNAPSHOT SECTION header with its non-snapshot correlate
             elif self.CURRENT_VERSION.endswith('-SNAPSHOT'):
-                self.replace_pattern(f'{str(path)}/CHANGELOG.rst', new_version, date)
+                self.replace_snapshot_header(f'{str(path)}/CHANGELOG.rst', new_version, date)
 
             else:
                 # the section template for a new changelog section
@@ -247,10 +247,10 @@ class VersionBumper:
                 with open(str(path / 'CHANGELOG.rst'), 'a') as changelog:
                     changelog.write(section)
 
-    def replace_pattern(self, source_file_path, new_version: str, date: str) -> None:
+    def replace_snapshot_header(self, source_file_path, new_version: str, date: str) -> None:
         """
-        Replace a pattern in a file. The pattern (currently) cannot include any newline characters, therefor no multiline support!
-        :param source_file_path: Path to source file
+        Replace the SNAPSHOT header section in CHANGELOG. The pattern (currently) cannot include any newline characters, therefore no multiline support!
+        :param source_file_path: Path to source file (the path where CHANGELOG lies)
         :param new_version: The new version
         :param date: Current date
         """
@@ -261,11 +261,11 @@ class VersionBumper:
             with open(source_file_path, 'r') as source_file:
                 for line in source_file:
                     pattern, subst = '', ''
-                    # check if the line contains a -SNAPSHOT version (maybe add a more safer check here?)
-                    if '-SNAPSHOT' in line:
+                    # check if the line is a header section with SNAPSHOT version
+                    if re.match(r'^(?<!\.)\d+(?:\.\d+){2}(?!\.)-SNAPSHOT \(\d\d\d\d-\d\d-\d\d\)$', line):
                         dotted_snapshot_line = source_file.readline()
-                        next_new_line = source_file.readline() # necessary to omit an additional newline
-                        snapshot_date = line.split('(')[1][:-2] # extract date of SNAPSHOT version adding
+                        next_new_line = source_file.readline()  # necessary to omit an additional newline
+                        snapshot_date = line.split('(')[1][:-2]  # extract date of SNAPSHOT version adding
                         pattern = f'{self.CURRENT_VERSION} ({snapshot_date})'
                         subst = f'{new_version} ({date})\n{(len(new_version) + len(date) + 3) * "-"}'
                         # replace -SNASPHOT in the header and adjust the dotted line below to the new header length
