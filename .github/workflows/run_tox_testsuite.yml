@@ -3,11 +3,11 @@ name: Run Cookietemple Tox Test Suite
 on: [push]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [macos-latest, ubuntu-latest]
         python: [3.7, 3.8]
 
     steps:
