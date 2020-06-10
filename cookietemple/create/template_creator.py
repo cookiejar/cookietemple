@@ -36,7 +36,8 @@ class TemplateCreator:
         self.CWD = os.getcwd()
         self.creator_ctx = creator_ctx
 
-    def process_common_operations(self, skip_common_files=False, skip_fix_underline=False) -> None:
+    def process_common_operations(self, skip_common_files=False, skip_fix_underline=False,
+                                  domain: str = None, subdomain: str = None, language: str = None) -> None:
         """
         Create all stuff that is common for cookietemples template creation process; in detail those things are:
         create and copy common files, fix docs style, lint the project and ask whether the user wants to create a github repo.
@@ -69,6 +70,13 @@ class TemplateCreator:
             create_push_github_repository(project_path, project_name, self.creator_ctx.project_short_description, tmp_project_path,
                                           self.creator_ctx.github_username)
             shutil.rmtree(tmp_project_path, ignore_errors=True)
+
+        if subdomain:
+            click.echo(
+                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{subdomain}-{language}', fg='blue'))
+        else:
+            click.echo(
+                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{language}', fg='blue'))
 
     def create_template_without_subdomain(self, domain_path: str) -> None:
         """
