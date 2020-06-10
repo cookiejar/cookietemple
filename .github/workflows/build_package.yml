@@ -3,7 +3,7 @@ name: Build Cookietemple Package
 on: [push]
 
 jobs:
-  build_linux_macos:
+  Build_Package:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
