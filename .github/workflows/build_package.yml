@@ -3,23 +3,24 @@ name: Build Cookietemple Package
 on: [push]
 
 jobs:
-  runs-on: ${{ matrix.os }}
-  strategy:
-    matrix:
-      os: [macos-latest, ubuntu-latest]
-      python: [3.7, 3.8]
+  Build-Package:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+        python: [3.7, 3.8]
 
-  steps:
-    - uses: actions/checkout@v2
-      name: Check out source-code repository
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out source-code repository
 
-    - name: Setup Python
-      uses: actions/setup-python@v1
-      with:
-        python-version: ${{ matrix.python }}
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python }}
 
-    - name: Build Cookietemple
-      run: python setup.py clean --all install
+      - name: Build Cookietemple
+        run: python setup.py clean --all install
 
-    - name: Call Help Command
-      run: cookietemple --help
+      - name: Call Help Command
+        run: cookietemple --help
