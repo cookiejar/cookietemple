@@ -166,6 +166,9 @@ hs_err_pid*
 
 # Compiled classes
 target/
+
+# Gradle build
+build/
 {% endif %}
 
 
