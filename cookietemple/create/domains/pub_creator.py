@@ -49,10 +49,9 @@ class PubCreator(TemplateCreator):
         self.pub_struct.pubtype = click.prompt('Please choose between the following publication types [thesis, paper]',
                                                type=click.Choice(['thesis', 'paper']))
         if not os.path.exists(ConfigCommand.CONF_FILE_PATH):
-            click.echo(click.style('No cookietemple config file was found! Is this your first time with Cookietemple?', fg='red'))
-            click.echo(click.style('\nLets set your configs for Cookietemple and you are ready to go!\n', fg='blue'))
-            ConfigCommand.config_general_settings()
-            ConfigCommand.config_github_settings(ask_username=False)
+            click.echo(click.style('No cookietemple config file was found! Is this your first time with Cookietemple?\n', fg='red'))
+            click.echo(click.style('Lets set your configs for Cookietemple and you are ready to go!\n', fg='blue'))
+            ConfigCommand.all_settings()
 
         # switch case statement to prompt the user to fetch template specific configurations
         switcher = {

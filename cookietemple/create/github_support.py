@@ -12,6 +12,9 @@ from ruamel.yaml import YAML
 from cookietemple.util.yaml_util import load_yaml_file
 from cookietemple.config_command.config import ConfigCommand
 
+# path where the key for decryption of PAT is located
+KEY_FILE_PATH = f'{Path.home()}/.config/.ct_keys'
+
 
 def create_push_github_repository(project_path: str, project_name: str, project_description: str, tmp_repo_path: str, github_username: str) -> None:
     """
@@ -116,7 +119,7 @@ def handle_pat_authentification() -> str:
         path = Path(ConfigCommand.CONF_FILE_PATH)
         yaml = YAML(typ='safe')
         settings = yaml.load(path)
-        if os.path.exists(f'{Path.home()}/.ct_keys') and 'pat' in settings:
+        if os.path.exists(KEY_FILE_PATH) and 'pat' in settings:
             pat = decrypt_pat()
             return pat
         else:
@@ -128,20 +131,19 @@ def handle_pat_authentification() -> str:
             click.echo(click.style('For more information please read'
                                    ' https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line\n\n',
                                    fg='blue'))
-            click.echo(click.style('Lets move on to set your personal access token for your cookietemple project!', fg='blue'))
+            click.echo(click.style('Lets move on to set your personal access token for your Cookietemple project!', fg='blue'))
             # set the PAT
-            ConfigCommand.config_github_settings()
-            # process further on
+            ConfigCommand.config_pat()
             # handle some weird cases where the user tries to break Cookietemple
-            if not os.path.exists(f'{Path.home()}/.ct_keys'):
-                click.echo(click.style('No github personal access token found. Please set it using ', fg='red') + click.style('cookietemple config github',
+            if not os.path.exists(KEY_FILE_PATH):
+                click.echo(click.style('No Github personal access token found. Please set it using ', fg='red') + click.style('cookietemple config github',
                                                                                                                               fg='green'))
                 sys.exit(1)
             else:
                 pat = decrypt_pat()
             return pat
     else:
-        click.echo(click.style('Did not found a Cookietemple config file! Did you deleted it?', fg='red'))
+        click.echo(click.style('Did not found a Cookietemple config file! Did you delete it?', fg='red'))
 
 
 def decrypt_pat() -> str:
@@ -151,7 +153,7 @@ def decrypt_pat() -> str:
     :return: The decrypted Personal Access Token for GitHub
     """
     # read key and encrypted PAT from files
-    with open(f'{Path.home()}/.ct_keys', 'rb') as f:
+    with open(KEY_FILE_PATH, 'rb') as f:
         key = f.readline()
     fer = Fernet(key)
     encrypted_pat = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['pat']
@@ -170,8 +172,8 @@ def load_github_username() -> str:
     :return: The users github account name
     """
     if not os.path.exists(ConfigCommand.CONF_FILE_PATH):
-        click.echo(click.style('Could not find cookietemple config file!', fg='red'))
-        click.echo(click.style('Use cookietemple config github to configure your GitHub username for cookietemple!', fg='red'))
+        click.echo(click.style('Could not find Cookietemple config file!', fg='red'))
+        click.echo(click.style('Use Cookietemple config github to configure your Github username for Cookietemple!', fg='red'))
         sys.exit(1)
 
     else:

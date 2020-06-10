@@ -169,8 +169,7 @@ class TemplateCreator:
             click.echo(click.style('No cookietemple config file was found. Is this your first time using Cookietemple?', fg='red'))
             # inform the user and config all settings (with PAT optional)
             click.echo(click.style('Lets set your name, email and github username and you´re ready to go!', fg='blue'))
-            ConfigCommand.config_general_settings()
-            ConfigCommand.config_github_settings(ask_username=False)
+            ConfigCommand.all_settings()
             # load mail and full name
             path = Path(ConfigCommand.CONF_FILE_PATH)
             yaml = YAML(typ='safe')
@@ -246,6 +245,7 @@ class TemplateCreator:
         Test whether there´s already a project with the same name on readthedocs
         :param project_name Name of the project the user wants to create
         """
+        click.echo(click.style(f'Looking up {project_name} at readthedocs.io!', fg='red'))
         try:
             request = requests.get(f'https://{project_name.replace(" ", "")}.readthedocs.io')
             if request.status_code == 200:
