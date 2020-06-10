@@ -193,13 +193,13 @@ class TemplateCreator:
         self.creator_ctx.project_short_description = click.prompt('Please enter a short description of your project.', type=str,
                                                                   default=f'{self.creator_ctx.project_name}. A best practice .')
 
-        poss_vers = click.prompt('Please enter the initial version of your project.', type=str, default='1.0.0')
+        poss_vers = click.prompt('Please enter the initial version of your project.', type=str, default='0.1.0')
 
         # make sure that the version has the right format
         while not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', poss_vers):
             click.echo(click.style('The version number entered does not match cookietemples pattern.\n'
                                    'Please enter the version in the format [number].[number].[number]!', fg='red'))
-            poss_vers = click.prompt('Please enter the initial version of your project.', type=str, default='1.0.0')
+            poss_vers = click.prompt('Please enter the initial version of your project.', type=str, default='0.1.0')
 
         self.creator_ctx.version = poss_vers
 
