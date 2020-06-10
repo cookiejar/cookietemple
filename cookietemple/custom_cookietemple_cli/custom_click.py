@@ -103,7 +103,7 @@ def print_project_version(ctx, param, value) -> None:
     if not value or ctx.resilient_parsing:
         return
     try:
-        click.echo(click.style('Current project version is ', fg='blue') + click.style(VersionBumper(Path.cwd()).CURRENT_VERSION, fg='green'))
+        click.echo(click.style('Current project version is ', fg='blue') + click.style(VersionBumper(Path.cwd(), False).CURRENT_VERSION, fg='green'))
         ctx.exit()
     # currently, its only possible to get project version from top level project dir where the cookietemple.cfg file is
     except NoSectionError:
