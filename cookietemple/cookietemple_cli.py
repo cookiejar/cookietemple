@@ -24,6 +24,7 @@ WD = os.path.dirname(__file__)
 
 def main():
     traceback.install(width=200, word_wrap=True)
+    
     click.echo(click.style(f"""
       / __\___   ___ | | _(_) ___| |_ ___ _ __ ___  _ __ | | ___
      / /  / _ \ / _ \| |/ / |/ _ \ __/ _ \\ '_ ` _ \| '_ \| |/ _ \\
@@ -60,15 +61,12 @@ def create(domain: str) -> None:
 
 
 @cookietemple_cli.command(help_priority=2, short_help='Lint your existing COOKIETEMPLE project.')
-@click.argument('project_dir', type=click.Path(),
-                default=Path(str(Path.cwd())))
-@click.option('--run-coala/--no-run-coala',
-              default=False)
-def lint(project_dir, run_coala) -> None:
+@click.argument('project_dir', type=click.Path(), default=Path(str(Path.cwd())))
+def lint(project_dir) -> None:
     """
     Lint your existing COOKIETEMPLE project
     """
-    lint_project(project_dir, run_coala, coala_interactive=True)
+    lint_project(project_dir)
 
 
 @cookietemple_cli.command(help_priority=3, short_help='List all available COOKIETEMPLE templates.')
@@ -128,9 +126,9 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
         if str(project_dir).endswith('/'):
             project_dir = Path(str(project_dir).replace(str(project_dir)[len(str(project_dir)) - 1:], ''))
 
-        version_bumper = VersionBumper(project_dir)
+        version_bumper = VersionBumper(project_dir, downgrade)
 
-        if version_bumper.can_run_bump_version(new_version, project_dir, downgrade):
+        if version_bumper.can_run_bump_version(new_version, project_dir):
             # only run "sanity" checker when the downgrade flag is not set
             if not downgrade:
                 # if the check fails, ask the user for confirmation
@@ -142,7 +140,6 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
                     version_bumper.bump_template_version(new_version, project_dir)
             else:
                 version_bumper.bump_template_version(new_version, project_dir)
-
         else:
             sys.exit(1)
 

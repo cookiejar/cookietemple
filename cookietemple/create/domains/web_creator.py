@@ -76,7 +76,7 @@ class WebCreator(TemplateCreator):
             self.web_struct.language.lower(), lambda: 'Invalid language!'), f'web-{self.web_struct.webtype}-{self.web_struct.language.lower()}'
 
         # perform general operations like creating a GitHub repository and general linting
-        super().process_common_operations()
+        super().process_common_operations(domain='web', subdomain=self.web_struct.webtype, language=self.web_struct.language)
 
     def handle_web_project_type_python(self) -> None:
         """

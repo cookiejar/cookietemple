@@ -4,10 +4,10 @@ on: [push]
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: {% raw %}${{ matrix.os }}{% endraw %}
     strategy:
       matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
         python: [3.7, 3.8]
 
     steps:

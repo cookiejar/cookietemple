@@ -14,7 +14,6 @@ def choose_domain(domain: str):
 
     :param domain: Template domain
     """
-
     if not domain:
         domain = click.prompt('Choose between the following domains [cli, gui, web, pub]',
                               type=click.Choice(['cli', 'gui', 'web', 'pub']))

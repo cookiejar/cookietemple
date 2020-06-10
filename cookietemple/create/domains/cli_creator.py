@@ -62,7 +62,7 @@ class CliCreator(TemplateCreator):
             self.cli_struct.language.lower(), lambda: 'Invalid language!'), f'cli-{self.cli_struct.language.lower()}'
 
         # perform general operations like creating a GitHub repository and general linting
-        super().process_common_operations()
+        super().process_common_operations(domain='cli', language=self.cli_struct.language)
 
 
 def cli_java_options():

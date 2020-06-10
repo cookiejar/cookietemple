@@ -12,7 +12,7 @@ from ruamel.yaml import YAML
 from cookiecutter.main import cookiecutter
 
 from cookietemple.util.dir_util import delete_dir_tree
-from cookietemple.create.github_support import create_push_github_repository, load_github_username
+from cookietemple.create.github_support import create_push_github_repository, load_github_username, is_git_repo
 from cookietemple.lint.lint import lint_project
 from cookietemple.util.docs_util import fix_short_title_underline
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
@@ -36,7 +36,8 @@ class TemplateCreator:
         self.CWD = os.getcwd()
         self.creator_ctx = creator_ctx
 
-    def process_common_operations(self, skip_common_files=False, skip_fix_underline=False) -> None:
+    def process_common_operations(self, skip_common_files=False, skip_fix_underline=False,
+                                  domain: str = None, subdomain: str = None, language: str = None) -> None:
         """
         Create all stuff that is common for cookietemples template creation process; in detail those things are:
         create and copy common files, fix docs style, lint the project and ask whether the user wants to create a github repo.
@@ -55,7 +56,7 @@ class TemplateCreator:
             fix_short_title_underline(f'{project_path}/docs/index.rst')
 
         # Lint the project to verify that the new template adheres to all standards
-        lint_project(project_path, run_coala=False, coala_interactive=False, is_create=True)
+        lint_project(project_path, is_create=True)
 
         # ask user whether he wants to create a Github repository and do so if specified
         create_github_repository = click.prompt(
@@ -69,6 +70,13 @@ class TemplateCreator:
             create_push_github_repository(project_path, project_name, self.creator_ctx.project_short_description, tmp_project_path,
                                           self.creator_ctx.github_username)
             shutil.rmtree(tmp_project_path, ignore_errors=True)
+
+        if subdomain:
+            click.echo(
+                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{subdomain}-{language}', fg='blue'))
+        else:
+            click.echo(
+                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{language}', fg='blue'))
 
     def create_template_without_subdomain(self, domain_path: str) -> None:
         """
@@ -111,6 +119,7 @@ class TemplateCreator:
 
             # Confirm proceeding with overwriting existing directory
             if click.confirm('Do you really want to continue?'):
+                delete_dir_tree(Path(f'{os.getcwd()}/{self.creator_ctx.project_slug}'))
                 cookiecutter(f'{domain_path}/{subdomain}_{self.creator_ctx.language.lower()}',
                              no_input=True,
                              overwrite_if_exists=True,
@@ -182,13 +191,13 @@ class TemplateCreator:
         self.creator_ctx.project_short_description = click.prompt('Please enter a short description of your project.', type=str,
                                                                   default=f'{self.creator_ctx.project_name}. A best practice .')
 
-        poss_vers = click.prompt('Please enter the initial version of your project.', type=str, default='1.0.0')
+        poss_vers = click.prompt('Please enter the initial version of your project.', type=str, default='0.1.0')
 
         # make sure that the version has the right format
         while not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', poss_vers):
             click.echo(click.style('The version number entered does not match cookietemples pattern.\n'
                                    'Please enter the version in the format [number].[number].[number]!', fg='red'))
-            poss_vers = click.prompt('Please enter the initial version of your project.', type=str, default='1.0.0')
+            poss_vers = click.prompt('Please enter the initial version of your project.', type=str, default='0.1.0')
 
         self.creator_ctx.version = poss_vers
 
@@ -245,15 +254,18 @@ class TemplateCreator:
 
     def directory_exists_warning(self) -> None:
         """
-        Prints warning that a directory already exists and any further action on the directory will overwrite its contents.
+        If the directory is already a git directory within the same project, print error message and exit.
+        Otherwise print a warning that a directory already exists and any further action on the directory will overwrite its contents.
         """
-
-        click.echo(click.style('WARNING: ', fg='red')
-                   + click.style(f'A directory named {self.creator_ctx.project_slug} already exists at', fg='red')
-                   + click.style(f'{os.getcwd()}', fg='green'))
-        click.echo()
-        click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
-        click.echo()
+        if is_git_repo(Path(f'{os.getcwd()}/{self.creator_ctx.project_slug}')):
+            click.echo(click.style('ERROR: ', fg='red') + click.style(f'A git project named {self.creator_ctx.project_slug} already exists at ', fg='red')
+                       + click.style(f'{os.getcwd()}\n', fg='green'))
+            click.echo(click.style('Aborting!', fg='red'))
+            sys.exit(1)
+        else:
+            click.echo(click.style('WARNING: ', fg='red') + click.style(f'A directory named {self.creator_ctx.project_slug} already exists at ', fg='red')
+                       + click.style(f'{os.getcwd()}\n', fg='blue'))
+            click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
 
     def create_dot_cookietemple(self, template_version: str):
         """

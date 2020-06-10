@@ -52,7 +52,7 @@ class GuiCreator(TemplateCreator):
             self.gui_struct.language.lower(), lambda: 'Invalid language!'), f'gui-{self.gui_struct.language.lower()}'
 
         # perform general operations like creating a GitHub repository and general linting
-        super().process_common_operations()
+        super().process_common_operations(domain='gui', language=self.gui_struct.language)
 
     def gui_java_options(self) -> None:
         """

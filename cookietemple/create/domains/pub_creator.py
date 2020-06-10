@@ -42,8 +42,7 @@ class PubCreator(TemplateCreator):
         Prompts the user for the publication type and forwards to subsequent prompts.
         Creates the pub template.
         """
-
-        # Set latex as default
+        # latex is default language
 
         self.pub_struct.pubtype = click.prompt('Please choose between the following publication types [thesis, paper]',
                                                type=click.Choice(['thesis', 'paper']))
@@ -69,7 +68,8 @@ class PubCreator(TemplateCreator):
             self.pub_struct.language.lower(), lambda: 'Invalid language!'), f'pub-{self.pub_struct.pubtype}-{self.pub_struct.language.lower()}'
 
         # perform general operations like creating a GitHub repository and general linting, but skip common_files copying and rst linting
-        super().process_common_operations(True, True)
+        super().process_common_operations(skip_common_files=True, skip_fix_underline=True,
+                                          domain='pub', subdomain=self.pub_struct.pubtype, language=self.pub_struct.language)
 
     # TODO: IMPLEMENT BELOW
     def handle_pub_type(self) -> None:
