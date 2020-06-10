@@ -3,11 +3,11 @@ name: Run {{ cookiecutter.project_slug }} Tox Test Suite
 on: [push]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
         python: [3.7, 3.8]
 
     steps:
