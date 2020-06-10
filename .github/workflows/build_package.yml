@@ -3,11 +3,11 @@ name: Build Cookietemple Package
 on: [push]
 
 jobs:
-  build:
+  build_linux_macos:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        os: [macos-latest, ubuntu-latest]
         python: [3.7, 3.8]
 
     steps:
@@ -24,3 +24,31 @@ jobs:
 
       - name: Call Help Command
         run: cookietemple --help
+
+jobs:
+  build_windows:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        python: [3.7, 3.8]
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out source-code repository
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Download OpenSSL
+        run: |
+          python .github/workflows/download_openssl.py windows openssl-win64-2019
+          echo "::set-env name=INCLUDE::C:/openssl-win64-2019/include;%INCLUDE%"
+          echo "::set-env name=LIB::C:/openssl-win64-2019/lib;%LIB%"
+
+        - name: Build Cookietemple
+          run: python setup.py clean --all install
+
+        - name: Call Help Command
+          run: cookietemple --help
