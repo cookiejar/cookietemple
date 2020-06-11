@@ -1,5 +1,5 @@
 ifeq ($(OS),Windows_NT)
-include cookietemple/util/BuildTools/Windows.mk
+include makefiles/Windows.mk
 else
-include cookietemple/util/BuildTools/Linux.mk
+include makefiles/Linux.mk
 endif
