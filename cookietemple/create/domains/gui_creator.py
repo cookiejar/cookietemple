@@ -28,7 +28,7 @@ class GuiCreator(TemplateCreator):
         self.GUI_JAVA_TEMPLATE_VERSION = super().load_version('gui-java')
 
     def create_template(self):
-        self.gui_struct.language = click.prompt('Please choose between the following languages [java, kotlin]',
+        self.gui_struct.language = click.prompt('Please choose between the following languages',
                                                 type=click.Choice(['java', 'kotlin']))
 
         # prompt the user to fetch general template configurations

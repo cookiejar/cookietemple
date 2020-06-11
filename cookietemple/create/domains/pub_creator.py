@@ -45,7 +45,7 @@ class PubCreator(TemplateCreator):
         """
         # latex is default language
 
-        self.pub_struct.pubtype = click.prompt('Please choose between the following publication types [thesis, paper]',
+        self.pub_struct.pubtype = click.prompt('Please choose between the following publication types',
                                                type=click.Choice(['thesis', 'paper']))
         if not os.path.exists(ConfigCommand.CONF_FILE_PATH):
             click.echo(click.style('No cookietemple config file was found! Is this your first time with Cookietemple?\n', fg='red'))

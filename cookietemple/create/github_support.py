@@ -9,6 +9,7 @@ from github import Github, GithubException
 from git import Repo, exc
 from ruamel.yaml import YAML
 
+from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.util.yaml_util import load_yaml_file
 from cookietemple.config_command.config import ConfigCommand
 
@@ -16,30 +17,27 @@ from cookietemple.config_command.config import ConfigCommand
 KEY_FILE_PATH = f'{Path.home()}/.config/.ct_keys'
 
 
-def create_push_github_repository(project_path: str, project_name: str, project_description: str, tmp_repo_path: str, github_username: str) -> None:
+def create_push_github_repository(project_path: str, creator_ctx: CookietempleTemplateStruct, tmp_repo_path: str) -> None:
     """
     Creates a Github repository for the created template and pushes the template to it.
     Prompts the user for the required specifications.
 
+    :param creator_ctx: Full Template Struct. Github username may be updated if an organization repository is warranted.
     :param project_path: The path to the recently created project
-    :param project_name: Name of the created project
-    :param project_description: Description of the created project
     :param tmp_repo_path: Path to the empty cloned repo
-    :param github_username: the users github name
     """
     if not is_git_accessible():
         return
 
     # load username from template creator
-    github_username = github_username
     # the personal access token for GitHub
     access_token = handle_pat_authentification()
 
-    is_github_org: bool = True if click.prompt('Do you want to create an organization repository? [y, n]', type=click.Choice(['y', 'n']),
+    is_github_org: bool = True if click.prompt('Do you want to create an organization repository?', type=click.Choice(['y', 'n']),
                                                default='n') == 'y' else False
     if is_github_org:
         github_org: str = click.prompt('Please enter the name of the Github organization: ', type=str)
-    private: bool = True if click.prompt('Do you want your repository to be private?  [y, n]', type=click.Choice(['y', 'n']), default='n') == 'y' else False
+    private: bool = True if click.prompt('Do you want your repository to be private?', type=click.Choice(['y', 'n']), default='n') == 'y' else False
 
     # Login to Github
     click.echo(click.style('Logging into Github.', fg='blue'))
@@ -50,10 +48,10 @@ def create_push_github_repository(project_path: str, project_name: str, project_
     click.echo(click.style('Creating Github repository.', fg='blue'))
     if is_github_org:
         org = authenticated_github_user.get_organization(github_org)
-        repo = org.create_repo(project_name, description=project_description, private=private)
-        github_username = github_org
+        repo = org.create_repo(creator_ctx.project_name, description=creator_ctx.project_short_description, private=private)
+        creator_ctx.github_username = github_org
     else:
-        repo = user.create_repo(project_name, description=project_description, private=private)
+        repo = user.create_repo(creator_ctx.project_name, description=creator_ctx.project_short_description, private=private)
 
     click.echo(click.style('Creating labels and default Github settings.', fg='blue'))
     create_github_labels(repo=repo, labels=[('DEPENDABOT', '1BB0CE')])
@@ -64,7 +62,7 @@ def create_push_github_repository(project_path: str, project_name: str, project_
 
     # git clone
     click.echo(click.style('Cloning empty Github repository.', fg='blue'))
-    Repo.clone_from(f'https://{github_username}:{access_token}@github.com/{github_username}/{project_name}', repository)
+    Repo.clone_from(f'https://{creator_ctx.github_username}:{access_token}@github.com/{creator_ctx.github_username}/{creator_ctx.project_name}', repository)
 
     # Copy files which should be included in the initial commit -> basically the template
     copy_tree(f'{repository}', project_path)
@@ -77,7 +75,8 @@ def create_push_github_repository(project_path: str, project_name: str, project_
     cloned_repo.git.add(A=True)
 
     # git commit
-    cloned_repo.index.commit(f'Created {project_name} using COOKIETEMPLE.')
+    cloned_repo.index.commit(f'Created {creator_ctx.project_name} with {creator_ctx.template_handle}'
+                             f'template of version {creator_ctx.template_version} using COOKIETEMPLE.')
 
     click.echo(click.style('Pushing template to Github origin master.', fg='blue'))
     cloned_repo.remotes.origin.push(refspec='master:master')
@@ -103,7 +102,8 @@ def create_push_github_repository(project_path: str, project_name: str, project_
     cloned_repo.git.checkout('development')
 
     # did any errors occur?
-    click.echo(click.style(f'Successfully created a Github repository at https://github.com/{github_username}/{project_name}', fg='green'))
+    click.echo(click.style(f'Successfully created a Github repository at https://github.com/{creator_ctx.github_username}/{creator_ctx.project_name}',
+                           fg='green'))
 
 
 def handle_pat_authentification() -> str:

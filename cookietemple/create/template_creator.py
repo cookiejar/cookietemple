@@ -48,8 +48,7 @@ class TemplateCreator:
 
         self.create_dot_cookietemple(template_version=self.creator_ctx.template_version)
 
-        project_name = self.creator_ctx.project_slug
-        project_path = f'{self.CWD}/{project_name}'
+        project_path = f'{self.CWD}/{self.creator_ctx.project_slug}'
 
         # Ensure that docs are looking good (skip if flag is set)
         if not skip_fix_underline:
@@ -60,23 +59,25 @@ class TemplateCreator:
 
         # ask user whether he wants to create a Github repository and do so if specified
         create_github_repository = click.prompt(
-            'Do you want to create a Github repository and push your template to it? [y, n]:',
+            'Do you want to create a Github repository and push your template to it?',
+            show_choices=True,
             type=bool,
             default='Yes')
         if create_github_repository:
             # rename the currently created template to a temporary name, create Github repo, push, remove temporary template
             tmp_project_path = f'{project_path}_cookietemple_tmp'
             os.mkdir(tmp_project_path)
-            create_push_github_repository(project_path, project_name, self.creator_ctx.project_short_description, tmp_project_path,
-                                          self.creator_ctx.github_username)
+            create_push_github_repository(project_path, self.creator_ctx, tmp_project_path)
             shutil.rmtree(tmp_project_path, ignore_errors=True)
 
         if subdomain:
             click.echo(
-                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{subdomain}-{language}', fg='blue'))
+                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{subdomain}-{language}'
+                            f'for more information about how to use your chosen template.', fg='blue'))
         else:
             click.echo(
-                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{language}', fg='blue'))
+                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{language}'
+                            f'for more information about how to use your chosen template.', fg='blue'))
 
     def create_template_without_subdomain(self, domain_path: str) -> None:
         """
@@ -197,7 +198,7 @@ class TemplateCreator:
             # break if the project should be named anyways
             else:
                 break
-        self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_')
+        self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_').replace('-', '_')
         self.creator_ctx.project_short_description = click.prompt('Please enter a short description of your project.', type=str,
                                                                   default=f'{self.creator_ctx.project_name}. A best practice .')
 
@@ -212,7 +213,7 @@ class TemplateCreator:
         self.creator_ctx.version = poss_vers
 
         self.creator_ctx.license = click.prompt(
-            'Please choose a license [MIT, BSD, ISC, Apache2.0, GNUv3, Not open source]',
+            'Please choose a license',
             type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Not open source']),
             default='MIT')
 
