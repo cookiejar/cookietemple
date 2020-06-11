@@ -20,7 +20,7 @@ jobs:
           python-version: ${{ matrix.python }}
 
       - name: Build Cookietemple
-        run: python setup.py clean --all install
+        run: make install
 
       - name: Call Help Command
         run: cookietemple --help
