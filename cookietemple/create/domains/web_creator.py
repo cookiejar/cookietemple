@@ -50,8 +50,7 @@ class WebCreator(TemplateCreator):
         """
         Handles the Web domain. Prompts the user for the language, general and domain specific options.
         """
-        self.web_struct.language = click.prompt('Please choose between the following languages [python, javascript, java]',
-                                                type=click.Choice(['python', 'javascript', 'java'])).lower()
+        self.web_struct.language = click.prompt('Please choose between the following languages', type=click.Choice(['python', 'javascript', 'java'])).lower()
 
         # prompt the user to fetch general template configurations
         super().prompt_general_template_configuration()
@@ -62,7 +61,7 @@ class WebCreator(TemplateCreator):
             'javascript': web_javascript_options,
             'java': web_java_options
         }
-        switcher.get(self.web_struct.language.lower(), lambda: 'Invalid language!')(self.creator_ctx)
+        switcher.get(self.web_struct.language.lower())(self.creator_ctx)
 
         if self.web_struct.language == 'python':
             self.handle_web_project_type_python()
@@ -73,7 +72,7 @@ class WebCreator(TemplateCreator):
         }
 
         self.web_struct.template_version, self.web_struct.template_handle = switcher_version.get(
-            self.web_struct.language.lower(), lambda: 'Invalid language!'), f'web-{self.web_struct.webtype}-{self.web_struct.language.lower()}'
+            self.web_struct.language.lower()), f'web-{self.web_struct.webtype}-{self.web_struct.language.lower()}'
 
         # perform general operations like creating a GitHub repository and general linting
         super().process_common_operations(domain='web', subdomain=self.web_struct.webtype, language=self.web_struct.language)
@@ -89,7 +88,7 @@ class WebCreator(TemplateCreator):
             'website': self.handle_website_python,
             'rest_api': self.handle_rest_api_python
         }
-        switcher.get(self.web_struct.webtype.lower(), lambda: 'Invalid Web Project Type!')()
+        switcher.get(self.web_struct.webtype.lower())()
 
     def handle_website_python(self) -> None:
         """
@@ -119,23 +118,19 @@ class WebCreator(TemplateCreator):
             self.web_struct.frontend = click.prompt('Enter your preferred template or None, if you didn´t like them [Solid State, None]',
                                                     type=click.Choice(['SolidState', 'None'])).lower()
 
-        self.web_struct.url = click.prompt('Please enter the project\'s URL (if you have one)',
-                                           type=str,
-                                           default='dummy.com')
+        self.web_struct.url = click.prompt('Please enter the project\'s URL (if you have one)', type=str, default='dummy.com')
 
         switcher = {
             'flask': self.website_flask_options,
             'django': self.website_django_options
         }
-        switcher.get(self.web_struct.web_framework.lower(), lambda: 'Invalid Framework!')()
+        switcher.get(self.web_struct.web_framework.lower())()
 
     def website_flask_options(self) -> None:
         """
         Create a flask website template.
         """
-        self.web_struct.vmusername = click.prompt('Please enter your VM username (if you have one)',
-                                                  type=str,
-                                                  default='cookietempleuser')
+        self.web_struct.vmusername = click.prompt('Please enter your VM username (if you have one)', type=str, default='cookietempleuser')
 
         super().create_template_with_subdomain_framework(self.TEMPLATES_WEB_PATH, self.web_struct.webtype, self.web_struct.web_framework.lower())
 

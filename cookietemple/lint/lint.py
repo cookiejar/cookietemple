@@ -24,7 +24,7 @@ def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
         'pub-thesis-latex': PubLatexLint
     }
 
-    lint_obj = switcher.get(template_handle, lambda: 'Invalid')(project_dir)
+    lint_obj = switcher.get(template_handle)(project_dir)
     # Run the linting tests
     try:
         # Disable check files?

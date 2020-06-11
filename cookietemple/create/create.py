@@ -15,7 +15,7 @@ def choose_domain(domain: str):
     :param domain: Template domain
     """
     if not domain:
-        domain = click.prompt('Choose between the following domains [cli, gui, web, pub]',
+        domain = click.prompt('Choose between the following domains',
                               type=click.Choice(['cli', 'gui', 'web', 'pub']))
 
     switcher = {
@@ -25,5 +25,5 @@ def choose_domain(domain: str):
         'pub': PubCreator
     }
 
-    creator_obj = switcher.get(domain.lower(), lambda: 'Invalid domain!')()
+    creator_obj = switcher.get(domain.lower())()
     creator_obj.create_template()

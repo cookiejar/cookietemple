@@ -48,8 +48,7 @@ class TemplateCreator:
 
         self.create_dot_cookietemple(template_version=self.creator_ctx.template_version)
 
-        project_name = self.creator_ctx.project_slug
-        project_path = f'{self.CWD}/{project_name}'
+        project_path = f'{self.CWD}/{self.creator_ctx.project_slug}'
 
         # Ensure that docs are looking good (skip if flag is set)
         if not skip_fix_underline:
@@ -60,23 +59,25 @@ class TemplateCreator:
 
         # ask user whether he wants to create a Github repository and do so if specified
         create_github_repository = click.prompt(
-            'Do you want to create a Github repository and push your template to it? [y, n]:',
+            'Do you want to create a Github repository and push your template to it?',
+            show_choices=True,
             type=bool,
             default='Yes')
         if create_github_repository:
             # rename the currently created template to a temporary name, create Github repo, push, remove temporary template
             tmp_project_path = f'{project_path}_cookietemple_tmp'
             os.mkdir(tmp_project_path)
-            create_push_github_repository(project_path, project_name, self.creator_ctx.project_short_description, tmp_project_path,
-                                          self.creator_ctx.github_username)
+            create_push_github_repository(project_path, self.creator_ctx, tmp_project_path)
             shutil.rmtree(tmp_project_path, ignore_errors=True)
 
         if subdomain:
             click.echo(
-                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{subdomain}-{language}', fg='blue'))
+                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{subdomain}-{language}'
+                            f'for more information about how to use your chosen template.', fg='blue'))
         else:
             click.echo(
-                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{language}', fg='blue'))
+                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{language}'
+                            f'for more information about how to use your chosen template.', fg='blue'))
 
     def create_template_without_subdomain(self, domain_path: str) -> None:
         """
@@ -169,13 +170,23 @@ class TemplateCreator:
         Options are saved in the creator context manager object.
         """
         try:
+            # try to read name and email from existing config file
             self.creator_ctx.full_name = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['full_name']
             self.creator_ctx.email = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['email']
         except FileNotFoundError:
             # style and automatic use config
-            click.echo(
-                click.style('No cookietemple config file was found. Use cookietemple config general or all to configure your mail and full name', fg='red'))
-            sys.exit(1)
+            click.echo(click.style('Cannot find a Cookietemple config file. Is this your first time using Cookietemple?', fg='red'))
+            # inform the user and config all settings (with PAT optional)
+            click.echo(click.style('Lets set your name, email and Github username and you´re ready to go!', fg='blue'))
+            ConfigCommand.all_settings()
+            # load mail and full name
+            path = Path(ConfigCommand.CONF_FILE_PATH)
+            yaml = YAML(typ='safe')
+            settings = yaml.load(path)
+            # set full name and mail
+            self.creator_ctx.full_name = settings['full_name']
+            self.creator_ctx.email = settings['email']
+
         self.creator_ctx.project_name = click.prompt('Please enter your project name', type=str, default='Exploding Springfield')
 
         # check if the project name is already taken on readthedocs.io
@@ -187,7 +198,7 @@ class TemplateCreator:
             # break if the project should be named anyways
             else:
                 break
-        self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_')
+        self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_').replace('-', '_')
         self.creator_ctx.project_short_description = click.prompt('Please enter a short description of your project.', type=str,
                                                                   default=f'{self.creator_ctx.project_name}. A best practice .')
 
@@ -202,7 +213,7 @@ class TemplateCreator:
         self.creator_ctx.version = poss_vers
 
         self.creator_ctx.license = click.prompt(
-            'Please choose a license [MIT, BSD, ISC, Apache2.0, GNUv3, Not open source]',
+            'Please choose a license',
             type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Not open source']),
             default='MIT')
 
@@ -243,6 +254,7 @@ class TemplateCreator:
         Test whether there´s already a project with the same name on readthedocs
         :param project_name Name of the project the user wants to create
         """
+        click.echo(click.style(f'Looking up {project_name} at readthedocs.io!', fg='blue'))
         try:
             request = requests.get(f'https://{project_name.replace(" ", "")}.readthedocs.io')
             if request.status_code == 200:

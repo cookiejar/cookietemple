@@ -28,7 +28,7 @@ class GuiCreator(TemplateCreator):
         self.GUI_JAVA_TEMPLATE_VERSION = super().load_version('gui-java')
 
     def create_template(self):
-        self.gui_struct.language = click.prompt('Please choose between the following languages [java, kotlin]',
+        self.gui_struct.language = click.prompt('Please choose between the following languages',
                                                 type=click.Choice(['java', 'kotlin']))
 
         # prompt the user to fetch general template configurations
@@ -38,7 +38,7 @@ class GuiCreator(TemplateCreator):
         switcher = {
             'java': self.gui_java_options,
         }
-        switcher.get(self.gui_struct.language.lower(), lambda: 'Invalid language!')()
+        switcher.get(self.gui_struct.language.lower())()
 
         # create the gui template
         super().create_template_without_subdomain(self.TEMPLATES_GUI_PATH)
@@ -49,7 +49,7 @@ class GuiCreator(TemplateCreator):
         }
 
         self.gui_struct.template_version, self.gui_struct.template_handle = switcher_version.get(
-            self.gui_struct.language.lower(), lambda: 'Invalid language!'), f'gui-{self.gui_struct.language.lower()}'
+            self.gui_struct.language.lower()), f'gui-{self.gui_struct.language.lower()}'
 
         # perform general operations like creating a GitHub repository and general linting
         super().process_common_operations(domain='gui', language=self.gui_struct.language)
@@ -61,6 +61,4 @@ class GuiCreator(TemplateCreator):
         # The user id is automatically determined from the full_name as first letter of first name and sur name
         full_name_split = self.creator_ctx.full_name.split()
         self.gui_struct.id = f'{full_name_split[0][0]}{full_name_split[1][0]}' if len(full_name_split) > 1 else f'{full_name_split[0][0]}'
-        self.gui_struct.organization = click.prompt('Organization:',
-                                                    type=str,
-                                                    default='cookiejar')
+        self.gui_struct.organization = click.prompt('Organization:', type=str, default='cookiejar')

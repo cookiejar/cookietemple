@@ -13,7 +13,7 @@ class ConfigCommand:
     Class for the config command
     """
     # path where the config file is stored for cookietemple
-    CONF_FILE_PATH = f'{Path.home()}/cookietemple_conf.yml'
+    CONF_FILE_PATH = f'{Path.home()}/.config/cookietemple_conf.yml'
 
     @staticmethod
     def all_settings() -> None:
@@ -21,7 +21,7 @@ class ConfigCommand:
         Set general and github settings.
         """
         ConfigCommand.config_general_settings()
-        ConfigCommand.config_github_settings()
+        ConfigCommand.config_pat()
 
     @staticmethod
     def config_general_settings() -> None:
@@ -30,7 +30,7 @@ class ConfigCommand:
         """
         full_name = click.prompt('Please enter your full name', type=str, default='Homer Simpson')
         email = click.prompt('Please enter your personal or work email', type=str, default='homer.simpson@example.com')
-        full_name_b, email_b = full_name, email
+        github_username = click.prompt('Please enter your github username', type=str)
 
         # if the configs exist, just update them
         if os.path.exists(ConfigCommand.CONF_FILE_PATH):
@@ -39,56 +39,61 @@ class ConfigCommand:
             settings = yaml.load(path)
 
             # update the full_name and email
-            settings['full_name'] = full_name_b
-            settings['email'] = email_b
+            settings['full_name'] = full_name
+            settings['email'] = email
+            settings['github_username'] = github_username
             yaml.dump(settings, Path(ConfigCommand.CONF_FILE_PATH))
 
         # the configs don´t exist -> create them
         else:
-            settings = {'full_name': full_name_b, 'email': email_b}
+            settings = {'full_name': full_name, 'email': email, 'github_username': github_username}
             yaml = YAML()
             yaml.dump(settings, Path(ConfigCommand.CONF_FILE_PATH))
 
     @staticmethod
-    def config_github_settings() -> None:
+    def config_pat() -> None:
         """
-        Set the PAT and Github username for automatic github repo creation.
+        Set the personal access token (PAT) for automatic Github repo creation.
         """
-        github_username = click.prompt('Please enter your Github account username ', type=str)
-        access_token: str = click.prompt('Please enter your GitHub access token ', type=str, hide_input=True)
-        access_token_b = access_token.encode('utf-8')
-
-        # ask for confirmation since this action will delete the PAT irrevocably if the user has not saved it anywhere else
-        if not click.confirm(click.style('You´re about to update your personal access token. This action cannot be undone!\n'
-                                         'Do you really want to continue?')):
-            return
-
-            # encrypt the given PAT and save the encryption key and encrypted PAT in separate files
-        click.echo(click.style('Generating key for encryption.', fg='blue'))
-        key = Fernet.generate_key()
-        fer = Fernet(key)
-        click.echo(click.style('Encrypting personal access token.', fg='blue'))
-        encrypted_pat = fer.encrypt(access_token_b)
-
-        # write key
-        with open(f'{Path.home()}/.ct_keys', 'wb') as f:
-            f.write(key)
-
-        # if the configs exist, just update them
-        if os.path.exists(ConfigCommand.CONF_FILE_PATH):
+        try:
             path = Path(ConfigCommand.CONF_FILE_PATH)
             yaml = YAML(typ='safe')
             settings = yaml.load(path)
+            if not all(attr in settings for attr in ['full_name', 'github_username', 'email']):
+                click.echo(click.style('The Cookietemple config file misses some required attributes!', fg='red'))
+                click.echo(click.style('Lets set them before setting your Github personal access token!', fg='blue'))
+                ConfigCommand.config_general_settings()
 
-            # update the full_name and email
-            settings['github_username'] = github_username
+        except FileNotFoundError:
+            click.echo(click.style('Cannot find a Cookietemple config file. Is this your first time using Cookietemple?', fg='red'))
+            click.echo(click.style('Lets create one before setting your Github personal access token!', fg='blue'))
+            ConfigCommand.config_general_settings()
+
+        if click.confirm(click.style('Do you want to configure your GitHub personal access token right now?\nYou can still configure it later '
+                                     'by calling ', fg='blue') + click.style('cookietemple config pat', fg='green')):
+            access_token: str = click.prompt('Please enter your GitHub access token ', type=str, hide_input=True)
+            access_token_b = access_token.encode('utf-8')
+
+            # ask for confirmation since this action will delete the PAT irrevocably if the user has not saved it anywhere else
+            if not click.confirm(click.style('You´re about to update your personal access token. This action cannot be undone!\n'
+                                             'Do you really want to continue?')):
+                sys.exit(1)
+
+            # encrypt the given PAT and save the encryption key and encrypted PAT in separate files
+            click.echo(click.style('Generating key for encryption.', fg='blue'))
+            key = Fernet.generate_key()
+            fer = Fernet(key)
+            click.echo(click.style('Encrypting personal access token.', fg='blue'))
+            encrypted_pat = fer.encrypt(access_token_b)
+
+            # write key
+            with open(f'{Path.home()}/.config/.ct_keys', 'wb') as f:
+                f.write(key)
+
+            path = Path(ConfigCommand.CONF_FILE_PATH)
+            yaml = YAML(typ='safe')
+            settings = yaml.load(path)
             settings['pat'] = encrypted_pat
-            yaml.dump(settings, Path(ConfigCommand.CONF_FILE_PATH))
-
-        # the configs don´t exist -> create them
-        else:
-            settings = {'github_username': github_username, 'pat': encrypted_pat}
-            yaml = YAML()
             yaml.dump(settings, Path(ConfigCommand.CONF_FILE_PATH))
 
     @staticmethod
@@ -97,7 +102,7 @@ class ConfigCommand:
         Try to use/suggest a similar handle if user missspelled it.
         :param section: The handle inputted by the user.
         """
-        com_list, action = most_similar_command(section.lower(), {'general', 'github', 'all'})
+        com_list, action = most_similar_command(section.lower(), {'general', 'pat', 'all'})
         # use best match
         if len(com_list) == 1 and action == 'use':
             click.echo(click.style(f'Unknown handle {section}. Will use best match {com_list[0]}.\n', fg='blue'))
@@ -126,6 +131,6 @@ class ConfigCommand:
         switcher = {
             'all': ConfigCommand.all_settings,
             'general': ConfigCommand.config_general_settings,
-            'github': ConfigCommand.config_github_settings
+            'pat': ConfigCommand.config_pat
         }
         return switcher

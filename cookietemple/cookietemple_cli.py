@@ -24,7 +24,6 @@ WD = os.path.dirname(__file__)
 
 def main():
     traceback.install(width=200, word_wrap=True)
-    
     click.echo(click.style(f"""
       / __\___   ___ | | _(_) ___| |_ ___ _ __ ___  _ __ | | ___
      / /  / _ \ / _ \| |/ / |/ _ \ __/ _ \\ '_ ` _ \| '_ \| |/ _ \\
@@ -161,13 +160,20 @@ def warp(input_dir: str, exec: str, output: str) -> None:
 def config(ctx, section: str) -> None:
     """
     Configure your general settings and github credentials for reuse.
+    Available options (sections) are:
+
+    - general: set your fullname, email and Github username
+
+    - pat: set your Github personal access token for Github repo creation
+
+    - all: calls general and pat
     """
     if section == 'general':
         # set the full_name and email for reuse in the creation process
         ConfigCommand.config_general_settings()
-    elif section == 'github':
+    elif section == 'pat':
         # set github username and encrypted personal access token
-        ConfigCommand.config_github_settings()
+        ConfigCommand.config_pat()
     elif section == 'all':
         # set everything
         ConfigCommand.all_settings()
