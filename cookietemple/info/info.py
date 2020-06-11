@@ -66,7 +66,7 @@ class TemplateInfo:
 
         table.add_column("Name", justify="left", style="green", no_wrap=True)
         table.add_column("Handle", justify="left")
-        table.add_column("Short Description", justify="left")
+        table.add_column("Long Description", justify="left")
         table.add_column("Available Libraries", justify="left")
         table.add_column("Version", justify="left")
 
