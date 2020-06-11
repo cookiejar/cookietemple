@@ -175,9 +175,9 @@ class TemplateCreator:
             self.creator_ctx.email = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['email']
         except FileNotFoundError:
             # style and automatic use config
-            click.echo(click.style('No cookietemple config file was found. Is this your first time using Cookietemple?', fg='red'))
+            click.echo(click.style('Cannot find a Cookietemple config file. Is this your first time using Cookietemple?', fg='red'))
             # inform the user and config all settings (with PAT optional)
-            click.echo(click.style('Lets set your name, email and github username and you´re ready to go!', fg='blue'))
+            click.echo(click.style('Lets set your name, email and Github username and you´re ready to go!', fg='blue'))
             ConfigCommand.all_settings()
             # load mail and full name
             path = Path(ConfigCommand.CONF_FILE_PATH)
@@ -254,7 +254,7 @@ class TemplateCreator:
         Test whether there´s already a project with the same name on readthedocs
         :param project_name Name of the project the user wants to create
         """
-        click.echo(click.style(f'Looking up {project_name} at readthedocs.io!', fg='red'))
+        click.echo(click.style(f'Looking up {project_name} at readthedocs.io!', fg='blue'))
         try:
             request = requests.get(f'https://{project_name.replace(" ", "")}.readthedocs.io')
             if request.status_code == 200:

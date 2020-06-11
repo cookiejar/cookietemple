@@ -160,6 +160,13 @@ def warp(input_dir: str, exec: str, output: str) -> None:
 def config(ctx, section: str) -> None:
     """
     Configure your general settings and github credentials for reuse.
+    Available options (sections) are:
+
+    - general: set your fullname, email and Github username
+
+    - pat: set your Github personal access token for Github repo creation
+
+    - all: calls general and pat
     """
     if section == 'general':
         # set the full_name and email for reuse in the creation process

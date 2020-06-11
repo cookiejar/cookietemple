@@ -47,7 +47,7 @@ class CliCreator(TemplateCreator):
             'java': cli_java_options,
             'kotlin': cli_kotlin_options
         }
-        switcher.get(self.cli_struct.language.lower(), lambda: 'Invalid language!')(self.creator_ctx)
+        switcher.get(self.cli_struct.language.lower())(self.creator_ctx)
 
         # create the chosen and configured template
         super().create_template_without_subdomain(self.TEMPLATES_CLI_PATH)
@@ -59,7 +59,7 @@ class CliCreator(TemplateCreator):
             'kotlin': self.CLI_KOTLIN_TEMPLATE_VERSION
         }
         self.cli_struct.template_version, self.cli_struct.template_handle = switcher_version.get(
-            self.cli_struct.language.lower(), lambda: 'Invalid language!'), f'cli-{self.cli_struct.language.lower()}'
+            self.cli_struct.language.lower()), f'cli-{self.cli_struct.language.lower()}'
 
         # perform general operations like creating a GitHub repository and general linting
         super().process_common_operations(domain='cli', language=self.cli_struct.language)

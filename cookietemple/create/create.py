@@ -25,5 +25,5 @@ def choose_domain(domain: str):
         'pub': PubCreator
     }
 
-    creator_obj = switcher.get(domain.lower(), lambda: 'Invalid domain!')()
+    creator_obj = switcher.get(domain.lower())()
     creator_obj.create_template()

@@ -134,7 +134,7 @@ def handle_pat_authentification() -> str:
             click.echo(click.style('Lets move on to set your personal access token for your Cookietemple project!', fg='blue'))
             # set the PAT
             ConfigCommand.config_pat()
-            # handle some weird cases where the user tries to break Cookietemple
+            # if the user wants to create a GitHub repo but accidentally presses no on PAT config prompt
             if not os.path.exists(KEY_FILE_PATH):
                 click.echo(click.style('No Github personal access token found. Please set it using ', fg='red') + click.style('cookietemple config github',
                                                                                                                               fg='green'))
@@ -143,7 +143,7 @@ def handle_pat_authentification() -> str:
                 pat = decrypt_pat()
             return pat
     else:
-        click.echo(click.style('Did not found a Cookietemple config file! Did you delete it?', fg='red'))
+        click.echo(click.style('Cannot find a Cookietemple config file! Did you delete it?', fg='red'))
 
 
 def decrypt_pat() -> str:
@@ -167,17 +167,10 @@ def decrypt_pat() -> str:
 def load_github_username() -> str:
     """
     Load the username from cfg file.
-    If not found, prompt for it and save it in the cfg file. CAVE: Username is the first entry in the cfg file.
 
-    :return: The users github account name
+    :return: The users Github account name
     """
-    if not os.path.exists(ConfigCommand.CONF_FILE_PATH):
-        click.echo(click.style('Could not find Cookietemple config file!', fg='red'))
-        click.echo(click.style('Use Cookietemple config github to configure your Github username for Cookietemple!', fg='red'))
-        sys.exit(1)
-
-    else:
-        return load_yaml_file(ConfigCommand.CONF_FILE_PATH)['github_username']
+    return load_yaml_file(ConfigCommand.CONF_FILE_PATH)['github_username']
 
 
 def is_git_accessible() -> bool:

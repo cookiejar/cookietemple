@@ -65,12 +65,12 @@ class ConfigCommand:
                 ConfigCommand.config_general_settings()
 
         except FileNotFoundError:
-            click.echo(click.style('Did not found a Cookietemple config file. Is this your first time using Cookietemple?', fg='red'))
+            click.echo(click.style('Cannot find a Cookietemple config file. Is this your first time using Cookietemple?', fg='red'))
             click.echo(click.style('Lets create one before setting your Github personal access token!', fg='blue'))
             ConfigCommand.config_general_settings()
 
         if click.confirm(click.style('Do you want to configure your GitHub personal access token right now?\nYou can still configure it later '
-                                     'by calling ', fg='red') + click.style('cookietemple config pat!', fg='green')):
+                                     'by calling ', fg='blue') + click.style('cookietemple config pat', fg='green')):
             access_token: str = click.prompt('Please enter your GitHub access token ', type=str, hide_input=True)
             access_token_b = access_token.encode('utf-8')
 
