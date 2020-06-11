@@ -35,14 +35,14 @@ clean-build: ## remove build artifacts
 	if exist build rd /s /q build
 	if exist dist rd /s /q dist
 	if exist .eggs rd /s /q .eggs
-	if exist .\*.egg-info rd /s /q .\*.egg-info
-	if exist .\*.egg del /q /s /f .\*.egg
+	for /d /r . %%d in (*egg-info) do @if exist "%%d" echo "%%d" && rd /s/q "%%d"
+	del /q /s /f .\*.egg
 
 clean-pyc: ## remove Python file artifacts
-	if exist .\*.pyc del /s /f /q .\*.pyc
-	if exist .\*.pyo del /s /f /q .\*.pyo
-	if exist .\*~ del /s /f /q .\*~
-	if exist .\*__pycache__ rd /s /q .\*__pycache__
+	del /s /f /q .\*.pyc
+	del /s /f /q .\*.pyo
+	del /s /f /q .\*~
+	for /d /r . %%d in (*__pycache__) do @if exist "%%d" echo "%%d" && rd /s/q "%%d"
 
 clean-test: ## remove test and coverage artifacts
 	if exist .tox rd /s /q .tox
