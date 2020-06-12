@@ -13,10 +13,6 @@ class UpgradeCommand:
     """
     Responsible for checking for newer versions cookietemple and upgrading it if required.
     """
-
-    def __init__(self):
-        pass
-
     @staticmethod
     def check_upgrade_cookietemple() -> None:
         """
@@ -41,11 +37,11 @@ class UpgradeCommand:
             # It is impossible to access file:// or ftp://
             # See: https://stackoverflow.com/questions/48779202/audit-url-open-for-permitted-schemes-allowing-use-of-file-or-custom-schemes
             req = urllib.request.Request('https://pypi.org/pypi/cookietemple/json')  # nosec
-            with urllib.request.urlopen(req) as response:  # nosec
+            with urllib.request.urlopen(req, timeout=1) as response:  # nosec
                 contents = response.read()
                 data = json.loads(contents)
                 latest_pypi_version = data['info']['version']
-        except HTTPError:
+        except (HTTPError, TimeoutError):
             click.echo(click.style('Unable to contact PyPI to check for the latest cookietemple version. Do you have an internet connection?', fg='red'))
             # Returning true by default, since this is not a serious issue
             return True
@@ -54,11 +50,11 @@ class UpgradeCommand:
             click.echo(click.style(f'Latest version ({latest_local_version}) of cookietemple is installed!', fg='green'))
             return True
         else:
-            click.echo(click.style(f'Installed version {latest_local_version} of cookietemple is not the latest version {latest_pypi_version}!', fg='red'))
+            click.echo(click.style(f'Installed version {latest_local_version} of cookietemple is outdated. Newest version is {latest_pypi_version}!', fg='red'))
             return False
 
-    @staticmethod
-    def upgrade_cookietemple() -> None:
+    @classmethod
+    def upgrade_cookietemple(cls) -> None:
         try:
             subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', 'cookietemple'])
         except Exception as e:
