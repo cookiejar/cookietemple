@@ -91,7 +91,7 @@ class HelpErrorHandling(click.Group):
 
         elif cmd == 'config':
             click.echo(click.style('Failed to execute ', fg='red') + click.style(f'{cmd.upper()}. ', fg='red')
-                       + click.style('Please provide a valid argument. You can choose general, github or all.', fg='blue'))
+                       + click.style('Please provide a valid argument. You can choose general, pat or all.', fg='blue'))
             sys.exit(1)
 
 

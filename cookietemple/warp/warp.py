@@ -16,10 +16,10 @@ def warp_project(input_dir: str, exec: str, output: str) -> None:
     Requires a JRE to be bundled with the project.
     Warp is bundled with COOKIETEMPLE, does however require executable permissions to be set, which COOKIETEMPLE also prompts for
     """
-    WARP_INFO_PATH = f'{WD}/warp/warp_info.yml'
-    WARP_LINUX_PATH = f'{WD}/warp/linux-x64.warp-packer'
-    WARP_MACOS_PATH = f'{WD}/warp/macos-x64.warp-packer'
-    WARP_WINDOWS_PATH = f'{WD}/warp/windows-x64.warp-packer.exe'
+    WARP_INFO_PATH = f'{WD}/warp_executables/warp_info.yml'
+    WARP_LINUX_PATH = f'{WD}/warp_executables/linux-x64.warp-packer'
+    WARP_MACOS_PATH = f'{WD}/warp_executables/macos-x64.warp-packer'
+    WARP_WINDOWS_PATH = f'{WD}/warp_executables/windows-x64.warp-packer.exe'
 
     # Fetch and print Warp info
     yaml = YAML(typ='safe')
@@ -42,7 +42,11 @@ def run_unix_warp(warp_unix_path: str, arch: str, input_dir: str, exec: str, out
     """
     Sets executable permissions for Warp if required and runs Warp on the target project.
 
-    :param warp_unix_path: Path to the unix (Linux, MacOS) Warp executable
+    :param warp_unix_path: Path to the Warp executable
+    :param arch: Operating system architecture -> one of linux-x64 or macos-x64
+    :param input_dir: Path of input directory
+    :param exec: Path to executable to package
+    :param output: Output path
     """
 
     # Set Warp to be executable if it not already is. May prompt the user for sudo permissions.
@@ -64,10 +68,11 @@ def run_unix_warp(warp_unix_path: str, arch: str, input_dir: str, exec: str, out
     run_warp(warp_unix_path, arch, input_dir, exec, output)
 
 
-def run_warp(warp_executable_path, arch, input_dir, exec, output) -> None:
+def run_warp(warp_executable_path, arch: str, input_dir: str, exec: str, output: str) -> None:
     """
+    Runs Warp on the target architecture
 
-    :param warp_executable_path:
+    :param warp_executable_path: Path to the Warp executable
     :param arch: Target architecture: linux-x64, macos-x64 or windows-x64
     :param exec: Executable to be packed
     :param input_dir: Input directory

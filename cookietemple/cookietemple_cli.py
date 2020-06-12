@@ -14,9 +14,9 @@ from cookietemple.create.create import choose_domain
 from cookietemple.info.info import TemplateInfo
 from cookietemple.lint.lint import lint_project
 from cookietemple.list.list import TemplateLister
-from cookietemple.package_dist.warp import warp_project
+from cookietemple.warp.warp import warp_project
 from cookietemple.custom_cookietemple_cli.custom_click import HelpErrorHandling, print_project_version
-from cookietemple.config_command.config import ConfigCommand
+from cookietemple.config.config import ConfigCommand
 from cookietemple.sync.sync import snyc_template
 
 WD = os.path.dirname(__file__)
@@ -50,8 +50,7 @@ def cookietemple_cli(ctx, verbose):
 
 
 @cookietemple_cli.command(help_priority=1, short_help='Create a new project using one of our templates.')
-@click.option('--domain',
-              type=click.Choice(['CLI', 'GUI', 'Web']))
+@click.option('--domain', type=click.Choice(['CLI', 'GUI', 'Web']))
 def create(domain: str) -> None:
     """
     Create a new project using one of our templates
@@ -144,9 +143,9 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
 
 
 @cookietemple_cli.command(help_priority=7, short_help='Create a self contained executable with bundled JRE.')
-@click.option('--input_dir', type=str)
-@click.option('--exec', type=str)
-@click.option('--output', type=str)
+@click.option('--input_dir', type=str, required=True)
+@click.option('--exec', type=str, required=True)
+@click.option('--output', type=str, required=True)
 def warp(input_dir: str, exec: str, output: str) -> None:
     """
     Create a self contained executable with bundled JRE
@@ -183,9 +182,9 @@ def config(ctx, section: str) -> None:
     else:
         ConfigCommand.similar_handle(section)
 
-@cookietemple_cli.command(help_priority=9, short_help='')
-def upgrade(ctx) -> None:
-    pass
+@cookietemple_cli.command(help_priority=9, short_help='Check for a newer version of Cookietemple and upgrade if required')
+def upgrade() -> None:
+    print('test')
 
 
 if __name__ == '__main__':

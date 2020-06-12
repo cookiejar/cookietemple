@@ -3,10 +3,10 @@ import os
 from cookietemple.util.yaml_util import load_yaml_file
 from cookietemple.util.dict_util import is_nested_dictionary
 
-TEMPLATES_PATH = f'{os.path.dirname(__file__)}/../create/templates'
+AVAILABLE_TEMPLATES_PATH = f'{os.path.dirname(__file__)}/../create/templates/available_templates.yml'
 
 # Cookietemples main commands
-MAIN_COMMANDS = ['create', 'lint', 'list', 'info', 'bump-version', 'sync', 'config']
+MAIN_COMMANDS = ['create', 'lint', 'list', 'info', 'bump-version', 'sync', 'warp', 'config', 'upgrade']
 
 # the fraction relative to the commands length, a given input could differ from the real command to be automatically used instead
 SIMILARITY_USE_FACTOR = 1 / 3
@@ -21,12 +21,12 @@ def load_available_handles() -> set:
 
     :return: A set of all available handles
     """
-    available_templates = load_yaml_file(f'{TEMPLATES_PATH}/available_templates.yml')
-    unsplitted_handles = set()
+    available_templates = load_yaml_file(f'{AVAILABLE_TEMPLATES_PATH}')
+    unsplit_handles = set()
     all_handles = set()
-    nested_dict_to_handle_set(available_templates, unsplitted_handles)
-    all_handles.update(unsplitted_handles)
-    split_handles(unsplitted_handles, all_handles)
+    nested_dict_to_handle_set(available_templates, unsplit_handles)
+    all_handles.update(unsplit_handles)
+    split_handles(unsplit_handles, all_handles)
     return all_handles
 
 
