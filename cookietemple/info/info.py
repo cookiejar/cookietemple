@@ -5,10 +5,10 @@ from rich.style import Style
 from rich.console import Console
 from rich.table import Table
 from rich.box import HEAVY_HEAD
-from cookietemple.custom_cookietemple_cli.levensthein_dist import most_similar_command
+from cookietemple.custom_cli.levensthein_dist import most_similar_command
 from cookietemple.util.yaml_util import load_yaml_file
 from cookietemple.util.dict_util import is_nested_dictionary
-from cookietemple.custom_cookietemple_cli.suggest_similar_commands import load_available_handles
+from cookietemple.custom_cli.suggest_similar_commands import load_available_handles
 
 
 class TemplateInfo:

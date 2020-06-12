@@ -3,8 +3,8 @@ import sys
 from pathlib import Path
 from configparser import NoSectionError
 
-from cookietemple.custom_cookietemple_cli.suggest_similar_commands import MAIN_COMMANDS
-from cookietemple.custom_cookietemple_cli.levensthein_dist import most_similar_command
+from cookietemple.custom_cli.suggest_similar_commands import MAIN_COMMANDS
+from cookietemple.custom_cli.levensthein_dist import most_similar_command
 from cookietemple.bump_version.bump_version import VersionBumper
 
 

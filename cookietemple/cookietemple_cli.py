@@ -14,8 +14,9 @@ from cookietemple.create.create import choose_domain
 from cookietemple.info.info import TemplateInfo
 from cookietemple.lint.lint import lint_project
 from cookietemple.list.list import TemplateLister
+from cookietemple.upgrade.upgrade import UpgradeCommand
 from cookietemple.warp.warp import warp_project
-from cookietemple.custom_cookietemple_cli.custom_click import HelpErrorHandling, print_project_version
+from cookietemple.custom_cli.custom_click import HelpErrorHandling, print_project_version
 from cookietemple.config.config import ConfigCommand
 from cookietemple.sync.sync import snyc_template
 
@@ -35,6 +36,8 @@ def main():
     click.echo(click.style('Run ', fg='blue') + click.style('cookietemple --help ', fg='green') + click.style('for an overview of all commands', fg='blue'))
     click.echo()
 
+    # Is the latest cookietemple version installed? Upgrade if not!
+    UpgradeCommand.check_upgrade_cookietemple()
     cookietemple_cli()
 
 
@@ -182,9 +185,14 @@ def config(ctx, section: str) -> None:
     else:
         ConfigCommand.similar_handle(section)
 
+
 @cookietemple_cli.command(help_priority=9, short_help='Check for a newer version of Cookietemple and upgrade if required')
 def upgrade() -> None:
-    print('test')
+    """
+    Checks whether the locally installed version of cookietemple is the latest.
+    If not it prompts whether to upgrade and runs the upgrade command if desired.
+    """
+    UpgradeCommand.check_upgrade_cookietemple()
 
 
 if __name__ == '__main__':
