@@ -15,18 +15,18 @@ from cookietemple.info.info import TemplateInfo
 from cookietemple.lint.lint import lint_project
 from cookietemple.list.list import TemplateLister
 from cookietemple.package_dist.warp import warp_project
-from cookietemple.synchronization.sync import snyc_template
 from cookietemple.custom_cookietemple_cli.custom_click import HelpErrorHandling, print_project_version
 from cookietemple.config_command.config import ConfigCommand
+from cookietemple.sync.sync import snyc_template
 
 WD = os.path.dirname(__file__)
 
 
 def main():
     traceback.install(width=200, word_wrap=True)
-    click.echo(click.style(f"""
+    click.echo(click.style(rf"""
       / __\___   ___ | | _(_) ___| |_ ___ _ __ ___  _ __ | | ___
-     / /  / _ \ / _ \| |/ / |/ _ \ __/ _ \\ '_ ` _ \| '_ \| |/ _ \\
+     / /  / _ \ / _ \| |/ / |/ _ \ __/ _ \ '_ ` _ \| '_ \| |/ _ \
     / /__| (_) | (_) |   <| |  __/ ||  __/ | | | | | |_) | |  __/
     \____/\___/ \___/|_|\_\_|\___|\__\___|_| |_| |_| .__/|_|\___|
                                                    |_|
@@ -159,13 +159,12 @@ def warp(input_dir: str, exec: str, output: str) -> None:
 @click.pass_context
 def config(ctx, section: str) -> None:
     """
-    Configure your general settings and github credentials for reuse.
+    Configure your general settings and Github credentials for reuse.
     Available options (sections) are:
 
+    \b
     - general: set your fullname, email and Github username
-
-    - pat: set your Github personal access token for Github repo creation
-
+    - pat: set your Github personal access token for Github repository creation
     - all: calls general and pat
     """
     if section == 'general':
@@ -183,6 +182,10 @@ def config(ctx, section: str) -> None:
         # check if a similar section handle can be used/suggested
     else:
         ConfigCommand.similar_handle(section)
+
+@cookietemple_cli.command(help_priority=9, short_help='')
+def upgrade(ctx) -> None:
+    pass
 
 
 if __name__ == '__main__':
