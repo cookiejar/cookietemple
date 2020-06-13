@@ -37,7 +37,8 @@ def main():
     click.echo()
 
     # Is the latest cookietemple version installed? Upgrade if not!
-    UpgradeCommand.check_upgrade_cookietemple()
+    if not UpgradeCommand.check_cookietemple_latest():
+        click.echo(click.style('Run ', fg='blue') + click.style('cookietemple upgrade ', fg='green') + click.style('to get the latest version.'))
     cookietemple_cli()
 
 

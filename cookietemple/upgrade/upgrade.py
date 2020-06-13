@@ -47,7 +47,6 @@ class UpgradeCommand:
             return True
 
         if latest_local_version == latest_pypi_version:
-            click.echo(click.style(f'Latest version ({latest_local_version}) of cookietemple is installed!', fg='green'))
             return True
         else:
             click.echo(click.style(f'Installed version {latest_local_version} of cookietemple is outdated. Newest version is {latest_pypi_version}!', fg='red'))
