@@ -14,19 +14,20 @@ from cookietemple.create.create import choose_domain
 from cookietemple.info.info import TemplateInfo
 from cookietemple.lint.lint import lint_project
 from cookietemple.list.list import TemplateLister
-from cookietemple.package_dist.warp import warp_project
-from cookietemple.synchronization.sync import snyc_template
-from cookietemple.custom_cookietemple_cli.custom_click import HelpErrorHandling, print_project_version
-from cookietemple.config_command.config import ConfigCommand
+from cookietemple.upgrade.upgrade import UpgradeCommand
+from cookietemple.warp.warp import warp_project
+from cookietemple.custom_cli.custom_click import HelpErrorHandling, print_project_version
+from cookietemple.config.config import ConfigCommand
+from cookietemple.sync.sync import snyc_template
 
 WD = os.path.dirname(__file__)
 
 
 def main():
     traceback.install(width=200, word_wrap=True)
-    click.echo(click.style(f"""
+    click.echo(click.style(rf"""
       / __\___   ___ | | _(_) ___| |_ ___ _ __ ___  _ __ | | ___
-     / /  / _ \ / _ \| |/ / |/ _ \ __/ _ \\ '_ ` _ \| '_ \| |/ _ \\
+     / /  / _ \ / _ \| |/ / |/ _ \ __/ _ \ '_ ` _ \| '_ \| |/ _ \
     / /__| (_) | (_) |   <| |  __/ ||  __/ | | | | | |_) | |  __/
     \____/\___/ \___/|_|\_\_|\___|\__\___|_| |_| |_| .__/|_|\___|
                                                    |_|
@@ -35,6 +36,9 @@ def main():
     click.echo(click.style('Run ', fg='blue') + click.style('cookietemple --help ', fg='green') + click.style('for an overview of all commands', fg='blue'))
     click.echo()
 
+    # Is the latest cookietemple version installed? Upgrade if not!
+    if not UpgradeCommand.check_cookietemple_latest():
+        click.echo(click.style('Run ', fg='blue') + click.style('cookietemple upgrade ', fg='green') + click.style('to get the latest version.'))
     cookietemple_cli()
 
 
@@ -50,8 +54,7 @@ def cookietemple_cli(ctx, verbose):
 
 
 @cookietemple_cli.command(help_priority=1, short_help='Create a new project using one of our templates.')
-@click.option('--domain',
-              type=click.Choice(['CLI', 'GUI', 'Web']))
+@click.option('--domain', type=click.Choice(['CLI', 'GUI', 'Web']))
 def create(domain: str) -> None:
     """
     Create a new project using one of our templates
@@ -144,9 +147,9 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
 
 
 @cookietemple_cli.command(help_priority=7, short_help='Create a self contained executable with bundled JRE.')
-@click.option('--input_dir', type=str)
-@click.option('--exec', type=str)
-@click.option('--output', type=str)
+@click.option('--input_dir', type=str, required=True)
+@click.option('--exec', type=str, required=True)
+@click.option('--output', type=str, required=True)
 def warp(input_dir: str, exec: str, output: str) -> None:
     """
     Create a self contained executable with bundled JRE
@@ -159,13 +162,12 @@ def warp(input_dir: str, exec: str, output: str) -> None:
 @click.pass_context
 def config(ctx, section: str) -> None:
     """
-    Configure your general settings and github credentials for reuse.
+    Configure your general settings and Github credentials for reuse.
     Available options (sections) are:
 
+    \b
     - general: set your fullname, email and Github username
-
-    - pat: set your Github personal access token for Github repo creation
-
+    - pat: set your Github personal access token for Github repository creation
     - all: calls general and pat
     """
     if section == 'general':
@@ -183,6 +185,15 @@ def config(ctx, section: str) -> None:
         # check if a similar section handle can be used/suggested
     else:
         ConfigCommand.similar_handle(section)
+
+
+@cookietemple_cli.command(help_priority=9, short_help='Check for a newer version of Cookietemple and upgrade if required')
+def upgrade() -> None:
+    """
+    Checks whether the locally installed version of cookietemple is the latest.
+    If not it prompts whether to upgrade and runs the upgrade command if desired.
+    """
+    UpgradeCommand.check_upgrade_cookietemple()
 
 
 if __name__ == '__main__':

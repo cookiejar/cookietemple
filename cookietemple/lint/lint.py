@@ -13,6 +13,8 @@ from cookietemple.lint.domains.pub import PubLatexLint
 def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
     """
     Verifies the integrity of a project to best coding and practices.
+    Runs a set of general linting functions, which all templates share and afterwards runs template specific linting functions.
+    All results are collected and presented to the user.
     """
     # Detect which template the project is based on
     template_handle = get_template_handle(project_dir)
@@ -24,12 +26,12 @@ def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
         'pub-thesis-latex': PubLatexLint
     }
 
-    # check if handle exists; it may not exists when create code is updated with a new handle lint does not know
-    lint_obj = switcher.get(template_handle)
-    if lint_obj:
-        lint_obj = lint_obj(project_dir)
-    else:
-        click.echo(click.style(f'{template_handle} is not recognized as a template handle by cookietemple lint!\nDid you forget to update lint?', fg='red'))
+    try:
+        lint_obj = switcher.get(template_handle)(project_dir)
+    except TypeError:
+        click.echo(click.style(f'Unable to find linter for handle {template_handle}! Aborting...', fg='red'))
+        sys.exit(1)
+        
     # Run the linting tests
     try:
         # Disable check files?

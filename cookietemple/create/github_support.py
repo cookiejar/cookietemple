@@ -11,7 +11,7 @@ from ruamel.yaml import YAML
 
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.util.yaml_util import load_yaml_file
-from cookietemple.config_command.config import ConfigCommand
+from cookietemple.config.config import ConfigCommand
 
 # path where the key for decryption of PAT is located
 KEY_FILE_PATH = f'{Path.home()}/.config/.ct_keys'

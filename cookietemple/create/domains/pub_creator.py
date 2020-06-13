@@ -6,7 +6,7 @@ import click
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.github_support import load_github_username
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
-from cookietemple.config_command.config import ConfigCommand
+from cookietemple.config.config import ConfigCommand
 
 
 @dataclass
