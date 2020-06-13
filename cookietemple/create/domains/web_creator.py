@@ -6,7 +6,6 @@ from distutils.dir_util import copy_tree
 from shutil import copy
 
 from cookietemple.create.template_creator import TemplateCreator
-from cookietemple.create.domains.common_language_config.python_config import common_python_options
 from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 
@@ -19,6 +18,13 @@ class TemplateStructWeb(CookietempleTemplateStruct):
     """
     # TODO: Currently only python but this will be refactored as we have more templates
     webtype: str = ''  # the type of web project like website or REST-API
+
+    """
+    General Python attributes
+    """
+    command_line_interface: str = ''  # which command line library to use (click, argparse)
+    testing_library: str = ''  # which testing library to use (pytest, unittest)
+    use_pytest: str = ''  # set automatically if pytest is used
 
     """
     This section contains some attributes specific for website projects
@@ -50,18 +56,16 @@ class WebCreator(TemplateCreator):
         """
         Handles the Web domain. Prompts the user for the language, general and domain specific options.
         """
-        self.web_struct.language = click.prompt('Please choose between the following languages', type=click.Choice(['python', 'javascript', 'java'])).lower()
+        self.web_struct.language = click.prompt('Choose between the following languages', type=click.Choice(['python']))
 
         # prompt the user to fetch general template configurations
         super().prompt_general_template_configuration()
 
         # switch case statement to prompt the user to fetch template specific configurations
         switcher = {
-            'python': common_python_options,
-            'javascript': web_javascript_options,
-            'java': web_java_options
+            'python': self.web_python_options,
         }
-        switcher.get(self.web_struct.language.lower())(self.creator_ctx)
+        switcher.get(self.web_struct.language)()
 
         if self.web_struct.language == 'python':
             self.handle_web_project_type_python()
@@ -72,7 +76,7 @@ class WebCreator(TemplateCreator):
         }
 
         self.web_struct.template_version, self.web_struct.template_handle = switcher_version.get(
-            self.web_struct.language.lower()), f'web-{self.web_struct.webtype}-{self.web_struct.language.lower()}'
+            self.web_struct.language), f'web-{self.web_struct.webtype}-{self.web_struct.language.lower()}'
 
         # perform general operations like creating a GitHub repository and general linting
         super().process_common_operations(domain='web', subdomain=self.web_struct.webtype, language=self.web_struct.language)
@@ -81,8 +85,8 @@ class WebCreator(TemplateCreator):
         """
         Determine the type of web application and handle it further.
         """
-        self.web_struct.webtype = click.prompt('Please choose between the following web domains [rest_api, website]',
-                                               type=click.Choice(['rest_api', 'website']))
+        self.web_struct.webtype = click.prompt('Please choose between the following web domains',
+                                               type=click.Choice(['website']))
 
         switcher = {
             'website': self.handle_website_python,
@@ -95,10 +99,10 @@ class WebCreator(TemplateCreator):
         Handle the website template creation. The user can choose between a basic website setup and a more advanced
         with database support, mail, translation, cli commands for translation, login and register function.
         """
-        self.web_struct.web_framework = click.prompt('Please choose between the following frameworks [flask, django]',
+        self.web_struct.web_framework = click.prompt('Please choose between the following frameworks',
                                                      type=click.Choice(['flask', 'django']))
         setup = click.prompt(
-            'Choose between basic or advanced (database, translations, deployment scripts) [basic, advanced]:',
+            'Choose between basic or advanced (database, translations, deployment scripts):',
             type=click.Choice(['basic', 'advanced']),
             default='basic')
         self.web_struct.is_basic_website = 'y'
@@ -115,7 +119,7 @@ class WebCreator(TemplateCreator):
             # strings that start with https: are recognized by most terminal (emulators) as links
             click.echo(click.style('https://html5up.net/solid-state', fg='blue'))
 
-            self.web_struct.frontend = click.prompt('Enter your preferred template or None, if you didn´t like them [Solid State, None]',
+            self.web_struct.frontend = click.prompt('Enter your preferred template or None, if you didn´t like them',
                                                     type=click.Choice(['SolidState', 'None'])).lower()
 
         self.web_struct.url = click.prompt('Please enter the project\'s URL (if you have one)', type=str, default='dummy.com')
@@ -193,17 +197,22 @@ class WebCreator(TemplateCreator):
 
         os.chdir(cwd)
 
+    def web_python_options(self):
+        """ Prompts for web-python specific options and saves them into the CookietempleTemplateStruct """
+        self.web_struct.command_line_interface = click.prompt('Choose a command line library',
+                                                          type=click.Choice(['Click', 'Argparse', 'No command-line interface']),
+                                                          default='Click')
+        self.web_struct.testing_library = click.prompt('Please choose whether pytest or unittest should be used as the testing library',
+                                                   type=click.Choice(['pytest', 'unittest']),
+                                                   default='pytest')
+        if self.web_struct.testing_library == 'pytest':
+            self.web_struct.use_pytest = 'y'
+        else:
+            self.web_struct.use_pytest = 'n'
+
     def website_django_options(self):
-        print('TODO')
+        click.echo(click.style('NOT IMPLEMENTED YET!', fg='red'))
 
     def handle_rest_api_python(self):
-        """Handle REST-API templates"""
-        print('TO IMPLEMENT - REST API etc.')
+        click.echo(click.style('NOT IMPLEMENTED YET!', fg='red'))
 
-
-def web_javascript_options():
-    print('Implement me')
-
-
-def web_java_options(some_params):
-    print('Implement me')

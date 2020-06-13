@@ -187,33 +187,33 @@ class TemplateCreator:
             self.creator_ctx.full_name = settings['full_name']
             self.creator_ctx.email = settings['email']
 
-        self.creator_ctx.project_name = click.prompt('Please enter your project name', type=str, default='Exploding Springfield')
+        self.creator_ctx.project_name = click.prompt('Project name', type=str, default='Exploding Springfield')
 
         # check if the project name is already taken on readthedocs.io
         while self.readthedocs_slug_already_exists(self.creator_ctx.project_name):
             click.echo(click.style(f'A project named {self.creator_ctx.project_name} already exists at readthedocs.io!', fg='red'))
-            if click.confirm(click.style('Do you want to choose another name for your project?\nOtherwise you will not be able to host your docs at '
-                                         'readthedocs.io!', fg='blue')):
-                self.creator_ctx.project_name = click.prompt('Please enter your project name', type=str, default='Exploding Springfield')
+            if click.confirm(click.style('Do you want to choose another name for your project?\n'
+                                         'Otherwise you will not be able to host your docs at readthedocs.io!', fg='blue')):
+                self.creator_ctx.project_name = click.prompt('Project name', type=str, default='Exploding Springfield')
             # break if the project should be named anyways
             else:
                 break
         self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_').replace('-', '_')
-        self.creator_ctx.project_short_description = click.prompt('Please enter a short description of your project.', type=str,
+        self.creator_ctx.project_short_description = click.prompt('Short description of your project.', type=str,
                                                                   default=f'{self.creator_ctx.project_name}. A best practice .')
 
-        poss_vers = click.prompt('Please enter the initial version of your project.', type=str, default='0.1.0')
+        poss_vers = click.prompt('Initial version of your project.', type=str, default='0.1.0')
 
         # make sure that the version has the right format
         while not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', poss_vers):
             click.echo(click.style('The version number entered does not match cookietemples pattern.\n'
                                    'Please enter the version in the format [number].[number].[number]!', fg='red'))
-            poss_vers = click.prompt('Please enter the initial version of your project.', type=str, default='0.1.0')
+            poss_vers = click.prompt('Initial version of your project.', type=str, default='0.1.0')
 
         self.creator_ctx.version = poss_vers
 
         self.creator_ctx.license = click.prompt(
-            'Please choose a license',
+            'License',
             type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Not open source']),
             default='MIT')
 
@@ -302,7 +302,7 @@ class TemplateCreator:
     def load_version(self, handle: str) -> str:
         """
         Load the version of the template specified by the handler
-        TODO: Maybe recursive one for arbitray length (tough I Dont think we will need it)
+
         :param handle: The template handle
         :return: The version number
         """
