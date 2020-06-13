@@ -22,9 +22,9 @@ class TemplateStructWeb(CookietempleTemplateStruct):
     """
     General Python attributes
     """
-    command_line_interface: str = ''
-    testing_library: str = ''
-    use_pytest: str = ''
+    command_line_interface: str = ''  # which command line library to use (click, argparse)
+    testing_library: str = ''  # which testing library to use (pytest, unittest)
+    use_pytest: str = ''  # set automatically if pytest is used
 
     """
     This section contains some attributes specific for website projects
@@ -65,7 +65,7 @@ class WebCreator(TemplateCreator):
         switcher = {
             'python': self.web_python_options,
         }
-        switcher.get(self.web_struct.language.lower())()
+        switcher.get(self.web_struct.language)()
 
         if self.web_struct.language == 'python':
             self.handle_web_project_type_python()
@@ -76,7 +76,7 @@ class WebCreator(TemplateCreator):
         }
 
         self.web_struct.template_version, self.web_struct.template_handle = switcher_version.get(
-            self.web_struct.language.lower()), f'web-{self.web_struct.webtype}-{self.web_struct.language.lower()}'
+            self.web_struct.language), f'web-{self.web_struct.webtype}-{self.web_struct.language.lower()}'
 
         # perform general operations like creating a GitHub repository and general linting
         super().process_common_operations(domain='web', subdomain=self.web_struct.webtype, language=self.web_struct.language)
@@ -198,9 +198,7 @@ class WebCreator(TemplateCreator):
         os.chdir(cwd)
 
     def web_python_options(self):
-        """
-        Prompts for shared options of all python templates. Saves them in the TEMPLATE_STRUCT
-        """
+        """ Prompts for web-python specific options and saves them into the CookietempleTemplateStruct """
         self.web_struct.command_line_interface = click.prompt('Choose a command line library',
                                                           type=click.Choice(['Click', 'Argparse', 'No command-line interface']),
                                                           default='Click')

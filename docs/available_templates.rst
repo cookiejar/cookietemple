@@ -238,7 +238,7 @@ Included frameworks/libraries
 3. `GraalVM Native Image <https://www.graalvm.org/docs/reference-manual/native-image/>`_ to build platform dependent self-contained executables
 4. `JUnit 5 <https://junit.org/junit5/>`_ as main testing framework
 5. Preconfigured `readthedocs <https://readthedocs.org/>`_
-6. Eight Github workflows:
+6. Five Github workflows:
 
   1. :code:`build_docs.yml`, which builds the readthedocs documentation.
   2. :code:`build_deploy.yml`, which builds the cli-java project into Linux, MacOS and Windows executables. They are deployed as build artifacts.

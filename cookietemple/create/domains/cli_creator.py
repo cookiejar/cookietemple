@@ -10,23 +10,18 @@ from cookietemple.create.domains.cookietemple_template_struct import Cookietempl
 @dataclass
 class TemplateStructCli(CookietempleTemplateStruct):
     """
-    We dont have any attributes here right now (WIP)
-    Intended Use: This class holds all attributes specific for CLI projects
-    """
-
-    """
     CLI-PYTHON
     """
-    command_line_interface: str = ''
-    testing_library: str = ''
-    use_pytest: str = ''
+    command_line_interface: str = ''  # which command line library to use (click, argparse)
+    testing_library: str = ''  # which testing library to use (pytest, unittest)
+    use_pytest: str = ''  # set to 'y' if pytest is used 'n' else
 
     """
     CLI-JAVA
     """
-    domain: str = ''
-    organization: str = ''
-    main_class: str = ''
+    domain: str = ''  # first part of groupID
+    organization: str = ''  # second part of groupID
+    main_class: str = ''  # name of the main class (determined from the capital project name)
 
 
 class CliCreator(TemplateCreator):
@@ -59,7 +54,7 @@ class CliCreator(TemplateCreator):
             'java': self.cli_java_options,
             'kotlin': self.cli_kotlin_options
         }
-        switcher.get(self.cli_struct.language.lower())()
+        switcher.get(self.cli_struct.language)()
 
         # create the chosen and configured template
         super().create_template_without_subdomain(self.TEMPLATES_CLI_PATH)
@@ -71,30 +66,30 @@ class CliCreator(TemplateCreator):
             'kotlin': self.CLI_KOTLIN_TEMPLATE_VERSION
         }
         self.cli_struct.template_version, self.cli_struct.template_handle = switcher_version.get(
-            self.cli_struct.language.lower()), f'cli-{self.cli_struct.language.lower()}'
+            self.cli_struct.language), f'cli-{self.cli_struct.language.lower()}'
 
         # perform general operations like creating a GitHub repository and general linting
         super().process_common_operations(domain='cli', language=self.cli_struct.language)
 
     def cli_python_options(self):
-        """
-        Prompts for shared options of all python templates. Saves them in the TEMPLATE_STRUCT
-        """
+        """ Prompts for cli-python specific options and saves them into the CookietempleTemplateStruct """
         self.cli_struct.command_line_interface = click.prompt('Choose a command line library',
-                                                          type=click.Choice(['Click', 'Argparse', 'No command-line interface']),
-                                                          default='Click')
+                                                              type=click.Choice(['Click', 'Argparse', 'No command-line interface']),
+                                                              default='Click')
         self.cli_struct.testing_library = click.prompt('Please choose whether pytest or unittest should be used as the testing library',
-                                                   type=click.Choice(['pytest', 'unittest']),
-                                                   default='pytest')
+                                                       type=click.Choice(['pytest', 'unittest']),
+                                                       default='pytest')
         if self.cli_struct.testing_library == 'pytest':
             self.cli_struct.use_pytest = 'y'
         else:
             self.cli_struct.use_pytest = 'n'
 
     def cli_java_options(self) -> None:
+        """ Prompts for cli-java specific options and saves them into the CookietempleTemplateStruct """
         self.cli_struct.group_domain = click.prompt('Domain (e.g. the org of org.apache)', type=str, default='com')
         self.cli_struct.group_organization = click.prompt('Organization (e.g. the apache of org.apache)', type=str, default='organization')
         self.cli_struct.main_class = self.cli_struct.project_slug.capitalize()
 
     def cli_kotlin_options(self) -> None:
+        """ Prompts for cli-kotlin specific options and saves them into the CookietempleTemplateStruct """
         click.echo(click.style('NOT IMPLEMENTED YET', fg='red'))
