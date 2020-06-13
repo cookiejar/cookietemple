@@ -24,7 +24,12 @@ def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
         'pub-thesis-latex': PubLatexLint
     }
 
-    lint_obj = switcher.get(template_handle)(project_dir)
+    # check if handle exists; it may not exists when create code is updated with a new handle lint does not know
+    lint_obj = switcher.get(template_handle)
+    if lint_obj:
+        lint_obj = lint_obj(project_dir)
+    else:
+        click.echo(click.style(f'{template_handle} is not recognized as a template handle by cookietemple lint!\nDid you forget to update lint?', fg='red'))
     # Run the linting tests
     try:
         # Disable check files?

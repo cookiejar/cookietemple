@@ -1,24 +1,28 @@
 from pathlib import Path
 from click.testing import CliRunner
 
+from cookietemple.config_command.config import ConfigCommand
 from cookietemple.cookietemple_cli import create
 from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.lint.domains.pub import PubLatexLint
 
 
-def test_create_pub_thesis_project() -> None:
+def test_create_pub_thesis_project(mocker) -> None:
     """
     Test the creation of a whole pub thesis latex template without GitHub Repo creation!
     """
     runner = CliRunner()
 
     with runner.isolated_filesystem():
-        result = runner.invoke(create, input='pub\nthesis\nname\nprojectname\nprojecttitle\nmyuni\nmydep\ndegree\nmyGitHubName\nn')
+        mocker.patch.object(ConfigCommand, 'CONF_FILE_PATH', autospec=True)
+        ConfigCommand.CONF_FILE_PATH = f'{str(Path.cwd())}/cookietemple_test_cfg.yml'
+        result = runner.invoke(create, input='pub\nthesis\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nn\nhomer_author\nprojectname\ntitle\nmyuni\nmydep'
+                                             '\ndegree\nn')
         project_path = Path('projectname').resolve()
         pub_linter_instance = PubLatexLint(project_path)
 
         # lint the created project to ensure everything worked fine, but skip common files since its a pub template
-        pub_linter_instance.lint_project(pub_linter_instance, custom_check_files=True)
+        pub_linter_instance.lint_project(pub_linter_instance, custom_check_files=True, is_subclass_calling=False)
 
         assert result.exit_code == 0 and matching_project_structure(project_path) and len(pub_linter_instance.failed) == 0
         delete_dir_tree(project_path)

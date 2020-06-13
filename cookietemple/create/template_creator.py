@@ -72,11 +72,11 @@ class TemplateCreator:
 
         if subdomain:
             click.echo(
-                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{subdomain}-{language}'
+                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{subdomain}-{language} '
                             f'for more information about how to use your chosen template.', fg='blue'))
         else:
             click.echo(
-                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{language}'
+                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{language} '
                             f'for more information about how to use your chosen template.', fg='blue'))
 
     def create_template_without_subdomain(self, domain_path: str) -> None:
