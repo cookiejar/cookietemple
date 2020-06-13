@@ -3,7 +3,6 @@ import click
 from pathlib import Path
 from dataclasses import dataclass
 
-from cookietemple.create.domains.common_language_config.python_config import common_python_options
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 
@@ -14,7 +13,20 @@ class TemplateStructCli(CookietempleTemplateStruct):
     We dont have any attributes here right now (WIP)
     Intended Use: This class holds all attributes specific for CLI projects
     """
-    pass
+
+    """
+    CLI-PYTHON
+    """
+    command_line_interface: str = ''
+    testing_library: str = ''
+    use_pytest: str = ''
+
+    """
+    CLI-JAVA
+    """
+    domain: str = ''
+    organization: str = ''
+    main_class: str = ''
 
 
 class CliCreator(TemplateCreator):
@@ -36,18 +48,18 @@ class CliCreator(TemplateCreator):
         """
 
         self.cli_struct.language = click.prompt('Choose between the following languages',
-                                                type=click.Choice(['python', 'java', 'kotlin'])).lower()
+                                                type=click.Choice(['python', 'java', 'kotlin']))
 
         # prompt the user to fetch general template configurations
         super().prompt_general_template_configuration()
 
         # switch case statement to prompt the user to fetch template specific configurations
         switcher = {
-            'python': common_python_options,
-            'java': cli_java_options,
-            'kotlin': cli_kotlin_options
+            'python': self.cli_python_options,
+            'java': self.cli_java_options,
+            'kotlin': self.cli_kotlin_options
         }
-        switcher.get(self.cli_struct.language.lower())(self.creator_ctx)
+        switcher.get(self.cli_struct.language.lower())()
 
         # create the chosen and configured template
         super().create_template_without_subdomain(self.TEMPLATES_CLI_PATH)
@@ -64,10 +76,25 @@ class CliCreator(TemplateCreator):
         # perform general operations like creating a GitHub repository and general linting
         super().process_common_operations(domain='cli', language=self.cli_struct.language)
 
+    def cli_python_options(self):
+        """
+        Prompts for shared options of all python templates. Saves them in the TEMPLATE_STRUCT
+        """
+        self.cli_struct.command_line_interface = click.prompt('Choose a command line library',
+                                                          type=click.Choice(['Click', 'Argparse', 'No command-line interface']),
+                                                          default='Click')
+        self.cli_struct.testing_library = click.prompt('Please choose whether pytest or unittest should be used as the testing library',
+                                                   type=click.Choice(['pytest', 'unittest']),
+                                                   default='pytest')
+        if self.cli_struct.testing_library == 'pytest':
+            self.cli_struct.use_pytest = 'y'
+        else:
+            self.cli_struct.use_pytest = 'n'
 
-def cli_java_options():
-    click.echo(click.style('NOT IMPLEMENTED YET', fg='red'))
+    def cli_java_options(self) -> None:
+        self.cli_struct.group_domain = click.prompt('Domain (e.g. the org of org.apache)', type=str, default='com')
+        self.cli_struct.group_organization = click.prompt('Organization (e.g. the apache of org.apache)', type=str, default='organization')
+        self.cli_struct.main_class = self.cli_struct.project_slug.capitalize()
 
-
-def cli_kotlin_options():
-    click.echo(click.style('NOT IMPLEMENTED YET', fg='red'))
+    def cli_kotlin_options(self) -> None:
+        click.echo(click.style('NOT IMPLEMENTED YET', fg='red'))
