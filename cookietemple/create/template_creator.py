@@ -16,7 +16,7 @@ from cookietemple.create.github_support import create_push_github_repository, lo
 from cookietemple.lint.lint import lint_project
 from cookietemple.util.docs_util import fix_short_title_underline
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
-from cookietemple.config_command.config import ConfigCommand
+from cookietemple.config.config import ConfigCommand
 from cookietemple.util.yaml_util import load_yaml_file
 
 

@@ -5,12 +5,12 @@ from pathlib import Path
 from cryptography.fernet import Fernet
 from ruamel.yaml import YAML
 
-from cookietemple.custom_cookietemple_cli.levensthein_dist import most_similar_command
+from cookietemple.custom_cli.levensthein_dist import most_similar_command
 
 
 class ConfigCommand:
     """
-    Class for the config command
+    Class for the config command. Sets general configurations such as full name, email and Github username.
     """
     # path where the config file is stored for cookietemple
     CONF_FILE_PATH = f'{Path.home()}/.config/cookietemple_conf.yml'
@@ -18,7 +18,7 @@ class ConfigCommand:
     @staticmethod
     def all_settings() -> None:
         """
-        Set general and github settings.
+        Set general settings and PAT.
         """
         ConfigCommand.config_general_settings()
         ConfigCommand.config_pat()
@@ -99,7 +99,8 @@ class ConfigCommand:
     @staticmethod
     def similar_handle(section: str) -> None:
         """
-        Try to use/suggest a similar handle if user missspelled it.
+        Try to use/suggest a similar handle if user misspelled it.
+
         :param section: The handle inputted by the user.
         """
         com_list, action = most_similar_command(section.lower(), {'general', 'pat', 'all'})
@@ -114,18 +115,18 @@ class ConfigCommand:
             # multiple best matches
         elif len(com_list) > 1:
             nl = '\n'
-            click.echo(click.style(f'Unknown handle \'{section}\'.\nMost similar handles are:', fg='red') + click.style(f'{nl}{nl.join(sorted(com_list))}',
-                                                                                                                        fg='green'))
+            click.echo(click.style(f'Unknown handle \'{section}\'.\nMost similar handles are:', fg='red')
+                       + click.style(f'{nl}{nl.join(sorted(com_list))}', fg='green'))
         else:
             # unknown handle and no best match found
-            click.echo(
-                click.style('Unknown handle ', fg='red') + click.style(section, fg='green') + click.style(' See cookietemple --help for info on valid handles',
-                                                                                                          fg='red'))
+            click.echo(click.style('Unknown handle ', fg='red') + click.style(section, fg='green')
+                       + click.style(' See cookietemple --help for info on valid handles', fg='red'))
 
     @staticmethod
     def handle_switcher() -> dict:
         """
         Just a helper to switch between handles.
+
         :return: The switcher with all handles.
         """
         switcher = {
