@@ -230,7 +230,7 @@ class VersionBumper:
         else:
             date = datetime.today().strftime("%Y-%m-%d")
             # if no CHANGELOG.rst exists in the top level directory (where cookietemple.cfg lies), print error and exit
-            if not (path / 'CHANGELOG.rst').exists():
+            if not Path(str(path) + '/CHANGELOG.rst').exists():
                 click.echo(click.style(f'No file named CHANGELOG.rst found at {path}. Aborting!', fg='red'))
                 sys.exit(1)
 
@@ -244,7 +244,7 @@ class VersionBumper:
                 section = f'{nl}{nl}{new_version} ({date}){nl}{"-" * (len(new_version) + len(date) + 3)}{nl}{nl}' \
                     f'{f"**{nl}{nl}".join(["**Added", "**Fixed", "**Dependencies", "**Deprecated**"])}'
 
-                with open(str(path / 'CHANGELOG.rst'), 'a') as changelog:
+                with open(str(Path(str(path) + '/CHANGELOG.rst')), 'a') as changelog:
                     changelog.write(section)
 
     def replace_snapshot_header(self, source_file_path, new_version: str, date: str) -> None:
