@@ -2,7 +2,7 @@ import json
 import urllib
 import subprocess
 import sys
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 
 import click
 
@@ -41,7 +41,7 @@ class UpgradeCommand:
                 contents = response.read()
                 data = json.loads(contents)
                 latest_pypi_version = data['info']['version']
-        except (HTTPError, TimeoutError):
+        except (HTTPError, TimeoutError, URLError):
             click.echo(click.style('Unable to contact PyPI to check for the latest cookietemple version. Do you have an internet connection?', fg='red'))
             # Returning true by default, since this is not a serious issue
             return True
