@@ -12,9 +12,12 @@ Welcome to COOKIETEMPLE's documentation!
    list_info
    lint
    bump_version
-   warp
    sync
+   warp
+   config
+   upgrade
    available_templates
+   github_support
    contributing
    adding_new_templates
    troubleshooting
