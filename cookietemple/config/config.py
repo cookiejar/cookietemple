@@ -14,7 +14,7 @@ class ConfigCommand:
     """
     # path where the config file is stored for cookietemple
     CONF_FILE_PATH = f'{Path.home()}/.config/cookietemple_conf.yml'
-
+    KEY_PAT_FILE = f'{Path.home()}/.config/.ct_keys'
     @staticmethod
     def all_settings() -> None:
         """
@@ -87,7 +87,7 @@ class ConfigCommand:
             encrypted_pat = fer.encrypt(access_token_b)
 
             # write key
-            with open(f'{Path.home()}/.config/.ct_keys', 'wb') as f:
+            with open(ConfigCommand.KEY_PAT_FILE, 'wb') as f:
                 f.write(key)
 
             path = Path(ConfigCommand.CONF_FILE_PATH)

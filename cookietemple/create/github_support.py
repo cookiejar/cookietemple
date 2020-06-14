@@ -13,9 +13,6 @@ from cookietemple.create.domains.cookietemple_template_struct import Cookietempl
 from cookietemple.util.yaml_util import load_yaml_file
 from cookietemple.config.config import ConfigCommand
 
-# path where the key for decryption of PAT is located
-KEY_FILE_PATH = f'{Path.home()}/.config/.ct_keys'
-
 
 def create_push_github_repository(project_path: str, creator_ctx: CookietempleTemplateStruct, tmp_repo_path: str) -> None:
     """
@@ -119,7 +116,7 @@ def handle_pat_authentification() -> str:
         path = Path(ConfigCommand.CONF_FILE_PATH)
         yaml = YAML(typ='safe')
         settings = yaml.load(path)
-        if os.path.exists(KEY_FILE_PATH) and 'pat' in settings:
+        if os.path.exists(ConfigCommand.KEY_PAT_FILE) and 'pat' in settings:
             pat = decrypt_pat()
             return pat
         else:
@@ -135,7 +132,7 @@ def handle_pat_authentification() -> str:
             # set the PAT
             ConfigCommand.config_pat()
             # if the user wants to create a GitHub repo but accidentally presses no on PAT config prompt
-            if not os.path.exists(KEY_FILE_PATH):
+            if not os.path.exists(ConfigCommand.KEY_PAT_FILE):
                 click.echo(click.style('No Github personal access token found. Please set it using ', fg='red') + click.style('cookietemple config github',
                                                                                                                               fg='green'))
                 sys.exit(1)
@@ -153,7 +150,7 @@ def decrypt_pat() -> str:
     :return: The decrypted Personal Access Token for GitHub
     """
     # read key and encrypted PAT from files
-    with open(KEY_FILE_PATH, 'rb') as f:
+    with open(ConfigCommand.KEY_PAT_FILE, 'rb') as f:
         key = f.readline()
     fer = Fernet(key)
     encrypted_pat = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['pat']
