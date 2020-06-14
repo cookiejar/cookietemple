@@ -29,7 +29,9 @@ Version 1.2.5 therefore cannot be the predecesor of 1.2.5-SNAPSHOT, but only 1.2
 Usage
 ---------
 
-The :code:`bump-version` command follows the syntax::
+The :code:`bump-version` command follows the syntax
+
+.. code-block:: console
 
     $ cookietemple bump-version <OPTIONS> X.X.X <PATH>
 
@@ -41,7 +43,7 @@ The :code:`bump-version` command follows the syntax::
    :scale: 100 %
    :alt: bump-version example
 
-   $ bump-version applied to a fresh cli-python project
+   bump-version applied to a fresh cli-python project
 
 Use the ``--downgrade`` option to downgrade your version. The changelog will not be changed. Only use this option as a last resort if something went horribly wrong in your development process.
 In a normal development workflow this should never be necessary.

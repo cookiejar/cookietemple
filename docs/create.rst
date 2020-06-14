@@ -8,7 +8,9 @@ Create a project
 | Our templates adhere to best practices and try to be as modern as possible. Furthermore, they try to automate tasks such as automatical dependency resolvement and installation, packaging, deployment and more.
 | To learn more about our templates please visit :ref:`available_templates` and check out your template of interest.
 
-The creation of a new project can be invoked by::
+The creation of a new project can be invoked by
+
+.. code-block:: console
 
     $ cookietemple create
 
@@ -17,7 +19,9 @@ The full name, email and possibly more information set during the configuration 
 The prompts follow the pattern of domain (e.g. cli, gui, ...), subdomain (if applicable, e.g. website), language (e.g. Python) followed by template specific prompts (e.g. testing frameworks, ...).
 | The template will be created at the current working directory, where cookietemple has been called.
 
-It is also possible to directly create a specific template using its handle::
+It is also possible to directly create a specific template using its handle
+
+.. code-block:: console
 
     $ cookietemple create --handle <HANDLE>
 

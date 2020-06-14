@@ -4,15 +4,15 @@
 Adding new templates
 ============================
 
-Adding new templates is one of the major improvements and community contributions to COOKIETEMPLE, which is why we are dedicating a whole section to it.
+Adding new templates is one of the major improvements and community contributions to cookietemple, which is why we are dedicating a whole section to it.
 Please note that creating new templates is a time consuming task. So be prepared to invest a few hours to bring a new template to life.
-The integration into COOKIETEMPLE however, is straight forward if you follow the guide below.
-Due to the tight coupling of our templates with all COOKIETEMPLE commands such as :code:`create`, :code:`list`, :code:`info`, :code:`lint` and :code:`bump-version`,
+The integration into cookietemple however, is straight forward if you follow the guide below.
+Due to the tight coupling of our templates with all cookietemple commands such as :code:`create`, :code:`list`, :code:`info`, :code:`lint` and :code:`bump-version`,
 new templates require the modification of several files.
 
-COOKIETEMPLE uses `cookiecutter <https://cookiecutter.readthedocs.io/en/1.7.2/>`_ to create all templates.
+cookietemple uses `cookiecutter <https://cookiecutter.readthedocs.io/en/1.7.2/>`_ to create all templates.
 You need to familiarize yourself beforehand with cookiecutter to able to write templates, but don't worry, it's pretty easy and you usually get by with very few cookiecutter variables.
-You can start with your `very first cookiecutter template <https://cookiecutter.readthedocs.io/en/1.7.2/first_steps.html>`_ and then simply see how the other existing COOKIETEMPLE templates are made and copy what you need.
+You can start with your `very first cookiecutter template <https://cookiecutter.readthedocs.io/en/1.7.2/first_steps.html>`_ and then simply see how the other existing cookietemple templates are made and copy what you need.
 
 The following sections will line out the requirements for new templates and guide you through the process of adding new templates step by step.
 Nevertheless, we strongly encourage you to discuss your proposed template first with us in public *via* a Github issue.
@@ -44,7 +44,7 @@ Exceptions, where applicable, but they would have to be discussed beforehand. He
 
 9. All templates should have Github workflows, which at least build the documentation and the project.
 
-10. Every template should also have a workflow inside COOKIETEMPLE, which creates a project from the template with dummy values.
+10. Every template should also have a workflow inside cookietemple, which creates a project from the template with dummy values.
 
 11. Your template should support Linux and MacOS. Windows support is optional, but strongly encouraged.
 
@@ -53,7 +53,7 @@ Again, we strongly suggest that new templates are discussed with the core team f
 Step by step guide to adding new templates
 ------------------------------------------
 
-Let's assume that we are planning to add a new commandline `Brainfuck <https://en.wikipedia.org/wiki/Brainfuck>`_ template to COOKIETEMPLE.
+Let's assume that we are planning to add a new commandline `Brainfuck <https://en.wikipedia.org/wiki/Brainfuck>`_ template to cookietemple.
 We discussed our design at length with the core team and they approved our plan. For the sake of this tutorial we assume that the path / always points to /cookietemple.
 Hence, at this level we see :code:`cookietemple_cli.py` and a folder per CLI command.
 
@@ -117,9 +117,9 @@ Hence, at this level we see :code:`cookietemple_cli.py` and a folder per CLI com
 
 6. | Now it´s time to add some tests for our new template
 
-   It´s important to add tests for the new template to COOKIETEMPLE, at least you should
+   It´s important to add tests for the new template to cookietemple, at least you should
    test the creation and linting of the new template, besides any special code that comes with the new template.
-   The tests are located inside the :code:`tests` directory. They are further separated into the core commands of COOKIETEMPLE
+   The tests are located inside the :code:`tests` directory. They are further separated into the core commands of cookietemple
    where you should add at least some tests to :code:`tests/create` and :code:`tests/lint`. Especially if you developed a template
    for a new domain, make sure to add the new :code:`Linter` and/or :code:`Creator`. Please note, that you have to name your test files and functions like
    :code:`test_*` otherwise they won´t be recognized by :code:`pytest`.
@@ -147,6 +147,6 @@ Hence, at this level we see :code:`cookietemple_cli.py` and a folder per CLI com
    That's it! We should now be able to try out your new template using :code:`cookietemple create`
    The template should be creatable, it should automatically lint after the creation and Github support should be enabled as well! If we run :code:`cookietemple list`
    Our new template should show up as well!
-   I'm sure that you noticed that there's not actually a brainfuck template in COOKIETEMPLE (yet!).
+   I'm sure that you noticed that there's not actually a brainfuck template in cookietemple (yet!).
 
    To quote our mighty Math professors: 'We'll leave this as an exercise to the reader.'

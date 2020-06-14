@@ -10,7 +10,9 @@ COOKIETEMPLE implements a custom linting system, but depending on the template e
 COOKIETEMPLE linting
 -----------------------
 
-COOKIETEMPLE lint can be invoked on an existing project using::
+COOKIETEMPLE lint can be invoked on an existing project using
+
+.. code-block:: console
 
     cookietemple lint <OPTIONS> <PATH>
 
