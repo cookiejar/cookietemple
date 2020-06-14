@@ -3,7 +3,7 @@
 .. |pic1| image:: https://user-images.githubusercontent.com/21954664/83797925-a7019400-a6a3-11ea-86ad-44ad00e24234.png
    :width: 25%
 
-.. |pic2| image::
+.. |pic2| image:: https://user-images.githubusercontent.com/21954664/83797595-33f81d80-a6a3-11ea-9790-6c5dacef8161.png
    :width: 25%
 
 |
@@ -31,6 +31,10 @@
 .. image:: https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot
         :target: https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot
         :alt: Dependabot Enabled
+
+.. image:: https://img.shields.io/discord/708008788505919599/708009351423590432?color=passing&style=flat-square
+        :target: https://discord.gg/PYF8NUk
+        :alt: Discord
 
 .. image:: https://img.shields.io/twitter/follow/lukasheumos?color=green&style=flat-square
         :target: https://twitter.com/LukasHeumos
