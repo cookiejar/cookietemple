@@ -1,10 +1,8 @@
-|pic1| |pic2|
+.. image:: https://user-images.githubusercontent.com/21954664/83797595-33f81d80-a6a3-11ea-9790-6c5dacef8161.png
 
-.. |pic1| image:: https://user-images.githubusercontent.com/21954664/83797925-a7019400-a6a3-11ea-86ad-44ad00e24234.png
-   :width: 25%
+-----------------------------------------------------------------------------------------------------------------------
 
-.. |pic2| image:: https://user-images.githubusercontent.com/21954664/83797595-33f81d80-a6a3-11ea-9790-6c5dacef8161.png
-   :width: 25%
+.. image:: https://user-images.githubusercontent.com/21954664/83797925-a7019400-a6a3-11ea-86ad-44ad00e24234.png
 
 |
 
