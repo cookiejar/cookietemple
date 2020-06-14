@@ -9,3 +9,4 @@ cryptography==2.9.2
 requests==2.23.0
 rich==2.2.2
 packaging==20.4
+appdirs==1.4.4
