@@ -62,7 +62,7 @@ class TemplateInfo:
         for template in templates_to_print:
             template[2] = TemplateInfo.set_linebreaks(template[2])
 
-        table = Table(title=f'[bold]Info on COOKIETEMPLE´s {handle} templates', title_style="blue", header_style=Style(color="blue", bold=True), box=HEAVY_HEAD)
+        table = Table(title=f'[bold]Info on cookietemple´s {handle}', title_style="blue", header_style=Style(color="blue", bold=True), box=HEAVY_HEAD)
 
         table.add_column("Name", justify="left", style="green", no_wrap=True)
         table.add_column("Handle", justify="left")
