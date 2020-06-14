@@ -44,7 +44,7 @@ Once you have a copy of the source, you can install it with:
 
 .. code-block:: console
 
-    $ python setup.py install
+    $ pip install .
 
 Alternatively you can also install it using the Makefile:
 
@@ -55,3 +55,17 @@ Alternatively you can also install it using the Makefile:
 
 .. _Github repo: https://github.com/cookiejardealer/cookietemple
 .. _tarball: https://github.com/cookiejardealer/cookietemple/tarball/master
+
+Upgrading cookietemple
+------------------------
+
+Everytime cookietemple is run it will automatically check whether a newer version has been released on PyPI.
+If a new version has been released you will be informed. To upgrade cookietemple either run::
+
+    $ pip install --upgrade cookietemple
+
+or by invoking::
+
+    $ cookietemple upgrade
+
+For more information please visit :ref:`upgrade`.

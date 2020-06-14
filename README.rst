@@ -56,8 +56,11 @@ A cookiecutter based project template creation tool supporting several domains a
 * Documentation: https://cookietemple.readthedocs.io .
 
 
+Overview
+===============
+
 Features
---------
+---------------
 
 * Kickstart your project using a production ready project template
 * Choose from a variety of domains, languages and frameworks

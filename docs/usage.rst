@@ -1,5 +1,5 @@
 =============
-General usage
+General Usage
 =============
 
 In the following an overview of COOKIETEMPLE's main commands is given.
@@ -89,6 +89,11 @@ Invoke :code:`sync` by running::
     $ cookietemple sync
 
 For more details please visit :ref:`sync`.
+
+
+
+   config
+   upgrade
 
 External Python based projects
 ------------------------------
