@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 from io import StringIO
 
-from cookietemple.config_command.config import ConfigCommand
+from cookietemple.config.config import ConfigCommand
 from cookietemple.create.create import choose_domain
 from cookietemple.create.domains.cli_creator import CliCreator
 import cookietemple.create.template_creator

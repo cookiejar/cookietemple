@@ -4,7 +4,7 @@ from click.testing import CliRunner
 from cookietemple.cookietemple_cli import create
 from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.lint.domains.cli import CliPythonLint
-from cookietemple.config_command.config import ConfigCommand
+from cookietemple.config.config import ConfigCommand
 
 
 def test_create_cli_project(mocker) -> None:

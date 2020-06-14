@@ -1,7 +1,7 @@
 from pathlib import Path
 from click.testing import CliRunner
 
-from cookietemple.config_command.config import ConfigCommand
+from cookietemple.config.config import ConfigCommand
 from cookietemple.cookietemple_cli import create
 from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.lint.domains.pub import PubLatexLint
