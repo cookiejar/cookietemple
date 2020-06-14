@@ -32,7 +32,7 @@
         :target: https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot
         :alt: Dependabot Enabled
 
-.. image:: https://img.shields.io/discord/708008788505919599/708009351423590432?color=passing&style=flat-square
+.. image:: https://img.shields.io/discord/708008788505919599?color=passing&style=flat-square
         :target: https://discord.gg/PYF8NUk
         :alt: Discord
 
