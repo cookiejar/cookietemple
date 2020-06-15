@@ -1511,3 +1511,21 @@ General guidelines
 
 -  Use a ``-`` to separate sort key from the prefixes, eg., ``g-pi``
    denotes the Greek symbol ``pi``.
+
+
+.. _all_templates_faq:
+
+Shared FAQ
+----------------------
+
+How do I setup Read the Docs?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+cookietemple ships with a full, production ready Read the Docs setup.
+You need to `import your documentation <https://docs.readthedocs.io/en/stable/intro/import-guide.html>`_ on Read the Docs website.
+Do not forget to sync your account first to see your repository.
+
+How do I add a new template?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Please follow :ref:`adding_templates`.
