@@ -8,10 +8,14 @@ class CookietempleTemplateStruct:
     """
     domain: str = ''  # the domain of the template: Currently available: CLI, WEB, GUI, PUB
     language: str = ''  # the language the project will be mainly written in
-    project_slug: str = ''  # the project name Cookietemple uses for almost all further processing
-    template_version: str = ''  # the version of the provided Cookietemple template
+    project_slug: str = ''  # the project name cookietemple uses for almost all further processing
+    template_version: str = ''  # the version of the provided cookietemple template
     template_handle: str = ''  # the handle of the specific template, indicating which template is currently used
     github_username: str = ''  # github username
+    is_github_repo: bool = False  # if the user wants to create a GitHub repo automatically
+    is_repo_private: bool = False  # is the github repo to create private
+    is_github_orga: bool = False  # is github orga
+    github_orga: str = ''  # the (possible empty) name of the GitHub organization
 
     """
     This section contains some attributes common to the CLI, WEB and GUI domains
@@ -26,6 +30,6 @@ class CookietempleTemplateStruct:
     """
     This section contains some attributes specific for any python project
     """
-    command_line_interface: str = ''  # the cmd line lib used, if any. TODO: Maybe this should go in common (as Java etc may also have this)
+    command_line_interface: str = ''  # the cmd line lib used, if any.
     testing_library: str = ''  # the testing library that is (mainly) used for the project
     use_pytest: str = ''  # indicates of the project wants to use pytest as the default testing framework

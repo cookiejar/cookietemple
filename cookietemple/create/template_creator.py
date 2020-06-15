@@ -57,13 +57,7 @@ class TemplateCreator:
         # Lint the project to verify that the new template adheres to all standards
         lint_project(project_path, is_create=True)
 
-        # ask user whether he wants to create a Github repository and do so if specified
-        create_github_repository = click.prompt(
-            'Do you want to create a Github repository and push your template to it?',
-            show_choices=True,
-            type=bool,
-            default='Yes')
-        if create_github_repository:
+        if self.creator_ctx.is_github_repo:
             # rename the currently created template to a temporary name, create Github repo, push, remove temporary template
             tmp_project_path = f'{project_path}_cookietemple_tmp'
             os.mkdir(tmp_project_path)

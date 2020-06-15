@@ -8,6 +8,7 @@ from shutil import copy
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
+from cookietemple.create.github_support import prompt_github_repo
 
 
 @dataclass
@@ -135,6 +136,10 @@ class WebCreator(TemplateCreator):
         Create a flask website template.
         """
         self.web_struct.vmusername = click.prompt('Please enter your VM username (if you have one)', type=str, default='cookietempleuser')
+
+        self.web_struct.is_github_repo, self.web_struct.is_repo_private, self.web_struct.is_github_orga, self.web_struct.github_orga = prompt_github_repo()
+        if self.web_struct.is_github_orga:
+            self.web_struct.github_username = self.web_struct.github_orga
 
         super().create_template_with_subdomain_framework(self.TEMPLATES_WEB_PATH, self.web_struct.webtype, self.web_struct.web_framework.lower())
 

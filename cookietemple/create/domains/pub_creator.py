@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import click
 
 from cookietemple.create.template_creator import TemplateCreator
-from cookietemple.create.github_support import load_github_username
+from cookietemple.create.github_support import load_github_username, prompt_github_repo
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.config.config import ConfigCommand
 
@@ -59,6 +59,9 @@ class PubCreator(TemplateCreator):
 
         self.handle_pub_type()
 
+        self.pub_struct.is_github_repo, self.pub_struct.is_repo_private, self.pub_struct.is_github_orga, self.pub_struct.github_orga = prompt_github_repo()
+        if self.pub_struct.is_github_orga:
+            self.pub_struct.github_username = self.pub_struct.github_orga
         # create the pub template
         super().create_template_with_subdomain(self.TEMPLATES_PUB_PATH, self.pub_struct.pubtype)
 
