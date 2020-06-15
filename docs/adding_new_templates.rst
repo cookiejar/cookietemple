@@ -158,6 +158,9 @@ The file tree of the template should resemble
             }
             switcher.get(self.cli_struct.language.lower(), lambda: 'Invalid language!')()
 
+            self.cli_struct.is_github_repo, self.cli_struct.is_repo_private, self.cli_struct.is_github_orga, self.cli_struct.github_orga = prompt_github_repo()
+            if self.cli_struct.is_github_orga:
+                self.cli_struct.github_username = self.cli_struct.github_orga
             # create the chosen and configured template
             super().create_template_without_subdomain(f'{self.TEMPLATES_CLI_PATH}')
 
