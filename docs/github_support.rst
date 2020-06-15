@@ -49,6 +49,8 @@ Please read the `Github Actions Overview <https://github.com/features/actions>`_
 On specific conditions (usually push events), the Github Actions workflows are triggered and executed.
 The developers should ensure that all workflows always pass before merging, since they ensure that the package still builds and all tests are executed successfully.
 
+.. _pr_master_workflow_docs:
+
 pr_to_master_from_patch_release_only workflow
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
