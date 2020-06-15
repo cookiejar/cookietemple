@@ -26,7 +26,7 @@ class UpgradeCommand:
     @classmethod
     def check_cookietemple_latest(cls) -> bool:
         """
-        Checks whether the locally installed version of cookietemple is the latest available on PyPi
+        Checks whether the locally installed version of cookietemple is the latest available on PyPi.
 
         :return: True if locally version is the latest or PyPI is inaccessible, false otherwise
         """
@@ -54,6 +54,9 @@ class UpgradeCommand:
 
     @classmethod
     def upgrade_cookietemple(cls) -> None:
+        """
+        Calls pip as a subprocess with the --upgrade flag to upgrade cookietemple to the latest version.
+        """
         try:
             subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', 'cookietemple'])
         except Exception as e:
