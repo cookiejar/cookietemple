@@ -32,9 +32,9 @@ class ConfigCommand:
         Set full_name and email for reuse in any project created further on.
         """
         ConfigCommand.check_ct_config_dir_exists()
-        full_name = click.prompt('Please enter your full name', type=str, default='Homer Simpson')
-        email = click.prompt('Please enter your personal or work email', type=str, default='homer.simpson@example.com')
-        github_username = click.prompt('Please enter your github username', type=str)
+        full_name = click.prompt('Full name', type=str, default='Homer Simpson')
+        email = click.prompt('Personal or work email', type=str, default='homer.simpson@example.com')
+        github_username = click.prompt('Github username', type=str)
 
         # if the configs exist, just update them
         if os.path.exists(ConfigCommand.CONF_FILE_PATH):

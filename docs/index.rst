@@ -2,7 +2,7 @@ Welcome to COOKIETEMPLE's documentation!
 ========================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
    :caption: Contents:
 
    readme
@@ -12,11 +12,15 @@ Welcome to COOKIETEMPLE's documentation!
    list_info
    lint
    bump_version
-   warp
    sync
+   warp
+   config
+   upgrade
    available_templates
+   github_support
    contributing
    adding_new_templates
+   faq
    troubleshooting
    changelog
    community

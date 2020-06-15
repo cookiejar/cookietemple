@@ -4,7 +4,7 @@
 Available templates
 =========================
 
-COOKIETEMPLE currently has the following templates available:
+cookietemple currently has the following templates available:
 
 1. `cli-python`_
 2. `cli-java`_
@@ -14,7 +14,9 @@ COOKIETEMPLE currently has the following templates available:
 6. `gui-kotlin`_
 7. `pub-thesis-latex`_
 
-In the following every template is devoted its own section, which explains its purpose, design, included frameworks/libraries and usage.
+In the following every template is devoted its own section, which explains its purpose, design, included frameworks/libraries, usage and frequently asked questions.
+A set of frequently questions, which all templates share see here: :ref:`all_templates_faq` FAQ.
+It is recommended to use the sidebar to navigate this documentation, since it is very long and cumbersome to scroll through.
 
 cli-python
 ----------
@@ -71,9 +73,9 @@ Design
     │   └── workflows
     │       ├── build_docs.yml
     │       ├── build_package.yml
-    │       ├── flake8_linting.yml
+    │       ├── run_flake8_linting.yml
     │       ├── publish_package.yml
-    │       └── tox_testsuite.yml
+    │       └── run_tox_testsuite.yml
     ├── .gitignore
     ├── LICENSE
     ├── Makefile
@@ -107,11 +109,7 @@ Included frameworks/libraries
   5. :code:`publish_package.yml`, which publishes the package to PyPi. Note that it only runs on Github release and requires PyPi secrets to be set up.
   6. :code:`run_codecov`, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
   7. :code:`run_bandit`, run `bandit <https://github.com/PyCQA/bandit>`_ to discover security issues in your python code
-  8. :code:`pr_to_master_from_patch_release_only`: This workflow runs everytime a PR to your projects master branch is created. It fails, if the PR to the :code:`master` branch
-     comes from a branch that does not containd :code:`PATCH` or :code:`release` in its branch name. Why? If you write your development code on a branch called :code:`development`
-     and want to make a new release of your project, one should create a :code:`release` branch only for this purpose and then merge it into :code:`master` branch.
-     The :code:`PATCH` branch should be used for required :code:`hotfixes` (checked out directly from :code:`master` branch) because, in the meantime, there might
-     multiple developments going on at :code:`development` branch and you dont want to interfere with them.
+  8. :code:`pr_to_master_from_patch_release_only`: Please read :ref:`pr_master_workflow_docs`.
 
 
 We highly recommend to use click (if commandline interface is required) together with pytest.
@@ -146,6 +144,19 @@ which builds source and wheel packages, which can then be used for a PyPi releas
 All possible Makefile commands can be viewed using::
 
     make help
+
+FAQ
+^^^^^^
+
+Do I need a command line interface?
+++++++++++++++++++++++++++++++++++++++++++++++
+
+No you do not need a command line interface. cli-python can also be used as a Python package.
+
+Does cli-python offer `Poetry <https://python-poetry.org/>`_ support?
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+No, but we would like to add it in the future. Contributions are welcome!
 
 cli-java
 ---------
@@ -244,11 +255,7 @@ Included frameworks/libraries
   2. :code:`build_deploy.yml`, which builds the cli-java project into Linux, MacOS and Windows executables. They are deployed as build artifacts.
   3. :code:`run_checkstyle.yml`, which runs `checkstyle <https://checkstyle.sourceforge.io/>`_ linting using Google's ruleset.
   4. :code:`run_tests.yml`, which runs all JUnit tests.
-  5. :code:`pr_to_master_from_patch_release_only`: This workflow runs everytime a PR to your projects master branch is created. It fails, if the PR to the :code:`master` branch
-     comes from a branch that does not containd :code:`PATCH` or :code:`release` in its branch name. Why? If you write your development code on a branch called :code:`development`
-     and want to make a new release of your project, one should create a :code:`release` branch only for this purpose and then merge it into :code:`master` branch.
-     The :code:`PATCH` branch should be used for required :code:`hotfixes` (checked out directly from :code:`master` branch) because, in the meantime, there might
-     multiple developments going on at :code:`development` branch and you dont want to interfere with them.
+  5. :code:`pr_to_master_from_patch_release_only`: Please read :ref:`pr_master_workflow_docs`.
 
 Usage
 ^^^^^^^^
@@ -287,6 +294,20 @@ All possible Makefile commands can be viewed using::
 
     make help
 
+FAQ
+^^^^^
+
+Can I use cli-java without GraalVM?
++++++++++++++++++++++++++++++++++++++++++++++++
+
+cli-java is purposefully designed with GraalVM and native images in mind. We advise against using it without GraalVM.
+
+How can I access the build artifacts?
+++++++++++++++++++++++++++++++++++++++++++++
+
+Go to the Github Actions tab, select the build_deploy workflow and there you can find the artifacts.
+Note that the workflow must have completed successfully for all operating systems.
+
 cli-kotlin
 ------------
 
@@ -323,7 +344,7 @@ The basic setup
 ++++++++++++++++++++++++++++++++++
 The basic theme is designed to provide only minimal code needed for getting started: Thus it comes
 with only minimal HTML/CSS/JS code (but you can initalize it with a full featured frontend, if you want to) and basic Flask configuration.
-However, it contains all the code needed for automatic deployment on a Linux server and adheres to the COOKIETEMPLE project structure standards.
+However, it contains all the code needed for automatic deployment on a Linux server and adheres to the cookietemple project structure standards.
 See :ref:`web usage` for more information.
 
 .. code::
@@ -543,11 +564,7 @@ make heavy use of its extensions.
   5. :code:`run_css_lint.yml`, which runs `Stylelint <https://stylelint.io/>`_ CSS linting.
   6. :code:`run_codecov`, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
   7. :code:`run_bandit`, run `bandit <https://github.com/PyCQA/bandit>`_ to discover security issues in your python code
-  8. :code:`pr_to_master_from_patch_release_only`: This workflow runs everytime a PR to your projects master branch is created. It fails, if the PR to the :code:`master` branch
-     comes from a branch that does not containd :code:`PATCH` or :code:`release` in its branch name. Why? If you write your development code on a branch called :code:`development`
-     and want to make a new release of your project, one should create a :code:`release` branch only for this purpose and then merge it into :code:`master` branch.
-     The :code:`PATCH` branch should be used for required :code:`hotfixes` (checked out directly from :code:`master` branch) because, in the meantime, there might
-     multiple developments going on at :code:`development` branch and you dont want to interfere with them.
+  8. :code:`pr_to_master_from_patch_release_only`: Please read :ref:`pr_master_workflow_docs`.
 
 
 We highly recommend to use click (if commandline interface is required) together with pytest.
@@ -659,6 +676,11 @@ Note that the setup process also includes HTTP to HTTPS redirecting.
 
 If you encounter any problems, dont hesitate to drop us a message in our `Discord <https://discord.com/channels/708008788505919599/708008788505919602>`_. or create an issue `at our github repo <https://github.com/cookiejar/cookietemple/issues/new/choose>`_
 
+FAQ
+^^^^
+
+None yet.
+
 gui-java
 ---------
 
@@ -758,11 +780,7 @@ Included frameworks/libraries
   3. :code:`run_java_linting.yml`, which runs `checkstyle <https://checkstyle.sourceforge.io/>`_ linting using Google's ruleset.
   4. :code:`run_tests.yml`, which runs the Unit tests. Note that this workflow is currently disabled, since GUI unittests are not possible using Github Actions.
   5. :code:`run_codecov`, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
-  6. :code:`pr_to_master_from_patch_release_only`: This workflow runs everytime a PR to your projects master branch is created. It fails, if the PR to the :code:`master` branch
-     comes from a branch that does not containd :code:`PATCH` or :code:`release` in its branch name. Why? If you write your development code on a branch called :code:`development`
-     and want to make a new release of your project, one should create a :code:`release` branch only for this purpose and then merge it into :code:`master` branch.
-     The :code:`PATCH` branch should be used for required :code:`hotfixes` (checked out directly from :code:`master` branch) because, in the meantime, there might
-     multiple developments going on at :code:`development` branch and you dont want to interfere with them.
+  6. :code:`pr_to_master_from_patch_release_only`: Please read :ref:`pr_master_workflow_docs`.
 
 Usage
 ^^^^^^^^
@@ -799,6 +817,11 @@ Tests can be run via::
 All possible Makefile commands can be viewed using::
 
     make help
+
+FAQ
+^^^^^
+
+None yet.
 
 gui-kotlin
 -------------
@@ -1488,3 +1511,21 @@ General guidelines
 
 -  Use a ``-`` to separate sort key from the prefixes, eg., ``g-pi``
    denotes the Greek symbol ``pi``.
+
+
+.. _all_templates_faq:
+
+Shared FAQ
+----------------------
+
+How do I setup Read the Docs?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+cookietemple ships with a full, production ready Read the Docs setup.
+You need to `import your documentation <https://docs.readthedocs.io/en/stable/intro/import-guide.html>`_ on Read the Docs website.
+Do not forget to sync your account first to see your repository.
+
+How do I add a new template?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Please follow :ref:`adding_templates`.
