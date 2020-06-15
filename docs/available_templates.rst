@@ -148,10 +148,13 @@ All possible Makefile commands can be viewed using::
 FAQ
 ^^^^^^
 
-1. Do I need a command line interface?
+Do I need a command line interface?
+++++++++++++++++++++++++++++++++++++++++++++++
 
 No you do not need a command line interface. cli-python can also be used as a Python package.
-2. Does cli-python offer `Poetry <https://python-poetry.org/>`_ support?
+
+Does cli-python offer `Poetry <https://python-poetry.org/>`_ support?
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 No, but we would like to add it in the future. Contributions are welcome!
 
@@ -294,11 +297,13 @@ All possible Makefile commands can be viewed using::
 FAQ
 ^^^^^
 
-1. Can I use cli-java without GraalVM?
+Can I use cli-java without GraalVM?
++++++++++++++++++++++++++++++++++++++++++++++++
 
 cli-java is purposefully designed with GraalVM and native images in mind. We advise against using it without GraalVM.
 
-2. How can I access the build artifacts?
+How can I access the build artifacts?
+++++++++++++++++++++++++++++++++++++++++++++
 
 Go to the Github Actions tab, select the build_deploy workflow and there you can find the artifacts.
 Note that the workflow must have completed successfully for all operating systems.
