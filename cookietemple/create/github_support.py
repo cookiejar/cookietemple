@@ -26,15 +26,8 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
     if not is_git_accessible():
         return
 
-    # load username from template creator
     # the personal access token for GitHub
     access_token = handle_pat_authentification()
-
-    is_github_org: bool = True if click.prompt('Do you want to create an organization repository?', type=click.Choice(['y', 'n']),
-                                               default='n') == 'y' else False
-    if is_github_org:
-        github_org: str = click.prompt('Please enter the name of the Github organization: ', type=str)
-    private: bool = True if click.prompt('Do you want your repository to be private?', type=click.Choice(['y', 'n']), default='n') == 'y' else False
 
     # Login to Github
     click.echo(click.style('Logging into Github.', fg='blue'))
@@ -43,12 +36,12 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
 
     # Create new repository
     click.echo(click.style('Creating Github repository.', fg='blue'))
-    if is_github_org:
-        org = authenticated_github_user.get_organization(github_org)
-        repo = org.create_repo(creator_ctx.project_name, description=creator_ctx.project_short_description, private=private)
-        creator_ctx.github_username = github_org
+    if creator_ctx.is_github_orga:
+        org = authenticated_github_user.get_organization(creator_ctx.github_orga)
+        repo = org.create_repo(creator_ctx.project_slug, description=creator_ctx.project_short_description, private=creator_ctx.is_repo_private)
+        creator_ctx.github_username = creator_ctx.github_orga
     else:
-        repo = user.create_repo(creator_ctx.project_name, description=creator_ctx.project_short_description, private=private)
+        repo = user.create_repo(creator_ctx.project_slug, description=creator_ctx.project_short_description, private=creator_ctx.is_repo_private)
 
     click.echo(click.style('Creating labels and default Github settings.', fg='blue'))
     create_github_labels(repo=repo, labels=[('DEPENDABOT', '1BB0CE')])
@@ -59,7 +52,7 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
 
     # git clone
     click.echo(click.style('Cloning empty Github repository.', fg='blue'))
-    Repo.clone_from(f'https://{creator_ctx.github_username}:{access_token}@github.com/{creator_ctx.github_username}/{creator_ctx.project_name}', repository)
+    Repo.clone_from(f'https://{creator_ctx.github_username}:{access_token}@github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}', repository)
 
     # Copy files which should be included in the initial commit -> basically the template
     copy_tree(f'{repository}', project_path)
@@ -72,7 +65,7 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
     cloned_repo.git.add(A=True)
 
     # git commit
-    cloned_repo.index.commit(f'Created {creator_ctx.project_name} with {creator_ctx.template_handle}'
+    cloned_repo.index.commit(f'Created {creator_ctx.project_slug} with {creator_ctx.template_handle}'
                              f'template of version {creator_ctx.template_version} using COOKIETEMPLE.')
 
     click.echo(click.style('Pushing template to Github origin master.', fg='blue'))
@@ -99,7 +92,7 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
     cloned_repo.git.checkout('development')
 
     # did any errors occur?
-    click.echo(click.style(f'Successfully created a Github repository at https://github.com/{creator_ctx.github_username}/{creator_ctx.project_name}',
+    click.echo(click.style(f'Successfully created a Github repository at https://github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}',
                            fg='green'))
 
 
@@ -141,6 +134,22 @@ def handle_pat_authentification() -> str:
             return pat
     else:
         click.echo(click.style('Cannot find a Cookietemple config file! Did you delete it?', fg='red'))
+
+
+def prompt_github_repo() -> (bool, bool, bool, str):
+    """
+    Ask user for all settings needed in order to create and push automatically to GitHub repo.
+
+    :return if is git repo, if repo should be private, if user is an organization and if so, the organizations name
+    """
+    create_git_repo, private, is_github_org, github_org = False, False, False, ''
+    if click.confirm('Do you want to create a Github repository and push your template to it?', default='n'):
+        create_git_repo = True
+        is_github_org: bool = click.confirm('Do you want to create an organization repository?')
+        github_org: str = click.prompt('Please enter the name of the Github organization: ', type=str) if is_github_org else ''
+        private: bool = click.confirm('Do you want your repository to be private?')
+
+    return create_git_repo, private, is_github_org, github_org
 
 
 def decrypt_pat() -> str:

@@ -3,6 +3,7 @@ import click
 from pathlib import Path
 from dataclasses import dataclass
 
+from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 
@@ -40,6 +41,9 @@ class GuiCreator(TemplateCreator):
         }
         switcher.get(self.gui_struct.language.lower())()
 
+        self.gui_struct.is_github_repo, self.gui_struct.is_repo_private, self.gui_struct.is_github_orga, self.gui_struct.github_orga = prompt_github_repo()
+        if self.gui_struct.is_github_orga:
+            self.gui_struct.github_username = self.gui_struct.github_orga
         # create the gui template
         super().create_template_without_subdomain(self.TEMPLATES_GUI_PATH)
 

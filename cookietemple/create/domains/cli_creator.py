@@ -3,6 +3,7 @@ import click
 from pathlib import Path
 from dataclasses import dataclass
 
+from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 
@@ -56,6 +57,9 @@ class CliCreator(TemplateCreator):
         }
         switcher.get(self.cli_struct.language)()
 
+        self.cli_struct.is_github_repo, self.cli_struct.is_repo_private, self.cli_struct.is_github_orga, self.cli_struct.github_orga = prompt_github_repo()
+        if self.cli_struct.is_github_orga:
+            self.cli_struct.github_username = self.cli_struct.github_orga
         # create the chosen and configured template
         super().create_template_without_subdomain(self.TEMPLATES_CLI_PATH)
 

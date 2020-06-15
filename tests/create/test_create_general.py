@@ -31,7 +31,7 @@ def test_if_repo_already_exists_no_overwrite(mocker, monkeypatch, capfd, tmp_pat
     mocker.patch.object(ConfigCommand, 'CONF_FILE_PATH', autospec=True)
     ConfigCommand.CONF_FILE_PATH = f'{str(Path.cwd())}/cookietemple_test_cfg.yml'
 
-    prompt = StringIO('cli\npython\nhomer\nhomer@hotmail.com\nhomergithub\nn\nprojectname\ndesc\n0.1.1\nMIT\nClick\npytest\nN')
+    prompt = StringIO('cli\npython\nhomer\nhomer@hotmail.com\nhomergithub\nn\nprojectname\ndesc\n0.1.1\nMIT\nClick\npytest\nn\nn')
     monkeypatch.setattr('sys.stdin', prompt)
 
     with pytest.raises(SystemExit):
