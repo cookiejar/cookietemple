@@ -145,10 +145,9 @@ def prompt_github_repo() -> (bool, bool, bool, str):
     create_git_repo, private, is_github_org, github_org = False, False, False, ''
     if click.confirm('Do you want to create a Github repository and push your template to it?', default='n'):
         create_git_repo = True
-        is_github_org: bool = True if click.prompt('Do you want to create an organization repository?', type=click.Choice(['y', 'n']),
-                                                   default='n') == 'y' else False
+        is_github_org: bool = click.confirm('Do you want to create an organization repository?')
         github_org: str = click.prompt('Please enter the name of the Github organization: ', type=str) if is_github_org else ''
-        private: bool = True if click.prompt('Do you want your repository to be private?', type=click.Choice(['y', 'n']), default='n') == 'y' else False
+        private: bool = click.confirm('Do you want your repository to be private?')
 
     return create_git_repo, private, is_github_org, github_org
 
