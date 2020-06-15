@@ -23,7 +23,7 @@ def test_bump_version(mocker, valid_version_bumpers) -> None:
     """
     mocker.patch.object(Path, 'cwd', autospec=True)
     Path.cwd.return_value = str(os.path.abspath(os.path.dirname(__file__)))
-    version_bumper = VersionBumper(Path(str(os.path.abspath(os.path.dirname(__file__)))))
+    version_bumper = VersionBumper(Path(str(os.path.abspath(os.path.dirname(__file__)))), downgrade=False)
 
     for version in valid_version_bumpers:
         version_bumper.bump_template_version(version, Path(str(os.path.abspath(os.path.dirname(__file__)))))
@@ -80,7 +80,10 @@ def reset_after_bump_test(cwd: Path):
     Reset test files to initial state with initial version number for further testing.
     :param cwd: Current Work Dir
     """
-    version_bumper = VersionBumper(Path(str(os.path.abspath(os.path.dirname(__file__)))))
+    version_bumper = VersionBumper(Path(str(os.path.abspath(os.path.dirname(__file__)))), downgrade=False)
     version_bumper.replace(f'{str(cwd)}/bump_version_test_files/bump_test_file_whitelisting', '0.0.0', 'bumpversion_files_whitelisted')
     version_bumper.replace(f'{str(cwd)}/bump_version_test_files/bump_test_file_blacklisting', '0.0.0', 'bumpversion_files_blacklisted')
     version_bumper.replace(f'{str(cwd)}/cookietemple.cfg', '0.0.0', 'bumpversion_files_whitelisted')
+    # delete content of CHANGELOG.rst test file
+    with open(f'{cwd}/CHANGELOG.rst', 'w'):
+        pass

@@ -1,6 +1,7 @@
 import os
 import sys
 import click
+import appdirs
 from pathlib import Path
 from cryptography.fernet import Fernet
 from ruamel.yaml import YAML
@@ -13,13 +14,15 @@ class ConfigCommand:
     Class for the config command. Sets general configurations such as full name, email and Github username.
     """
     # path where the config file is stored for cookietemple
-    CONF_FILE_PATH = f'{Path.home()}/.config/cookietemple_conf.yml'
+    CONF_FILE_PATH = f'{appdirs.user_config_dir(appname="cookietemple")}/cookietemple_cfg.yml'
+    KEY_PAT_FILE = f'{appdirs.user_config_dir(appname="cookietemple")}/.ct_keys'
 
     @staticmethod
     def all_settings() -> None:
         """
         Set general settings and PAT.
         """
+        ConfigCommand.check_ct_config_dir_exists()
         ConfigCommand.config_general_settings()
         ConfigCommand.config_pat()
 
@@ -28,6 +31,7 @@ class ConfigCommand:
         """
         Set full_name and email for reuse in any project created further on.
         """
+        ConfigCommand.check_ct_config_dir_exists()
         full_name = click.prompt('Full name', type=str, default='Homer Simpson')
         email = click.prompt('Personal or work email', type=str, default='homer.simpson@example.com')
         github_username = click.prompt('Github username', type=str)
@@ -55,6 +59,7 @@ class ConfigCommand:
         """
         Set the personal access token (PAT) for automatic Github repo creation.
         """
+        ConfigCommand.check_ct_config_dir_exists()
         try:
             path = Path(ConfigCommand.CONF_FILE_PATH)
             yaml = YAML(typ='safe')
@@ -87,7 +92,7 @@ class ConfigCommand:
             encrypted_pat = fer.encrypt(access_token_b)
 
             # write key
-            with open(f'{Path.home()}/.config/.ct_keys', 'wb') as f:
+            with open(ConfigCommand.KEY_PAT_FILE, 'wb') as f:
                 f.write(key)
 
             path = Path(ConfigCommand.CONF_FILE_PATH)
@@ -121,6 +126,14 @@ class ConfigCommand:
             # unknown handle and no best match found
             click.echo(click.style('Unknown handle ', fg='red') + click.style(section, fg='green')
                        + click.style(' See cookietemple --help for info on valid handles', fg='red'))
+
+    @staticmethod
+    def check_ct_config_dir_exists() -> None:
+        """
+        Check if the config directory for cookietemple exists. If not, create it.
+        """
+        if not os.path.exists(Path(ConfigCommand.CONF_FILE_PATH).parent):
+            os.mkdir(Path(ConfigCommand.CONF_FILE_PATH).parent)
 
     @staticmethod
     def handle_switcher() -> dict:
