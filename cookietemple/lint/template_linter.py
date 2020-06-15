@@ -1,6 +1,8 @@
 import io
 import os
 import re
+import sys
+
 import click
 import configparser
 from rich.progress import track
@@ -48,6 +50,7 @@ class TemplateLinter(object):
             check_functions.remove('check_files_exist')
 
         # Show a progessbar and run all linting functions
+        failed_fun = ''
         for fun_name in track(check_functions, description="[blue]Processing..."):
             if fun_name == 'check_files_exist':
                 getattr(calling_class, fun_name)(is_subclass_calling)
@@ -55,8 +58,11 @@ class TemplateLinter(object):
                 getattr(calling_class, fun_name)()
 
             if len(self.failed) > 0:
-                click.echo(click.style(f' Found test failures in {fun_name}, halting lint run', fg='red'))
+                failed_fun = fun_name
                 break
+        if failed_fun:
+            click.echo(click.style(f'Found test failures in {failed_fun}, halting lint run!', fg='red'))
+            sys.exit(1)
 
     def check_files_exist(self, is_subclass_calling=True):
         """Checks a given project directory for required files.
