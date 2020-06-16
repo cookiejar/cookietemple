@@ -69,4 +69,4 @@ class WebWebsitePythonLint(TemplateLinter):
 
         ]
 
-        files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists)
+        files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists, handle='web-website-python')

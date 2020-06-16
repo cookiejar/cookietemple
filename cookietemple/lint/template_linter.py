@@ -131,7 +131,7 @@ class TemplateLinter(object):
 
         # First - critical files. Check that this is actually a COOKIETEMPLE based project
         if not os.path.isfile(pf(self, '.cookietemple.yml')):
-            raise AssertionError('.cookietemple.yml not found!! Is this a COOKIETEMPLE project?')
+            raise AssertionError('.cookietemple.yml not found! Is this a COOKIETEMPLE project?')
 
         files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists, is_subclass_calling)
 
@@ -145,7 +145,7 @@ class TemplateLinter(object):
 
         # Implicitly also checks if empty.
         if 'FROM ' in content:
-            self.passed.append((2, click.style('Dockerfile check passed', fg='green')))
+            self.passed.append(('general-2', click.style('Dockerfile check passed', fg='green')))
             self.dockerfile = [line.strip() for line in content.splitlines()]
             return
 
@@ -178,7 +178,7 @@ class TemplateLinter(object):
                                 .replace('TODO COOKIETEMPLE: ', '').strip()
                             if len(fname) + len(line) > 70:
                                 line = f'{line[:70 - len(fname)]}..'
-                            self.warned.append((3, click.style(f'TODO string found in {self._bold_list_items(fname)}: {line}', fg='yellow')))
+                            self.warned.append(('general-3', click.style(f'TODO string found in {self._bold_list_items(fname)}: {line}', fg='yellow')))
 
     def check_no_cookiecutter_strings(self) -> None:
         """
@@ -194,7 +194,7 @@ class TemplateLinter(object):
                         if regex.match(line):
                             if len(fname) + len(line) > 50:
                                 line = f'{line[:50 - len(fname)]}..'
-                            self.warned.append((4, click.style(f'Cookiecutter string found in \'{fname}\': {line}', fg='yellow')))
+                            self.warned.append(('general-4', click.style(f'Cookiecutter string found in \'{fname}\': {line}', fg='yellow')))
 
     def check_version_consistent(self) -> None:
         """
@@ -216,8 +216,8 @@ class TemplateLinter(object):
         os.chdir(cwd)
 
         # Pass message if there weren't any inconsistencies within the version numbers
-        if self.failed.count((5, r'*')) == 0:
-            self.passed.append((5, click.style('Versions were consistent over all files', fg='green')))
+        if self.failed.count(('general-5', r'*')) == 0:
+            self.passed.append(('general-5', click.style('Versions were consistent over all files', fg='green')))
 
     def check_version_match(self, path: str, version: str, section: str) -> None:
         """
@@ -236,7 +236,7 @@ class TemplateLinter(object):
                         # No match between the current version number and version in source code file
                         if line_version != version:
                             corrected_line = re.sub(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', version, line)
-                            self.failed.append((5, click.style(f'Version number don´t match in\n {path}:', fg='blue')
+                            self.failed.append(('general-5', click.style(f'Version number don´t match in\n {path}:', fg='blue')
                                                 + click.style(f'\n {line.strip()} should be {corrected_line.strip()}', fg='red')))
 
     def print_results(self) -> None:
@@ -275,7 +275,7 @@ class TemplateLinter(object):
         return ' or '.join(bfiles)
 
 
-def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files_warn: list, files_warn_ifexists: list, is_subclass_calling=True) -> None:
+def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files_warn: list, files_warn_ifexists: list, is_subclass_calling=True, handle: str='general') -> None:
     """
     Verifies that passed lists of files exist or do not exist.
     Depending on the desired result passing, warning or failing results are appended to the linter object.
@@ -292,15 +292,15 @@ def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files
     for files in files_fail:
         if not any([os.path.isfile(pf(self, f)) for f in files]):
             all_exists = False
-            self.failed.append((1, click.style(f'File not found: {self._bold_list_items(files)}', fg='red')))
+            self.failed.append(('{handle}-1', click.style(f'File not found: {self._bold_list_items(files)}', fg='red')))
     # flag that indiactes whether all required files exist or not
     if all_exists:
         # called linting from a specific template linter
         if is_subclass_calling:
-            self.passed.append((1, click.style('All required template specific files were found!', fg='green')))
+            self.passed.append((f'{handle}-1', click.style(f'All required {handle} specific files were found!', fg='green')))
         # called as general linting
         else:
-            self.passed.append((1, click.style('All required general files were found!', fg='green')))
+            self.passed.append((f'{handle}-1', click.style(f'All required {handle} files were found!', fg='green')))
 
     # Files that cause a warning if they don't exist
     for files in files_warn:
@@ -308,18 +308,18 @@ def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files
             # pass cause if a file was found it will be summarised in one "all required files found" statement
             pass
         else:
-            self.warned.append((1, click.style(f'File not found: {self._bold_list_items(files)}', fg='yellow')))
+            self.warned.append((f'{handle}-1', click.style(f'File not found: {self._bold_list_items(files)}', fg='yellow')))
 
     # Files that cause an error if they exist
     for file in files_fail_ifexists:
         if os.path.isfile(pf(self, file)):
-            self.failed.append((1, click.style(f'File must be removed: {self._bold_list_items(file)}', fg='red')))
+            self.failed.append((f'{handle}-1', click.style(f'File must be removed: {self._bold_list_items(file)}', fg='red')))
         else:
-            self.passed.append((1, click.style(f'File not found check: {self._bold_list_items(file)}', fg='green')))
+            self.passed.append((f'{handle}-1', click.style(f'File not found check: {self._bold_list_items(file)}', fg='green')))
 
     # Files that cause a warning if they exist
     for file in files_warn_ifexists:
         if os.path.isfile(pf(self, file)):
-            self.warned.append((1, click.style(f'File should be removed: {self._bold_list_items(file)}', fg='yellow')))
+            self.warned.append((f'{handle}-1', click.style(f'File should be removed: {self._bold_list_items(file)}', fg='yellow')))
         else:
-            self.passed.append((1, click.style(f'File not found check: {self._bold_list_items(file)}', fg='green')))
+            self.passed.append((f'{handle}-1', click.style(f'File not found check: {self._bold_list_items(file)}', fg='green')))

@@ -71,7 +71,7 @@ class CliPythonLint(TemplateLinter):
 
         ]
 
-        files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists)
+        files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists, handle='cli-python')
 
 
 class CliJavaLint(TemplateLinter):
@@ -127,5 +127,5 @@ class CliJavaLint(TemplateLinter):
 
         ]
 
-        files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists)
+        files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists, handle='cli-java')
 
