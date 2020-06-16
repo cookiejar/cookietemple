@@ -1,8 +1,8 @@
 import json
 import urllib
-import subprocess
 import sys
 from urllib.error import HTTPError, URLError
+from subprocess import Popen, PIPE, check_call
 
 import click
 
@@ -57,8 +57,26 @@ class UpgradeCommand:
         """
         Calls pip as a subprocess with the --upgrade flag to upgrade cookietemple to the latest version.
         """
+        if not UpgradeCommand.is_pip_accessible():
+            sys.exit(1)
         try:
-            subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', 'cookietemple'])
+            check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', 'cookietemple'])
         except Exception as e:
-            click.echo(click.style('Unable to upgrade cookietemple! Is pip accessible from your PATH?', fg='red'))
+            click.echo(click.style('Unable to upgrade cookietemple!', fg='red'))
             click.echo(click.style(f'Exception: {e}', fg='red'))
+
+    @classmethod
+    def is_pip_accessible(cls) -> bool:
+        """
+        Verifies that pip is accessible and in the PATH.
+
+        :return: True if accessible, false if not
+        """
+        pip_installed = Popen(['pip', '--version'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
+        (git_installed_stdout, git_installed_stderr) = pip_installed.communicate()
+        if pip_installed.returncode != 0:
+            click.echo(click.style('Could not find \'pip\' in the PATH. Is it installed?', fg='red'))
+            click.echo(click.style('Run command was: \'pip --version \'', fg='red'))
+            return False
+
+        return True

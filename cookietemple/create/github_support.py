@@ -189,7 +189,7 @@ def is_git_accessible() -> bool:
     (git_installed_stdout, git_installed_stderr) = git_installed.communicate()
     if git_installed.returncode != 0:
         click.echo(click.style('Could not find \'git\' in the PATH. Is it installed?', fg='red'))
-        click.echo(click.style('Run command was: git', fg='red'))
+        click.echo(click.style('Run command was: \'git --version \'', fg='red'))
         return False
 
     return True
