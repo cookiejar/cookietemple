@@ -90,7 +90,7 @@ class TemplateLinter(object):
         Files that *must not* be present::
             none
         Files that *should not* be present::
-            '.travis.yml'
+            none
         Raises:
             An AssertionError if .cookietemple.yml is not found found.
         """
@@ -126,7 +126,7 @@ class TemplateLinter(object):
         ]
 
         files_warn_ifexists = [
-            '.travis.yml'
+
         ]
 
         # First - critical files. Check that this is actually a COOKIETEMPLE based project
