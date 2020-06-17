@@ -143,7 +143,7 @@ class VersionBumper:
         :return: True if bump version can be run, false otherwise.
         """
         # ensure that the entered version number matches correct format like 1.1.0 or 1.1.0-SNAPSHOT but not 1.2 or 1.2.3.4
-        if not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', new_version):
+        if not re.match(r'(?<!\.)\d+(?:\.\d+){2}((?!.)|-SNAPSHOT)(?!.)', new_version):
             click.echo(click.style('Invalid version specified!\nEnsure your version number has the form '
                                    'like 0.0.0 or 15.100.239-SNAPSHOT', fg='red'))
             return False
@@ -241,11 +241,10 @@ class VersionBumper:
             else:
                 # the section template for a new changelog section
                 nl = '\n'
-                section = f'{nl}{nl}{new_version} ({date}){nl}{"-" * (len(new_version) + len(date) + 3)}{nl}{nl}' \
+                section = f'{new_version} ({date}){nl}{"-" * (len(new_version) + len(date) + 3)}{nl}{nl}' \
                     f'{f"**{nl}{nl}".join(["**Added", "**Fixed", "**Dependencies", "**Deprecated**"])}'
 
-                with open(str(Path(f'{str(path)}/CHANGELOG.rst')), 'a') as changelog:
-                    changelog.write(section)
+                self.insert_latest_version_section(old_changelog_file=f'{str(path)}/CHANGELOG.rst', section=section)
 
     def replace_snapshot_header(self, source_file_path, new_version: str, date: str) -> None:
         """
@@ -278,3 +277,33 @@ class VersionBumper:
         remove(source_file_path)
         # move new file to replace old file
         move(target_file_path, source_file_path)
+
+    def insert_latest_version_section(self, old_changelog_file: str, section: str) -> None:
+        """
+        Insert the new changelog section as the latest section right after the header
+        :param old_changelog_file: path to the current CHANGELOG.rst file
+        :param section: the new section template block for changelog
+        """
+        # create a temp file (requires to be explicitly deleted later)
+        fh, target_file_path = mkstemp()
+        pos = 0
+        # read from old file (the source file) and write into new file (the target file)
+        with open(target_file_path, 'w') as target_file:
+            with open(old_changelog_file, 'r') as source_file:
+                for line in source_file:
+                    pos += len(line) + 1
+                    # check if the line is a header section with the latest version
+                    if re.match(rf'^{self.CURRENT_VERSION} \(\d\d\d\d-\d\d-\d\d\)$', line):
+                        poss_dotted_line = source_file.readline()
+
+                        # found the latest section; add new above the recent section
+                        # TODO COOKIETEMPLE: Remove when linter is implemented
+                        if re.match(r'^(-)+$', poss_dotted_line):
+                            target_file.write(f'{section}\n\n\n{line}{"-" * (len(line) - 1)}\n')
+                    # write line to new changelog file
+                    else:
+                        target_file.write(line)
+        # remove old file
+        remove(old_changelog_file)
+        # move new file to replace old file
+        move(target_file_path, old_changelog_file)
