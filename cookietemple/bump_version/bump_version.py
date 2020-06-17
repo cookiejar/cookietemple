@@ -143,8 +143,7 @@ class VersionBumper:
         :return: True if bump version can be run, false otherwise.
         """
         # ensure that the entered version number matches correct format like 1.1.0 or 1.1.0-SNAPSHOT but not 1.2 or 1.2.3.4
-        if not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', new_version) or not new_version.replace('-SNAPSHOT', '')[-1].isdigit() or \
-           not new_version[0].isdigit():
+        if not re.match(r'(?<!\.)\d+(?:\.\d+){2}((?!.)|-SNAPSHOT)(?!\.)', new_version):
             click.echo(click.style('Invalid version specified!\nEnsure your version number has the form '
                                    'like 0.0.0 or 15.100.239-SNAPSHOT', fg='red'))
             return False
