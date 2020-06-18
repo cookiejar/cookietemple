@@ -3,15 +3,14 @@ from subprocess import Popen
 
 import click
 
-from cookietemple.lint.template_linter import TemplateLinter, files_exist_linting
+from cookietemple.lint.template_linter import TemplateLinter, files_exist_linting, GetLintingFunctionsMeta
 
 CWD = os.getcwd()
 
 
-class CliPythonLint(TemplateLinter):
+class CliPythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
     def __init__(self, path):
         super().__init__(path)
-        self.methods = [func for func in dir(self) if (callable(getattr(self, func)) and not func.startswith('__'))].remove('lint')
 
     def lint(self, is_create):
         super().lint_project(self, self.methods)
@@ -74,10 +73,9 @@ class CliPythonLint(TemplateLinter):
         files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists, handle='cli-python')
 
 
-class CliJavaLint(TemplateLinter):
+class CliJavaLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
     def __init__(self, path):
         super().__init__(path)
-        self.methods = [func for func in dir(self) if (callable(getattr(self, func)) and not func.startswith('__'))].remove('lint')
 
     def lint(self):
         super().lint_project(self, self.methods)
