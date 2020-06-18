@@ -3,29 +3,28 @@ from subprocess import Popen
 
 import click
 
-from cookietemple.lint.template_linter import TemplateLinter, files_exist_linting
+from cookietemple.lint.template_linter import TemplateLinter, files_exist_linting, GetLintingFunctionsMeta
 
 CWD = os.getcwd()
 
 
-class CliPythonLint(TemplateLinter):
+class CliPythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
     def __init__(self, path):
         super().__init__(path)
 
     def lint(self, is_create):
-        methods = ['python_files_exist']
-        super().lint_project(self, methods)
+        super().lint_project(self, self.methods)
 
         # Call autopep8, if needed
         if is_create:
             click.echo(click.style('Running autopep8 to fix pep8 issues in place', ))
-            autopep8 = Popen(['autopep8', self.path, '--recursive', '--in-place', '--pep8-passes', '2000'], universal_newlines=True, shell=False,
-                             close_fds=True)
+            autopep8 = Popen(['autopep8', self.path, '--recursive', '--in-place', '--pep8-passes', '2000'],
+                              universal_newlines=True, shell=False, close_fds=True)
             (autopep8_stdout, autopep8_stderr) = autopep8.communicate()
         elif click.confirm('Do you want to run autopep8 to fix pep8 issues?'):
             click.echo(click.style('Running autopep8 to fix pep8 issues in place', ))
-            autopep8 = Popen(['autopep8', self.path, '--recursive', '--in-place', '--pep8-passes', '2000'], universal_newlines=True, shell=False,
-                             close_fds=True)
+            autopep8 = Popen(['autopep8', self.path, '--recursive', '--in-place', '--pep8-passes', '2000'],
+                              universal_newlines=True, shell=False, close_fds=True)
             (autopep8_stdout, autopep8_stderr) = autopep8.communicate()
 
     def python_files_exist(self) -> None:
@@ -74,13 +73,12 @@ class CliPythonLint(TemplateLinter):
         files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists, handle='cli-python')
 
 
-class CliJavaLint(TemplateLinter):
+class CliJavaLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
     def __init__(self, path):
         super().__init__(path)
 
     def lint(self):
-        methods = ['java_files_exist']
-        super().lint_project(self, methods)
+        super().lint_project(self, self.methods)
 
     def java_files_exist(self) -> None:
         """

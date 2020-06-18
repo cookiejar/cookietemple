@@ -1,17 +1,16 @@
 import os
 
-from cookietemple.lint.template_linter import TemplateLinter, files_exist_linting
+from cookietemple.lint.template_linter import TemplateLinter, files_exist_linting, GetLintingFunctionsMeta
 
 CWD = os.getcwd()
 
 
-class PubLatexLint(TemplateLinter):
+class PubLatexLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
     def __init__(self, path):
         super().__init__(path)
 
     def lint(self):
-        methods = ['latex_template_files_exist']
-        super().lint_project(self, methods)
+        super().lint_project(self, self.methods)
 
     def latex_template_files_exist(self) -> None:
         """

@@ -23,7 +23,6 @@ class TemplateLinter(object):
     def __init__(self, path='.'):
         self.path = path
         self.files = []
-        self.project_name = None
         self.passed = []
         self.warned = []
         self.failed = []
@@ -41,10 +40,12 @@ class TemplateLinter(object):
         :param custom_check_files: Set to true if TemplateLinter check_files_exist should not be run
         :param is_subclass_calling: Indicates whether a domain specific linter calls the linting or not
         """
-        # Called on its own, so not from a subclass
+        # Called on its own, so not from a subclass -> run general linting
         if check_functions is None:
-            check_functions = ['check_files_exist', 'check_docker', 'check_cookietemple_todos',
-                               'check_no_cookiecutter_strings', 'check_version_consistent']
+            # Fetch all general linting functions
+            check_functions = [func for func in dir(TemplateLinter) if (callable(getattr(TemplateLinter, func)) and not func.startswith('_'))]
+            # Remove internal functions
+            check_functions= list(set(check_functions).difference(set(['lint_project', 'print_results', 'check_version_match'])))
         # Some templates (e.g. latex based) do not adhere to the common programming based templates and therefore do not need to check for e.g. docs
         if custom_check_files:
             check_functions.remove('check_files_exist')
@@ -323,3 +324,28 @@ def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files
             self.warned.append((f'{handle}-1', click.style(f'File should be removed: {self._bold_list_items(file)}', fg='yellow')))
         else:
             self.passed.append((f'{handle}-1', click.style(f'File not found check: {self._bold_list_items(file)}', fg='green')))
+
+
+class GetLintingFunctionsMeta(type):
+    def get_linting_functions(cls):
+        """
+        Fetches all specific linting methods and returns them as a list.
+        Used for all template specific linters
+
+        :param cls: The specific linting class
+        """
+        specific_linter_function_names = ([func for func in dir(cls) if (callable(getattr(cls, func)) and not func.startswith('__'))])
+        general_linter_function_names = ([func for func in dir(TemplateLinter) if (callable(getattr(TemplateLinter, func)) and not func.startswith('__'))])
+        cls_only_funcs = list(set(specific_linter_function_names) - set(general_linter_function_names))
+        cls_only_funcs.remove('lint')  # remove 'lint', since we only want the newly defined methods and not the method itself
+
+        return cls_only_funcs
+
+    def __call__(self, *args, **kwargs):
+        # create the new class as normal
+        cls = type.__call__(self, *args)
+
+        # set the methods attribute to a list of all specific linting functions
+        setattr(cls, "methods", self.get_linting_functions())
+
+        return cls
