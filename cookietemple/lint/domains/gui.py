@@ -8,7 +8,6 @@ CWD = os.getcwd()
 class GuiJavaLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
     def __init__(self, path):
         super().__init__(path)
-        self.methods = [func for func in dir(self) if (callable(getattr(self, func)) and not func.startswith('__'))].remove('lint')
 
     def lint(self):
         super().lint_project(self, self.methods)
