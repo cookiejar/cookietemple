@@ -333,8 +333,8 @@ class GetLintingFunctionsMeta(type):
         :param cls: The specific linting class
         """
         specific_linter_function_names = ([func for func in dir(cls) if (callable(getattr(cls, func)) and not func.startswith('__'))])
-        template_linter_function_names = ([func for func in dir(TemplateLinter) if (callable(getattr(TemplateLinter, func)) and not func.startswith('__'))])
-        cls_only_funcs = list(set(specific_linter_function_names) - set(template_linter_function_names))
+        general_linter_function_names = ([func for func in dir(TemplateLinter) if (callable(getattr(TemplateLinter, func)) and not func.startswith('__'))])
+        cls_only_funcs = list(set(specific_linter_function_names) - set(general_linter_function_names))
         cls_only_funcs.remove('lint')  # remove 'lint', since we only want the newly defined methods and not the method itself
 
         return cls_only_funcs
