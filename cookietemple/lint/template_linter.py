@@ -40,10 +40,12 @@ class TemplateLinter(object):
         :param custom_check_files: Set to true if TemplateLinter check_files_exist should not be run
         :param is_subclass_calling: Indicates whether a domain specific linter calls the linting or not
         """
-        # Called on its own, so not from a subclass
+        # Called on its own, so not from a subclass -> run general linting
         if check_functions is None:
-            check_functions = ['check_files_exist', 'check_docker', 'check_cookietemple_todos',
-                               'check_no_cookiecutter_strings', 'check_version_consistent']
+            # Fetch all general linting functions
+            check_functions = [func for func in dir(TemplateLinter) if (callable(getattr(TemplateLinter, func)) and not func.startswith('_'))]
+            # Remove internal functions
+            check_functions= list(set(check_functions).difference(set(['lint_project', 'print_results', 'check_version_match'])))
         # Some templates (e.g. latex based) do not adhere to the common programming based templates and therefore do not need to check for e.g. docs
         if custom_check_files:
             check_functions.remove('check_files_exist')
