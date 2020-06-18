@@ -23,7 +23,6 @@ class TemplateLinter(object):
     def __init__(self, path='.'):
         self.path = path
         self.files = []
-        self.project_name = None
         self.passed = []
         self.warned = []
         self.failed = []

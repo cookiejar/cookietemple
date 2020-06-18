@@ -8,10 +8,10 @@ CWD = os.getcwd()
 class GuiJavaLint(TemplateLinter):
     def __init__(self, path):
         super().__init__(path)
+        self.methods = [func for func in dir(self) if (callable(getattr(self, func)) and not func.startswith('__'))].remove('lint')
 
     def lint(self):
-        methods = ['java_files_exist']
-        super().lint_project(self, methods)
+        super().lint_project(self, self.methods)
 
     def java_files_exist(self) -> None:
         """
