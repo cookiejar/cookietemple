@@ -205,11 +205,11 @@ class WebCreator(TemplateCreator):
     def web_python_options(self):
         """ Prompts for web-python specific options and saves them into the CookietempleTemplateStruct """
         self.web_struct.command_line_interface = click.prompt('Choose a command line library',
-                                                          type=click.Choice(['Click', 'Argparse', 'No command-line interface']),
-                                                          default='Click')
+                                                              type=click.Choice(['Click', 'Argparse', 'No command-line interface']),
+                                                              default='Click')
         self.web_struct.testing_library = click.prompt('Please choose whether pytest or unittest should be used as the testing library',
-                                                   type=click.Choice(['pytest', 'unittest']),
-                                                   default='pytest')
+                                                       type=click.Choice(['pytest', 'unittest']),
+                                                       default='pytest')
         if self.web_struct.testing_library == 'pytest':
             self.web_struct.use_pytest = 'y'
         else:
@@ -220,4 +220,3 @@ class WebCreator(TemplateCreator):
 
     def handle_rest_api_python(self):
         click.echo(click.style('NOT IMPLEMENTED YET!', fg='red'))
-

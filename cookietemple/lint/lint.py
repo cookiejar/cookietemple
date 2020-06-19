@@ -32,7 +32,7 @@ def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
     except TypeError:
         click.echo(click.style(f'Unable to find linter for handle {template_handle}! Aborting...', fg='red'))
         sys.exit(1)
-        
+
     # Run the linting tests
     try:
         # Disable check files?

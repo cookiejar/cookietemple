@@ -45,7 +45,7 @@ class TemplateLinter(object):
             # Fetch all general linting functions
             check_functions = [func for func in dir(TemplateLinter) if (callable(getattr(TemplateLinter, func)) and not func.startswith('_'))]
             # Remove internal functions
-            check_functions= list(set(check_functions).difference(set(['lint_project', 'print_results', 'check_version_match'])))
+            check_functions = list(set(check_functions).difference({'lint_project', 'print_results', 'check_version_match'}))
         # Some templates (e.g. latex based) do not adhere to the common programming based templates and therefore do not need to check for e.g. docs
         if custom_check_files:
             check_functions.remove('check_files_exist')
@@ -245,7 +245,8 @@ class TemplateLinter(object):
         Prints the linting results nicely formatted to the console.
         Output is divided into three sections: Passed (green), Warnings (yellow), Failures (red)
         """
-        click.echo(f"{click.style('=' * 35, dim=True)}\n          LINTING RESULTS\n{click.style('=' * 35, dim=True)}\n"
+        click.echo(f"{click.style('=' * 35, dim=True)}\n          {click.style('LINTING RESULTS', fg='blue')}"
+                   f"\n{click.style('=' * 35, dim=True)}\n"
                    + click.style('  [{}] {:>4} tests passed\n'.format(u'\u2714', len(self.passed)), fg='green') +
                    click.style('  [!] {:>4} tests had warnings\n'.format(len(self.warned)), fg='yellow') +
                    click.style('  [{}] {:>4} tests failed'.format(u'\u2717', len(self.failed)), fg='red'))
@@ -276,7 +277,13 @@ class TemplateLinter(object):
         return ' or '.join(bfiles)
 
 
-def files_exist_linting(self, files_fail: list, files_fail_ifexists: list, files_warn: list, files_warn_ifexists: list, is_subclass_calling=True, handle: str='general') -> None:
+def files_exist_linting(self,
+                        files_fail: list,
+                        files_fail_ifexists: list,
+                        files_warn: list,
+                        files_warn_ifexists: list,
+                        is_subclass_calling=True,
+                        handle: str = 'general') -> None:
     """
     Verifies that passed lists of files exist or do not exist.
     Depending on the desired result passing, warning or failing results are appended to the linter object.
