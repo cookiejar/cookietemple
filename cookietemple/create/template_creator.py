@@ -208,7 +208,7 @@ class TemplateCreator:
 
         self.creator_ctx.license = click.prompt(
             'License',
-            type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'bsl-1.0', 'agpl-3.0', 'cc0-1.0', 'cc-by-4.0', 'cc-by-sa-4.0', 'epl-1.0', 'wtfpl', 'unlicence', 'Not open source']),
+            type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Boost', 'Affero', 'CC0', 'CCBY', 'CCBYSA', 'Eclipse', 'WTFPL', 'unlicence', 'Not open source']),
             default='MIT')
 
         self.creator_ctx.github_username = load_github_username()
