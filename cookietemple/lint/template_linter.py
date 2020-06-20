@@ -1,7 +1,6 @@
 import io
 import os
 import re
-import sys
 import click
 import configparser
 from rich.progress import track
@@ -51,19 +50,11 @@ class TemplateLinter(object):
             check_functions.remove('check_files_exist')
 
         # Show a progessbar and run all linting functions
-        failed_fun = ''
         for fun_name in track(check_functions, description="[blue]Processing..."):
             if fun_name == 'check_files_exist':
                 getattr(calling_class, fun_name)(is_subclass_calling)
             else:
                 getattr(calling_class, fun_name)()
-
-            if len(self.failed) > 0:
-                failed_fun = fun_name
-                break
-        if failed_fun:
-            click.echo(click.style(f'Found test failures in {failed_fun}, halting lint run!', fg='red'))
-            sys.exit(1)
 
     def check_files_exist(self, is_subclass_calling=True):
         """Checks a given project directory for required files.
@@ -142,11 +133,18 @@ class TemplateLinter(object):
         """
         changelog_path = os.path.join(self.path, 'CHANGELOG.rst')
         linter = ChangelogLinter(changelog_path, self)
-        # lint header first
-        header_lint_code = linter.lint_header()
-        if header_lint_code != -1:
-            # if head linting did not found any errors lint sections
-            linter.lint_changelog_section()
+        if not len(linter.changelog_content) < 3:
+            # lint header first
+            header_lint_code, header_detected = linter.lint_header()
+            if header_lint_code != -1 and header_detected:
+                # if head linting did not found any errors lint sections
+                section_lint_passed = linter.lint_changelog_section()
+                if section_lint_passed:
+                    self.passed.append(('general-5', click.style('Changelog linting passed!', fg='green')))
+            elif not header_detected:
+                self.failed.append(('general-5', click.style('Your Changelog does not seem to contain a header!', fg='red')))
+        else:
+            self.failed.append(('general-5', click.style('Your Changelog does not seem to contain a header and/or at least one section!', fg='red')))
 
     def check_docker(self):
         """
@@ -392,16 +390,16 @@ class ChangelogLinter:
         self.line_counter = 0
         self.header_offset = 0
 
-    def lint_header(self) -> int:
+    def lint_header(self) -> (int, bool):
         """
         Lint the header which consists of an optional label, the headline CHANGELOG and an optional small description
         """
+        header_detected = False
         for line in self.changelog_content:
             # lint the header until we found a section header
             if self.match_section_header(line):
                 if self.changelog_content[self.line_counter + 1] == f'{"-" * (len(line) - 1)}\n':
-                    self.main_linter.passed.append(('general-5', click.style('Header changelog lint went good!', fg='green')))
-                    return self.header_offset
+                    return self.header_offset, header_detected
                 else:
                     # TODO COOKIETEMPLE: Set proper error code for url
                     """
@@ -411,7 +409,7 @@ class ChangelogLinter:
                     Some text were underscores belong for correct underline
                     """
                     self.main_linter.failed.append(('general-5', click.style('Invalid section header start detected!', fg='red')))
-                    return -1
+                    return -1, header_detected
             # lint header (optional label, title and an optional small description)
             elif any(cl in line for cl in ['CHANGELOG', 'Changelog']):
                 head_liner = f'{"=" * len(line)}\n'
@@ -425,6 +423,7 @@ class ChangelogLinter:
                 if not header_ok:
                     self.main_linter.failed.append(('general-5', click.style('Your Changelog header syntax does not match length of your Changelogs title!'
                                                                              , fg='red')))
+                header_detected = True
 
             if self.header_offset >= len(self.changelog_content) - 2:
                 """
@@ -440,15 +439,15 @@ class ChangelogLinter:
                 """
                 # TODO COOKIETEMPLE: Set proper error code for url
                 self.main_linter.failed.append(('general-5', click.style('No changelog sections detected!', fg='red')))
-                return -1
+                return -1, header_detected
             self.header_offset += 1
             self.line_counter += 1
 
-    def lint_changelog_section(self) -> None:
+    def lint_changelog_section(self) -> bool:
         """
         Lint a changelog section
         Example:
-        1.2.3 (19.06.2020)
+        1.2.3 (2020-12-06)
         ------------------
         **Added**
         We added ...
@@ -462,7 +461,6 @@ class ChangelogLinter:
         **Deprecated**
         Whats deprecated now ...
         """
-        sections_subheader = ['Added', 'Fixed', 'Dependencies', 'Deprecated']
         # this will actually not generate a copy of the list, it just copies a reference
         section_changelog_content = self.changelog_content[self.header_offset:]
         versions = []
@@ -492,7 +490,7 @@ class ChangelogLinter:
             if version.parse(current_section_version) >= version.parse(last_version):
                 # TODO COOKIETEMPLE correct error url
                 self.main_linter.failed.append(('general-5', click.style('Older sections cannot have greater version numbers than newer sections!', fg='red')))
-                return
+                return False
             else:
                 last_version = current_section_version
 
@@ -500,14 +498,14 @@ class ChangelogLinter:
             if not section[0] == f'{"-" * (len(versions[section_nr]) - 1)}\n':
                 # TODO COOKIETEMPLE correct error url
                 self.main_linter.failed.append(('general-5', click.style('Your sections subheader underline does not match the headers length!', fg='red')))
-                return
+                return False
             try:
                 index_order_ok = section.index('**Added**\n') < section.index('**Fixed**\n') < section.index('**Dependencies**\n') < \
                                  section.index('**Deprecated**\n')
                 if not index_order_ok:
                     """
                     Example (for a section)
-                    1.2.3 (12.06.2020)
+                    1.2.3 (2020-12-06)
                     **Added**
                     
                     **Fixed**
@@ -521,12 +519,12 @@ class ChangelogLinter:
                     # TODO COOKIETEMPLE correct error url
                     self.main_linter.failed.append(('general-5', click.style('Your sections subheader order should be **Added**, **Fixed**, **Dependencies**, '
                                                                              '**Deprecated**!', fg='red')))
-                    return
+                    return False
 
             except ValueError:
                 """
                 Example when missing a subsection
-                1.2.3 (12.06.2020)
+                1.2.3 (2020-12-06)
                 **Added**
         
                 **Deprecated
@@ -537,8 +535,9 @@ class ChangelogLinter:
                 """
                 # TODO COOKIETEMPLE correct error url
                 self.main_linter.failed.append(('general-5', click.style('Your section misses one or more required subsections!', fg='red')))
-                return
+                return False
             section_nr += 1
+        return True
 
     def match_section_header(self, line: str) -> bool:
         """
