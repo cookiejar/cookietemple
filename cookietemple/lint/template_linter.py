@@ -402,7 +402,6 @@ class ChangelogLinter:
                 if self.changelog_content[self.line_counter + 1] == f'{"-" * (len(line) - 1)}\n':
                     return self.header_offset, header_detected, True
                 else:
-                    # TODO COOKIETEMPLE: Set proper error code for url
                     """
                     This also helps with bump-version and automatic section adding to ensure a correct section start.
                     Example:
@@ -439,7 +438,6 @@ class ChangelogLinter:
                 
                 End
                 """
-                # TODO COOKIETEMPLE: Set proper error code for url
                 self.main_linter.failed.append(('general-6', click.style('No changelog sections detected!', fg='red')))
                 return -1, header_detected, False
             self.header_offset += 1
@@ -481,14 +479,12 @@ class ChangelogLinter:
         # keep track how many sections seen so far
         section_nr = 0
         # keep track of the last version of the processed section; init with high number
-        # TODO COOKIETEMPLE Any ideas how to make this a bit nicer?
         last_version = '1000000.1000000.1000000'
 
         for section in sections:
             # check if newer sections have a strict greater version than older sections
             current_section_version = versions[section_nr][:-1].replace('-SNAPSHOT', '').split(' ')[0]
             if version.parse(current_section_version) >= version.parse(last_version):
-                # TODO COOKIETEMPLE correct error url
                 self.main_linter.failed.append(('general-6', click.style('Older sections cannot have greater version numbers than newer sections!', fg='red')))
                 return False
             else:
@@ -496,7 +492,6 @@ class ChangelogLinter:
 
             # check if ever section subheader is underlined correctly
             if not section[0] == f'{"-" * (len(versions[section_nr]) - 1)}\n':
-                # TODO COOKIETEMPLE correct error url
                 self.main_linter.failed.append(('general-6', click.style('Your sections subheader underline does not match the headers length!', fg='red')))
                 return False
             try:
@@ -516,7 +511,6 @@ class ChangelogLinter:
                     
                     Dependencies and Deprecated should be changed
                     """
-                    # TODO COOKIETEMPLE correct error url
                     self.main_linter.failed.append(('general-6', click.style('Your sections subheader order should be **Added**, **Fixed**, **Dependencies**, '
                                                                              '**Deprecated**!', fg='red')))
                     return False
@@ -533,7 +527,6 @@ class ChangelogLinter:
     
                 Fixed section is missing
                 """
-                # TODO COOKIETEMPLE correct error url
                 self.main_linter.failed.append(('general-6', click.style('Your section misses one or more required subsections!', fg='red')))
                 return False
             section_nr += 1
