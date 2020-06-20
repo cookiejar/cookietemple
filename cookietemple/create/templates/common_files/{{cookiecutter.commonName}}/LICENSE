@@ -108,7 +108,6 @@ may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <http://www.gnu.org/philosophy/why-not-lgpl.html>.
-{% endif %}
 {% elif cookiecutter.license == 'bsl-1.0' -%}
 Boost Software License - Version 1.0 - August 17th, 2003
 
@@ -133,7 +132,6 @@ SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
 FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
-{% endif %}
 {% elif cookiecutter.license == 'agpl-3.0' -%}
                     GNU AFFERO GENERAL PUBLIC LICENSE
                        Version 3, 19 November 2007
@@ -796,7 +794,6 @@ specific requirements.
 if any, to sign a "copyright disclaimer" for the program, if necessary.
 For more information on this, and how to apply and follow the GNU AGPL, see
 <https://www.gnu.org/licenses/>.
-{% endif %}
 {% elif cookiecutter.license == 'cc0-1.0' -%}
 Creative Commons Legal Code
 
@@ -919,7 +916,6 @@ express Statement of Purpose.
  d. Affirmer understands and acknowledges that Creative Commons is not a
     party to this document and has no duty or obligation with respect to
     this CC0 or use of the Work.
-{% endif %}
 {% elif cookiecutter.license == 'cc-by-4.0' -%}
 Attribution 4.0 International
 
@@ -1316,7 +1312,6 @@ the avoidance of doubt, this paragraph does not form part of the public
 licenses.
 
 Creative Commons may be contacted at creativecommons.org.
-{% endif %}
 {% elif cookiecutter.license == 'cc-by-sa-4.0' -%}
 Attribution-ShareAlike 4.0 International
 
@@ -1745,7 +1740,6 @@ the avoidance of doubt, this paragraph does not form part of the public
 licenses.
 
 Creative Commons may be contacted at creativecommons.org.
-{% endif %}
 {% elif cookiecutter.license == 'epl-1.0' -%}
 Eclipse Public License - v 2.0
 
@@ -2007,7 +2001,6 @@ estoppel or otherwise. All rights in the Program not expressly granted
 under this Agreement are reserved. Nothing in this Agreement is intended
 to be enforceable by any entity that is not a Contributor or Recipient.
 No third-party beneficiary rights are created under this Agreement.
-{% endif %}
 {% elif cookiecutter.license == 'wtfpl' -%}
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
                     Version 2, December 2004
@@ -2022,7 +2015,6 @@ No third-party beneficiary rights are created under this Agreement.
    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
   0. You just DO WHAT THE FUCK YOU WANT TO.
-{% endif %}
 {% elif cookiecutter.license == 'unlicense' -%}
 This is free and unencumbered software released into the public domain.
 
