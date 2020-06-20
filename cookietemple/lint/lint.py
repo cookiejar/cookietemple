@@ -65,7 +65,8 @@ def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
 
     # Exit code
     if len(lint_obj.failed) > 0:
-        click.echo(click.style('Sorry, some tests failed - exiting with a non-zero error code...\n'))
+        click.echo(click.style('Sorry, some tests failed - exiting with a non-zero error code...\n', fg='red'))
+        sys.exit(1)
 
 
 def get_template_handle(dot_cookietemple_path: str = '.cookietemple.yml') -> str:
