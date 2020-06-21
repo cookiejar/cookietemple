@@ -97,3 +97,65 @@ general-6
 | ``changelog.rst`` invalid. The ``changelog.rst`` file requires that every changelog section has a header with the version and the corresponding release date.
   The version above another changelog section should always be *greater* than the section below (e.g. 1.1.0 above 1.0.0).
   Every section must have the headings ``**Added**``, ``**Fixed**``, ``**Dependencies**`` and ``**Deprecated**``.
+
+cli-python
+^^^^^^^^^^^^
+
+cli-python-1
+~~~~~~~~~~~~~~~
+
+| File not found. This error occurs when your project does not include all of cli-python's expected files.
+| Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
+  at the time of the project creation using cookietemple this file should not have been missing!
+
+cli-java
+^^^^^^^^^^^^
+
+cli-java-1
+~~~~~~~~~~~~~
+
+| File not found. This error occurs when your project does not include all of cli-python's expected files.
+| Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
+  at the time of the project creation using cookietemple this file should not have been missing!
+
+lib-cpp
+^^^^^^^^^^
+
+lib-cpp-1
+~~~~~~~~~~~~
+
+| File not found. This error occurs when your project does not include all of cli-python's expected files.
+| Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
+  at the time of the project creation using cookietemple this file should not have been missing!
+
+
+web-python
+^^^^^^^^^^^^
+
+web-python-1
+~~~~~~~~~~~~~~~~
+
+| File not found. This error occurs when your project does not include all of cli-python's expected files.
+| Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
+  at the time of the project creation using cookietemple this file should not have been missing!
+
+gui-java
+^^^^^^^^^
+
+gui-java-1
+~~~~~~~~~~~~~
+
+| File not found. This error occurs when your project does not include all of cli-python's expected files.
+| Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
+  at the time of the project creation using cookietemple this file should not have been missing!
+
+
+pub-thesis
+^^^^^^^^^^^^^
+
+pub-thesis-1
+~~~~~~~~~~~~~~~~~~~~~
+
+| File not found. This error occurs when your project does not include all of cli-python's expected files.
+| Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
+  at the time of the project creation using cookietemple this file should not have been missing!
