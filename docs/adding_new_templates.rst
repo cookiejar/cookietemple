@@ -214,13 +214,12 @@ The file tree of the template should resemble
 
 .. code-block:: python
 
-    class CliBrainfuckLint(TemplateLinter):
+    class CliBrainfuckLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
         def __init__(self, path):
             super().__init__(path)
 
-        def lint(self, label):
-            methods = ['brainfuck_files_exist']
-            super().lint_project(self, methods, label=label)
+        def lint(self):
+            super().lint_project(self, self.methods)
 
         def brainfuck_files_exist(self) -> None:
             """
