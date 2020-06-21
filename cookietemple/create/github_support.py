@@ -66,7 +66,7 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
 
     # git commit
     cloned_repo.index.commit(f'Created {creator_ctx.project_slug} with {creator_ctx.template_handle}'
-                             f'template of version {creator_ctx.template_version} using COOKIETEMPLE.')
+                             f'template of version {creator_ctx.template_version} using cookietemple.')
 
     click.echo(click.style('Pushing template to Github origin master.', fg='blue'))
     cloned_repo.remotes.origin.push(refspec='master:master')
@@ -117,23 +117,23 @@ def handle_pat_authentification() -> str:
             click.echo(
                 click.style('Please navigate to Github -> Your profile -> Settings -> Developer Settings -> Personal access token -> Generate a new Token',
                             fg='blue'))
-            click.echo(click.style('Only tick \'repo\'. The token is a hidden input to COOKIETEMPLE and stored encrypted locally on your machine.', fg='blue'))
+            click.echo(click.style('Only tick \'repo\'. The token is a hidden input to cookietemple and stored encrypted locally on your machine.', fg='blue'))
             click.echo(click.style('For more information please read'
                                    ' https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line\n\n',
                                    fg='blue'))
-            click.echo(click.style('Lets move on to set your personal access token for your Cookietemple project!', fg='blue'))
+            click.echo(click.style('Lets move on to set your personal access token for your cookietemple project!', fg='blue'))
             # set the PAT
             ConfigCommand.config_pat()
             # if the user wants to create a GitHub repo but accidentally presses no on PAT config prompt
             if not os.path.exists(ConfigCommand.KEY_PAT_FILE):
-                click.echo(click.style('No Github personal access token found. Please set it using ', fg='red') + click.style('cookietemple config github',
-                                                                                                                              fg='green'))
+                click.echo(click.style('No Github personal access token found. Please set it using ', fg='red')
+                           + click.style('cookietemple config github', fg='green'))
                 sys.exit(1)
             else:
                 pat = decrypt_pat()
             return pat
     else:
-        click.echo(click.style('Cannot find a Cookietemple config file! Did you delete it?', fg='red'))
+        click.echo(click.style('Cannot find a cookietemple config file! Did you delete it?', fg='red'))
 
 
 def prompt_github_repo() -> (bool, bool, bool, str):

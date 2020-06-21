@@ -15,7 +15,7 @@ from cookietemple.create.github_support import is_git_repo
 
 class VersionBumper:
     """
-    Responsible for bumping the version across a COOKIETEMPLE project
+    Responsible for bumping the version across a cookietemple project
     """
 
     def __init__(self, pipeline_dir, downgrade):
@@ -29,7 +29,7 @@ class VersionBumper:
         Update the version number for all files that are whitelisted in the config file.
 
         INFO on valid versions: All versions must match the format like 1.0.0 or 1.1.0-SNAPSHOT; these are the only valid
-        version formats COOKIETEMPLE allows. A valid version therefore contains a three digits (in the range from 0 to however large it will grow)
+        version formats cookietemple allows. A valid version therefore contains a three digits (in the range from 0 to however large it will grow)
         separated by two dots.
         Optional is the -SNAPSHOT at the end (for JVM templates especially). NOTE that versions like 1.2.3.4 or 1.2 WILL NOT be recognized as valid versions as
         well as no substring of them will be recognized.
@@ -86,9 +86,9 @@ class VersionBumper:
     def replace(self, file_path: str, subst: str, section: str) -> (bool, str):
         """
         Replace a version with the new version unless the line is explicitly excluded (marked with
-        <<COOKIETEMPLE_NO_BUMP>>).
+        <<cookietemple_NO_BUMP>>).
         Or, in case of blacklisted files, it ignores all lines with version numbers unless they´re explicitly marked
-        for bump with tag <<COOKIETEMPLE_FORCE_BUMP>>.
+        for bump with tag <<cookietemple_FORCE_BUMP>>.
 
         :param file_path: The path of the file where the version should be updated
         :param subst: The new version that replaces the old one
@@ -106,7 +106,7 @@ class VersionBumper:
             with open(file_path) as old_file:
                 for line in old_file:
                     # update version if tags were found (and were in the right section)
-                    if ('<<COOKIETEMPLE_NO_BUMP>>' not in line and not section == 'bumpversion_files_blacklisted') or '<<COOKIETEMPLE_FORCE_BUMP>>' in line:
+                    if ('<<cookietemple_NO_BUMP>>' not in line and not section == 'bumpversion_files_blacklisted') or '<<cookietemple_FORCE_BUMP>>' in line:
                         # for info on this regex, see bump_template docstring above
                         tmp = re.sub(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', subst, line)
                         new_file.write(tmp)
@@ -116,8 +116,8 @@ class VersionBumper:
                                 file_is_unchanged = False
                                 path_changed = file_path
                             click.echo(click.style(
-                                f'- {line.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->", "")}\n', fg='red') + click.style(
-                                f'+ {tmp.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->", "")}', fg='green'))
+                                f'- {line.strip().replace("<!-- <<cookietemple_FORCE_BUMP>> -->", "")}\n', fg='red') + click.style(
+                                f'+ {tmp.strip().replace("<!-- <<cookietemple_FORCE_BUMP>> -->", "")}', fg='green'))
                             click.echo()
                     else:
                         new_file.write(line)
@@ -134,9 +134,9 @@ class VersionBumper:
         """
         Ensure that all requirements are met, so that the bump version command can be run successfully.
         This included the following requirements:
-        1.) The new version number matches the format like 1.1.0 or 1.1.0-SNAPSHOT required by COOKIETEMPLE versions
+        1.) The new version number matches the format like 1.1.0 or 1.1.0-SNAPSHOT required by cookietemple versions
         2.) The new version is greater than the current one
-        3.) The project is a COOKIETEMPLE project
+        3.) The project is a cookietemple project
 
         :param new_version: The new version
         :param project_dir: The directory of the project
@@ -148,7 +148,7 @@ class VersionBumper:
                                    'like 0.0.0 or 15.100.239-SNAPSHOT', fg='red'))
             return False
 
-        # ensure the version is bumped within a project created by Cookietemple
+        # ensure the version is bumped within a project created by cookietemple
         elif not Path(f'{project_dir}/cookietemple.cfg').is_file():
             click.echo(click.style('Did not found a cookietemple.cfg file. Make sure you are in the right directory '
                                    'or specify the path to your projects bump_version.cfg file', fg='red'))
@@ -297,7 +297,7 @@ class VersionBumper:
                         poss_dotted_line = source_file.readline()
 
                         # found the latest section; add new above the recent section
-                        # TODO COOKIETEMPLE: Remove when linter is implemented
+                        # TODO cookietemple: Remove when linter is implemented
                         if re.match(r'^(-)+$', poss_dotted_line):
                             target_file.write(f'{section}\n\n\n{line}{"-" * (len(line) - 1)}\n')
                     # write line to new changelog file
