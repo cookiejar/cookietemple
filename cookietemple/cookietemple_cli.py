@@ -48,7 +48,7 @@ def main():
 @click.pass_context
 def cookietemple_cli(ctx, verbose):
     """
-    Create state of the art projects from sophisticated templates.
+    Create state of the art projects from production ready templates.
     """
     if verbose:
         logging.basicConfig(level=logging.DEBUG, format='\n%(asctime)s - %(name)s - %(levelname)s - %(message)s')
