@@ -20,14 +20,14 @@ class VersionBumper:
     Responsible for bumping the version across a COOKIETEMPLE project
     """
 
-    def __init__(self, pipeline_dir, downgrade):
+    def __init__(self, project_dir, downgrade):
         self.parser = ConfigParser()
-        self.parser.read(f'{pipeline_dir}/cookietemple.cfg')
+        self.parser.read(f'{project_dir}/cookietemple.cfg')
         self.CURRENT_VERSION = self.parser.get('bumpversion', 'current_version')
         self.downgrade_mode = downgrade
-        self.top_level_dir = pipeline_dir
+        self.top_level_dir = project_dir
 
-    def bump_template_version(self, new_version: str, pipeline_dir: Path) -> None:
+    def bump_template_version(self, new_version: str, project_dir: Path) -> None:
         """
         Update the version number for all files that are whitelisted in the config file.
 
@@ -38,18 +38,18 @@ class VersionBumper:
         well as no substring of them will be recognized.
 
         :param new_version: The new version number that should replace the old one in a cookietemple project
-        :param pipeline_dir: The default value is the current working directory, so we´re initially assuming the user
+        :param project_dir: The default value is the current working directory, so we´re initially assuming the user
                              bumps the version from the projects top level directory. If this is not the case this parameter
                              shows the path where the projects top level directory is and bumps the version there
         """
         sections = ['bumpversion_files_whitelisted', 'bumpversion_files_blacklisted']
 
-        # if pipeline_dir was given as handle use cwd since we need it for git add
-        ct_cfg_path = f'{str(pipeline_dir)}/cookietemple.cfg' if str(pipeline_dir).startswith(str(Path.cwd())) else \
-            f'{str(Path.cwd())}/{pipeline_dir}/cookietemple.cfg'
+        # if project_dir was given as handle use cwd since we need it for git add
+        ct_cfg_path = f'{str(project_dir)}/cookietemple.cfg' if str(project_dir).startswith(str(Path.cwd())) else \
+            f'{str(Path.cwd())}/{project_dir}/cookietemple.cfg'
         # path to CHANGELOG.rst file
-        changelog_path = f'{str(pipeline_dir)}/CHANGELOG.rst' if str(pipeline_dir).startswith(str(Path.cwd())) else \
-            f'{str(Path.cwd())}/{pipeline_dir}/CHANGELOG.rst'
+        changelog_path = f'{str(project_dir)}/CHANGELOG.rst' if str(project_dir).startswith(str(Path.cwd())) else \
+            f'{str(Path.cwd())}/{project_dir}/CHANGELOG.rst'
 
         # keep path of all files that were changed during bump version
         changed_files = [ct_cfg_path, changelog_path]
@@ -60,7 +60,7 @@ class VersionBumper:
         # for each section (whitelisted and blacklisted files) bump the version (if allowed)
         for section in sections:
             for file, path in self.parser.items(section):
-                not_changed, file_path = self.replace(f'{pipeline_dir}/{path}', new_version, section)
+                not_changed, file_path = self.replace(f'{project_dir}/{path}', new_version, section)
                 # only add file if the version(s) in the file were bumped
                 if not not_changed:
                     path_changed = file_path if file_path.startswith(str(Path.cwd())) else f'{str(Path.cwd())}/{file_path}'
@@ -68,15 +68,15 @@ class VersionBumper:
 
         # update new version in cookietemple.cfg file
         self.parser.set('bumpversion', 'current_version', new_version)
-        with open(f'{pipeline_dir}/cookietemple.cfg', 'w') as configfile:
+        with open(f'{project_dir}/cookietemple.cfg', 'w') as configfile:
             self.parser.write(configfile)
 
         # add a new changelog section when downgrade mode is disabled
-        self.add_changelog_section(pipeline_dir, new_version)
+        self.add_changelog_section(project_dir, new_version)
 
         # check if a project is a git repository and if so, commit bumped version changes
-        if is_git_repo(pipeline_dir):
-            repo = Repo(pipeline_dir)
+        if is_git_repo(project_dir):
+            repo = Repo(project_dir)
 
             # git add
             click.echo(click.style('Staging template.', fg='blue'))

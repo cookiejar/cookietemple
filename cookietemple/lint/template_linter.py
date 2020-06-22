@@ -388,7 +388,7 @@ class ChangelogLinter:
         """
         self.changelog_path = path
         self.main_linter = linter
-        self.changelog_content = self.init_changelog_content()
+        self.changelog_content = self.init_changelog_lint_content()
         self.line_counter = 0
         self.header_offset = 0
 
@@ -512,8 +512,8 @@ class ChangelogLinter:
                     
                     Dependencies and Deprecated should be changed
                     """
-                    self.main_linter.failed.append(('general-6', click.style('Your sections subheader order should be **Added**, **Fixed**, **Dependencies**, '
-                                                                             '**Deprecated**!', fg='red')))
+                    self.main_linter.failed.append(('general-6', click.style('Your sections subheader order should be **Added**\n**Fixed**\n'
+                                                                             '**Dependencies**\n**Deprecated**!', fg='red')))
                     return False
 
             except ValueError:
@@ -543,10 +543,10 @@ class ChangelogLinter:
 
         return bool(no_snapshot_header.match(line)) or bool(snapshot_header.match(line))
 
-    def init_changelog_content(self):
+    def init_changelog_lint_content(self) -> list:
         """
-        Init changelog contents
-        :return: Changelog.rst contents
+        Reads from the project's CHANGELOG.rst.
+        :return: Changelog.rst contents line by line as a list
         """
         with open(self.changelog_path, 'r') as f:
             content = f.readlines()
