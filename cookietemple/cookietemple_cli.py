@@ -153,7 +153,9 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
             project_dir = Path(str(project_dir).replace(str(project_dir)[len(str(project_dir)) - 1:], ''))
 
         version_bumper = VersionBumper(project_dir, downgrade)
-
+        # lint before run bump-version
+        version_bumper.lint_before_bump()
+        # only run bump-version if conditions are met
         if version_bumper.can_run_bump_version(new_version, project_dir):
             # only run "sanity" checker when the downgrade flag is not set
             if not downgrade:

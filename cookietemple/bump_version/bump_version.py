@@ -1,3 +1,4 @@
+import os
 import sys
 import click
 import re
@@ -11,6 +12,7 @@ from git import Repo
 from datetime import datetime
 
 from cookietemple.create.github_support import is_git_repo
+from cookietemple.lint.template_linter import TemplateLinter
 
 
 class VersionBumper:
@@ -23,6 +25,7 @@ class VersionBumper:
         self.parser.read(f'{pipeline_dir}/cookietemple.cfg')
         self.CURRENT_VERSION = self.parser.get('bumpversion', 'current_version')
         self.downgrade_mode = downgrade
+        self.top_level_dir = pipeline_dir
 
     def bump_template_version(self, new_version: str, pipeline_dir: Path) -> None:
         """
@@ -219,6 +222,33 @@ class VersionBumper:
         # case when we bumping like 3.0.0-SNAPSHOT to 3.0.0
         return True
 
+    def lint_before_bump(self) -> None:
+        """
+        Lint the changelog prior to bumping. Linting consists of two major points (beside checking if a CHANGELOG.rst file even exists at top level directory).
+
+        1. Lint CHANGELOG.rst to ensure that bump-version can safely add a new section
+        2. Check, whether all versions are consistent over the project
+        """
+        changelog_linter = TemplateLinter(path=self.top_level_dir)
+        changelog_path = os.path.join(self.top_level_dir, 'CHANGELOG.rst')
+        # ensure changelog exists, else abort
+        if not os.path.exists(changelog_path):
+            click.echo(click.style(f'No file named CHANGELOG.rst found at {self.top_level_dir}. Aborting!', fg='red'))
+            sys.exit(1)
+        # lint changelog and check version consistency
+        changelog_linter.lint_changelog()
+        changelog_linter.check_version_consistent()
+        click.echo()
+        changelog_linter.print_results()
+        click.echo()
+        # if any failed linting tests, ask user for confirmation of proceeding with bump (which results in undefined behavior)
+        if len(changelog_linter.failed) > 0 or len(changelog_linter.warned) > 0:
+            # ask for confirmation if the user really wants to proceed bumping when linting failed
+            click.echo(click.style(f'Changelog linting and/or version check failed!\nYou can fix them and try bumping again. Proceeding bump will result in '
+                                   f'undefined behavior!', fg='red'))
+            if not click.confirm(click.style(f'Do you really want to continue?', fg='red')):
+                sys.exit(1)
+
     def add_changelog_section(self, path: Path, new_version: str) -> None:
         """
         Each version bump will add a new section template to the CHANGELOG.rst
@@ -229,13 +259,8 @@ class VersionBumper:
             click.echo(click.style('WARNING: Running bump-version in downgrade mode will not add a new changelog section currently!', fg='yellow'))
         else:
             date = datetime.today().strftime("%Y-%m-%d")
-            # if no CHANGELOG.rst exists in the top level directory (where cookietemple.cfg lies), print error and exit
-            if not Path(f'{str(path)}/CHANGELOG.rst').exists():
-                click.echo(click.style(f'No file named CHANGELOG.rst found at {path}. Aborting!', fg='red'))
-                sys.exit(1)
-
             # replace the SNAPSHOT SECTION header with its non-snapshot correlate
-            elif self.CURRENT_VERSION.endswith('-SNAPSHOT'):
+            if self.CURRENT_VERSION.endswith('-SNAPSHOT'):
                 self.replace_snapshot_header(f'{str(path)}/CHANGELOG.rst', new_version, date)
 
             else:
@@ -244,7 +269,7 @@ class VersionBumper:
                 section = f'{new_version} ({date}){nl}{"-" * (len(new_version) + len(date) + 3)}{nl}{nl}' \
                     f'{f"**{nl}{nl}".join(["**Added", "**Fixed", "**Dependencies", "**Deprecated**"])}'
 
-                self.insert_latest_version_section(old_changelog_file=f'{str(path)}/CHANGELOG.rst', section=section)
+                self.insert_latest_version_section(old_changelog_file=f'{self.top_level_dir}/CHANGELOG.rst', section=section)
 
     def replace_snapshot_header(self, source_file_path, new_version: str, date: str) -> None:
         """
@@ -286,23 +311,14 @@ class VersionBumper:
         """
         # create a temp file (requires to be explicitly deleted later)
         fh, target_file_path = mkstemp()
-        pos = 0
         # read from old file (the source file) and write into new file (the target file)
         with open(target_file_path, 'w') as target_file:
             with open(old_changelog_file, 'r') as source_file:
                 for line in source_file:
-                    pos += len(line) + 1
-                    # check if the line is a header section with the latest version
+                    # check if the line is the header section with the latest version
                     if re.match(rf'^{self.CURRENT_VERSION} \(\d\d\d\d-\d\d-\d\d\)$', line):
-                        poss_dotted_line = source_file.readline()
-
-                        # found the latest section; add new above the recent section
-                        # TODO COOKIETEMPLE: Remove when linter is implemented
-                        if re.match(r'^(-)+$', poss_dotted_line):
-                            target_file.write(f'{section}\n\n\n{line}{"-" * (len(line) - 1)}\n')
-                    # write line to new changelog file
-                    else:
-                        target_file.write(line)
+                        target_file.write(f'{section}\n\n\n')
+                    target_file.write(line)
         # remove old file
         remove(old_changelog_file)
         # move new file to replace old file

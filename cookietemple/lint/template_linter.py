@@ -47,8 +47,10 @@ class TemplateLinter(object):
             # Remove internal functions
             check_functions = list(set(check_functions).difference({'lint_project', 'print_results', 'check_version_match'}))
         # Some templates (e.g. latex based) do not adhere to the common programming based templates and therefore do not need to check for e.g. docs
+        # or lint changelog
         if custom_check_files:
             check_functions.remove('check_files_exist')
+            check_functions.remove('lint_changelog')
 
         # Show a progessbar and run all linting functions
         for fun_name in track(check_functions, description="[blue]Processing..."):
@@ -226,9 +228,8 @@ class TemplateLinter(object):
             for file, path in parser.items(section):
                 self.check_version_match(path, current_version, section)
         os.chdir(cwd)
-
         # Pass message if there weren't any inconsistencies within the version numbers
-        if self.failed.count(('general-5', r'*')) == 0:
+        if not any('general-5' in tup[0] for tup in self.failed):
             self.passed.append(('general-5', click.style('Versions were consistent over all files', fg='green')))
 
     def check_version_match(self, path: str, version: str, section: str) -> None:
