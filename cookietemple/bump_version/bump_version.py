@@ -261,7 +261,7 @@ class VersionBumper:
             date = datetime.today().strftime("%Y-%m-%d")
             # replace the SNAPSHOT SECTION header with its non-snapshot correlate
             if self.CURRENT_VERSION.endswith('-SNAPSHOT'):
-                self.replace_snapshot_header(f'{str(path)}/CHANGELOG.rst', new_version, date)
+                self.replace_snapshot_header(f'{self.top_level_dir}/CHANGELOG.rst', new_version, date)
 
             else:
                 # the section template for a new changelog section
