@@ -169,7 +169,7 @@ class TemplateCreator:
             self.creator_ctx.email = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['email']
         except FileNotFoundError:
             # style and automatic use config
-            click.echo(click.style('Cannot find a Cookietemple config file. Is this your first time using Cookietemple?', fg='red'))
+            click.echo(click.style('Cannot find a cookietemple config file. Is this your first time using cookietemple?', fg='red'))
             # inform the user and config all settings (with PAT optional)
             click.echo(click.style('Lets set your name, email and Github username and you´re ready to go!', fg='blue'))
             ConfigCommand.all_settings()
@@ -208,7 +208,8 @@ class TemplateCreator:
 
         self.creator_ctx.license = click.prompt(
             'License',
-            type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Not open source']),
+            type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Boost', 'Affero',
+                               'CC0', 'CCBY', 'CCBYSA', 'Eclipse', 'WTFPL', 'unlicence', 'Not open source']),
             default='MIT')
 
         self.creator_ctx.github_username = load_github_username()

@@ -1521,9 +1521,17 @@ Shared FAQ
 How do I setup Read the Docs?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-cookietemple ships with a full, production ready Read the Docs setup.
+cookietemple ships with a full, production ready `Read the Docs <https://readthedocs.org/>`_ setup.
 You need to `import your documentation <https://docs.readthedocs.io/en/stable/intro/import-guide.html>`_ on Read the Docs website.
 Do not forget to sync your account first to see your repository.
+
+What is Dependabot and how do I set it up?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+`Dependabot <https://dependabot.com/>`_ is a service, which (for supported languages) automatically submits pull requests for dependency updates.
+cookietemple templates ship with dependabot configurations, if the language is supported by Dependabot.
+To enable Dependabot you need to login (with your Github account) and add your repository (or enable Dependabot for all repositories).
+Note that you need to do this for every organization separately. Dependabot will then pick up the configuration and start submitting pull requests!
 
 How do I add a new template?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

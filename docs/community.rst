@@ -22,3 +22,4 @@ Contributors
 ------------------
 
 - Filip Dutescu (`@filipdutescu Github <https://github.com/filipdutescu>`_) (C++ template and more)
+- Tobias Langes (`@adlanto Github <https://github.com/adlanto>`_) (Windows support)

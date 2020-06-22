@@ -47,6 +47,9 @@ def main():
 @click.option('-v', '--verbose', is_flag=True, default=False, help='Verbose output (print debug statements)')
 @click.pass_context
 def cookietemple_cli(ctx, verbose):
+    """
+    Create state of the art projects from production ready templates.
+    """
     if verbose:
         logging.basicConfig(level=logging.DEBUG, format='\n%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     else:
