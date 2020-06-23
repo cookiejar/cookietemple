@@ -45,7 +45,7 @@ def docs_subdir(path) -> set:
     return {Path(f'{path}/docs/conf.py'), Path(f'{path}/docs/Makefile'), Path(f'{path}/docs/authors.rst'),
             Path(f'{path}/docs/installation.rst'), Path(f'{path}/docs/make.bat'), Path(f'{path}/docs/index.rst'),
             Path(f'{path}/docs/usage.rst'), Path(f'{path}/docs/changelog.rst'), Path(f'{path}/docs/readme.rst'),
-            Path(f'{path}/docs/codeofconduct.rst'), Path(f'{path}/docs/modules.rst'), Path(f'{path}/docs/requirements.txt'),
+            Path(f'{path}/docs/code_of_conduct.rst'), Path(f'{path}/docs/modules.rst'), Path(f'{path}/docs/requirements.txt'),
             Path(f'{path}/docs/_static')}
 
 
