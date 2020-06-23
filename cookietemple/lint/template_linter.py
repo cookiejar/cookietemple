@@ -432,11 +432,11 @@ class ChangelogLinter:
                 A Changelog EVER should contain at least one section (thus when the template has been created)!
                 Example
                 .. changelog_f
-                
+
                 =========
                 CHANGELOG
                 =========
-                
+
                 End
                 """
                 self.main_linter.failed.append(('general-6', click.style('No changelog sections detected!', fg='red')))
@@ -497,19 +497,19 @@ class ChangelogLinter:
                 return False
             try:
                 index_order_ok = section.index('**Added**\n') < section.index('**Fixed**\n') < section.index('**Dependencies**\n') < \
-                                 section.index('**Deprecated**\n')
+                    section.index('**Deprecated**\n')
                 if not index_order_ok:
                     """
                     Example (for a section)
                     1.2.3 (2020-12-06)
                     **Added**
-                    
+
                     **Fixed**
-                    
+
                     **Deprecated
-                    
+
                     **Dependencies**
-                    
+
                     Dependencies and Deprecated should be changed
                     """
                     self.main_linter.failed.append(('general-6', click.style('Your sections subheader order should be **Added**\n**Fixed**\n'
@@ -521,11 +521,11 @@ class ChangelogLinter:
                 Example when missing a subsection
                 1.2.3 (2020-12-06)
                 **Added**
-        
+
                 **Deprecated
-    
+
                 **Dependencies**
-    
+
                 Fixed section is missing
                 """
                 self.main_linter.failed.append(('general-6', click.style('Your section misses one or more required subsections!', fg='red')))

@@ -1,4 +1,4 @@
-name: Build {{ cookiecutter.project_slug }} Package
+name: Build {{ cookiecutter.project_name }} Package
 
 on: [push]
 
@@ -19,5 +19,5 @@ jobs:
         with:
           python-version: {% raw %}${{ matrix.python }}{% endraw %}
 
-      - name: Build {{ cookiecutter.project_slug }}
+      - name: Build {{ cookiecutter.project_name }}
         run: python setup.py clean --all install
