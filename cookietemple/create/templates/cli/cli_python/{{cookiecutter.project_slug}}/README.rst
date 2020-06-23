@@ -3,12 +3,12 @@
 {{ cookiecutter.project_name }}
 {% for _ in cookiecutter.project_name %}={% endfor %}
 
-.. image:: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_name }}/workflows/Build%20{{ cookiecutter.project_slug }}%20Package/badge.svg
-        :target: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_name }}/workflows/Build%20{{ cookiecutter.project_slug }}%20Package/badge.svg
+.. image:: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/workflows/Build%20{{ cookiecutter.project_slug }}%20Package/badge.svg
+        :target: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/workflows/Build%20{{ cookiecutter.project_slug }}%20Package/badge.svg
         :alt: Github Workflow Build {{ cookiecutter.project_name }} Status
 
-.. image:: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_name }}/workflows/Run%20{{ cookiecutter.project_slug }}%20Tox%20Test%20Suite/badge.svg
-        :target: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_name }}/workflows/Run%20{{ cookiecutter.project_slug }}%20Tox%20Test%20Suite/badge.svg
+.. image:: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/workflows/Run%20{{ cookiecutter.project_slug }}%20Tox%20Test%20Suite/badge.svg
+        :target: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/workflows/Run%20{{ cookiecutter.project_slug }}%20Tox%20Test%20Suite/badge.svg
         :alt: Github Workflow Tests Status
 
 .. image:: https://img.shields.io/pypi/v/{{ cookiecutter.project_name }}.svg
