@@ -71,6 +71,14 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
     click.echo(click.style('Pushing template to Github origin master.', fg='blue'))
     cloned_repo.remotes.origin.push(refspec='master:master')
 
+    # set branch protection (all WF must pass, dismiss stale PR reviews) only when repo is public
+    if not creator_ctx.is_repo_private:
+        master_branch = authenticated_github_user.get_user().get_repo(name=creator_ctx.project_slug).get_branch("master")
+        master_branch.edit_protection(dismiss_stale_reviews=True)
+    else:
+        click.echo(click.style('Cannot set branch protection rules due to your repository being private!\n'
+                               'You can set it manually later on.', fg='blue'))
+
     # git create development branch
     click.echo(click.style('Creating development branch.', fg='blue'))
     cloned_repo.git.checkout('-b', 'development')
