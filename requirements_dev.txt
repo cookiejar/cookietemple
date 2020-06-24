@@ -5,7 +5,7 @@ flake8==3.8.3
 tox==3.15.2
 coverage==5.1
 Sphinx==3.1.1
-twine==3.1.1
+twine==3.2.0
 pytest==5.4.3
 pytest-runner==5.2
 pytest-mock==3.1.1
