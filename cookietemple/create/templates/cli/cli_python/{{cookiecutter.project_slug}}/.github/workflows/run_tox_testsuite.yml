@@ -1,4 +1,4 @@
-name: Run {{ cookiecutter.project_slug }} Tox Test Suite
+name: Run {{ cookiecutter.project_name }} Tox Test Suite
 
 on: [push]
 
