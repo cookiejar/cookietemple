@@ -7,9 +7,7 @@ from distutils.dir_util import copy_tree
 from subprocess import Popen, PIPE
 from github import Github, GithubException
 from git import Repo, exc
-from github.RequiredStatusChecks import RequiredStatusChecks
 from ruamel.yaml import YAML
-import requests
 
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.util.yaml_util import load_yaml_file
@@ -76,7 +74,7 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
     # set branch protection (all WF must pass, dismiss stale PR reviews) only when repo is public
     if not creator_ctx.is_repo_private:
         master_branch = authenticated_github_user.get_user().get_repo(name=creator_ctx.project_slug).get_branch("master")
-        # master_branch.edit_protection(strict=True, contexts=['.github/workflows/pr_to_master_from_patch_release_only.yml'], dismiss_stale_reviews=True)
+        master_branch.edit_protection(dismiss_stale_reviews=True)
     else:
         click.echo(click.style('Cannot set branch protection rules due to your repository being private!\n'
                                'You can set it manually later on.', fg='blue'))
