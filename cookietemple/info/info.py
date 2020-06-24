@@ -19,6 +19,9 @@ class TemplateInfo:
     def __init__(self):
         self.WD = os.path.dirname(__file__)
         self.TEMPLATES_PATH = f'{self.WD}/../create/templates'
+        self.available_handles = ''
+        self.most_sim = []
+        self.action = ''
 
     def show_info(self, handle: str) -> None:
         """
@@ -29,17 +32,16 @@ class TemplateInfo:
         # list of all templates that should be printed according to the passed handle
         templates_to_print = []
         available_templates = load_yaml_file(f'{self.TEMPLATES_PATH}/available_templates.yml')
-
         specifiers = handle.split('-')
         domain = specifiers[0]
         global template_info
 
-        # only domain specified
+        # only domain OR language specified
         if len(specifiers) == 1:
             try:
                 template_info = available_templates[domain]
             except KeyError:
-                self.handle_non_existing_command(handle)
+                self.handle_domain_or_language_only(handle, available_templates)
         # domain, subdomain, language
         elif len(specifiers) > 2:
             try:
@@ -47,18 +49,72 @@ class TemplateInfo:
                 language = specifiers[2]
                 template_info = available_templates[domain][sub_domain][language]
             except KeyError:
-                self.handle_non_existing_command(handle)
+                self.handle_non_existing_command(handle, True)
         # domain, language OR domain, subdomain
         else:
             try:
                 second_specifier = specifiers[1]
                 template_info = available_templates[domain][second_specifier]
             except KeyError:
-                self.handle_non_existing_command(handle)
+                self.handle_non_existing_command(handle, True)
 
-        # Add all templates under template_info to list
+        # Add all templates under template_info to list and output them
         self.flatten_nested_dict(template_info, templates_to_print)
+        self.output_table(templates_to_print, handle)
 
+    def handle_domain_or_language_only(self, handle: str, available_templates: dict) -> None:
+        """
+        Try to find a similar domain or treat handle as possible language
+        :param handle: The handle inputted by the user
+        :param available_templates: All available templates load from yml file as dict
+        :return:
+        """
+        # try to find a similar domain
+        self.handle_non_existing_command(handle)
+        # we found a smimilar handle matching a domain, use it (suggest it maybe later)
+        if self.most_sim and self.action not in ('suggest', ''):
+            self.print_console_output(handle)
+
+        # input may be a language so try this
+        templates_flatted = []
+        self.flatten_nested_dict(available_templates, templates_flatted)
+        # load all available languages
+        available_languages = self.load_available_languages(templates_flatted)
+        # if handle exists as language in cookietemple output its available templates and exit with zero status
+        if handle in available_languages:
+            templates_to_print_ = [template for template in templates_flatted if handle in template[1]]
+            self.output_table(templates_to_print_, handle)
+
+        # the handle does not match any domain/language; is there a similar language?
+        else:
+            # save domain values for later use
+            domain_handle, domain_action = self.most_sim, self.action
+            # try to find a similar language for instant use
+            self.most_sim, self.action = most_similar_command(handle, available_languages)
+            # use language if available
+            if self.most_sim and self.action not in ('', 'suggest'):
+                self.print_console_output(handle)
+            # try to suggest a similar domain handle
+            elif domain_action == 'suggest' and domain_handle:
+                click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
+                           click.style('for all valid handles.\n', fg='red'))
+                click.echo(click.style('Did you mean ', fg='red') + click.style(f'{domain_handle[0]}?\n', fg='green'))
+            # try to suggest a similar language handle
+            elif self.action == 'suggest' and self.most_sim:
+                click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
+                           click.style('for all valid handles.\n', fg='red'))
+                click.echo(click.style('Did you mean ', fg='red') + click.style(f'{self.most_sim[0]}?\n', fg='green'))
+            # we're done there is no similar handle
+            else:
+                TemplateInfo.non_existing_handle()
+        sys.exit(0)
+
+    def output_table(self, templates_to_print: list, handle: str) -> None:
+        """
+        Output a nice looking, rich rendered table.
+        :param templates_to_print: The templates tht should go into the table
+        :param handle: The handle the user inputted
+        """
         for template in templates_to_print:
             template[2] = TemplateInfo.set_linebreaks(template[2])
 
@@ -132,33 +188,51 @@ class TemplateInfo:
                    + click.style(' to display all template handles.', fg='red'))
         sys.exit(0)
 
-    def handle_non_existing_command(self, handle: str) -> None:
+    def handle_non_existing_command(self, handle: str, run_f: bool = False) -> None:
         """
         Handle the case, when an unknown handle was entered and try to find a similar handle.
         :param handle: The non existing handle
+        :param run_f: Flag that indicates whether to run print to output or not (do not run in case of languages)
         """
-        available_handles = load_available_handles()
-        most_sim, action = most_similar_command(handle, available_handles)
-        if most_sim:
+        self.available_handles = load_available_handles()
+        self.most_sim, self.action = most_similar_command(handle, self.available_handles)
+        if run_f:
+            self.print_console_output(handle)
+
+    def print_console_output(self, handle) -> None:
+        """
+        Print similar command output to console.
+        :param handle: The handle inputted by the user
+        """
+        if self.most_sim:
             # found exactly one similar handle
-            if len(most_sim) == 1 and action == 'use':
+            if len(self.most_sim) == 1 and self.action == 'use':
                 click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
                            click.style('for all valid handles.\n', fg='red'))
-                click.echo(click.style('Will use best match ', fg='red') + click.style(f'{most_sim[0]}.\n', fg='green'))
+                click.echo(click.style('Will use best match ', fg='red') + click.style(f'{self.most_sim[0]}.\n', fg='green'))
                 # use best match if exactly one similar handle was found
-                self.show_info(most_sim[0])
-            elif len(most_sim) == 1 and action == 'suggest':
+                self.show_info(self.most_sim[0])
+            elif len(self.most_sim) == 1 and self.action == 'suggest':
                 click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
                            click.style('for all valid handles.\n', fg='red'))
-                click.echo(click.style('Did you mean ', fg='red') + click.style(f'{most_sim[0]}?\n', fg='green'))
+                click.echo(click.style('Did you mean ', fg='red') + click.style(f'{self.most_sim[0]}?\n', fg='green'))
             else:
                 # found multiple similar handles
                 nl = '\n'
                 click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='green') +
-                           click.style('for all valid handles.\nMost similar handles are:', fg='red') + click.style(f'{nl}{nl.join(sorted(most_sim))}',
+                           click.style('for all valid handles.\nMost similar handles are:', fg='red') + click.style(f'{nl}{nl.join(sorted(self.most_sim))}',
                                                                                                                     fg='green'))
             sys.exit(0)
 
         else:
             # found no similar handles
             TemplateInfo.non_existing_handle()
+
+    def load_available_languages(self, ls: list) -> set:
+        """
+        Load all available languages cookietemple supports.
+        NOTE: ASSUME ALL HANDLES ARE TWO OR THREE PARTS!
+        :param ls: The flattended list from the available templates dict
+        :return: All available languages as a set
+        """
+        return {ls[1].split('-')[1] if len(ls[1].split('-')) == 2 else ls[1].split('-')[2] for ls in ls}
