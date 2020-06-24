@@ -1,5 +1,4 @@
-{% if cookiecutter.language == 'python' -%}
-# Byte-compiled / optimized / DLL files
+{% if cookiecutter.language == 'python' -%}# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -134,9 +133,7 @@ dmypy.json
 
 # Coala
 *.orig
-{% elif cookiecutter.language == 'Java' %}
-
-# Compiled class file
+{% elif cookiecutter.language == 'java' %}# Compiled class file
 *.class
 
 # Log file
@@ -170,9 +167,7 @@ target/
 # Gradle build
 build/
 
-{% elif cookiecutter.language == 'CPlusPlus' %}
-
-[Bb]uild/*
+{% elif cookiecutter.language == 'cplusplus' %}[Bb]uild/*
 [Dd]ocs/*
 CMakeCache.*
 CMakeFiles/*
