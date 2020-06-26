@@ -1,0 +1,13 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 99
+  target-branch: development
+  labels:
+  - dependabot
+  commit-message:
+    prefix: "[DEPENDABOT]"
