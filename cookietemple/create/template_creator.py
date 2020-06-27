@@ -4,6 +4,8 @@ import click
 import shutil
 import re
 import tempfile
+
+import questionary
 import requests
 from distutils.dir_util import copy_tree
 from pathlib import Path
@@ -181,7 +183,9 @@ class TemplateCreator:
             self.creator_ctx.full_name = settings['full_name']
             self.creator_ctx.email = settings['email']
 
-        self.creator_ctx.project_name = click.prompt('Project name', type=str, default='Exploding Springfield')
+        # self.creator_ctx.project_name = click.prompt('Project name', type=str, default='Exploding Springfield')
+        self.creator_ctx.project_name = questionary.text('Project name: ', default='Exploding Springfield').ask()
+
 
         # check if the project name is already taken on readthedocs.io
         while self.readthedocs_slug_already_exists(self.creator_ctx.project_name):

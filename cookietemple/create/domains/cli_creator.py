@@ -3,6 +3,8 @@ import click
 from pathlib import Path
 from dataclasses import dataclass
 
+import questionary
+
 from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
@@ -43,8 +45,12 @@ class CliCreator(TemplateCreator):
         Handles the CLI domain. Prompts the user for the language, general and domain specific options.
         """
 
-        self.cli_struct.language = click.prompt('Choose between the following languages',
-                                                type=click.Choice(['python', 'java', 'kotlin']))
+        self.cli_struct.language = questionary.select(
+            'Choose the project\'s primary language',
+            choices=[
+                'python',
+                'kotlin',
+            ]).ask()
 
         # prompt the user to fetch general template configurations
         super().prompt_general_template_configuration()
