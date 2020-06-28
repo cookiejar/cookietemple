@@ -37,7 +37,6 @@ def cookietemple_questionary(function: str, question: str, choices: list = None,
                 logging.debug(f'Default value {default} is not in the set of choices!')
             answer = getattr(questionary, function)(f'{question}: ', choices=choices, style=cookietemple_style).unsafe_ask()
         elif function == 'password':
-            answer = ''
             while not answer or answer == '':
                 answer = getattr(questionary, function)(f'{question}: ', style=cookietemple_style).unsafe_ask()
         elif function == 'text':
