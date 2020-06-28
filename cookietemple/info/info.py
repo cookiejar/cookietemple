@@ -67,11 +67,10 @@ class TemplateInfo:
         Try to find a similar domain or treat handle as possible language
         :param handle: The handle inputted by the user
         :param available_templates: All available templates load from yml file as dict
-        :return:
         """
         # try to find a similar domain
         self.handle_non_existing_command(handle)
-        # we found a smimilar handle matching a domain, use it (suggest it maybe later)
+        # we found a similar handle matching a domain, use it (suggest it maybe later)
         if self.most_sim and self.action not in ('suggest', ''):
             self.print_console_output(handle)
 
@@ -96,14 +95,10 @@ class TemplateInfo:
                 self.print_console_output(handle)
             # try to suggest a similar domain handle
             elif domain_action == 'suggest' and domain_handle:
-                click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
-                           click.style('for all valid handles.\n', fg='red'))
-                click.echo(click.style('Did you mean ', fg='red') + click.style(f'{domain_handle[0]}?\n', fg='green'))
+                self.print_suggestion(handle, domain_handle)
             # try to suggest a similar language handle
             elif self.action == 'suggest' and self.most_sim:
-                click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
-                           click.style('for all valid handles.\n', fg='red'))
-                click.echo(click.style('Did you mean ', fg='red') + click.style(f'{self.most_sim[0]}?\n', fg='green'))
+                self.print_suggestion(handle, self.most_sim)
             # we're done there is no similar handle
             else:
                 TemplateInfo.non_existing_handle()
@@ -131,6 +126,65 @@ class TemplateInfo:
 
         console = Console()
         console.print(table)
+
+    def handle_non_existing_command(self, handle: str, run_f: bool = False) -> None:
+        """
+        Handle the case, when an unknown handle was entered and try to find a similar handle.
+        :param handle: The non existing handle
+        :param run_f: Flag that indicates whether to run print to output or not (do not run in case of languages)
+        """
+        self.available_handles = load_available_handles()
+        self.most_sim, self.action = most_similar_command(handle, self.available_handles)
+        if run_f:
+            self.print_console_output(handle)
+
+    def print_console_output(self, handle) -> None:
+        """
+        Print similar command output to console.
+        :param handle: The handle inputted by the user
+        """
+        if self.most_sim:
+            # found exactly one similar handle
+            if len(self.most_sim) == 1 and self.action == 'use':
+                click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
+                           click.style('for all valid handles.\n', fg='red'))
+                click.echo(click.style('Will use best match ', fg='red') + click.style(f'{self.most_sim[0]}.\n', fg='green'))
+                # use best match if exactly one similar handle was found
+                self.show_info(self.most_sim[0])
+            elif len(self.most_sim) == 1 and self.action == 'suggest':
+                self.print_suggestion(handle, self.most_sim)
+            else:
+                # found multiple similar handles
+                nl = '\n'
+                click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='green') +
+                           click.style('for all valid handles.\nMost similar handles are:', fg='red') + click.style(f'{nl}{nl.join(sorted(self.most_sim))}',
+                                                                                                                    fg='green'))
+            sys.exit(0)
+
+        else:
+            # found no similar handles
+            TemplateInfo.non_existing_handle()
+
+    def print_suggestion(self, handle: str, domain_handle: list) -> None:
+        """
+        Output a similar command suggestion message for the user
+        :param handle: Handle inputted by the user
+        :param domain_handle: A list of similar commands (will contain only one element most of the time)
+        """
+        click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
+                   click.style('for all valid handles.\n', fg='red'))
+        click.echo(click.style('Did you mean ', fg='red') + click.style(f'{domain_handle[0]}?\n', fg='green'))
+
+    @staticmethod
+    def non_existing_handle() -> None:
+        """
+        Handling key not found access error for non existing template handles.
+        Displays an error message and terminates cookietemple.
+        """
+        click.echo(click.style('Handle does not exist. Please enter a valid handle.\nUse ', fg='red')
+                   + click.style('cookietemple list', fg='blue')
+                   + click.style(' to display all template handles.', fg='red'))
+        sys.exit(0)
 
     def flatten_nested_dict(self, template_info_, templates_to_print) -> None:
         """
@@ -176,57 +230,6 @@ class TemplateInfo:
             idx += 1
 
         return desc
-
-    @staticmethod
-    def non_existing_handle() -> None:
-        """
-        Handling key not found access error for non existing template handles.
-        Displays an error message and terminates cookietemple.
-        """
-        click.echo(click.style('Handle does not exist. Please enter a valid handle.\nUse ', fg='red')
-                   + click.style('cookietemple list', fg='blue')
-                   + click.style(' to display all template handles.', fg='red'))
-        sys.exit(0)
-
-    def handle_non_existing_command(self, handle: str, run_f: bool = False) -> None:
-        """
-        Handle the case, when an unknown handle was entered and try to find a similar handle.
-        :param handle: The non existing handle
-        :param run_f: Flag that indicates whether to run print to output or not (do not run in case of languages)
-        """
-        self.available_handles = load_available_handles()
-        self.most_sim, self.action = most_similar_command(handle, self.available_handles)
-        if run_f:
-            self.print_console_output(handle)
-
-    def print_console_output(self, handle) -> None:
-        """
-        Print similar command output to console.
-        :param handle: The handle inputted by the user
-        """
-        if self.most_sim:
-            # found exactly one similar handle
-            if len(self.most_sim) == 1 and self.action == 'use':
-                click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
-                           click.style('for all valid handles.\n', fg='red'))
-                click.echo(click.style('Will use best match ', fg='red') + click.style(f'{self.most_sim[0]}.\n', fg='green'))
-                # use best match if exactly one similar handle was found
-                self.show_info(self.most_sim[0])
-            elif len(self.most_sim) == 1 and self.action == 'suggest':
-                click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
-                           click.style('for all valid handles.\n', fg='red'))
-                click.echo(click.style('Did you mean ', fg='red') + click.style(f'{self.most_sim[0]}?\n', fg='green'))
-            else:
-                # found multiple similar handles
-                nl = '\n'
-                click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='green') +
-                           click.style('for all valid handles.\nMost similar handles are:', fg='red') + click.style(f'{nl}{nl.join(sorted(self.most_sim))}',
-                                                                                                                    fg='green'))
-            sys.exit(0)
-
-        else:
-            # found no similar handles
-            TemplateInfo.non_existing_handle()
 
     def load_available_languages(self, ls: list) -> set:
         """
