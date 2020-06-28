@@ -3,8 +3,6 @@ import click
 from pathlib import Path
 from dataclasses import dataclass
 
-import questionary
-
 from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct

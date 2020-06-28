@@ -7,6 +7,7 @@ from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.github_support import load_github_username, prompt_github_repo
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.config.config import ConfigCommand
+from cookietemple.custom_cli.questionary import cookietemple_questionary
 
 
 @dataclass
@@ -45,11 +46,7 @@ class PubCreator(TemplateCreator):
         """
         # latex is default language
 
-        self.pub_struct.pubtype = click.prompt('Please choose between the following publication types', type=click.Choice(['thesis', 'paper']))
-        if not os.path.exists(ConfigCommand.CONF_FILE_PATH):
-            click.echo(click.style('Cannot find a Cookietemple config file! Is this your first time with Cookietemple?\n', fg='red'))
-            click.echo(click.style('Lets set your configs for Cookietemple and you are ready to go!\n', fg='blue'))
-            ConfigCommand.all_settings()
+        self.pub_struct.pubtype = cookietemple_questionary('select', 'Choose between the following publication types', ['thesis', 'paper'])
 
         # switch case statement to prompt the user to fetch template specific configurations
         switcher = {
@@ -91,9 +88,7 @@ class PubCreator(TemplateCreator):
         switcher.get(self.pub_struct.pubtype.lower(), lambda: 'Invalid Pub Project Type!')()
 
     def handle_thesis_latex(self) -> None:
-        self.pub_struct.degree = click.prompt('Degree:',
-                                              type=str,
-                                              default='PhD')
+        self.pub_struct.degree = cookietemple_questionary('text', 'Degree', default='PhD')
 
     def handle_paper_latex(self) -> None:
         pass
@@ -102,19 +97,10 @@ class PubCreator(TemplateCreator):
         """
         Prompt the user for common thesis/paper data
         """
-        self.pub_struct.author = click.prompt('Author:',
-                                              type=str,
-                                              default='Homer Simpson')
-        self.pub_struct.project_slug = click.prompt('Project Slug:',
-                                                    type=str,
-                                                    default='Cookietemple_thesis_template')
-        self.pub_struct.title = click.prompt('Publication title:',
-                                             type=str,
-                                             default='On how Springfield exploded')
-        self.pub_struct.university = click.prompt('University:',
-                                                  type=str,
-                                                  default='Homer J. Simpson University')
-        self.pub_struct.department = click.prompt('Department:',
-                                                  type=str,
-                                                  default='Department of nuclear physics')
+        self.pub_struct.author = cookietemple_questionary('text', 'Author', default='Homer Simpson')
+        self.pub_struct.project_name = cookietemple_questionary('text', 'Project name', default='PhD Thesis')
+        self.pub_struct.project_slug = self.pub_struct.project_name.replace(' ', '_').replace('-', '_')
+        self.pub_struct.title = cookietemple_questionary('text', 'Publication title', default='On how Springfield exploded')
+        self.pub_struct.university = cookietemple_questionary('text', 'University', default='Homer J. Simpson University')
+        self.pub_struct.department = cookietemple_questionary('text', 'Department', default='Department of Nuclear Physics')
         self.pub_struct.github_username = load_github_username()  # Required for Github support

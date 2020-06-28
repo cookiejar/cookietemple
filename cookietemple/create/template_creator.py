@@ -67,10 +67,12 @@ class TemplateCreator:
             shutil.rmtree(tmp_project_path, ignore_errors=True)
 
         if subdomain:
+            click.echo()
             click.echo(
                 click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{subdomain}-{language} '
                             f'for more information about how to use your chosen template.', fg='blue'))
         else:
+            click.echo()
             click.echo(
                 click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{language} '
                             f'for more information about how to use your chosen template.', fg='blue'))

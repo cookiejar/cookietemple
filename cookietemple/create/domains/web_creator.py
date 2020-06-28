@@ -6,6 +6,7 @@ from distutils.dir_util import copy_tree
 from shutil import copy
 
 from cookietemple.create.template_creator import TemplateCreator
+from cookietemple.custom_cli.questionary import cookietemple_questionary
 from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.create.github_support import prompt_github_repo
@@ -57,7 +58,7 @@ class WebCreator(TemplateCreator):
         """
         Handles the Web domain. Prompts the user for the language, general and domain specific options.
         """
-        self.web_struct.language = click.prompt('Choose between the following languages', type=click.Choice(['python']))
+        self.web_struct.language = cookietemple_questionary('select', 'Choose between the following languages', ['python'])
 
         # prompt the user to fetch general template configurations
         super().prompt_general_template_configuration()
@@ -86,8 +87,7 @@ class WebCreator(TemplateCreator):
         """
         Determine the type of web application and handle it further.
         """
-        self.web_struct.webtype = click.prompt('Please choose between the following web domains',
-                                               type=click.Choice(['website']))
+        self.web_struct.webtype = cookietemple_questionary('select', 'Choose between the following web domains', ['website'])
 
         switcher = {
             'website': self.handle_website_python,
@@ -100,18 +100,18 @@ class WebCreator(TemplateCreator):
         Handle the website template creation. The user can choose between a basic website setup and a more advanced
         with database support, mail, translation, cli commands for translation, login and register function.
         """
-        self.web_struct.web_framework = click.prompt('Please choose between the following frameworks',
-                                                     type=click.Choice(['flask', 'django']))
-        setup = click.prompt(
-            'Choose between basic or advanced (database, translations, deployment scripts):',
-            type=click.Choice(['basic', 'advanced']),
-            default='basic')
+        self.web_struct.web_framework = cookietemple_questionary('select', 'Choose between the following frameworks', ['flask'])
+        setup = cookietemple_questionary('select',
+                                         'Choose between the basic and advanced (database, translations, deployment scripts) template',
+                                         ['basic', 'advanced'])
         self.web_struct.is_basic_website = 'y'
 
         if setup == 'advanced':
             self.web_struct.is_basic_website = 'n'
 
-        self.web_struct.use_frontend = click.confirm('Do you want to initialize your project with a advanced frontend template?')
+        self.web_struct.use_frontend = cookietemple_questionary('confirm',
+                                                                'Do you want to initialize your project with a advanced frontend template?',
+                                                                default='Yes')
 
         # prompt the user for its frontend template, if he wants so
         if self.web_struct.use_frontend:
@@ -120,10 +120,11 @@ class WebCreator(TemplateCreator):
             # strings that start with https: are recognized by most terminal (emulators) as links
             click.echo(click.style('https://html5up.net/solid-state', fg='blue'))
 
-            self.web_struct.frontend = click.prompt('Enter your preferred template or None, if you didn´t like them',
-                                                    type=click.Choice(['SolidState', 'None'])).lower()
+            self.web_struct.frontend = cookietemple_questionary('select',
+                                                                'Choose between the following predefined frontend templates',
+                                                                ['SolidState', 'None']).lower()
 
-        self.web_struct.url = click.prompt('Please enter the project\'s URL (if you have one)', type=str, default='dummy.com')
+        self.web_struct.url = cookietemple_questionary('text', 'Project URL (if already existing)', default='dummy.com')
 
         switcher = {
             'flask': self.website_flask_options,
@@ -135,7 +136,7 @@ class WebCreator(TemplateCreator):
         """
         Create a flask website template.
         """
-        self.web_struct.vmusername = click.prompt('Please enter your VM username (if you have one)', type=str, default='cookietempleuser')
+        self.web_struct.vmusername = cookietemple_questionary('text', 'Virtual machine username (if already existing)', default='cookietempleuser')
 
         self.web_struct.is_github_repo, self.web_struct.is_repo_private, self.web_struct.is_github_orga, self.web_struct.github_orga = prompt_github_repo()
         if self.web_struct.is_github_orga:
@@ -204,12 +205,14 @@ class WebCreator(TemplateCreator):
 
     def web_python_options(self):
         """ Prompts for web-python specific options and saves them into the CookietempleTemplateStruct """
-        self.web_struct.command_line_interface = click.prompt('Choose a command line library',
-                                                              type=click.Choice(['Click', 'Argparse', 'No command-line interface']),
-                                                              default='Click')
-        self.web_struct.testing_library = click.prompt('Please choose whether pytest or unittest should be used as the testing library',
-                                                       type=click.Choice(['pytest', 'unittest']),
-                                                       default='pytest')
+        self.web_struct.command_line_interface = cookietemple_questionary('select',
+                                                                          'Choose a command line library',
+                                                                          ['Click', 'Argparse', 'No command-line interface'],
+                                                                          default='Click')
+        self.web_struct.testing_library = cookietemple_questionary('select',
+                                                                   'Choose a testing library',
+                                                                   ['pytest', 'unittest'],
+                                                                   default='pytest')
         if self.web_struct.testing_library == 'pytest':
             self.web_struct.use_pytest = 'y'
         else:
