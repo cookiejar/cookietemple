@@ -4,6 +4,7 @@ import click
 import shutil
 import re
 import tempfile
+
 import requests
 from distutils.dir_util import copy_tree
 from pathlib import Path
@@ -11,6 +12,7 @@ from dataclasses import asdict
 from ruamel.yaml import YAML
 from cookiecutter.main import cookiecutter
 
+from cookietemple.custom_cli.questionary import cookietemple_questionary
 from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.create.github_support import create_push_github_repository, load_github_username, is_git_repo
 from cookietemple.lint.lint import lint_project
@@ -65,10 +67,12 @@ class TemplateCreator:
             shutil.rmtree(tmp_project_path, ignore_errors=True)
 
         if subdomain:
+            click.echo()
             click.echo(
                 click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{subdomain}-{language} '
                             f'for more information about how to use your chosen template.', fg='blue'))
         else:
+            click.echo()
             click.echo(
                 click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{language} '
                             f'for more information about how to use your chosen template.', fg='blue'))
@@ -86,7 +90,7 @@ class TemplateCreator:
             self.directory_exists_warning()
 
             # Confirm proceeding with overwriting existing directory
-            if click.confirm('Do you really want to continue?'):
+            if cookietemple_questionary('confirm', 'Do you really want to continue?', default='Yes'):
                 cookiecutter(f'{domain_path}/{self.creator_ctx.domain}_{self.creator_ctx.language.lower()}',
                              no_input=True,
                              overwrite_if_exists=True,
@@ -113,7 +117,7 @@ class TemplateCreator:
             self.directory_exists_warning()
 
             # Confirm proceeding with overwriting existing directory
-            if click.confirm('Do you really want to continue?'):
+            if cookietemple_questionary('confirm', 'Do you really want to continue?', default='Yes'):
                 delete_dir_tree(Path(f'{os.getcwd()}/{self.creator_ctx.project_slug}'))
                 cookiecutter(f'{domain_path}/{subdomain}_{self.creator_ctx.language.lower()}',
                              no_input=True,
@@ -143,7 +147,7 @@ class TemplateCreator:
             self.directory_exists_warning()
 
             # Confirm proceeding with overwriting existing directory
-            if click.confirm('Do you really want to continue?'):
+            if cookietemple_questionary('confirm', 'Do you really want to continue?', default='Yes'):
                 cookiecutter(f'{domain_path}/{subdomain}_{self.creator_ctx.language.lower()}/{framework}',
                              no_input=True,
                              overwrite_if_exists=True,
@@ -181,36 +185,32 @@ class TemplateCreator:
             self.creator_ctx.full_name = settings['full_name']
             self.creator_ctx.email = settings['email']
 
-        self.creator_ctx.project_name = click.prompt('Project name', type=str, default='Exploding Springfield')
+        self.creator_ctx.project_name = cookietemple_questionary('text', 'Project name', default='Exploding Springfield')
 
         # check if the project name is already taken on readthedocs.io
         while self.readthedocs_slug_already_exists(self.creator_ctx.project_name):
             click.echo(click.style(f'A project named {self.creator_ctx.project_name} already exists at readthedocs.io!', fg='red'))
-            if click.confirm(click.style('Do you want to choose another name for your project?\n'
-                                         'Otherwise you will not be able to host your docs at readthedocs.io!', fg='blue')):
-                self.creator_ctx.project_name = click.prompt('Project name', type=str, default='Exploding Springfield')
+            if cookietemple_questionary('confirm', 'Do you want to choose another name for your project?\n'
+                                                   'Otherwise you will not be able to host your docs at readthedocs.io!', default='Yes'):
+                self.creator_ctx.project_name = cookietemple_questionary('text', 'Project name', default='Exploding Springfield')
             # break if the project should be named anyways
             else:
                 break
         self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_').replace('-', '_')
-        self.creator_ctx.project_short_description = click.prompt('Short description of your project.', type=str,
-                                                                  default=f'{self.creator_ctx.project_name}. A best practice .')
-
-        poss_vers = click.prompt('Initial version of your project.', type=str, default='0.1.0')
+        self.creator_ctx.project_short_description = cookietemple_questionary('text', 'Short description of your project',
+                                                                              default=f'{self.creator_ctx.project_name}. A cookietemple based .')
+        poss_vers = cookietemple_questionary('text', 'Initial version of your project', default='0.1.0')
 
         # make sure that the version has the right format
         while not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', poss_vers):
             click.echo(click.style('The version number entered does not match cookietemples pattern.\n'
                                    'Please enter the version in the format [number].[number].[number]!', fg='red'))
-            poss_vers = click.prompt('Initial version of your project.', type=str, default='0.1.0')
-
+            poss_vers = cookietemple_questionary('text', 'Initial version of your project', default='0.1.0')
         self.creator_ctx.version = poss_vers
 
-        self.creator_ctx.license = click.prompt(
-            'License',
-            type=click.Choice(['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Boost', 'Affero',
-                               'CC0', 'CCBY', 'CCBYSA', 'Eclipse', 'WTFPL', 'unlicence', 'Not open source']),
-            default='MIT')
+        self.creator_ctx.license = cookietemple_questionary('select', 'License', ['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Boost', 'Affero',
+                                                                                  'CC0', 'CCBY', 'CCBYSA', 'Eclipse', 'WTFPL', 'unlicence', 'Not open source'],
+                                                            'MIT')
 
         self.creator_ctx.github_username = load_github_username()
 

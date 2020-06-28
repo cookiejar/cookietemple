@@ -10,6 +10,7 @@ from git import Repo, exc
 from ruamel.yaml import YAML
 
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
+from cookietemple.custom_cli.questionary import cookietemple_questionary
 from cookietemple.util.yaml_util import load_yaml_file
 from cookietemple.config.config import ConfigCommand
 
@@ -151,11 +152,13 @@ def prompt_github_repo() -> (bool, bool, bool, str):
     :return if is git repo, if repo should be private, if user is an organization and if so, the organizations name
     """
     create_git_repo, private, is_github_org, github_org = False, False, False, ''
-    if click.confirm('Do you want to create a Github repository and push your template to it?', default='n'):
+    if cookietemple_questionary('confirm', 'Do you want to create a Github repository and push your template to it?', default='Yes'):
         create_git_repo = True
-        is_github_org: bool = click.confirm('Do you want to create an organization repository?')
-        github_org: str = click.prompt('Please enter the name of the Github organization: ', type=str) if is_github_org else ''
-        private: bool = click.confirm('Do you want your repository to be private?')
+        is_github_org = cookietemple_questionary('confirm', 'Do you want to create an organization repository?', default='No')
+        github_org = cookietemple_questionary('text',
+                                              'Please enter the name of the Github organization',
+                                              default='SpringfieldNuclearPowerPlant') if is_github_org else ''
+        private = cookietemple_questionary('confirm', 'Do you want your repository to be private?', default='No')
 
     return create_git_repo, private, is_github_org, github_org
 
