@@ -13,6 +13,7 @@ from dataclasses import asdict
 from ruamel.yaml import YAML
 from cookiecutter.main import cookiecutter
 
+from cookietemple.custom_cli.questionary import cookietemple_questionary
 from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.create.github_support import create_push_github_repository, load_github_username, is_git_repo
 from cookietemple.lint.lint import lint_project
@@ -183,9 +184,7 @@ class TemplateCreator:
             self.creator_ctx.full_name = settings['full_name']
             self.creator_ctx.email = settings['email']
 
-        # self.creator_ctx.project_name = click.prompt('Project name', type=str, default='Exploding Springfield')
-        self.creator_ctx.project_name = questionary.text('Project name: ', default='Exploding Springfield').ask()
-
+        self.creator_ctx.project_name = cookietemple_questionary('text', 'Project name', 'Exploding Springfield')
 
         # check if the project name is already taken on readthedocs.io
         while self.readthedocs_slug_already_exists(self.creator_ctx.project_name):

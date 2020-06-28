@@ -1,11 +1,8 @@
-import click
-import questionary
-
 from cookietemple.create.domains.cli_creator import CliCreator
 from cookietemple.create.domains.web_creator import WebCreator
 from cookietemple.create.domains.gui_creator import GuiCreator
 from cookietemple.create.domains.pub_creator import PubCreator
-from cookietemple.custom_cli.questionary_style import cookietemple_style
+from cookietemple.custom_cli.questionary import cookietemple_questionary
 
 
 def choose_domain(domain: str):
@@ -17,14 +14,7 @@ def choose_domain(domain: str):
     :param domain: Template domain
     """
     if not domain:
-        domain = questionary.select(
-            'Choose the project\'s domain',
-            choices=[
-                'cli',
-                'gui',
-                'web',
-                'pub'
-            ], style=cookietemple_style).ask()
+        domain = cookietemple_questionary('select', 'Choose the project\'s domain', 'cli', ['cli', 'lib', 'gui', 'web', 'pub'])
 
     switcher = {
         'cli': CliCreator,
