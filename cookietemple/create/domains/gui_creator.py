@@ -3,8 +3,10 @@ import click
 from pathlib import Path
 from dataclasses import dataclass
 
+from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
+from cookietemple.custom_cli.questionary import cookietemple_questionary
 
 
 @dataclass
@@ -28,8 +30,7 @@ class GuiCreator(TemplateCreator):
         self.GUI_JAVA_TEMPLATE_VERSION = super().load_version('gui-java')
 
     def create_template(self):
-        self.gui_struct.language = click.prompt('Please choose between the following languages',
-                                                type=click.Choice(['java', 'kotlin']))
+        self.gui_struct.language = cookietemple_questionary('select', 'Choose between the following languages', ['java', 'kotlin'])
 
         # prompt the user to fetch general template configurations
         super().prompt_general_template_configuration()
@@ -40,6 +41,9 @@ class GuiCreator(TemplateCreator):
         }
         switcher.get(self.gui_struct.language.lower())()
 
+        self.gui_struct.is_github_repo, self.gui_struct.is_repo_private, self.gui_struct.is_github_orga, self.gui_struct.github_orga = prompt_github_repo()
+        if self.gui_struct.is_github_orga:
+            self.gui_struct.github_username = self.gui_struct.github_orga
         # create the gui template
         super().create_template_without_subdomain(self.TEMPLATES_GUI_PATH)
 
@@ -61,4 +65,4 @@ class GuiCreator(TemplateCreator):
         # The user id is automatically determined from the full_name as first letter of first name and sur name
         full_name_split = self.creator_ctx.full_name.split()
         self.gui_struct.id = f'{full_name_split[0][0]}{full_name_split[1][0]}' if len(full_name_split) > 1 else f'{full_name_split[0][0]}'
-        self.gui_struct.organization = click.prompt('Organization:', type=str, default='cookiejar')
+        self.gui_struct.organization = cookietemple_questionary('text', 'Organization', default='organization')

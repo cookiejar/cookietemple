@@ -63,7 +63,7 @@ setup(
     {%- if 'no' not in cookiecutter.command_line_interface|lower %}
     entry_points={
         'console_scripts': [
-            '{{ cookiecutter.project_slug }}={{ cookiecutter.project_slug }}.cli:main',
+            '{{ cookiecutter.project_name }}={{ cookiecutter.project_slug }}.cli:main',
         ],
     },
     {%- endif %}
@@ -74,7 +74,7 @@ setup(
     long_description=readme + '\n\n' + history,
     include_package_data=True,
     keywords='{{ cookiecutter.project_slug }}',
-    name='{{ cookiecutter.project_slug }}',
+    name='{{ cookiecutter.project_name }}',
     packages=find_packages(include=['{{ cookiecutter.project_slug }}', '{{ cookiecutter.project_slug }}.*']),
     package_data = {
         module.__name__: walker(

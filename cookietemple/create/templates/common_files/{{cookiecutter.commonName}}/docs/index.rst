@@ -11,7 +11,7 @@ Welcome to {{ cookiecutter.project_name }}'s documentation!
    modules
    authors
    changelog
-   codeofconduct
+   code_of_conduct
 
 Indices and tables
 ==================

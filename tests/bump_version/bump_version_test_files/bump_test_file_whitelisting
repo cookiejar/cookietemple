@@ -1,25 +1,25 @@
 This simple text file contains some test strings with many possible combinations of a whitelisted file
-some_version = 0.0.0 #should be bumped; my project version
-some_version = 0.0.0 #should be bumped; my project version
-some_version = 0.0.0 #should be bumped; my project version
-some_version = f'{myvar} 0.0.0' # should be bumped; my project version
-some_version = 0.0.0 #should be bumped; my project version
+some_version = 12.12.12 #should be bumped; my project version
+some_version = 12.12.12 #should be bumped; my project version
+some_version = 12.12.12 #should be bumped; my project version
+some_version = f'{myvar} 12.12.12' # should be bumped; my project version
+some_version = 12.12.12 #should be bumped; my project version
 
 #==================Some higher version should be bumped==========
 
-some_version = 0.0.0 should be bumped; my project version
-some_version=0.0.0 //should be bumped; my project version
-some_version= v0.0.0 #should be bumped; my project version
-some_version = f'{myvar} v0.0.0' #should be bumped; my project version
-some_version = 0.0.0dev #should be bumped; my project version
+some_version = 12.12.12 should be bumped; my project version
+some_version=12.12.12 //should be bumped; my project version
+some_version= v12.12.12 #should be bumped; my project version
+some_version = f'{myvar} v12.12.12' #should be bumped; my project version
+some_version = 12.12.12dev #should be bumped; my project version
 
 #====================Now Dont bump===============================
 
-some_version = 0.0.0 # <<COOKIETEMPLE_NO_BUMP>> should not be bumped
-some_version = "0.0.0" # should not be bumped <<COOKIETEMPLE_NO_BUMP>>
-some_version = 'v0.0.0' # <<COOKIETEMPLE_NO_BUMP>> should be bumped
-some_version = f'{myvar} 0.0.0' # <<COOKIETEMPLE_NO_BUMP>> should not be bumped
-some_version = 0.0.0dev // <<COOKIETEMPLE_NO_BUMP>> should not be bumped
+some_version = 12.12.12 # <<COOKIETEMPLE_NO_BUMP>> should not be bumped
+some_version = "12.12.12" # should not be bumped <<COOKIETEMPLE_NO_BUMP>>
+some_version = 'v12.12.12' # <<COOKIETEMPLE_NO_BUMP>> should be bumped
+some_version = f'{myvar} 12.12.12' # <<COOKIETEMPLE_NO_BUMP>> should not be bumped
+some_version = 12.12.12dev // <<COOKIETEMPLE_NO_BUMP>> should not be bumped
 some_decimal = 1.0 # my comment
 some_decimal = 0.123456 # my comment
 some_decimal = 123.4567

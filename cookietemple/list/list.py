@@ -11,7 +11,7 @@ from cookietemple.util.yaml_util import load_yaml_file
 
 class TemplateLister:
     """
-    A class responsible for listing all available COOKIETEMPLE templates in a nice layout
+    A class responsible for listing all available cookietemple templates in a nice layout
     """
 
     def __init__(self):
@@ -43,7 +43,7 @@ class TemplateLister:
                         val['name'], val['handle'], val['short description'], val['available libraries'], val['version']
                     ])
 
-        table = Table(title="[bold]All available COOKIETEMPLE templates", title_style="blue", header_style=Style(color="blue", bold=True), box=HEAVY_HEAD)
+        table = Table(title="[bold]All available cookietemple templates", title_style="blue", header_style=Style(color="blue", bold=True), box=HEAVY_HEAD)
 
         table.add_column("Name", justify="left", style="green", no_wrap=True)
         table.add_column("Handle", justify="left")

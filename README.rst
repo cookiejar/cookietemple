@@ -32,6 +32,14 @@
         :target: https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot
         :alt: Dependabot Enabled
 
+.. image:: https://img.shields.io/discord/708008788505919599?color=passing&label=Discord%20Chat&style=flat-square
+        :target: https://discord.gg/PYF8NUk
+        :alt: Discord
+
+.. image:: https://img.shields.io/twitter/follow/cookiejarorg?color=green&style=flat-square
+        :target: https://twitter.com/cookiejarorg
+        :alt: Twitter Follow
+
 .. image:: https://img.shields.io/twitter/follow/lukasheumos?color=green&style=flat-square
         :target: https://twitter.com/LukasHeumos
         :alt: Twitter Follow
@@ -48,14 +56,18 @@ A cookiecutter based project template creation tool supporting several domains a
 * Documentation: https://cookietemple.readthedocs.io .
 
 
+Overview
+===============
+
 Features
---------
+---------------
 
 * Kickstart your project using a production ready project template
 * Choose from a variety of domains, languages and frameworks
 * All project templates feature a common structure, but allow flexibility where needed
 * Ensure that your project follows common high standards and best practices using advanced linting and continuous integration pipelines
-* Templates share consistent commands like bump-version or make install even over different domains and languages
+* Templates share consistent commands like bump-version or make commands even over different domains and languages
+* Sync your template to assure that your project is up to date
 * Benefit from detailed documentation and support
 
 Available Templates
@@ -64,16 +76,17 @@ Available Templates
 * Python (command-line) package
 * Simple website based on Flask
 * Complex website with database support, translations and more based on Flask
-* Java command-line tool using Picocli
-* Kotlin command-line tool using Picocli
-* Java GUI Tool based on JavaFX
-* Kotlin GUI Tool based on JavaFX
+* C++ library or standalone tool based on CMake with support for many more build systems
+* Native Java command-line tool using Picocli and GraalVM
+* Native Kotlin command-line tool using Picocli and GraalVM
+* Native Java GUI tool based on JavaFX and GraalVM
+* Native Kotlin GUI tool based on JavaFX and GraalVM
 * Latex (BSc/MSc/dissertation/...) thesis
 
 Contributing
 ------------
 
-COOKIETEMPLE is a huge open-source effort and highly welcomes all contributions!
+COOKIETEMPLE is a huge open-source effort and highly welcomes all contributions! Join our `Discord Channel <https://discord.gg/PYF8NUk>`_.
 Please read :ref:`contributing`  to find out how you can contribute.
 
 Authors

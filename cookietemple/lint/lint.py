@@ -4,7 +4,7 @@ import click
 from ruamel.yaml import YAML
 
 from cookietemple.lint.template_linter import TemplateLinter
-from cookietemple.lint.domains.cli import CliPythonLint
+from cookietemple.lint.domains.cli import CliPythonLint, CliJavaLint
 from cookietemple.lint.domains.web import WebWebsitePythonLint
 from cookietemple.lint.domains.gui import GuiJavaLint
 from cookietemple.lint.domains.pub import PubLatexLint
@@ -13,18 +13,26 @@ from cookietemple.lint.domains.pub import PubLatexLint
 def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
     """
     Verifies the integrity of a project to best coding and practices.
+    Runs a set of general linting functions, which all templates share and afterwards runs template specific linting functions.
+    All results are collected and presented to the user.
     """
     # Detect which template the project is based on
     template_handle = get_template_handle(project_dir)
 
     switcher = {
         'cli-python': CliPythonLint,
+        'cli-java': CliJavaLint,
         'web-website-python': WebWebsitePythonLint,
         'gui-java': GuiJavaLint,
         'pub-thesis-latex': PubLatexLint
     }
 
-    lint_obj = switcher.get(template_handle)(project_dir)
+    try:
+        lint_obj = switcher.get(template_handle)(project_dir)
+    except TypeError:
+        click.echo(click.style(f'Unable to find linter for handle {template_handle}! Aborting...', fg='red'))
+        sys.exit(1)
+
     # Run the linting tests
     try:
         # Disable check files?
@@ -57,7 +65,8 @@ def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
 
     # Exit code
     if len(lint_obj.failed) > 0:
-        click.echo(click.style('Sorry, some tests failed - exiting with a non-zero error code...\n'))
+        click.echo(click.style('Sorry, some tests failed - exiting with a non-zero error code...\n', fg='red'))
+        sys.exit(1)
 
 
 def get_template_handle(dot_cookietemple_path: str = '.cookietemple.yml') -> str:

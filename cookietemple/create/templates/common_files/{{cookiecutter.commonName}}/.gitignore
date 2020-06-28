@@ -170,5 +170,3 @@ target/
 # Gradle build
 build/
 {% endif %}
-
-

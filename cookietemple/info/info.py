@@ -5,10 +5,10 @@ from rich.style import Style
 from rich.console import Console
 from rich.table import Table
 from rich.box import HEAVY_HEAD
-from cookietemple.custom_cookietemple_cli.levensthein_dist import most_similar_command
+from cookietemple.custom_cli.levensthein_dist import most_similar_command
 from cookietemple.util.yaml_util import load_yaml_file
 from cookietemple.util.dict_util import is_nested_dictionary
-from cookietemple.custom_cookietemple_cli.suggest_similar_commands import load_available_handles
+from cookietemple.custom_cli.suggest_similar_commands import load_available_handles
 
 
 class TemplateInfo:
@@ -62,7 +62,7 @@ class TemplateInfo:
         for template in templates_to_print:
             template[2] = TemplateInfo.set_linebreaks(template[2])
 
-        table = Table(title=f'[bold]Info on COOKIETEMPLE´s {handle} templates', title_style="blue", header_style=Style(color="blue", bold=True), box=HEAVY_HEAD)
+        table = Table(title=f'[bold]Info on cookietemple´s {handle}', title_style="blue", header_style=Style(color="blue", bold=True), box=HEAVY_HEAD)
 
         table.add_column("Name", justify="left", style="green", no_wrap=True)
         table.add_column("Handle", justify="left")

@@ -2,7 +2,7 @@
 name: General question
 about: Ask a question about anything related to this project
 title: 'Question'
-labels: ''
+labels: 'question'
 assignees: ''
 
 ---

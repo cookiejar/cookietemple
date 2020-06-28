@@ -10,11 +10,9 @@ from git import Repo, exc
 from ruamel.yaml import YAML
 
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
+from cookietemple.custom_cli.questionary import cookietemple_questionary
 from cookietemple.util.yaml_util import load_yaml_file
-from cookietemple.config_command.config import ConfigCommand
-
-# path where the key for decryption of PAT is located
-KEY_FILE_PATH = f'{Path.home()}/.config/.ct_keys'
+from cookietemple.config.config import ConfigCommand
 
 
 def create_push_github_repository(project_path: str, creator_ctx: CookietempleTemplateStruct, tmp_repo_path: str) -> None:
@@ -29,15 +27,8 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
     if not is_git_accessible():
         return
 
-    # load username from template creator
     # the personal access token for GitHub
     access_token = handle_pat_authentification()
-
-    is_github_org: bool = True if click.prompt('Do you want to create an organization repository?', type=click.Choice(['y', 'n']),
-                                               default='n') == 'y' else False
-    if is_github_org:
-        github_org: str = click.prompt('Please enter the name of the Github organization: ', type=str)
-    private: bool = True if click.prompt('Do you want your repository to be private?', type=click.Choice(['y', 'n']), default='n') == 'y' else False
 
     # Login to Github
     click.echo(click.style('Logging into Github.', fg='blue'))
@@ -46,12 +37,12 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
 
     # Create new repository
     click.echo(click.style('Creating Github repository.', fg='blue'))
-    if is_github_org:
-        org = authenticated_github_user.get_organization(github_org)
-        repo = org.create_repo(creator_ctx.project_name, description=creator_ctx.project_short_description, private=private)
-        creator_ctx.github_username = github_org
+    if creator_ctx.is_github_orga:
+        org = authenticated_github_user.get_organization(creator_ctx.github_orga)
+        repo = org.create_repo(creator_ctx.project_slug, description=creator_ctx.project_short_description, private=creator_ctx.is_repo_private)
+        creator_ctx.github_username = creator_ctx.github_orga
     else:
-        repo = user.create_repo(creator_ctx.project_name, description=creator_ctx.project_short_description, private=private)
+        repo = user.create_repo(creator_ctx.project_slug, description=creator_ctx.project_short_description, private=creator_ctx.is_repo_private)
 
     click.echo(click.style('Creating labels and default Github settings.', fg='blue'))
     create_github_labels(repo=repo, labels=[('DEPENDABOT', '1BB0CE')])
@@ -62,7 +53,7 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
 
     # git clone
     click.echo(click.style('Cloning empty Github repository.', fg='blue'))
-    Repo.clone_from(f'https://{creator_ctx.github_username}:{access_token}@github.com/{creator_ctx.github_username}/{creator_ctx.project_name}', repository)
+    Repo.clone_from(f'https://{creator_ctx.github_username}:{access_token}@github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}', repository)
 
     # Copy files which should be included in the initial commit -> basically the template
     copy_tree(f'{repository}', project_path)
@@ -75,11 +66,19 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
     cloned_repo.git.add(A=True)
 
     # git commit
-    cloned_repo.index.commit(f'Created {creator_ctx.project_name} with {creator_ctx.template_handle}'
-                             f'template of version {creator_ctx.template_version} using COOKIETEMPLE.')
+    cloned_repo.index.commit(f'Created {creator_ctx.project_slug} with {creator_ctx.template_handle}'
+                             f'template of version {creator_ctx.template_version} using cookietemple.')
 
     click.echo(click.style('Pushing template to Github origin master.', fg='blue'))
     cloned_repo.remotes.origin.push(refspec='master:master')
+
+    # set branch protection (all WF must pass, dismiss stale PR reviews) only when repo is public
+    if not creator_ctx.is_repo_private:
+        master_branch = authenticated_github_user.get_user().get_repo(name=creator_ctx.project_slug).get_branch("master")
+        master_branch.edit_protection(dismiss_stale_reviews=True)
+    else:
+        click.echo(click.style('Cannot set branch protection rules due to your repository being private!\n'
+                               'You can set it manually later on.', fg='blue'))
 
     # git create development branch
     click.echo(click.style('Creating development branch.', fg='blue'))
@@ -102,7 +101,7 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
     cloned_repo.git.checkout('development')
 
     # did any errors occur?
-    click.echo(click.style(f'Successfully created a Github repository at https://github.com/{creator_ctx.github_username}/{creator_ctx.project_name}',
+    click.echo(click.style(f'Successfully created a Github repository at https://github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}',
                            fg='green'))
 
 
@@ -119,7 +118,7 @@ def handle_pat_authentification() -> str:
         path = Path(ConfigCommand.CONF_FILE_PATH)
         yaml = YAML(typ='safe')
         settings = yaml.load(path)
-        if os.path.exists(KEY_FILE_PATH) and 'pat' in settings:
+        if os.path.exists(ConfigCommand.KEY_PAT_FILE) and 'pat' in settings:
             pat = decrypt_pat()
             return pat
         else:
@@ -127,23 +126,41 @@ def handle_pat_authentification() -> str:
             click.echo(
                 click.style('Please navigate to Github -> Your profile -> Settings -> Developer Settings -> Personal access token -> Generate a new Token',
                             fg='blue'))
-            click.echo(click.style('Only tick \'repo\'. The token is a hidden input to COOKIETEMPLE and stored encrypted locally on your machine.', fg='blue'))
+            click.echo(click.style('Only tick \'repo\'. The token is a hidden input to cookietemple and stored encrypted locally on your machine.', fg='blue'))
             click.echo(click.style('For more information please read'
                                    ' https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line\n\n',
                                    fg='blue'))
-            click.echo(click.style('Lets move on to set your personal access token for your Cookietemple project!', fg='blue'))
+            click.echo(click.style('Lets move on to set your personal access token for your cookietemple project!', fg='blue'))
             # set the PAT
             ConfigCommand.config_pat()
             # if the user wants to create a GitHub repo but accidentally presses no on PAT config prompt
-            if not os.path.exists(KEY_FILE_PATH):
-                click.echo(click.style('No Github personal access token found. Please set it using ', fg='red') + click.style('cookietemple config github',
-                                                                                                                              fg='green'))
+            if not os.path.exists(ConfigCommand.KEY_PAT_FILE):
+                click.echo(click.style('No Github personal access token found. Please set it using ', fg='red')
+                           + click.style('cookietemple config github', fg='green'))
                 sys.exit(1)
             else:
                 pat = decrypt_pat()
             return pat
     else:
-        click.echo(click.style('Cannot find a Cookietemple config file! Did you delete it?', fg='red'))
+        click.echo(click.style('Cannot find a cookietemple config file! Did you delete it?', fg='red'))
+
+
+def prompt_github_repo() -> (bool, bool, bool, str):
+    """
+    Ask user for all settings needed in order to create and push automatically to GitHub repo.
+
+    :return if is git repo, if repo should be private, if user is an organization and if so, the organizations name
+    """
+    create_git_repo, private, is_github_org, github_org = False, False, False, ''
+    if cookietemple_questionary('confirm', 'Do you want to create a Github repository and push your template to it?', default='Yes'):
+        create_git_repo = True
+        is_github_org = cookietemple_questionary('confirm', 'Do you want to create an organization repository?', default='No')
+        github_org = cookietemple_questionary('text',
+                                              'Please enter the name of the Github organization',
+                                              default='SpringfieldNuclearPowerPlant') if is_github_org else ''
+        private = cookietemple_questionary('confirm', 'Do you want your repository to be private?', default='No')
+
+    return create_git_repo, private, is_github_org, github_org
 
 
 def decrypt_pat() -> str:
@@ -153,7 +170,7 @@ def decrypt_pat() -> str:
     :return: The decrypted Personal Access Token for GitHub
     """
     # read key and encrypted PAT from files
-    with open(KEY_FILE_PATH, 'rb') as f:
+    with open(ConfigCommand.KEY_PAT_FILE, 'rb') as f:
         key = f.readline()
     fer = Fernet(key)
     encrypted_pat = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['pat']
@@ -183,7 +200,7 @@ def is_git_accessible() -> bool:
     (git_installed_stdout, git_installed_stderr) = git_installed.communicate()
     if git_installed.returncode != 0:
         click.echo(click.style('Could not find \'git\' in the PATH. Is it installed?', fg='red'))
-        click.echo(click.style('Run command was: git', fg='red'))
+        click.echo(click.style('Run command was: \'git --version \'', fg='red'))
         return False
 
     return True

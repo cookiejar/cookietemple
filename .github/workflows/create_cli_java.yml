@@ -1,0 +1,46 @@
+name: Create cli-java Template
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: [3.7, 3.8]
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out source-code repository
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Build Cookietemple
+        run: |
+          python setup.py clean --all install
+
+      - name: Create cli-python Template
+        run: |
+          echo -e "cli\njava\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nn\nExplodingSpringfield\ndescription\n1.0.0\nMIT\ngroup_domain\ngroup_organization\nmain_class\nn" | cookietemple create
+
+      - uses: actions/checkout@v1
+      - uses: DeLaGuardo/setup-graalvm@2.0
+        with:
+          graalvm-version: '20.1.0.java11'
+      - run: java -version
+      - run: gu install native-image
+      - name: Build with Gradle and run
+        run: make run
+
+      - name: Install doc dependencies
+        run: |
+            pip install -r docs/requirements.txt
+
+      - name: Build docs
+        run: |
+            cd docs
+            make html
