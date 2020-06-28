@@ -89,8 +89,8 @@ class CliCreator(TemplateCreator):
 
     def cli_java_options(self) -> None:
         """ Prompts for cli-java specific options and saves them into the CookietempleTemplateStruct """
-        self.cli_struct.group_domain = cookietemple_questionary('text', 'Domain (e.g. the org of org.apache)', default_value='com')
-        self.cli_struct.group_organization = cookietemple_questionary('text', 'Organization (e.g. the apache of org.apache)', default_value='organization')
+        self.cli_struct.group_domain = cookietemple_questionary('text', 'Domain (e.g. the org of org.apache)', default='com')
+        self.cli_struct.group_organization = cookietemple_questionary('text', 'Organization (e.g. the apache of org.apache)', default='organization')
         self.cli_struct.main_class = self.cli_struct.project_slug.capitalize()
 
     def cli_kotlin_options(self) -> None:

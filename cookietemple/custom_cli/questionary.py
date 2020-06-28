@@ -20,41 +20,41 @@ cookietemple_style = Style([
 ])
 
 
-def cookietemple_questionary(function: str, question: str, choices: list = None, default_value: Union[str, bool] = None) -> str:
+def cookietemple_questionary(function: str, question: str, choices: list = None, default: str = None) -> Union[str, bool]:
     """
     Custom selection based on Questionary. Handles keyboard interrupts and default values.
 
     :param function: The function of questionary to call (e.g. select or text). See https://github.com/tmbo/questionary for all available functions.
     :param choices: List of all possible choices.
     :param question: The question to prompt for. Should not include default values or colons.
-    :param default_value: A set default value, which will be chosen if the user does not enter anything.
+    :param default: A set default value, which will be chosen if the user does not enter anything.
     :return: The chosen answer.
     """
     answer = ''
     try:
         if function == 'select':
-            if default_value not in choices:
-                logging.debug(f'Default value {default_value} is not in the set of choices!')
+            if default not in choices:
+                logging.debug(f'Default value {default} is not in the set of choices!')
             answer = getattr(questionary, function)(f'{question}: ', choices=choices, style=cookietemple_style).unsafe_ask()
         elif function == 'password':
             answer = ''
             while not answer or answer == '':
                 answer = getattr(questionary, function)(f'{question}: ', style=cookietemple_style).unsafe_ask()
         elif function == 'text':
-            if not default_value:
+            if not default:
                 logging.debug('Tried to utilize default value in questionary prompt, but is None! Please set a default value.')
-                default_value = ''
-            answer = getattr(questionary, function)(f'{question} [{default_value}]: ', style=cookietemple_style).unsafe_ask()
+                default = ''
+            answer = getattr(questionary, function)(f'{question} [{default}]: ', style=cookietemple_style).unsafe_ask()
         elif function == 'confirm':
-            default_value_bool = True if default_value == 'Yes' or default_value == 'yes' else False
-            answer = getattr(questionary, function)(f'{question} [{default_value}]: ', style=cookietemple_style, default=default_value_bool).unsafe_ask()
+            default_value_bool = True if default == 'Yes' or default == 'yes' else False
+            answer = getattr(questionary, function)(f'{question} [{default}]: ', style=cookietemple_style, default=default_value_bool).unsafe_ask()
         else:
             logging.debug(f'Unsupported questionary function {function} used!')
 
     except KeyboardInterrupt:
         click.echo(click.style('Aborted by user!', fg='red'))
         sys.exit(1)
-    if not answer or answer == '':
-        answer = default_value
+    if answer is None or answer == '':
+        answer = default
 
     return answer
