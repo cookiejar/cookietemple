@@ -33,7 +33,7 @@ def cookietemple_questionary(function: str, question: str, default_value: str, c
         if choices:
             if default_value not in choices:
                 logging.debug(f'Default value {default_value} is not in the set of choices!')
-            answer = getattr(questionary, function)(f'{question} [{default_value}]: ', choices=choices, style=cookietemple_style).unsafe_ask()
+            answer = getattr(questionary, function)(f'{question}: ', choices=choices, style=cookietemple_style).unsafe_ask()
         else:
             answer = getattr(questionary, function)(f'{question} [{default_value}]: ', style=cookietemple_style).unsafe_ask()
     except KeyboardInterrupt:
