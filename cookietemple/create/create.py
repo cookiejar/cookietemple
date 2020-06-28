@@ -14,7 +14,7 @@ def choose_domain(domain: str):
     :param domain: Template domain
     """
     if not domain:
-        domain = cookietemple_questionary('select', 'Choose the project\'s domain', 'cli', ['cli', 'lib', 'gui', 'web', 'pub'])
+        domain = cookietemple_questionary('select', 'Choose the project\'s domain', ['cli', 'lib', 'gui', 'web', 'pub'], 'cli')
 
     switcher = {
         'cli': CliCreator,
