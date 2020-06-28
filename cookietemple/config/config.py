@@ -7,6 +7,7 @@ from cryptography.fernet import Fernet
 from ruamel.yaml import YAML
 
 from cookietemple.custom_cli.levensthein_dist import most_similar_command
+from cookietemple.custom_cli.questionary import cookietemple_questionary
 
 
 class ConfigCommand:
@@ -32,9 +33,9 @@ class ConfigCommand:
         Set full_name and email for reuse in any project created further on.
         """
         ConfigCommand.check_ct_config_dir_exists()
-        full_name = click.prompt('Full name', type=str, default='Homer Simpson')
-        email = click.prompt('Personal or work email', type=str, default='homer.simpson@example.com')
-        github_username = click.prompt('Github username', type=str)
+        full_name = cookietemple_questionary('text', 'Full name', 'Homer Simpson')
+        email = cookietemple_questionary('text', 'Personal or work email', 'homer.simpson@example.com')
+        github_username = cookietemple_questionary('text', 'Github username', 'homer.simpson@example.com')
 
         # if the configs exist, just update them
         if os.path.exists(ConfigCommand.CONF_FILE_PATH):
@@ -74,14 +75,14 @@ class ConfigCommand:
             click.echo(click.style('Lets create one before setting your Github personal access token!', fg='blue'))
             ConfigCommand.config_general_settings()
 
-        if click.confirm(click.style('Do you want to configure your GitHub personal access token right now?\nYou can still configure it later '
-                                     'by calling ', fg='blue') + click.style('cookietemple config pat', fg='green')):
-            access_token: str = click.prompt('Please enter your GitHub access token ', type=str, hide_input=True)
+        if cookietemple_questionary('confirm', 'Do you want to configure your GitHub personal access token right now?\nYou can still configure it later '
+                                               'by calling    cookietemple config pat', 'Yes'):
+            access_token = cookietemple_questionary('password', 'Please enter your Github Access token')
             access_token_b = access_token.encode('utf-8')
 
             # ask for confirmation since this action will delete the PAT irrevocably if the user has not saved it anywhere else
-            if not click.confirm(click.style('You´re about to update your personal access token. This action cannot be undone!\n'
-                                             'Do you really want to continue?')):
+            if not cookietemple_questionary('confirm', 'You´re about to update your personal access token. This action cannot be undone!\n'
+                                                       'Do you really want to continue?', 'Yes'):
                 sys.exit(1)
 
             # encrypt the given PAT and save the encryption key and encrypted PAT in separate files

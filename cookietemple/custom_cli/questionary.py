@@ -19,7 +19,7 @@ cookietemple_style = Style([
 ])
 
 
-def cookietemple_questionary(function: str, question: str, default_value: str, choices: list = None) -> str:
+def cookietemple_questionary(function: str, question: str, default_value: str = None, choices: list = None) -> str:
     """
     Custom selection based on Questionary. Handles keyboard interrupts and default values.
 
@@ -35,7 +35,16 @@ def cookietemple_questionary(function: str, question: str, default_value: str, c
                 logging.debug(f'Default value {default_value} is not in the set of choices!')
             answer = getattr(questionary, function)(f'{question}: ', choices=choices, style=cookietemple_style).unsafe_ask()
         else:
-            answer = getattr(questionary, function)(f'{question} [{default_value}]: ', style=cookietemple_style).unsafe_ask()
+            if function == 'password':
+                answer = ''
+                while not answer or answer == '':
+                    answer = getattr(questionary, function)(f'{question}: ', style=cookietemple_style).unsafe_ask()
+            else:
+                if not default_value:
+                    logging.debug('Tried to utilize default value in questionary prompt, but is None! Please set a default value.')
+                    default_value = ''
+                answer = getattr(questionary, function)(f'{question} [{default_value}]: ', style=cookietemple_style).unsafe_ask()
+
     except KeyboardInterrupt:
         click.echo(click.style('Aborted by user!', fg='red'))
         sys.exit(1)
