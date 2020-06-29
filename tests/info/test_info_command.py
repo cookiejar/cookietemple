@@ -20,7 +20,7 @@ def get_invalid_handles():
     """
     Defines invalids handlers
     """
-    return ['pythOn', '1234', 'Aw3s0m3', 'javaa', 'python--web', 'java-web', 'web-kotlin', 'pub-paper']
+    return ['1234', 'Aw3s0m3', 'python--web', 'javsadsaaafafsfsf', 'somelongnonexisitinghandle', '-']
 
 
 @pytest.fixture()
@@ -113,6 +113,14 @@ def get_all_valid_handles_as_set(get_valid_handles_domain_subdomain, get_valid_h
     return set(get_valid_handles_domain_subdomain).union(set(get_valid_handles_domain_only))
 
 
+@pytest.fixture()
+def get_valid_languages():
+    """
+    Define handles of all available languages
+    """
+    return ['python', 'Python', 'java', 'Java', 'kotlin', 'Kotlin', 'latex', 'Latex']
+
+
 # TEST SECTION ========================================================
 
 
@@ -126,17 +134,14 @@ def test_empty_handle_throws_click_error():
     assert result.exit_code == 1 and 'Failed to execute INFO. Please provide a valid handle like cli as argument' in result.output
 
 
-def test_non_existing_handle(get_invalid_handles, capfd) -> None:
+def test_non_existing_handle(get_invalid_handles) -> None:
     """
     Ensure that a non-valid/existing handle will trigger an error message
     """
-
+    runner = CliRunner()
     for invalid in get_invalid_handles:
-        with pytest.raises(SystemExit):
-            template_info = TemplateInfo()
-            template_info.show_info(invalid)
-            out, err = capfd.readouterr()
-            assert out == 'Handle does not exist. Please enter a valid handle. Use cookietemple list to display all template handles.'
+        result = runner.invoke(info, [invalid])
+        assert result.exit_code == 0 and 'Handle does not exist. Please enter a valid handle' in result.output
 
 
 def test_valid_handles_domain_only(get_valid_handles_domain_only, capfd) -> None:
@@ -156,6 +161,24 @@ def test_valid_handles_domain_only(get_valid_handles_domain_only, capfd) -> None
         out, err = capfd.readouterr()
         for handle in switcher[valid_domain]:
             assert handle in out
+
+
+def test_valid_languages_only(get_valid_languages) -> None:
+    """
+    Ensure that valid language handles will be displayed properly by the info command (and only those).
+    """
+    switcher = {
+        ('python', 'Python'): ('kotlin', 'java', 'latex'),
+        ('kotlin', 'Kotlin'): ('python', 'java', 'latex'),
+        ('java', 'Java'): ('python', 'kotlin', 'latex'),
+        ('latex', 'Latex'): ('kotlin', 'java', 'python')
+    }
+
+    runner = CliRunner()
+    for valid_language in get_valid_languages:
+        result = runner.invoke(info, [valid_language])
+        assert result.exit_code == 0 and valid_language.lower() in result.output and not any(lan in result.output for lan in [v for k, v in switcher.items() if
+                                                                                                                              valid_language in k][0])
 
 
 def test_valid_handles_domain_and_subdomain(get_valid_handles_domain_subdomain, capfd) -> None:
@@ -242,7 +265,7 @@ def test_most_similar_command_gui_with_language(get_commands_with_similar_comman
 
 
 def test_most_similar_command_web_with_subdomain_and_language(get_commands_with_similar_command_web_with_subdomain_and_language, get_all_valid_handles_as_set) \
-     -> None:
+    -> None:
     """
     This test the most similar command for cli with language specified.
     All is needed in the rare case if there are multiple similar handles.
@@ -253,7 +276,7 @@ def test_most_similar_command_web_with_subdomain_and_language(get_commands_with_
 
 
 def test_most_similar_command_pub_with_subdomain_and_language(get_commands_with_similar_command_pub_with_subdomain_and_language, get_all_valid_handles_as_set) \
-     -> None:
+    -> None:
     """
     This test the most similar command for cli with language specified.
     All is needed in the rare case if there are multiple similar handles.
