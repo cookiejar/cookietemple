@@ -101,7 +101,7 @@ class TemplateInfo:
                 self.print_suggestion(handle, self.most_sim)
             # we're done there is no similar handle
             else:
-                TemplateInfo.non_existing_handle()
+                self.non_existing_handle()
         sys.exit(0)
 
     def output_table(self, templates_to_print: list, handle: str) -> None:
@@ -163,7 +163,7 @@ class TemplateInfo:
 
         else:
             # found no similar handles
-            TemplateInfo.non_existing_handle()
+            self.non_existing_handle()
 
     def print_suggestion(self, handle: str, domain_handle: list) -> None:
         """
@@ -175,8 +175,7 @@ class TemplateInfo:
                    click.style('for all valid handles.\n', fg='red'))
         click.echo(click.style('Did you mean ', fg='red') + click.style(f'{domain_handle[0]}?\n', fg='green'))
 
-    @staticmethod
-    def non_existing_handle() -> None:
+    def non_existing_handle(self) -> None:
         """
         Handling key not found access error for non existing template handles.
         Displays an error message and terminates cookietemple.

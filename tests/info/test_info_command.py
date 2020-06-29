@@ -163,7 +163,7 @@ def test_valid_handles_domain_only(get_valid_handles_domain_only, capfd) -> None
             assert handle in out
 
 
-def test_valid_languages_only(get_valid_languages, capfd) -> None:
+def test_valid_languages_only(get_valid_languages) -> None:
     """
     Ensure that valid language handles will be displayed properly by the info command (and only those).
     """
