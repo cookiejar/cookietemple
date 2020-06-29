@@ -42,8 +42,8 @@ def test_bump_version(mocker, valid_version_bumpers) -> None:
         versions_whitelisted, versions_blacklisted = get_file_versions_after_bump(Path.cwd())
         assert (all(versions_whitelisted[i] == version for i in range(10)) and
                 all(versions_whitelisted[i] != version for i in range(10, len(versions_whitelisted)))) and \
-               (all(versions_blacklisted[i] == version for i in range(10)) and all(
-                   versions_blacklisted[i] != version for i in range(10, len(versions_blacklisted))))
+               (all(versions_blacklisted[i] == version for i in range(10)) and
+                all(versions_blacklisted[i] != version for i in range(10, len(versions_blacklisted))))
     reset_after_bump_test(Path.cwd())
 
 
