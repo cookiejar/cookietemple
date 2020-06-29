@@ -89,9 +89,9 @@ class VersionBumper:
     def replace(self, file_path: str, subst: str, section: str) -> (bool, str):
         """
         Replace a version with the new version unless the line is explicitly excluded (marked with
-        <<cookietemple_NO_BUMP>>).
+        <<COOKIETEMPLE_NO_BUMP>>).
         Or, in case of blacklisted files, it ignores all lines with version numbers unless they´re explicitly marked
-        for bump with tag <<cookietemple_FORCE_BUMP>>.
+        for bump with tag <<COOKIETEMPLE_FORCE_BUMP>>.
 
         :param file_path: The path of the file where the version should be updated
         :param subst: The new version that replaces the old one
@@ -109,7 +109,7 @@ class VersionBumper:
             with open(file_path) as old_file:
                 for line in old_file:
                     # update version if tags were found (and were in the right section)
-                    if ('<<cookietemple_NO_BUMP>>' not in line and not section == 'bumpversion_files_blacklisted') or '<<cookietemple_FORCE_BUMP>>' in line:
+                    if ('<<COOKIETEMPLE_NO_BUMP>>' not in line and not section == 'bumpversion_files_blacklisted') or '<<COOKIETEMPLE_FORCE_BUMP>>' in line:
                         # for info on this regex, see bump_template docstring above
                         tmp = re.sub(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', subst, line)
                         new_file.write(tmp)
@@ -119,8 +119,8 @@ class VersionBumper:
                                 file_is_unchanged = False
                                 path_changed = file_path
                             click.echo(click.style(
-                                f'- {line.strip().replace("<!-- <<cookietemple_FORCE_BUMP>> -->", "")}\n', fg='red') + click.style(
-                                f'+ {tmp.strip().replace("<!-- <<cookietemple_FORCE_BUMP>> -->", "")}', fg='green'))
+                                f'- {line.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->", "")}\n', fg='red') + click.style(
+                                f'+ {tmp.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->", "")}', fg='green'))
                             click.echo()
                     else:
                         new_file.write(line)

@@ -1,5 +1,4 @@
 import re
-import sys
 import pytest
 import os
 from pathlib import Path
@@ -22,9 +21,8 @@ def reset_failed_bump(func):
         try:
             func(mocker, valid_version_bumpers, *args, **kwargs)
         except AssertionError:
-            pytest.fail(msg='Bump-version test failed. Resetting files. Fix it and try again!')
             reset_after_bump_test(Path.cwd())
-            raise
+            pytest.fail(msg='Bump-version test failed. Resetting files. Fix it and try again!')
 
     return wrapper
 
@@ -93,7 +91,6 @@ def reset_after_bump_test(cwd: Path):
     Reset test files to initial state with initial version number for further testing.
     :param cwd: Current Work Dir
     """
-    print("JAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
     version_bumper = VersionBumper(Path(str(os.path.abspath(os.path.dirname(__file__)))), downgrade=False)
     version_bumper.replace(f'{str(cwd)}/bump_version_test_files/bump_test_file_whitelisting', '0.0.0', 'bumpversion_files_whitelisted')
     version_bumper.replace(f'{str(cwd)}/bump_version_test_files/bump_test_file_blacklisting', '0.0.0', 'bumpversion_files_blacklisted')
