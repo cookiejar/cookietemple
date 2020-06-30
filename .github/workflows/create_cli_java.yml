@@ -23,9 +23,9 @@ jobs:
         run: |
           python setup.py clean --all install
 
-      - name: Create cli-python Template
+      - name: Create cli-java Template
         run: |
-          echo -e "cli\njava\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nn\nExplodingSpringfield\ndescription\n1.0.0\nMIT\ngroup_domain\ngroup_organization\nmain_class\nn" | cookietemple create
+          echo -e "\n\033[B\nhomersimpson\nhomer.simpson@hotmail.com\nhomergithub\nn\nExplodingSpringfield\ndescription\n1.0.0\ngroup_domain\ngroup_organization\nn" | cookietemple create
 
       - uses: actions/checkout@v1
       - uses: DeLaGuardo/setup-graalvm@2.0
