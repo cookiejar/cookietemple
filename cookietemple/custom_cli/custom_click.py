@@ -15,7 +15,6 @@ class HelpErrorHandling(click.Group):
     """
     Customise the help command
     """
-
     def __init__(self, name=None, commands=None, **kwargs):
         super(HelpErrorHandling, self).__init__(name, commands, **kwargs)
         self.commands = commands or collections.OrderedDict()
@@ -97,7 +96,7 @@ class HelpErrorHandling(click.Group):
 
         with formatter.section(self.get_rich_value("Learn more")):
             formatter.write_text("Use cookietemple <command> --help for more information about a command. You may also want to take a look at our docs at "
-                                 "https://cookietemple.readthedocs.io/en/latest/ .")
+                                 "https://cookietemple.readthedocs.io/ .")
 
         with formatter.section(self.get_rich_value("Feedback")):
             formatter.write_text("We are always curious about your opinion on cookietemple. Join our Discord at "
