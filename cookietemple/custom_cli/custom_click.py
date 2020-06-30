@@ -32,7 +32,7 @@ class HelpErrorHandling(click.Group):
         ct_main_options = []
         for p in ctx.command.params:
             ct_main_options.append(('--' + p.name + ': ', p.help))
-        ct_main_options.append(('--help: ', 'Get detailed info by calling this (also with a subcommand)'))
+        ct_main_options.append(('--help: ', 'Get detailed info on a command.'))
         with formatter.section(self.get_rich_value('Options')):
             for t in ct_main_options:
                 formatter.write_text(f'{t[0] + t[1]}')
@@ -63,7 +63,6 @@ class HelpErrorHandling(click.Group):
         Overwrite the format_commands method of class MultiCommand for customized commands output.
         """
         formatter.width = 120
-        super().get_usage(ctx)
         formatter.write_paragraph()
 
         with formatter.section(self.get_rich_value("General Commands")):
@@ -76,7 +75,7 @@ class HelpErrorHandling(click.Group):
             formatter.write_text(
                 f"{self.commands.get('upgrade').name}\t\t{self.commands.get('upgrade').get_short_help_str(limit=150)}")
 
-        with formatter.section(self.get_rich_value("Commands for every cookietemple project")):
+        with formatter.section(self.get_rich_value("Commands for cookietemple project")):
             formatter.write_text(
                 f"{self.commands.get('create').name}\t\t{self.commands.get('create').get_short_help_str(limit=150)}")
             formatter.write_text(
@@ -97,8 +96,8 @@ class HelpErrorHandling(click.Group):
             formatter.write_text("$ cookietemple info python")
 
         with formatter.section(self.get_rich_value("Learn more")):
-            formatter.write_text("Use cookietemple <command> --help for more information about a command. Read our docs at "
-                                 "https://cookietemple.readthedocs.io/en/latest/")
+            formatter.write_text("Use cookietemple <command> --help for more information about a command. You may also want to take a look at our docs at "
+                                 "https://cookietemple.readthedocs.io/en/latest/ .")
 
         with formatter.section(self.get_rich_value("Feedback")):
             formatter.write_text("We are always curious about your opinion on cookietemple. Join our Discord at "
@@ -166,7 +165,7 @@ class HelpErrorHandling(click.Group):
         sio = io.StringIO()
         console = Console(file=sio, force_terminal=True)
         if is_header:
-            console.print(f"[bold blue]{output}")
+            console.print(f"[bold #1874cd]{output}")
 
         return sio.getvalue().replace('\n', '')
 

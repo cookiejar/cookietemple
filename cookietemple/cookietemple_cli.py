@@ -44,7 +44,7 @@ def main():
 
 @click.group(cls=HelpErrorHandling)
 @click.version_option(cookietemple.__version__, message=click.style(f'cookietemple Version: {cookietemple.__version__}', fg='blue'))
-@click.option('-v', '--verbose', is_flag=True, default=False, help='Verbose output (print debug statements)')
+@click.option('-v', '--verbose', is_flag=True, default=False, help='Verbose output (print debug statements).')
 @click.pass_context
 def cookietemple_cli(ctx, verbose):
     """
@@ -219,7 +219,7 @@ def config(ctx, section: str) -> None:
         ConfigCommand.similar_handle(section)
 
 
-@cookietemple_cli.command(short_help='Check for a newer version of cookietemple and upgrade if required')
+@cookietemple_cli.command(short_help='Check for a newer version of cookietemple and upgrade if required.')
 def upgrade() -> None:
     """
     Checks whether the locally installed version of cookietemple is the latest.
