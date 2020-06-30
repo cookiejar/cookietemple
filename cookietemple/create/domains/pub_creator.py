@@ -1,12 +1,10 @@
 import os
 from pathlib import Path
 from dataclasses import dataclass
-import click
 
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.github_support import load_github_username, prompt_github_repo
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
-from cookietemple.config.config import ConfigCommand
 from cookietemple.custom_cli.questionary import cookietemple_questionary
 
 
