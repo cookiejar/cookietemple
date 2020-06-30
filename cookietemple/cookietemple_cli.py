@@ -56,7 +56,7 @@ def cookietemple_cli(ctx, verbose):
         logging.basicConfig(level=logging.INFO, format='\n%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 
-@cookietemple_cli.command(help_priority=1, short_help='Create a new project using one of our templates.')
+@cookietemple_cli.command(short_help='Create a new project using one of our templates.')
 @click.option('--domain', type=click.Choice(['cli', 'lib', 'gui', 'web', 'pub']))
 def create(domain: str) -> None:
     """
@@ -71,7 +71,7 @@ def create(domain: str) -> None:
     choose_domain(domain)
 
 
-@cookietemple_cli.command(help_priority=2, short_help='Lint your existing cookietemple project.')
+@cookietemple_cli.command(short_help='Lint your existing cookietemple project.')
 @click.argument('project_dir', type=click.Path(), default=Path(str(Path.cwd())))
 def lint(project_dir) -> None:
     """
@@ -86,7 +86,7 @@ def lint(project_dir) -> None:
     lint_project(project_dir)
 
 
-@cookietemple_cli.command(help_priority=3, short_help='List all available cookietemple templates.')
+@cookietemple_cli.command(short_help='List all available cookietemple templates.')
 def list() -> None:
     """
     List all available cookietemple templates.
@@ -99,7 +99,7 @@ def list() -> None:
     template_lister.list_available_templates()
 
 
-@cookietemple_cli.command(help_priority=4, short_help='Get detailed info on a cookietemple template domain or a single template.')
+@cookietemple_cli.command(short_help='Get detailed info on a cookietemple template domain or a single template.')
 @click.argument('handle', type=str, required=False)
 @click.pass_context
 def info(ctx, handle: str) -> None:
@@ -117,7 +117,7 @@ def info(ctx, handle: str) -> None:
         template_info.show_info(handle.lower())
 
 
-@cookietemple_cli.command(help_priority=5, short_help='Sync your project with the latest template release.')
+@cookietemple_cli.command(short_help='Sync your project with the latest template release.')
 def sync() -> None:
     """
     Sync your project with the latest template release.
@@ -129,7 +129,7 @@ def sync() -> None:
     snyc_template()
 
 
-@cookietemple_cli.command('bump-version', help_priority=6, short_help='Bump the version of an existing cookietemple project.')
+@cookietemple_cli.command('bump-version', short_help='Bump the version of an existing cookietemple project.')
 @click.argument('new_version', type=str, required=False)
 @click.argument('project_dir', type=click.Path(), default=Path(f'{Path.cwd()}'))
 @click.option('--downgrade', '-d', is_flag=True)
@@ -175,7 +175,7 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
             sys.exit(1)
 
 
-@cookietemple_cli.command(help_priority=7, short_help='Create a self contained executable.')
+@cookietemple_cli.command(short_help='Create a self contained executable.')
 @click.option('--input_dir', type=str, required=True)
 @click.option('--exec', type=str, required=True)
 @click.option('--output', type=str, required=True)
@@ -189,7 +189,7 @@ def warp(input_dir: str, exec: str, output: str) -> None:
     warp_project(input_dir, exec, output)
 
 
-@cookietemple_cli.command(help_priority=8, short_help='Configure your general settings and github credentials.')
+@cookietemple_cli.command(short_help='Configure your general settings and github credentials.')
 @click.argument('section', type=str, required=False)
 @click.pass_context
 def config(ctx, section: str) -> None:
@@ -219,7 +219,7 @@ def config(ctx, section: str) -> None:
         ConfigCommand.similar_handle(section)
 
 
-@cookietemple_cli.command(help_priority=9, short_help='Check for a newer version of cookietemple and upgrade if required')
+@cookietemple_cli.command(short_help='Check for a newer version of cookietemple and upgrade if required')
 def upgrade() -> None:
     """
     Checks whether the locally installed version of cookietemple is the latest.
