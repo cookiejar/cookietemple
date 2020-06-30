@@ -25,11 +25,11 @@ jobs:
 
       - name: Create web-website-python basic Flask Template
         run: |
-          echo -e "\033[B\033[B\033[B\n\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\n\n\n\n\n\nn\ndummy.com\ncookietempleuser\nn" | cookietemple create
+          echo -e "\033[B\033[B\033[B\n\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\n\n\n\n\n\nndummy.com\ncookietempleuser\nn" | cookietemple create
 
       - name: Create web-website-python advanced Flask Template
         run: |
-          echo -e "\033[B\033[B\033[B\nExplodingSpringfieldAdvanced\ndescription\n1.0.0\n\n\n\n\n\nadvanced\nn\ndummy.com\ncookietempleuser\nn" | cookietemple create
+          echo -e "\033[B\033[B\033[B\n\nExplodingSpringfieldAdvanced\ndescription\n1.0.0\n\n\n\n\n\033[B\nn\n\n\n\ntest.com\nvmusername\nn" | cookietemple create
 
       - name: Build basic Package
         run: |

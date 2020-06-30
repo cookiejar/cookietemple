@@ -35,12 +35,11 @@ jobs:
       - run: java -version
       - run: gu install native-image
 
-      - name: Build with Gradle and run
+      - name: Build with Gradle
         run: |
             cd ..
-            ls -la
             cd ExplodingSpringfield
-            make run
+            make binary
 
       - name: Install doc dependencies
         run: |
