@@ -21,11 +21,12 @@ jobs:
 
       - name: Build Cookietemple
         run: |
-          python setup.py clean --all install
+          make install
 
       - name: Create cli-java Template
         run: |
-          echo -e "\n\033[B\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nn\nExplodingSpringfield\ndescription\n1.0.0\ngroup_domain\ngroup_organization\nn" | cookietemple create
+          cd ..
+          echo -e "\n\033[B\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\ngroup_domain\ngroup_organization\nn" | cookietemple create
 
       - uses: actions/checkout@v1
       - uses: DeLaGuardo/setup-graalvm@2.0
@@ -33,8 +34,13 @@ jobs:
           graalvm-version: '20.1.0.java11'
       - run: java -version
       - run: gu install native-image
+
       - name: Build with Gradle and run
-        run: make run
+        run: |
+            cd ..
+            ls -la
+            cd ExplodingSpringfield
+            make run
 
       - name: Install doc dependencies
         run: |
