@@ -197,6 +197,7 @@ class CustomHelpSubcommand(click.Command):
     def format_help(self, ctx, formatter):
         """
         Custom implementation of formatting help for each subcommand.
+        Use the overwritten format functions this class provides to output help for each subcommand cookietemple provides.
         """
         formatter.width = 120
         self.format_usage(ctx, formatter)
@@ -206,24 +207,27 @@ class CustomHelpSubcommand(click.Command):
     def format_usage(self, ctx, formatter):
         """
         Custom implementation if formatting the usage of each subcommand.
+        Usage section with a styled header will be printed.
         """
         formatter.write_text(f'{self.get_rich_value("Usage: ")}cookietemple {self.name} {" ".join(self.collect_usage_pieces(ctx))}')
 
     def format_help_text(self, ctx, formatter):
         """
         Custom implementation of formatting the help text of each subcommand.
+        The help text will be printed as normal. A separate arguments section will be added below with all arguments and a short help message
+        for each of them and a styled header in order to keep things separated.
         """
         formatter.write_paragraph()
         formatter.write_text(self.help)
-        args = ['--' + param.name for param in self.params if type(param) == click.core.Argument]
+        args = [('--' + param.name, param.helpmsg) for param in self.params if type(param) == CustomArg]
         if args:
             with formatter.section(self.get_rich_value("Arguments")):
-                for arg in args:
-                    formatter.write_text(arg)
+                formatter.write_dl(args)
 
     def format_options(self, ctx, formatter):
         """
         Custom implementation of formatting the options of each subcommand.
+        The options will be displayed in their relative order with their corresponding help message and a styled header.
         """
         options = [('--' + param.name, param.help) for param in self.params if type(param) == click.core.Option]
         help_option = self.get_help_option(ctx)
@@ -243,3 +247,13 @@ class CustomHelpSubcommand(click.Command):
             console.print(f"[bold #1874cd]{output}")
 
         return sio.getvalue().replace('\n', '')
+
+
+class CustomArg(click.Argument):
+    """
+    A custom argument implementation of click.Argument class in order to provide a short helpmessage for each argument of a command.
+    """
+
+    def __init__(self, *args, **kwargs):
+        self.helpmsg = kwargs.pop('helpmsg')
+        super().__init__(*args, **kwargs)
