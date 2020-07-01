@@ -15,6 +15,7 @@ class HelpErrorHandling(click.Group):
     """
     Customise the help command
     """
+
     def __init__(self, name=None, commands=None, **kwargs):
         super(HelpErrorHandling, self).__init__(name, commands, **kwargs)
         self.commands = commands or collections.OrderedDict()
@@ -29,9 +30,10 @@ class HelpErrorHandling(click.Group):
         :param formatter: the formatter for output
         """
         ct_main_options = []
+        # NOTE: this only works for options as arguments do not have a help attribute per default
         for p in ctx.command.params:
             ct_main_options.append(('--' + p.name + ': ', p.help))
-        ct_main_options.append(('--help: ', 'Get detailed info on a command.'))
+        ct_main_options.append(('--help: ', '   Get detailed info on a command.'))
         with formatter.section(self.get_rich_value('Options')):
             for t in ct_main_options:
                 formatter.write_text(f'{t[0] + t[1]}')
@@ -48,7 +50,7 @@ class HelpErrorHandling(click.Group):
         """
         Overwrite format_usage method of class MultiCommand for customized usage section output.
         """
-        formatter.write_text(f'{self.get_rich_value("Usage:")} {" ".join(super().collect_usage_pieces(ctx))}')
+        formatter.write_text(f'{self.get_rich_value("Usage:")} cookietemple {" ".join(super().collect_usage_pieces(ctx))}')
 
     def format_options(self, ctx, formatter):
         """
@@ -62,7 +64,6 @@ class HelpErrorHandling(click.Group):
         Overwrite the format_commands method of class MultiCommand for customized commands output.
         """
         formatter.width = 120
-        formatter.write_paragraph()
 
         with formatter.section(self.get_rich_value("General Commands")):
             formatter.write_text(
@@ -96,7 +97,7 @@ class HelpErrorHandling(click.Group):
 
         with formatter.section(self.get_rich_value("Learn more")):
             formatter.write_text("Use cookietemple <command> --help for more information about a command. You may also want to take a look at our docs at "
-                                 "https://cookietemple.readthedocs.io/ .")
+                                 "https://cookietemple.readthedocs.io/.")
 
         with formatter.section(self.get_rich_value("Feedback")):
             formatter.write_text("We are always curious about your opinion on cookietemple. Join our Discord at "
@@ -183,3 +184,62 @@ def print_project_version(ctx, param, value) -> None:
     except NoSectionError:
         ctx.fail(click.style('Unable to read from cookietemple.cfg file.\nMake sure your current working directory has a cookietemple.cfg file '
                              'when running bump-version with the --project-version flag!', fg='red'))
+
+
+class CustomHelpSubcommand(click.Command):
+    """
+    Customize the help output for each subcommand
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(CustomHelpSubcommand, self).__init__(*args, **kwargs)
+
+    def format_help(self, ctx, formatter):
+        """
+        Custom implementation of formatting help for each subcommand.
+        """
+        formatter.width = 120
+        self.format_usage(ctx, formatter)
+        self.format_help_text(ctx, formatter)
+        self.format_options(ctx, formatter)
+
+    def format_usage(self, ctx, formatter):
+        """
+        Custom implementation if formatting the usage of each subcommand.
+        """
+        formatter.write_text(f'{self.get_rich_value("Usage: ")}cookietemple {self.name} {" ".join(self.collect_usage_pieces(ctx))}')
+
+    def format_help_text(self, ctx, formatter):
+        """
+        Custom implementation of formatting the help text of each subcommand.
+        """
+        formatter.write_paragraph()
+        formatter.write_text(self.help)
+        args = ['--' + param.name for param in self.params if type(param) == click.core.Argument]
+        if args:
+            with formatter.section(self.get_rich_value("Arguments")):
+                for arg in args:
+                    formatter.write_text(arg)
+
+    def format_options(self, ctx, formatter):
+        """
+        Custom implementation of formatting the options of each subcommand.
+        """
+        options = [('--' + param.name, param.help) for param in self.params if type(param) == click.core.Option]
+        help_option = self.get_help_option(ctx)
+        options.append(('--' + help_option.name, help_option.help))
+        with formatter.section(self.get_rich_value("Options")):
+            formatter.write_dl(options)
+
+    def get_rich_value(self, output: str, is_header=True) -> str:
+        """
+        Return a string which contains the output to console rendered by rich for the click formatter.
+        :param output: the output string, that should be rendered by rich
+        :param is_header: is output a header section?
+        """
+        sio = io.StringIO()
+        console = Console(file=sio, force_terminal=True)
+        if is_header:
+            console.print(f"[bold #1874cd]{output}")
+
+        return sio.getvalue().replace('\n', '')
