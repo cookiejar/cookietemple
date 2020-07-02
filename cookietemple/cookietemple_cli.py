@@ -44,7 +44,7 @@ def main():
 
 @click.group(cls=HelpErrorHandling)
 @click.version_option(cookietemple.__version__, message=click.style(f'cookietemple Version: {cookietemple.__version__}', fg='blue'))
-@click.option('-v', '--verbose', is_flag=True, default=False, help='Verbose output (print debug statements).')
+@click.option('-v', '--verbose', is_flag=True, default=False, help='Enable verbose output (print debug statements).')
 @click.pass_context
 def cookietemple_cli(ctx, verbose):
     """
@@ -73,7 +73,7 @@ def create(domain: str) -> None:
 
 
 @cookietemple_cli.command(short_help='Lint your existing cookietemple project.', cls=CustomHelpSubcommand)
-@click.argument('project_dir', type=click.Path(), default=Path(str(Path.cwd())), helpmsg='The relative path to projects directory.', cls=CustomArg)
+@click.argument('project_dir', type=click.Path(), default=Path(str(Path.cwd())), helpmsg='Relative path to projects directory.', cls=CustomArg)
 def lint(project_dir) -> None:
     """
     Lint your existing cookietemple project.
@@ -101,7 +101,7 @@ def list() -> None:
 
 
 @cookietemple_cli.command(short_help='Get detailed info on a cookietemple template domain or a single template.', cls=CustomHelpSubcommand)
-@click.argument('handle', type=str, required=False, helpmsg='The language/domain of templates of interest.', cls=CustomArg)
+@click.argument('handle', type=str, required=False, helpmsg='Language/domain of templates of interest.', cls=CustomArg)
 @click.pass_context
 def info(ctx, handle: str) -> None:
     """
@@ -131,9 +131,9 @@ def sync() -> None:
 
 
 @cookietemple_cli.command('bump-version', short_help='Bump the version of an existing cookietemple project.', cls=CustomHelpSubcommand)
-@click.argument('new_version', type=str, required=False, helpmsg='The new project version in a valid format.', cls=CustomArg)
-@click.argument('project_dir', type=click.Path(), default=Path(f'{Path.cwd()}'), helpmsg='The relative path to the projects directory.', cls=CustomArg)
-@click.option('--downgrade', '-d', is_flag=True, help='Set this flag to enable downgrade mode.')
+@click.argument('new_version', type=str, required=False, helpmsg='New project version in a valid format.', cls=CustomArg)
+@click.argument('project_dir', type=click.Path(), default=Path(f'{Path.cwd()}'), helpmsg='Relative path to the projects directory.', cls=CustomArg)
+@click.option('--downgrade', '-d', is_flag=True, help='Set this flag to downgrade a version.')
 @click.option('--project-version', is_flag=True, callback=print_project_version, expose_value=False, is_eager=True, help='Print your projects version and exit')
 @click.pass_context
 def bump_version(ctx, new_version, project_dir, downgrade) -> None:
@@ -177,9 +177,9 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
 
 
 @cookietemple_cli.command(short_help='Create a self contained executable.', cls=CustomHelpSubcommand)
-@click.option('--input_dir', type=str, required=True, help='The input directory.')
-@click.option('--exec', type=str, required=True, help='The exec help here.')
-@click.option('--output', type=str, required=True, help='The output directory.')
+@click.option('--input_dir', type=str, required=True, help='Input directory.')
+@click.option('--exec', type=str, required=True, help='Executable to package.')
+@click.option('--output', type=str, required=True, help='Output directory.')
 def warp(input_dir: str, exec: str, output: str) -> None:
     """
     Create a self contained executable.
@@ -191,7 +191,7 @@ def warp(input_dir: str, exec: str, output: str) -> None:
 
 
 @cookietemple_cli.command(short_help='Configure your general settings and github credentials.', cls=CustomHelpSubcommand)
-@click.argument('section', type=str, required=False, helpmsg='The section to configure (all, general or pat)', cls=CustomArg)
+@click.argument('section', type=str, required=False, helpmsg='Section to configure (all, general or pat)', cls=CustomArg)
 @click.pass_context
 def config(ctx, section: str) -> None:
     """
