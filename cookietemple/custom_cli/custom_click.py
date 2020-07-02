@@ -1,3 +1,6 @@
+import collections
+import io
+from rich.console import Console
 import click
 import sys
 from pathlib import Path
@@ -10,36 +13,95 @@ from cookietemple.bump_version.bump_version import VersionBumper
 
 class HelpErrorHandling(click.Group):
     """
-    Customise the order of subcommands for --help
-    https://stackoverflow.com/a/47984810/713980
+    Customise the help command
     """
 
-    def __init__(self, *args, **kwargs):
-        self.help_priorities = {}
-        super(HelpErrorHandling, self).__init__(*args, **kwargs)
+    def __init__(self, name=None, commands=None, **kwargs):
+        super(HelpErrorHandling, self).__init__(name, commands, **kwargs)
+        self.commands = commands or collections.OrderedDict()
 
-    def get_help(self, ctx):
-        self.list_commands = self.list_commands_for_help
-        return super(HelpErrorHandling, self).get_help(ctx)
+    def list_commands(self, ctx):
+        return self.commands
 
-    def list_commands_for_help(self, ctx):
-        """reorder the list of commands when listing the help"""
-        commands = super(HelpErrorHandling, self).list_commands(ctx)
-        return (c[1] for c in sorted((self.help_priorities.get(command, 1000), command) for command in commands))
-
-    def command(self, *args, **kwargs):
-        """Behaves the same as `click.Group.command()` except capture
-        a priority for listing command names in help.
+    def main_options(self, ctx, formatter) -> None:
         """
-        help_priority = kwargs.pop('help_priority', 1000)
-        help_priorities = self.help_priorities
+        Load the main options and display them in a customized option section.
+        :param ctx: clicks context
+        :param formatter: the formatter for output
+        """
+        ct_main_options = []
+        # NOTE: this only works for options as arguments do not have a help attribute per default
+        for p in ctx.command.params:
+            ct_main_options.append(('--' + p.name + ': ', p.help))
+        ct_main_options.append(('--help: ', '   Get detailed info on a command.'))
+        with formatter.section(self.get_rich_value('Options')):
+            for t in ct_main_options:
+                formatter.write_text(f'{t[0] + t[1]}')
 
-        def decorator(f):
-            cmd = super(HelpErrorHandling, self).command(*args, **kwargs)(f)
-            help_priorities[cmd.name] = help_priority
-            return cmd
+    def format_help(self, ctx, formatter):
+        """
+        Call format_help function with cookietemples customized functions.
+        """
+        self.format_usage(ctx, formatter)
+        self.format_options(ctx, formatter)
+        self.format_commands(ctx, formatter)
 
-        return decorator
+    def format_usage(self, ctx, formatter):
+        """
+        Overwrite format_usage method of class MultiCommand for customized usage section output.
+        """
+        formatter.write_text(f'{self.get_rich_value("Usage:")} cookietemple {" ".join(super().collect_usage_pieces(ctx))}')
+
+    def format_options(self, ctx, formatter):
+        """
+        Overwrite the format_options method of class MultiCommand for customized option output.
+        This is internally called by format_help() which itself is called by get_help().
+        """
+        self.main_options(ctx, formatter)
+
+    def format_commands(self, ctx, formatter):
+        """
+        Overwrite the format_commands method of class MultiCommand for customized commands output.
+        """
+        formatter.width = 120
+
+        with formatter.section(self.get_rich_value("General Commands")):
+            formatter.write_text(
+                f"{self.commands.get('list').name}\t\t{self.commands.get('list').get_short_help_str(limit=150)}")
+            formatter.write_text(
+                f"{self.commands.get('info').name}\t\t{self.commands.get('info').get_short_help_str(limit=150)}")
+            formatter.write_text(
+                f"{self.commands.get('config').name}\t\t{self.commands.get('config').get_short_help_str(limit=150)}")
+            formatter.write_text(
+                f"{self.commands.get('upgrade').name}\t\t{self.commands.get('upgrade').get_short_help_str(limit=150)}")
+
+        with formatter.section(self.get_rich_value("Commands for cookietemple project")):
+            formatter.write_text(
+                f"{self.commands.get('create').name}\t\t{self.commands.get('create').get_short_help_str(limit=150)}")
+            formatter.write_text(
+                f"{self.commands.get('lint').name}\t\t{self.commands.get('lint').get_short_help_str(limit=150)}")
+            formatter.write_text(
+                f"{self.commands.get('bump-version').name}\t{self.commands.get('bump-version').get_short_help_str(limit=150)}")
+            formatter.write_text(
+                f"{self.commands.get('sync').name}\t\t{self.commands.get('sync').get_short_help_str(limit=150)}")
+
+        with formatter.section(self.get_rich_value("Special commands")):
+            formatter.write_text(
+                f"{self.commands.get('warp').name}\t\t{self.commands.get('warp').get_short_help_str(limit=150)}")
+
+        with formatter.section(self.get_rich_value("Examples")):
+            formatter.write_text("$ cookietemple create")
+            formatter.write_text("$ cookietemple bump-version 1.0.0 .")
+            formatter.write_text("$ cookietemple config all")
+            formatter.write_text("$ cookietemple info python")
+
+        with formatter.section(self.get_rich_value("Learn more")):
+            formatter.write_text("Use cookietemple <command> --help for more information about a command. You may also want to take a look at our docs at "
+                                 "https://cookietemple.readthedocs.io/.")
+
+        with formatter.section(self.get_rich_value("Feedback")):
+            formatter.write_text("We are always curious about your opinion on cookietemple. Join our Discord at "
+                                 "https://discord.com/channels/708008788505919599/708008788505919602 and drop us message: cookies await you.")
 
     def get_command(self, ctx, cmd_name):
         """
@@ -94,6 +156,19 @@ class HelpErrorHandling(click.Group):
                        + click.style('Please provide a valid argument. You can choose general, pat or all.', fg='blue'))
             sys.exit(1)
 
+    def get_rich_value(self, output: str, is_header=True) -> str:
+        """
+        Return a string which contains the output to console rendered by rich for the click formatter.
+        :param output: the output string, that should be rendered by rich
+        :param is_header: is output a header section?
+        """
+        sio = io.StringIO()
+        console = Console(file=sio, force_terminal=True)
+        if is_header:
+            console.print(f"[bold #1874cd]{output}")
+
+        return sio.getvalue().replace('\n', '')
+
 
 def print_project_version(ctx, param, value) -> None:
     """
@@ -109,3 +184,76 @@ def print_project_version(ctx, param, value) -> None:
     except NoSectionError:
         ctx.fail(click.style('Unable to read from cookietemple.cfg file.\nMake sure your current working directory has a cookietemple.cfg file '
                              'when running bump-version with the --project-version flag!', fg='red'))
+
+
+class CustomHelpSubcommand(click.Command):
+    """
+    Customize the help output for each subcommand
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(CustomHelpSubcommand, self).__init__(*args, **kwargs)
+
+    def format_help(self, ctx, formatter):
+        """
+        Custom implementation of formatting help for each subcommand.
+        Use the overwritten format functions this class provides to output help for each subcommand cookietemple provides.
+        """
+        formatter.width = 120
+        self.format_usage(ctx, formatter)
+        self.format_help_text(ctx, formatter)
+        self.format_options(ctx, formatter)
+
+    def format_usage(self, ctx, formatter):
+        """
+        Custom implementation if formatting the usage of each subcommand.
+        Usage section with a styled header will be printed.
+        """
+        formatter.write_text(f'{self.get_rich_value("Usage: ")}cookietemple {self.name} {" ".join(self.collect_usage_pieces(ctx))}')
+
+    def format_help_text(self, ctx, formatter):
+        """
+        Custom implementation of formatting the help text of each subcommand.
+        The help text will be printed as normal. A separate arguments section will be added below with all arguments and a short help message
+        for each of them and a styled header in order to keep things separated.
+        """
+        formatter.write_paragraph()
+        formatter.write_text(self.help)
+        args = [('--' + param.name, param.helpmsg) for param in self.params if type(param) == CustomArg]
+        if args:
+            with formatter.section(self.get_rich_value("Arguments")):
+                formatter.write_dl(args)
+
+    def format_options(self, ctx, formatter):
+        """
+        Custom implementation of formatting the options of each subcommand.
+        The options will be displayed in their relative order with their corresponding help message and a styled header.
+        """
+        options = [('--' + param.name, param.help) for param in self.params if type(param) == click.core.Option]
+        help_option = self.get_help_option(ctx)
+        options.append(('--' + help_option.name, help_option.help))
+        with formatter.section(self.get_rich_value("Options")):
+            formatter.write_dl(options)
+
+    def get_rich_value(self, output: str, is_header=True) -> str:
+        """
+        Return a string which contains the output to console rendered by rich for the click formatter.
+        :param output: the output string, that should be rendered by rich
+        :param is_header: is output a header section?
+        """
+        sio = io.StringIO()
+        console = Console(file=sio, force_terminal=True)
+        if is_header:
+            console.print(f"[bold #1874cd]{output}")
+
+        return sio.getvalue().replace('\n', '')
+
+
+class CustomArg(click.Argument):
+    """
+    A custom argument implementation of click.Argument class in order to provide a short helpmessage for each argument of a command.
+    """
+
+    def __init__(self, *args, **kwargs):
+        self.helpmsg = kwargs.pop('helpmsg')
+        super().__init__(*args, **kwargs)
