@@ -36,7 +36,9 @@ def has_template_version_changed(project_dir: Path) -> (bool, bool):
     """
     template_version_last_sync, template_handle = sync_load_project_template_version_and_handle(project_dir)
     template_version_last_sync = version.parse(template_version_last_sync)
-    actual_template_version = version.parse(sync_load_template_version(template_handle))
-    pr_major_change = True if template_version_last_sync.major < actual_template_version.major else False
-    issue_minor_change = True if template_version_last_sync.minor < actual_template_version.minor else False
+    current_ct_template_version = version.parse(sync_load_template_version(template_handle))
+    # check if a major change happened (for example 1.2.3 to 2.0.0)
+    pr_major_change = True if template_version_last_sync.major < current_ct_template_version.major else False
+    # check if a minor change happened (for example 1.2.3 to 1.3.0)
+    issue_minor_change = True if template_version_last_sync.minor < current_ct_template_version.minor else False
     return pr_major_change, issue_minor_change
