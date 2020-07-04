@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.github_support import load_github_username, prompt_github_repo
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
-from cookietemple.custom_cli.questionary import cookietemple_questionary
+from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.config.config import ConfigCommand
 
 @dataclass
@@ -38,14 +38,18 @@ class PubCreator(TemplateCreator):
         '"" TEMPLATE VERSIONS ""'
         self.PUB_LATEX_TEMPLATE_VERSION = super().load_version('pub-thesis-latex')
 
-    def create_template(self):
+    def create_template(self, dot_cookietemple: dict or None):
         """
         Prompts the user for the publication type and forwards to subsequent prompts.
         Creates the pub template.
         """
         # latex is default language
 
-        self.pub_struct.pubtype = cookietemple_questionary('select', 'Choose between the following publication types', ['thesis', 'paper'])
+        self.pub_struct.pubtype = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                               question='Choose between the following publication types',
+                                                                               choices=['thesis', 'paper'],
+                                                                               dot_cookietemple=dot_cookietemple,
+                                                                               to_get_property='pubtype')
 
         if not os.path.exists(ConfigCommand.CONF_FILE_PATH):
             click.echo(click.style('Cannot find a Cookietemple config file! Is this your first time with Cookietemple?\n', fg='red'))
@@ -56,9 +60,9 @@ class PubCreator(TemplateCreator):
         switcher = {
             'latex': self.common_latex_options,
         }
-        switcher.get(self.pub_struct.language.lower(), lambda: 'Invalid language!')()
+        switcher.get(self.pub_struct.language.lower(), lambda: 'Invalid language!')(dot_cookietemple)
 
-        self.handle_pub_type()
+        self.handle_pub_type(dot_cookietemple)
 
         self.pub_struct.is_github_repo, self.pub_struct.is_repo_private, self.pub_struct.is_github_orga, self.pub_struct.github_orga = prompt_github_repo()
         if self.pub_struct.is_github_orga:
@@ -80,7 +84,7 @@ class PubCreator(TemplateCreator):
                                           domain='pub', subdomain=self.pub_struct.pubtype, language=self.pub_struct.language)
 
     # TODO: IMPLEMENT BELOW
-    def handle_pub_type(self) -> None:
+    def handle_pub_type(self, dot_cookietemple: dict or None) -> None:
         """
         Determine the type of publication and handle it further.
         """
@@ -89,22 +93,46 @@ class PubCreator(TemplateCreator):
             'thesis': self.handle_thesis_latex,
             'paper': self.handle_paper_latex
         }
-        switcher.get(self.pub_struct.pubtype.lower(), lambda: 'Invalid Pub Project Type!')()
+        switcher.get(self.pub_struct.pubtype.lower(), lambda: 'Invalid Pub Project Type!')(dot_cookietemple)
 
-    def handle_thesis_latex(self) -> None:
-        self.pub_struct.degree = cookietemple_questionary('text', 'Degree', default='PhD')
+    def handle_thesis_latex(self, dot_cookietemple: dict or None) -> None:
+        self.pub_struct.degree = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                              question='Degree',
+                                                                              default='PhD',
+                                                                              dot_cookietemple=dot_cookietemple,
+                                                                              to_get_property='degree')
 
     def handle_paper_latex(self) -> None:
         pass
 
-    def common_latex_options(self) -> None:
+    def common_latex_options(self, dot_cookietemple: dict or None) -> None:
         """
         Prompt the user for common thesis/paper data
         """
-        self.pub_struct.author = cookietemple_questionary('text', 'Author', default='Homer Simpson')
-        self.pub_struct.project_name = cookietemple_questionary('text', 'Project name', default='PhD Thesis')
+        self.pub_struct.author = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                              question='Author',
+                                                                              default='Homer Simpson',
+                                                                              dot_cookietemple=dot_cookietemple,
+                                                                              to_get_property='author')
+        self.pub_struct.project_name = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                                    question='Project name',
+                                                                                    default='PhD Thesis',
+                                                                                    dot_cookietemple=dot_cookietemple,
+                                                                                    to_get_property='project_name')
         self.pub_struct.project_slug = self.pub_struct.project_name.replace(' ', '_').replace('-', '_')
-        self.pub_struct.title = cookietemple_questionary('text', 'Publication title', default='On how Springfield exploded')
-        self.pub_struct.university = cookietemple_questionary('text', 'University', default='Homer J. Simpson University')
-        self.pub_struct.department = cookietemple_questionary('text', 'Department', default='Department of Nuclear Physics')
+        self.pub_struct.title = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                             question='Publication title',
+                                                                             default='On how Springfield exploded',
+                                                                             dot_cookietemple=dot_cookietemple,
+                                                                             to_get_property='title')
+        self.pub_struct.university = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                                  question='University',
+                                                                                  default='Homer J. Simpson University',
+                                                                                  dot_cookietemple=dot_cookietemple,
+                                                                                  to_get_property='university')
+        self.pub_struct.department = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                                  question='Department',
+                                                                                  default='Department of Nuclear Physics',
+                                                                                  dot_cookietemple=dot_cookietemple,
+                                                                                  to_get_property='department')
         self.pub_struct.github_username = load_github_username()  # Required for Github support
