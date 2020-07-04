@@ -40,7 +40,7 @@ class ConfigCommand:
         # if the configs exist, just update them
         if os.path.exists(ConfigCommand.CONF_FILE_PATH):
             path = Path(ConfigCommand.CONF_FILE_PATH)
-            yaml = YAML(typ='safe')
+            yaml = YAML()
             settings = yaml.load(path)
 
             # update the full_name and email
@@ -63,7 +63,7 @@ class ConfigCommand:
         ConfigCommand.check_ct_config_dir_exists()
         try:
             path = Path(ConfigCommand.CONF_FILE_PATH)
-            yaml = YAML(typ='safe')
+            yaml = YAML()
             settings = yaml.load(path)
             if not all(attr in settings for attr in ['full_name', 'github_username', 'email']):
                 click.echo(click.style('The Cookietemple config file misses some required attributes!', fg='red'))
@@ -97,7 +97,7 @@ class ConfigCommand:
                 f.write(key)
 
             path = Path(ConfigCommand.CONF_FILE_PATH)
-            yaml = YAML(typ='safe')
+            yaml = YAML()
             settings = yaml.load(path)
             settings['pat'] = encrypted_pat
             yaml.dump(settings, Path(ConfigCommand.CONF_FILE_PATH))
