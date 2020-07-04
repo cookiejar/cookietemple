@@ -16,7 +16,6 @@ class TemplateStructCli(CookietempleTemplateStruct):
     """
     command_line_interface: str = ''  # which command line library to use (click, argparse)
     testing_library: str = ''  # which testing library to use (pytest, unittest)
-    use_pytest: str = ''  # set to 'y' if pytest is used 'n' else
 
     """
     CLI-JAVA
@@ -80,10 +79,6 @@ class CliCreator(TemplateCreator):
         self.cli_struct.command_line_interface = cookietemple_questionary('select', 'Choose a command line library',
                                                                           ['Click', 'Argparse', 'No command-line interface'], 'Click')
         self.cli_struct.testing_library = cookietemple_questionary('select', 'Choose a testing library', ['pytest', 'unittest'], 'pytest')
-        if self.cli_struct.testing_library == 'pytest':
-            self.cli_struct.use_pytest = 'y'
-        else:
-            self.cli_struct.use_pytest = 'n'
 
     def cli_java_options(self) -> None:
         """ Prompts for cli-java specific options and saves them into the CookietempleTemplateStruct """
