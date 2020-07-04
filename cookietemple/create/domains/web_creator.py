@@ -162,7 +162,13 @@ class WebCreator(TemplateCreator):
                                                                                   dot_cookietemple=dot_cookietemple,
                                                                                   to_get_property='vmusername')
 
-        self.web_struct.is_github_repo, self.web_struct.is_repo_private, self.web_struct.is_github_orga, self.web_struct.github_orga = prompt_github_repo()
+        # COOKIETEMPLE TODO That's not solely a flask option!
+        self.web_struct.is_github_repo,\
+        self.web_struct.is_repo_private,\
+        self.web_struct.is_github_orga,\
+        self.web_struct.github_orga\
+            = prompt_github_repo(dot_cookietemple)
+        
         if self.web_struct.is_github_orga:
             self.web_struct.github_username = self.web_struct.github_orga
 
