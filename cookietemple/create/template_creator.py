@@ -19,7 +19,7 @@ from cookietemple.lint.lint import lint_project
 from cookietemple.util.docs_util import fix_short_title_underline
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.config.config import ConfigCommand
-from cookietemple.util.yaml_util import load_yaml_file
+from cookietemple.common.load_yaml import load_yaml_file
 
 
 class TemplateCreator:
@@ -299,18 +299,3 @@ class TemplateCreator:
         :return: The dict containing all key-value pairs with non empty values
         """
         return {key: val for key, val in asdict(self.creator_ctx).items() if val != ''}
-
-    def load_version(self, handle: str) -> str:
-        """
-        Load the version of the template specified by the handler
-
-        :param handle: The template handle
-        :return: The version number
-        """
-        parts = handle.split('-')
-
-        if len(parts) == 2:
-            return self.AVAILABLE_TEMPLATES[parts[0]][parts[1]]['version']
-
-        elif len(parts) == 3:
-            return self.AVAILABLE_TEMPLATES[parts[0]][parts[1]][parts[2]]['version']

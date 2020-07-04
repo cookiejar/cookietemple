@@ -6,8 +6,8 @@ from pathlib import Path
 from cryptography.fernet import Fernet
 from ruamel.yaml import YAML
 
-from cookietemple.custom_cli.levensthein_dist import most_similar_command
-from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
+from cookietemple.common.levensthein_dist import most_similar_command
+from cookietemple.custom_cli.questionary import cookietemple_questionary
 
 
 class ConfigCommand:

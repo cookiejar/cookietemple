@@ -3,7 +3,7 @@ from pathlib import Path
 
 from cookietemple.config.config import ConfigCommand
 from cookietemple.cookietemple_cli import config
-from cookietemple.util.yaml_util import load_yaml_file
+from cookietemple.common.load_yaml import load_yaml_file
 from cookietemple.create.github_support import decrypt_pat
 
 

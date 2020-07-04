@@ -8,6 +8,7 @@ from cookietemple.create.github_support import load_github_username, prompt_gith
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.config.config import ConfigCommand
+from cookietemple.common.version import load_version
 
 
 @dataclass
@@ -37,7 +38,7 @@ class PubCreator(TemplateCreator):
         self.CWD = os.getcwd()
 
         '"" TEMPLATE VERSIONS ""'
-        self.PUB_LATEX_TEMPLATE_VERSION = super().load_version('pub-thesis-latex')
+        self.PUB_LATEX_TEMPLATE_VERSION = load_version('pub-thesis-latex', self.AVAILABLE_TEMPLATES_PATH)
 
     def create_template(self, dot_cookietemple: dict or None):
         """
