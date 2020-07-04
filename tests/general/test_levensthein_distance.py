@@ -1,4 +1,4 @@
-from cookietemple.custom_cli.levensthein_dist import levensthein_dist
+from cookietemple.common.levensthein_dist import levensthein_dist
 
 
 def test_levensthein_dist() -> None:

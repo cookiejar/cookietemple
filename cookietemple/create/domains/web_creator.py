@@ -10,6 +10,7 @@ from cookietemple.custom_cli.questionary import cookietemple_questionary
 from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.create.github_support import prompt_github_repo
+from cookietemple.common.version import load_version
 
 
 @dataclass
@@ -52,7 +53,7 @@ class WebCreator(TemplateCreator):
         self.TEMPLATES_WEB_PATH = f'{self.WD_Path.parent}/templates/web'
 
         '""Web Template Versions""'
-        self.WEB_WEBSITE_PYTHON_TEMPLATE_VERSION = super().load_version('web-website-python')
+        self.WEB_WEBSITE_PYTHON_TEMPLATE_VERSION = load_version('web-website-python', self.AVAILABLE_TEMPLATES_PATH)
 
     def create_template(self) -> None:
         """

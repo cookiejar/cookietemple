@@ -11,7 +11,7 @@ from ruamel.yaml import YAML
 
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.custom_cli.questionary import cookietemple_questionary
-from cookietemple.util.yaml_util import load_yaml_file
+from cookietemple.common.load_yaml import load_yaml_file
 from cookietemple.config.config import ConfigCommand
 
 
