@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
-from cookietemple.custom_cli.questionary import cookietemple_questionary
+from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 
 
 @dataclass
@@ -38,12 +38,17 @@ class CliCreator(TemplateCreator):
         self.CLI_JAVA_TEMPLATE_VERSION = super().load_version('cli-java')
         self.CLI_KOTLIN_TEMPLATE_VERSION = super().load_version('cli-kotlin')
 
-    def create_template(self):
+    def create_template(self, dot_cookietemple: dict or None):
         """
         Handles the CLI domain. Prompts the user for the language, general and domain specific options.
         """
 
-        self.cli_struct.language = cookietemple_questionary('select', 'Choose the project\'s primary language', ['python', 'java', 'kotlin'], 'python')
+        self.cli_struct.language = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                                question='Choose the project\'s primary language',
+                                                                                choices=['python', 'java', 'kotlin'],
+                                                                                default='python',
+                                                                                dot_cookietemple=dot_cookietemple,
+                                                                                to_get_property='language')
 
         # prompt the user to fetch general template configurations
         super().prompt_general_template_configuration()
@@ -54,9 +59,14 @@ class CliCreator(TemplateCreator):
             'java': self.cli_java_options,
             'kotlin': self.cli_kotlin_options
         }
-        switcher.get(self.cli_struct.language)()
+        switcher.get(self.cli_struct.language)(dot_cookietemple)
 
-        self.cli_struct.is_github_repo, self.cli_struct.is_repo_private, self.cli_struct.is_github_orga, self.cli_struct.github_orga = prompt_github_repo()
+        self.cli_struct.is_github_repo,\
+        self.cli_struct.is_repo_private,\
+        self.cli_struct.is_github_orga,\
+        self.cli_struct.github_orga\
+            = prompt_github_repo(dot_cookietemple)
+
         if self.cli_struct.is_github_orga:
             self.cli_struct.github_username = self.cli_struct.github_orga
         # create the chosen and configured template
@@ -74,18 +84,35 @@ class CliCreator(TemplateCreator):
         # perform general operations like creating a GitHub repository and general linting
         super().process_common_operations(domain='cli', language=self.cli_struct.language)
 
-    def cli_python_options(self):
+    def cli_python_options(self, dot_cookietemple: dict or None):
         """ Prompts for cli-python specific options and saves them into the CookietempleTemplateStruct """
-        self.cli_struct.command_line_interface = cookietemple_questionary('select', 'Choose a command line library',
-                                                                          ['Click', 'Argparse', 'No command-line interface'], 'Click')
-        self.cli_struct.testing_library = cookietemple_questionary('select', 'Choose a testing library', ['pytest', 'unittest'], 'pytest')
+        self.cli_struct.command_line_interface = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                                              question='Choose a command line library',
+                                                                                              choices=['Click', 'Argparse', 'No command-line interface'],
+                                                                                              default='Click',
+                                                                                              dot_cookietemple=dot_cookietemple,
+                                                                                              to_get_property='command_line_interface')
+        self.cli_struct.testing_library = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                                       question='Choose a testing library',
+                                                                                       choices=['pytest', 'unittest'],
+                                                                                       default='pytest',
+                                                                                       dot_cookietemple=dot_cookietemple,
+                                                                                       to_get_property='testing_library')
 
-    def cli_java_options(self) -> None:
+    def cli_java_options(self, dot_cookietemple: dict or None) -> None:
         """ Prompts for cli-java specific options and saves them into the CookietempleTemplateStruct """
-        self.cli_struct.group_domain = cookietemple_questionary('text', 'Domain (e.g. the org of org.apache)', default='com')
-        self.cli_struct.group_organization = cookietemple_questionary('text', 'Organization (e.g. the apache of org.apache)', default='organization')
+        self.cli_struct.group_domain = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                                    question='Domain (e.g. the org of org.apache)',
+                                                                                    default='com',
+                                                                                    dot_cookietemple=dot_cookietemple,
+                                                                                    to_get_property='group_domain')
+        self.cli_struct.group_organization = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                                          question='Organization (e.g. the apache of org.apache)',
+                                                                                          default='organization',
+                                                                                          dot_cookietemple=dot_cookietemple,
+                                                                                          to_get_property='group_organization')
         self.cli_struct.main_class = self.cli_struct.project_slug.capitalize()
 
-    def cli_kotlin_options(self) -> None:
+    def cli_kotlin_options(self, dot_cookietemple: dict or None) -> None:
         """ Prompts for cli-kotlin specific options and saves them into the CookietempleTemplateStruct """
         click.echo(click.style('NOT IMPLEMENTED YET', fg='red'))
