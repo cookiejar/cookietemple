@@ -41,6 +41,9 @@ def cookietemple_questionary_or_dot_cookietemple(function: str,
     if dot_cookietemple:
         if to_get_property in dot_cookietemple:
             return dot_cookietemple[to_get_property]
+        else:
+            logging.debug(f'.cookietemple.yml file was passed when creating a project, but key {to_get_property}'
+                          f' does not exist in the dot_cookietemple dictionary!')
 
     # There is not .cookietemple.yml file aka dot_cookietemple dict passed -> ask for the properties
     answer = ''

@@ -9,6 +9,7 @@ from cookietemple.create.domains.cookietemple_template_struct import Cookietempl
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.config.config import ConfigCommand
 
+
 @dataclass
 class TemplateStructPub(CookietempleTemplateStruct):
     """
@@ -64,10 +65,10 @@ class PubCreator(TemplateCreator):
 
         self.handle_pub_type(dot_cookietemple)
 
-        self.pub_struct.is_github_repo,\
-        self.pub_struct.is_repo_private,\
-        self.pub_struct.is_github_orga,\
-        self.pub_struct.github_orga\
+        self.pub_struct.is_github_repo, \
+            self.pub_struct.is_repo_private, \
+            self.pub_struct.is_github_orga, \
+            self.pub_struct.github_orga \
             = prompt_github_repo(dot_cookietemple)
 
         if self.pub_struct.is_github_orga:

@@ -44,10 +44,10 @@ class GuiCreator(TemplateCreator):
         }
         switcher.get(self.gui_struct.language.lower())(dot_cookietemple)
 
-        self.gui_struct.is_github_repo,\
-        self.gui_struct.is_repo_private,\
-        self.gui_struct.is_github_orga,\
-        self.gui_struct.github_orga\
+        self.gui_struct.is_github_repo, \
+            self.gui_struct.is_repo_private, \
+            self.gui_struct.is_github_orga, \
+            self.gui_struct.github_orga \
             = prompt_github_repo(dot_cookietemple)
 
         if self.gui_struct.is_github_orga:
