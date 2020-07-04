@@ -5,7 +5,7 @@ from pathlib import Path
 from cookietemple.common.load_yaml import load_yaml_file
 
 
-def load_version(handle: str, yaml_path: str) -> str:
+def load_ct_template_version(handle: str, yaml_path: str) -> str:
     """
     Load the version of the template specified by the handler from the given yaml file path.
 
@@ -33,6 +33,7 @@ def load_project_template_version_and_handle(project_dir: Path) -> (str, str):
     project_dir = str(project_dir)
     try:
         ct_meta = load_yaml_file(f'{project_dir}/.cookietemple.yml')
+        # split the template version at first space to omit the cookietemple bump-version tag and return it and the the handle
         return ct_meta['template_version'].split(" ", 1)[0], ct_meta['template_handle']
     except FileNotFoundError:
         click.echo(click.style(f'No .cookietemple.yml found at {project_dir}. Is this a cookietemple project?', fg='red'))
