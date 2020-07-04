@@ -110,7 +110,8 @@ class WebCreator(TemplateCreator):
                                                                                      dot_cookietemple=dot_cookietemple,
                                                                                      to_get_property='web_framework')
         setup = cookietemple_questionary_or_dot_cookietemple(function='select',
-                                                             question='Choose between the basic and advanced (database, translations, deployment scripts) template',
+                                                             question='Choose between the basic and advanced'
+                                                                      ' (database, translations, deployment scripts) template',
                                                              choices=['basic', 'advanced'],
                                                              default='basic',
                                                              dot_cookietemple=dot_cookietemple,
@@ -122,7 +123,8 @@ class WebCreator(TemplateCreator):
             self.web_struct.is_basic_website = 'n'
 
         self.web_struct.use_frontend = cookietemple_questionary_or_dot_cookietemple(function='confirm',
-                                                                                    question='Do you want to initialize your project with a advanced frontend template?',
+                                                                                    question='Do you want to initialize your project'
+                                                                                             ' with a advanced frontend template?',
                                                                                     default='Yes',
                                                                                     dot_cookietemple=dot_cookietemple,
                                                                                     to_get_property='use_frontend')
@@ -163,12 +165,12 @@ class WebCreator(TemplateCreator):
                                                                                   to_get_property='vmusername')
 
         # COOKIETEMPLE TODO That's not solely a flask option!
-        self.web_struct.is_github_repo,\
-        self.web_struct.is_repo_private,\
-        self.web_struct.is_github_orga,\
-        self.web_struct.github_orga\
+        self.web_struct.is_github_repo, \
+            self.web_struct.is_repo_private, \
+            self.web_struct.is_github_orga, \
+            self.web_struct.github_orga \
             = prompt_github_repo(dot_cookietemple)
-        
+
         if self.web_struct.is_github_orga:
             self.web_struct.github_username = self.web_struct.github_orga
 

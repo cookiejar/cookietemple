@@ -71,18 +71,22 @@ class ConfigCommand:
                 ConfigCommand.config_general_settings()
 
         except FileNotFoundError:
-            click.echo(click.style('Cannot find a Cookietemple config file. Is this your first time using Cookietemple?', fg='red'))
+            click.echo(click.style('Cannot find a Cookietemple config file. Is this your first time using cookietemple?', fg='red'))
             click.echo(click.style('Lets create one before setting your Github personal access token!', fg='blue'))
             ConfigCommand.config_general_settings()
 
-        if cookietemple_questionary_or_dot_cookietemple('confirm', 'Do you want to configure your GitHub personal access token right now?\nYou can still configure it later '
-                                               'by calling    cookietemple config pat', 'Yes'):
+        if cookietemple_questionary_or_dot_cookietemple('confirm',
+                                                        'Do you want to configure your GitHub personal access token right now?\n'
+                                                        'You can still configure it later '
+                                                        'by calling    cookietemple config pat',
+                                                        default='Yes'):
             access_token = cookietemple_questionary_or_dot_cookietemple('password', 'Please enter your Github Access token')
             access_token_b = access_token.encode('utf-8')
 
             # ask for confirmation since this action will delete the PAT irrevocably if the user has not saved it anywhere else
             if not cookietemple_questionary_or_dot_cookietemple('confirm', 'You´re about to update your personal access token. This action cannot be undone!\n'
-                                                       'Do you really want to continue?', 'Yes'):
+                                                                           'Do you really want to continue?',
+                                                                default='Yes'):
                 sys.exit(1)
 
             # encrypt the given PAT and save the encryption key and encrypted PAT in separate files

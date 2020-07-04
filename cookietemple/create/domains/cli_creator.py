@@ -61,10 +61,10 @@ class CliCreator(TemplateCreator):
         }
         switcher.get(self.cli_struct.language)(dot_cookietemple)
 
-        self.cli_struct.is_github_repo,\
-        self.cli_struct.is_repo_private,\
-        self.cli_struct.is_github_orga,\
-        self.cli_struct.github_orga\
+        self.cli_struct.is_github_repo, \
+            self.cli_struct.is_repo_private, \
+            self.cli_struct.is_github_orga, \
+            self.cli_struct.github_orga \
             = prompt_github_repo(dot_cookietemple)
 
         if self.cli_struct.is_github_orga:
