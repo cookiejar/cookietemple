@@ -69,7 +69,7 @@ def create(domain: str) -> None:
     Next, you will be asked whether you want to use cookietemple's Github support create a repository, push your template and enable a few settings.
     After the project has been created it will be linted and you will be notified of any TODOs.
     """
-    choose_domain(domain)
+    choose_domain(domain, None)
 
 
 @cookietemple_cli.command(short_help='Lint your existing cookietemple project.', cls=CustomHelpSubcommand)

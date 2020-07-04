@@ -7,7 +7,7 @@
   "project_short_description": "Flask Website Template contains all the code for website creation and deployment",
   "pypi_username": "{{ cookiecutter.github_username }}",
   "version": "0.1.0",
-  "use_pytest": "y",
+  "testing_library": "pytest",
   "is_basic_website": "y",
   "frontend": "none",
   "command_line_interface": ["Click", "Argparse", "No command-line interface"],

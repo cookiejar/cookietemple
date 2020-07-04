@@ -29,8 +29,12 @@ class GuiCreator(TemplateCreator):
         '"" TEMPLATE VERSIONS ""'
         self.GUI_JAVA_TEMPLATE_VERSION = load_version('gui-java', self.AVAILABLE_TEMPLATES_PATH)
 
-    def create_template(self):
-        self.gui_struct.language = cookietemple_questionary('select', 'Choose between the following languages', ['java', 'kotlin'])
+    def create_template(self, dot_cookietemple: dict or None):
+        self.gui_struct.language = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                                question='Choose between the following languages',
+                                                                                choices=['java', 'kotlin'],
+                                                                                dot_cookietemple=dot_cookietemple,
+                                                                                to_get_property='language')
 
         # prompt the user to fetch general template configurations
         super().prompt_general_template_configuration()
@@ -39,9 +43,14 @@ class GuiCreator(TemplateCreator):
         switcher = {
             'java': self.gui_java_options,
         }
-        switcher.get(self.gui_struct.language.lower())()
+        switcher.get(self.gui_struct.language.lower())(dot_cookietemple)
 
-        self.gui_struct.is_github_repo, self.gui_struct.is_repo_private, self.gui_struct.is_github_orga, self.gui_struct.github_orga = prompt_github_repo()
+        self.gui_struct.is_github_repo, \
+            self.gui_struct.is_repo_private, \
+            self.gui_struct.is_github_orga, \
+            self.gui_struct.github_orga \
+            = prompt_github_repo(dot_cookietemple)
+
         if self.gui_struct.is_github_orga:
             self.gui_struct.github_username = self.gui_struct.github_orga
         # create the gui template
@@ -58,11 +67,15 @@ class GuiCreator(TemplateCreator):
         # perform general operations like creating a GitHub repository and general linting
         super().process_common_operations(domain='gui', language=self.gui_struct.language)
 
-    def gui_java_options(self) -> None:
+    def gui_java_options(self, dot_cookietemple: dict or None) -> None:
         """
         Prompt the user for all gui-java specific properties
         """
         # The user id is automatically determined from the full_name as first letter of first name and sur name
         full_name_split = self.creator_ctx.full_name.split()
         self.gui_struct.id = f'{full_name_split[0][0]}{full_name_split[1][0]}' if len(full_name_split) > 1 else f'{full_name_split[0][0]}'
-        self.gui_struct.organization = cookietemple_questionary('text', 'Organization', default='organization')
+        self.gui_struct.organization = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                                    question='Organization',
+                                                                                    default='organization',
+                                                                                    dot_cookietemple=dot_cookietemple,
+                                                                                    to_get_property='organization')
