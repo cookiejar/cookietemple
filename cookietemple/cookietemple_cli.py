@@ -119,7 +119,9 @@ def info(ctx, handle: str) -> None:
 
 
 @cookietemple_cli.command(short_help='Sync your project with the latest template release.', cls=CustomHelpSubcommand)
-def sync() -> None:
+@click.argument('project_dir', type=str, default=Path(f'{Path.cwd()}'), helpmsg='The projects top level directory you would like to sync. Default is current '
+                                                                                'working directory.', cls=CustomArg)
+def sync(project_dir) -> None:
     """
     Sync your project with the latest template release.
 
@@ -127,7 +129,8 @@ def sync() -> None:
     To ensure that you have the latest changes you can invoke sync, which submits a pull request to your Github repository (if existing).
     If no repository exists the TEMPLATE branch will be updated and you can merge manually.
     """
-    snyc_template()
+    project_dir_path = Path(project_dir)
+    snyc_template(project_dir_path)
 
 
 @cookietemple_cli.command('bump-version', short_help='Bump the version of an existing cookietemple project.', cls=CustomHelpSubcommand)
