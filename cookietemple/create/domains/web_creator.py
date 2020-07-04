@@ -26,7 +26,6 @@ class TemplateStructWeb(CookietempleTemplateStruct):
     """
     command_line_interface: str = ''  # which command line library to use (click, argparse)
     testing_library: str = ''  # which testing library to use (pytest, unittest)
-    use_pytest: str = ''  # set automatically if pytest is used
 
     """
     This section contains some attributes specific for website projects
@@ -213,13 +212,9 @@ class WebCreator(TemplateCreator):
                                                                    'Choose a testing library',
                                                                    ['pytest', 'unittest'],
                                                                    default='pytest')
-        if self.web_struct.testing_library == 'pytest':
-            self.web_struct.use_pytest = 'y'
-        else:
-            self.web_struct.use_pytest = 'n'
 
     def website_django_options(self):
-        click.echo(click.style('NOT IMPLEMENTED YET!', fg='red'))
+        click.echo(click.style('NOT YET IMPLEMENTED!', fg='red'))
 
     def handle_rest_api_python(self):
-        click.echo(click.style('NOT IMPLEMENTED YET!', fg='red'))
+        click.echo(click.style('NOT YET IMPLEMENTED!', fg='red'))

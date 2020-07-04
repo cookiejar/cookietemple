@@ -30,9 +30,9 @@ with open('CHANGELOG.rst') as history_file:
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 
-setup_requirements = [{%- if cookiecutter.use_pytest == 'y' %}'pytest-runner',{%- endif %} ]
+setup_requirements = [{%- if cookiecutter.testing_library == 'pytest' %}'pytest-runner',{%- endif %} ]
 
-test_requirements = [{%- if cookiecutter.use_pytest == 'y' %}'pytest>=3',{%- endif %} ]
+test_requirements = [{%- if cookiecutter.testing_library == 'pytest' %}'pytest>=3',{%- endif %} ]
 
 {%- set license_classifiers = {
     'MIT': 'License :: OSI Approved :: MIT License',

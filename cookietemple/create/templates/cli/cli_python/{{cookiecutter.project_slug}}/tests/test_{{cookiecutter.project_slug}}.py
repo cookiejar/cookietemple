@@ -3,7 +3,7 @@
 """Tests for `{{ cookiecutter.project_slug }}` package."""
 import os
 
-{% if cookiecutter.use_pytest == 'y' -%}
+{% if cookiecutter.testing_library == 'pytest' -%}
 import pytest
 {% else %}
 import unittest
@@ -17,7 +17,7 @@ from click.testing import CliRunner
 from {{ cookiecutter.project_slug }} import cli
 {%- endif %}
 
-{%- if cookiecutter.use_pytest == 'y' %}
+{%- if cookiecutter.testing_library == 'pytest' %}
 
 
 @pytest.fixture
