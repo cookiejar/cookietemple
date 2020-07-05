@@ -1,4 +1,6 @@
 import os
+from collections import OrderedDict
+
 import click
 from pathlib import Path
 from dataclasses import dataclass
@@ -39,7 +41,7 @@ class PubCreator(TemplateCreator):
         '"" TEMPLATE VERSIONS ""'
         self.PUB_LATEX_TEMPLATE_VERSION = super().load_version('pub-thesis-latex')
 
-    def create_template(self, dot_cookietemple: dict or None):
+    def create_template(self, dot_cookietemple: OrderedDict or None):
         """
         Prompts the user for the publication type and forwards to subsequent prompts.
         Creates the pub template.
@@ -87,7 +89,8 @@ class PubCreator(TemplateCreator):
 
         # perform general operations like creating a GitHub repository and general linting, but skip common_files copying and rst linting
         super().process_common_operations(skip_common_files=True, skip_fix_underline=True,
-                                          domain='pub', subdomain=self.pub_struct.pubtype, language=self.pub_struct.language)
+                                          domain='pub', subdomain=self.pub_struct.pubtype, language=self.pub_struct.language,
+                                          dot_cookietemple=dot_cookietemple)
 
     # TODO: IMPLEMENT BELOW
     def handle_pub_type(self, dot_cookietemple: dict or None) -> None:

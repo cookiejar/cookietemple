@@ -51,7 +51,7 @@ class CliCreator(TemplateCreator):
                                                                                 to_get_property='language')
 
         # prompt the user to fetch general template configurations
-        super().prompt_general_template_configuration()
+        super().prompt_general_template_configuration(dot_cookietemple)
 
         # switch case statement to prompt the user to fetch template specific configurations
         switcher = {
@@ -82,7 +82,7 @@ class CliCreator(TemplateCreator):
             self.cli_struct.language), f'cli-{self.cli_struct.language.lower()}'
 
         # perform general operations like creating a GitHub repository and general linting
-        super().process_common_operations(domain='cli', language=self.cli_struct.language)
+        super().process_common_operations(domain='cli', language=self.cli_struct.language, dot_cookietemple=dot_cookietemple)
 
     def cli_python_options(self, dot_cookietemple: dict or None):
         """ Prompts for cli-python specific options and saves them into the CookietempleTemplateStruct """

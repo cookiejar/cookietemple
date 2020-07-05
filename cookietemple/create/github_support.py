@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 import click
 import os
 import sys
@@ -145,7 +147,7 @@ def handle_pat_authentification() -> str:
         click.echo(click.style('Cannot find a cookietemple config file! Did you delete it?', fg='red'))
 
 
-def prompt_github_repo(dot_cookietemple: dict or None) -> (bool, bool, bool, str):
+def prompt_github_repo(dot_cookietemple: OrderedDict or None) -> (bool, bool, bool, str):
     """
     Ask user for all settings needed in order to create and push automatically to GitHub repo.
 
@@ -153,8 +155,11 @@ def prompt_github_repo(dot_cookietemple: dict or None) -> (bool, bool, bool, str
     :return if is git repo, if repo should be private, if user is an organization and if so, the organizations name
     """
     # if dot_cookietemple dict was passed -> return the Github related properties and do NOT prompt for them
-    if dot_cookietemple:
-        return dot_cookietemple['is_github_repo'], dot_cookietemple['is_repo_private'], dot_cookietemple['is_github_orga'], dot_cookietemple['github_orga']
+    try:
+        if dot_cookietemple:
+            return dot_cookietemple['is_github_repo'], dot_cookietemple['is_repo_private'], dot_cookietemple['is_github_orga'], dot_cookietemple['github_orga']
+    except KeyError:
+        click.echo(click.style('Missing required Github properties in .cookietemple.yml file!', fg='red'))
 
     # No dot_cookietemple_dict was passed -> prompt whether to create a Github repository and the required settings
     create_git_repo, private, is_github_org, github_org = False, False, False, ''

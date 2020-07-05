@@ -1,4 +1,6 @@
 import os
+from collections import OrderedDict
+
 import click
 from pathlib import Path
 from dataclasses import dataclass
@@ -80,7 +82,10 @@ class WebCreator(TemplateCreator):
             self.web_struct.language), f'web-{self.web_struct.webtype}-{self.web_struct.language.lower()}'
 
         # perform general operations like creating a GitHub repository and general linting
-        super().process_common_operations(domain='web', subdomain=self.web_struct.webtype, language=self.web_struct.language)
+        super().process_common_operations(domain='web',
+                                          subdomain=self.web_struct.webtype,
+                                          language=self.web_struct.language,
+                                          dot_cookietemple=dot_cookietemple)
 
     def handle_web_project_type_python(self, dot_cookietemple: dict or None) -> None:
         """
@@ -154,7 +159,7 @@ class WebCreator(TemplateCreator):
         }
         switcher.get(self.web_struct.web_framework.lower())(dot_cookietemple)
 
-    def website_flask_options(self, dot_cookietemple: dict or None) -> None:
+    def website_flask_options(self, dot_cookietemple: OrderedDict or None) -> None:
         """
         Create a flask website template.
         """
@@ -235,7 +240,7 @@ class WebCreator(TemplateCreator):
 
         os.chdir(cwd)
 
-    def web_python_options(self, dot_cookietemple: dict or None):
+    def web_python_options(self, dot_cookietemple: OrderedDict or None):
         """ Prompts for web-python specific options and saves them into the CookietempleTemplateStruct """
         self.web_struct.command_line_interface = cookietemple_questionary_or_dot_cookietemple(function='select',
                                                                                               question='Choose a command line library',

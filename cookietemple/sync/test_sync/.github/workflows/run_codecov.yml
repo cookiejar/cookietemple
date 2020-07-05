@@ -1,0 +1,32 @@
+name: Run Codecov
+on: [push]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    strategy:
+        matrix:
+            python: [3.7, 3.8]
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup Python
+      uses: actions/setup-python@master
+      with:
+        python-version: ${{ matrix.python }}
+
+    - name: Generate coverage report
+      run: |
+        pip install -r requirements_dev.txt
+        pip install pytest-cov
+        pytest --cov-config=.coveragerc --cov=test_sync/ --cov-report=xml
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        #TODO COOKIETEMPLE: If your repository is private you are required to set a CODECOV_TOKEN as a secret into your Github repository.
+        #See: https://docs.codecov.io/docs/about-the-codecov-bash-uploader#upload-token and
+        #https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets.
+        #No token is required if your repository is public.
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
