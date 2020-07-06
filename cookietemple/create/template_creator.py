@@ -1,5 +1,7 @@
 import os
 import sys
+from collections import OrderedDict
+
 import click
 import shutil
 import re
@@ -39,7 +41,8 @@ class TemplateCreator:
         self.creator_ctx = creator_ctx
 
     def process_common_operations(self, skip_common_files=False, skip_fix_underline=False,
-                                  domain: str = None, subdomain: str = None, language: str = None) -> None:
+                                  domain: str = None, subdomain: str = None, language: str = None,
+                                  dot_cookietemple: OrderedDict = None) -> None:
         """
         Create all stuff that is common for cookietemples template creation process; in detail those things are:
         create and copy common files, fix docs style, lint the project and ask whether the user wants to create a github repo.
@@ -59,7 +62,7 @@ class TemplateCreator:
         # Lint the project to verify that the new template adheres to all standards
         lint_project(project_path, is_create=True)
 
-        if self.creator_ctx.is_github_repo:
+        if self.creator_ctx.is_github_repo and not dot_cookietemple:
             # rename the currently created template to a temporary name, create Github repo, push, remove temporary template
             tmp_project_path = f'{project_path}_cookietemple_tmp'
             os.mkdir(tmp_project_path)
@@ -162,7 +165,7 @@ class TemplateCreator:
                          overwrite_if_exists=True,
                          extra_context=self.creator_ctx_to_dict())
 
-    def prompt_general_template_configuration(self):
+    def prompt_general_template_configuration(self, dot_cookietemple: OrderedDict):
         """
         Prompts the user for general options that are required by all templates.
         Options are saved in the creator context manager object.
@@ -185,15 +188,21 @@ class TemplateCreator:
             self.creator_ctx.full_name = settings['full_name']
             self.creator_ctx.email = settings['email']
 
-        self.creator_ctx.project_name = cookietemple_questionary_or_dot_cookietemple('text', 'Project name', default='Exploding Springfield')
+        self.creator_ctx.project_name = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                                     question='Project name',
+                                                                                     default='Exploding Springfield',
+                                                                                     dot_cookietemple=dot_cookietemple,
+                                                                                     to_get_property='project_name')
 
         # check if the project name is already taken on readthedocs.io
-        while self.readthedocs_slug_already_exists(self.creator_ctx.project_name):
+        while self.readthedocs_slug_already_exists(self.creator_ctx.project_name) and not dot_cookietemple:
             click.echo(click.style(f'A project named {self.creator_ctx.project_name} already exists at readthedocs.io!', fg='red'))
             if cookietemple_questionary_or_dot_cookietemple(function='confirm',
                                                             question='Do you want to choose another name for your project?\n'
                                                                      'Otherwise you will not be able to host your docs at readthedocs.io!', default='Yes'):
-                self.creator_ctx.project_name = cookietemple_questionary_or_dot_cookietemple('text', 'Project name', default='Exploding Springfield')
+                self.creator_ctx.project_name = cookietemple_questionary_or_dot_cookietemple('text',
+                                                                                             'Project name',
+                                                                                             default='Exploding Springfield')
             # break if the project should be named anyways
             else:
                 break
@@ -201,14 +210,22 @@ class TemplateCreator:
         self.creator_ctx.project_short_description = cookietemple_questionary_or_dot_cookietemple(function='text',
                                                                                                   question='Short description of your project',
                                                                                                   default=f'{self.creator_ctx.project_name}'
-                                                                                                          f'. A cookietemple based .')
-        poss_vers = cookietemple_questionary_or_dot_cookietemple('text', 'Initial version of your project', default='0.1.0')
+                                                                                                          f'. A cookietemple based .',
+                                                                                                  dot_cookietemple=dot_cookietemple,
+                                                                                                  to_get_property='project_short_description')
+        poss_vers = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                 question='Initial version of your project',
+                                                                 default='0.1.0',
+                                                                 dot_cookietemple=dot_cookietemple,
+                                                                 to_get_property='version')
 
         # make sure that the version has the right format
-        while not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', poss_vers):
+        while not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', poss_vers) and not dot_cookietemple:
             click.echo(click.style('The version number entered does not match cookietemples pattern.\n'
                                    'Please enter the version in the format [number].[number].[number]!', fg='red'))
-            poss_vers = cookietemple_questionary_or_dot_cookietemple('text', 'Initial version of your project', default='0.1.0')
+            poss_vers = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                     question='Initial version of your project',
+                                                                     default='0.1.0')
         self.creator_ctx.version = poss_vers
 
         self.creator_ctx.license = cookietemple_questionary_or_dot_cookietemple(function='select',
@@ -216,7 +233,9 @@ class TemplateCreator:
                                                                                 choices=['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Boost', 'Affero',
                                                                                          'CC0', 'CCBY', 'CCBYSA', 'Eclipse', 'WTFPL', 'unlicence',
                                                                                          'Not open source'],
-                                                                                default='MIT')
+                                                                                default='MIT',
+                                                                                dot_cookietemple=dot_cookietemple,
+                                                                                to_get_property='license')
 
         self.creator_ctx.github_username = load_github_username()
 

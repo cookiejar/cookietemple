@@ -1,4 +1,5 @@
 import os
+from collections import OrderedDict
 from pathlib import Path
 from dataclasses import dataclass
 
@@ -29,7 +30,7 @@ class GuiCreator(TemplateCreator):
         '"" TEMPLATE VERSIONS ""'
         self.GUI_JAVA_TEMPLATE_VERSION = load_version('gui-java', self.AVAILABLE_TEMPLATES_PATH)
 
-    def create_template(self, dot_cookietemple: dict or None):
+    def create_template(self, dot_cookietemple: OrderedDict or None):
         self.gui_struct.language = cookietemple_questionary_or_dot_cookietemple(function='select',
                                                                                 question='Choose between the following languages',
                                                                                 choices=['java', 'kotlin'],
@@ -65,9 +66,9 @@ class GuiCreator(TemplateCreator):
             self.gui_struct.language.lower()), f'gui-{self.gui_struct.language.lower()}'
 
         # perform general operations like creating a GitHub repository and general linting
-        super().process_common_operations(domain='gui', language=self.gui_struct.language)
+        super().process_common_operations(domain='gui', language=self.gui_struct.language, dot_cookietemple=dot_cookietemple)
 
-    def gui_java_options(self, dot_cookietemple: dict or None) -> None:
+    def gui_java_options(self, dot_cookietemple: OrderedDict or None) -> None:
         """
         Prompt the user for all gui-java specific properties
         """

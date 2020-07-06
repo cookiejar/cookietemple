@@ -38,14 +38,15 @@ def cookietemple_questionary_or_dot_cookietemple(function: str,
     :return: The chosen answer.
     """
     # First check whether a dot_cookietemple was passed and whether it contains the desired property -> return it if so
-    if dot_cookietemple:
-        if to_get_property in dot_cookietemple:
-            return dot_cookietemple[to_get_property]
-        else:
-            logging.debug(f'.cookietemple.yml file was passed when creating a project, but key {to_get_property}'
-                          f' does not exist in the dot_cookietemple dictionary!')
+    try:
+        if dot_cookietemple:
+            if to_get_property in dot_cookietemple:
+                return dot_cookietemple[to_get_property]
+    except KeyError:
+        logging.debug(f'.cookietemple.yml file was passed when creating a project, but key {to_get_property}'
+                      f' does not exist in the dot_cookietemple dictionary!')
 
-    # There is not .cookietemple.yml file aka dot_cookietemple dict passed -> ask for the properties
+    # There is no .cookietemple.yml file aka dot_cookietemple dict passed -> ask for the properties
     answer = ''
     try:
         if function == 'select':
