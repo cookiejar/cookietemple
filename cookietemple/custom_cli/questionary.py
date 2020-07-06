@@ -44,7 +44,8 @@ def cookietemple_questionary_or_dot_cookietemple(function: str,
                 return dot_cookietemple[to_get_property]
     except KeyError:
         logging.debug(f'.cookietemple.yml file was passed when creating a project, but key {to_get_property}'
-                      f' does not exist in the dot_cookietemple dictionary!')
+                      f' does not exist in the dot_cookietemple dictionary! Assigning default {default} to {to_get_property}.')
+        return default
 
     # There is no .cookietemple.yml file aka dot_cookietemple dict passed -> ask for the properties
     answer = ''
