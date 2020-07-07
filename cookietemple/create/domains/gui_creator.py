@@ -27,7 +27,7 @@ class GuiCreator(TemplateCreator):
         self.TEMPLATES_GUI_PATH = f'{self.WD_Path.parent}/templates/gui'
 
         '"" TEMPLATE VERSIONS ""'
-        self.GUI_JAVA_TEMPLATE_VERSION = super().load_version('gui-java')
+        self.GUI_JAVA_TEMPLATE_VERSION = load_version('gui-java', self.AVAILABLE_TEMPLATES_PATH)
 
     def create_template(self, dot_cookietemple: OrderedDict or None):
         self.gui_struct.language = cookietemple_questionary_or_dot_cookietemple(function='select',

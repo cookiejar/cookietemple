@@ -34,9 +34,9 @@ class CliCreator(TemplateCreator):
         self.TEMPLATES_CLI_PATH = f'{self.WD_Path.parent}/templates/cli'
 
         '"" TEMPLATE VERSIONS ""'
-        self.CLI_PYTHON_TEMPLATE_VERSION = super().load_version('cli-python')
-        self.CLI_JAVA_TEMPLATE_VERSION = super().load_version('cli-java')
-        self.CLI_KOTLIN_TEMPLATE_VERSION = super().load_version('cli-kotlin')
+        self.CLI_PYTHON_TEMPLATE_VERSION = load_version('cli-python', self.AVAILABLE_TEMPLATES_PATH)
+        self.CLI_JAVA_TEMPLATE_VERSION = load_version('cli-java', self.AVAILABLE_TEMPLATES_PATH)
+        self.CLI_KOTLIN_TEMPLATE_VERSION = load_version('cli-kotlin', self.AVAILABLE_TEMPLATES_PATH)
 
     def create_template(self, dot_cookietemple: dict or None):
         """

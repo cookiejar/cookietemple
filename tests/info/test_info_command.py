@@ -3,7 +3,7 @@ import pytest
 from click.testing import CliRunner
 
 from cookietemple.info.info import TemplateInfo
-from cookietemple.custom_cli.levensthein_dist import most_similar_command
+from cookietemple.common.levensthein_dist import most_similar_command
 from cookietemple.cookietemple_cli import info
 
 """

@@ -1,6 +1,6 @@
 import os
 
-from cookietemple.util.yaml_util import load_yaml_file
+from cookietemple.common.load_yaml import load_yaml_file
 from cookietemple.util.dict_util import is_nested_dictionary
 
 AVAILABLE_TEMPLATES_PATH = f'{os.path.dirname(__file__)}/../create/templates/available_templates.yml'

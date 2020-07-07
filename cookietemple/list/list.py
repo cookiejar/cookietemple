@@ -6,7 +6,7 @@ from rich.table import Table
 from rich.box import HEAVY_HEAD
 
 from cookietemple.util.dict_util import is_nested_dictionary
-from cookietemple.util.yaml_util import load_yaml_file
+from cookietemple.common.load_yaml import load_yaml_file
 
 
 class TemplateLister:
