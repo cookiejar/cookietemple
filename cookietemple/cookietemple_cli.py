@@ -19,6 +19,7 @@ from cookietemple.warp.warp import warp_project
 from cookietemple.custom_cli.click import HelpErrorHandling, print_project_version, CustomHelpSubcommand, CustomArg
 from cookietemple.config.config import ConfigCommand
 from cookietemple.sync.sync import snyc_template
+from cookietemple.sync.sync_utils.sync_util import has_template_version_changed
 
 WD = os.path.dirname(__file__)
 
@@ -121,15 +122,33 @@ def info(ctx, handle: str) -> None:
 @cookietemple_cli.command(short_help='Sync your project with the latest template release.', cls=CustomHelpSubcommand)
 @click.argument('project_dir', type=str, default=Path(f'{Path.cwd()}'), helpmsg='The projects top level directory you would like to sync. Default is current '
                                                                                 'working directory.', cls=CustomArg)
-def sync(project_dir) -> None:
+@click.option('--check_update', '-ch', is_flag=True, help='Check whether a new template version is available for your project.')
+def sync(project_dir, check_update) -> None:
     """
     Sync your project with the latest template release.
 
     cookietemple regularly updates its templates.
-    To ensure that you have the latest changes you can invoke sync, which submits a pull request to your Github repository (if existing).
+    To ensure that you have the latest changes you can invoke sync, which submits a pull request to your Github repository (if existing) or, in case of a minor
+    change, create an issue in your Github repository (if exists).
     If no repository exists the TEMPLATE branch will be updated and you can merge manually.
     """
     project_dir_path = Path(project_dir)
+    # if user wants to check for new template updates
+    if check_update:
+        major, minor, ct_template_version, proj_template_version = has_template_version_changed(project_dir_path)
+        # a major template update has been released by cookietemple
+        if major:
+            click.echo(click.style(f'Your templates version received a major update from {proj_template_version} to {ct_template_version}!\n Use ', fg='blue') +
+                       click.style('cookietemple sync', fg='green') + click.style('to sync your project and create a pull request with changes.', fg='blue'))
+        # a minor template update has been released by cookietemple
+        elif minor:
+            click.echo(click.style(f'Your templates version received a minor update from {proj_template_version} to {ct_template_version}!\n Use ', fg='blue') +
+                       click.style('cookietemple sync', fg='green') + click.style('to sync your project and create an issue with the changes.', fg='blue'))
+        # no updates were found
+        else:
+            click.echo(click.style('Congrats, you are using the latest template version for your project. No sync is needed.', fg='blue'))
+        sys.exit(0)
+
     snyc_template(project_dir_path)
 
 

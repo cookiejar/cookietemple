@@ -63,7 +63,7 @@ class WebCreator(TemplateCreator):
         self.web_struct.language = cookietemple_questionary_or_dot_cookietemple('select', 'Choose between the following languages', ['python'])
 
         # prompt the user to fetch general template configurations
-        super().prompt_general_template_configuration()
+        super().prompt_general_template_configuration(dot_cookietemple)
 
         # switch case statement to prompt the user to fetch template specific configurations
         switcher = {
@@ -164,24 +164,21 @@ class WebCreator(TemplateCreator):
         """
         Create a flask website template.
         """
+        # prompt username for virtual machine (needed for example when deploying from a Linux VM)
         self.web_struct.vmusername = cookietemple_questionary_or_dot_cookietemple(function='text',
                                                                                   question='Virtual machine username (if already existing)',
                                                                                   default='cookietempleuser',
                                                                                   dot_cookietemple=dot_cookietemple,
                                                                                   to_get_property='vmusername')
-
-        # COOKIETEMPLE TODO That's not solely a flask option!
-        self.web_struct.is_github_repo, \
-            self.web_struct.is_repo_private, \
-            self.web_struct.is_github_orga, \
-            self.web_struct.github_orga \
-            = prompt_github_repo(dot_cookietemple)
-
+        # prompt github repo creation
+        self.web_prompt_github(dot_cookietemple)
+        # if repo owner is a github orga, update username
         if self.web_struct.is_github_orga:
             self.web_struct.github_username = self.web_struct.github_orga
 
+        # create the flask web project
         super().create_template_with_subdomain_framework(self.TEMPLATES_WEB_PATH, self.web_struct.webtype, self.web_struct.web_framework.lower())
-
+        # clean project for advanced or basic setup
         self.basic_or_advanced_files_with_frontend(self.web_struct.is_basic_website, self.web_struct.frontend.lower())
 
     def basic_or_advanced_files_with_frontend(self, is_basic: str, template_name: str) -> None:
@@ -255,6 +252,17 @@ class WebCreator(TemplateCreator):
                                                                                        default='pytest',
                                                                                        dot_cookietemple=dot_cookietemple,
                                                                                        to_get_property='testing_library')
+
+    def web_prompt_github(self, dot_cookietemple) -> None:
+        """
+        Prompt for github repository creation when creating a web template
+        :param dot_cookietemple: Dict (possibly empty) for a possible dry run
+        """
+        self.web_struct.is_github_repo, \
+        self.web_struct.is_repo_private, \
+        self.web_struct.is_github_orga, \
+        self.web_struct.github_orga \
+            = prompt_github_repo(dot_cookietemple)
 
     def website_django_options(self):
         click.echo(click.style('NOT YET IMPLEMENTED!', fg='red'))
