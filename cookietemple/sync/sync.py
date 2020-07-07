@@ -1,12 +1,7 @@
-import click
-from cookietemple.sync.sync_utils.sync_util import sync_load_template_version
+from pathlib import Path
+from cookietemple.sync.sync_utils.sync_util import has_template_version_changed
 
 
-def snyc_template():
-    click.echo(click.style(sync_load_template_version('cli-python'), fg='red'))
-    click.echo(click.style(sync_load_template_version('web-website-python'), fg='red'))
-    click.echo(click.style(sync_load_template_version('pub-thesis-latex'), fg='red'))
-    click.echo(click.style(sync_load_template_version('cli-java'), fg='red'))
-    click.echo(click.style(sync_load_template_version('gui-kotlin'), fg='red'))
-    click.echo(click.style(sync_load_template_version('gui-java'), fg='red'))
+def snyc_template(project_dir: Path):
+    print(has_template_version_changed(project_dir))
 
