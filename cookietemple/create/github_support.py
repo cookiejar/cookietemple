@@ -157,8 +157,8 @@ def prompt_github_repo(dot_cookietemple: OrderedDict or None) -> (bool, bool, bo
     # if dot_cookietemple dict was passed -> return the Github related properties and do NOT prompt for them
     try:
         if dot_cookietemple:
-            if not dot_cookietemple['is_github_repo']:
-                return dot_cookietemple['is_github_repo'], 'false', 'false', ''
+            if not dot_cookietemple['is_github_orga']:
+                return dot_cookietemple['is_github_repo'], dot_cookietemple['is_repo_private'], 'false', ''
             else:
                 return dot_cookietemple['is_github_repo'], dot_cookietemple['is_repo_private'], dot_cookietemple['is_github_orga'], dot_cookietemple['github_orga']
     except KeyError:
