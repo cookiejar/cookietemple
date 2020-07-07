@@ -40,7 +40,11 @@ class PubCreator(TemplateCreator):
         self.CWD = os.getcwd()
 
         '"" TEMPLATE VERSIONS ""'
+<<<<<<< HEAD
         self.PUB_LATEX_TEMPLATE_VERSION = load_ct_template_version('pub-thesis-latex', self.AVAILABLE_TEMPLATES_PATH)
+=======
+        self.PUB_LATEX_TEMPLATE_VERSION = load_version('pub-thesis-latex', self.AVAILABLE_TEMPLATES_PATH)
+>>>>>>> development
 
     def create_template(self, dot_cookietemple: OrderedDict or None):
         """

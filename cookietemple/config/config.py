@@ -7,7 +7,11 @@ from cryptography.fernet import Fernet
 from ruamel.yaml import YAML
 
 from cookietemple.common.levensthein_dist import most_similar_command
+<<<<<<< HEAD
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
+=======
+from cookietemple.custom_cli.questionary import cookietemple_questionary
+>>>>>>> development
 
 
 class ConfigCommand:

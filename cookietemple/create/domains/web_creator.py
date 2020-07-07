@@ -54,7 +54,11 @@ class WebCreator(TemplateCreator):
         self.TEMPLATES_WEB_PATH = f'{self.WD_Path.parent}/templates/web'
 
         '""Web Template Versions""'
+<<<<<<< HEAD
         self.WEB_WEBSITE_PYTHON_TEMPLATE_VERSION = load_ct_template_version('web-website-python', self.AVAILABLE_TEMPLATES_PATH)
+=======
+        self.WEB_WEBSITE_PYTHON_TEMPLATE_VERSION = load_version('web-website-python', self.AVAILABLE_TEMPLATES_PATH)
+>>>>>>> development
 
     def create_template(self, dot_cookietemple: dict or None) -> None:
         """
