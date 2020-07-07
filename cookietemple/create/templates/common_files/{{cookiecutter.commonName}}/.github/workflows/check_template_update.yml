@@ -21,4 +21,4 @@ jobs:
           name: Check out source-code repository
 
         - name: Check for new template version
-          run: if cookietemple sync --check_update | grep -q 'cookietemple sync';then echo "New template version is available. Use cookietemple sync to update."; exit 1;else echo "No update found";exit 0;fi
+          run: if cookietemple sync --check_update | grep -q 'templates version received';then echo "Update available for sync!"; exit 1; else echo "Your template is up to date!"; fi
