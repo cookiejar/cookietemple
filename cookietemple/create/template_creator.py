@@ -7,6 +7,7 @@ import shutil
 import re
 import tempfile
 
+import cookietemple
 import requests
 from distutils.dir_util import copy_tree
 from pathlib import Path
@@ -307,6 +308,7 @@ class TemplateCreator:
         :param template_version: Version of the specific template
         """
         self.creator_ctx.template_version = f'{template_version} # <<COOKIETEMPLE_NO_BUMP>>'
+        self.creator_ctx.cookietemple_version = f'{cookietemple.__version__} # <<COOKIETEMPLE_NO_BUMP>>'
         with open(f'{self.creator_ctx.project_slug}/.cookietemple.yml', 'w') as f:
             yaml = YAML()
             struct_to_dict = self.creator_ctx_to_dict()

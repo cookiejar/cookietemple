@@ -6,30 +6,24 @@ class CookietempleTemplateStruct:
     """
     First section declares the variables that all template have in common
     """
-    domain: str = ''  # the domain of the template: Currently available: CLI, WEB, GUI, PUB
-    language: str = ''  # the language the project will be mainly written in
-    project_slug: str = ''  # the project name cookietemple uses for almost all further processing
-    template_version: str = ''  # the version of the provided cookietemple template
-    template_handle: str = ''  # the handle of the specific template, indicating which template is currently used
-    github_username: str = ''  # github username
-    is_github_repo: bool = False  # if the user wants to create a GitHub repo automatically
-    is_repo_private: bool = False  # is the github repo to create private
-    is_github_orga: bool = False  # is github orga
-    github_orga: str = ''  # the (possible empty) name of the GitHub organization
+    cookietemple_version: str = ''  # Version of cookietemple, which was used for creating the project
+    domain: str = ''  # Domain of the template
+    language: str = ''  # Primary language
+    project_slug: str = ''  # Project name cookietemple uses for almost all further processing
+    template_version: str = ''  # Version of the provided cookietemple template
+    template_handle: str = ''  # Handle of the specific template, indicating which template is currently used
+    github_username: str = ''  # Github username
+    is_github_repo: bool = False  # Whether the user wants to create a GitHub repo automatically
+    is_repo_private: bool = False  # Whether to create a private Github repository
+    is_github_orga: bool = False  # Whether Github repository is part of an organization
+    github_orga: str = ''  # Name of the GitHub organization
 
     """
-    This section contains some attributes common to the CLI, WEB and GUI domains
+    This section contains some attributes common to cli, lib, gui, web
     """
-    full_name: str = ''  # the name of the template creator/ the organization
-    email: str = ''  # the email of the creator
-    project_name: str = ''  # the projects name the template is created for
-    project_short_description: str = ''  # a short description of the project
-    version: str = ''  # the version of the project; of the form: [0-9]*\.[0-9]*\.[0-9]*
-    license: str = ''  # the license of the project
-
-    """
-    This section contains some attributes specific for any python project
-    """
-    command_line_interface: str = ''  # the cmd line lib used, if any.
-    testing_library: str = ''  # the testing library that is (mainly) used for the project
-    use_pytest: str = ''  # indicates of the project wants to use pytest as the default testing framework
+    full_name: str = ''  # Name of the template creator/organization
+    email: str = ''  # Email of the creator
+    project_name: str = ''  # Project's name the template is created for
+    project_short_description: str = ''  # A short description of the project
+    version: str = ''  # Version of the project; of the form: [0-9]*\.[0-9]*\.[0-9]*
+    license: str = ''  # License of the project

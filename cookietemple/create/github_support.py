@@ -12,7 +12,7 @@ from git import Repo, exc
 from ruamel.yaml import YAML
 
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
-from cookietemple.custom_cli.questionary import cookietemple_questionary
+from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.common.load_yaml import load_yaml_file
 from cookietemple.config.config import ConfigCommand
 
@@ -157,7 +157,10 @@ def prompt_github_repo(dot_cookietemple: OrderedDict or None) -> (bool, bool, bo
     # if dot_cookietemple dict was passed -> return the Github related properties and do NOT prompt for them
     try:
         if dot_cookietemple:
-            return dot_cookietemple['is_github_repo'], dot_cookietemple['is_repo_private'], dot_cookietemple['is_github_orga'], dot_cookietemple['github_orga']
+            if not dot_cookietemple['is_github_orga']:
+                return dot_cookietemple['is_github_repo'], dot_cookietemple['is_repo_private'], 'false', ''
+            else:
+                return dot_cookietemple['is_github_repo'], dot_cookietemple['is_repo_private'], dot_cookietemple['is_github_orga'], dot_cookietemple['github_orga']
     except KeyError:
         click.echo(click.style('Missing required Github properties in .cookietemple.yml file!', fg='red'))
 

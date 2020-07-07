@@ -6,8 +6,8 @@ from dataclasses import dataclass
 from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
-from cookietemple.custom_cli.questionary import cookietemple_questionary
-from cookietemple.common.version import load_version
+from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
+from cookietemple.common.version import load_ct_template_version
 
 
 @dataclass
@@ -35,9 +35,9 @@ class CliCreator(TemplateCreator):
         self.TEMPLATES_CLI_PATH = f'{self.WD_Path.parent}/templates/cli'
 
         '"" TEMPLATE VERSIONS ""'
-        self.CLI_PYTHON_TEMPLATE_VERSION = load_version('cli-python', self.AVAILABLE_TEMPLATES_PATH)
-        self.CLI_JAVA_TEMPLATE_VERSION = load_version('cli-java', self.AVAILABLE_TEMPLATES_PATH)
-        self.CLI_KOTLIN_TEMPLATE_VERSION = load_version('cli-kotlin', self.AVAILABLE_TEMPLATES_PATH)
+        self.CLI_PYTHON_TEMPLATE_VERSION = load_ct_template_version('cli-python', self.AVAILABLE_TEMPLATES_PATH)
+        self.CLI_JAVA_TEMPLATE_VERSION = load_ct_template_version('cli-java', self.AVAILABLE_TEMPLATES_PATH)
+        self.CLI_KOTLIN_TEMPLATE_VERSION = load_ct_template_version('cli-kotlin', self.AVAILABLE_TEMPLATES_PATH)
 
     def create_template(self, dot_cookietemple: dict or None):
         """

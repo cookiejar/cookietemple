@@ -6,8 +6,8 @@ from dataclasses import dataclass
 from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
-from cookietemple.custom_cli.questionary import cookietemple_questionary
-from cookietemple.common.version import load_version
+from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
+from cookietemple.common.version import load_ct_template_version
 
 
 @dataclass
@@ -28,7 +28,7 @@ class GuiCreator(TemplateCreator):
         self.TEMPLATES_GUI_PATH = f'{self.WD_Path.parent}/templates/gui'
 
         '"" TEMPLATE VERSIONS ""'
-        self.GUI_JAVA_TEMPLATE_VERSION = load_version('gui-java', self.AVAILABLE_TEMPLATES_PATH)
+        self.GUI_JAVA_TEMPLATE_VERSION = load_ct_template_version('gui-java', self.AVAILABLE_TEMPLATES_PATH)
 
     def create_template(self, dot_cookietemple: OrderedDict or None):
         self.gui_struct.language = cookietemple_questionary_or_dot_cookietemple(function='select',

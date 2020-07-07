@@ -16,7 +16,7 @@ from cookietemple.lint.lint import lint_project
 from cookietemple.list.list import TemplateLister
 from cookietemple.upgrade.upgrade import UpgradeCommand
 from cookietemple.warp.warp import warp_project
-from cookietemple.custom_cli.custom_click import HelpErrorHandling, print_project_version, CustomHelpSubcommand, CustomArg
+from cookietemple.custom_cli.click import HelpErrorHandling, print_project_version, CustomHelpSubcommand, CustomArg
 from cookietemple.config.config import ConfigCommand
 from cookietemple.sync.sync import snyc_template
 
