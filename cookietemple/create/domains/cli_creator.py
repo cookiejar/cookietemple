@@ -10,7 +10,6 @@ from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_
 from cookietemple.common.version import load_ct_template_version
 
 
-
 @dataclass
 class TemplateStructCli(CookietempleTemplateStruct):
     """
