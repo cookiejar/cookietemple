@@ -38,7 +38,7 @@ class GuiCreator(TemplateCreator):
                                                                                 to_get_property='language')
 
         # prompt the user to fetch general template configurations
-        super().prompt_general_template_configuration()
+        super().prompt_general_template_configuration(dot_cookietemple)
 
         # switch case statement to prompt the user to fetch template specific configurations
         switcher = {
