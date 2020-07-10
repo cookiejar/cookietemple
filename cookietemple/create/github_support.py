@@ -3,6 +3,10 @@ from collections import OrderedDict
 import click
 import os
 import sys
+import requests
+import json
+from base64 import b64encode
+from nacl import encoding, public
 from pathlib import Path
 from cryptography.fernet import Fernet
 from distutils.dir_util import copy_tree
@@ -52,6 +56,10 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
     repository = f'{tmp_repo_path}'
 
     # NOTE: github_username is the organizations name, if an organization repository is to be created
+
+    # create the repos sync secret
+    click.echo(click.style('Creating your repositories sync secret.', fg='blue'))
+    create_sync_secret(creator_ctx.github_username, creator_ctx.project_slug, access_token)
 
     # git clone
     click.echo(click.style('Cloning empty Github repository.', fg='blue'))
@@ -181,6 +189,77 @@ def prompt_github_repo(dot_cookietemple: OrderedDict or None) -> (bool, bool, bo
                                                                default='No')
 
     return create_git_repo, private, is_github_org, github_org
+
+
+def create_sync_secret(username: str, repo_name: str, token: str) -> None:
+    """
+    Create the secret cookietemple uses to sync repos. The secret contains the personal access token with the repo scope.
+    Following steps are required (PAT MUST have at least repo access):
+    1.) Get the repos public key (and its ID) which is needed for secret's value (PAT) encryption; for private repos especially we need an authentification
+        header for a successful request.
+    2.) Encrypt the secret value using PyNacl (a Python binding for Javascripts LibSodium) and send the data with an authentification header (PAT) and the
+        public key's ID via PUT to the Github API.
+
+    :param username: The users github username
+    :param repo_name: The repositories name
+    :param token: The PAT of the user with repo scope
+    """
+    public_key_dict = get_repo_public_key(username, repo_name, token)
+    create_secret(username, repo_name, token, public_key_dict['key'], public_key_dict['key_id'])
+
+
+def get_repo_public_key(username: str, repo_name: str, token: str) -> dict:
+    """
+    Get the public key for a repository via the Github API. At least for private repos, a personal access token (PAT) with the repo scope is required.
+
+    :param username: The users github username
+    :param repo_name: The repositories name
+    :param token: The PAT of the user with repo scope
+    :return: A dict containing the public key and its ID
+    """
+    query_url = f"https://api.github.com/repos/{username}/{repo_name}/actions/secrets/public-key"
+    headers = {'Authorization': f'token {token}'}
+    r = requests.get(query_url, headers=headers)
+    return r.json()
+
+
+def create_secret(username: str, repo_name: str, token: str, public_key_value: str, public_key_id: str) -> None:
+    """
+    Create the secret named CT_SYNC_TOKEN using a PUT request via the Github API. This request needs a PAT with the repo scope for authentification purposes.
+    Using PyNacl, a Python binding for Javascripts LibSodium, it encrypts the secret value, which is required by the Github API.
+
+    :param username: The user's github username
+    :param repo_name: The repositories name
+    :param token: The PAT of the user with repo scope
+    :param public_key_value: The public keys value (the key) of the repos public key PyNacl uses for encryption of the secrets value
+    :param public_key_id: The ID of the public key used for encryption
+    """
+    encrypted_value = encrypt_secret_value(public_key_value, token)
+    # the parameters required by the Github API
+    params = {
+        "encrypted_value": encrypted_value,
+        "key_id": public_key_id
+    }
+    # the authentification header
+    headers = {'Authorization': f'token {token}'}
+    # the url used for PUT
+    put_url = f"https://api.github.com/repos/{username}/{repo_name}/actions/secrets/CT_SYNC_TOKEN"
+    requests.put(put_url, headers=headers, data=json.dumps(params))
+
+
+def encrypt_secret_value(public_key: str, token: str) -> str:
+    """
+    Encrypt the secret value (which is the PAT here).
+
+    :param public_key: Public key of the repo we want to create a secret for
+    :param token: The users PAT with repo scope as the secrets value
+    :return: The encrypted secret value (PAT)
+    """
+    """Encrypt a Unicode string using the public key."""
+    public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
+    sealed_box = public.SealedBox(public_key)
+    encrypted = sealed_box.encrypt(token.encode("utf-8"))
+    return b64encode(encrypted).decode("utf-8")
 
 
 def decrypt_pat() -> str:

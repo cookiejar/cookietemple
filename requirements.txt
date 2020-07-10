@@ -11,3 +11,4 @@ rich==3.0.5
 packaging==20.4
 appdirs==1.4.4
 questionary==1.5.2
+pynacl==1.4.0
