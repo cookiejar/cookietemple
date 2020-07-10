@@ -85,12 +85,12 @@ release: dist ## package and upload a release
 	twine upload dist/*
 
 dist: clean ## builds source and wheel package
-	python3.7 setup.py sdist
-	python3.7 setup.py bdist_wheel
+	python setup.py sdist
+	python setup.py bdist_wheel
 	ls -l dist
 
 install: clean ## install the package to the active Python's site-packages
-	python3.7 setup.py install
+	pip install .
 {%- if cookiecutter.is_basic_website == 'n' %}
 init_db:
 	export FLASK_APP={{cookiecutter.project_slug}}/app.py; \

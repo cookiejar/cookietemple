@@ -244,9 +244,9 @@ class VersionBumper:
         # if any failed linting tests, ask user for confirmation of proceeding with bump (which results in undefined behavior)
         if len(changelog_linter.failed) > 0 or len(changelog_linter.warned) > 0:
             # ask for confirmation if the user really wants to proceed bumping when linting failed
-            click.echo(click.style(f'Changelog linting and/or version check failed!\nYou can fix them and try bumping again. Proceeding bump will result in '
-                                   f'undefined behavior!', fg='red'))
-            if not click.confirm(click.style(f'Do you really want to continue?', fg='red')):
+            click.echo(click.style('Changelog linting and/or version check failed!\nYou can fix them and try bumping again. Proceeding bump will result in '
+                                   'undefined behavior!', fg='red'))
+            if not click.confirm(click.style('Do you really want to continue?', fg='red')):
                 sys.exit(1)
 
     def add_changelog_section(self, path: Path, new_version: str) -> None:

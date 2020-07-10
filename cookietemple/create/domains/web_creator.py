@@ -259,9 +259,9 @@ class WebCreator(TemplateCreator):
         :param dot_cookietemple: Dict (possibly empty) for a possible dry run
         """
         self.web_struct.is_github_repo, \
-        self.web_struct.is_repo_private, \
-        self.web_struct.is_github_orga, \
-        self.web_struct.github_orga \
+            self.web_struct.is_repo_private, \
+            self.web_struct.is_github_orga, \
+            self.web_struct.github_orga \
             = prompt_github_repo(dot_cookietemple)
 
     def website_django_options(self):

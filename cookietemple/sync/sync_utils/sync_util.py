@@ -30,10 +30,9 @@ def has_template_version_changed(project_dir: Path) -> (bool, bool, str, str):
     """
     Check, if the cookietemple template has been updated since last check/sync of the user.
 
-    :return: Both false if no versions changed or a micro change happened (for ex. 1.2.3 to 1.2.4). Return pr_major_change True if a major version release happened
-    for the cookietemple template (for example 1.2.3 to 2.0.0). Return issue_minor_change True if a minor change happened (1.2.3 to 1.3.0).
-    cookietemple will use this to decide which syncing strategy to apply.
-    Also return both versions.
+    :return: Both false if no versions changed or a micro change happened (for ex. 1.2.3 to 1.2.4). Return pr_major_change True if a major version release
+    happened for the cookietemple template (for example 1.2.3 to 2.0.0). Return issue_minor_change True if a minor change happened (1.2.3 to 1.3.0).
+    cookietemple will use this to decide which syncing strategy to apply. Also return both versions.
     """
     template_version_last_sync, template_handle = sync_load_project_template_version_and_handle(project_dir)
     template_version_last_sync = version.parse(template_version_last_sync)
