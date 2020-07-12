@@ -18,8 +18,6 @@ from cookietemple.upgrade.upgrade import UpgradeCommand
 from cookietemple.warp.warp import warp_project
 from cookietemple.custom_cli.click import HelpErrorHandling, print_project_version, CustomHelpSubcommand, CustomArg
 from cookietemple.config.config import ConfigCommand
-from cookietemple.sync.sync import snyc_template
-from cookietemple.sync.sync_utils.sync_util import has_template_version_changed
 
 WD = os.path.dirname(__file__)
 
@@ -149,7 +147,7 @@ def sync(project_dir, check_update) -> None:
             click.echo(click.style('Congrats, you are using the latest template version for your project. No sync is needed.', fg='blue'))
         sys.exit(0)
 
-    snyc_template(project_dir_path)
+    # snyc_template(project_dir_path)
 
 
 @cookietemple_cli.command('bump-version', short_help='Bump the version of an existing cookietemple project.', cls=CustomHelpSubcommand)
