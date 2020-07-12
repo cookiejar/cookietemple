@@ -1,6 +1,24 @@
-from pathlib import Path
-from cookietemple.sync.sync_utils.sync_util import has_template_version_changed
+class Sync:
 
+    def __init__(self, github_username: str, pat: str):
+        self.github_username = ''
+        self.pat = ''
 
-def snyc_template(project_dir: Path):
-    print(has_template_version_changed(project_dir))
+    @classmethod
+    def sync(cls):
+        pass
+
+    def fetch_github_credentials(self):
+        pass
+
+    def check_template_update_available(self):
+        pass
+
+    def create_new_template(self):
+        pass
+
+    def create_pull_request(self):
+        pass
+
+    def checkout_original_branch(self):
+        pass
