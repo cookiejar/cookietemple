@@ -134,7 +134,7 @@ dmypy.json
 
 # Coala
 *.orig
-{% elif cookiecutter.language == 'Java' %}
+{% elif cookiecutter.language == 'java' %}
 
 # Compiled class file
 *.class
@@ -170,7 +170,7 @@ target/
 # Gradle build
 build/
 
-{% elif cookiecutter.language == 'CPlusPlus' %}
+{% elif cookiecutter.language == 'cplusplus' %}
 
 /[Bb]uild/*
 /CMakeCache.*
