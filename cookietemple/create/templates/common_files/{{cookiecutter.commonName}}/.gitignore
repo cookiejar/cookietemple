@@ -170,7 +170,7 @@ target/
 # Gradle build
 build/
 
-{% elif cookiecutter.language == 'cplusplus' %}
+{% elif cookiecutter.language == 'cpp' %}
 
 /[Bb]uild/*
 /CMakeCache.*
