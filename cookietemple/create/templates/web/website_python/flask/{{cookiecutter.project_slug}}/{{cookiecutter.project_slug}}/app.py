@@ -1,17 +1,17 @@
-{% if cookiecutter.is_basic_website == 'n' -%}
+{% if cookiecutter.setup_type == 'advanced' -%}
 from .config import Config, config_mail, login, db, migrate, mail, bootstrap, babel
 from flask import Flask, request, session
 import click
 import os
 {% endif %}
-{% if cookiecutter.is_basic_website == 'y' -%}
+{% if cookiecutter.setup_type == 'basic' -%}
 from flask import Flask
 from .config import Config
 {% endif %}
 
 app = Flask(__name__)
 app.config.from_object(Config)
-{% if cookiecutter.is_basic_website == 'n' -%}
+{% if cookiecutter.setup_type == 'advanced' -%}
 migrate.init_app(app, db)
 login.init_app(app)
 mail.init_app(app)
@@ -30,13 +30,13 @@ from {{cookiecutter.project_slug}}.errors import bp as errors_bp  # noqa: E402
 
 app.register_blueprint(errors_bp)
 
-{% if cookiecutter.is_basic_website == 'y' -%}
+{% if cookiecutter.setup_type == 'basic' -%}
 from {{cookiecutter.project_slug}}.basic import bp as basic_bp  # noqa: E402
 
 app.register_blueprint(basic_bp)
 {% endif %}
 
-{% if cookiecutter.is_basic_website == 'n' -%}
+{% if cookiecutter.setup_type == 'advanced' -%}
 from {{cookiecutter.project_slug}}.auth import bp as auth_bp  # noqa: E402
 
 app.register_blueprint(auth_bp, url_prefix='/auth')

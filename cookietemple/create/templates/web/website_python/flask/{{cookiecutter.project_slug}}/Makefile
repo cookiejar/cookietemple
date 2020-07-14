@@ -91,7 +91,7 @@ dist: clean ## builds source and wheel package
 
 install: clean ## install the package to the active Python's site-packages
 	pip install .
-{%- if cookiecutter.is_basic_website == 'n' %}
+{%- if cookiecutter.setup_type == 'advanced' %}
 init_db:
 	export FLASK_APP={{cookiecutter.project_slug}}/app.py; \
 	flask db init; \

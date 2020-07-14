@@ -30,89 +30,92 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
     :param project_path: The path to the recently created project
     :param tmp_repo_path: Path to the empty cloned repo
     """
-    if not is_git_accessible():
-        return
+    try:
+        if not is_git_accessible():
+            return
 
-    # the personal access token for GitHub
-    access_token = handle_pat_authentification()
+        # the personal access token for GitHub
+        access_token = handle_pat_authentification()
 
-    # Login to Github
-    click.echo(click.style('Logging into Github.', fg='blue'))
-    authenticated_github_user = Github(access_token)
-    user = authenticated_github_user.get_user()
+        # Login to Github
+        click.echo(click.style('Logging into Github.', fg='blue'))
+        authenticated_github_user = Github(access_token)
+        user = authenticated_github_user.get_user()
 
-    # Create new repository
-    click.echo(click.style('Creating Github repository.', fg='blue'))
-    if creator_ctx.is_github_orga:
-        org = authenticated_github_user.get_organization(creator_ctx.github_orga)
-        repo = org.create_repo(creator_ctx.project_slug, description=creator_ctx.project_short_description, private=creator_ctx.is_repo_private)
-        creator_ctx.github_username = creator_ctx.github_orga
-    else:
-        repo = user.create_repo(creator_ctx.project_slug, description=creator_ctx.project_short_description, private=creator_ctx.is_repo_private)
+        # Create new repository
+        click.echo(click.style('Creating Github repository.', fg='blue'))
+        if creator_ctx.is_github_orga:
+            org = authenticated_github_user.get_organization(creator_ctx.github_orga)
+            repo = org.create_repo(creator_ctx.project_slug, description=creator_ctx.project_short_description, private=creator_ctx.is_repo_private)
+            creator_ctx.github_username = creator_ctx.github_orga
+        else:
+            repo = user.create_repo(creator_ctx.project_slug, description=creator_ctx.project_short_description, private=creator_ctx.is_repo_private)
 
-    click.echo(click.style('Creating labels and default Github settings.', fg='blue'))
-    create_github_labels(repo=repo, labels=[('DEPENDABOT', '1BB0CE')])
+        click.echo(click.style('Creating labels and default Github settings.', fg='blue'))
+        create_github_labels(repo=repo, labels=[('DEPENDABOT', '1BB0CE')])
 
-    repository = f'{tmp_repo_path}'
+        repository = f'{tmp_repo_path}'
 
-    # NOTE: github_username is the organizations name, if an organization repository is to be created
+        # NOTE: github_username is the organizations name, if an organization repository is to be created
 
-    # create the repos sync secret
-    click.echo(click.style('Creating your repositories sync secret.', fg='blue'))
-    create_sync_secret(creator_ctx.github_username, creator_ctx.project_slug, access_token, creator_ctx.is_github_orga, creator_ctx.github_orga)
+        # create the repos sync secret
+        click.echo(click.style('Creating your repositories sync secret.', fg='blue'))
+        create_sync_secret(creator_ctx.github_username, creator_ctx.project_slug, access_token, creator_ctx.is_github_orga, creator_ctx.github_orga)
 
-    # git clone
-    click.echo(click.style('Cloning empty Github repository.', fg='blue'))
-    Repo.clone_from(f'https://{creator_ctx.github_username}:{access_token}@github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}', repository)
+        # git clone
+        click.echo(click.style('Cloning empty Github repository.', fg='blue'))
+        Repo.clone_from(f'https://{creator_ctx.github_username}:{access_token}@github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}', repository)
 
-    # Copy files which should be included in the initial commit -> basically the template
-    copy_tree(f'{repository}', project_path)
+        # Copy files which should be included in the initial commit -> basically the template
+        copy_tree(f'{repository}', project_path)
 
-    # the created projct repository with the copied .git directory
-    cloned_repo = Repo(path=project_path)
+        # the created projct repository with the copied .git directory
+        cloned_repo = Repo(path=project_path)
 
-    # git add
-    click.echo(click.style('Staging template.', fg='blue'))
-    cloned_repo.git.add(A=True)
+        # git add
+        click.echo(click.style('Staging template.', fg='blue'))
+        cloned_repo.git.add(A=True)
 
-    # git commit
-    cloned_repo.index.commit(f'Created {creator_ctx.project_slug} with {creator_ctx.template_handle}'
-                             f'template of version {creator_ctx.template_version} using cookietemple.')
+        # git commit
+        cloned_repo.index.commit(f'Created {creator_ctx.project_slug} with {creator_ctx.template_handle}'
+                                 f'template of version {creator_ctx.template_version} using cookietemple.')
 
-    click.echo(click.style('Pushing template to Github origin master.', fg='blue'))
-    cloned_repo.remotes.origin.push(refspec='master:master')
+        click.echo(click.style('Pushing template to Github origin master.', fg='blue'))
+        cloned_repo.remotes.origin.push(refspec='master:master')
 
-    # set branch protection (all WF must pass, dismiss stale PR reviews) only when repo is public
-    if not creator_ctx.is_repo_private and not creator_ctx.is_github_orga:
-        master_branch = authenticated_github_user.get_user().get_repo(name=creator_ctx.project_slug).get_branch("master")
-        master_branch.edit_protection(dismiss_stale_reviews=True)
-    else:
-        click.echo(click.style('Cannot set branch protection rules due to your repository being private or an orga repo!\n'
-                               'You can set it manually later on.', fg='blue'))
+        # set branch protection (all WF must pass, dismiss stale PR reviews) only when repo is public
+        if not creator_ctx.is_repo_private and not creator_ctx.is_github_orga:
+            master_branch = authenticated_github_user.get_user().get_repo(name=creator_ctx.project_slug).get_branch("master")
+            master_branch.edit_protection(dismiss_stale_reviews=True)
+        else:
+            click.echo(click.style('Cannot set branch protection rules due to your repository being private or an orga repo!\n'
+                                   'You can set it manually later on.', fg='blue'))
 
-    # git create development branch
-    click.echo(click.style('Creating development branch.', fg='blue'))
-    cloned_repo.git.checkout('-b', 'development')
+        # git create development branch
+        click.echo(click.style('Creating development branch.', fg='blue'))
+        cloned_repo.git.checkout('-b', 'development')
 
-    # git push to origin development
-    click.echo(click.style('Pushing template to Github origin development.', fg='blue'))
-    cloned_repo.remotes.origin.push(refspec='development:development')
+        # git push to origin development
+        click.echo(click.style('Pushing template to Github origin development.', fg='blue'))
+        cloned_repo.remotes.origin.push(refspec='development:development')
 
-    # git create TEMPLATE branch
-    click.echo(click.style('Creating TEMPLATE branch.', fg='blue'))
-    cloned_repo.git.checkout('-b', 'TEMPLATE')
+        # git create TEMPLATE branch
+        click.echo(click.style('Creating TEMPLATE branch.', fg='blue'))
+        cloned_repo.git.checkout('-b', 'TEMPLATE')
 
-    # git push to TEMPLATE branch
-    click.echo(click.style('Pushing template to Github origin TEMPLATE.', fg='blue'))
-    cloned_repo.remotes.origin.push(refspec='TEMPLATE:TEMPLATE')
+        # git push to TEMPLATE branch
+        click.echo(click.style('Pushing template to Github origin TEMPLATE.', fg='blue'))
+        cloned_repo.remotes.origin.push(refspec='TEMPLATE:TEMPLATE')
 
-    # checkout to development branch again
-    click.echo(click.style('Checkout to development branch.', fg='blue'))
-    cloned_repo.git.checkout('development')
+        # checkout to development branch again
+        click.echo(click.style('Checkout to development branch.', fg='blue'))
+        cloned_repo.git.checkout('development')
 
-    # did any errors occur?
-    click.echo(click.style(f'Successfully created a Github repository at https://github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}',
-                           fg='green'))
+        # did any errors occur?
+        click.echo(click.style(f'Successfully created a Github repository at https://github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}',
+                               fg='green'))
+    except (GithubException, ConnectionError) as e:
+        handle_failed_github_repo_creation(e)
 
 
 def handle_pat_authentification() -> str:
@@ -245,7 +248,7 @@ def create_secret(username: str, repo_name: str, token: str, public_key_value: s
     :param is_orga: Whether the repo is created within an orga
     :param orga_name: Name of the orga (if any)
     """
-    encrypted_value = encrypt_secret_value(public_key_value, token)
+    encrypted_value = encrypt_sync_secret(public_key_value, token)
     # the parameters required by the Github API
     params = {
         "encrypted_value": encrypted_value,
@@ -284,13 +287,13 @@ def get_orga_repo_id(orga_name: str, repo_name: str, token: str) -> str:
             return repo['id']
 
 
-def encrypt_secret_value(public_key: str, token: str) -> str:
+def encrypt_sync_secret(public_key: str, token: str) -> str:
     """
-    Encrypt the secret value (which is the PAT here).
+    Encrypt the sync secret (which is the PAT).
 
     :param public_key: Public key of the repo we want to create a secret for
-    :param token: The users PAT with repo scope as the secrets value
-    :return: The encrypted secret value (PAT)
+    :param token: The users PAT with repo scope as the secret
+    :return: The encrypted secret (PAT)
     """
     """Encrypt a Unicode string using the public key."""
     public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
@@ -324,6 +327,47 @@ def load_github_username() -> str:
     :return: The users Github account name
     """
     return load_yaml_file(ConfigCommand.CONF_FILE_PATH)['github_username']
+
+
+def handle_failed_github_repo_creation(e: ConnectionError or GithubException) -> None:
+    """
+    Called, when the automatic GitHub repo creation process failed during the create process. As this may have various issue sources,
+    try to provide the user a detailed error message for the individual exception and inform them about what they should/can do next.
+
+    :param e: The exception that has been thrown
+    """
+    # output the error dict thrown by PyGitHub due to an error related to GitHub
+    if isinstance(e, GithubException):
+        click.echo(click.style('\nError while trying to create a Github repo due to an error related to Github API. See below output for detailed information!'
+                               '\n', fg='red'))
+        format_github_exception(e.data)
+    # output an error that might occur due to a missing internet connection
+    elif isinstance(e, ConnectionError):
+        click.echo(click.style('Error while trying to establish a connection to github.com. Do you have an active internet connection?', fg='red'))
+
+
+def format_github_exception(data: dict) -> None:
+    """
+    Format the github exception thrown by PyGitHub in a nice way and output it.
+
+    :param data: The exceptions data as a dict
+    """
+    for k, v in data.items():
+        if not isinstance(v, list):
+            click.echo(click.style(f'{k.capitalize()}: {v}', fg='red'))
+        else:
+            click.echo(click.style(f'{k.upper()}: ', fg='red'))
+            messages = [val if not isinstance(val, dict) and not isinstance(val, set) else github_exception_dict_repr(val) for val in v]
+            click.echo(click.style('\n'.join(msg for msg in messages), fg='red'))
+
+
+def github_exception_dict_repr(messages: dict) -> str:
+    """
+    String representation for Github exception dict thrown by PyGitHub.
+
+    :param messages: The messages as a dict
+    """
+    return '\n'.join(f'    {k.capitalize()}: {v}' for k, v in messages.items())
 
 
 def is_git_accessible() -> bool:

@@ -11,14 +11,8 @@ jobs:
           with:
             python-version: 3.8
 
-        - name: Clone me
-          run: git clone https://github.com/Imipenem/MyTestRepo
-
         - name: Install cookietemple
-          run: pip install MyTestRepo/
-
-        - uses: actions/checkout@v2
-          name: Check out source-code repository
+          run: pip install cookietemple
 
         - name: Set env by checking for update
           run: |

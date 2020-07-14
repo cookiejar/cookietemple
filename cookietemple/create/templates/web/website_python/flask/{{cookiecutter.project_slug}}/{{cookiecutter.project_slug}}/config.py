@@ -1,5 +1,5 @@
 import os
-{% if cookiecutter.is_basic_website == 'n' -%}
+{% if cookiecutter.setup_type == 'advanced' -%}
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_mail import Mail
@@ -26,7 +26,7 @@ class Config:
     basedir = os.path.abspath(os.path.dirname(__file__))
 
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'SOME_SUPERSECRETKEY'
-    {% if cookiecutter.is_basic_website == 'n' -%}
+    {% if cookiecutter.setup_type == 'advanced' -%}
     LANGUAGES = {
         'en': 'English',
         'de': 'German'

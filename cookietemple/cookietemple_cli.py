@@ -14,6 +14,7 @@ from cookietemple.create.create import choose_domain
 from cookietemple.info.info import TemplateInfo
 from cookietemple.lint.lint import lint_project
 from cookietemple.list.list import TemplateLister
+from cookietemple.sync.sync_utils.sync_util import has_template_version_changed
 from cookietemple.upgrade.upgrade import UpgradeCommand
 from cookietemple.warp.warp import warp_project
 from cookietemple.custom_cli.click import HelpErrorHandling, print_project_version, CustomHelpSubcommand, CustomArg
