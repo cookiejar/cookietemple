@@ -3,6 +3,7 @@ from subprocess import Popen
 
 import click
 
+from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.lint.template_linter import TemplateLinter, files_exist_linting, GetLintingFunctionsMeta
 
 CWD = os.getcwd()
@@ -21,8 +22,10 @@ class CliPythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
             autopep8 = Popen(['autopep8', self.path, '--recursive', '--in-place', '--pep8-passes', '2000'],
                              universal_newlines=True, shell=False, close_fds=True)
             (autopep8_stdout, autopep8_stderr) = autopep8.communicate()
-        elif click.confirm('Do you want to run autopep8 to fix pep8 issues?'):
-            click.echo(click.style('Running autopep8 to fix pep8 issues in place', ))
+        elif cookietemple_questionary_or_dot_cookietemple(function='confirm',
+                                                          question='Do you want to run autopep8 to fix pep8 issues?',
+                                                          default='n'):
+            click.echo(click.style('Running autopep8 to fix pep8 issues in place'))
             autopep8 = Popen(['autopep8', self.path, '--recursive', '--in-place', '--pep8-passes', '2000'],
                              universal_newlines=True, shell=False, close_fds=True)
             (autopep8_stdout, autopep8_stderr) = autopep8.communicate()

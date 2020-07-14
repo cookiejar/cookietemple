@@ -257,8 +257,14 @@ class TemplateLinter(object):
         Prints the linting results nicely formatted to the console.
         Output is divided into three sections: Passed (green), Warnings (yellow), Failures (red)
         """
-        click.echo(f"{click.style('=' * 35, dim=True)}\n          {click.style('LINTING RESULTS', fg='blue')}"
-                   f"\n{click.style('=' * 35, dim=True)}\n"
+        equal_sign_color = 'green'
+        if len(self.warned) > 0:
+            equal_sign_color = 'yellow'
+        if len(self.failed) > 0:
+            equal_sign_color = 'red'
+
+        click.echo(f"{click.style('=' * 35, dim=True, fg=equal_sign_color)}\n          {click.style('LINTING RESULTS', fg='blue')}"
+                   f"\n{click.style('=' * 35, dim=True, fg=equal_sign_color)}\n"
                    + click.style('  [{}] {:>4} tests passed\n'.format(u'\u2714', len(self.passed)), fg='green') +
                    click.style('  [!] {:>4} tests had warnings\n'.format(len(self.warned)), fg='yellow') +
                    click.style('  [{}] {:>4} tests failed'.format(u'\u2717', len(self.failed)), fg='red'))
