@@ -1,0 +1,18 @@
+cookietemple_version: '0.1.0 # <<COOKIETEMPLE_NO_BUMP>>'
+domain: gui
+language: java
+project_slug: Exploding_Springfield
+template_version: '0.0.1 # <<COOKIETEMPLE_NO_BUMP>>'
+template_handle: gui-java
+github_username: zethson
+is_github_repo: false
+is_repo_private: false
+is_github_orga: false
+full_name: Lukas Heumos
+email: lukas.heumos@posteo.net
+project_name: Exploding Springfield
+project_short_description: Exploding Springfield. A cookietemple based .
+version: 0.1.0
+license: MIT
+id: LH
+organization: organization

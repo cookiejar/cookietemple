@@ -21,8 +21,8 @@ class TemplateStructCli(CookietempleTemplateStruct):
     """
     CLI-JAVA
     """
-    domain: str = ''  # first part of groupID
-    organization: str = ''  # second part of groupID
+    group_domain: str = ''  # first part of groupID
+    group_organization: str = ''  # second part of groupID
     main_class: str = ''  # name of the main class (determined from the capital project name)
 
 

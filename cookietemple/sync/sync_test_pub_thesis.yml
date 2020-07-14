@@ -1,0 +1,17 @@
+cookietemple_version: '0.1.0 # <<COOKIETEMPLE_NO_BUMP>>'
+domain: pub
+language: latex
+project_slug: PhD_Thesis
+template_version: '1.0.0 # <<COOKIETEMPLE_NO_BUMP>>'
+template_handle: pub-thesis-latex
+github_username: zethson
+is_github_repo: false
+is_repo_private: false
+is_github_orga: false
+project_name: PhD Thesis
+pubtype: thesis
+author: Homer Simpson
+title: On how Springfield exploded
+university: Homer J. Simpson University
+department: Department of Nuclear Physics
+degree: PhD
