@@ -6,7 +6,7 @@ from git import Repo
 
 from cookietemple.create.github_support import handle_pat_authentification
 
-############################## CONFIG
+# CONFIG
 github_username = 'zethson'
 project_slug = 'someweirdrepository'
 #####################################
@@ -43,7 +43,7 @@ click.echo(click.style('Staging template.', fg='blue'))
 cloned_repo.git.add(A=True)
 
 # git commit
-cloned_repo.index.commit(f'ADDED SOMETHING I DON T CARE')
+cloned_repo.index.commit('ADDED SOMETHING I DON T CARE')
 
 click.echo(click.style('Pushing template to Github origin master.', fg='blue'))
 cloned_repo.remotes.origin.push(refspec='master:master')
@@ -61,7 +61,7 @@ click.echo(click.style('Staging template.', fg='blue'))
 cloned_repo.git.add(A=True)
 
 # git commit
-cloned_repo.index.commit(f'ADDED SOMETHING ELSE')
+cloned_repo.index.commit('I MADE ALL BASICS')
 
 click.echo(click.style('Pushing template to Github origin development.', fg='blue'))
 cloned_repo.remotes.origin.push(refspec='development:development')

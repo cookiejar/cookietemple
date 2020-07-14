@@ -31,9 +31,8 @@ cookietemple sets several branch protection rules, which enforce a minimum stand
 For more information please read `about protected branches <https://help.github.com/en/github/administering-a-repository/about-protected-branches>`_.
 The following branch protection rules only apply to the ``master`` branch:
 
-1. Require status checks to pass before merging: The complete CI/CD (see below) pipeline has to pass and requested pull request reviewers have to approve the pull request.
-2. Required review for pull requests: A pull request to ``master`` can only be merged if the code was at least reviewed by one person. If you are developing alone you can merge with your administrator powers.
-3. Dismiss stale pull request approvals when new commits are pushed.
+1. Required review for pull requests: A pull request to ``master`` can only be merged if the code was at least reviewed by one person. If you are developing alone you can merge with your administrator powers.
+2. Dismiss stale pull request approvals when new commits are pushed.
 
 Github Actions
 ---------------------
@@ -52,7 +51,7 @@ The developers should ensure that all workflows always pass before merging, sinc
 .. _pr_master_workflow_docs:
 
 pr_to_master_from_patch_release_only workflow
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 All templates feature a workflow called ``pr_to_master_from_patch_release_only.yml``.
 This workflow runs everytime a PR to your projects master branch is created. It fails, if the PR to the ``master`` branch
@@ -62,6 +61,56 @@ one should create a ``release`` branch only for this purpose and then merge it i
 This ensures that new developments can already be merged into ``development``, while the release is finally prepared.
 The :code:``PATCH`` branch should be used for required :code:`hotfixes` (checked out directly from :code:`master` branch) because, in the meantime, there might
 multiple developments going on at ``development`` branch and you dont want to interfere with them.
+
+check_template_update.yml
+~~~~~~~~~~~~~~~~~~~~~~~~~
+All templates also feature this workflow. This workflow is used for automatic syncing (if enabled) your project with the latest cookietemple template version.
+It runs everytime you are pushing to one of your branches (you can safely customize this behaviour, if you dont want it to run at every push but its recommended
+by cookietemple, especially for open source projects).
+So how does this work in detail?
+
+The workflow first checks if a new template version is available by calling :code:`cookietemple sync` with the
+:code:`--check_update` flag. You can also do this manually when trying to sync manually via :code:`cookietemple sync`.
+If a new version is available, an Issue will be automatically created to inform you as the repository owner about this circumstance. The workflow uses an issue template
+called :code:`sync_notify.md` in :code:`.github/ISSUE_TEMPLATE` in your project. You should NOT edit this file, otherwise, it might result in undefined behaviour.
+We are planning to modify this workflow so that it automatically creates a PR with the modified files just like a manual :code:`cookietemple sync` would do.
+
+Secrets
+-------
+Github secrets are what their name suggests: Encrypted secret values in a repository or an organisation; once they are set their value can be used for sensible data in
+a project or an organisation but their raw value can never be seen again even by an administrator (but it can be updated).
+
+Cookietemple uses a secret called :code:`CT_SYNC_TOKEN` for its syncing feature. This secret is automatically created during the repo creation process, if you choose to create a GitHub repo.
+The secret contains your encrypted personal access token as its value. Note that this will have no effect on how to login or any other activity in your project.
+If you remove the secret or change its value (even with another personal access token of you) the syncing feature will no longer work.
+
+Important notes on organisation secrets: TODO!!!
+
+See section below in case your Github repo creation failed during the create process.
+
+
+Error Handling due to failed Github repo creation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Errors during the create process due to a failed Github repo creation may occur due to a vast amount of reasons:
+Some common error sources are:
+
+1. You have no active internet connection or your firewall protects you against making calls to external APIs.
+
+2. The Github API service or Github itself is unreachable at the moment, which can happen from time to time. In doubt, make sure to check
+`the Github status page <https://www.githubstatus.com/>`_.
+
+3. A repo with the same name already exists in your account/your organisation.
+
+A detailed error message may help you finding the issue.
+
+Creation fails, ok: But how can I then access the full features of cookietemple?
+You can try to fix the issue (or wait some time on case, for example, when Github is down) and then process to create a Github repo manually.
+After this, make sure to create a secret named :code:`CT_SYNC_TOKEN` for your repository. See `the Github docs <https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets>`_
+for info on how to create a secret.
+
+We're planning to provide a command like :code:`cookietemple fix_github` that tries to create a Github repo, set the secret and all other stuff that is going on during
+the Github repo creation in the create process in a later version.
+
 
 Issue labels
 ----------------
