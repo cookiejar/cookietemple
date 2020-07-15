@@ -1,10 +1,10 @@
 import os
 import sys
-import click
 import appdirs
 from pathlib import Path
 from cryptography.fernet import Fernet
 from ruamel.yaml import YAML
+from rich import print
 
 from cookietemple.common.levensthein_dist import most_similar_command
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
@@ -66,13 +66,13 @@ class ConfigCommand:
             yaml = YAML()
             settings = yaml.load(path)
             if not all(attr in settings for attr in ['full_name', 'github_username', 'email']):
-                click.echo(click.style('The Cookietemple config file misses some required attributes!', fg='red'))
-                click.echo(click.style('Lets set them before setting your Github personal access token!', fg='blue'))
+                print('[bold red]The Cookietemple config file misses some required attributes!')
+                print('[bold blue]Lets set them before setting your Github personal access token!')
                 ConfigCommand.config_general_settings()
 
         except FileNotFoundError:
-            click.echo(click.style('Cannot find a Cookietemple config file. Is this your first time using cookietemple?', fg='red'))
-            click.echo(click.style('Lets create one before setting your Github personal access token!', fg='blue'))
+            print('[bold red]Cannot find a Cookietemple config file. Is this your first time using cookietemple?')
+            print('[bold blue]Lets create one before setting your Github personal access token!')
             ConfigCommand.config_general_settings()
 
         if cookietemple_questionary_or_dot_cookietemple('confirm',
@@ -90,10 +90,10 @@ class ConfigCommand:
                 sys.exit(1)
 
             # encrypt the given PAT and save the encryption key and encrypted PAT in separate files
-            click.echo(click.style('Generating key for encryption.', fg='blue'))
+            print('[bold blue]Generating key for encryption.')
             key = Fernet.generate_key()
             fer = Fernet(key)
-            click.echo(click.style('Encrypting personal access token.', fg='blue'))
+            print('[bold blue]Encrypting personal access token.')
             encrypted_pat = fer.encrypt(access_token_b)
 
             # write key
@@ -116,21 +116,19 @@ class ConfigCommand:
         com_list, action = most_similar_command(section.lower(), {'general', 'pat', 'all'})
         # use best match
         if len(com_list) == 1 and action == 'use':
-            click.echo(click.style(f'Unknown handle {section}. Will use best match {com_list[0]}.\n', fg='blue'))
+            print(f'[bold blue]Unknown handle {section}. Will use best match {com_list[0]}.\n')
             ConfigCommand.handle_switcher().get(com_list[0], lambda: 'Invalid handle!')()
         # suggest best match
         elif len(com_list) == 1 and action == 'suggest':
-            click.echo(click.style(f'Unknown handle {section}. Did you mean {com_list[0]}?', fg='blue'))
+            print(f'[bold blue]Unknown handle {section}. Did you mean {com_list[0]}?')
             sys.exit(1)
             # multiple best matches
         elif len(com_list) > 1:
             nl = '\n'
-            click.echo(click.style(f'Unknown handle \'{section}\'.\nMost similar handles are:', fg='red')
-                       + click.style(f'{nl}{nl.join(sorted(com_list))}', fg='green'))
+            print(f'[bold red]Unknown handle \'{section}\'.\nMost similar handles are: [green]{nl}{nl.join(sorted(com_list))}')
         else:
             # unknown handle and no best match found
-            click.echo(click.style('Unknown handle ', fg='red') + click.style(section, fg='green')
-                       + click.style(' See cookietemple --help for info on valid handles', fg='red'))
+            print('[bold red]Unknown handle. [green]See cookietemple --help [red]for more information on valid handles')
 
     @staticmethod
     def check_ct_config_dir_exists() -> None:
