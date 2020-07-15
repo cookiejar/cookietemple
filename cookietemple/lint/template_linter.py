@@ -6,6 +6,7 @@ import configparser
 import rich.progress
 
 from packaging import version
+from rich import print
 from itertools import groupby
 
 from cookietemple.util.dir_util import pf
@@ -273,11 +274,14 @@ class TemplateLinter(object):
         if len(self.failed) > 0:
             equal_sign_color = 'red'
 
-        click.echo(f"{click.style('=' * 45, dim=True, fg=equal_sign_color)}\n               {click.style('LINTING RESULTS', fg='blue')}"
-                   f"\n{click.style('=' * 45, dim=True, fg=equal_sign_color)}\n"
-                   + click.style('  [{}] {:>4} tests passed\n'.format(u'\u2714', len(self.passed)), fg='green') +
-                   click.style('  [!] {:>4} tests had warnings\n'.format(len(self.warned)), fg='yellow') +
-                   click.style('  [{}] {:>4} tests failed'.format(u'\u2717', len(self.failed)), fg='red'))
+        checkmark = '\u2714'
+        cross = '\u2717'
+        print(f'[bold {equal_sign_color}] {"-" * 100}')
+        print(f'[bold blue] {" " * 45}LINTING RESULTS')
+        print(f'[bold {equal_sign_color}] {"-" * 100}')
+        print(f'[bold green]{checkmark} {len(self.passed):>4} tests passed!')
+        print(f'[bold yellow]! {len(self.warned):>4} tests had warnings!')
+        print(f'[bold red]{cross} {len(self.failed):>4} tests failed!\n')
 
         # Helper function to format test links nicely
         def format_result(test_results):
@@ -292,11 +296,14 @@ class TemplateLinter(object):
             return '\n  '.join(print_results)
 
         if len(self.passed) > 0:
-            click.echo(click.style(f'Test passed: \n {format_result(self.passed)}', fg='green'))
+            print('[bold green]Test passed:')
+            click.echo(click.style(f'{format_result(self.passed)}', fg='green'))
         if len(self.warned) > 0:
-            click.echo(click.style(f'Test Warnings: \n {format_result(self.warned)}', fg='yellow'))
+            print(f'[bold yellow]Test Warnings:')
+            click.echo(click.style(f'{format_result(self.warned)}', fg='yellow'))
         if len(self.failed) > 0:
-            click.echo(click.style(f'Test Failures: \n {format_result(self.failed)}', fg='red'))
+            print(f'[bold red]Test Failures:')
+            click.echo(click.style(f'{format_result(self.failed)}', fg='red'))
 
     def _bold_list_items(self, files):
         if not isinstance(files, list):
