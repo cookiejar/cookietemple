@@ -1,6 +1,5 @@
 import os
 import sys
-import click
 from rich.style import Style
 from rich.console import Console
 from rich.table import Table
@@ -146,9 +145,8 @@ class TemplateInfo:
         if self.most_sim:
             # found exactly one similar handle
             if len(self.most_sim) == 1 and self.action == 'use':
-                click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
-                           click.style('for all valid handles.\n', fg='red'))
-                click.echo(click.style('Will use best match ', fg='red') + click.style(f'{self.most_sim[0]}.\n', fg='green'))
+                print(f'[bold red]Unknown handle \'{handle}\'. See [green]cookietemple list [red]for all valids handles')
+                print(f'[bold blue]Will use best match [green]{self.most_sim[0]}.\n')
                 # use best match if exactly one similar handle was found
                 self.show_info(self.most_sim[0])
             elif len(self.most_sim) == 1 and self.action == 'suggest':
@@ -156,9 +154,8 @@ class TemplateInfo:
             else:
                 # found multiple similar handles
                 nl = '\n'
-                click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='green') +
-                           click.style('for all valid handles.\nMost similar handles are:', fg='red') + click.style(f'{nl}{nl.join(sorted(self.most_sim))}',
-                                                                                                                    fg='green'))
+                print(f'[green red]Unknown handle \'{handle}\'. See [green] cookietemple list [red]for all valid handles.' +
+                      f'\nMost similar handles are: [green]{nl}{nl.join(sorted(self.most_sim))}')
             sys.exit(0)
 
         else:
@@ -171,18 +168,15 @@ class TemplateInfo:
         :param handle: Handle inputted by the user
         :param domain_handle: A list of similar commands (will contain only one element most of the time)
         """
-        click.echo(click.style(f'Unknown handle \'{handle}\'. See ', fg='red') + click.style('cookietemple list ', fg='blue') +
-                   click.style('for all valid handles.\n', fg='red'))
-        click.echo(click.style('Did you mean ', fg='red') + click.style(f'{domain_handle[0]}?\n', fg='green'))
+        print(f'[bold red]Unknown handle \'{handle}\'. See [green] cookietemple list [red] for all valid handles.\n')
+        print(f'[bold red] Did you mean [green]{domain_handle[0]}?\n')
 
     def non_existing_handle(self) -> None:
         """
         Handling key not found access error for non existing template handles.
         Displays an error message and terminates cookietemple.
         """
-        click.echo(click.style('Handle does not exist. Please enter a valid handle.\nUse ', fg='red')
-                   + click.style('cookietemple list', fg='blue')
-                   + click.style(' to display all template handles.', fg='red'))
+        print('[bold red]Handle does not exist. Please enter a valid handle.\nUse [green] cookietemple list [red]to display all template handles.')
         sys.exit(0)
 
     def flatten_nested_dict(self, template_info_, templates_to_print) -> None:
