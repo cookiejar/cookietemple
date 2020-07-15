@@ -2,6 +2,7 @@ import os
 import click
 from pathlib import Path
 from dataclasses import dataclass
+from rich import print
 
 from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
@@ -116,4 +117,4 @@ class CliCreator(TemplateCreator):
 
     def cli_kotlin_options(self, dot_cookietemple: dict or None) -> None:
         """ Prompts for cli-kotlin specific options and saves them into the CookietempleTemplateStruct """
-        click.echo(click.style('NOT IMPLEMENTED YET', fg='red'))
+        print('[bold red] NOT IMPLEMENTED YET')

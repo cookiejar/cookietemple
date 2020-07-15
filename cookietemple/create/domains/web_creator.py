@@ -1,11 +1,11 @@
 import os
 from collections import OrderedDict
 
-import click
 from pathlib import Path
 from dataclasses import dataclass
 from distutils.dir_util import copy_tree
 from shutil import copy
+from rich import print
 
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
@@ -146,10 +146,10 @@ class WebCreator(TemplateCreator):
 
         # prompt the user for its frontend template, if he wants so
         if self.web_struct.use_frontend:
-            click.echo(click.style('The following templates are available:\n', fg='blue'))
+            print('[bold blue]The following templates are available:\n')
 
             # strings that start with https: are recognized by most terminal (emulators) as links
-            click.echo(click.style('https://html5up.net/solid-state', fg='blue'))
+            print('[bold blue]https://html5up.net/solid-state')
 
             self.web_struct.frontend = cookietemple_questionary_or_dot_cookietemple(function='select',
                                                                                     question='Choose between the following predefined frontend templates',

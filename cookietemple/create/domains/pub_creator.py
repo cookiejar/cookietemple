@@ -1,9 +1,9 @@
 import os
 from collections import OrderedDict
 
-import click
 from pathlib import Path
 from dataclasses import dataclass
+from rich import print
 
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.github_support import load_github_username, prompt_github_repo
@@ -56,8 +56,8 @@ class PubCreator(TemplateCreator):
                                                                                to_get_property='pubtype')
 
         if not os.path.exists(ConfigCommand.CONF_FILE_PATH):
-            click.echo(click.style('Cannot find a Cookietemple config file! Is this your first time with Cookietemple?\n', fg='red'))
-            click.echo(click.style('Lets set your configs for Cookietemple and you are ready to go!\n', fg='blue'))
+            print('[bold red]Cannot find a Cookietemple config file! Is this your first time with Cookietemple?\n')
+            print('[bold blue]Lets set your configs for Cookietemple and you are ready to go!\n')
             ConfigCommand.all_settings()
 
         # switch case statement to prompt the user to fetch template specific configurations
