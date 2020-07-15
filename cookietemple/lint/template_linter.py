@@ -56,7 +56,7 @@ class TemplateLinter(object):
         progress = rich.progress.Progress(
             "[bold green]{task.description}",
             rich.progress.BarColumn(),
-            "[bold yellow]{task.completed} of {task.total}[reset] » [bold green]{task.fields[func_name]}",
+            "[bold yellow]{task.completed} of {task.total}[reset] [bold green]{task.fields[func_name]}",
         )
         with progress:
             lint_progress = progress.add_task(

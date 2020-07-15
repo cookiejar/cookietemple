@@ -7,6 +7,7 @@ import sys
 import click
 from pathlib import Path
 from rich import traceback
+from rich import print
 
 import cookietemple
 from cookietemple.bump_version.bump_version import VersionBumper
@@ -19,26 +20,27 @@ from cookietemple.upgrade.upgrade import UpgradeCommand
 from cookietemple.warp.warp import warp_project
 from cookietemple.custom_cli.click import HelpErrorHandling, print_project_version, CustomHelpSubcommand, CustomArg
 from cookietemple.config.config import ConfigCommand
+from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
+
 
 WD = os.path.dirname(__file__)
 
 
 def main():
     traceback.install(width=200, word_wrap=True)
-    click.echo(click.style(rf"""
+    print(rf"""[bold blue]
       / __\___   ___ | | _(_) ___| |_ ___ _ __ ___  _ __ | | ___
      / /  / _ \ / _ \| |/ / |/ _ \ __/ _ \ '_ ` _ \| '_ \| |/ _ \
     / /__| (_) | (_) |   <| |  __/ ||  __/ | | | | | |_) | |  __/
     \____/\___/ \___/|_|\_\_|\___|\__\___|_| |_| |_| .__/|_|\___|
                                                    |_|
-        """, fg='blue'))
+        """)
 
-    click.echo(click.style('Run ', fg='blue') + click.style('cookietemple --help ', fg='green') + click.style('for an overview of all commands', fg='blue'))
-    click.echo()
+    print('[bold blue]Run [green]cookietemple --help [blue]for an overview of all commands\n')
 
     # Is the latest cookietemple version installed? Upgrade if not!
     if not UpgradeCommand.check_cookietemple_latest():
-        click.echo(click.style('Run ', fg='blue') + click.style('cookietemple upgrade ', fg='green') + click.style('to get the latest version.'))
+        print('[bold blue]Run [green]cookietemple upgrade [blue]to get the latest version.')
     cookietemple_cli()
 
 
@@ -187,9 +189,11 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
                 # if the check fails, ask the user for confirmation
                 if version_bumper.check_bump_range(version_bumper.CURRENT_VERSION.split('-')[0], new_version.split('-')[0]):
                     version_bumper.bump_template_version(new_version, project_dir)
-                elif click.confirm(click.style(f'Bumping from {version_bumper.CURRENT_VERSION} to {new_version} seems not reasonable.\n'
-                                               f'Do you really want to bump the project version?', fg='blue')):
-                    click.echo('\n')
+                elif cookietemple_questionary_or_dot_cookietemple(function='confirm',
+                                                                  question=f'Bumping from {version_bumper.CURRENT_VERSION} to {new_version} seems not reasonable.\n'
+                                                                            f'Do you really want to bump the project version?',
+                                                                            default='n'):
+                    print('\n')
                     version_bumper.bump_template_version(new_version, project_dir)
             else:
                 version_bumper.bump_template_version(new_version, project_dir)
