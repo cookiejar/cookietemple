@@ -97,7 +97,7 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         cloned_repo.git.checkout('-b', 'development')
 
         # git push to origin development
-        print('[bold blue]Pushing template got Github origin development.')
+        print('[bold blue]Pushing template to Github origin development.')
         cloned_repo.remotes.origin.push(refspec='development:development')
 
         # git create TEMPLATE branch
@@ -166,7 +166,7 @@ def prompt_github_repo(dot_cookietemple: OrderedDict or None) -> (bool, bool, bo
     try:
         if dot_cookietemple:
             if not dot_cookietemple['is_github_orga']:
-                return dot_cookietemple['is_github_repo'], dot_cookietemple['is_repo_private'], 'false', ''
+                return dot_cookietemple['is_github_repo'], dot_cookietemple['is_repo_private'], False, ''
             else:
                 return dot_cookietemple['is_github_repo'], dot_cookietemple['is_repo_private'], dot_cookietemple['is_github_orga'], \
                        dot_cookietemple['github_orga']

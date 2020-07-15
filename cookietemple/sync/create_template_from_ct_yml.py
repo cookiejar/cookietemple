@@ -20,7 +20,8 @@ def load_yaml_file(yaml_file_path: str) -> OrderedDict:
 def create_dry_template(dot_cookietemple: OrderedDict) -> None:
     choose_domain(domain=None, dot_cookietemple=dot_cookietemple)
 
-# create_dry_template(load_yaml_file('/home/zeth/PycharmProjects/cookietemple/cookietemple/sync/sync_test_cli_python.yml'))
+def mytest():
+    create_dry_template(load_yaml_file('/home/thelichking/PycharmProjects/cookietemple/cookietemple/sync/sync_test_cli_python.yml'))
 # create_dry_template(load_yaml_file('/home/zeth/PycharmProjects/cookietemple/cookietemple/sync/sync_test_cli_java.yml'))
 # create_dry_template(load_yaml_file('/home/zeth/PycharmProjects/cookietemple/cookietemple/sync/sync_test_gui_java.yml'))
 # create_dry_template(load_yaml_file('/home/zeth/PycharmProjects/cookietemple/cookietemple/sync/sync_test_pub_thesis.yml'))
