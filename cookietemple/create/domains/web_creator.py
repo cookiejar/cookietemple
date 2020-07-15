@@ -247,7 +247,7 @@ class WebCreator(TemplateCreator):
                                                                                        to_get_property='testing_library')
 
     def website_django_options(self):
-        click.echo(click.style('NOT YET IMPLEMENTED!', fg='red'))
+        print('[bold red]NOT YET IMPLEMENTED!')
 
     def handle_rest_api_python(self):
-        click.echo(click.style('NOT YET IMPLEMENTED!', fg='red'))
+        print('[bold red]NOT YET IMPLEMENTED!')

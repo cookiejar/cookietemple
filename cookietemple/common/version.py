@@ -1,4 +1,3 @@
-import click
 import sys
 from pathlib import Path
 from rich import print

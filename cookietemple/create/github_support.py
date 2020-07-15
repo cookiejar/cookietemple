@@ -1,10 +1,8 @@
-from collections import OrderedDict
-
-import click
 import os
 import sys
 import requests
 import json
+
 from base64 import b64encode
 from nacl import encoding, public
 from pathlib import Path
@@ -14,6 +12,9 @@ from subprocess import Popen, PIPE
 from github import Github, GithubException
 from git import Repo, exc
 from ruamel.yaml import YAML
+from rich import print
+from collections import OrderedDict
+
 
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
@@ -38,12 +39,12 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         access_token = handle_pat_authentification()
 
         # Login to Github
-        click.echo(click.style('Logging into Github.', fg='blue'))
+        print('[bold blue]Logging into Github')
         authenticated_github_user = Github(access_token)
         user = authenticated_github_user.get_user()
 
         # Create new repository
-        click.echo(click.style('Creating Github repository.', fg='blue'))
+        print('[bold blue]Creating Github repository')
         if creator_ctx.is_github_orga:
             org = authenticated_github_user.get_organization(creator_ctx.github_orga)
             repo = org.create_repo(creator_ctx.project_slug, description=creator_ctx.project_short_description, private=creator_ctx.is_repo_private)
@@ -51,7 +52,7 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         else:
             repo = user.create_repo(creator_ctx.project_slug, description=creator_ctx.project_short_description, private=creator_ctx.is_repo_private)
 
-        click.echo(click.style('Creating labels and default Github settings.', fg='blue'))
+        print('[bold blue]Creating labels and default Github settings')
         create_github_labels(repo=repo, labels=[('DEPENDABOT', '1BB0CE')])
 
         repository = f'{tmp_repo_path}'
@@ -59,11 +60,11 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         # NOTE: github_username is the organizations name, if an organization repository is to be created
 
         # create the repos sync secret
-        click.echo(click.style('Creating your repositories sync secret.', fg='blue'))
+        print('[bold blue]Creating repository sync secret')
         create_sync_secret(creator_ctx.github_username, creator_ctx.project_slug, access_token, creator_ctx.is_github_orga, creator_ctx.github_orga)
 
         # git clone
-        click.echo(click.style('Cloning empty Github repository.', fg='blue'))
+        print('[bold blue]Cloning empty Github repository')
         Repo.clone_from(f'https://{creator_ctx.github_username}:{access_token}@github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}', repository)
 
         # Copy files which should be included in the initial commit -> basically the template
@@ -73,14 +74,14 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         cloned_repo = Repo(path=project_path)
 
         # git add
-        click.echo(click.style('Staging template.', fg='blue'))
+        print('[bold blue]Staging template')
         cloned_repo.git.add(A=True)
 
         # git commit
         cloned_repo.index.commit(f'Created {creator_ctx.project_slug} with {creator_ctx.template_handle}'
                                  f'template of version {creator_ctx.template_version} using cookietemple.')
 
-        click.echo(click.style('Pushing template to Github origin master.', fg='blue'))
+        print('[bold blue]Pushing template to Github origin master')
         cloned_repo.remotes.origin.push(refspec='master:master')
 
         # set branch protection (all WF must pass, dismiss stale PR reviews) only when repo is public
@@ -88,32 +89,32 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
             master_branch = authenticated_github_user.get_user().get_repo(name=creator_ctx.project_slug).get_branch("master")
             master_branch.edit_protection(dismiss_stale_reviews=True)
         else:
-            click.echo(click.style('Cannot set branch protection rules due to your repository being private or an orga repo!\n'
-                                   'You can set it manually later on.', fg='blue'))
+            print('[bold blue]Cannot set branch protection rules due to your repository being private or an orga repo!\n'
+                  'You can set it manually later on.')
 
         # git create development branch
-        click.echo(click.style('Creating development branch.', fg='blue'))
+        print('[bold blue]Creating development branch.')
         cloned_repo.git.checkout('-b', 'development')
 
         # git push to origin development
-        click.echo(click.style('Pushing template to Github origin development.', fg='blue'))
+        print('[bold blue]Pushing template got Github origin development.')
         cloned_repo.remotes.origin.push(refspec='development:development')
 
         # git create TEMPLATE branch
-        click.echo(click.style('Creating TEMPLATE branch.', fg='blue'))
+        print('[bold blue]Creating TEMPLATE branch.')
         cloned_repo.git.checkout('-b', 'TEMPLATE')
 
         # git push to TEMPLATE branch
-        click.echo(click.style('Pushing template to Github origin TEMPLATE.', fg='blue'))
+        print('[bold blue]Pushing template to Github origin TEMPLATE.')
         cloned_repo.remotes.origin.push(refspec='TEMPLATE:TEMPLATE')
 
         # checkout to development branch again
-        click.echo(click.style('Checkout to development branch.', fg='blue'))
+        print('[bold blue]Checking out development branch.')
         cloned_repo.git.checkout('development')
 
         # did any errors occur?
-        click.echo(click.style(f'Successfully created a Github repository at https://github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}',
-                               fg='green'))
+        print(f'[bold green]Successfully created a Github repository at https://github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}')
+
     except (GithubException, ConnectionError) as e:
         handle_failed_github_repo_creation(e)
 
@@ -135,27 +136,23 @@ def handle_pat_authentification() -> str:
             pat = decrypt_pat()
             return pat
         else:
-            click.echo(click.style('Could not find encrypted personal access token!\n', fg='red'))
-            click.echo(
-                click.style('Please navigate to Github -> Your profile -> Settings -> Developer Settings -> Personal access token -> Generate a new Token',
-                            fg='blue'))
-            click.echo(click.style('Only tick \'repo\'. The token is a hidden input to cookietemple and stored encrypted locally on your machine.', fg='blue'))
-            click.echo(click.style('For more information please read'
-                                   ' https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line\n\n',
-                                   fg='blue'))
-            click.echo(click.style('Lets move on to set your personal access token for your cookietemple project!', fg='blue'))
+            print('[bold red]Could not find encrypted personal access token!\n')
+            print('[bold blue]Please navigate to Github -> Your profile -> Settings -> Developer Settings -> Personal access token -> Generate a new Token')
+            print('[bold blue]Only tick \'repo\'. The token is a hidden input to cookietemple and stored encrypted locally on your machine.')
+            print('[bold blue]For more information please read' +
+                  'https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line\n\n')
+            print('[bold blue]Lets move on to set your personal access token for your cookietemple project!')
             # set the PAT
             ConfigCommand.config_pat()
             # if the user wants to create a GitHub repo but accidentally presses no on PAT config prompt
             if not os.path.exists(ConfigCommand.KEY_PAT_FILE):
-                click.echo(click.style('No Github personal access token found. Please set it using ', fg='red')
-                           + click.style('cookietemple config github', fg='green'))
+                print('[bold red]No Github personal access token found. Please set it using [green]cookietemple config github')
                 sys.exit(1)
             else:
                 pat = decrypt_pat()
             return pat
     else:
-        click.echo(click.style('Cannot find a cookietemple config file! Did you delete it?', fg='red'))
+        print('[bold red]Cannot find a cookietemple config file! Did you delete it?')
 
 
 def prompt_github_repo(dot_cookietemple: OrderedDict or None) -> (bool, bool, bool, str):
@@ -174,7 +171,7 @@ def prompt_github_repo(dot_cookietemple: OrderedDict or None) -> (bool, bool, bo
                 return dot_cookietemple['is_github_repo'], dot_cookietemple['is_repo_private'], dot_cookietemple['is_github_orga'], \
                        dot_cookietemple['github_orga']
     except KeyError:
-        click.echo(click.style('Missing required Github properties in .cookietemple.yml file!', fg='red'))
+        print('[bold red]Missing required Github properties in .cookietemple.yml file!')
 
     # No dot_cookietemple_dict was passed -> prompt whether to create a Github repository and the required settings
     create_git_repo, private, is_github_org, github_org = False, False, False, ''
@@ -314,7 +311,7 @@ def decrypt_pat() -> str:
     fer = Fernet(key)
     encrypted_pat = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['pat']
     # decrypt the PAT and decode it to string
-    click.echo(click.style('Decrypting personal access token.', fg='blue'))
+    print('[bold blue]Decrypting personal access token.')
     decrypted_pat = fer.decrypt(encrypted_pat).decode('utf-8')
 
     return decrypted_pat
@@ -338,12 +335,11 @@ def handle_failed_github_repo_creation(e: ConnectionError or GithubException) ->
     """
     # output the error dict thrown by PyGitHub due to an error related to GitHub
     if isinstance(e, GithubException):
-        click.echo(click.style('\nError while trying to create a Github repo due to an error related to Github API. See below output for detailed information!'
-                               '\n', fg='red'))
+        print('[bold red]\nError while trying to create a Github repo due to an error related to Github API. See below output for detailed information!\n')
         format_github_exception(e.data)
     # output an error that might occur due to a missing internet connection
     elif isinstance(e, ConnectionError):
-        click.echo(click.style('Error while trying to establish a connection to github.com. Do you have an active internet connection?', fg='red'))
+        print('[bold red]Error while trying to establish a connection to https://github.com. Do you have an active internet connection?')
 
 
 def format_github_exception(data: dict) -> None:
@@ -354,11 +350,11 @@ def format_github_exception(data: dict) -> None:
     """
     for k, v in data.items():
         if not isinstance(v, list):
-            click.echo(click.style(f'{k.capitalize()}: {v}', fg='red'))
+            print(f'[bold red]{k.capitalize()}: {v}')
         else:
-            click.echo(click.style(f'{k.upper()}: ', fg='red'))
+            print(f'[bold red]{k.upper()}: ')
             messages = [val if not isinstance(val, dict) and not isinstance(val, set) else github_exception_dict_repr(val) for val in v]
-            click.echo(click.style('\n'.join(msg for msg in messages), fg='red'))
+            print('[bold red]\n'.join(msg for msg in messages))
 
 
 def github_exception_dict_repr(messages: dict) -> str:
@@ -379,8 +375,8 @@ def is_git_accessible() -> bool:
     git_installed = Popen(['git', '--version'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_installed_stdout, git_installed_stderr) = git_installed.communicate()
     if git_installed.returncode != 0:
-        click.echo(click.style('Could not find \'git\' in the PATH. Is it installed?', fg='red'))
-        click.echo(click.style('Run command was: \'git --version \'', fg='red'))
+        print('[bold red]Could not find \'git\' in the PATH. Is it installed?')
+        print('[bold red]Run command was: \'git --version \'')
         return False
 
     return True
@@ -398,7 +394,7 @@ def create_github_labels(repo, labels: list) -> None:
         try:
             repo.create_label(name=label[0], color=label[1])
         except GithubException:
-            click.echo(click.style(f'Unable to create label {label[0]} due to permissions', fg='red'))
+            print(f'[bold red]Unable to create label {label[0]} due to permissions')
 
 
 def is_git_repo(path: Path) -> bool:
