@@ -3,7 +3,8 @@ import os
 import re
 import click
 import configparser
-from rich.progress import track
+import rich.progress
+
 from packaging import version
 from itertools import groupby
 
@@ -52,12 +53,21 @@ class TemplateLinter(object):
             check_functions.remove('check_files_exist')
             check_functions.remove('lint_changelog')
 
-        # Show a progessbar and run all linting functions
-        for fun_name in track(check_functions, description="[blue]Processing..."):
-            if fun_name == 'check_files_exist':
-                getattr(calling_class, fun_name)(is_subclass_calling)
-            else:
-                getattr(calling_class, fun_name)()
+        progress = rich.progress.Progress(
+            "[bold green]{task.description}",
+            rich.progress.BarColumn(),
+            "[bold yellow]{task.completed} of {task.total}[reset] » [bold green]{task.fields[func_name]}",
+        )
+        with progress:
+            lint_progress = progress.add_task(
+                "Running lint checks", total=len(check_functions), func_name=check_functions
+            )
+            for fun_name in check_functions:
+                progress.update(lint_progress, advance=1, func_name=fun_name)
+                if fun_name == 'check_files_exist':
+                    getattr(calling_class, fun_name)(is_subclass_calling)
+                else:
+                    getattr(calling_class, fun_name)()
 
     def check_files_exist(self, is_subclass_calling=True):
         """Checks a given project directory for required files.
@@ -263,8 +273,8 @@ class TemplateLinter(object):
         if len(self.failed) > 0:
             equal_sign_color = 'red'
 
-        click.echo(f"{click.style('=' * 35, dim=True, fg=equal_sign_color)}\n          {click.style('LINTING RESULTS', fg='blue')}"
-                   f"\n{click.style('=' * 35, dim=True, fg=equal_sign_color)}\n"
+        click.echo(f"{click.style('=' * 45, dim=True, fg=equal_sign_color)}\n               {click.style('LINTING RESULTS', fg='blue')}"
+                   f"\n{click.style('=' * 45, dim=True, fg=equal_sign_color)}\n"
                    + click.style('  [{}] {:>4} tests passed\n'.format(u'\u2714', len(self.passed)), fg='green') +
                    click.style('  [!] {:>4} tests had warnings\n'.format(len(self.warned)), fg='yellow') +
                    click.style('  [{}] {:>4} tests failed'.format(u'\u2717', len(self.failed)), fg='red'))
