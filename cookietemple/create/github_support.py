@@ -61,7 +61,7 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
 
         # create the repos sync secret
         print('[bold blue]Creating repository sync secret')
-        create_sync_secret(creator_ctx.github_username, creator_ctx.project_slug, access_token, creator_ctx.is_github_orga, creator_ctx.github_orga)
+        create_sync_secret(creator_ctx.github_username, creator_ctx.project_slug, access_token)
 
         # git clone
         print('[bold blue]Cloning empty Github repository')
@@ -192,10 +192,9 @@ def prompt_github_repo(dot_cookietemple: OrderedDict or None) -> (bool, bool, bo
     return create_git_repo, private, is_github_org, github_org
 
 
-def create_sync_secret(username: str, repo_name: str, token: str, is_orga: bool, orga_name: str) -> None:
+def create_sync_secret(username: str, repo_name: str, token: str) -> None:
     """
     Create the secret cookietemple uses to sync repos. The secret contains the personal access token with the repo scope.
-    NOTE: IF YOU ONE WANTS TO CREATE AN ORGA REPO THE PAT MUST HAVE ADDITIONALLY THE ADMIN:ORG SCOPE!!!!
     Following steps are required (PAT MUST have at least repo access):
     1.) Get the repos public key (and its ID) which is needed for secret's value (PAT) encryption; for private repos especially we need an authentification
         header for a successful request.
@@ -205,83 +204,48 @@ def create_sync_secret(username: str, repo_name: str, token: str, is_orga: bool,
     :param username: The users github username
     :param repo_name: The repositories name
     :param token: The PAT of the user with repo scope
-    :param orga_name: Name of the orga (if any)
-    :param is_orga: Whether the repo is created within an orga
     """
-    public_key_dict = get_repo_public_key(username, repo_name, token, is_orga, orga_name)
-    create_secret(username, repo_name, token, public_key_dict['key'], public_key_dict['key_id'], is_orga, orga_name)
+    public_key_dict = get_repo_public_key(username, repo_name, token)
+    create_secret(username, repo_name, token, public_key_dict['key'], public_key_dict['key_id'])
 
 
-def get_repo_public_key(username: str, repo_name: str, token: str, is_orga: bool, orga_name: str) -> dict:
+def get_repo_public_key(username: str, repo_name: str, token: str) -> dict:
     """
     Get the public key for a repository via the Github API. At least for private repos, a personal access token (PAT) with the repo scope is required.
-    NOTE: IF YOU ONE WANTS TO CREATE AN ORGA REPO THE PAT MUST HAVE ADDITIONALLY THE ADMIN:ORG SCOPE!!!!
 
     :param username: The users github username
     :param repo_name: The repositories name
     :param token: The PAT of the user with repo scope
-    :param is_orga: If the repo is created in an orga
-    :param orga_name: Name of the orga (if any)
     :return: A dict containing the public key and its ID
     """
-    query_url = f'https://api.github.com/repos/{username}/{repo_name}/actions/secrets/public-key' if not is_orga else \
-        f'https://api.github.com/orgs/{orga_name}/actions/secrets/public-key'
+    query_url = f'https://api.github.com/repos/{username}/{repo_name}/actions/secrets/public-key'
     headers = {'Authorization': f'token {token}'}
     r = requests.get(query_url, headers=headers)
     return r.json()
 
 
-def create_secret(username: str, repo_name: str, token: str, public_key_value: str, public_key_id: str, is_orga: bool, orga_name: str) -> None:
+def create_secret(username: str, repo_name: str, token: str, public_key_value: str, public_key_id: str) -> None:
     """
     Create the secret named CT_SYNC_TOKEN using a PUT request via the Github API. This request needs a PAT with the repo scope for authentification purposes.
     Using PyNacl, a Python binding for Javascripts LibSodium, it encrypts the secret value, which is required by the Github API.
-    NOTE: IF YOU ONE WANTS TO CREATE AN ORGA REPO THE PAT MUST HAVE ADDITIONALLY THE ADMIN:ORG SCOPE!!!!
 
     :param username: The user's github username
     :param repo_name: The repositories name
     :param token: The PAT of the user with repo scope
     :param public_key_value: The public keys value (the key) of the repos public key PyNacl uses for encryption of the secrets value
     :param public_key_id: The ID of the public key used for encryption
-    :param is_orga: Whether the repo is created within an orga
-    :param orga_name: Name of the orga (if any)
     """
     encrypted_value = encrypt_sync_secret(public_key_value, token)
     # the parameters required by the Github API
     params = {
         "encrypted_value": encrypted_value,
         "key_id": public_key_id
-    } if not is_orga else {
-        "encrypted_value": encrypted_value,
-        "key_id": public_key_id,
-        "visibility": "selected",
-        "selected_repository_ids": [get_orga_repo_id(orga_name, repo_name, token)]
     }
     # the authentification header
     headers = {'Authorization': f'token {token}'}
     # the url used for PUT
-    # TODO: ADD CHECK SO THAT TOKEN WILL NOT BE OVERWRITTEN IN ORGA IF TWO USER CREATE PROJECT WITHIN THAT ORGA (NECESSARY???)
-    put_url = f'https://api.github.com/repos/{username}/{repo_name}/actions/secrets/CT_SYNC_TOKEN' if not is_orga else \
-        f'https://api.github.com/orgs/{orga_name}/actions/secrets/CT_SYNC_TOKEN'
+    put_url = f'https://api.github.com/repos/{username}/{repo_name}/actions/secrets/CT_SYNC_TOKEN'
     requests.put(put_url, headers=headers, data=json.dumps(params))
-
-
-def get_orga_repo_id(orga_name: str, repo_name: str, token: str) -> str:
-    """
-    Get the ID for the repo in the github orga to set a sync secret for.
-    NOTE: This needs a token with repo AND, more important, admin:org scope!
-
-    :param orga_name: Name of the orga
-    :param token: PAT of the user
-    :param repo_name: Name of the repo in that orga a secret needs to be created for
-    :return: The ID of the orga repo
-    """
-    query_url = f'https://api.github.com/orgs/{orga_name}/repos'
-    headers = {'Authorization': f'token {token}'}
-    r = requests.get(query_url, headers=headers)
-    json_content = r.json()
-    for repo in json_content:
-        if repo['name'] == repo_name:
-            return repo['id']
 
 
 def encrypt_sync_secret(public_key: str, token: str) -> str:

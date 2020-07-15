@@ -83,8 +83,7 @@ a project or an organisation but their raw value can never be seen again even by
 Cookietemple uses a secret called :code:`CT_SYNC_TOKEN` for its syncing feature. This secret is automatically created during the repo creation process, if you choose to create a GitHub repo.
 The secret contains your encrypted personal access token as its value. Note that this will have no effect on how to login or any other activity in your project.
 If you remove the secret or change its value (even with another personal access token of you) the syncing feature will no longer work.
-
-Important notes on organisation secrets: TODO!!!
+In case you are creating an organisation repository, the secret will also be stored as a repository secret, only usable for your specific project.
 
 See section below in case your Github repo creation failed during the create process.
 
