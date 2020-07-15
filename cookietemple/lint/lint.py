@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
-import click
 from ruamel.yaml import YAML
+from rich import print
 
 from cookietemple.lint.template_linter import TemplateLinter
 from cookietemple.lint.domains.cli import CliPythonLint, CliJavaLint
@@ -30,7 +30,7 @@ def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
     try:
         lint_obj = switcher.get(template_handle)(project_dir)
     except TypeError:
-        click.echo(click.style(f'Unable to find linter for handle {template_handle}! Aborting...', fg='red'))
+        print(f'[bold red]Unable to find linter for handle {template_handle}! Aborting...')
         sys.exit(1)
 
     # Run the linting tests
@@ -42,11 +42,11 @@ def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
         else:
             disable_check_files = False
         # Run non project specific linting
-        click.echo(click.style('Running general linting', fg='blue'))
+        print('[bold blue]Running general linting')
         lint_obj.lint_project(super(lint_obj.__class__, lint_obj), custom_check_files=disable_check_files, is_subclass_calling=False)
 
         # Run the project specific linting
-        click.echo(click.style(f'Running {template_handle} linting', fg='blue'))
+        print('[bold blue]Running {template_handle} linting')
 
         # for every python project that is created autopep8 will run one time
         # when linting en existing python COOKIETEMPLE project, autopep8 should be now optional,
@@ -56,8 +56,8 @@ def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
         else:
             lint_obj.lint()
     except AssertionError as e:
-        click.echo(click.style(f'Critical error: {e}', fg='red'))
-        click.echo(click.style('Stopping tests...', fg='red'))
+        print(f'[bold red]Critical error: {e}')
+        print('[bold red] Stopping tests...')
         return lint_obj
 
     # Print the results
@@ -65,7 +65,7 @@ def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
 
     # Exit code
     if len(lint_obj.failed) > 0:
-        click.echo(click.style('Sorry, some tests failed - exiting with a non-zero error code...\n', fg='red'))
+        print(f'[bold red] {len(lint_obj.failed)} tests failed! Exiting with non-zero error code.')
         sys.exit(1)
 
 
@@ -77,7 +77,7 @@ def get_template_handle(dot_cookietemple_path: str = '.cookietemple.yml') -> str
     """
     path = Path(f'{dot_cookietemple_path}/.cookietemple.yml')
     if not path.exists():
-        click.echo(click.style('.cookietemple.yml not found. Is this a COOKIETEMPLE project?', fg='red'))
+        print('[bold red].cookietemple.yml not found. Is this a COOKIETEMPLE project?')
         sys.exit(1)
     yaml = YAML(typ='safe')
     dot_cookietemple_content = yaml.load(path)
