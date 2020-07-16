@@ -124,8 +124,9 @@ def info(ctx, handle: str) -> None:
 @click.argument('project_dir', type=str, default=Path(f'{Path.cwd()}'), helpmsg='The projects top level directory you would like to sync. Default is current '
                                                                                 'working directory.', cls=CustomArg)
 @click.argument('pat', type=str, required=False, helpmsg='Personal access token. Not needed for manual, local syncing!', cls=CustomArg)
+@click.argument('username', type=str, required=False, helpmsg='Github username. Not needed for manual, local syncing!', cls=CustomArg)
 @click.option('--check_update', '-ch', is_flag=True, help='Check whether a new template version is available for your project.')
-def sync(project_dir, pat, check_update) -> None:
+def sync(project_dir, pat, username, check_update) -> None:
     """
     Sync your project with the latest template release.
 
@@ -135,7 +136,7 @@ def sync(project_dir, pat, check_update) -> None:
     If no repository exists the TEMPLATE branch will be updated and you can merge manually.
     """
     project_dir_path = Path(f'{Path.cwd()}/{project_dir}')
-    syncer = Sync(pat, project_dir_path)
+    syncer = Sync(pat, username, project_dir_path)
     # if user wants to check for new template updates
     if check_update:
         is_version_outdated, ct_template_version, proj_template_version = syncer.has_template_version_changed(project_dir_path)
@@ -148,6 +149,7 @@ def sync(project_dir, pat, check_update) -> None:
             click.echo(click.style('Congrats, you are using the latest template version for your project. No sync is needed.', fg='blue'))
         sys.exit(0)
     # sync the project
+    # TODO: ADD CHECK IF VERSION CHANGED (AS A SANITY CHECK, BUT DO THIS AFTER DEVELOPMENT FINISHED)
     syncer.sync()
 
 
