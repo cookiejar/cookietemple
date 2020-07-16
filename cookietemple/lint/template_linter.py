@@ -1,12 +1,19 @@
 import io
 import os
 import re
+import textwrap
+import datetime
+
 import click
 import configparser
+
+import cookietemple
 import rich.progress
+import rich.markdown
+import rich.panel
+import rich.console
 
 from packaging import version
-from rich import print
 from itertools import groupby
 
 from cookietemple.util.dir_util import pf
@@ -56,7 +63,7 @@ class TemplateLinter(object):
 
         progress = rich.progress.Progress(
             "[bold green]{task.description}",
-            rich.progress.BarColumn(),
+            rich.progress.BarColumn(bar_width=None),
             "[bold yellow]{task.completed} of {task.total}[reset] [bold green]{task.fields[func_name]}",
         )
         with progress:
@@ -201,9 +208,7 @@ class TemplateLinter(object):
                                 .replace('# TODO COOKIETEMPLE: ', '') \
                                 .replace('// TODO COOKIETEMPLE: ', '') \
                                 .replace('TODO COOKIETEMPLE: ', '').strip()
-                            if len(fname) + len(line) > 70:
-                                line = f'{line[:70 - len(fname)]}..'
-                            self.warned.append(('general-3', click.style(f'TODO string found in {self._bold_list_items(fname)}: {line}', fg='yellow')))
+                            self.warned.append(('general-3', click.style(f'TODO string found in {self._wrap_quotes(fname)}: {line}', fg='yellow')))
 
     def check_no_cookiecutter_strings(self) -> None:
         """
@@ -217,8 +222,7 @@ class TemplateLinter(object):
                         # TODO We should also add some of the more advanced cookiecutter if statements, raw statements etc
                         regex = re.compile('{{ cookiecutter.* }}')
                         if regex.match(line):
-                            if len(fname) + len(line) > 50:
-                                line = f'{line[:50 - len(fname)]}..'
+                            line = f'{line[:50 - len(fname)]}..'
                             self.warned.append(('general-4', click.style(f'Cookiecutter string found in \'{fname}\': {line}', fg='yellow')))
 
     def check_version_consistent(self) -> None:
@@ -263,53 +267,127 @@ class TemplateLinter(object):
                             self.failed.append(('general-5', click.style(f'Version number don´t match in\n {path}:', fg='blue')
                                                 + click.style(f'\n {line.strip()} should be {corrected_line.strip()}', fg='red')))
 
-    def print_results(self) -> None:
-        """
-        Prints the linting results nicely formatted to the console.
-        Output is divided into three sections: Passed (green), Warnings (yellow), Failures (red)
-        """
-        equal_sign_color = 'green'
-        if len(self.warned) > 0:
-            equal_sign_color = 'yellow'
-        if len(self.failed) > 0:
-            equal_sign_color = 'red'
-
-        checkmark = '\u2714'
-        cross = '\u2717'
-        print(f'[bold {equal_sign_color}] {"-" * 100}')
-        print(f'[bold blue] {" " * 45}LINTING RESULTS')
-        print(f'[bold {equal_sign_color}] {"-" * 100}')
-        print(f'[bold green]{checkmark} {len(self.passed):>4} tests passed!')
-        print(f'[bold yellow]! {len(self.warned):>4} tests had warnings!')
-        print(f'[bold red]{cross} {len(self.failed):>4} tests failed!\n')
+    def print_results(self):
+        console = rich.console.Console()
+        console.print()
+        console.rule("[bold green] LINT RESULTS")
+        console.print()
+        console.print(
+            f'     [green][[\u2714]] {len(self.passed):>4} tests passed\n     [yellow][[!]] {len(self.warned):>4} tests had warnings\n'
+            f'     [red][[\u2717]] {len(self.failed):>4} tests failed',
+            overflow="ellipsis",
+            highlight=False,
+        )
 
         # Helper function to format test links nicely
         def format_result(test_results):
             """
-            Given an error message ID and the message text, return a nicely formatted
+            Given an list of error message IDs and the message texts, return a nicely formatted
             string for the terminal with appropriate ASCII colours.
             """
-            print_results = []
+            results = []
             for eid, msg in test_results:
-                url = click.style(f'https://cookietemple/linting/errors#{eid}', fg='blue')
-                print_results.append(f'{url} : {msg}')
-            return '\n  '.join(print_results)
+                results.append(f"1. [https://cookietemple/linting/errors#{eid}](https://cookietemple/linting/errors#{eid}): {msg}")
+            return rich.markdown.Markdown("\n".join(results))
 
         if len(self.passed) > 0:
-            print('[bold green]Test passed:')
-            click.echo(click.style(f'{format_result(self.passed)}', fg='green'))
+            console.print()
+            console.rule("[bold green][[\u2714]] Tests Passed", style="green")
+            console.print(rich.panel.Panel(format_result(self.passed), style="green"), no_wrap=True, overflow="ellipsis")
         if len(self.warned) > 0:
-            print(f'[bold yellow]Test Warnings:')
-            click.echo(click.style(f'{format_result(self.warned)}', fg='yellow'))
+            console.print()
+            console.rule("[bold yellow][[!]] Test Warnings", style="yellow")
+            console.print(rich.panel.Panel(format_result(self.warned), style="yellow"), no_wrap=True, overflow="ellipsis")
         if len(self.failed) > 0:
-            print(f'[bold red]Test Failures:')
-            click.echo(click.style(f'{format_result(self.failed)}', fg='red'))
+            console.print()
+            console.rule("[bold red][[\u2717]] Test Failures", style="red")
+            console.print(rich.panel.Panel(format_result(self.failed), style="red"), no_wrap=True, overflow="ellipsis")
 
-    def _bold_list_items(self, files):
+    def get_results_md(self):
+        """
+        Function to create a markdown file suitable for posting in a GitHub comment
+        """
+        # Overall header
+        overall_result = "Passed :white_check_mark:"
+        if len(self.failed) > 0:
+            overall_result = "Failed :x:"
+
+        # List of tests for details
+        test_failures = ""
+        if len(self.failed) > 0:
+            test_failures = "### :x: Test failures:\n\n{}\n\n".format(
+                "\n".join(
+                    [
+                        f'* [Test #{eid}](https://cookietemple/linting/errors#{eid}) - {self._strip_ansi_codes(msg, "`")}'
+                        for eid, msg in self.failed
+                    ]
+                )
+            )
+
+        test_warnings = ""
+        if len(self.warned) > 0:
+            test_warnings = "### :heavy_exclamation_mark: Test warnings:\n\n{}\n\n".format(
+                "\n".join(
+                    [
+                        f'* [Test #{eid}](https://cookietemple/linting/errors#{eid}) - {self._strip_ansi_codes(msg, "`")}'
+                        for eid, msg in self.warned
+                    ]
+                )
+            )
+
+        test_passes = ""
+        if len(self.passed) > 0:
+            test_passes = "### :white_check_mark: Tests passed:\n\n{}\n\n".format(
+                "\n".join(
+                    [
+                        f'* [Test #{eid}](https://cookietemple/linting/errors#{eid}) - {self._strip_ansi_codes(msg, "`")}'
+                        for eid, msg in self.passed
+                    ]
+                )
+            )
+
+        now = datetime.datetime.now()
+
+        markdown = textwrap.dedent(
+            """
+        #### `cookietemple lint` overall result: {}
+        ```diff
+        +| ✅ {:2d} tests passed       |+
+        !| ❗ {:2d} tests had warnings |!
+        -| ❌ {:2d} tests failed       |-
+        ```
+        <details>
+        {}{}{}### Run details:
+        * nf-core/tools version {}
+        * Run at `{}`
+        </details>
+        """
+        ).format(
+            overall_result,
+            len(self.passed),
+            len(self.warned),
+            len(self.failed),
+            test_failures,
+            test_warnings,
+            test_passes,
+            cookietemple.__version__,
+            now.strftime("%Y-%m-%d %H:%M:%S"),
+        )
+
+        return markdown
+
+    def _wrap_quotes(self, files):
         if not isinstance(files, list):
             files = [files]
-        bfiles = [click.style(f, bold=True) for f in files]
-        return ' or '.join(bfiles)
+        bfiles = [f"`{file}`" for file in files]
+
+        return " or ".join(bfiles)
+
+    def _strip_ansi_codes(self, string, replace_with=""):
+        # https://stackoverflow.com/a/14693789/713980
+        ansi_escape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
+
+        return ansi_escape.sub(replace_with, string)
 
 
 def files_exist_linting(self,
@@ -335,7 +413,7 @@ def files_exist_linting(self,
     for files in files_fail:
         if not any([os.path.isfile(pf(self, f)) for f in files]):
             all_exists = False
-            self.failed.append(('{handle}-1', click.style(f'File not found: {self._bold_list_items(files)}', fg='red')))
+            self.failed.append(('{handle}-1', click.style(f'File not found: {self._wrap_quotes(files)}', fg='red')))
     # flag that indiactes whether all required files exist or not
     if all_exists:
         # called linting from a specific template linter
@@ -351,21 +429,21 @@ def files_exist_linting(self,
             # pass cause if a file was found it will be summarised in one "all required files found" statement
             pass
         else:
-            self.warned.append((f'{handle}-1', click.style(f'File not found: {self._bold_list_items(files)}', fg='yellow')))
+            self.warned.append((f'{handle}-1', click.style(f'File not found: {self._wrap_quotes(files)}', fg='yellow')))
 
     # Files that cause an error if they exist
     for file in files_fail_ifexists:
         if os.path.isfile(pf(self, file)):
-            self.failed.append((f'{handle}-1', click.style(f'File must be removed: {self._bold_list_items(file)}', fg='red')))
+            self.failed.append((f'{handle}-1', click.style(f'File must be removed: {self._wrap_quotes(file)}', fg='red')))
         else:
-            self.passed.append((f'{handle}-1', click.style(f'File not found check: {self._bold_list_items(file)}', fg='green')))
+            self.passed.append((f'{handle}-1', click.style(f'File not found check: {self._wrap_quotes(file)}', fg='green')))
 
     # Files that cause a warning if they exist
     for file in files_warn_ifexists:
         if os.path.isfile(pf(self, file)):
-            self.warned.append((f'{handle}-1', click.style(f'File should be removed: {self._bold_list_items(file)}', fg='yellow')))
+            self.warned.append((f'{handle}-1', click.style(f'File should be removed: {self._wrap_quotes(file)}', fg='yellow')))
         else:
-            self.passed.append((f'{handle}-1', click.style(f'File not found check: {self._bold_list_items(file)}', fg='green')))
+            self.passed.append((f'{handle}-1', click.style(f'File not found check: {self._wrap_quotes(file)}', fg='green')))
 
 
 class GetLintingFunctionsMeta(type):
