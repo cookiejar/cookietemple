@@ -1,6 +1,7 @@
 import collections
 import io
 from rich.console import Console
+from rich import print
 import click
 import sys
 from pathlib import Path
@@ -124,7 +125,7 @@ class HelpErrorHandling(click.Group):
         if not matches:
             ctx.fail(click.style('Unknown command and no similar command was found!', fg='red'))
         elif len(matches) == 1 and action == 'use':
-            click.echo(click.style('Unknown command! Will use best match ', fg='red') + click.style(f'{matches[0]}.', fg='green'))
+            print(f'[bold red]Unknown command! Will use best match [green]{matches[0]}')
             return click.Group.get_command(self, ctx, matches[0])
         elif len(matches) == 1 and action == 'suggest':
             ctx.fail(click.style('Unknown command! Did you mean ', fg='red') + click.style(f'{matches[0]}?', fg='green'))
@@ -140,20 +141,17 @@ class HelpErrorHandling(click.Group):
         :param cmd: The invoked subcommand
         """
         if cmd == 'info':
-            click.echo(click.style('Failed to execute ', fg='red') + click.style(f'{cmd.upper()}. ', fg='red')
-                       + click.style('Please provide a valid handle like ', fg='blue')
-                       + click.style('cli ', fg='green') + click.style('as argument', fg='blue'))
+            print(f'[bold red]Failed to execute [bold green]{cmd.upper()}.\n[bold blue]Please provide a valid handle like [bold green]cli '
+                  '[bold blue]as argument.')
             sys.exit(1)
 
         elif cmd == 'bump-version':
-            click.echo(click.style('Failed to execute ', fg='red') + click.style(f'{cmd.upper()}. ', fg='red')
-                       + click.style('Please provide a new version like ', fg='blue')
-                       + click.style('1.2.3 ', fg='green') + click.style('as first argument', fg='blue'))
+            print(f'[bold red]Failed to execute [bold green]{cmd.upper()}.\n[bold blue]Please provide a new version like [bold green]1.2.3 '
+                  '[bold blue]as first argument.')
             sys.exit(1)
 
         elif cmd == 'config':
-            click.echo(click.style('Failed to execute ', fg='red') + click.style(f'{cmd.upper()}. ', fg='red')
-                       + click.style('Please provide a valid argument. You can choose general, pat or all.', fg='blue'))
+            print(f'[bold red]Failed to execute [bold green]{cmd.upper()}.\n[bold blue]Please provide a valid argument. You can choose general, pat or all.')
             sys.exit(1)
 
     def get_rich_value(self, output: str, is_header=True) -> str:
@@ -178,7 +176,7 @@ def print_project_version(ctx, param, value) -> None:
     if not value or ctx.resilient_parsing:
         return
     try:
-        click.echo(click.style('Current project version is ', fg='blue') + click.style(VersionBumper(Path.cwd(), False).CURRENT_VERSION, fg='green'))
+        print(f'[bold blue]Current project version is [bold green]{VersionBumper(Path.cwd(), False).CURRENT_VERSION}!')
         ctx.exit()
     # currently, its only possible to get project version from top level project dir where the cookietemple.cfg file is
     except NoSectionError:

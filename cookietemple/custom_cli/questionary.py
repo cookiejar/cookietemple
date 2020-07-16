@@ -2,9 +2,9 @@ import logging
 import sys
 from typing import Union
 
-import click
 import questionary
 from prompt_toolkit.styles import Style
+from rich import print
 
 cookietemple_style = Style([
     ('qmark', 'fg:#0000FF bold'),  # token in front of the question
@@ -69,7 +69,7 @@ def cookietemple_questionary_or_dot_cookietemple(function: str,
             logging.debug(f'Unsupported questionary function {function} used!')
 
     except KeyboardInterrupt:
-        click.echo(click.style('Aborted by user!', fg='red'))
+        print('[bold red] Aborted!')
         sys.exit(1)
     if answer is None or answer == '':
         answer = default

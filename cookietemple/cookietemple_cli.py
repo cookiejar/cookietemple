@@ -7,6 +7,7 @@ import sys
 import click
 from pathlib import Path
 from rich import traceback
+from rich import print
 
 import cookietemple
 from cookietemple.bump_version.bump_version import VersionBumper
@@ -18,27 +19,28 @@ from cookietemple.upgrade.upgrade import UpgradeCommand
 from cookietemple.warp.warp import warp_project
 from cookietemple.custom_cli.click import HelpErrorHandling, print_project_version, CustomHelpSubcommand, CustomArg
 from cookietemple.config.config import ConfigCommand
-from cookietemple.sync.sync import snyc_template
+from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
+from cookietemple.sync.sync import Sync
+
 
 WD = os.path.dirname(__file__)
 
 
 def main():
     traceback.install(width=200, word_wrap=True)
-    click.echo(click.style(rf"""
+    print(rf"""[bold blue]
       / __\___   ___ | | _(_) ___| |_ ___ _ __ ___  _ __ | | ___
      / /  / _ \ / _ \| |/ / |/ _ \ __/ _ \ '_ ` _ \| '_ \| |/ _ \
     / /__| (_) | (_) |   <| |  __/ ||  __/ | | | | | |_) | |  __/
     \____/\___/ \___/|_|\_\_|\___|\__\___|_| |_| |_| .__/|_|\___|
                                                    |_|
-        """, fg='blue'))
+        """)
 
-    click.echo(click.style('Run ', fg='blue') + click.style('cookietemple --help ', fg='green') + click.style('for an overview of all commands', fg='blue'))
-    click.echo()
+    print('[bold blue]Run [green]cookietemple --help [blue]for an overview of all commands\n')
 
     # Is the latest cookietemple version installed? Upgrade if not!
     if not UpgradeCommand.check_cookietemple_latest():
-        click.echo(click.style('Run ', fg='blue') + click.style('cookietemple upgrade ', fg='green') + click.style('to get the latest version.'))
+        print('[bold blue]Run [green]cookietemple upgrade [blue]to get the latest version.')
     cookietemple_cli()
 
 
@@ -121,16 +123,34 @@ def info(ctx, handle: str) -> None:
 @cookietemple_cli.command(short_help='Sync your project with the latest template release.', cls=CustomHelpSubcommand)
 @click.argument('project_dir', type=str, default=Path(f'{Path.cwd()}'), helpmsg='The projects top level directory you would like to sync. Default is current '
                                                                                 'working directory.', cls=CustomArg)
-def sync(project_dir) -> None:
+@click.argument('pat', type=str, required=False, helpmsg='Personal access token. Not needed for manual, local syncing!', cls=CustomArg)
+@click.argument('username', type=str, required=False, helpmsg='Github username. Not needed for manual, local syncing!', cls=CustomArg)
+@click.option('--check_update', '-ch', is_flag=True, help='Check whether a new template version is available for your project.')
+def sync(project_dir, pat, username, check_update) -> None:
     """
     Sync your project with the latest template release.
 
     cookietemple regularly updates its templates.
-    To ensure that you have the latest changes you can invoke sync, which submits a pull request to your Github repository (if existing).
+    To ensure that you have the latest changes you can invoke sync, which submits a pull request to your Github repository (if existing) or, in case of a minor
+    change, create an issue in your Github repository (if exists).
     If no repository exists the TEMPLATE branch will be updated and you can merge manually.
     """
-    project_dir_path = Path(project_dir)
-    snyc_template(project_dir_path)
+    project_dir_path = Path(f'{Path.cwd()}/{project_dir}')
+    syncer = Sync(pat, username, project_dir_path)
+    # if user wants to check for new template updates
+    if check_update:
+        is_version_outdated, ct_template_version, proj_template_version = syncer.has_major_minor_template_version_changed(project_dir_path)
+        # a template update has been released by cookietemple
+        if is_version_outdated:
+            click.echo(click.style(f'Your templates version received an update from {proj_template_version} to {ct_template_version}!\n Use ', fg='blue') +
+                       click.style('cookietemple sync', fg='green') + click.style('to sync your project and create a pull request with changes.', fg='blue'))
+        # no updates were found
+        else:
+            click.echo(click.style('Congrats, you are using the latest template version for your project. No sync is needed.', fg='blue'))
+        sys.exit(0)
+    # sync the project
+    # TODO: ADD CHECK IF VERSION CHANGED (AS A SANITY CHECK, BUT DO THIS AFTER DEVELOPMENT FINISHED)
+    syncer.sync()
 
 
 @cookietemple_cli.command('bump-version', short_help='Bump the version of an existing cookietemple project.', cls=CustomHelpSubcommand)
@@ -169,9 +189,11 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
                 # if the check fails, ask the user for confirmation
                 if version_bumper.check_bump_range(version_bumper.CURRENT_VERSION.split('-')[0], new_version.split('-')[0]):
                     version_bumper.bump_template_version(new_version, project_dir)
-                elif click.confirm(click.style(f'Bumping from {version_bumper.CURRENT_VERSION} to {new_version} seems not reasonable.\n'
-                                               f'Do you really want to bump the project version?', fg='blue')):
-                    click.echo('\n')
+                elif cookietemple_questionary_or_dot_cookietemple(function='confirm',
+                                                                  question=f'Bumping from {version_bumper.CURRENT_VERSION} to {new_version} seems not reasonable.\n'
+                                                                            f'Do you really want to bump the project version?',
+                                                                            default='n'):
+                    print('\n')
                     version_bumper.bump_template_version(new_version, project_dir)
             else:
                 version_bumper.bump_template_version(new_version, project_dir)

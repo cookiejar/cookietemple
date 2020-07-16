@@ -1,6 +1,5 @@
 import os
 import sys
-import click
 import re
 from packaging import version
 from configparser import ConfigParser
@@ -10,9 +9,11 @@ from os import fdopen, remove
 from pathlib import Path
 from git import Repo
 from datetime import datetime
+from rich import print
 
 from cookietemple.create.github_support import is_git_repo
 from cookietemple.lint.template_linter import TemplateLinter
+from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 
 
 class VersionBumper:
@@ -54,8 +55,8 @@ class VersionBumper:
         # keep path of all files that were changed during bump version
         changed_files = [ct_cfg_path, changelog_path]
 
-        click.echo(click.style(f'Changing version number.\nCurrent version is {self.CURRENT_VERSION}.'
-                               f'\nNew version will be {new_version}\n', fg='blue'))
+        print(f'[bold blue]Changing version number.\nCurrent version is {self.CURRENT_VERSION}.'
+              f'\nNew version will be {new_version}\n')
 
         # for each section (whitelisted and blacklisted files) bump the version (if allowed)
         for section in sections:
@@ -79,11 +80,11 @@ class VersionBumper:
             repo = Repo(project_dir)
 
             # git add
-            click.echo(click.style('Staging template.', fg='blue'))
+            print('[bold blue]Staging template')
             repo.git.add(changed_files)
 
             # git commit
-            click.echo(click.style('Committing changes to local git repository.', fg='blue'))
+            print('[bold blue]Committing changes to local git repository.')
             repo.index.commit(f'Bump version from {self.CURRENT_VERSION} to {new_version}')
 
     def replace(self, file_path: str, subst: str, section: str) -> (bool, str):
@@ -115,13 +116,12 @@ class VersionBumper:
                         new_file.write(tmp)
                         if tmp != line:
                             if file_is_unchanged:
-                                click.echo(click.style(f'Updating version number in {file_path}', fg='blue'))
+                                print(f'[bold blue]Updating version number in {file_path}')
                                 file_is_unchanged = False
                                 path_changed = file_path
-                            click.echo(click.style(
-                                f'- {line.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->", "")}\n', fg='red') + click.style(
-                                f'+ {tmp.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->", "")}', fg='green'))
-                            click.echo()
+                            print(f'[bold red]- {line.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->", "")}\n'
+                                  + f'[bold green]+ {tmp.strip().replace("<!-- <<COOKIETEMPLE_FORCE_BUMP>> -->", "")}')
+                            print()
                     else:
                         new_file.write(line)
         # Copy the file permissions from the old file to the new file
@@ -147,26 +147,26 @@ class VersionBumper:
         """
         # ensure that the entered version number matches correct format like 1.1.0 or 1.1.0-SNAPSHOT but not 1.2 or 1.2.3.4
         if not re.match(r'(?<!\.)\d+(?:\.\d+){2}((?!.)|-SNAPSHOT)(?!.)', new_version):
-            click.echo(click.style('Invalid version specified!\nEnsure your version number has the form '
-                                   'like 0.0.0 or 15.100.239-SNAPSHOT', fg='red'))
+            print('[bold red]Invalid version specified!\nEnsure your version number has the form '
+                  'of 0.0.0 or 15.100.239-SNAPSHOT')
             return False
 
         # ensure the version is bumped within a project created by cookietemple
         elif not Path(f'{project_dir}/cookietemple.cfg').is_file():
-            click.echo(click.style('Did not found a cookietemple.cfg file. Make sure you are in the right directory '
-                                   'or specify the path to your projects bump_version.cfg file', fg='red'))
+            print('[bold red]Did not find a cookietemple.cfg file. Make sure you are in the right directory '
+                  'or specify the path to your projects bump_version.cfg file')
             return False
 
         # equal versions won't be accepted for bump-version
         elif new_version == self.CURRENT_VERSION:
-            click.echo(click.style(f'The new version {new_version} cannot be equal to the current version {self.CURRENT_VERSION}.', fg='red'))
+            print(f'[bold red]The new version {new_version} cannot be equal to the current version {self.CURRENT_VERSION}.')
             return False
 
         # only allow bump from a SNAPSHOT version to its correlate with -SNAPSHOT removed (like 1.0.0-SNAPSHOT to 1.0.0 but not 2.0.0)
         elif self.CURRENT_VERSION.endswith('-SNAPSHOT') and not self.CURRENT_VERSION.split('-')[0] == new_version:
-            click.echo(click.style(f'Cannot bump {self.CURRENT_VERSION} to {new_version}.', fg='red') +
-                       click.style(f'\n{self.CURRENT_VERSION} as a SNAPSHOT version can only be bumped to its non-snapshot correlate '
-                                   f'{self.CURRENT_VERSION.split("-")[0]}.', fg='blue'))
+            print(f'[bold red]Cannot bump {self.CURRENT_VERSION} to {new_version}.' +
+                  f'[blue]\n{self.CURRENT_VERSION} as a SNAPSHOT version can only be bumped to its non-snapshot correlate '
+                  f'{self.CURRENT_VERSION.split("-")[0]}.')
             return False
 
         # ensure the new version is greater than the current one, if not the user wants to explicitly downgrade it
@@ -176,8 +176,8 @@ class VersionBumper:
 
             # bump from x.x.x to x.x.x-SNAPSHOT should be only allowed when using the downgrade flag
             if new_version.endswith('-SNAPSHOT') and self.CURRENT_VERSION == new_version.split('-')[0]:
-                click.echo(click.style(f'Cannot downgrade {self.CURRENT_VERSION} to its version SNAPSHOT {new_version}.', fg='red') +
-                           click.style(f'\nUse the -d flag if you want to downgrade {self.CURRENT_VERSION} to its SNAPSHOT version.', fg='blue'))
+                print(f'[bold red]Cannot downgrade {self.CURRENT_VERSION} to its version SNAPSHOT {new_version}.' +
+                      f'[blue]\nUse the -d flag if you want to downgrade {self.CURRENT_VERSION} to its SNAPSHOT version.')
                 return False
 
             # when the current version and the new version are equal, but one is a -SNAPSHOT version return true
@@ -189,8 +189,8 @@ class VersionBumper:
                 return True
 
             # the new version is not greater than the current one
-            click.echo(click.style(f'The new version {new_version} is not greater than the current version {self.CURRENT_VERSION}.'
-                                   f'\nThe new version must be greater than the old one.', fg='red'))
+            print(f'[bold red]The new version {new_version} is not greater than the current version {self.CURRENT_VERSION}.'
+                  f'\nThe new version must be greater than the old one.')
             return False
 
         return True
@@ -233,20 +233,22 @@ class VersionBumper:
         changelog_path = os.path.join(self.top_level_dir, 'CHANGELOG.rst')
         # ensure changelog exists, else abort
         if not os.path.exists(changelog_path):
-            click.echo(click.style(f'No file named CHANGELOG.rst found at {self.top_level_dir}. Aborting!', fg='red'))
+            print(f'[bold red]No file named CHANGELOG.rst found at {self.top_level_dir}. Aborting!')
             sys.exit(1)
         # lint changelog and check version consistency
         changelog_linter.lint_changelog()
         changelog_linter.check_version_consistent()
-        click.echo()
+        print()
         changelog_linter.print_results()
-        click.echo()
+        print()
         # if any failed linting tests, ask user for confirmation of proceeding with bump (which results in undefined behavior)
         if len(changelog_linter.failed) > 0 or len(changelog_linter.warned) > 0:
             # ask for confirmation if the user really wants to proceed bumping when linting failed
-            click.echo(click.style(f'Changelog linting and/or version check failed!\nYou can fix them and try bumping again. Proceeding bump will result in '
-                                   f'undefined behavior!', fg='red'))
-            if not click.confirm(click.style(f'Do you really want to continue?', fg='red')):
+            print('[bold red]Changelog linting and/or version check failed!\nYou can fix them and try bumping again. Proceeding bump will result in '
+                  'undefined behavior!')
+            if not cookietemple_questionary_or_dot_cookietemple(function='confirm',
+                                                                question='Do you really want to continue?',
+                                                                default='n'):
                 sys.exit(1)
 
     def add_changelog_section(self, path: Path, new_version: str) -> None:
@@ -256,7 +258,7 @@ class VersionBumper:
         :param new_version: The new version
         """
         if self.downgrade_mode:
-            click.echo(click.style('WARNING: Running bump-version in downgrade mode will not add a new changelog section currently!', fg='yellow'))
+            print('[bold yellow]WARNING: Running bump-version in downgrade mode will not add a new changelog section currently!')
         else:
             date = datetime.today().strftime("%Y-%m-%d")
             # replace the SNAPSHOT SECTION header with its non-snapshot correlate

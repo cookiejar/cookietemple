@@ -1,0 +1,33 @@
+name: Check version upgrade
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Setup Python
+          uses: actions/setup-python@v1
+          with:
+            python-version: 3.8
+
+        - name: Install cookietemple
+          run: pip install cookietemple
+
+        - name: Set env by checking for update
+          run: |
+              update_available=false
+              if cookietemple sync --check_update | grep -q 'templates version received'; then update_available=true; fi
+              echo ::set-env name=UPDATE_AVAILABLE::$update_available
+
+        - uses: JasonEtco/create-an-issue@v2
+          if: env.UPDATE_AVAILABLE == 'true'
+          name: Create Issue if Update available
+          env:
+             GITHUB_TOKEN: ${{ secrets.CT_SYNC_TOKEN  }}
+          with:
+            filename: .github/ISSUE_TEMPLATE/sync_notify.md
+
+        - name: No Update available
+          if: env.UPDATE_AVAILABLE == 'false'
+          run: echo "No updates found. Your template version is up to date!"

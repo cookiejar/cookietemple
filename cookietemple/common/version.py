@@ -1,6 +1,6 @@
-import click
 import sys
 from pathlib import Path
+from rich import print
 
 from cookietemple.common.load_yaml import load_yaml_file
 
@@ -36,5 +36,5 @@ def load_project_template_version_and_handle(project_dir: Path) -> (str, str):
         # split the template version at first space to omit the cookietemple bump-version tag and return it and the the handle
         return ct_meta['template_version'].split(" ", 1)[0], ct_meta['template_handle']
     except FileNotFoundError:
-        click.echo(click.style(f'No .cookietemple.yml found at {project_dir}. Is this a cookietemple project?', fg='red'))
+        print('[bold red]No .cookietemple.yml found at {project_dir}. Is this a cookietemple project?')
         sys.exit(1)

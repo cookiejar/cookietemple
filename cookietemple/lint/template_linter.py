@@ -1,9 +1,18 @@
 import io
 import os
 import re
+import textwrap
+import datetime
+
 import click
 import configparser
-from rich.progress import track
+
+import cookietemple
+import rich.progress
+import rich.markdown
+import rich.panel
+import rich.console
+
 from packaging import version
 from itertools import groupby
 
@@ -52,12 +61,21 @@ class TemplateLinter(object):
             check_functions.remove('check_files_exist')
             check_functions.remove('lint_changelog')
 
-        # Show a progessbar and run all linting functions
-        for fun_name in track(check_functions, description="[blue]Processing..."):
-            if fun_name == 'check_files_exist':
-                getattr(calling_class, fun_name)(is_subclass_calling)
-            else:
-                getattr(calling_class, fun_name)()
+        progress = rich.progress.Progress(
+            "[bold green]{task.description}",
+            rich.progress.BarColumn(bar_width=None),
+            "[bold yellow]{task.completed} of {task.total}[reset] [bold green]{task.fields[func_name]}",
+        )
+        with progress:
+            lint_progress = progress.add_task(
+                "Running lint checks", total=len(check_functions), func_name=check_functions
+            )
+            for fun_name in check_functions:
+                progress.update(lint_progress, advance=1, func_name=fun_name)
+                if fun_name == 'check_files_exist':
+                    getattr(calling_class, fun_name)(is_subclass_calling)
+                else:
+                    getattr(calling_class, fun_name)()
 
     def check_files_exist(self, is_subclass_calling=True):
         """Checks a given project directory for required files.
@@ -143,11 +161,11 @@ class TemplateLinter(object):
                 # if head linting did not found any errors lint sections
                 section_lint_passed = linter.lint_changelog_section()
                 if section_lint_passed and header_lint_passed:
-                    self.passed.append(('general-6', click.style('Changelog linting passed!', fg='green')))
+                    self.passed.append(('general-6', 'Changelog linting passed!'))
             elif not header_detected:
-                self.failed.append(('general-6', click.style('Your Changelog does not seem to contain a header or your header syntax is wrong!', fg='red')))
+                self.failed.append(('general-6', 'Changelog does not seem to contain a header or your header syntax is wrong!'))
         else:
-            self.failed.append(('general-6', click.style('Your Changelog does not seem to contain a header and/or at least one section!', fg='red')))
+            self.failed.append(('general-6', 'Changelog does not seem to contain a header and/or at least one section!'))
 
     def check_docker(self):
         """
@@ -159,11 +177,11 @@ class TemplateLinter(object):
 
         # Implicitly also checks if empty.
         if 'FROM ' in content:
-            self.passed.append(('general-2', click.style('Dockerfile check passed', fg='green')))
+            self.passed.append(('general-2', 'Dockerfile check passed'))
             self.dockerfile = [line.strip() for line in content.splitlines()]
             return
 
-        self.failed.append((2, click.style('Dockerfile check failed', fg='red')))
+        self.failed.append((2, 'Dockerfile check failed'))
 
     def check_cookietemple_todos(self) -> None:
         """
@@ -190,9 +208,7 @@ class TemplateLinter(object):
                                 .replace('# TODO COOKIETEMPLE: ', '') \
                                 .replace('// TODO COOKIETEMPLE: ', '') \
                                 .replace('TODO COOKIETEMPLE: ', '').strip()
-                            if len(fname) + len(line) > 70:
-                                line = f'{line[:70 - len(fname)]}..'
-                            self.warned.append(('general-3', click.style(f'TODO string found in {self._bold_list_items(fname)}: {line}', fg='yellow')))
+                            self.warned.append(('general-3', f'TODO string found in {self._wrap_quotes(fname)}: {line}'))
 
     def check_no_cookiecutter_strings(self) -> None:
         """
@@ -206,9 +222,8 @@ class TemplateLinter(object):
                         # TODO We should also add some of the more advanced cookiecutter if statements, raw statements etc
                         regex = re.compile('{{ cookiecutter.* }}')
                         if regex.match(line):
-                            if len(fname) + len(line) > 50:
-                                line = f'{line[:50 - len(fname)]}..'
-                            self.warned.append(('general-4', click.style(f'Cookiecutter string found in \'{fname}\': {line}', fg='yellow')))
+                            line = f'{line[:50 - len(fname)]}..'
+                            self.warned.append(('general-4', f'Cookiecutter string found in \'{fname}\': {line}'))
 
     def check_version_consistent(self) -> None:
         """
@@ -230,7 +245,7 @@ class TemplateLinter(object):
         os.chdir(cwd)
         # Pass message if there weren't any inconsistencies within the version numbers
         if not any('general-5' in tup[0] for tup in self.failed):
-            self.passed.append(('general-5', click.style('Versions were consistent over all files', fg='green')))
+            self.passed.append(('general-5', 'Versions were consistent over all files'))
 
     def check_version_match(self, path: str, version: str, section: str) -> None:
         """
@@ -249,44 +264,57 @@ class TemplateLinter(object):
                         # No match between the current version number and version in source code file
                         if line_version != version:
                             corrected_line = re.sub(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', version, line)
-                            self.failed.append(('general-5', click.style(f'Version number don´t match in\n {path}:', fg='blue')
-                                                + click.style(f'\n {line.strip()} should be {corrected_line.strip()}', fg='red')))
+                            self.failed.append(('general-5', f'Version number don´t match in\n {path}: \n {line.strip()} should be {corrected_line.strip()}'))
 
-    def print_results(self) -> None:
-        """
-        Prints the linting results nicely formatted to the console.
-        Output is divided into three sections: Passed (green), Warnings (yellow), Failures (red)
-        """
-        click.echo(f"{click.style('=' * 35, dim=True)}\n          {click.style('LINTING RESULTS', fg='blue')}"
-                   f"\n{click.style('=' * 35, dim=True)}\n"
-                   + click.style('  [{}] {:>4} tests passed\n'.format(u'\u2714', len(self.passed)), fg='green') +
-                   click.style('  [!] {:>4} tests had warnings\n'.format(len(self.warned)), fg='yellow') +
-                   click.style('  [{}] {:>4} tests failed'.format(u'\u2717', len(self.failed)), fg='red'))
+    def print_results(self):
+        console = rich.console.Console()
+        console.print()
+        console.rule("[bold green] LINT RESULTS")
+        console.print()
+        console.print(
+            f'     [bold green][[\u2714]] {len(self.passed):>4} tests passed\n     [bold yellow][[!]] {len(self.warned):>4} tests had warnings\n'
+            f'     [bold red][[\u2717]] {len(self.failed):>4} tests failed',
+            overflow="ellipsis",
+            highlight=False,
+        )
 
         # Helper function to format test links nicely
         def format_result(test_results):
             """
-            Given an error message ID and the message text, return a nicely formatted
+            Given an list of error message IDs and the message texts, return a nicely formatted
             string for the terminal with appropriate ASCII colours.
             """
-            print_results = []
+            results = []
             for eid, msg in test_results:
-                url = click.style(f'https://cookietemple/linting/errors#{eid}', fg='blue')
-                print_results.append(f'{url} : {msg}')
-            return '\n  '.join(print_results)
+                # COOKIETEMPLE TODO the msg fucks up the formatting of the panel!
+                results.append(f"1. [https://cookietemple/linting/errors#{eid}](https://cookietemple/linting/errors#{eid}): {msg}")
+            return rich.markdown.Markdown("\n".join(results))
 
         if len(self.passed) > 0:
-            click.echo(click.style(f'Test passed: \n {format_result(self.passed)}', fg='green'))
+            console.print()
+            console.rule("[bold green][[\u2714]] Tests Passed", style="green")
+            console.print(rich.panel.Panel(format_result(self.passed), style="green"), no_wrap=True, overflow="ellipsis")
         if len(self.warned) > 0:
-            click.echo(click.style(f'Test Warnings: \n {format_result(self.warned)}', fg='yellow'))
+            console.print()
+            console.rule("[bold yellow][[!]] Test Warnings", style="yellow")
+            console.print(rich.panel.Panel(format_result(self.warned), style="yellow"), no_wrap=True, overflow="ellipsis")
         if len(self.failed) > 0:
-            click.echo(click.style(f'Test Failures: \n {format_result(self.failed)}', fg='red'))
+            console.print()
+            console.rule("[bold red][[\u2717]] Test Failures", style="red")
+            console.print(rich.panel.Panel(format_result(self.failed), style="red"), no_wrap=True, overflow="ellipsis")
 
-    def _bold_list_items(self, files):
+    def _wrap_quotes(self, files):
         if not isinstance(files, list):
             files = [files]
-        bfiles = [click.style(f, bold=True) for f in files]
-        return ' or '.join(bfiles)
+        bfiles = [f"`{file}`" for file in files]
+
+        return " or ".join(bfiles)
+
+    def _strip_ansi_codes(self, string, replace_with=""):
+        # https://stackoverflow.com/a/14693789/713980
+        ansi_escape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
+
+        return ansi_escape.sub(replace_with, string)
 
 
 def files_exist_linting(self,
@@ -312,15 +340,15 @@ def files_exist_linting(self,
     for files in files_fail:
         if not any([os.path.isfile(pf(self, f)) for f in files]):
             all_exists = False
-            self.failed.append(('{handle}-1', click.style(f'File not found: {self._bold_list_items(files)}', fg='red')))
+            self.failed.append(('{handle}-1', f'File not found: {self._wrap_quotes(files)}'))
     # flag that indiactes whether all required files exist or not
     if all_exists:
         # called linting from a specific template linter
         if is_subclass_calling:
-            self.passed.append((f'{handle}-1', click.style(f'All required {handle} specific files were found!', fg='green')))
+            self.passed.append((f'{handle}-1', f'All required {handle} specific files were found!'))
         # called as general linting
         else:
-            self.passed.append((f'{handle}-1', click.style(f'All required {handle} files were found!', fg='green')))
+            self.passed.append((f'{handle}-1', f'All required {handle} files were found!'))
 
     # Files that cause a warning if they don't exist
     for files in files_warn:
@@ -328,21 +356,21 @@ def files_exist_linting(self,
             # pass cause if a file was found it will be summarised in one "all required files found" statement
             pass
         else:
-            self.warned.append((f'{handle}-1', click.style(f'File not found: {self._bold_list_items(files)}', fg='yellow')))
+            self.warned.append((f'{handle}-1', f'File not found: {self._wrap_quotes(files)}'))
 
     # Files that cause an error if they exist
     for file in files_fail_ifexists:
         if os.path.isfile(pf(self, file)):
-            self.failed.append((f'{handle}-1', click.style(f'File must be removed: {self._bold_list_items(file)}', fg='red')))
+            self.failed.append((f'{handle}-1', f'File must be removed: {self._wrap_quotes(file)}'))
         else:
-            self.passed.append((f'{handle}-1', click.style(f'File not found check: {self._bold_list_items(file)}', fg='green')))
+            self.passed.append((f'{handle}-1', f'File not found check: {self._wrap_quotes(file)}'))
 
     # Files that cause a warning if they exist
     for file in files_warn_ifexists:
         if os.path.isfile(pf(self, file)):
-            self.warned.append((f'{handle}-1', click.style(f'File should be removed: {self._bold_list_items(file)}', fg='yellow')))
+            self.warned.append((f'{handle}-1', f'File should be removed: {self._wrap_quotes(file)}'))
         else:
-            self.passed.append((f'{handle}-1', click.style(f'File not found check: {self._bold_list_items(file)}', fg='green')))
+            self.passed.append((f'{handle}-1', f'File not found check: {self._wrap_quotes(file)}'))
 
 
 class GetLintingFunctionsMeta(type):
@@ -409,7 +437,7 @@ class ChangelogLinter:
                     1.2.3 (12.12.2020)
                     Some text were underscores belong for correct underline
                     """
-                    self.main_linter.failed.append(('general-6', click.style('Invalid section header start detected!', fg='red')))
+                    self.main_linter.failed.append(('general-6', 'Invalid section header start detected!'))
                     return -1, header_detected, False
             # lint header (optional label, title and an optional small description)
             elif any(cl in line for cl in ['CHANGELOG', 'Changelog']):
@@ -422,8 +450,7 @@ class ChangelogLinter:
                 =====================
                 """
                 if not header_ok:
-                    self.main_linter.failed.append(('general-6', click.style('Your Changelog header syntax does not match length of your Changelogs title!',
-                                                                             fg='red')))
+                    self.main_linter.failed.append(('general-6', 'Your Changelog header syntax does not match length of your Changelogs title!'))
                     return -1, header_detected, False
                 header_detected = True
 
@@ -439,7 +466,7 @@ class ChangelogLinter:
 
                 End
                 """
-                self.main_linter.failed.append(('general-6', click.style('No changelog sections detected!', fg='red')))
+                self.main_linter.failed.append(('general-6', 'No changelog sections detected!'))
                 return -1, header_detected, False
             self.header_offset += 1
             self.line_counter += 1
@@ -486,14 +513,14 @@ class ChangelogLinter:
             # check if newer sections have a strict greater version than older sections
             current_section_version = versions[section_nr][:-1].replace('-SNAPSHOT', '').split(' ')[0]
             if version.parse(current_section_version) >= version.parse(last_version):
-                self.main_linter.failed.append(('general-6', click.style('Older sections cannot have greater version numbers than newer sections!', fg='red')))
+                self.main_linter.failed.append(('general-6', 'Older sections cannot have greater version numbers than newer sections!'))
                 return False
             else:
                 last_version = current_section_version
 
             # check if ever section subheader is underlined correctly
             if not section[0] == f'{"-" * (len(versions[section_nr]) - 1)}\n':
-                self.main_linter.failed.append(('general-6', click.style('Your sections subheader underline does not match the headers length!', fg='red')))
+                self.main_linter.failed.append(('general-6', 'Your sections subheader underline does not match the headers length!'))
                 return False
             try:
                 index_order_ok = section.index('**Added**\n') < section.index('**Fixed**\n') < section.index('**Dependencies**\n') < \
@@ -512,8 +539,8 @@ class ChangelogLinter:
 
                     Dependencies and Deprecated should be changed
                     """
-                    self.main_linter.failed.append(('general-6', click.style('Your sections subheader order should be **Added**\n**Fixed**\n'
-                                                                             '**Dependencies**\n**Deprecated**!', fg='red')))
+                    self.main_linter.failed.append(('general-6', 'Sections subheader order should be **Added**\n**Fixed**\n'
+                                                                             '**Dependencies**\n**Deprecated**!'))
                     return False
 
             except ValueError:
@@ -528,7 +555,7 @@ class ChangelogLinter:
 
                 Fixed section is missing
                 """
-                self.main_linter.failed.append(('general-6', click.style('Your section misses one or more required subsections!', fg='red')))
+                self.main_linter.failed.append(('general-6', 'Section misses one or more required subsections!'))
                 return False
             section_nr += 1
         return True
