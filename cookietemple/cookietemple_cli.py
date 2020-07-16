@@ -139,7 +139,7 @@ def sync(project_dir, pat, username, check_update) -> None:
     syncer = Sync(pat, username, project_dir_path)
     # if user wants to check for new template updates
     if check_update:
-        is_version_outdated, ct_template_version, proj_template_version = syncer.has_template_version_changed(project_dir_path)
+        is_version_outdated, ct_template_version, proj_template_version = syncer.has_major_minor_template_version_changed(project_dir_path)
         # a template update has been released by cookietemple
         if is_version_outdated:
             click.echo(click.style(f'Your templates version received an update from {proj_template_version} to {ct_template_version}!\n Use ', fg='blue') +

@@ -31,17 +31,11 @@ class Sync:
         """
         Sync main function that calls the various steps included in a sync process.
         """
-        # check necessary conditions a project must met in order to run sync
         self.inspect_sync_dir()
-        # checkout to TEMPLATE branch
         self.checkout_template_branch()
-        # clean TEMPLATE branch for dry run create
         self.clean_template_branch()
-        # create the newest template
         self.create_new_template()
-        # create a pull request (or add changes to existing one)
         self.create_pull_request()
-        # checkout to original branch before syncing has been called
         self.checkout_original_branch()
 
     def checkout_template_branch(self) -> None:
@@ -135,14 +129,17 @@ class Sync:
             # if a cookietemple sync PR already exists, print info and exit
             pulls = repo.get_pulls(state='open')
             for pr in pulls:
-                if pr.title == 'Test PR':
+                if pr.title == 'Cookietemple Sync: New template release!':
                     print('[bold red] An open cookietemple sync PR already exists on your repo.\nThe latest changes were added to your existing PR. Consider '
                           'merging it!')
                     sys.exit(0)
             try:
-                body = 'Latest cookietemple sync PR.'
+                body = "Some important changes have been made in the cookietemple template you are using for your project.\n" \
+                       "Please make sure to merge this pull-request as soon as possible. " \
+                       "Once complete, make a new minor release of your project.\n" \
+                       "In case you really don't want to merge it now, new changes to the template will be added to this PR each time you run sync!"
                 print('[bold blue]Creating Pull Request.')
-                gh_repo.create_pull(title="Test PR", body=body, head="TEMPLATE", base="development")
+                gh_repo.create_pull(title="Cookietemple Sync: New template release!", body=body, head="TEMPLATE", base="development")
             # print exception, if any occurs
             except GithubException as e:
                 handle_failed_github_repo_creation(e)
@@ -184,7 +181,7 @@ class Sync:
             print(f'[bold red]Could not reset to original branch {self.original_branch}:\n{e}')
             sys.exit(1)
 
-    def has_template_version_changed(self, project_dir: Path) -> (bool, bool, str, str):
+    def has_major_minor_template_version_changed(self, project_dir: Path) -> (bool, bool, str, str):
         """
         Check, if the cookietemple template has been updated since last check/sync of the user.
 
