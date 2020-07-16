@@ -273,8 +273,8 @@ class TemplateLinter(object):
         console.rule("[bold green] LINT RESULTS")
         console.print()
         console.print(
-            f'     [green][[\u2714]] {len(self.passed):>4} tests passed\n     [yellow][[!]] {len(self.warned):>4} tests had warnings\n'
-            f'     [red][[\u2717]] {len(self.failed):>4} tests failed',
+            f'     [bold green][[\u2714]] {len(self.passed):>4} tests passed\n     [bold yellow][[!]] {len(self.warned):>4} tests had warnings\n'
+            f'     [bold red][[\u2717]] {len(self.failed):>4} tests failed',
             overflow="ellipsis",
             highlight=False,
         )
