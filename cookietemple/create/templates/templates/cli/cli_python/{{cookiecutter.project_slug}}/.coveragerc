@@ -1,4 +1,0 @@
-[run]
-omit =
-    # omit the setup.py
-    setup.py
