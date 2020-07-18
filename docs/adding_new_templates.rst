@@ -139,28 +139,37 @@ The file tree of the template should resemble
             self.CLI_JAVA_TEMPLATE_VERSION = super().load_version('cli-java')
             self.CLI_BRAINFUCK_TEMPLATE_VERSION = super().load_version('cli-brainfuck')
 
-        def create_template(self):
+        def create_template(self, dot_cookietemple: dict or None):
             """
             Handles the CLI domain. Prompts the user for the language, general and domain specific options.
             """
 
-            self.cli_struct.language = click.prompt('Choose between the following languages',
-                                                    type=click.Choice(['java', 'brainfuck']),
-                                                    show_choices=True)
+            self.cli_struct.language = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                                    question='Choose the project\'s primary language',
+                                                                                    choices=['python', 'java', 'brainfuck'],
+                                                                                    default='python',
+                                                                                    dot_cookietemple=dot_cookietemple,
+                                                                                    to_get_property='language')
 
             # prompt the user to fetch general template configurations
-            super().prompt_general_template_configuration()
+            super().prompt_general_template_configuration(dot_cookietemple)
 
             # switch case statement to prompt the user to fetch template specific configurations
             switcher = {
                 'java': self.cli_java_options,
                 'brainfuck': self.cli_brainfuck_options
             }
-            switcher.get(self.cli_struct.language.lower(), lambda: 'Invalid language!')()
+            switcher.get(self.cli_struct.language)(dot_cookietemple)
 
-            self.cli_struct.is_github_repo, self.cli_struct.is_repo_private, self.cli_struct.is_github_orga, self.cli_struct.github_orga = prompt_github_repo()
+            self.cli_struct.is_github_repo, \
+                self.cli_struct.is_repo_private, \
+                self.cli_struct.is_github_orga, \
+                self.cli_struct.github_orga \
+                = prompt_github_repo(dot_cookietemple)
+
             if self.cli_struct.is_github_orga:
                 self.cli_struct.github_username = self.cli_struct.github_orga
+
             # create the chosen and configured template
             super().create_template_without_subdomain(f'{self.TEMPLATES_CLI_PATH}')
 
@@ -170,16 +179,26 @@ The file tree of the template should resemble
                 'brainfuck': self.CLI_BRAINFUCK_TEMPLATE_VERSION
             }
             self.cli_struct.template_version, self.cli_struct.template_handle = switcher_version.get(
-                self.cli_struct.language.lower(), lambda: 'Invalid language!'), f'cli-{self.cli_struct.language.lower()}'
+                self.cli_struct.language.lower()), f'cli-{self.cli_struct.language.lower()}'
 
-            super().process_common_operations()
+            super().process_common_operations(domain='cli', language=self.cli_struct.language, dot_cookietemple=dot_cookietemple)
 
-        def cli_java_options(self):
-            self.cli_struct.main_class_prefix = click.prompt('Main class prefix:',
-                                                            type=str,
-                                                            default='Sample')
+        def cli_python_options(self, dot_cookietemple: dict or None):
+            """ Prompts for cli-python specific options and saves them into the CookietempleTemplateStruct """
+            self.cli_struct.command_line_interface = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                                                question='Choose a command line library',
+                                                                                                choices=['Click', 'Argparse', 'No command-line interface'],
+                                                                                                default='Click',
+                                                                                                dot_cookietemple=dot_cookietemple,
+                                                                                                to_get_property='command_line_interface')
+            [...]
+
+        def cli_java_options(self, dot_cookietemple: dict or None) -> None:
+            """ Prompts for cli-java specific options and saves them into the CookietempleTemplateStruct """
+            [...]
 
         def cli_brainfuck_options(self):
+            """ Prompts for cli-brainfuck specific options and saves them into the CookietempleTemplateStruct """
             pass
 
 
