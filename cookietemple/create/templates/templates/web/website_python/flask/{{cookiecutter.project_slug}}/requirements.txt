@@ -1,0 +1,16 @@
+{% if cookiecutter.command_line_interface|lower == 'click' %}
+Click==7.1.2
+{%- endif %}
+Flask==1.1.2
+gevent==1.4.0
+{% if cookiecutter.setup_type == 'advanced' -%}
+Flask-Babel==1.0.0
+Flask-Mail==0.9.1
+configparser==4.0.2
+wtforms==2.2.1
+Werkzeug==0.16.1
+flask-wtf==0.14.3
+flask-sqlalchemy==2.4.1
+flask-migrate==2.5.3
+flask-login==0.4.1
+flask-bootstrap==3.3.7.0{% endif %}

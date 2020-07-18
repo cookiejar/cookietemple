@@ -1,0 +1,4 @@
+Sphinx==2.4.4
+sphinx_rtd_theme==0.5.0
+{% if cookiecutter.language == 'python' -%}sphinx-automodapi==0.12
+-r ../requirements.txt{% endif %}

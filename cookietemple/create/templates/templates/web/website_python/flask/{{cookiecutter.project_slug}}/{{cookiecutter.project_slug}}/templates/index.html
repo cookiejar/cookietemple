@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<h1>{{ _('Hi, %(username)s!', username=current_user.username) }}</h1>
+<div id="language">
+    {% if CURRENT_LANGUAGE == 'en' %}
+    <a href="{{ url_for('main.set_language', language='de') }}">
+        <p>Click here for german version</p>
+    </a>
+    {% else %}
+    <a href="{{ url_for('main.set_language', language='en') }}">
+        <p>Klicke hier für die englische Version</p></a>
+    {% endif %}
+</div>
+<div>
+    <a href="{{ url_for('auth.login') }}">{{ _('Login Here') }}</a>
+    <a href="{{ url_for('auth.logout') }}">{{ _('Logout Here') }}</a>
+</div>
+</body>
+</html>
