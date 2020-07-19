@@ -6,13 +6,14 @@ Available templates
 
 cookietemple currently has the following templates available:
 
-1. `cli-python`_
-2. `cli-java`_
-3. `cli-kotlin`_
-4. `web-website-python`_
-5. `gui-java`_
-6. `gui-kotlin`_
+1. `cli-java`_
+2. `cli-kotlin`_
+3. `cli-python`_
+4. `gui-java`_
+5. `gui-kotlin`_
+6. `lib-cpp`_
 7. `pub-thesis-latex`_
+8. `web-website-python`_
 
 In the following every template is devoted its own section, which explains its purpose, design, included frameworks/libraries, usage and frequently asked questions.
 A set of frequently questions, which all templates share see here: :ref:`all_templates_faq` FAQ.
