@@ -883,7 +883,29 @@ The template is inspired by several others (mainly `TheLartians' <https://github
 
 Included frameworks/libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-To be discussed.
+1. Modern **CMake** configuration and project
+2. An example of a **Clang-Format** config, inspired from the base
+   *Google* model, with minor tweaks. 
+3. **Static analyzers** integration, with *Clang-Tidy* and *Cppcheck*,
+   the former being the default option,
+4. **Doxygen** support, through the ``ENABLE_DOXYGEN`` option, which you
+   can enable if you wish to use it,
+5. **Unit testing** support, through *GoogleTest* (with an option to
+   enable *GoogleMock*) or *Catch2*,
+6. **Code coverage**, enabled by using the ``ENABLE_CODE_COVERAGE``
+   option, through *Codecov* CI integration,
+7. **Package manager support**, with *Conan* and *Vcpkg*, through their
+   respective options
+8. **CI workflows for Windows, Linux and MacOS** using *GitHub Actions*,
+   making use of the caching features, to ensure minimum run time,
+9. **.rst templates** for: *README*, *Contributing Guideliness*, *Issues*
+   and *Pull Requests*,
+10. **Permissive license** to allow you to integrate it as easily as
+   possible. The template is licensed under the
+   `Unlicense <https://unlicense.org/>`_,
+11. Options to build as a header-only library or executable, not just a
+   static or shared library.
+12. **CCache** integration, for speeding up build times
 
 Usage
 ^^^^^^^^
