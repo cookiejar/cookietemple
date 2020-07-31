@@ -61,7 +61,10 @@ The :code:`bump-version` configuration begins with the section::
     [bumpversion]
     current_version = 0.1.0
 
-where the current version is defined. Afterwards, the whitelisted files are listed, e.g.::
+where the current version is defined. All files are either white- or blacklisted (see below for explanations).
+An arbitrary name is followed by the path to the file: ``arbitrary_name = path_to_file``.
+
+Whitelisted files are listed below a ``[bumpversion_files_whitelisted]`` section, e.g.::
 
     [bumpversion_files_whitelisted]
     dot_cookietemple = .cookietemple.yml
@@ -70,7 +73,7 @@ where the current version is defined. Afterwards, the whitelisted files are list
 | All files, which are whitelisted are searched for patterns matching ``X.X.X``, which are updated to the specified new versions.
 | Any lines, which contain the string :code:`<<cookietemple_NO_BUMP>>` will be ignored.
 
-If files like Maven pom.xml files, contain many version patterns matching ``X.X.X``, it may be a better idea to blacklist them and enable only specific lines to be updated::
+If files like Maven pom.xml files, contain many version patterns matching ``X.X.X``, it may be a better idea to blacklist them (section ``[bumpversion_files_blacklisted]``) and enable only specific lines to be updated::
 
     [bumpversion_files_blacklisted]
     pom = pom.xml

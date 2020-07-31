@@ -72,7 +72,7 @@ Hence, at this level we see ``cookietemple_cli.py`` and a folder per CLI command
                 Due to ANSI coloring support they can even be pink! Please someone send help.
 
 2. | Next, we add our brainfuck template to :code:`/create/templates`
-   | Note that it should adhere to the standards mentioned above and include all required files. Don't forget to edit the cookietemple.cfg file to facilitate bump-version. See :ref:`bump-version-configuration` for details.
+   | Note that it should adhere to the standards mentioned above and include all required files. Don't forget to add a cookietemple.cfg file to facilitate bump-version. See :ref:`bump-version-configuration` for details.
     It is **mandatory** to name the top level folder ``{{ cookiecutter.project_slug }}``, which ensures that the project after creation will have a proper name.
     Furthermore, the ``cookiecutter.json`` file should have at least the following variables:
 
