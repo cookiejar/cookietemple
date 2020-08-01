@@ -25,7 +25,8 @@
 
        - name: Create lib-cpp Template
          run: |
-           echo -e "lib\ncpp\nHomer\nhomer.simpson@hotmail.com\nExplodingSpringfield\ndescription\nhomergithub\nn" | cookietemple create
+           cd ..
+           echo -e "\033[B\n\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n\n\nn\n\n" | cookietemple create
 
        - name: Build Package
          run: |
