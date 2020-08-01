@@ -12,9 +12,9 @@ import unittest
 from click.testing import CliRunner
 {%- endif %}
 
-# from {{ cookiecutter.project_slug }} import {{ cookiecutter.project_slug }}
+# from {{cookiecutter.project_slug|replace('-', '_')}} import {{cookiecutter.project_slug|replace('-', '_')}}
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
-from {{ cookiecutter.project_slug }} import cli
+from {{cookiecutter.project_slug|replace('-', '_')}} import cli
 {%- endif %}
 
 {%- if cookiecutter.testing_library == 'pytest' %}

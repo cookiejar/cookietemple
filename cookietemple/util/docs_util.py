@@ -24,4 +24,4 @@ def fix_short_title_underline(path_to_rst_file: str) -> None:
             with open(path_to_rst_file, 'w') as file:
                 file.writelines(content)
     except FileNotFoundError:
-        print(f'[bold yellow]Unable ot find rst file: {path_to_rst_file}')
+        print(f'[bold yellow]Unable to find rst file: {path_to_rst_file}')

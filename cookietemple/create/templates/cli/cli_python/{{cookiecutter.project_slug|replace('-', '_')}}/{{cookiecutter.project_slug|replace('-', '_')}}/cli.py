@@ -8,6 +8,8 @@ import sys
 import click
 {%- endif %}
 
+from rich import traceback
+
 WD = os.path.dirname(__file__)
 
 {% if cookiecutter.command_line_interface|lower == 'click' %}
@@ -48,4 +50,5 @@ def read_included_file(filename):
     print(content)
 
 if __name__ == "__main__":
+    traceback.install()
     sys.exit(main())  # pragma: no cover

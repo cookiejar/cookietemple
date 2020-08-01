@@ -227,7 +227,7 @@ class TemplateLinter(object):
 
     def check_version_consistent(self) -> None:
         """
-        This method should check that the version is consistent across all files.
+        This method verifies that the project version is consistent across all files.
         """
         parser = configparser.ConfigParser()
         parser.read(f'{self.path}/cookietemple.cfg')
@@ -286,7 +286,6 @@ class TemplateLinter(object):
             """
             results = []
             for eid, msg in test_results:
-                # COOKIETEMPLE TODO the msg fucks up the formatting of the panel!
                 results.append(f"1. [https://cookietemple/linting/errors#{eid}](https://cookietemple/linting/errors#{eid}): {msg}")
             return rich.markdown.Markdown("\n".join(results))
 

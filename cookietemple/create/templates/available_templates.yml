@@ -8,13 +8,6 @@ cli:
         long description: A commandline application tool written in Java using the Picocli framework.
                         The commandline application is built using GraalVM, which results in platform dependent binaries.
                         Multiplatform Github workflows ensure that binaries are built for every platform and easily accessible as Github artifacts.
-    kotlin:
-        name: Kotlin Commandline Tool
-        handle: cli-kotlin
-        version: 0.0.1
-        available libraries: picocli
-        short description: someShortDescription
-        long description: someLongDescription
     python:
         name: Python Commandline Package
         handle: cli-python
@@ -28,13 +21,6 @@ gui:
     java:
         name: JavaFX GUI with Java
         handle: gui-java
-        version: 0.0.1
-        available libraries: JavaFX
-        short description: someShortDescription
-        long description: someLongDescription
-    kotlin:
-        name: JavaFX GUI with Kotlin
-        handle: gui-kotlin
         version: 0.0.1
         available libraries: JavaFX
         short description: someShortDescription

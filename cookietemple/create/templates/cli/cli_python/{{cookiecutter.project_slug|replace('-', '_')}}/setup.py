@@ -3,7 +3,7 @@
 """The setup script."""
 
 import os
-import {{cookiecutter.project_slug}} as module
+import {{cookiecutter.project_slug|replace('-', '_')}} as module
 from setuptools import setup, find_packages
 
 def walker(base, *paths):
@@ -63,7 +63,7 @@ setup(
     {%- if 'no' not in cookiecutter.command_line_interface|lower %}
     entry_points={
         'console_scripts': [
-            '{{ cookiecutter.project_name }}={{ cookiecutter.project_slug }}.cli:main',
+            '{{ cookiecutter.project_name }}={{ cookiecutter.project_slug|replace('-', '_') }}.cli:main',
         ],
     },
     {%- endif %}
