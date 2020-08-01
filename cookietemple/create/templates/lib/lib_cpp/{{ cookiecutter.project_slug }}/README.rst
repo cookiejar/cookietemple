@@ -37,9 +37,8 @@ Features
 Credits
 -------
 
-This package was created with COOKIETEMPLE_ using Cookiecutter_. It is based on a draft by remkop_.
+This package was created with COOKIETEMPLE_ using Cookiecutter_. 
 
-.. _remkop:       https://github.com/remkop
 .. _COOKIETEMPLE: https://cookietemple.com
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 
