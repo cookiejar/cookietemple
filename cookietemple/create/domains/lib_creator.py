@@ -46,7 +46,7 @@ class LibCreator(TemplateCreator):
         switcher = {
             'cpp': self.lib_cpp_options,
         }
-        switcher.get(self.cpp_struct.language)(dot_cookietemple)
+        switcher.get(self.lib_struct.language)(dot_cookietemple)
 
         self.lib_struct.is_github_repo, \
             self.lib_struct.is_repo_private, \

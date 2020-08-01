@@ -11,35 +11,72 @@ The template is inspired by several others (mainly `TheLartians' <https://github
 
 .. code ::
 
-   ├── cmake
-   │   ├── CompilerWarnings.cmake
-   │   ├── Conan.cmake
-   │   ├── {{ cookiecutter.project_slug }}Config.cmake.in
-   │   ├── Doxygen.cmake
-   │   ├── SourcesAndHeaders.cmake
-   │   ├── StandardSettings.cmake
-   │   ├── StaticAnalyzers.cmake
-   │   ├── Utils.cmake
-   │   ├── Vcpkg.cmake
-   │   └── version.hpp.in
-   ├── CMakeLists.txt
-   ├── codecov.yaml
-   ├── CONTRIBUTING.rst
-   ├── Dockerfile
-   ├── docs
-   │   ├── installation.rst
-   │   └── usage.rst
-   ├── include
-   │   └── {{ cookiecutter.project_slug }}
-   │       └── tmp.hpp
-   ├── Makefile
-   ├── README.rst
-   ├── src
-   │   └── tmp.cpp
-   └── test
-       ├── CMakeLists.txt
-       └── src
-           └── tmp_test.cpp
+  ├── AUTHORS.rst
+  ├── CHANGELOG.rst
+  ├── .clang-format
+  ├── .clang-tidy
+  ├── cmake
+  │   ├── CompilerWarnings.cmake
+  │   ├── Conan.cmake
+  │   ├── Doxygen.cmake
+  │   ├── <ProjectName>Config.cmake.in
+  │   ├── SourcesAndHeaders.cmake
+  │   ├── StandardSettings.cmake
+  │   ├── StaticAnalyzers.cmake
+  │   ├── Utils.cmake
+  │   ├── Vcpkg.cmake
+  │   └── version.hpp.in
+  ├── CMakeLists.txt
+  ├── codecov.yaml
+  ├── CODE_OF_CONDUCT.rst
+  ├── CONTRIBUTING.rst
+  ├── cookietemple.cfg
+  ├── .cookietemple.yml
+  ├── Dockerfile
+  ├── docs
+  │   ├── authors.rst
+  │   ├── changelog.rst
+  │   ├── code_of_conduct.rst
+  │   ├── conf.py
+  │   ├── index.rst
+  │   ├── installation.rst
+  │   ├── make.bat
+  │   ├── Makefile
+  │   ├── readme.rst
+  │   ├── requirements.txt
+  │   ├── _static
+  │   │   └── custom_cookietemple.css
+  │   └── usage.rst
+  ├── .editorconfig
+  ├── .github
+  │   ├── ISSUE_TEMPLATE
+  │   │   ├── bug_report.md
+  │   │   ├── feature_request.md
+  │   │   ├── general_question.md
+  │   │   └── sync_notify.md
+  │   ├── pull_request_template.md
+  │   └── workflows
+  │       ├── build_docs.yml
+  │       ├── check_template_update.yml
+  │       ├── macos.yml
+  │       ├── pr_to_master_from_patch_release_only.yml
+  │       ├── release.yml
+  │       ├── ubuntu.yml
+  │       └── windows.yml
+  ├── .gitignore
+  ├── include
+  │   └── <ProjectName>
+  │       └── tmp.hpp
+  ├── LICENSE
+  ├── Makefile
+  ├── README.rst
+  ├── .readthedocs.yml
+  ├── src
+  │   └── tmp.cpp
+  └── test
+      ├── CMakeLists.txt
+      └── src
+          └── tmp_test.cpp
 
 Included frameworks/libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

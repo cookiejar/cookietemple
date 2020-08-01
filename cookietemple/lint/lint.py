@@ -25,7 +25,7 @@ def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
         'cli-java': CliJavaLint,
         'web-website-python': WebWebsitePythonLint,
         'gui-java': GuiJavaLint,
-        'lib-cpp': LibCppLint
+        'lib-cpp': LibCppLint,
         'pub-thesis-latex': PubLatexLint
     }
 

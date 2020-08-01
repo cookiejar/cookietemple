@@ -12,16 +12,11 @@ class LibCppLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
     def __init__(self, path):
         super().__init__(path)
 
-    def lint(self, is_create):
+    def lint(self):
         super().lint_project(self, self.methods)
 
         # Call autopep8, if needed
-        if is_create:
-            print('[blue]Running autopep8 to fix pep8 issues in place')
-            autopep8 = Popen(['autopep8', self.path, '--recursive', '--in-place', '--pep8-passes', '2000'],
-                             universal_newlines=True, shell=False, close_fds=True)
-            (autopep8_stdout, autopep8_stderr) = autopep8.communicate()
-        elif cookietemple_questionary_or_dot_cookietemple(function='confirm',
+        if cookietemple_questionary_or_dot_cookietemple(function='confirm',
                                                           question='Do you want to run autopep8 to fix pep8 issues?',
                                                           default='n'):
             print('[blue]Running autopep8 to fix pep8 issues in place')
@@ -34,7 +29,7 @@ class LibCppLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
         Checks a given project directory for required files.
         Iterates through the templates's directory content and checkmarks files for presence.
         Files that **must** be present::
-            'CmakeLists.txt',
+            'CMakeLists.txt',
         Files that *should* be present::
             '.clang-format'
             '.clang-tidy'
@@ -51,7 +46,7 @@ class LibCppLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
         # NB: Should all be files, not directories
         # List of lists. Passes if any of the files in the sublist are found.
         files_fail = [
-            ['CmakeLists.txt'],
+            ['CMakeLists.txt'],
         ]
         files_warn = [
             [os.path.join('.clang-format')],
