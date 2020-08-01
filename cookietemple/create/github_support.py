@@ -45,9 +45,6 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
 
         # Create new repository
         print('[bold blue]Creating Github repository')
-        # Revert Python hyphen change to facilitate Github Repository creation
-        # if creator_ctx.language == 'python':
-        #     creator_ctx.project_slug = creator_ctx.project_slug.replace('_', '-')
         if creator_ctx.is_github_orga:
             org = authenticated_github_user.get_organization(creator_ctx.github_orga)
             repo = org.create_repo(creator_ctx.project_slug, description=creator_ctx.project_short_description, private=creator_ctx.is_repo_private)
