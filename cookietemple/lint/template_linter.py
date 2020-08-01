@@ -95,7 +95,6 @@ class TemplateLinter(object):
             'docs/usage.rst'
         Files that *should* be present::
             '.gitignore',
-            '.dependabot/config.yml',
             '.github/ISSUE_TEMPLATE/bug_report.md',
             '.github/ISSUE_TEMPLATE/general_question.md',
             '.github/ISSUE_TEMPLATE/feature_request.md',
@@ -126,7 +125,6 @@ class TemplateLinter(object):
 
         files_warn = [
             ['.gitignore'],
-            ['.dependabot/config.yml'],
             [os.path.join('.github', 'ISSUE_TEMPLATE', 'bug_report.md')],
             [os.path.join('.github', 'ISSUE_TEMPLATE', 'feature_request.md')],
             [os.path.join('.github', 'ISSUE_TEMPLATE', 'general_question.md')],
