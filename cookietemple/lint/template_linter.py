@@ -286,7 +286,6 @@ class TemplateLinter(object):
             """
             results = []
             for eid, msg in test_results:
-                # COOKIETEMPLE TODO the msg fucks up the formatting of the panel!
                 results.append(f"1. [https://cookietemple/linting/errors#{eid}](https://cookietemple/linting/errors#{eid}): {msg}")
             return rich.markdown.Markdown("\n".join(results))
 
