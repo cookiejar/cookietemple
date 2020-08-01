@@ -7,6 +7,7 @@ from cookietemple.lint.template_linter import TemplateLinter
 from cookietemple.lint.domains.cli import CliPythonLint, CliJavaLint
 from cookietemple.lint.domains.web import WebWebsitePythonLint
 from cookietemple.lint.domains.gui import GuiJavaLint
+from cookietemple.lint.domains.lib import LibCppLint
 from cookietemple.lint.domains.pub import PubLatexLint
 
 
@@ -24,6 +25,7 @@ def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
         'cli-java': CliJavaLint,
         'web-website-python': WebWebsitePythonLint,
         'gui-java': GuiJavaLint,
+        'lib-cpp': LibCppLint
         'pub-thesis-latex': PubLatexLint
     }
 

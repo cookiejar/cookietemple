@@ -54,7 +54,7 @@ Step by step guide to adding new templates
 ------------------------------------------
 
 Let's assume that we are planning to add a new commandline `Brainfuck <https://en.wikipedia.org/wiki/Brainfuck>`_ template to cookietemple.
-We discussed our design at length with the core team and they approved our plan. For the sake of this tutorial we assume that the path / always points to /cookietemple.
+We discussed our design at length with the core team and they approved our plan. For the sake of this tutorial **we assume that the path / always points to /cookietemple**.
 Hence, at this level we see ``cookietemple_cli.py`` and a folder per CLI command.
 
 1. Let's add our brainfuck template information to ``/create/templates/available_templates.yml`` below the ``cli`` section.
@@ -317,37 +317,37 @@ Our shiny new CliBrainfuckLinter is now ready for action!
     on: [push]
 
     jobs:
-    build:
+      build:
 
-        runs-on: ubuntu-latest
-        strategy:
-        matrix:
-            python: [3.7, 3.8]
+          runs-on: ubuntu-latest
+          strategy:
+            matrix:
+              python: [3.7, 3.8]
 
-        steps:
-        - uses: actions/checkout@v2
+          steps:
+          - uses: actions/checkout@v2
             name: Check out source-code repository
 
-        - name: Setup Python
+          - name: Setup Python
             uses: actions/setup-python@v1
             with:
-            python-version: ${{ matrix.python }}
+              python-version: ${{ matrix.python }}
 
-        - name: Build cookietemple
+          - name: Build cookietemple
             run: |
-            python setup.py clean --all install
+              python setup.py clean --all install
 
-        - name: Create cli-brainfuck Template
+          - name: Create cli-brainfuck Template
             run: |
-            echo -e "cli\nbrainfuck\nHomer\nhomer.simpson@hotmail.com\nExplodingSpringfield\ndescription\nhomergithub\nn" | cookietemple create
+              echo -e "cli\nbrainfuck\nHomer\nhomer.simpson@hotmail.com\nExplodingSpringfield\ndescription\nhomergithub\nn" | cookietemple create
 
-        - name: Build Package
+          - name: Build Package
             uses: fabasoad/setup-brainfuck-action@master
             with:
-            version: 0.1.dev1
-        - name: Hello World
+              version: 0.1.dev1
+          - name: Hello World
             run: |
-            brainfucky --file ExplodingSpringfield/hello.bf
+              brainfucky --file ExplodingSpringfield/hello.bf
 
 
    We were pleasently surprised to see that someone already made a Github Action for brainfuck.
