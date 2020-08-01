@@ -33,9 +33,9 @@ class ConfigCommand:
         Set full_name and email for reuse in any project created further on.
         """
         ConfigCommand.check_ct_config_dir_exists()
-        full_name = cookietemple_questionary_or_dot_cookietemple('text', 'Full name', 'Homer Simpson')
-        email = cookietemple_questionary_or_dot_cookietemple('text', 'Personal or work email', 'homer.simpson@example.com')
-        github_username = cookietemple_questionary_or_dot_cookietemple('text', 'Github username', 'homer.simpson@example.com')
+        full_name = cookietemple_questionary_or_dot_cookietemple(function='text', question='Full name', default='Homer Simpson')
+        email = cookietemple_questionary_or_dot_cookietemple(function='text', question='Personal or work email', default='homer.simpson@example.com')
+        github_username = cookietemple_questionary_or_dot_cookietemple(function='text', question='Github username', default='homer.simpson@example.com')
 
         # if the configs exist, just update them
         if os.path.exists(ConfigCommand.CONF_FILE_PATH):
