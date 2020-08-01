@@ -227,7 +227,7 @@ class TemplateLinter(object):
 
     def check_version_consistent(self) -> None:
         """
-        This method should check that the version is consistent across all files.
+        This method verifies that the project version is consistent across all files.
         """
         parser = configparser.ConfigParser()
         parser.read(f'{self.path}/cookietemple.cfg')

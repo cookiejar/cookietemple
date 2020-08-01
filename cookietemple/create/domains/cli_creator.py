@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 from dataclasses import dataclass
-from rich import print
 
 from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
@@ -37,7 +36,6 @@ class CliCreator(TemplateCreator):
         '"" TEMPLATE VERSIONS ""'
         self.CLI_PYTHON_TEMPLATE_VERSION = load_ct_template_version('cli-python', self.AVAILABLE_TEMPLATES_PATH)
         self.CLI_JAVA_TEMPLATE_VERSION = load_ct_template_version('cli-java', self.AVAILABLE_TEMPLATES_PATH)
-        self.CLI_KOTLIN_TEMPLATE_VERSION = load_ct_template_version('cli-kotlin', self.AVAILABLE_TEMPLATES_PATH)
 
     def create_template(self, dot_cookietemple: dict or None):
         """
@@ -46,7 +44,7 @@ class CliCreator(TemplateCreator):
 
         self.cli_struct.language = cookietemple_questionary_or_dot_cookietemple(function='select',
                                                                                 question='Choose the project\'s primary language',
-                                                                                choices=['python', 'java', 'kotlin'],
+                                                                                choices=['python', 'java'],
                                                                                 default='python',
                                                                                 dot_cookietemple=dot_cookietemple,
                                                                                 to_get_property='language')
@@ -58,7 +56,6 @@ class CliCreator(TemplateCreator):
         switcher = {
             'python': self.cli_python_options,
             'java': self.cli_java_options,
-            'kotlin': self.cli_kotlin_options
         }
         switcher.get(self.cli_struct.language)(dot_cookietemple)
 
@@ -76,8 +73,7 @@ class CliCreator(TemplateCreator):
         # switch case statement to fetch the template version
         switcher_version = {
             'python': self.CLI_PYTHON_TEMPLATE_VERSION,
-            'java': self.CLI_JAVA_TEMPLATE_VERSION,
-            'kotlin': self.CLI_KOTLIN_TEMPLATE_VERSION
+            'java': self.CLI_JAVA_TEMPLATE_VERSION
         }
         self.cli_struct.template_version, self.cli_struct.template_handle = switcher_version.get(
             self.cli_struct.language), f'cli-{self.cli_struct.language.lower()}'
@@ -113,7 +109,3 @@ class CliCreator(TemplateCreator):
                                                                                           dot_cookietemple=dot_cookietemple,
                                                                                           to_get_property='group_organization')
         self.cli_struct.main_class = self.cli_struct.project_slug.capitalize()
-
-    def cli_kotlin_options(self, dot_cookietemple: dict or None) -> None:
-        """ Prompts for cli-kotlin specific options and saves them into the CookietempleTemplateStruct """
-        print('[bold red] NOT IMPLEMENTED YET')

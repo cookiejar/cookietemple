@@ -49,12 +49,16 @@ class TemplateCreator:
         create and copy common files, fix docs style, lint the project and ask whether the user wants to create a github repo.
         """
         # create the common files and copy them into the templates directory (skip if flag is set)
+
         if not skip_common_files:
             self.create_common_files()
 
         self.create_dot_cookietemple(template_version=self.creator_ctx.template_version)
 
-        project_path = f'{self.CWD}/{self.creator_ctx.project_slug}'
+        if self.creator_ctx.language == 'python':
+            project_path = f'{self.CWD}/{self.creator_ctx.project_slug.replace("-", "_")}'
+        else:
+            project_path = f'{self.CWD}/{self.creator_ctx.project_slug}'
 
         # Ensure that docs are looking good (skip if flag is set)
         if not skip_fix_underline:
@@ -205,7 +209,7 @@ class TemplateCreator:
             # break if the project should be named anyways
             else:
                 break
-        self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_').replace('-', '_')
+        self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_')
         self.creator_ctx.project_short_description = cookietemple_questionary_or_dot_cookietemple(function='text',
                                                                                                   question='Short description of your project',
                                                                                                   default=f'{self.creator_ctx.project_name}'
@@ -247,13 +251,17 @@ class TemplateCreator:
         copy_tree(f'{self.COMMON_FILES_PATH}', dirpath)
         cwd_project = Path.cwd()
         os.chdir(dirpath)
+
+        # Python does not allow for hyphens (module imports etc) -> remove them
+        no_hyphen = self.creator_ctx.project_slug.replace('-', '_')
+
         cookiecutter(dirpath,
                      extra_context={'full_name': self.creator_ctx.full_name,
                                     'email': self.creator_ctx.email,
                                     'language': self.creator_ctx.language,
                                     'domain': self.creator_ctx.domain,
                                     'project_name': self.creator_ctx.project_name,
-                                    'project_slug': self.creator_ctx.project_slug,
+                                    'project_slug': self.creator_ctx.project_slug if self.creator_ctx.language != 'python' else no_hyphen,
                                     'version': self.creator_ctx.version,
                                     'license': self.creator_ctx.license,
                                     'project_short_description': self.creator_ctx.project_short_description},
@@ -261,7 +269,8 @@ class TemplateCreator:
                      overwrite_if_exists=True)
 
         # recursively copy the common files directory content to the created project
-        copy_tree(f'{os.getcwd()}/common_files_util', f'{cwd_project}/{self.creator_ctx.project_slug}')
+        copy_tree(f'{os.getcwd()}/common_files_util', f'{cwd_project}/'
+                                                      f'{self.creator_ctx.project_slug if self.creator_ctx.language != "python" else no_hyphen}')
         # delete the tmp cookiecuttered common files directory
         delete_dir_tree(Path(f'{Path.cwd()}/common_files_util'))
         shutil.rmtree(dirpath)
@@ -305,7 +314,9 @@ class TemplateCreator:
         """
         self.creator_ctx.template_version = f'{template_version} # <<COOKIETEMPLE_NO_BUMP>>'
         self.creator_ctx.cookietemple_version = f'{cookietemple.__version__} # <<COOKIETEMPLE_NO_BUMP>>'
-        with open(f'{self.creator_ctx.project_slug}/.cookietemple.yml', 'w') as f:
+        # Python does not allow for hyphens (module imports etc) -> remove them
+        no_hyphen = self.creator_ctx.project_slug.replace('-', '_')
+        with open(f'{self.creator_ctx.project_slug if self.creator_ctx.language != "python" else no_hyphen}/.cookietemple.yml', 'w') as f:
             yaml = YAML()
             struct_to_dict = self.creator_ctx_to_dict()
             yaml.dump(struct_to_dict, f)
