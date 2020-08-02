@@ -15,7 +15,9 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+lib/*
+# Do not ignore lib directory from templates
+!/templates/lib/
 lib64/
 parts/
 sdist/

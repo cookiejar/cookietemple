@@ -1,13 +1,4 @@
 cli:
-    python:
-        name: Python Commandline Package
-        handle: cli-python
-        version: 1.0.0
-        available libraries: click, argparse
-        short description: General Python package with command line interface
-        long description: Best practice Python package with optional command line support (click, argparse).
-                        Pytest or unittest are available as testing libraries.
-                        The package can be easily locally installed and distributed on PyPi.
     java:
         name: Java Commandline Tool
         handle: cli-java
@@ -17,15 +8,15 @@ cli:
         long description: A commandline application tool written in Java using the Picocli framework.
                         The commandline application is built using GraalVM, which results in platform dependent binaries.
                         Multiplatform Github workflows ensure that binaries are built for every platform and easily accessible as Github artifacts.
-web:
-    website:
-        python:
-            name: Python Based Website
-            handle: web-website-python
-            version: 0.0.1
-            available libraries: flask
-            short description: someShortDescription
-            long description: someLongDescription
+    python:
+        name: Python Commandline Package
+        handle: cli-python
+        version: 1.0.0
+        available libraries: click, argparse
+        short description: General Python package with command line interface
+        long description: Best practice Python package with optional command line support (click, argparse).
+                        Pytest or unittest are available as testing libraries.
+                        The package can be easily locally installed and distributed on PyPi.
 gui:
     java:
         name: JavaFX GUI with Java
@@ -34,6 +25,14 @@ gui:
         available libraries: JavaFX
         short description: someShortDescription
         long description: someLongDescription
+lib:
+    cpp:
+        name: C++ Library with CMake
+        handle: lib-cpp
+        version: 1.0.0
+        available libraries: None
+        short description: A quick C++ template for modern CMake projects, aimed to be an easy to use starting point. 
+        long description: 'A template for modern C++ projects - both executables and libraries - using CMake, Clang-Format, CI, unit testing and more, with support for downstream inclusion.'
 pub:
     thesis:
         latex:
@@ -44,3 +43,12 @@ pub:
             short description: Template for BSc./MSc./PhD/... thesis
             long description: A modern LaTeX/XeLaTeX/LuaLaTeX thesis template based on the Cambridge University Engineering Department template.
                 The template is still highly customizable but offers very reasonable defaults and should not require a lot if any configuration.
+web:
+    website:
+        python:
+            name: Python Based Website
+            handle: web-website-python
+            version: 0.0.1
+            available libraries: flask
+            short description: someShortDescription
+            long description: someLongDescription
