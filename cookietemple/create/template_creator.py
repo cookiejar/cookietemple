@@ -197,7 +197,7 @@ class TemplateCreator:
                                                                                      dot_cookietemple=dot_cookietemple,
                                                                                      to_get_property='project_name')
 
-        # check if the project name is already taken on readthedocs.io
+        # Check whether the project name is already taken on readthedocs.io
         while self.readthedocs_slug_already_exists(self.creator_ctx.project_name) and not dot_cookietemple:
             print(f'[bold red]A project named {self.creator_ctx.project_name} already exists at readthedocs.io!')
             if cookietemple_questionary_or_dot_cookietemple(function='confirm',
@@ -210,6 +210,8 @@ class TemplateCreator:
             else:
                 break
         self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_')
+        # Should only be required for python projects
+        self.creator_ctx.project_slug_no_hyphen = self.creator_ctx.project_slug.replace('-', '_')
         self.creator_ctx.project_short_description = cookietemple_questionary_or_dot_cookietemple(function='text',
                                                                                                   question='Short description of your project',
                                                                                                   default=f'{self.creator_ctx.project_name}'

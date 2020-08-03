@@ -19,14 +19,14 @@ repositories {
 }
 
 dependencies {
-    implementation 'info.picocli:picocli:4.3.2'
-    implementation 'info.picocli:picocli-jansi-graalvm:1.1.0'
+    implementation 'info.picocli:picocli:4.5.0'
+    implementation 'info.picocli:picocli-jansi-graalvm:1.2.0'
     implementation 'org.fusesource.jansi:jansi:1.18'
 
-    annotationProcessor 'info.picocli:picocli-codegen:4.2.0'
+    annotationProcessor 'info.picocli:picocli-codegen:4.5.0'
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.2")
 }
 
 compileJava {
