@@ -1,10 +1,12 @@
 import os
 import sys
-import click
+from collections import OrderedDict
+
 import shutil
 import re
 import tempfile
 
+import cookietemple
 import requests
 from distutils.dir_util import copy_tree
 from pathlib import Path
@@ -12,14 +14,15 @@ from dataclasses import asdict
 from ruamel.yaml import YAML
 from cookiecutter.main import cookiecutter
 
-from cookietemple.custom_cli.questionary import cookietemple_questionary
+from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.create.github_support import create_push_github_repository, load_github_username, is_git_repo
 from cookietemple.lint.lint import lint_project
 from cookietemple.util.docs_util import fix_short_title_underline
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.config.config import ConfigCommand
-from cookietemple.util.yaml_util import load_yaml_file
+from cookietemple.common.load_yaml import load_yaml_file
+from rich import print
 
 
 class TemplateCreator:
@@ -39,18 +42,23 @@ class TemplateCreator:
         self.creator_ctx = creator_ctx
 
     def process_common_operations(self, skip_common_files=False, skip_fix_underline=False,
-                                  domain: str = None, subdomain: str = None, language: str = None) -> None:
+                                  domain: str = None, subdomain: str = None, language: str = None,
+                                  dot_cookietemple: OrderedDict = None) -> None:
         """
         Create all stuff that is common for cookietemples template creation process; in detail those things are:
         create and copy common files, fix docs style, lint the project and ask whether the user wants to create a github repo.
         """
         # create the common files and copy them into the templates directory (skip if flag is set)
+
         if not skip_common_files:
             self.create_common_files()
 
         self.create_dot_cookietemple(template_version=self.creator_ctx.template_version)
 
-        project_path = f'{self.CWD}/{self.creator_ctx.project_slug}'
+        if self.creator_ctx.language == 'python':
+            project_path = f'{self.CWD}/{self.creator_ctx.project_slug.replace("-", "_")}'
+        else:
+            project_path = f'{self.CWD}/{self.creator_ctx.project_slug}'
 
         # Ensure that docs are looking good (skip if flag is set)
         if not skip_fix_underline:
@@ -59,7 +67,7 @@ class TemplateCreator:
         # Lint the project to verify that the new template adheres to all standards
         lint_project(project_path, is_create=True)
 
-        if self.creator_ctx.is_github_repo:
+        if self.creator_ctx.is_github_repo and not dot_cookietemple:
             # rename the currently created template to a temporary name, create Github repo, push, remove temporary template
             tmp_project_path = f'{project_path}_cookietemple_tmp'
             os.mkdir(tmp_project_path)
@@ -67,15 +75,13 @@ class TemplateCreator:
             shutil.rmtree(tmp_project_path, ignore_errors=True)
 
         if subdomain:
-            click.echo()
-            click.echo(
-                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{subdomain}-{language} '
-                            f'for more information about how to use your chosen template.', fg='blue'))
+            print()
+            print(f'[bold blue]Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{subdomain}-{language} ' +
+                  f'for more information about how to use your chosen template.')
         else:
-            click.echo()
-            click.echo(
-                click.style(f'Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{language} '
-                            f'for more information about how to use your chosen template.', fg='blue'))
+            print()
+            print(f'[bold blue]Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{language} ' +
+                  f'for more information about how to use your chosen template.')
 
     def create_template_without_subdomain(self, domain_path: str) -> None:
         """
@@ -90,13 +96,13 @@ class TemplateCreator:
             self.directory_exists_warning()
 
             # Confirm proceeding with overwriting existing directory
-            if cookietemple_questionary('confirm', 'Do you really want to continue?', default='Yes'):
+            if cookietemple_questionary_or_dot_cookietemple('confirm', 'Do you really want to continue?', default='Yes'):
                 cookiecutter(f'{domain_path}/{self.creator_ctx.domain}_{self.creator_ctx.language.lower()}',
                              no_input=True,
                              overwrite_if_exists=True,
                              extra_context=self.creator_ctx_to_dict())
             else:
-                click.echo(click.style('Aborted! Canceled template creation!', fg='red'))
+                print('[bold red]Aborted! Canceled template creation!')
                 sys.exit(0)
         else:
             cookiecutter(f'{domain_path}/{self.creator_ctx.domain}_{self.creator_ctx.language.lower()}',
@@ -117,7 +123,7 @@ class TemplateCreator:
             self.directory_exists_warning()
 
             # Confirm proceeding with overwriting existing directory
-            if cookietemple_questionary('confirm', 'Do you really want to continue?', default='Yes'):
+            if cookietemple_questionary_or_dot_cookietemple('confirm', 'Do you really want to continue?', default='Yes'):
                 delete_dir_tree(Path(f'{os.getcwd()}/{self.creator_ctx.project_slug}'))
                 cookiecutter(f'{domain_path}/{subdomain}_{self.creator_ctx.language.lower()}',
                              no_input=True,
@@ -125,7 +131,7 @@ class TemplateCreator:
                              extra_context=self.creator_ctx_to_dict())
 
             else:
-                click.echo(click.style('Aborted! Canceled template creation!', fg='red'))
+                print('[bold red]Aborted! Canceled template creation!')
                 sys.exit(0)
         else:
             cookiecutter(f'{domain_path}/{subdomain}_{self.creator_ctx.language.lower()}',
@@ -147,14 +153,14 @@ class TemplateCreator:
             self.directory_exists_warning()
 
             # Confirm proceeding with overwriting existing directory
-            if cookietemple_questionary('confirm', 'Do you really want to continue?', default='Yes'):
+            if cookietemple_questionary_or_dot_cookietemple('confirm', 'Do you really want to continue?', default='Yes'):
                 cookiecutter(f'{domain_path}/{subdomain}_{self.creator_ctx.language.lower()}/{framework}',
                              no_input=True,
                              overwrite_if_exists=True,
                              extra_context=self.creator_ctx_to_dict())
 
             else:
-                click.echo(click.style('Aborted! Canceled template creation!', fg='red'))
+                print('[bold red]Aborted! Canceled template creation!')
                 sys.exit(0)
         else:
             cookiecutter(f'{domain_path}/{subdomain}_{self.creator_ctx.language.lower()}/{framework}',
@@ -162,7 +168,7 @@ class TemplateCreator:
                          overwrite_if_exists=True,
                          extra_context=self.creator_ctx_to_dict())
 
-    def prompt_general_template_configuration(self):
+    def prompt_general_template_configuration(self, dot_cookietemple: OrderedDict):
         """
         Prompts the user for general options that are required by all templates.
         Options are saved in the creator context manager object.
@@ -173,9 +179,9 @@ class TemplateCreator:
             self.creator_ctx.email = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['email']
         except FileNotFoundError:
             # style and automatic use config
-            click.echo(click.style('Cannot find a cookietemple config file. Is this your first time using cookietemple?', fg='red'))
+            print('[bold red]Cannot find a cookietemple config file. Is this your first time using cookietemple?')
             # inform the user and config all settings (with PAT optional)
-            click.echo(click.style('Lets set your name, email and Github username and you´re ready to go!', fg='blue'))
+            print('[bold blue]Lets set your name, email and Github username and you´re ready to go!')
             ConfigCommand.all_settings()
             # load mail and full name
             path = Path(ConfigCommand.CONF_FILE_PATH)
@@ -185,32 +191,54 @@ class TemplateCreator:
             self.creator_ctx.full_name = settings['full_name']
             self.creator_ctx.email = settings['email']
 
-        self.creator_ctx.project_name = cookietemple_questionary('text', 'Project name', default='Exploding Springfield')
+        self.creator_ctx.project_name = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                                     question='Project name',
+                                                                                     default='Exploding Springfield',
+                                                                                     dot_cookietemple=dot_cookietemple,
+                                                                                     to_get_property='project_name')
 
         # check if the project name is already taken on readthedocs.io
-        while self.readthedocs_slug_already_exists(self.creator_ctx.project_name):
-            click.echo(click.style(f'A project named {self.creator_ctx.project_name} already exists at readthedocs.io!', fg='red'))
-            if cookietemple_questionary('confirm', 'Do you want to choose another name for your project?\n'
-                                                   'Otherwise you will not be able to host your docs at readthedocs.io!', default='Yes'):
-                self.creator_ctx.project_name = cookietemple_questionary('text', 'Project name', default='Exploding Springfield')
+        while self.readthedocs_slug_already_exists(self.creator_ctx.project_name) and not dot_cookietemple:
+            print(f'[bold red]A project named {self.creator_ctx.project_name} already exists at readthedocs.io!')
+            if cookietemple_questionary_or_dot_cookietemple(function='confirm',
+                                                            question='Do you want to choose another name for your project?\n'
+                                                                     'Otherwise you will not be able to host your docs at readthedocs.io!', default='Yes'):
+                self.creator_ctx.project_name = cookietemple_questionary_or_dot_cookietemple('text',
+                                                                                             'Project name',
+                                                                                             default='Exploding Springfield')
             # break if the project should be named anyways
             else:
                 break
-        self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_').replace('-', '_')
-        self.creator_ctx.project_short_description = cookietemple_questionary('text', 'Short description of your project',
-                                                                              default=f'{self.creator_ctx.project_name}. A cookietemple based .')
-        poss_vers = cookietemple_questionary('text', 'Initial version of your project', default='0.1.0')
+        self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_')
+        self.creator_ctx.project_short_description = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                                                  question='Short description of your project',
+                                                                                                  default=f'{self.creator_ctx.project_name}'
+                                                                                                          f'. A cookietemple based .',
+                                                                                                  dot_cookietemple=dot_cookietemple,
+                                                                                                  to_get_property='project_short_description')
+        poss_vers = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                 question='Initial version of your project',
+                                                                 default='0.1.0',
+                                                                 dot_cookietemple=dot_cookietemple,
+                                                                 to_get_property='version')
 
         # make sure that the version has the right format
-        while not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', poss_vers):
-            click.echo(click.style('The version number entered does not match cookietemples pattern.\n'
-                                   'Please enter the version in the format [number].[number].[number]!', fg='red'))
-            poss_vers = cookietemple_questionary('text', 'Initial version of your project', default='0.1.0')
+        while not re.match(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', poss_vers) and not dot_cookietemple:
+            print('[bold red]The version number entered does not match semantic versioning.\n' +
+                  'Please enter the version in the format [number].[number].[number]!')
+            poss_vers = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                     question='Initial version of your project',
+                                                                     default='0.1.0')
         self.creator_ctx.version = poss_vers
 
-        self.creator_ctx.license = cookietemple_questionary('select', 'License', ['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Boost', 'Affero',
-                                                                                  'CC0', 'CCBY', 'CCBYSA', 'Eclipse', 'WTFPL', 'unlicence', 'Not open source'],
-                                                            'MIT')
+        self.creator_ctx.license = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                                question='License',
+                                                                                choices=['MIT', 'BSD', 'ISC', 'Apache2.0', 'GNUv3', 'Boost', 'Affero',
+                                                                                         'CC0', 'CCBY', 'CCBYSA', 'Eclipse', 'WTFPL', 'unlicence',
+                                                                                         'Not open source'],
+                                                                                default='MIT',
+                                                                                dot_cookietemple=dot_cookietemple,
+                                                                                to_get_property='license')
 
         self.creator_ctx.github_username = load_github_username()
 
@@ -223,13 +251,17 @@ class TemplateCreator:
         copy_tree(f'{self.COMMON_FILES_PATH}', dirpath)
         cwd_project = Path.cwd()
         os.chdir(dirpath)
+
+        # Python does not allow for hyphens (module imports etc) -> remove them
+        no_hyphen = self.creator_ctx.project_slug.replace('-', '_')
+
         cookiecutter(dirpath,
                      extra_context={'full_name': self.creator_ctx.full_name,
                                     'email': self.creator_ctx.email,
                                     'language': self.creator_ctx.language,
                                     'domain': self.creator_ctx.domain,
                                     'project_name': self.creator_ctx.project_name,
-                                    'project_slug': self.creator_ctx.project_slug,
+                                    'project_slug': self.creator_ctx.project_slug if self.creator_ctx.language != 'python' else no_hyphen,
                                     'version': self.creator_ctx.version,
                                     'license': self.creator_ctx.license,
                                     'project_short_description': self.creator_ctx.project_short_description},
@@ -237,7 +269,8 @@ class TemplateCreator:
                      overwrite_if_exists=True)
 
         # recursively copy the common files directory content to the created project
-        copy_tree(f'{os.getcwd()}/common_files_util', f'{cwd_project}/{self.creator_ctx.project_slug}')
+        copy_tree(f'{os.getcwd()}/common_files_util', f'{cwd_project}/'
+                                                      f'{self.creator_ctx.project_slug if self.creator_ctx.language != "python" else no_hyphen}')
         # delete the tmp cookiecuttered common files directory
         delete_dir_tree(Path(f'{Path.cwd()}/common_files_util'))
         shutil.rmtree(dirpath, ignore_errors=True)
@@ -249,14 +282,14 @@ class TemplateCreator:
         Test whether there´s already a project with the same name on readthedocs
         :param project_name Name of the project the user wants to create
         """
-        click.echo(click.style(f'Looking up {project_name} at readthedocs.io!', fg='blue'))
+        print(f'[bold blue]Looking up {project_name} at readthedocs.io!')
         try:
             request = requests.get(f'https://{project_name.replace(" ", "")}.readthedocs.io')
             if request.status_code == 200:
                 return True
         # catch exceptions when server may be unavailable or the request timed out
         except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
-            click.echo(click.style('Cannot check whether name already taken on readthedocs.io because its unreachable at the moment!', fg='red'))
+            print('[bold red]Cannot check whether name already taken on readthedocs.io because its unreachable at the moment!')
             return False
 
     def directory_exists_warning(self) -> None:
@@ -265,14 +298,12 @@ class TemplateCreator:
         Otherwise print a warning that a directory already exists and any further action on the directory will overwrite its contents.
         """
         if is_git_repo(Path(f'{os.getcwd()}/{self.creator_ctx.project_slug}')):
-            click.echo(click.style('ERROR: ', fg='red') + click.style(f'A git project named {self.creator_ctx.project_slug} already exists at ', fg='red')
-                       + click.style(f'{os.getcwd()}\n', fg='green'))
-            click.echo(click.style('Aborting!', fg='red'))
+            print(f'[bold red]Error: A git project named {self.creator_ctx.project_slug} already exists at [green]{os.getcwd()}\n')
+            print('[bold red]Aborting!')
             sys.exit(1)
         else:
-            click.echo(click.style('WARNING: ', fg='red') + click.style(f'A directory named {self.creator_ctx.project_slug} already exists at ', fg='red')
-                       + click.style(f'{os.getcwd()}\n', fg='blue'))
-            click.echo(click.style('Proceeding now will overwrite this directory and its content!', fg='red'))
+            print(f'[bold yellow]WARNING: [red]A directory named {self.creator_ctx.project_slug} already exists at [blue]{os.getcwd()}\n')
+            print(f'Proceeding now will overwrite this directory and its content!')
 
     def create_dot_cookietemple(self, template_version: str):
         """
@@ -282,7 +313,10 @@ class TemplateCreator:
         :param template_version: Version of the specific template
         """
         self.creator_ctx.template_version = f'{template_version} # <<COOKIETEMPLE_NO_BUMP>>'
-        with open(f'{self.creator_ctx.project_slug}/.cookietemple.yml', 'w') as f:
+        self.creator_ctx.cookietemple_version = f'{cookietemple.__version__} # <<COOKIETEMPLE_NO_BUMP>>'
+        # Python does not allow for hyphens (module imports etc) -> remove them
+        no_hyphen = self.creator_ctx.project_slug.replace('-', '_')
+        with open(f'{self.creator_ctx.project_slug if self.creator_ctx.language != "python" else no_hyphen}/.cookietemple.yml', 'w') as f:
             yaml = YAML()
             struct_to_dict = self.creator_ctx_to_dict()
             yaml.dump(struct_to_dict, f)
@@ -293,18 +327,3 @@ class TemplateCreator:
         :return: The dict containing all key-value pairs with non empty values
         """
         return {key: val for key, val in asdict(self.creator_ctx).items() if val != ''}
-
-    def load_version(self, handle: str) -> str:
-        """
-        Load the version of the template specified by the handler
-
-        :param handle: The template handle
-        :return: The version number
-        """
-        parts = handle.split('-')
-
-        if len(parts) == 2:
-            return self.AVAILABLE_TEMPLATES[parts[0]][parts[1]]['version']
-
-        elif len(parts) == 3:
-            return self.AVAILABLE_TEMPLATES[parts[0]][parts[1]][parts[2]]['version']

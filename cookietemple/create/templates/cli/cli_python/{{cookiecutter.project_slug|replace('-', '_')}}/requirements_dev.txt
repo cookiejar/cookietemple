@@ -1,0 +1,14 @@
+pip==20.1.1
+wheel==0.34.2
+watchdog==0.10.3
+flake8==3.8.3
+tox==3.16.1
+coverage==5.2.1
+Sphinx==3.1.2
+sphinx-automodapi==0.12
+twine==3.2.0
+{% if cookiecutter.testing_library == 'pytest' -%}
+pytest==6.0.1
+pytest-runner==5.2
+pytest-mock==3.2.0{% endif %}
+-r requirements.txt

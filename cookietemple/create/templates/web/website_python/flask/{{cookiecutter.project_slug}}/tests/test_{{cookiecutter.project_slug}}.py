@@ -4,7 +4,7 @@
 import pytest
 from flask import Flask
 from {{cookiecutter.project_slug}}.config import Config
-{% if cookiecutter.is_basic_website == 'n' -%}
+{% if cookiecutter.setup_type == 'advanced' -%}
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_mail import Mail
@@ -29,7 +29,7 @@ def test_content(response):
     # from bs4 import BeautifulSoup
     # assert 'GitHub' in BeautifulSoup(response.content).title.string
 
-{% if cookiecutter.is_basic_website == 'n' -%}
+{% if cookiecutter.setup_type == 'advanced' -%}
 def create_test_app():
     migrate = Migrate()
     db = SQLAlchemy()
@@ -72,7 +72,7 @@ def test_redirect():
     response = testing_client.get('/')
     assert response.status_code == 302  # assert redirecting
     {% endif %}
-{% if cookiecutter.is_basic_website == 'y' -%}
+{% if cookiecutter.setup_type == 'basic' -%}
 
 
 def create_test_app():

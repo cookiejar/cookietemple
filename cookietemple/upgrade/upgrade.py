@@ -1,12 +1,12 @@
 import json
 import urllib
 import sys
+import cookietemple
+
 from urllib.error import HTTPError, URLError
 from subprocess import Popen, PIPE, check_call
-
-import click
-
-import cookietemple
+from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
+from rich import print
 
 
 class UpgradeCommand:
@@ -20,7 +20,9 @@ class UpgradeCommand:
         If not it prompts whether to upgrade and runs the upgrade command if desired.
         """
         if not UpgradeCommand.check_cookietemple_latest():
-            if click.confirm('Do you want to upgrade?'):
+            if cookietemple_questionary_or_dot_cookietemple(function='confirm',
+                                                            question='Do you want to upgrade?',
+                                                            default='y'):
                 UpgradeCommand.upgrade_cookietemple()
 
     @classmethod
@@ -42,14 +44,14 @@ class UpgradeCommand:
                 data = json.loads(contents)
                 latest_pypi_version = data['info']['version']
         except (HTTPError, TimeoutError, URLError):
-            click.echo(click.style('Unable to contact PyPI to check for the latest cookietemple version. Do you have an internet connection?', fg='red'))
+            print('[bold red]Unable to contact PyPI to check for the latest cookietemple version. Do you have an internet connection?')
             # Returning true by default, since this is not a serious issue
             return True
 
         if latest_local_version == latest_pypi_version:
             return True
         else:
-            click.echo(click.style(f'Installed version {latest_local_version} of cookietemple is outdated. Newest version is {latest_pypi_version}!', fg='red'))
+            print(f'[bold red]Installed version {latest_local_version} of cookietemple is outdated. Newest version is {latest_pypi_version}!')
             return False
 
     @classmethod
@@ -62,8 +64,8 @@ class UpgradeCommand:
         try:
             check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', 'cookietemple'])
         except Exception as e:
-            click.echo(click.style('Unable to upgrade cookietemple!', fg='red'))
-            click.echo(click.style(f'Exception: {e}', fg='red'))
+            print('[bold red]Unable to upgrade cookietemple')
+            print(f'[bold red]Exception: {e}')
 
     @classmethod
     def is_pip_accessible(cls) -> bool:
@@ -75,8 +77,8 @@ class UpgradeCommand:
         pip_installed = Popen(['pip', '--version'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
         (git_installed_stdout, git_installed_stderr) = pip_installed.communicate()
         if pip_installed.returncode != 0:
-            click.echo(click.style('Could not find \'pip\' in the PATH. Is it installed?', fg='red'))
-            click.echo(click.style('Run command was: \'pip --version \'', fg='red'))
+            print('[bold red]Unable to find \'pip\' in the PATH. Is it installed?')
+            print('[bold red]Run command was [green]\'pip --version \'')
             return False
 
         return True

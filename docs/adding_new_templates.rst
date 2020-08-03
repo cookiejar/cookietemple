@@ -54,7 +54,7 @@ Step by step guide to adding new templates
 ------------------------------------------
 
 Let's assume that we are planning to add a new commandline `Brainfuck <https://en.wikipedia.org/wiki/Brainfuck>`_ template to cookietemple.
-We discussed our design at length with the core team and they approved our plan. For the sake of this tutorial we assume that the path / always points to /cookietemple.
+We discussed our design at length with the core team and they approved our plan. For the sake of this tutorial **we assume that the path / always points to /cookietemple**.
 Hence, at this level we see ``cookietemple_cli.py`` and a folder per CLI command.
 
 1. Let's add our brainfuck template information to ``/create/templates/available_templates.yml`` below the ``cli`` section.
@@ -72,7 +72,7 @@ Hence, at this level we see ``cookietemple_cli.py`` and a folder per CLI command
                 Due to ANSI coloring support they can even be pink! Please someone send help.
 
 2. | Next, we add our brainfuck template to :code:`/create/templates`
-   | Note that it should adhere to the standards mentioned above and include all required files. Don't forget to edit the cookietemple.cfg file to facilitate bump-version. See :ref:`bump-version-configuration` for details.
+   | Note that it should adhere to the standards mentioned above and include all required files. Don't forget to add a cookietemple.cfg file to facilitate bump-version. See :ref:`bump-version-configuration` for details.
     It is **mandatory** to name the top level folder ``{{ cookiecutter.project_slug }}``, which ensures that the project after creation will have a proper name.
     Furthermore, the ``cookiecutter.json`` file should have at least the following variables:
 
@@ -139,28 +139,37 @@ The file tree of the template should resemble
             self.CLI_JAVA_TEMPLATE_VERSION = super().load_version('cli-java')
             self.CLI_BRAINFUCK_TEMPLATE_VERSION = super().load_version('cli-brainfuck')
 
-        def create_template(self):
+        def create_template(self, dot_cookietemple: dict or None):
             """
             Handles the CLI domain. Prompts the user for the language, general and domain specific options.
             """
 
-            self.cli_struct.language = click.prompt('Choose between the following languages',
-                                                    type=click.Choice(['java', 'brainfuck']),
-                                                    show_choices=True)
+            self.cli_struct.language = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                                    question='Choose the project\'s primary language',
+                                                                                    choices=['python', 'java', 'brainfuck'],
+                                                                                    default='python',
+                                                                                    dot_cookietemple=dot_cookietemple,
+                                                                                    to_get_property='language')
 
             # prompt the user to fetch general template configurations
-            super().prompt_general_template_configuration()
+            super().prompt_general_template_configuration(dot_cookietemple)
 
             # switch case statement to prompt the user to fetch template specific configurations
             switcher = {
                 'java': self.cli_java_options,
                 'brainfuck': self.cli_brainfuck_options
             }
-            switcher.get(self.cli_struct.language.lower(), lambda: 'Invalid language!')()
+            switcher.get(self.cli_struct.language)(dot_cookietemple)
 
-            self.cli_struct.is_github_repo, self.cli_struct.is_repo_private, self.cli_struct.is_github_orga, self.cli_struct.github_orga = prompt_github_repo()
+            self.cli_struct.is_github_repo, \
+                self.cli_struct.is_repo_private, \
+                self.cli_struct.is_github_orga, \
+                self.cli_struct.github_orga \
+                = prompt_github_repo(dot_cookietemple)
+
             if self.cli_struct.is_github_orga:
                 self.cli_struct.github_username = self.cli_struct.github_orga
+
             # create the chosen and configured template
             super().create_template_without_subdomain(f'{self.TEMPLATES_CLI_PATH}')
 
@@ -170,16 +179,26 @@ The file tree of the template should resemble
                 'brainfuck': self.CLI_BRAINFUCK_TEMPLATE_VERSION
             }
             self.cli_struct.template_version, self.cli_struct.template_handle = switcher_version.get(
-                self.cli_struct.language.lower(), lambda: 'Invalid language!'), f'cli-{self.cli_struct.language.lower()}'
+                self.cli_struct.language.lower()), f'cli-{self.cli_struct.language.lower()}'
 
-            super().process_common_operations()
+            super().process_common_operations(domain='cli', language=self.cli_struct.language, dot_cookietemple=dot_cookietemple)
 
-        def cli_java_options(self):
-            self.cli_struct.main_class_prefix = click.prompt('Main class prefix:',
-                                                            type=str,
-                                                            default='Sample')
+        def cli_python_options(self, dot_cookietemple: dict or None):
+            """ Prompts for cli-python specific options and saves them into the CookietempleTemplateStruct """
+            self.cli_struct.command_line_interface = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                                                question='Choose a command line library',
+                                                                                                choices=['Click', 'Argparse', 'No command-line interface'],
+                                                                                                default='Click',
+                                                                                                dot_cookietemple=dot_cookietemple,
+                                                                                                to_get_property='command_line_interface')
+            [...]
+
+        def cli_java_options(self, dot_cookietemple: dict or None) -> None:
+            """ Prompts for cli-java specific options and saves them into the CookietempleTemplateStruct """
+            [...]
 
         def cli_brainfuck_options(self):
+            """ Prompts for cli-brainfuck specific options and saves them into the CookietempleTemplateStruct """
             pass
 
 
@@ -298,37 +317,37 @@ Our shiny new CliBrainfuckLinter is now ready for action!
     on: [push]
 
     jobs:
-    build:
+      build:
 
-        runs-on: ubuntu-latest
-        strategy:
-        matrix:
-            python: [3.7, 3.8]
+          runs-on: ubuntu-latest
+          strategy:
+            matrix:
+              python: [3.7, 3.8]
 
-        steps:
-        - uses: actions/checkout@v2
+          steps:
+          - uses: actions/checkout@v2
             name: Check out source-code repository
 
-        - name: Setup Python
+          - name: Setup Python
             uses: actions/setup-python@v1
             with:
-            python-version: ${{ matrix.python }}
+              python-version: ${{ matrix.python }}
 
-        - name: Build cookietemple
+          - name: Build cookietemple
             run: |
-            python setup.py clean --all install
+              python setup.py clean --all install
 
-        - name: Create cli-brainfuck Template
+          - name: Create cli-brainfuck Template
             run: |
-            echo -e "cli\nbrainfuck\nHomer\nhomer.simpson@hotmail.com\nExplodingSpringfield\ndescription\nhomergithub\nn" | cookietemple create
+              echo -e "cli\nbrainfuck\nHomer\nhomer.simpson@hotmail.com\nExplodingSpringfield\ndescription\nhomergithub\nn" | cookietemple create
 
-        - name: Build Package
+          - name: Build Package
             uses: fabasoad/setup-brainfuck-action@master
             with:
-            version: 0.1.dev1
-        - name: Hello World
+              version: 0.1.dev1
+          - name: Hello World
             run: |
-            brainfucky --file ExplodingSpringfield/hello.bf
+              brainfucky --file ExplodingSpringfield/hello.bf
 
 
    We were pleasently surprised to see that someone already made a Github Action for brainfuck.

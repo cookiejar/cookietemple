@@ -1,15 +1,18 @@
 import os
-import click
+from collections import OrderedDict
+
 from pathlib import Path
 from dataclasses import dataclass
 from distutils.dir_util import copy_tree
 from shutil import copy
+from rich import print
 
 from cookietemple.create.template_creator import TemplateCreator
-from cookietemple.custom_cli.questionary import cookietemple_questionary
+from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.create.github_support import prompt_github_repo
+from cookietemple.common.version import load_ct_template_version
 
 
 @dataclass
@@ -18,21 +21,19 @@ class TemplateStructWeb(CookietempleTemplateStruct):
     This class contains all attributes specific for WEB projects
     This section contains some attributes specific for WEB-domain projects
     """
-    # TODO: Currently only python but this will be refactored as we have more templates
-    webtype: str = ''  # the type of web project like website or REST-API
+    webtype: str = ''  # the type of web project like website
 
     """
     General Python attributes
     """
     command_line_interface: str = ''  # which command line library to use (click, argparse)
     testing_library: str = ''  # which testing library to use (pytest, unittest)
-    use_pytest: str = ''  # set automatically if pytest is used
 
     """
     This section contains some attributes specific for website projects
     """
     web_framework: str = ''  # the framework, the user wants to use (if any)
-    is_basic_website: str = ''  # indicates whether the user wants a basic website setup or a more advanced with database support etc.
+    setup_type: str = ''  # indicates whether the user wants a basic website setup or a more advanced with database support etc.
     use_frontend: str = ''  # indicates whether the user wants a shipped with frontend template or not
     frontend: str = ''  # the name of the frontend template (if any; the user has several options)
     url: str = ''  # the url for the website (if any)
@@ -52,25 +53,45 @@ class WebCreator(TemplateCreator):
         self.TEMPLATES_WEB_PATH = f'{self.WD_Path.parent}/templates/web'
 
         '""Web Template Versions""'
-        self.WEB_WEBSITE_PYTHON_TEMPLATE_VERSION = super().load_version('web-website-python')
+        self.WEB_WEBSITE_PYTHON_TEMPLATE_VERSION = load_ct_template_version('web-website-python', self.AVAILABLE_TEMPLATES_PATH)
 
-    def create_template(self) -> None:
+    def create_template(self, dot_cookietemple: dict or None) -> None:
         """
         Handles the Web domain. Prompts the user for the language, general and domain specific options.
         """
-        self.web_struct.language = cookietemple_questionary('select', 'Choose between the following languages', ['python'])
+        self.web_struct.language = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                                question='Choose between the following languages',
+                                                                                choices=['python'],
+                                                                                default='python',
+                                                                                dot_cookietemple=dot_cookietemple,
+                                                                                to_get_property='language')
 
         # prompt the user to fetch general template configurations
-        super().prompt_general_template_configuration()
+        super().prompt_general_template_configuration(dot_cookietemple)
 
         # switch case statement to prompt the user to fetch template specific configurations
         switcher = {
             'python': self.web_python_options,
         }
-        switcher.get(self.web_struct.language)()
+        switcher.get(self.web_struct.language)(dot_cookietemple)
+        # call handle function for specified language
+        self.__getattribute__(f'handle_web_project_type_{self.web_struct.language}')(dot_cookietemple)
+        # call handle function for specified webtype according to the chosen language
+        self.__getattribute__(f'handle_{self.web_struct.webtype.lower()}_{self.web_struct.language}')(dot_cookietemple)
+        # call option function for specified framework (if any)
+        framework = self.web_struct.web_framework.lower()
+        if framework:
+            self.__getattribute__(f'{self.web_struct.webtype.lower()}_{framework}_options')(dot_cookietemple)
 
-        if self.web_struct.language == 'python':
-            self.handle_web_project_type_python()
+        self.web_struct.is_github_repo, self.web_struct.is_repo_private, self.web_struct.is_github_orga, self.web_struct.github_orga = \
+            prompt_github_repo(dot_cookietemple)
+        # if repo owner is a github orga, update username
+        if self.web_struct.is_github_orga:
+            self.web_struct.github_username = self.web_struct.github_orga
+        # create the project (TODO COOKIETEMPLE: As for now (only Flask) this works. Might need to change this in future.
+        super().create_template_with_subdomain_framework(self.TEMPLATES_WEB_PATH, self.web_struct.webtype, self.web_struct.web_framework.lower())
+        # clean project for advanced or basic setup
+        self.basic_or_advanced_files_with_frontend(self.web_struct.setup_type, self.web_struct.frontend.lower())
 
         # switch case statement to fetch the template version
         switcher_version = {
@@ -81,84 +102,91 @@ class WebCreator(TemplateCreator):
             self.web_struct.language), f'web-{self.web_struct.webtype}-{self.web_struct.language.lower()}'
 
         # perform general operations like creating a GitHub repository and general linting
-        super().process_common_operations(domain='web', subdomain=self.web_struct.webtype, language=self.web_struct.language)
+        super().process_common_operations(domain='web',
+                                          subdomain=self.web_struct.webtype,
+                                          language=self.web_struct.language,
+                                          dot_cookietemple=dot_cookietemple)
 
-    def handle_web_project_type_python(self) -> None:
+    def handle_web_project_type_python(self, dot_cookietemple: dict or None) -> None:
         """
-        Determine the type of web application and handle it further.
+        Determine the type of web application
         """
-        self.web_struct.webtype = cookietemple_questionary('select', 'Choose between the following web domains', ['website'])
+        self.web_struct.webtype = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                               question='Choose between the following web domains',
+                                                                               choices=['website'],
+                                                                               default='website',
+                                                                               dot_cookietemple=dot_cookietemple,
+                                                                               to_get_property='webtype')
 
-        switcher = {
-            'website': self.handle_website_python,
-            'rest_api': self.handle_rest_api_python
-        }
-        switcher.get(self.web_struct.webtype.lower())()
-
-    def handle_website_python(self) -> None:
+    def handle_website_python(self, dot_cookietemple: dict or None) -> None:
         """
         Handle the website template creation. The user can choose between a basic website setup and a more advanced
         with database support, mail, translation, cli commands for translation, login and register function.
         """
-        self.web_struct.web_framework = cookietemple_questionary('select', 'Choose between the following frameworks', ['flask'])
-        setup = cookietemple_questionary('select',
-                                         'Choose between the basic and advanced (database, translations, deployment scripts) template',
-                                         ['basic', 'advanced'])
-        self.web_struct.is_basic_website = 'y'
+        self.web_struct.web_framework = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                                     question='Choose between the following frameworks',
+                                                                                     choices=['flask'],
+                                                                                     default='flask',
+                                                                                     dot_cookietemple=dot_cookietemple,
+                                                                                     to_get_property='web_framework')
+        self.web_struct.setup_type = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                                  question='Choose between the basic and advanced'
+                                                                                           ' (database, translations, deployment scripts) template',
+                                                                                  choices=['basic', 'advanced'],
+                                                                                  default='basic',
+                                                                                  dot_cookietemple=dot_cookietemple,
+                                                                                  to_get_property='setup_type')
 
-        if setup == 'advanced':
-            self.web_struct.is_basic_website = 'n'
-
-        self.web_struct.use_frontend = cookietemple_questionary('confirm',
-                                                                'Do you want to initialize your project with a advanced frontend template?',
-                                                                default='Yes')
+        self.web_struct.use_frontend = cookietemple_questionary_or_dot_cookietemple(function='confirm',
+                                                                                    question='Do you want to initialize your project'
+                                                                                             ' with a advanced frontend template?',
+                                                                                    default='Yes',
+                                                                                    dot_cookietemple=dot_cookietemple,
+                                                                                    to_get_property='use_frontend')
 
         # prompt the user for its frontend template, if he wants so
         if self.web_struct.use_frontend:
-            click.echo(click.style('The following templates are available:\n', fg='blue'))
+            print('[bold blue]The following templates are available:\n')
 
             # strings that start with https: are recognized by most terminal (emulators) as links
-            click.echo(click.style('https://html5up.net/solid-state', fg='blue'))
+            print('[bold blue]https://html5up.net/solid-state')
 
-            self.web_struct.frontend = cookietemple_questionary('select',
-                                                                'Choose between the following predefined frontend templates',
-                                                                ['SolidState', 'None']).lower()
+            self.web_struct.frontend = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                                    question='Choose between the following predefined frontend templates',
+                                                                                    choices=['SolidState', 'None'],
+                                                                                    dot_cookietemple=dot_cookietemple,
+                                                                                    to_get_property='frontend').lower()
 
-        self.web_struct.url = cookietemple_questionary('text', 'Project URL (if already existing)', default='dummy.com')
+        self.web_struct.url = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                           question='Project URL (if already existing)',
+                                                                           default='dummy.com',
+                                                                           dot_cookietemple=dot_cookietemple,
+                                                                           to_get_property='url')
 
-        switcher = {
-            'flask': self.website_flask_options,
-            'django': self.website_django_options
-        }
-        switcher.get(self.web_struct.web_framework.lower())()
-
-    def website_flask_options(self) -> None:
+    def website_flask_options(self, dot_cookietemple: OrderedDict or None) -> None:
         """
-        Create a flask website template.
+        Prompt for flask template options
         """
-        self.web_struct.vmusername = cookietemple_questionary('text', 'Virtual machine username (if already existing)', default='cookietempleuser')
+        # prompt username for virtual machine (needed for example when deploying from a Linux VM)
+        self.web_struct.vmusername = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                                  question='Virtual machine username (if already existing)',
+                                                                                  default='cookietempleuser',
+                                                                                  dot_cookietemple=dot_cookietemple,
+                                                                                  to_get_property='vmusername')
 
-        self.web_struct.is_github_repo, self.web_struct.is_repo_private, self.web_struct.is_github_orga, self.web_struct.github_orga = prompt_github_repo()
-        if self.web_struct.is_github_orga:
-            self.web_struct.github_username = self.web_struct.github_orga
-
-        super().create_template_with_subdomain_framework(self.TEMPLATES_WEB_PATH, self.web_struct.webtype, self.web_struct.web_framework.lower())
-
-        self.basic_or_advanced_files_with_frontend(self.web_struct.is_basic_website, self.web_struct.frontend.lower())
-
-    def basic_or_advanced_files_with_frontend(self, is_basic: str, template_name: str) -> None:
+    def basic_or_advanced_files_with_frontend(self, setup_type: str, template_name: str) -> None:
         """
         Remove the dir/files that do not belong in a basic/advanced template and add a full featured frontend template
         if the user wants so.
 
-        :param is_basic: Shows whether the user sets up a basic or advanced website setup
+        :param setup_type: Shows whether the user sets up a basic or advanced website setup
         :param template_name: the name of the frontend template (if any)
         """
         cwd = os.getcwd()
         os.chdir(f'{cwd}/{self.web_struct.project_slug}/{self.web_struct.project_slug}')
 
         # remove all stuff, that is not necessary for the basic setup
-        if is_basic == 'y':
+        if setup_type == 'basic':
             delete_dir_tree(Path('translations'))
             delete_dir_tree(Path('auth'))
             delete_dir_tree(Path('main'))
@@ -175,7 +203,7 @@ class WebCreator(TemplateCreator):
                 os.remove('templates/basic_index_f.html')
 
         # remove basic stuff in advanced setup
-        elif is_basic == 'n':
+        elif setup_type == 'advanced':
             delete_dir_tree(Path('basic'))
 
         # the user wants to init its project with a full frontend
@@ -184,7 +212,7 @@ class WebCreator(TemplateCreator):
             copy(f'../frontend_templates/{template_name}/index.html', 'templates')
 
             # remove unnecessary files for basic frontend setup
-            if is_basic == 'y':
+            if setup_type == 'basic':
                 os.remove('templates/basic_index.html')
                 os.remove('templates/index.html')
             # remove unnecessary files for advanced frontend setup
@@ -194,7 +222,7 @@ class WebCreator(TemplateCreator):
 
         else:
             # remove basic html files if advanced setup
-            if is_basic == 'n':
+            if setup_type == 'advanced':
                 os.remove('templates/basic_index.html')
                 os.remove('templates/basic_index_f.html')
 
@@ -203,23 +231,23 @@ class WebCreator(TemplateCreator):
 
         os.chdir(cwd)
 
-    def web_python_options(self):
+    def web_python_options(self, dot_cookietemple: OrderedDict or None):
         """ Prompts for web-python specific options and saves them into the CookietempleTemplateStruct """
-        self.web_struct.command_line_interface = cookietemple_questionary('select',
-                                                                          'Choose a command line library',
-                                                                          ['Click', 'Argparse', 'No command-line interface'],
-                                                                          default='Click')
-        self.web_struct.testing_library = cookietemple_questionary('select',
-                                                                   'Choose a testing library',
-                                                                   ['pytest', 'unittest'],
-                                                                   default='pytest')
-        if self.web_struct.testing_library == 'pytest':
-            self.web_struct.use_pytest = 'y'
-        else:
-            self.web_struct.use_pytest = 'n'
+        self.web_struct.command_line_interface = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                                              question='Choose a command line library',
+                                                                                              choices=['Click', 'Argparse', 'No command-line interface'],
+                                                                                              default='Click',
+                                                                                              dot_cookietemple=dot_cookietemple,
+                                                                                              to_get_property='command_line_interface')
+        self.web_struct.testing_library = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                                       question='Choose a testing library',
+                                                                                       choices=['pytest', 'unittest'],
+                                                                                       default='pytest',
+                                                                                       dot_cookietemple=dot_cookietemple,
+                                                                                       to_get_property='testing_library')
 
     def website_django_options(self):
-        click.echo(click.style('NOT IMPLEMENTED YET!', fg='red'))
+        print('[bold red]NOT YET IMPLEMENTED!')
 
     def handle_rest_api_python(self):
-        click.echo(click.style('NOT IMPLEMENTED YET!', fg='red'))
+        print('[bold red]NOT YET IMPLEMENTED!')

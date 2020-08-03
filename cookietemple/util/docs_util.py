@@ -1,4 +1,4 @@
-import click
+from rich import print
 
 
 def fix_short_title_underline(path_to_rst_file: str) -> None:
@@ -13,7 +13,7 @@ def fix_short_title_underline(path_to_rst_file: str) -> None:
 
     :param path_to_rst_file: Path to the *.rst file (usually index.rst)
     """
-    click.echo(click.style('Fixing too short underlines of *.rst titles', fg='blue'))
+    print('[bold blue]Fixing too short underlines of *.rst file (usually index.rst)')
     try:
         with open(path_to_rst_file) as f:
             content = f.readlines()
@@ -24,4 +24,4 @@ def fix_short_title_underline(path_to_rst_file: str) -> None:
             with open(path_to_rst_file, 'w') as file:
                 file.writelines(content)
     except FileNotFoundError:
-        click.echo(click.style(f'Unable to find rst file: {path_to_rst_file}', fg='yellow'))
+        print(f'[bold yellow]Unable to find rst file: {path_to_rst_file}')

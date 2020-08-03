@@ -4,7 +4,7 @@ from pathlib import Path
 from subprocess import Popen, PIPE
 from sys import platform
 
-import click
+from rich import print
 from ruamel.yaml import YAML
 
 WD = os.path.dirname(__file__)
@@ -24,17 +24,17 @@ def warp_project(input_dir: str, exec: str, output: str) -> None:
     # Fetch and print Warp info
     yaml = YAML(typ='safe')
     warp_info = yaml.load(Path(WARP_INFO_PATH))
-    click.echo(click.style(f'Packaging using {warp_info["name"]} version: {warp_info["version"]}', fg='blue'))
-    click.echo(click.style(f'For more details please visit:    {warp_info["url"]}    for more information.', fg='blue'))
+    print(f'[bold blue]Packaging using {warp_info["name"]} version: {warp_info["version"]}')
+    print(f'[bold blue]For more details please visit:    {warp_info["url"]}    for more information.')
 
     # Depending on the platform we need to call different Warp executables and handle permissions differently!
-    click.echo(click.style(f'Detected {platform}', fg='green'))
+    print(f'[bold green]Detected {platform}')
     if platform == 'linux' or platform == 'linux2':
         run_unix_warp(WARP_LINUX_PATH, 'linux-x64', input_dir, exec, output)
     elif platform == 'darwin':
         run_unix_warp(WARP_MACOS_PATH, 'macos-x64', input_dir, exec, output)
     elif platform == 'win32' or platform == 'win64':
-        click.echo(click.style('Warning! Windows support is experimental! Consider using Linux or running Warp as a standalone', fg='blue'))
+        print('[bold yellow]Warning! Windows support is experimental! Consider using Linux or running Warp as a standalone')
         run_warp(WARP_WINDOWS_PATH, 'windows-x64', input_dir, exec, output)
 
 
@@ -52,18 +52,18 @@ def run_unix_warp(warp_unix_path: str, arch: str, input_dir: str, exec: str, out
     # Set Warp to be executable if it not already is. May prompt the user for sudo permissions.
     # Note: The installation should automatically set the permissions to 755, which should be sufficent for warp
     if stat.S_IXUSR & os.stat(warp_unix_path)[stat.ST_MODE]:
-        click.echo(click.style(f'{warp_unix_path}\nis already executable! Will not attempt to change permissions.', fg='blue'))
+        print(f'[bold blue]{warp_unix_path}\nis already executable! Will not attempt to change permissions.')
     else:
-        click.echo(click.style(f'{warp_unix_path}\nis NOT already executable! Will now attempt to add executable permissions to Warp.', fg='blue'))
-        click.echo(click.style('You may be asked to enter your \'sudo\' password!', fg='blue'))
+        print(f'[bold blue]{warp_unix_path}\nis NOT already executable! Will now attempt to add executable permissions to Warp.')
+        print('[bold blue]You may be asked to enter your \'sudo\' password!')
 
         # Warp is not already executable
         set_warp_executable = Popen(['sudo', 'chmod', '+x', warp_unix_path], stdout=PIPE, stderr=PIPE, universal_newlines=True)
         (set_warp_executable_stdout, set_warp_executable_stderr) = set_warp_executable.communicate()
         if set_warp_executable.returncode != 0:
-            click.echo(click.style('Unable to change file permissions of Warp!', fg='red'))
-            click.echo(click.style(f'Run command was: \'sudo chmod +x {warp_unix_path}\'', fg='red'))
-            click.echo(click.style(f'Error was: {set_warp_executable.stderr}', fg='red'))
+            print('[bold red]Unable to change file permissions of Warp!')
+            print('[bold red]Run command was: \'sudo chmod +x {warp_unix_path}\'')
+            print('[bold red]Error was: {set_warp_executable.stderr}')
 
     run_warp(warp_unix_path, arch, input_dir, exec, output)
 

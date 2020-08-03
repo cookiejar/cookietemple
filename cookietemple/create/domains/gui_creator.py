@@ -1,12 +1,13 @@
 import os
-import click
+from collections import OrderedDict
 from pathlib import Path
 from dataclasses import dataclass
 
 from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
-from cookietemple.custom_cli.questionary import cookietemple_questionary
+from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
+from cookietemple.common.version import load_ct_template_version
 
 
 @dataclass
@@ -27,21 +28,30 @@ class GuiCreator(TemplateCreator):
         self.TEMPLATES_GUI_PATH = f'{self.WD_Path.parent}/templates/gui'
 
         '"" TEMPLATE VERSIONS ""'
-        self.GUI_JAVA_TEMPLATE_VERSION = super().load_version('gui-java')
+        self.GUI_JAVA_TEMPLATE_VERSION = load_ct_template_version('gui-java', self.AVAILABLE_TEMPLATES_PATH)
 
-    def create_template(self):
-        self.gui_struct.language = cookietemple_questionary('select', 'Choose between the following languages', ['java', 'kotlin'])
+    def create_template(self, dot_cookietemple: OrderedDict or None):
+        self.gui_struct.language = cookietemple_questionary_or_dot_cookietemple(function='select',
+                                                                                question='Choose between the following languages',
+                                                                                choices=['java', 'kotlin'],
+                                                                                dot_cookietemple=dot_cookietemple,
+                                                                                to_get_property='language')
 
         # prompt the user to fetch general template configurations
-        super().prompt_general_template_configuration()
+        super().prompt_general_template_configuration(dot_cookietemple)
 
         # switch case statement to prompt the user to fetch template specific configurations
         switcher = {
             'java': self.gui_java_options,
         }
-        switcher.get(self.gui_struct.language.lower())()
+        switcher.get(self.gui_struct.language.lower())(dot_cookietemple)
 
-        self.gui_struct.is_github_repo, self.gui_struct.is_repo_private, self.gui_struct.is_github_orga, self.gui_struct.github_orga = prompt_github_repo()
+        self.gui_struct.is_github_repo, \
+            self.gui_struct.is_repo_private, \
+            self.gui_struct.is_github_orga, \
+            self.gui_struct.github_orga \
+            = prompt_github_repo(dot_cookietemple)
+
         if self.gui_struct.is_github_orga:
             self.gui_struct.github_username = self.gui_struct.github_orga
         # create the gui template
@@ -56,13 +66,17 @@ class GuiCreator(TemplateCreator):
             self.gui_struct.language.lower()), f'gui-{self.gui_struct.language.lower()}'
 
         # perform general operations like creating a GitHub repository and general linting
-        super().process_common_operations(domain='gui', language=self.gui_struct.language)
+        super().process_common_operations(domain='gui', language=self.gui_struct.language, dot_cookietemple=dot_cookietemple)
 
-    def gui_java_options(self) -> None:
+    def gui_java_options(self, dot_cookietemple: OrderedDict or None) -> None:
         """
         Prompt the user for all gui-java specific properties
         """
         # The user id is automatically determined from the full_name as first letter of first name and sur name
         full_name_split = self.creator_ctx.full_name.split()
         self.gui_struct.id = f'{full_name_split[0][0]}{full_name_split[1][0]}' if len(full_name_split) > 1 else f'{full_name_split[0][0]}'
-        self.gui_struct.organization = cookietemple_questionary('text', 'Organization', default='organization')
+        self.gui_struct.organization = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                                    question='Organization',
+                                                                                    default='organization',
+                                                                                    dot_cookietemple=dot_cookietemple,
+                                                                                    to_get_property='organization')

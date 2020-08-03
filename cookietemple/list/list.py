@@ -1,12 +1,13 @@
 import os
-import click
 from rich.style import Style
 from rich.console import Console
 from rich.table import Table
 from rich.box import HEAVY_HEAD
+from rich import print
+
 
 from cookietemple.util.dict_util import is_nested_dictionary
-from cookietemple.util.yaml_util import load_yaml_file
+from cookietemple.common.load_yaml import load_yaml_file
 
 
 class TemplateLister:
@@ -24,8 +25,8 @@ class TemplateLister:
         Omits long descriptions.
         """
         available_templates = load_yaml_file(f'{self.TEMPLATES_PATH}/available_templates.yml')
-        click.echo(click.style('Run ', fg='blue') + click.style('cookietemple info ', fg='green') +
-                   click.style('for long descriptions of your template of interest.\n', fg='blue'))
+        print('[bold blue]Run [green]cookietemple info [blue]for long descriptions of your template of interest')
+        print()
 
         # What we want to have are lists like
         # [['name', 'handle', 'short description', 'available libraries', 'version'], ['name', 'handle', 'short description', 'available libraries', 'version']]

@@ -16,7 +16,7 @@ Welcome to COOKIETEMPLE's documentation!
    warp
    config
    upgrade
-   available_templates
+   available_templates/available_templates
    github_support
    contributing
    adding_new_templates

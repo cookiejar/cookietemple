@@ -51,7 +51,7 @@ lint: ## check style with flake8
 	flake8 {{cookiecutter.project_slug}} tests
 
 test: ## run tests quickly with the default Python
-{%- if cookiecutter.use_pytest == 'y' %}
+{%- if cookiecutter.testing_library == 'pytest' %}
 	pytest
 {%- else %}
 	python setup.py test
@@ -61,7 +61,7 @@ test-all: ## run tests on every Python version with tox
 	tox
 
 coverage: ## check code coverage quickly with the default Python
-	{%- if cookiecutter.use_pytest == 'y' %}
+	{%- if cookiecutter.testing_library == 'pytest' %}
 	coverage run --source {{ cookiecutter.project_slug }} -m pytest
 	{%- else %}
 	coverage run --source {{ cookiecutter.project_slug }} setup.py test
@@ -85,13 +85,13 @@ release: dist ## package and upload a release
 	twine upload dist/*
 
 dist: clean ## builds source and wheel package
-	python3.7 setup.py sdist
-	python3.7 setup.py bdist_wheel
+	python setup.py sdist
+	python setup.py bdist_wheel
 	ls -l dist
 
 install: clean ## install the package to the active Python's site-packages
-	python3.7 setup.py install
-{%- if cookiecutter.is_basic_website == 'n' %}
+	pip install .
+{%- if cookiecutter.setup_type == 'advanced' %}
 init_db:
 	export FLASK_APP={{cookiecutter.project_slug}}/app.py; \
 	flask db init; \
