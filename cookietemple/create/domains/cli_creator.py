@@ -37,7 +37,7 @@ class CliCreator(TemplateCreator):
         self.CLI_PYTHON_TEMPLATE_VERSION = load_ct_template_version('cli-python', self.AVAILABLE_TEMPLATES_PATH)
         self.CLI_JAVA_TEMPLATE_VERSION = load_ct_template_version('cli-java', self.AVAILABLE_TEMPLATES_PATH)
 
-    def create_template(self, dot_cookietemple: dict or None, is_sync: bool):
+    def create_template(self, dot_cookietemple: dict or None):
         """
         Handles the CLI domain. Prompts the user for the language, general and domain specific options.
         """
@@ -50,7 +50,7 @@ class CliCreator(TemplateCreator):
                                                                                 to_get_property='language')
 
         # prompt the user to fetch general template configurations
-        super().prompt_general_template_configuration(dot_cookietemple, is_sync)
+        super().prompt_general_template_configuration(dot_cookietemple)
 
         # switch case statement to prompt the user to fetch template specific configurations
         switcher = {

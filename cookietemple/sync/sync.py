@@ -44,18 +44,16 @@ class Sync:
     def checkout_template_branch(self) -> None:
         """
         Checkout to the TEMPLATE branch (if available).
-        If this fails, create a new branch called TEMPLATE and proceed.
         """
         # Try to check out the local TEMPLATE branch
         try:
-            self.repo.git.checkout('TEMPLATE')
+            self.repo.git.checkout("origin/TEMPLATE", b="TEMPLATE")
         except git.exc.GitCommandError:
             # Try to check out a remote branch called TEMPLATE
             try:
-                self.repo.git.checkout('origin/TEMPLATE', b='TEMPLATE')
+                self.repo.git.checkout('TEMPLATE')
             except git.exc.GitCommandError:
-                print('[bold blue] Could not checkout to TEMPLATE branch. Creating new branch called TEMPLATE!')
-                self.repo.git.checkout('-b', 'TEMPLATE')
+                print('[bold blue] Could not checkout to TEMPLATE or origin/TEMPLATE branch.')
 
     def clean_template_branch(self) -> None:
         """
@@ -87,7 +85,7 @@ class Sync:
             # TODO REFACTOR THIS BY PASSING A PATH PARAM TO CHOOSE DOMAIN WHICH DEFAULTS TO CWD WHEN NOT PASSED (INITIAL CREATE)
             old_cwd = str(Path.cwd())
             os.chdir(tmpdirname)
-            choose_domain(domain=None, dot_cookietemple=self.dot_cookietemple, is_sync=True)
+            choose_domain(domain=None, dot_cookietemple=self.dot_cookietemple)
             # copy into the cleaned TEMPLATE branch's project directory
             copy_tree(os.path.join(tmpdirname, self.dot_cookietemple['project_slug']), str(self.project_dir))
             os.chdir(old_cwd)

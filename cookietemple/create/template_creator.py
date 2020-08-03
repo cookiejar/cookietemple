@@ -168,29 +168,32 @@ class TemplateCreator:
                          overwrite_if_exists=True,
                          extra_context=self.creator_ctx_to_dict())
 
-    def prompt_general_template_configuration(self, dot_cookietemple: OrderedDict, is_sync:bool):
+    def prompt_general_template_configuration(self, dot_cookietemple: OrderedDict):
         """
         Prompts the user for general options that are required by all templates.
         Options are saved in the creator context manager object.
         """
-        if not is_sync:
-            try:
-                # try to read name and email from existing config file
+        try:
+            # try to read name and email from existing config file
+            if dot_cookietemple:
+                self.creator_ctx.full_name = dot_cookietemple['full_name']
+                self.creator_ctx.email = dot_cookietemple['email']
+            else:
                 self.creator_ctx.full_name = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['full_name']
                 self.creator_ctx.email = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['email']
-            except FileNotFoundError:
-                # style and automatic use config
-                print('[bold red]Cannot find a cookietemple config file. Is this your first time using cookietemple?')
-                # inform the user and config all settings (with PAT optional)
-                print('[bold blue]Lets set your name, email and Github username and you´re ready to go!')
-                ConfigCommand.all_settings()
-                # load mail and full name
-                path = Path(ConfigCommand.CONF_FILE_PATH)
-                yaml = YAML(typ='safe')
-                settings = yaml.load(path)
-                # set full name and mail
-                self.creator_ctx.full_name = settings['full_name']
-                self.creator_ctx.email = settings['email']
+        except FileNotFoundError:
+            # style and automatic use config
+            print('[bold red]Cannot find a cookietemple config file. Is this your first time using cookietemple?')
+            # inform the user and config all settings (with PAT optional)
+            print('[bold blue]Lets set your name, email and Github username and you´re ready to go!')
+            ConfigCommand.all_settings()
+            # load mail and full name
+            path = Path(ConfigCommand.CONF_FILE_PATH)
+            yaml = YAML(typ='safe')
+            settings = yaml.load(path)
+            # set full name and mail
+            self.creator_ctx.full_name = settings['full_name']
+            self.creator_ctx.email = settings['email']
 
         self.creator_ctx.project_name = cookietemple_questionary_or_dot_cookietemple(function='text',
                                                                                      question='Project name',
@@ -240,7 +243,9 @@ class TemplateCreator:
                                                                                 default='MIT',
                                                                                 dot_cookietemple=dot_cookietemple,
                                                                                 to_get_property='license')
-        if not is_sync:
+        if dot_cookietemple:
+            self.creator_ctx.github_username = dot_cookietemple['github_username']
+        else:
             self.creator_ctx.github_username = load_github_username()
 
     def create_common_files(self) -> None:
