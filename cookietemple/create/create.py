@@ -8,7 +8,7 @@ from cookietemple.create.domains.pub_creator import PubCreator
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 
 
-def choose_domain(domain: str or None, dot_cookietemple: OrderedDict = None):
+def choose_domain(domain: str or None, dot_cookietemple: OrderedDict = None, is_sync=False):
     """
     Prompts the user for the template domain.
     Creates the .cookietemple file.
@@ -34,4 +34,4 @@ def choose_domain(domain: str or None, dot_cookietemple: OrderedDict = None):
     }
 
     creator_obj = switcher.get(domain.lower())()
-    creator_obj.create_template(dot_cookietemple)
+    creator_obj.create_template(dot_cookietemple, is_sync)

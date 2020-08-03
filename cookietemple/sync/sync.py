@@ -87,7 +87,7 @@ class Sync:
             # TODO REFACTOR THIS BY PASSING A PATH PARAM TO CHOOSE DOMAIN WHICH DEFAULTS TO CWD WHEN NOT PASSED (INITIAL CREATE)
             old_cwd = str(Path.cwd())
             os.chdir(tmpdirname)
-            choose_domain(domain=None, dot_cookietemple=self.dot_cookietemple)
+            choose_domain(domain=None, dot_cookietemple=self.dot_cookietemple, is_sync=True)
             # copy into the cleaned TEMPLATE branch's project directory
             copy_tree(os.path.join(tmpdirname, self.dot_cookietemple['project_slug']), str(self.project_dir))
             os.chdir(old_cwd)
