@@ -240,8 +240,8 @@ class TemplateCreator:
                                                                                 default='MIT',
                                                                                 dot_cookietemple=dot_cookietemple,
                                                                                 to_get_property='license')
-
-        self.creator_ctx.github_username = load_github_username()
+        if not is_sync:
+            self.creator_ctx.github_username = load_github_username()
 
     def create_common_files(self) -> None:
         """
