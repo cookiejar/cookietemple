@@ -1,0 +1,24 @@
+name: Check version upgrade
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Setup Python
+          uses: actions/setup-python@v1
+          with:
+            python-version: 3.8
+
+        - name: Install cookietemple
+          run: git clone https://github.com/Imipenem/hubu
+
+        - name: bla
+          run: pip install hubu/
+
+        - uses: actions/checkout@v2
+          name: Check out source-code repository
+
+        - name: Sync
+          run: cookietemple sync . ${{ secrets.CT_SYNC_TOKEN  }} ${{ github.repository_owner }}
