@@ -7,7 +7,7 @@ autopep8==1.5.3
 cffi==1.14.1
 cryptography==3.0
 requests==2.24.0
-rich==4.2.2
+rich==5.0.0
 packaging==20.4
 appdirs==1.4.4
 questionary==1.5.2
