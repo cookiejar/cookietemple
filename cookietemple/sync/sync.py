@@ -47,6 +47,7 @@ class Sync:
         """
         # Try to check out the local TEMPLATE branch
         try:
+            print(self.repo.branches)
             self.repo.git.checkout("origin/TEMPLATE", b="TEMPLATE")
         except git.exc.GitCommandError:
             # Try to check out a remote branch called TEMPLATE

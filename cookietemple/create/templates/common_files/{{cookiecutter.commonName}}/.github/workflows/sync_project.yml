@@ -18,6 +18,9 @@ jobs:
           run: pip install hubu/
 
         - uses: actions/checkout@v2
+          with:
+              fetch-depth: 0
+              ref: TEMPLATE
           name: Check out source-code repository
 
         - name: Sync
