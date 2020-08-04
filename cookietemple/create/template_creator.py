@@ -77,11 +77,11 @@ class TemplateCreator:
         if subdomain:
             print()
             print(f'[bold blue]Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{subdomain}-{language} ' +
-                  f'for more information about how to use your chosen template.')
+                  'for more information about how to use your chosen template.')
         else:
             print()
             print(f'[bold blue]Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates.html#{domain}-{language} ' +
-                  f'for more information about how to use your chosen template.')
+                  'for more information about how to use your chosen template.')
 
     def create_template_without_subdomain(self, domain_path: str) -> None:
         """
@@ -305,7 +305,7 @@ class TemplateCreator:
             sys.exit(1)
         else:
             print(f'[bold yellow]WARNING: [red]A directory named {self.creator_ctx.project_slug} already exists at [blue]{os.getcwd()}\n')
-            print(f'Proceeding now will overwrite this directory and its content!')
+            print('Proceeding now will overwrite this directory and its content!')
 
     def create_dot_cookietemple(self, template_version: str):
         """

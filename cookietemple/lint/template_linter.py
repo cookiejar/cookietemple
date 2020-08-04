@@ -1,13 +1,7 @@
 import io
 import os
 import re
-import textwrap
-import datetime
-
-import click
 import configparser
-
-import cookietemple
 import rich.progress
 import rich.markdown
 import rich.panel
@@ -521,7 +515,7 @@ class ChangelogLinter:
                 return False
             try:
                 index_order_ok = section.index('**Added**\n') < section.index('**Fixed**\n') < section.index('**Dependencies**\n') < \
-                    section.index('**Deprecated**\n')
+                                 section.index('**Deprecated**\n')
                 if not index_order_ok:
                     """
                     Example (for a section)
@@ -537,7 +531,7 @@ class ChangelogLinter:
                     Dependencies and Deprecated should be changed
                     """
                     self.main_linter.failed.append(('general-6', 'Sections subheader order should be **Added**\n**Fixed**\n'
-                                                                             '**Dependencies**\n**Deprecated**!'))
+                                                                 '**Dependencies**\n**Deprecated**!'))
                     return False
 
             except ValueError:

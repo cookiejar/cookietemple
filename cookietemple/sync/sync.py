@@ -194,7 +194,7 @@ class Sync:
         current_ct_template_version = version.parse(self.sync_load_template_version(template_handle))
         # check if a major change happened (for example 1.2.3 to 2.0.0)
         is_version_outdated = True if template_version_last_sync.major < current_ct_template_version.major or \
-                                      template_version_last_sync.minor < current_ct_template_version.minor else False
+            template_version_last_sync.minor < current_ct_template_version.minor else False
         return is_version_outdated, str(template_version_last_sync), str(current_ct_template_version)
 
     def sync_load_template_version(self, handle: str) -> str:
