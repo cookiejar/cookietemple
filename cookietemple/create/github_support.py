@@ -312,12 +312,12 @@ def format_github_exception(data: dict) -> None:
 
     :param data: The exceptions data as a dict
     """
-    for k, v in data.items():
-        if not isinstance(v, list):
-            print(f'[bold red]{k.capitalize()}: {v}')
+    for section, description in data.items():
+        if not isinstance(description, list):
+            print(f'[bold red]{section.capitalize()}: {description}')
         else:
-            print(f'[bold red]{k.upper()}: ')
-            messages = [val if not isinstance(val, dict) and not isinstance(val, set) else github_exception_dict_repr(val) for val in v]
+            print(f'[bold red]{section.upper()}: ')
+            messages = [val if not isinstance(val, dict) and not isinstance(val, set) else github_exception_dict_repr(val) for val in description]
             print('[bold red]\n'.join(msg for msg in messages))
 
 
@@ -327,7 +327,7 @@ def github_exception_dict_repr(messages: dict) -> str:
 
     :param messages: The messages as a dict
     """
-    return '\n'.join(f'    {k.capitalize()}: {v}' for k, v in messages.items())
+    return '\n'.join(f'    {section.capitalize()}: {description}' for section, description in messages.items())
 
 
 def is_git_accessible() -> bool:
