@@ -41,8 +41,8 @@ Features
 Credits
 -------
 
-This package was created with `COOKIETEMPLE`_ based on a modified `audreyr/cookiecutter-pypackage`_ project template using Cookiecutter_.
+This package was created with cookietemple_ based on a modified audreyr/cookiecutter-pypackage_ project template using Cookiecutter_.
 
-.. _COOKIETEMPLE: https://cookietemple.com
+.. _cookietemple: https://cookietemple.com
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+.. _audreyr/cookiecutter-pypackage: https://github.com/audreyr/cookiecutter-pypackage
