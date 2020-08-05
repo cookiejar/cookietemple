@@ -25,11 +25,11 @@
 
        - name: Create lib-cpp Template
          run: |
-           cd ..
            echo -e "\033[B\n\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n\n\nn\n\n" | cookietemple create
 
        - name: Build Package
          run: |
+           cd ExplodingSpringfield
            cmake -Bbuild -DExplodingSpringfield_ENABLE_UNIT_TESTING=0 && \
            cmake --build build
 
