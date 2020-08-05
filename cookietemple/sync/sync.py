@@ -273,7 +273,7 @@ class PipelineSync(object):
         }
 
         r = requests.post(
-            url="https://api.github.com/repos/Imipenem/Bertman/pulls",
+            url="https://api.github.com/repos/Imipenem/Bertmanbean/pulls",
             data=json.dumps(pr_content),
             auth=requests.auth.HTTPBasicAuth(self.gh_username, self.token),
         )

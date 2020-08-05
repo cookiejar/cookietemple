@@ -104,6 +104,16 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         print('[bold blue]Creating TEMPLATE branch.')
         cloned_repo.git.checkout('-b', 'TEMPLATE')
 
+        cloned_repo.head.reset('--hard HEAD~1', index=True, working_tree=True)
+        os.remove(f'{project_path}/.github/workflows/sync_project.yml')
+
+        # add changes to TEMPLATE branch
+        cloned_repo.git.add(A=True)
+
+        # git commit
+        cloned_repo.index.commit(f'Created {creator_ctx.project_slug} with {creator_ctx.template_handle} '
+                                 f'template of version {creator_ctx.template_version} using cookietemple.')
+
         # git push to TEMPLATE branch
         print('[bold blue]Pushing template to Github origin TEMPLATE.')
         cloned_repo.remotes.origin.push(refspec='TEMPLATE:TEMPLATE')
