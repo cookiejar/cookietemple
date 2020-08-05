@@ -2,6 +2,8 @@ import os
 import sys
 import requests
 import json
+import tempfile
+import shutil
 
 from base64 import b64encode
 from nacl import encoding, public
@@ -73,6 +75,10 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         # the created projct repository with the copied .git directory
         cloned_repo = Repo(path=project_path)
 
+        fd, temp_path = tempfile.mkstemp()
+        shutil.copy2(f'{project_path}/.github/workflows/sync_project.yml', temp_path)
+        os.remove(f'{project_path}/.github/workflows/sync_project.yml')
+
         # git add
         print('[bold blue]Staging template')
         cloned_repo.git.add(A=True)
@@ -103,24 +109,33 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         # git create TEMPLATE branch
         print('[bold blue]Creating TEMPLATE branch.')
         cloned_repo.git.checkout('-b', 'TEMPLATE')
-
-        cloned_repo.head.reset('--hard HEAD~1', index=True, working_tree=True)
-        os.remove(f'{project_path}/.github/workflows/sync_project.yml')
-
-        # add changes to TEMPLATE branch
-        cloned_repo.git.add(A=True)
-
-        # git commit
-        cloned_repo.index.commit(f'Created {creator_ctx.project_slug} with {creator_ctx.template_handle} '
-                                 f'template of version {creator_ctx.template_version} using cookietemple.')
-
-        # git push to TEMPLATE branch
-        print('[bold blue]Pushing template to Github origin TEMPLATE.')
         cloned_repo.remotes.origin.push(refspec='TEMPLATE:TEMPLATE')
 
         # checkout to development branch again
         print('[bold blue]Checking out development branch.')
         cloned_repo.git.checkout('development')
+        shutil.copy2(temp_path, f'{project_path}/.github/workflows/sync_project.yml')
+        # git add
+        print('[bold blue]Staging template')
+        cloned_repo.git.add(A=True)
+        # git commit
+        cloned_repo.index.commit('Sec Commit')
+
+        print('[bold blue]Pushing template to Github origin development')
+        cloned_repo.remotes.origin.push(refspec='development:development')
+
+        cloned_repo.git.checkout('master')
+        shutil.copy2(temp_path, f'{project_path}/.github/workflows/sync_project.yml')
+        # git add
+        print('[bold blue]Staging template')
+        cloned_repo.git.add(A=True)
+        # git commit
+        cloned_repo.index.commit('Sec Commit')
+
+        print('[bold blue]Pushing template to Github origin master')
+        cloned_repo.remotes.origin.push(refspec='master:master')
+
+        os.remove(temp_path)
 
         # did any errors occur?
         print(f'[bold green]Successfully created a Github repository at https://github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}')

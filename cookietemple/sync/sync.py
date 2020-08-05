@@ -194,6 +194,7 @@ class PipelineSync(object):
             old_cwd = str(Path.cwd())
             os.chdir(tmpdirname)
             choose_domain(domain=None, dot_cookietemple=self.dot_cookietemple)
+            os.remove(f'{tmpdirname}/{self.dot_cookietemple["project_slug"]}/.github/workflows/sync_project.yml')
             # copy into the cleaned TEMPLATE branch's project directory
             copy_tree(os.path.join(tmpdirname, self.dot_cookietemple['project_slug']), str(self.pipeline_dir))
             os.chdir(old_cwd)
