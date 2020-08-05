@@ -20,7 +20,7 @@ from cookietemple.warp.warp import warp_project
 from cookietemple.custom_cli.click import HelpErrorHandling, print_project_version, CustomHelpSubcommand, CustomArg
 from cookietemple.config.config import ConfigCommand
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
-from cookietemple.sync.sync import Sync
+from cookietemple.sync.sync import PipelineSync
 
 
 WD = os.path.dirname(__file__)
@@ -136,7 +136,7 @@ def sync(project_dir, pat, username, check_update) -> None:
     If no repository exists the TEMPLATE branch will be updated and you can merge manually.
     """
     project_dir_path = Path(f'{Path.cwd()}/{project_dir}') if not str(project_dir).startswith(str(Path.cwd())) else Path(project_dir)
-    syncer = Sync(pat, username, project_dir_path)
+    syncer = PipelineSync(pipeline_dir=project_dir_path, gh_username=username, token=pat)
     # check for template version updates
     major_change, minor_change, ct_template_version, proj_template_version = syncer.has_major_minor_template_version_changed(project_dir_path)
     # check for user without actually syncing
@@ -156,11 +156,7 @@ def sync(project_dir, pat, username, check_update) -> None:
     # sync the project if any changes
     if any(change for change in (major_change, minor_change)):
         # check if a pull request should be created according to set level constraints
-        if syncer.check_sync_level():
-            syncer.sync()
-        else:
-            print('[bold blue]Aborting sync due to set level constraints. You can set the level any time in your cookietemple.cfg in the sync_level section and'
-                  ' sync again.')
+        syncer.sync()
     else:
         print('[bold blue]No changes detected. Your template is up to date.')
 
