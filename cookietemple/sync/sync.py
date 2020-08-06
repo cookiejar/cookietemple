@@ -6,6 +6,8 @@ import fnmatch
 import sys
 from configparser import ConfigParser, NoSectionError
 from distutils.dir_util import copy_tree
+from subprocess import Popen, PIPE
+
 import git
 import json
 import os
@@ -180,19 +182,26 @@ class TemplateSync:
         # Commit changes
         try:
             # git add only non-blacklisted files
-            changed_files = [item.a_path for item in self.repo.index.diff(None)]
+            self.repo.git.add(A=True)
+            changed_files = [item.a_path for item in self.repo.index.diff('HEAD')]
+            print(changed_files)
             globs = self.get_blacklisted_sync_globs()
             blacklisted_changed_files = []
             for pattern in globs:
                 # keep track of all blacklisted files
                 blacklisted_changed_files += fnmatch.filter(changed_files, pattern)
             print('[bold blue]Staging template.')
-            # check for every file that its not a blacklisted file
-            files_to_add = [file for file in changed_files if file not in blacklisted_changed_files]
-            self.repo.git.add(files_to_add)
             # checkout changes to blacklisted files
-            self.repo.index.checkout(blacklisted_changed_files, force=True)
-            self.repo.index.commit("Template update for your cookietemple project.")
+            print(blacklisted_changed_files)
+            files_to_commit = [file for file in changed_files if file not in blacklisted_changed_files]
+            git_installed = Popen(['git', 'commit', '-m', "MyCommit", *files_to_commit], stdout=PIPE, stderr=PIPE, universal_newlines=True)
+            (git_installed_stdout, git_installed_stderr) = git_installed.communicate()
+            print(git_installed_stdout)
+            print(git_installed_stderr)
+            gite = Popen(['git', 'stash'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
+            (git_installed_stdout, git_installed_stderr) = gite.communicate()
+            print(git_installed_stdout)
+            print(git_installed_stderr)
             self.made_changes = True
             print("[bold blue]Committed changes to TEMPLATE branch")
         except Exception as e:
