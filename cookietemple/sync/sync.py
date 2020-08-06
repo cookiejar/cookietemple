@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 """
-Synchronise a pipeline TEMPLATE branch with the template.
+Synchronise a project TEMPLATE branch with the template.
 """
+import fnmatch
+import sys
+from configparser import ConfigParser, NoSectionError
 from distutils.dir_util import copy_tree
 import git
 import json
@@ -10,13 +13,12 @@ import requests
 import shutil
 import tempfile
 from pathlib import Path
+from packaging import version
+from rich import print
 
 from cookietemple.create.github_support import decrypt_pat, load_github_username
-
 from cookietemple.common.load_yaml import load_yaml_file
 from cookietemple.create.create import choose_domain
-from packaging import version
-
 from cookietemple.common.version import load_project_template_version_and_handle, load_ct_template_version
 
 
@@ -34,57 +36,46 @@ class PullRequestException(Exception):
     pass
 
 
-class PipelineSync(object):
-    """Object to hold syncing information and results.
+class TemplateSync:
+    """
+    Object to hold syncing information and results.
 
     Args:
-        pipeline_dir (str): The path to the Nextflow pipeline root directory
-        from_branch (str): The branch to use to fetch config vars. If not set, will use current active branch
+        project_dir (str): The path to the cookietemple project root directory
+        from_branch (str): Original branch
         make_pr (bool): Set this to `True` to create a GitHub pull-request with the changes
         gh_username (str): GitHub username
-        gh_repo (str): GitHub repository name
 
     Attributes:
-        pipeline_dir (str): Path to target pipeline directory
-        from_branch (str): Repo branch to use when collecting workflow variables. Default: active branch.
+        project_dir (str): Path to target project directory
+        from_branch (str): Original branch
         original_branch (str): Repo branch that was checked out before we started.
-        made_changes (bool): Whether making the new template pipeline introduced any changes
+        made_changes (bool): Whether making the new template project introduced any changes
         make_pr (bool): Whether to try to automatically make a PR on GitHub.com
         gh_username (str): GitHub username
-        gh_repo (str): GitHub repository name
     """
 
-    def __init__(self, pipeline_dir, from_branch=None, make_pr=True, gh_repo=None, gh_username=None, token=None):
-        """ Initialise syncing object """
-
-        self.pipeline_dir = os.path.abspath(pipeline_dir)
+    def __init__(self, project_dir, from_branch=None, make_pr=True, gh_username=None, token=None, major_update=False, minor_update=False):
+        self.project_dir = os.path.abspath(project_dir)
         self.from_branch = from_branch
         self.original_branch = None
         self.made_changes = False
         self.make_pr = make_pr
         self.gh_pr_returned_data = {}
-
+        self.major_update = major_update
+        self.minor_update = minor_update
         self.gh_username = gh_username if gh_username else load_github_username()
-        self.gh_repo = gh_repo
         self.token = token if token else decrypt_pat()
-        self.dot_cookietemple = self.dot_cookietemple = load_yaml_file(os.path.join(str(self.pipeline_dir), '.cookietemple.yml'))
-
+        self.dot_cookietemple = {}
 
     def sync(self):
-        """ Find workflow attributes, create a new template pipeline on TEMPLATE
         """
-
-        print("Pipeline directory: {}".format(self.pipeline_dir))
-        if self.from_branch:
-            print("Using branch `{}` to fetch workflow variables".format(self.from_branch))
-        if self.make_pr:
-            print("Will attempt to automatically create a pull request")
-
+        Find workflow attributes, create a new template project on TEMPLATE
+        """
         self.inspect_sync_dir()
-        self.get_wf_config()
         self.checkout_template_branch()
         self.delete_template_branch_files()
-        self.make_template_pipeline()
+        self.make_template_project()
         self.commit_template_changes()
 
         # Push and make a pull request if we've been asked to
@@ -99,61 +90,41 @@ class PipelineSync(object):
         self.reset_target_dir()
 
         if not self.made_changes:
-            print("No changes made to TEMPLATE - sync complete")
-        elif not self.make_pr:
-            print(
-                "Now try to merge the updates in to your pipeline:\n  cd {}\n  git merge TEMPLATE".format(
-                    self.pipeline_dir
-                )
-            )
+            print("[bold blue]No changes made to TEMPLATE - sync complete")
 
     def inspect_sync_dir(self):
-        """Takes a look at the target directory for syncing. Checks that it's a git repo
+        """
+        Takes a look at the target directory for syncing. Checks that it's a git repo
         and makes sure that there are no uncommitted changes.
         """
-        # Check that the pipeline_dir is a git repo
+        if not os.path.exists(os.path.join(str(self.project_dir), '.cookietemple.yml')):
+            print(f'[bold red]{self.project_dir} does not appear to contain a .cookietemple.yml file. Did you delete it?')
+            sys.exit(1)
+            # store .cookietemple.yml content for later reuse in the dry create run
+        self.dot_cookietemple = load_yaml_file(os.path.join(str(self.project_dir), '.cookietemple.yml'))
+        # Check that the project_dir is a git repo
         try:
-            self.repo = git.Repo(self.pipeline_dir)
+            self.repo = git.Repo(self.project_dir)
         except git.exc.InvalidGitRepositoryError as e:
-            raise SyncException("'{}' does not appear to be a git repository".format(self.pipeline_dir))
+            raise SyncException(f"[bold red]{self.project_dir} does not appear to be a git repository")
 
         # get current branch so we can switch back later
         self.original_branch = self.repo.active_branch.name
-        print("Original pipeline repository branch is '{}'".format(self.original_branch))
+        print(f"[bold blue]Original Project repository branch is {self.original_branch}")
 
         # Check to see if there are uncommitted changes on current branch
         if self.repo.is_dirty(untracked_files=True):
-            raise SyncException(
-                "Uncommitted changes found in pipeline directory!\nPlease commit these before running nf-core sync"
-            )
-
-    def get_wf_config(self):
-        """Check out the target branch if requested and fetch the nextflow config.
-        Check that we have the required config variables.
-        """
-        # Try to check out target branch (eg. `origin/dev`)
-        try:
-            if self.from_branch and self.repo.active_branch.name != self.from_branch:
-                print("Checking out workflow branch '{}'".format(self.from_branch))
-                self.repo.git.checkout(self.from_branch)
-        except git.exc.GitCommandError:
-            raise SyncException("Branch `{}` not found!".format(self.from_branch))
-
-        # If not specified, get the name of the active branch
-        if not self.from_branch:
-            try:
-                self.from_branch = self.repo.active_branch.name
-            except git.exc.GitCommandError as e:
-                print("Could not find active repo branch: ".format(e))
-
-        # Fetch workflow variables
-        print("Fetching workflow config variables")
+            raise SyncException("[bold red]Uncommitted changes found in Project directory!\nPlease commit these before running cookietemple sync")
 
     def checkout_template_branch(self):
         """
         Try to check out the origin/TEMPLATE in a new TEMPLATE branch.
         If this fails, try to check out an existing local TEMPLATE branch.
         """
+        try:
+            self.from_branch = self.repo.active_branch.name
+        except git.exc.GitCommandError as e:
+            print(f"[bold red]Could not find active repo branch:\n{e}")
         # Try to check out the `TEMPLATE` branch
         try:
             self.repo.git.checkout("origin/TEMPLATE", b="TEMPLATE")
@@ -162,19 +133,18 @@ class PipelineSync(object):
             try:
                 self.repo.git.checkout("TEMPLATE")
             except git.exc.GitCommandError:
-                raise SyncException("Could not check out branch 'origin/TEMPLATE' or 'TEMPLATE'")
+                raise SyncException("[bold red]Could not check out branch 'origin/TEMPLATE' or 'TEMPLATE'")
 
     def delete_template_branch_files(self):
         """
         Delete all files in the TEMPLATE branch
         """
         # Delete everything
-        print("Deleting all files in TEMPLATE branch")
-        for the_file in os.listdir(self.pipeline_dir):
+        print("[bold blue]Deleting all files in TEMPLATE branch")
+        for the_file in os.listdir(self.project_dir):
             if the_file == ".git":
                 continue
-            file_path = os.path.join(self.pipeline_dir, the_file)
-            print("Deleting {}".format(file_path))
+            file_path = os.path.join(self.project_dir, the_file)
             try:
                 if os.path.isfile(file_path):
                     os.unlink(file_path)
@@ -183,11 +153,11 @@ class PipelineSync(object):
             except Exception as e:
                 raise SyncException(e)
 
-    def make_template_pipeline(self):
+    def make_template_project(self):
         """
-        Delete all files and make a fresh template using the workflow variables
+        Delete all files and make a fresh template.
         """
-        print("Making a new template pipeline using pipeline variables")
+        print("Making a new template project.")
         # dry create run from dot_cookietemple in tmp directory
         with tempfile.TemporaryDirectory() as tmpdirname:
             # TODO REFACTOR THIS BY PASSING A PATH PARAM TO CHOOSE DOMAIN WHICH DEFAULTS TO CWD WHEN NOT PASSED (INITIAL CREATE)
@@ -196,24 +166,37 @@ class PipelineSync(object):
             choose_domain(domain=None, dot_cookietemple=self.dot_cookietemple)
             os.remove(f'{tmpdirname}/{self.dot_cookietemple["project_slug"]}/.github/workflows/sync_project.yml')
             # copy into the cleaned TEMPLATE branch's project directory
-            copy_tree(os.path.join(tmpdirname, self.dot_cookietemple['project_slug']), str(self.pipeline_dir))
+            copy_tree(os.path.join(tmpdirname, self.dot_cookietemple['project_slug']), str(self.project_dir))
             os.chdir(old_cwd)
 
     def commit_template_changes(self):
-        """If we have any changes with the new template files, make a git commit
+        """
+        If we have any changes with the new template files, make a git commit
         """
         # Check that we have something to commit
         if not self.repo.is_dirty(untracked_files=True):
-            print("Template contains no changes - no new commit created")
+            print("[bold blue]Template contains no changes - no new commit created")
             return False
         # Commit changes
         try:
-            self.repo.git.add(A=True)
-            self.repo.index.commit("Template update for nf-core/tools version {}".format('1.1.0'))
+            # git add only non-blacklisted files
+            changed_files = [item.a_path for item in self.repo.index.diff(None)]
+            globs = self.get_blacklisted_sync_globs()
+            blacklisted_changed_files = []
+            for pattern in globs:
+                # keep track of all blacklisted files
+                blacklisted_changed_files += fnmatch.filter(changed_files, pattern)
+            print('[bold blue]Staging template.')
+            # check for every file that its not a blacklisted file
+            files_to_add = [file for file in changed_files if file not in blacklisted_changed_files]
+            self.repo.git.add(files_to_add)
+            # checkout changes to blacklisted files
+            self.repo.index.checkout(blacklisted_changed_files, force=True)
+            self.repo.index.commit("Template update for your cookietemple project.")
             self.made_changes = True
-            print("Committed changes to TEMPLATE branch")
+            print("[bold blue]Committed changes to TEMPLATE branch")
         except Exception as e:
-            raise SyncException("Could not commit changes to TEMPLATE:\n{}".format(e))
+            raise SyncException(f"[bold red]Could not commit changes to TEMPLATE:\n{e}")
         return True
 
     def push_template_branch(self):
@@ -221,45 +204,32 @@ class PipelineSync(object):
         and try to make a PR. If we don't have the auth token, try to figure out a URL
         for the PR and print this to the console.
         """
-        print("Pushing TEMPLATE branch to remote: '{}'".format(os.path.basename(self.pipeline_dir)))
+        print(f"[bold blue]Pushing TEMPLATE branch to remote: {os.path.basename(self.project_dir)}")
         try:
-            print(self.pipeline_dir)
+            print(self.project_dir)
             origin = self.repo.remote('origin')
             self.repo.head.ref.set_tracking_branch(origin.refs.TEMPLATE)
             print(self.repo.remotes)
             self.repo.git.push()
         except git.exc.GitCommandError as e:
-            raise PullRequestException("Could not push TEMPLATE branch:\n  {}".format(e))
+            raise PullRequestException(f"Could not push TEMPLATE branch:\n{e}")
 
     def make_pull_request(self):
-        """Create a pull request to a base branch (default: dev),
-        from a head branch (default: TEMPLATE)
-
-        Returns: An instance of class requests.Response
         """
-        # Check that we know the github username and repo name
-        try:
-            assert self.gh_username is not None
-        except AssertionError:
-            raise PullRequestException("Could not find GitHub username and repo name")
-
-        pr_title = "Important! Template update for nf-core/tools v{}".format('1.1.0')
+        Create a pull request to a base branch from a head branch (default: TEMPLATE)
+        """
+        if self.dot_cookietemple['is_github_orga']:
+            self.gh_username = self.dot_cookietemple['github_orga']
+        pr_title = "Important! Template update for your cookietemple project's template."
         pr_body_text = (
-            "A new release of the main template in nf-core/tools has just been released. "
-            "This automated pull-request attempts to apply the relevant updates to this pipeline.\n\n"
+            "A new release of the main template in cookietemple has just been released. "
+            "This automated pull-request attempts to apply the relevant updates to this Project.\n\n"
             "Please make sure to merge this pull-request as soon as possible. "
-            "Once complete, make a new minor release of your pipeline. "
-            "For instructions on how to merge this PR, please see "
-            "[https://nf-co.re/developers/sync](https://nf-co.re/developers/sync#merging-automated-prs).\n\n"
-            "For more information about this release of [nf-core/tools](https://github.com/nf-core/tools), "
-            "please see the [nf-core/tools vrelease page](https://github.com/nf-core/tools/releases/tag/)."
-        ).format('1.1.0')
+            "Once complete, make a new minor release of your Project.")
 
         # Try to update an existing pull-request
-
+        # TODO CT CODE FOR CHECK IF PR ALREADY EXISTS
         self.submit_pull_request(pr_title, pr_body_text)
-
-
 
     def submit_pull_request(self, pr_title, pr_body_text):
         """
@@ -274,7 +244,7 @@ class PipelineSync(object):
         }
 
         r = requests.post(
-            url="https://api.github.com/repos/Imipenem/Bertmanbean/pulls",
+            url=f"https://api.github.com/repos/{self.gh_username}/{self.dot_cookietemple['project_slug']}/pulls",
             data=json.dumps(pr_content),
             auth=requests.auth.HTTPBasicAuth(self.gh_username, self.token),
         )
@@ -287,23 +257,66 @@ class PipelineSync(object):
 
         # PR worked
         if r.status_code == 201:
-            print('worked')
+            print('[bold blue]Successfully created PR!')
 
         # Something went wrong
         else:
-            raise PullRequestException(
-                "GitHub API returned code {}: \n{}".format(r.status_code, returned_data_prettyprint)
-            )
+            raise PullRequestException(f"GitHub API returned code {r.status_code}: \n{returned_data_prettyprint}")
+
+    def check_sync_level(self) -> bool:
+        """
+        Check whether a pull request should be made according to the set level in the cookietemple.cfg file.
+        Possible levels are:
+            - minor: Create a pull request if it's a minor or major change
+            - major: Create a pull request only if it's a major change
+        :return: Whether the changes level is equal to or smaller than the set sync level; whether a PR should be created or not
+        """
+        try:
+            parser = ConfigParser()
+            parser.read(f'{self.project_dir}/cookietemple.cfg')
+            level_item = list(parser.items('sync_level'))
+            # check for proper configuration if the sync_level section (only one item named ct_sync_level with valid levels major or minor
+            if len(level_item) != 1 or 'ct_sync_level' not in level_item[0][0] or not any(level_item[0][1] == valid_lvl for valid_lvl in ['major', 'minor']):
+                print('[bold red]Your sync_level section is missconfigured. Make sure that it only contains one item named ct_sync_level with only valid levels'
+                      ' like minor or major!')
+                sys.exit(1)
+            # check in case of minor update that level is not set to major (major case must not be handled as level is a lower bound)
+            if self.minor_update:
+                return level_item[0][1] != 'major'
+            else:
+                return True
+        # cookietemple.cfg file was not found or has no section sync_level
+        except NoSectionError:
+            print('[bold red]Could not read from cookietemple.cfg file. Make sure your specified path contains a cookietemple.cfg file and has a sync_level '
+                  'section!')
+            sys.exit(1)
+
+    def get_blacklisted_sync_globs(self) -> list:
+        """
+        Get all blacklisted globs from the cookietemple.cfg file.
+        :return: A list of all blacklisted globs for sync (file (types) that should not be included into the sync pull request)
+        """
+        try:
+            parser = ConfigParser()
+            parser.read(f'{self.project_dir}/cookietemple.cfg')
+            globs = list(parser.items('sync_files_blacklisted'))
+            return [glob[1] for glob in globs]
+
+        # cookietemple.cfg file was not found or has no section called sync_files_blacklisted
+        except NoSectionError:
+            print('[bold red]Could not read from cookietemple.cfg file. Make sure your specified path contains a cookietemple.cfg file and has a '
+                  'sync_files_blacklisted section!')
+            sys.exit(1)
 
     def reset_target_dir(self):
         """
-        Reset the target pipeline directory. Check out the original branch.
+        Reset the target project directory. Check out the original branch.
         """
-        print("Checking out original branch: '{}'".format(self.original_branch))
+        print(f"[bold blue]Checking out original branch: {self.original_branch}")
         try:
             self.repo.git.checkout(self.original_branch)
         except git.exc.GitCommandError as e:
-            raise SyncException("Could not reset to original branch `{}`:\n{}".format(self.from_branch, e))
+            raise SyncException(f"[bold red]Could not reset to original branch {self.from_branch}:\n{e}")
 
     def has_major_minor_template_version_changed(self, project_dir: Path) -> (bool, bool, str, str):
         """
