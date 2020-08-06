@@ -22,5 +22,12 @@ jobs:
               fetch-depth: 0
           name: Check out source-code repository
 
+        - uses: oleksiyrudenko/gha-git-credentials@v1
+          with:
+               name: '{{ cookiecutter.github_username }}'
+               email: '{{ cookiecutter.email }}'
+               actor: '{% raw %}${{ github.actor }}{% endraw %}'
+               token: '{% raw %}${{ secrets.CT_SYNC_TOKEN}}{% endraw %}'
+
         - name: Sync
-          run: cookietemple sync . ${{ secrets.CT_SYNC_TOKEN  }} ${{ github.repository_owner }}
+          run: cookietemple sync . {% raw %}${{ secrets.CT_SYNC_TOKEN  }}{% endraw %} {% raw %}${{ github.repository_owner }}{% endraw %}
