@@ -36,6 +36,7 @@ class CliPythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
         """
         Check that every dependency from project's requirements.txt is the latest version available at PyPi.
         """
+
         def check_dependencies(filename: str) -> None:
             """
             Check for a given file whether no dependencies are outdated.

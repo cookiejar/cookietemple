@@ -12,6 +12,6 @@ jobs:
     steps:
       - name: Check if PR branch to master is PATCH or release branch
         run: |
-            branch=$(echo "${{ github.event.pull_request.head.ref }}" | tr '[:upper:]' '[:lower:]')
-            echo "Pull request's branch to be merged is: ${{ github.event.pull_request.head.ref  }}"
+            branch=$(echo "{% raw %}${{ github.event.pull_request.head.ref }}{% endraw %}" | tr '[:upper:]' '[:lower:]')
+            echo "Pull request's branch to be merged is: {% raw %}${{ github.event.pull_request.head.ref  }}{% endraw %}"
             if [[ "$branch" != *"patch"* ]] && [[ "$branch" != *"release"* ]]; then echo "PRs only from patch or release branch to master"; exit 1; fi

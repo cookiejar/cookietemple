@@ -106,8 +106,8 @@ class TemplateSync:
         # Check that the project_dir is a git repo
         try:
             self.repo = git.Repo(self.project_dir)
-        except git.exc.InvalidGitRepositoryError as e:
-            raise SyncException(f"[bold red]{self.project_dir} does not appear to be a git repository")
+        except git.exc.InvalidGitRepositoryError:
+            raise SyncException(f"[bold red]{self.project_dir} does not appear to be a git repository.")
 
         # get current branch so we can switch back later
         self.original_branch = self.repo.active_branch.name
@@ -191,7 +191,7 @@ class TemplateSync:
                 blacklisted_changed_files += fnmatch.filter(changed_files, pattern)
             print('[bold blue]Committing changes of non blacklisted files.')
             files_to_commit = [file for file in changed_files if file not in blacklisted_changed_files]
-            Popen(['git', 'commit', '-m', "MyCommit", *files_to_commit], stdout=PIPE, stderr=PIPE, universal_newlines=True)
+            Popen(['git', 'commit', '-m', "Cookietemple sync", *files_to_commit], stdout=PIPE, stderr=PIPE, universal_newlines=True)
             Popen(['git', 'stash'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
             self.made_changes = True
             print("[bold blue]Committed changes to TEMPLATE branch")
@@ -251,7 +251,7 @@ class TemplateSync:
         try:
             self.gh_pr_returned_data = json.loads(r.content)
             returned_data_prettyprint = json.dumps(self.gh_pr_returned_data, indent=4)
-        except:
+        except requests.RequestException:
             self.gh_pr_returned_data = r.content
             returned_data_prettyprint = r.content
 

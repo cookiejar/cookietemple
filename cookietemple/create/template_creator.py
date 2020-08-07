@@ -272,7 +272,8 @@ class TemplateCreator:
                                     'project_slug': self.creator_ctx.project_slug if self.creator_ctx.language != 'python' else no_hyphen,
                                     'version': self.creator_ctx.version,
                                     'license': self.creator_ctx.license,
-                                    'project_short_description': self.creator_ctx.project_short_description},
+                                    'project_short_description': self.creator_ctx.project_short_description,
+                                    'github_username': self.creator_ctx.github_username},
                      no_input=True,
                      overwrite_if_exists=True)
 
