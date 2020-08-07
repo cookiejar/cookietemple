@@ -1,4 +1,4 @@
-name: Check version upgrade
+name: Sync cookietemple project
 
 on: [push]
 
@@ -11,10 +11,10 @@ jobs:
           with:
             python-version: 3.8
 
-        - name: Install cookietemple
+        - name: Clone cookietemple
           run: git clone https://github.com/Imipenem/hubu
 
-        - name: bla
+        - name: Install cookietemple clone
           run: pip install hubu/
 
         - uses: actions/checkout@v2

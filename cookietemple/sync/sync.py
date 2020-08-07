@@ -72,7 +72,7 @@ class TemplateSync:
 
     def sync(self):
         """
-        Find workflow attributes, create a new template project on TEMPLATE
+        Sync the cookietemple project
         """
         self.inspect_sync_dir()
         self.checkout_template_branch()
@@ -96,8 +96,7 @@ class TemplateSync:
 
     def inspect_sync_dir(self):
         """
-        Takes a look at the target directory for syncing. Checks that it's a git repo
-        and makes sure that there are no uncommitted changes.
+        Examines target directory to sync, verifies that it's a git repository and ensures that there are no uncommitted changes.
         """
         if not os.path.exists(os.path.join(str(self.project_dir), '.cookietemple.yml')):
             print(f'[bold red]{self.project_dir} does not appear to contain a .cookietemple.yml file. Did you delete it?')
@@ -159,7 +158,7 @@ class TemplateSync:
         """
         Delete all files and make a fresh template.
         """
-        print("Making a new template project.")
+        print("[bold blue]Creating a new template project.")
         # dry create run from dot_cookietemple in tmp directory
         with tempfile.TemporaryDirectory() as tmpdirname:
             # TODO REFACTOR THIS BY PASSING A PATH PARAM TO CHOOSE DOMAIN WHICH DEFAULTS TO CWD WHEN NOT PASSED (INITIAL CREATE)
@@ -182,26 +181,18 @@ class TemplateSync:
         # Commit changes
         try:
             # git add only non-blacklisted files
+            print('[bold blue]Staging template.')
             self.repo.git.add(A=True)
             changed_files = [item.a_path for item in self.repo.index.diff('HEAD')]
-            print(changed_files)
             globs = self.get_blacklisted_sync_globs()
             blacklisted_changed_files = []
             for pattern in globs:
                 # keep track of all blacklisted files
                 blacklisted_changed_files += fnmatch.filter(changed_files, pattern)
-            print('[bold blue]Staging template.')
-            # checkout changes to blacklisted files
-            print(blacklisted_changed_files)
+            print('[bold blue]Committing changes of non blacklisted files.')
             files_to_commit = [file for file in changed_files if file not in blacklisted_changed_files]
-            git_installed = Popen(['git', 'commit', '-m', "MyCommit", *files_to_commit], stdout=PIPE, stderr=PIPE, universal_newlines=True)
-            (git_installed_stdout, git_installed_stderr) = git_installed.communicate()
-            print(git_installed_stdout)
-            print(git_installed_stderr)
-            gite = Popen(['git', 'stash'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
-            (git_installed_stdout, git_installed_stderr) = gite.communicate()
-            print(git_installed_stdout)
-            print(git_installed_stderr)
+            Popen(['git', 'commit', '-m', "MyCommit", *files_to_commit], stdout=PIPE, stderr=PIPE, universal_newlines=True)
+            Popen(['git', 'stash'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
             self.made_changes = True
             print("[bold blue]Committed changes to TEMPLATE branch")
         except Exception as e:
@@ -209,16 +200,14 @@ class TemplateSync:
         return True
 
     def push_template_branch(self):
-        """If we made any changes, push the TEMPLATE branch to the default remote
-        and try to make a PR. If we don't have the auth token, try to figure out a URL
-        for the PR and print this to the console.
+        """
+        If we made any changes, push the TEMPLATE branch to the default remote
+        and try to make a PR.
         """
         print(f"[bold blue]Pushing TEMPLATE branch to remote: {os.path.basename(self.project_dir)}")
         try:
-            print(self.project_dir)
             origin = self.repo.remote('origin')
             self.repo.head.ref.set_tracking_branch(origin.refs.TEMPLATE)
-            print(self.repo.remotes)
             self.repo.git.push()
         except git.exc.GitCommandError as e:
             raise PullRequestException(f"Could not push TEMPLATE branch:\n{e}")
@@ -236,9 +225,11 @@ class TemplateSync:
             "Please make sure to merge this pull-request as soon as possible. "
             "Once complete, make a new minor release of your Project.")
 
-        # Try to update an existing pull-request
-        # TODO CT CODE FOR CHECK IF PR ALREADY EXISTS
-        self.submit_pull_request(pr_title, pr_body_text)
+        # Only create PR if it does not already exist
+        if not self.check_pull_request_exists():
+            self.submit_pull_request(pr_title, pr_body_text)
+        else:
+            print('[bold blue]An open cookietemple sync PR already exists at your repo. Changes were added to the existing PR!')
 
     def submit_pull_request(self, pr_title, pr_body_text):
         """
@@ -271,6 +262,24 @@ class TemplateSync:
         # Something went wrong
         else:
             raise PullRequestException(f"GitHub API returned code {r.status_code}: \n{returned_data_prettyprint}")
+
+    def check_pull_request_exists(self) -> bool:
+        """
+        Check, if a cookietemple sync PR is already pending. If so, just push changes and do not create a new PR!
+
+        :return Whether a cookietemple sync PR is already open or not
+        """
+        state = {'state': 'open'}
+        query_url = f'https://api.github.com/repos/{self.gh_username}/{self.dot_cookietemple["project_slug"]}/pulls'
+        headers = {'Authorization': f'token {self.token}'}
+        # query all open PRs
+        r = requests.get(query_url, headers=headers, data=json.dumps(state))
+        query_data = r.json()
+        # iterate over the open PRs of the repo to check if a cookietemple sync PR is open
+        for pull_request in query_data:
+            if pull_request['title'] == "Important! Template update for your cookietemple project's template.":
+                return True
+        return False
 
     def check_sync_level(self) -> bool:
         """
