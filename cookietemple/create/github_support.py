@@ -120,10 +120,10 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         cloned_repo.git.add(A=True)
         # git commit
         cloned_repo.index.commit('Added cookietemple sync workflow')
-
+        # git push to master branch
         print('[bold blue]Pushing template to Github origin master')
         cloned_repo.remotes.origin.push(refspec='master:master')
-
+        # git checkout to development branch
         cloned_repo.git.checkout('development')
         shutil.copy2(temp_path, f'{project_path}/.github/workflows/sync_project.yml')
         # git add
@@ -131,12 +131,11 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         cloned_repo.git.add(A=True)
         # git commit
         cloned_repo.index.commit('Added cookietemple sync workflow')
-
+        # git push to development branch
         print('[bold blue]Pushing template to Github origin development')
         cloned_repo.remotes.origin.push(refspec='development:development')
-
+        # remove temp workflow file
         os.remove(temp_path)
-
         # did any errors occur?
         print(f'[bold green]Successfully created a Github repository at https://github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}')
 
