@@ -2,6 +2,8 @@ import os
 import sys
 import requests
 import json
+import tempfile
+import shutil
 
 from base64 import b64encode
 from nacl import encoding, public
@@ -73,6 +75,10 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         # the created projct repository with the copied .git directory
         cloned_repo = Repo(path=project_path)
 
+        fd, temp_path = tempfile.mkstemp()
+        shutil.copy2(f'{project_path}/.github/workflows/sync_project.yml', temp_path)
+        os.remove(f'{project_path}/.github/workflows/sync_project.yml')
+
         # git add
         print('[bold blue]Staging template')
         cloned_repo.git.add(A=True)
@@ -103,15 +109,33 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         # git create TEMPLATE branch
         print('[bold blue]Creating TEMPLATE branch.')
         cloned_repo.git.checkout('-b', 'TEMPLATE')
-
-        # git push to TEMPLATE branch
-        print('[bold blue]Pushing template to Github origin TEMPLATE.')
         cloned_repo.remotes.origin.push(refspec='TEMPLATE:TEMPLATE')
 
         # checkout to development branch again
-        print('[bold blue]Checking out development branch.')
+        print('[bold blue]Checking out master branch.')
+        cloned_repo.git.checkout('master')
+        shutil.copy2(temp_path, f'{project_path}/.github/workflows/sync_project.yml')
+        # git add
+        print('[bold blue]Staging template')
+        cloned_repo.git.add(A=True)
+        # git commit
+        cloned_repo.index.commit('Added cookietemple sync workflow')
+        # git push to master branch
+        print('[bold blue]Pushing template to Github origin master')
+        cloned_repo.remotes.origin.push(refspec='master:master')
+        # git checkout to development branch
         cloned_repo.git.checkout('development')
-
+        shutil.copy2(temp_path, f'{project_path}/.github/workflows/sync_project.yml')
+        # git add
+        print('[bold blue]Staging template')
+        cloned_repo.git.add(A=True)
+        # git commit
+        cloned_repo.index.commit('Added cookietemple sync workflow')
+        # git push to development branch
+        print('[bold blue]Pushing template to Github origin development')
+        cloned_repo.remotes.origin.push(refspec='development:development')
+        # remove temp workflow file
+        os.remove(temp_path)
         # did any errors occur?
         print(f'[bold green]Successfully created a Github repository at https://github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}')
 

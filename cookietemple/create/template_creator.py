@@ -175,8 +175,12 @@ class TemplateCreator:
         """
         try:
             # try to read name and email from existing config file
-            self.creator_ctx.full_name = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['full_name']
-            self.creator_ctx.email = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['email']
+            if dot_cookietemple:
+                self.creator_ctx.full_name = dot_cookietemple['full_name']
+                self.creator_ctx.email = dot_cookietemple['email']
+            else:
+                self.creator_ctx.full_name = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['full_name']
+                self.creator_ctx.email = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['email']
         except FileNotFoundError:
             # style and automatic use config
             print('[bold red]Cannot find a cookietemple config file. Is this your first time using cookietemple?')
@@ -241,8 +245,10 @@ class TemplateCreator:
                                                                                 default='MIT',
                                                                                 dot_cookietemple=dot_cookietemple,
                                                                                 to_get_property='license')
-
-        self.creator_ctx.github_username = load_github_username()
+        if dot_cookietemple:
+            self.creator_ctx.github_username = dot_cookietemple['github_username']
+        else:
+            self.creator_ctx.github_username = load_github_username()
 
     def create_common_files(self) -> None:
         """
@@ -266,7 +272,8 @@ class TemplateCreator:
                                     'project_slug': self.creator_ctx.project_slug if self.creator_ctx.language != 'python' else no_hyphen,
                                     'version': self.creator_ctx.version,
                                     'license': self.creator_ctx.license,
-                                    'project_short_description': self.creator_ctx.project_short_description},
+                                    'project_short_description': self.creator_ctx.project_short_description,
+                                    'github_username': self.creator_ctx.github_username},
                      no_input=True,
                      overwrite_if_exists=True)
 

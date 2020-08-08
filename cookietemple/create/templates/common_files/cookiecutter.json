@@ -9,8 +9,6 @@
   "project_short_description" : "A cookietemple template",
   "language": "Language",
   "domain": "domain",
-    "_copy_without_render": [
-        "*.yml"
-    ]
+  "github_username": "github_user"
 }
 
