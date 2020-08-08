@@ -108,4 +108,4 @@ class CliCreator(TemplateCreator):
                                                                                           default='organization',
                                                                                           dot_cookietemple=dot_cookietemple,
                                                                                           to_get_property='group_organization')
-        self.cli_struct.main_class = self.cli_struct.project_slug.capitalize()
+        self.cli_struct.main_class = self.cli_struct.project_slug_no_hyphen.capitalize()
