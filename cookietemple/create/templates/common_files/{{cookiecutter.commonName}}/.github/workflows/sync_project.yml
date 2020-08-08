@@ -11,11 +11,8 @@ jobs:
           with:
             python-version: 3.8
 
-        - name: Clone cookietemple
-          run: git clone https://github.com/Imipenem/hubu
-
-        - name: Install cookietemple clone
-          run: pip install hubu/
+        - name: Install cookietemple
+          run: pip install cookietemple
 
         - uses: actions/checkout@v2
           with:
@@ -29,5 +26,5 @@ jobs:
                actor: '{% raw %}${{ github.actor }}{% endraw %}'
                token: '{% raw %}${{ secrets.CT_SYNC_TOKEN}}{% endraw %}'
 
-        - name: Sync
+        - name: Sync project
           run: cookietemple sync . {% raw %}${{ secrets.CT_SYNC_TOKEN  }}{% endraw %} {% raw %}${{ github.repository_owner }}{% endraw %}

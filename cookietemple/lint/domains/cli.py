@@ -69,7 +69,7 @@ class CliPythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
                     latest_dependency_version = pip_dep_json['info']['version']
                     if parse_version(pip_dependency_version) < parse_version(latest_dependency_version):
                         self.warned.append(('general-7', f'Version {pip_dependency_version} of {pip_dependency_name} is not the latest available: '
-                        f'{latest_dependency_version}'))
+                        f'{latest_dependency_version}'))  # noqa: E128
                 else:
                     self.failed.append(('general-7', f'Could not find pip dependency using the PyPi API: {pip_dependency_name}=={pip_dependency_version}'))
 

@@ -24,13 +24,6 @@ from cookietemple.create.create import choose_domain
 from cookietemple.common.version import load_project_template_version_and_handle, load_ct_template_version
 
 
-class PullRequestException(Exception):
-    """
-    Exception when there was an error creating a Pull-Request on GitHub.com
-    """
-    pass
-
-
 class TemplateSync:
     """
     Hold syncing information and results.
@@ -76,7 +69,7 @@ class TemplateSync:
             try:
                 self.push_template_branch()
                 self.make_pull_request()
-            except PullRequestException as e:
+            except Exception as e:
                 self.reset_target_dir()
                 print(f'[bold red]{e}')
                 sys.exit(1)
@@ -189,6 +182,7 @@ class TemplateSync:
             print('[bold blue]Committing changes of non blacklisted files.')
             files_to_commit = [file for file in changed_files if file not in blacklisted_changed_files]
             Popen(['git', 'commit', '-m', 'Cookietemple sync', *files_to_commit], stdout=PIPE, stderr=PIPE, universal_newlines=True)
+            print('[bold blue] Stashing and saving TEMPLATE branch changes!')
             Popen(['git', 'stash'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
             self.made_changes = True
             print('[bold blue]Committed changes to TEMPLATE branch')
