@@ -53,7 +53,6 @@ lint
 :code:`lint` ensures that the template adheres to cookietemple's standards.
 When linting an already existing project several general checks, which all templates share are performed and afterwards template specific linting functions are run.
 All results are collected and printed to the user. If any of the checks fail linting terminates.
-Optionally, `coala <https://coala.io/#/home>`_ can be applied to the project if it was created using a template which features a .coa file.
 Invoke :code:`lint` by running
 
 .. code-block:: console
