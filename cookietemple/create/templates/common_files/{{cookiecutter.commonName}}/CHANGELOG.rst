@@ -10,7 +10,7 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 **Added**
 
-* Created the project using COOKIETEMPLE
+* Created the project using cookietemple
 
 **Fixed**
 
