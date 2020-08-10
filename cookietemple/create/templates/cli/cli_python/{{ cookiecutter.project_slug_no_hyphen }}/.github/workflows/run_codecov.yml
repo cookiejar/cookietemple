@@ -1,8 +1,5 @@
 name: Run Codecov
-on: 
-  push:
-    paths:
-      - "tests/**"
+on: [push]
 
 jobs:
   run:
