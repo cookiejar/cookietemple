@@ -3,6 +3,9 @@ name: Ubuntu
 on:
   push:
     branches: [ master ]
+    paths-ignore:
+      - "**/README.*"
+      - "**/CONTRIBUTING.*"
   pull_request:
     branches: [ master ]
 
