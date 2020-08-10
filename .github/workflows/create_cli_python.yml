@@ -1,11 +1,16 @@
 name: Create cli-python Template
 
-on: [push]
+on: 
+  push:
+    paths-ignore:
+      - "test/**"
+      - "docs/**"
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
     strategy:
       matrix:
         python: [3.7, 3.8]

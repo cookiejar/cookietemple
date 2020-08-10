@@ -1,10 +1,14 @@
 name: Run flake8 linting
 
-on: [push]
+on: 
+  push:
+    paths:
+      - "**/*.py"
 
 jobs:
   lint:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
 
     steps:
       - uses: actions/checkout@v2
