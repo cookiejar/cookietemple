@@ -4,13 +4,13 @@
 Getting information about available templates
 =============================================
 
-| Although, information on all COOKIETEMPLE templates is provided in :ref:`available_templates` in our documentation, it is often times more convenient to get a quick overview from the commandline.
-| Hence, COOKIETEMPLE provides two commands :code:`list` and :code:`info`, which print information on all available templates with different levels of detail.
+| Although, information on all cookietemple templates is provided in :ref:`available_templates` in our documentation, it is often times more convenient to get a quick overview from the commandline.
+| Hence, cookietemple provides two commands :code:`list` and :code:`info`, which print information on all available templates with different levels of detail.
 
 list
 -----
 
-COOKIETEMPLE list can be invoked *via*
+cookietemple list can be invoked *via*
 
 .. code-block:: console
 
