@@ -6,7 +6,7 @@ Adding new templates
 
 Adding new templates is one of the major improvements and community contributions to cookietemple, which is why we are dedicating a whole section to it.
 Please note that creating new templates is a time consuming task. So be prepared to invest a few hours to bring a new template to life.
-The integration into cookietemple however, is straight forward if you follow the guide below.
+The integration into cookietemple however, is straightforward if you follow the guide below.
 Due to the tight coupling of our templates with all cookietemple commands such as :code:`create`, :code:`list`, :code:`info`, :code:`lint` and :code:`bump-version`,
 new templates require the modification of several files.
 
