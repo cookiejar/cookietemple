@@ -92,9 +92,8 @@ For more details please visit :ref:`warp_f`.
 sync
 ----
 
-:code:`sync` is unfortunately not yet implemented.
-It is supposed to sync any changes to the templates by opening pull requests to your already existing projects.
-Due to this complexity of this task we are still at the drafting stage, but highly appreciate input and community contributions.
+:code:`sync` checks for a project whether a newer version of the used template is available.
+If so, a pull request with only the changes of the newer template version is created against the development/last active branchh.
 Invoke :code:`sync` by running
 
 .. code-block:: console
