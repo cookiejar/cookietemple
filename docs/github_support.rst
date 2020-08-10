@@ -62,7 +62,7 @@ This ensures that new developments can already be merged into ``development``, w
 The :code:``PATCH`` branch should be used for required :code:`hotfixes` (checked out directly from :code:`master` branch) because, in the meantime, there might
 multiple developments going on at ``development`` branch and you dont want to interfere with them.
 
-check_template_update.yml
+sync_project.yml
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 All templates also feature this workflow. This workflow is used for automatic syncing (if enabled) your project with the latest cookietemple template version.
 It runs everytime you are pushing to one of your branches (you can safely customize this behaviour, if you dont want it to run at every push but its recommended
