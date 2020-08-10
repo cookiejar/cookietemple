@@ -1,10 +1,14 @@
 name: Run Tests
 
-on: [push]
+on: 
+  push:
+    paths-ignore:
+      - "docs/**"
 
 jobs:
   build-ubuntu-mac:
     runs-on: {% raw %}${{ matrix.os }}{% endraw %}
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest]

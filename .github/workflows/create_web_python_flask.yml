@@ -3,7 +3,7 @@ name: Create web-website-python Flask Template
 on: 
   push:
     paths-ignore:
-      - "test/**"
+      - "tests/**"
       - "docs/**"
 
 jobs:

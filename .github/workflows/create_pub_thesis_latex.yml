@@ -3,7 +3,7 @@ name: Create pub-thesis-template Template
 on: 
   push:
     paths-ignore:
-      - "test/**"
+      - "tests/**"
       - "docs/**"
 
 jobs:

@@ -3,7 +3,7 @@ name: Create cli-java Template
 on: 
   push:
     paths-ignore:
-      - "test/**"
+      - "tests/**"
       - "docs/**"
 
 jobs:
