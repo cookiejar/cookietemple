@@ -71,13 +71,13 @@ Whitelisted files are listed below a ``[bumpversion_files_whitelisted]`` section
     conf_py = docs/conf.py
 
 | All files, which are whitelisted are searched for patterns matching ``X.X.X``, which are updated to the specified new versions.
-| Any lines, which contain the string :code:`<<cookietemple_NO_BUMP>>` will be ignored.
+| Any lines, which contain the string :code:`<<COOKIETEMPLE_NO_BUMP>>` will be ignored.
 
 If files like Maven pom.xml files, contain many version patterns matching ``X.X.X``, it may be a better idea to blacklist them (section ``[bumpversion_files_blacklisted]``) and enable only specific lines to be updated::
 
     [bumpversion_files_blacklisted]
     pom = pom.xml
 
-Analogously to whitelisted files, which allow for specific lines to be ignored, blacklisted files allow for specific lines to be forcibly updated using the string :code:`<<cookietemple_FORCE_BUMP>>`.
+Analogously to whitelisted files, which allow for specific lines to be ignored, blacklisted files allow for specific lines to be forcibly updated using the string :code:`<<COOKIETEMPLE_FORCE_BUMP>>`.
 
 Note that those tags must be on the same line as the version (commonly placed in a comment), otherwise they wont work!
