@@ -44,6 +44,6 @@ Updating a personal access token
 ------------------------------------
 
 If you for any reason need to regenerate your PAT rerun :code:`cookietemple config pat`. Ensure that your Github username still matches.
-If not you should also update your Github username *via* :code:`cookietempel config general`.
+If not you should also update your Github username *via* :code:`cookietemple config general`.
 Additionally, any of your already created projects may still feature your old PAT and you may therefore run into issues when attempting to push.
 Hence, you must also `update your remote URL <https://help.github.com/en/github/using-git/changing-a-remotes-url>`_ for those projects!
