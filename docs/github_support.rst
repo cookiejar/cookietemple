@@ -59,21 +59,16 @@ origins from a branch that does not contain ``PATCH`` or ``release`` in its bran
 If development code is written on a branch called ``development``and a new release of the project is to be made,
 one should create a ``release`` branch only for this purpose and then merge it into ``master`` branch.
 This ensures that new developments can already be merged into ``development``, while the release is finally prepared.
-The :code:``PATCH`` branch should be used for required :code:`hotfixes` (checked out directly from :code:`master` branch) because, in the meantime, there might
+The ``PATCH`` branch should be used for required ``hotfixes`` (checked out directly from ``master`` branch) because, in the meantime, there might
 multiple developments going on at ``development`` branch and you dont want to interfere with them.
 
 sync_project.yml
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 All templates also feature this workflow. This workflow is used for automatic syncing (if enabled) your project with the latest cookietemple template version.
-It runs everytime you are pushing to one of your branches (you can safely customize this behaviour, if you dont want it to run at every push but its recommended
-by cookietemple, especially for open source projects).
-So how does this work in detail?
+The workflow is run on push events, although this behavior can be customized if desired.
+The workflow calls ``cookietemple sync``, which first checks whether a new template version is available and if so it submits a pull request.
+For more details please visit :ref:`sync`.
 
-The workflow first checks if a new template version is available by calling :code:`cookietemple sync` with the
-:code:`--check_update` flag. You can also do this manually when trying to sync manually via :code:`cookietemple sync`.
-If a new version is available, an Issue will be automatically created to inform you as the repository owner about this circumstance. The workflow uses an issue template
-called :code:`sync_notify.md` in :code:`.github/ISSUE_TEMPLATE` in your project. You should NOT edit this file, otherwise, it might result in undefined behaviour.
-We are planning to modify this workflow so that it automatically creates a PR with the modified files just like a manual :code:`cookietemple sync` would do.
 
 Secrets
 -------
