@@ -60,18 +60,18 @@ class CliPythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
             try:
                 response = requests.get(pip_api_url, timeout=10)
             except requests.exceptions.Timeout:
-                self.warned.append(('general-7', f'PyPi API timed out: {pip_api_url}'))
+                self.warned.append(('cli-python-2', f'PyPi API timed out: {pip_api_url}'))
             except requests.exceptions.ConnectionError:
-                self.warned.append(('general-7', f'PyPi API Connection error: {pip_api_url}'))
+                self.warned.append(('cli-python-2', f'PyPi API Connection error: {pip_api_url}'))
             else:
                 if response.status_code == 200:
                     pip_dep_json = response.json()
                     latest_dependency_version = pip_dep_json['info']['version']
                     if parse_version(pip_dependency_version) < parse_version(latest_dependency_version):
-                        self.warned.append(('general-7', f'Version {pip_dependency_version} of {pip_dependency_name} is not the latest available: '
+                        self.warned.append(('cli-python-2', f'Version {pip_dependency_version} of {pip_dependency_name} is not the latest available: '
                         f'{latest_dependency_version}'))  # noqa: E128
                 else:
-                    self.failed.append(('general-7', f'Could not find pip dependency using the PyPi API: {pip_dependency_name}=={pip_dependency_version}'))
+                    self.failed.append(('cli-python-2', f'Could not find pip dependency using the PyPi API: {pip_dependency_name}=={pip_dependency_version}'))
 
         # check general dependencies
         check_dependencies('requirements.txt')
