@@ -142,11 +142,11 @@ def sync(project_dir, pat, username, check_update) -> None:
     if check_update:
         # a template update has been released by cookietemple
         if any(change for change in (major_change, minor_change, patch_change)):
-            click.echo(click.style(f'Your templates version received an update from {proj_template_version} to {ct_template_version}!\n Use ', fg='blue') +
-                       click.style('cookietemple sync', fg='green') + click.style('to sync your project.', fg='blue'))
+            print(f'[bold blue]Your templates version received an update from {proj_template_version} to {ct_template_version}!\n'
+                  f' Use [green]cookietemple sync [blue]to sync your project')
         # no updates were found
         else:
-            click.echo(click.style('Congrats, you are using the latest template version for your project. No sync is needed.', fg='blue'))
+            print('[bold blue]Using the latest template version. No sync required.')
         # exit without syncing
         sys.exit(0)
     # set sync flags indicating a major, minor or patch update
