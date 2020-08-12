@@ -108,7 +108,7 @@ cli-python-1
 | Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
   at the time of the project creation using cookietemple this file should not have been missing!
 
-cli-python-1
+cli-python-2
 ~~~~~~~~~~~~~~~
 
 | PyPI dependency not up to date. The dependenecies specified in the requirements.txt and requirements_dev.txt are not up to date.
