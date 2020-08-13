@@ -112,7 +112,7 @@ cli-python-2
 ~~~~~~~~~~~~~~~
 
 | PyPI dependency not up to date. The dependenecies specified in the requirements.txt and requirements_dev.txt are not up to date.
-| It is up to you whether you can and or want to update them.
+| It is up to you whether you can and want to update them.
 
 cli-java
 ^^^^^^^^^^^^

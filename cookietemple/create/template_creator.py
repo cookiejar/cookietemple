@@ -76,11 +76,11 @@ class TemplateCreator:
 
         if subdomain:
             print()
-            print(f'[bold blue]Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates/available_templates.html'
+            print('[bold blue]Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates/available_templates.html'
                   f'#{domain}-{subdomain}-{language} for more information about how to use your chosen template.')
         else:
             print()
-            print(f'[bold blue]Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates/available_templates.html'
+            print('[bold blue]Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates/available_templates.html'
                   f'#{domain}-{language} for more information about how to use your chosen template.')
 
     def create_template_without_subdomain(self, domain_path: str) -> None:
