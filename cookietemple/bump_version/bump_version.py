@@ -161,10 +161,10 @@ class VersionBumper:
             print(f'[bold red]The new version {new_version} cannot be equal to the current version {self.CURRENT_VERSION}.')
             return False
 
-        # only allow bump from a SNAPSHOT version to its correlate with -SNAPSHOT removed (like 1.0.0-SNAPSHOT to 1.0.0 but not 2.0.0)
+        # only allow bump from a SNAPSHOT version to its correspondance with -SNAPSHOT removed (like 1.0.0-SNAPSHOT to 1.0.0 but not 2.0.0)
         elif self.CURRENT_VERSION.endswith('-SNAPSHOT') and not self.CURRENT_VERSION.split('-')[0] == new_version:
             print(f'[bold red]Cannot bump {self.CURRENT_VERSION} to {new_version}.' +
-                  f'[blue]\n{self.CURRENT_VERSION} as a SNAPSHOT version can only be bumped to its non-snapshot correlate '
+                  f'[blue]\n{self.CURRENT_VERSION} as a SNAPSHOT version can only be bumped to its non-snapshot equivalent '
                   f'{self.CURRENT_VERSION.split("-")[0]}.')
             return False
 
