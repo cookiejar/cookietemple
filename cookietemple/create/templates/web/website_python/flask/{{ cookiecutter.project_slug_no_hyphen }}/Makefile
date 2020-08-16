@@ -48,7 +48,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 lint: ## check style with flake8
-	flake8 {{cookiecutter.project_slug}} tests
+	flake8 {{ cookiecutter.project_slug_no_hyphen }} tests
 
 test: ## run tests quickly with the default Python
 {%- if cookiecutter.testing_library == 'pytest' %}
@@ -62,18 +62,18 @@ test-all: ## run tests on every Python version with tox
 
 coverage: ## check code coverage quickly with the default Python
 	{%- if cookiecutter.testing_library == 'pytest' %}
-	coverage run --source {{ cookiecutter.project_slug }} -m pytest
+	coverage run --source {{ cookiecutter.project_slug_no_hyphen }} -m pytest
 	{%- else %}
-	coverage run --source {{ cookiecutter.project_slug }} setup.py test
+	coverage run --source {{ cookiecutter.project_slug_no_hyphen }} setup.py test
 	{%- endif %}
 	coverage report -m
 	coverage html
 	$(BROWSER) htmlcov/index.html
 
 docs: ## generate Sphinx HTML documentation, including API docs
-	rm -f docs/{{cookiecutter.project_slug}}.rst
+	rm -f docs/{{ cookiecutter.project_slug_no_hyphen }}.rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ {{cookiecutter.project_slug}}
+	sphinx-apidoc -o docs/ {{ cookiecutter.project_slug_no_hyphen }}
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
@@ -93,7 +93,7 @@ install: clean ## install the package to the active Python's site-packages
 	pip install .
 {%- if cookiecutter.setup_type == 'advanced' %}
 init_db:
-	export FLASK_APP={{cookiecutter.project_slug}}/app.py; \
+	export FLASK_APP={{ cookiecutter.project_slug_no_hyphen }}/app.py; \
 	flask db init; \
 	flask db migrate -m"Init User Table"; \
 	flask db upgrade;{% endif %}

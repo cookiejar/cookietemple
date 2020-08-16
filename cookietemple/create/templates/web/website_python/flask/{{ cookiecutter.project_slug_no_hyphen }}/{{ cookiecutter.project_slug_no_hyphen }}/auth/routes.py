@@ -4,11 +4,11 @@ from flask_login import login_user, logout_user, current_user
 from flask_babel import _
 from flask import session
 
-from {{cookiecutter.project_slug}}.auth.forms.register_form import RegistrationForm
-from {{cookiecutter.project_slug}}.config import db
-from {{cookiecutter.project_slug}}.auth import bp
-from {{cookiecutter.project_slug}}.auth.forms.login_form import LoginForm
-from {{cookiecutter.project_slug}}.models.users import User
+from {{ cookiecutter.project_slug_no_hyphen }}.auth.forms.register_form import RegistrationForm
+from {{ cookiecutter.project_slug_no_hyphen }}.config import db
+from {{ cookiecutter.project_slug_no_hyphen }}.auth import bp
+from {{ cookiecutter.project_slug_no_hyphen }}.auth.forms.login_form import LoginForm
+from {{ cookiecutter.project_slug_no_hyphen }}.models.users import User
 
 
 @bp.route('/language/<language>')

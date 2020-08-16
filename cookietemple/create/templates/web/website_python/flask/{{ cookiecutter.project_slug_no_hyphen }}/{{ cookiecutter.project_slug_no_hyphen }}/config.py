@@ -32,7 +32,7 @@ class Config:
         'de': 'German'
     }
 
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///'+os.path.abspath(os.getcwd())+"/{{cookiecutter.project_slug}}/database.db"
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///'+os.path.abspath(os.getcwd())+"/{{ cookiecutter.project_slug_no_hyphen }}/database.db"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     BABEL_DEFAULT_LOCALE = 'en'

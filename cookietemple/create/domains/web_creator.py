@@ -183,7 +183,7 @@ class WebCreator(TemplateCreator):
         :param template_name: the name of the frontend template (if any)
         """
         cwd = os.getcwd()
-        os.chdir(f'{cwd}/{self.web_struct.project_slug}/{self.web_struct.project_slug}')
+        os.chdir(f'{cwd}/{self.web_struct.project_slug.replace("-","_")}/{self.web_struct.project_slug.replace("-","_")}')
 
         # remove all stuff, that is not necessary for the basic setup
         if setup_type == 'basic':

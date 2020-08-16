@@ -22,5 +22,5 @@ cd ~
 git clone https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}
 ```
 ```bash
-sudo bash {{cookiecutter.project_slug}}/deployment_scripts/setup.sh
+sudo bash {{cookiecutter.project_slug_no_hyphen}}/deployment_scripts/setup.sh
 ```

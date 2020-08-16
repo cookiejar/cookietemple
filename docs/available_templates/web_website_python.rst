@@ -338,15 +338,26 @@ There are a few requirements needed in order to deploy:
  3. To start deployment, you have to setup your server initially. You can follow, for example, the steps `here <https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-18-04>`_
     in order to correctly setup your server.
 
-If you meet all the requirements above login (for example via :bash:`$ ssh yourvmusername@your-servers-IP`) into your server and start the setup script::
+If you meet all the requirements above login (for example via :bash:`$ ssh yourvmusername@your-servers-IP`) into your server:
+In order to run the setup script a few more steps are required (Cloning your project and setting up a virtual environment):
+ 1. Install pip3 and the python3-dev dependencies using :bash:`$ sudo apt-get install python3-pip3 python3-dev nginx -y`
+ 2. Clone your GitHub repository using:
+    :bash:`$ git clone https://github.com/<you_github_username>/<your_project_name>`
+ 3. Next cd into it via :bash:`$ cd <your_project_name>`
+ 4. Then, we need to install and create a virtualenv
+    :bash:`$ sudo pip3 install virtualenv` (note the sudo here!).
+ 5. Create a virtualenv named :bash:`dpenv` using :bash:`$ virtualenv dpenv`. You must name your environment like this! Also, make sure your current working directory is your project's top level directory!
+ 6. Activate the virtualenv with :bash:`$ source dpenv/bin/activate`
 
-    $ sudo bash <<your_project_name>>/deployment_scripts/setup.sh
+When done, you can now fire up the setup script to deploy your application:
+Use :bash:`$ sudo bash deployment_scripts/setup.sh` and deployment process starts.
+
+Tip: You can check :bash:`$ sudo systemctl status <my_project_name>` to check for the working state of your gunicorn instance or any errors.
 
 If everything went fine, you should now be able to access your application at your domain.
-TODO: IM NGINX.conf is atm a duplicate listen port 80. FIX IT?!
 Note that the setup process also includes HTTP to HTTPS redirecting.
 
-If you encounter any problems, dont hesitate to drop us a message in our `Discord <https://discord.com/channels/708008788505919599/708008788505919602>`_. or create an issue `at our github repo <https://github.com/cookiejar/cookietemple/issues/new/choose>`_
+In case of any problems, dont hesitate to drop us a message in our `Discord <https://discord.com/channels/708008788505919599/708008788505919602>`_. or create an issue `at our github repo <https://github.com/cookiejar/cookietemple/issues/new/choose>`_
 
 FAQ
 ^^^^

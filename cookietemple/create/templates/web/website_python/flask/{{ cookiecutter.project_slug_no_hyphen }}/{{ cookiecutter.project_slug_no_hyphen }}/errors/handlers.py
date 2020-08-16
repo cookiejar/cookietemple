@@ -1,7 +1,7 @@
-from {{cookiecutter.project_slug}}.errors import bp
+from {{ cookiecutter.project_slug_no_hyphen }}.errors import bp
 from flask import render_template
 {% if cookiecutter.setup_type == 'advanced' -%}
-from {{cookiecutter.project_slug}}.config import db{% endif %}
+from {{ cookiecutter.project_slug_no_hyphen }}.config import db{% endif %}
 
 
 @bp.app_errorhandler(404)

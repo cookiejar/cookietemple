@@ -5,7 +5,7 @@
 import os
 from setuptools import setup, find_packages
 
-import {{cookiecutter.project_slug}} as module
+import {{ cookiecutter.project_slug_no_hyphen }} as module
 
 
 def walker(base, *paths):
@@ -62,11 +62,11 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
     ],
-    description="{{cookiecutter.project_slug}}. A best practice .",
+    description="{{ cookiecutter.project_short_description }}",
     {%- if 'no' not in cookiecutter.command_line_interface|lower %}
     entry_points={
         'console_scripts': [
-            '{{cookiecutter.project_slug}}={}.server:main'.format(module.__name__),
+            '{{ cookiecutter.project_slug_no_hyphen }}={}.server:main'.format(module.__name__),
         ],
     },
     {%- endif %}
@@ -76,9 +76,9 @@ setup(
     {%- endif %}
     long_description=readme + '\n\n',
     include_package_data=True,
-    keywords='{{cookiecutter.project_slug}}',
+    keywords='{{ cookiecutter.project_slug_no_hyphen }}',
     name='{{cookiecutter.project_slug}}',
-    packages=find_packages(include=['{{cookiecutter.project_slug}}', '{{cookiecutter.project_slug}}.*']),
+    packages=find_packages(include=['{{ cookiecutter.project_slug_no_hyphen }}', '{{ cookiecutter.project_slug_no_hyphen }}.*']),
     package_data={
         module.__name__: walker(
             os.path.dirname(module.__file__),

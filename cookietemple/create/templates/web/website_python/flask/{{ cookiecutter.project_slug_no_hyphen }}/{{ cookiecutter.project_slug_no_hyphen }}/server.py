@@ -2,7 +2,6 @@ import os
 import logging
 import click
 from contextlib import suppress
-
 from gevent.pywsgi import WSGIServer
 
 from .app import app

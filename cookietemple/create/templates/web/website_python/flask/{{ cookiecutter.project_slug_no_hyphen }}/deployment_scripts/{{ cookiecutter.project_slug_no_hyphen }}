@@ -1,6 +1,4 @@
 server {
-    server_name {{cookiecutter.url}} www.{{cookiecutter.url}};
-
     location / {
         include proxy_params;
         proxy_pass http://unix:/home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug}}/{{cookiecutter.project_slug}}.sock;
@@ -17,6 +15,6 @@ server {
     } # managed by Certbot
 
     listen 80;
-    server_name www.{{cookiecutter.url}} {{cookiecutter.url}};
+    server_name {{cookiecutter.url}} www.{{cookiecutter.url}};
     return 301 https://$host$request_uri;
 }

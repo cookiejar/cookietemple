@@ -1,7 +1,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from {{cookiecutter.project_slug}}.config import db
-from {{cookiecutter.project_slug}}.config import login
+from {{ cookiecutter.project_slug_no_hyphen }}.config import db
+from {{ cookiecutter.project_slug_no_hyphen }}.config import login
 
 
 class User(UserMixin, db.Model):
