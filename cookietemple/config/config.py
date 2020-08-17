@@ -35,7 +35,7 @@ class ConfigCommand:
         ConfigCommand.check_ct_config_dir_exists()
         full_name = cookietemple_questionary_or_dot_cookietemple(function='text', question='Full name', default='Homer Simpson')
         email = cookietemple_questionary_or_dot_cookietemple(function='text', question='Personal or work email', default='homer.simpson@example.com')
-        github_username = cookietemple_questionary_or_dot_cookietemple(function='text', question='Github username', default='homer.simpson@example.com')
+        github_username = cookietemple_questionary_or_dot_cookietemple(function='text', question='Github username', default='HomerGithub')
 
         # if the configs exist, just update them
         if os.path.exists(ConfigCommand.CONF_FILE_PATH):
