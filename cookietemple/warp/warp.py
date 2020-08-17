@@ -14,7 +14,7 @@ def warp_project(input_dir: str, exec: str, output: str) -> None:
     """
     Packages a JVM based project into a single executable using Warp (https://github.com/dgiagio/warp).
     Requires a JRE to be bundled with the project.
-    Warp is bundled with COOKIETEMPLE, does however require executable permissions to be set, which COOKIETEMPLE also prompts for
+    Warp is bundled with cookietemple, does however require executable permissions to be set, which cookietemple also prompts for
     """
     WARP_INFO_PATH = f'{WD}/warp_executables/warp_info.yml'
     WARP_LINUX_PATH = f'{WD}/warp_executables/linux-x64.warp-packer'
