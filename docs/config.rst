@@ -11,7 +11,8 @@ The configuration file is saved operating system dependent in the usual config f
 
 Invoke cookietemple config *via*
 
-.. code:: console
+.. code-block:: console
+    :linenos:
 
     $ cookietemple config <all/general/pat>
 

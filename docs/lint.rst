@@ -13,6 +13,7 @@ cookietemple linting
 cookietemple lint can be invoked on an existing project using
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple lint <OPTIONS> <PATH>
 
@@ -111,7 +112,7 @@ cli-python-1
 cli-python-2
 ~~~~~~~~~~~~~~~
 
-| PyPI dependency not up to date. The dependenecies specified in the requirements.txt and requirements_dev.txt are not up to date.
+| PyPI dependency not up to date. The dependencies specified in the requirements.txt and requirements_dev.txt are not up to date.
 | It is up to you whether you can and want to update them.
 
 cli-java

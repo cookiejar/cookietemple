@@ -32,6 +32,7 @@ Usage
 The :code:`bump-version` command follows the syntax
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple bump-version <OPTIONS> X.X.X <PATH>
 

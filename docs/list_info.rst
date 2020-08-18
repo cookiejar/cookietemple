@@ -13,6 +13,7 @@ list
 cookietemple list can be invoked *via*
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple list
 
@@ -35,6 +36,7 @@ info
 Invoke :code:`cookietemple info` *via*
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple info <HANDLE>
 

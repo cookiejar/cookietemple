@@ -15,6 +15,7 @@ The user also has the option to push his just created project directly to Github
 Invoke :code:`create` by running
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple create
 
@@ -29,6 +30,7 @@ Note that the long description is emitted and the :code:`info` command should be
 Invoke :code:`list` by running
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple list
 
@@ -42,6 +44,7 @@ It prints the name, handle, long description, available libraries and version of
 Invoke :code:`info` by running
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple info <HANDLE>
 
@@ -56,6 +59,7 @@ All results are collected and printed to the user. If any of the checks fail lin
 Invoke :code:`lint` by running
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple lint
 
@@ -70,6 +74,7 @@ All lines where the version was changed are printed to the console.
 Invoke :code:`bump-version` by running
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple bump-version <NEWVERSION> <PATH>
 
@@ -84,6 +89,7 @@ cookietemple mostly uses it to package JVM based projects, but it may also be us
 Invoke :code:`warp` by running
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple warp --input_dir <INPUTDIR> --exec <EXECUTABLE> --output <OUTPUT>
 
@@ -97,6 +103,7 @@ If so, a pull request with only the changes of the newer template version is cre
 Invoke :code:`sync` by running
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple sync
 
@@ -110,6 +117,7 @@ Moreover, it is required for cookietemple's Github support, since it takes care 
 Invoke :code:`config` by running
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple config <all/general/pat>
 
@@ -122,6 +130,7 @@ upgrade
 Invoke :code:`upgrade` by running
 
 .. code-block:: console
+    :linenos:
 
    $ cookietemple upgrade
 
@@ -133,6 +142,7 @@ External Python based projects
 To use cookietemple in an external Python based project
 
 .. code-block:: python
+    :linenos:
 
     import cookietemple
 

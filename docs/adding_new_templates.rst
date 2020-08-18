@@ -60,6 +60,7 @@ Hence, at this level we see ``cookietemple_cli.py`` and a folder per CLI command
 1. Let's add our brainfuck template information to ``/create/templates/available_templates.yml`` below the ``cli`` section.
 
 .. code-block::
+    :linenos:
 
     cli:
         brainfuck:
@@ -77,6 +78,7 @@ Hence, at this level we see ``cookietemple_cli.py`` and a folder per CLI command
     Furthermore, the ``cookiecutter.json`` file should have at least the following variables:
 
 .. code-block::
+    :linenos:
 
     {
     "full_name": "Homer Simpson",
@@ -91,6 +93,7 @@ Hence, at this level we see ``cookietemple_cli.py`` and a folder per CLI command
 The file tree of the template should resemble
 
 .. code-block::
+    :linenos:
 
     ├── cookiecutter.json
     └── {{ cookiecutter.project_slug }}
@@ -113,6 +116,7 @@ The file tree of the template should resemble
    | Assuming ``cli_creator.py`` already contains a ``cli-java`` template
 
 .. code-block:: python
+    :linenos:
 
     @dataclass
     class TemplateStructCli(CookietempleTemplateStruct):
@@ -206,6 +210,7 @@ The file tree of the template should resemble
    | However, in this case we can simply skip this step, since ``cli`` is already included.
 
 .. code-block::
+    :linenos:
 
     def choose_domain(domain: str):
         """
@@ -232,6 +237,7 @@ The file tree of the template should resemble
    | We need to add a new class, which inherits from TemplateLinter and add our linting functions to it.
 
 .. code-block:: python
+    :linenos:
 
     class CliBrainfuckLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
         def __init__(self, path):
@@ -277,6 +283,7 @@ The file tree of the template should resemble
 We need to ensure that our new linting function is found when linting is applied. Therefore, we turn our eyes to :code:`lint/lint.py`, import our CliBrainfuckLinter and add it to the switcher.
 
 .. code-block:: python
+    :linenos:
 
     from cookietemple.lint.domains.cli import CliBrainfuckLint
 
@@ -310,7 +317,8 @@ Our shiny new CliBrainfuckLinter is now ready for action!
 7. | The only thing left to do now is to add a new Github Actions workflow for our template. Let's go one level up in the folder tree and create :code:`.github/workflows/create_cli_brainfuck.yml`.
    | We want to ensure that if we change something in our template, that it still builds!
 
-.. code-block::
+.. code-block:: bash
+    :linenos:
 
     name: Create cli-brainfuck Template
 
@@ -350,7 +358,7 @@ Our shiny new CliBrainfuckLinter is now ready for action!
               brainfucky --file ExplodingSpringfield/hello.bf
 
 
-   We were pleasently surprised to see that someone already made a Github Action for brainfuck.
+    We were pleasently surprised to see that someone already made a Github Action for brainfuck.
 
 8. | Finally, we add some documentation to :code:`/docs/available_templates.rst` and explain the purpose, design and frameworks/libraries.
 

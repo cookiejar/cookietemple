@@ -11,6 +11,7 @@ Create a project
 The creation of a new project can be invoked by
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple create
 
@@ -22,6 +23,7 @@ The prompts follow the pattern of domain (e.g. cli, gui, ...), subdomain (if app
 It is also possible to directly create a specific template using its handle
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple create --handle <HANDLE>
 
