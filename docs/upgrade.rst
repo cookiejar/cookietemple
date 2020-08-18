@@ -7,7 +7,8 @@ Upgrade cookietemple
 Every time cookietemple is run it will automatically contact PyPI to check whether the locally installed version of cookietemple is the latest version available.
 If not
 
-.. code:: console
+.. code-block::
+    :linenos:
 
     $ cookietemple upgrade
 
