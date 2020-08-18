@@ -74,13 +74,13 @@ general-2
 general-3
 ~~~~~~~~~
 
-| TODO String found. The origin of this error are ``COOKIETEMPLE TODO`` strings in the respective files. Usually, they point to things that should be
+| TODO string found. The origin of this error are ``COOKIETEMPLE TODO`` strings in the respective files. Usually, they point to things that should be
   manually configured or require other attention. You may remove them if there is no task for you to be solved.
 
 general-4
 ~~~~~~~~~
 
-| Cookiecutter String found. This error occurs if something went wrong at the project creation stage. After a project has been created using cookietemple
+| Cookiecutter string found. This error occurs if something went wrong at the project creation stage. After a project has been created using cookietemple
   there should not be any jinja2 syntax statements left. Web development templates may pose exceptions. However, ``{{ *cookiecutter* }}`` statements
   should definitely not be present anymore.
 
