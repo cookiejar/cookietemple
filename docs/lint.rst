@@ -5,7 +5,7 @@ Linting your project
 =====================
 
 `Linting <https://en.wikipedia.org/wiki/Lint_(software)>`_ is the process of statically analyzing code to find code style violations and to detect errors.
-cookietemple implements a custom linting system, but depending on the template external tools linting tools may be additionally be called.
+cookietemple implements a custom linting system, but depending on the template external tools linting tools may additionally be called.
 
 cookietemple linting
 -----------------------
