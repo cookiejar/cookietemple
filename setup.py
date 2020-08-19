@@ -42,11 +42,11 @@ class OverrideInstall(install):
 def walker(base: str, *paths) -> list:
     """
     Used to fetch a list of files below a given directory.
-    They are to be packaged with COOKIETEMPLE
+    They are to be packaged with cookietemple
 
     :param base: Base directory to start from
     :param paths: Unpacked directories to return
-    :return: List of filenames, which are supposed to be packaged with COOKIETEMPLE
+    :return: List of filenames, which are supposed to be packaged with cookietemple
     """
     file_list = set([])
     cur_dir = os.path.abspath(os.curdir)

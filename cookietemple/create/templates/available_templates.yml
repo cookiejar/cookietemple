@@ -19,12 +19,14 @@ cli:
                         The package can be easily locally installed and distributed on PyPi.
 gui:
     java:
-        name: JavaFX GUI with Java
+        name: JavaFX Graphical User Interface
         handle: gui-java
-        version: 0.0.1
+        version: 1.0.0
         available libraries: JavaFX
-        short description: someShortDescription
-        long description: someLongDescription
+        short description: Native JavaFX based graphical user interface with Java.
+        long description: A graphical user interface build with JavaFX in Java.
+                        Cookietemple's warp allows for the packaging of the tool into single executables, which already include a JVM.
+                        The entire code is build with Maven and modularized for a strong separation of concerns.
 lib:
     cpp:
         name: C++ Library with CMake

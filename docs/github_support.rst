@@ -95,15 +95,12 @@ Some common error sources are:
 
 3. A repo with the same name already exists in your account/your organisation.
 
-A detailed error message may help you finding the issue.
-
 Creation fails, ok: But how can I then access the full features of cookietemple?
-You can try to fix the issue (or wait some time on case, for example, when Github is down) and then process to create a Github repo manually.
-After this, make sure to create a secret named :code:`CT_SYNC_TOKEN` for your repository. See `the Github docs <https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets>`_
-for info on how to create a secret.
+You can try to fix the issue (or wait some time on case, for example, when Github is down) and then process to create a Github repository manually.
+After this, make sure to create a secret named :code:`CT_SYNC_TOKEN` with the value of your PAT for your repository. See `the Github docs <https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets>`_
+for more information on how to create a secret.
 
-We're planning to provide a command like :code:`cookietemple fix_github` that tries to create a Github repo, set the secret and all other stuff that is going on during
-the Github repo creation in the create process in a later version.
+We're planning to provide a command like :code:`cookietemple fix_github` that tries to create a Github repo, set the secret and all other stuff that is going on during the Github repository creation in the create process in a later version.
 
 
 Issue labels

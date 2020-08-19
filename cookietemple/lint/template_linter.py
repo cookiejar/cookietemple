@@ -2,6 +2,8 @@ import io
 import os
 import re
 import configparser
+import sys
+
 import rich.progress
 import rich.markdown
 import rich.panel
@@ -134,9 +136,10 @@ class TemplateLinter(object):
 
         ]
 
-        # First - critical files. Check that this is actually a COOKIETEMPLE based project
+        # First - critical files. Check that this is actually a cookietemple based project
         if not os.path.isfile(pf(self, '.cookietemple.yml')):
-            raise AssertionError('.cookietemple.yml not found! Is this a COOKIETEMPLE project?')
+            print('[bold red] .cookietemple.yml not found! Is this a cookietemple project?')
+            sys.exit(1)
 
         files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists, is_subclass_calling)
 

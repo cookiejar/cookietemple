@@ -1,6 +1,9 @@
 import json
 import urllib
 import sys
+
+from pkg_resources import parse_version
+
 import cookietemple
 
 from urllib.error import HTTPError, URLError
@@ -48,10 +51,13 @@ class UpgradeCommand:
             # Returning true by default, since this is not a serious issue
             return True
 
-        if latest_local_version == latest_pypi_version:
+        if parse_version(latest_local_version) > parse_version(latest_pypi_version):
+            print(f'[bold yellow]Installed version {latest_local_version} of mlf-core is newer than the latest release {latest_pypi_version}!'
+                  f' You are running a nightly version and features may break!')
+        elif parse_version(latest_local_version) == parse_version(latest_pypi_version):
             return True
         else:
-            print(f'[bold red]Installed version {latest_local_version} of cookietemple is outdated. Newest version is {latest_pypi_version}!')
+            print(f'[bold red]Installed version {latest_local_version} of mlf-core is outdated. Newest version is {latest_pypi_version}!')
             return False
 
     @classmethod

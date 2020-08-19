@@ -5,7 +5,7 @@ Linting your project
 =====================
 
 `Linting <https://en.wikipedia.org/wiki/Lint_(software)>`_ is the process of statically analyzing code to find code style violations and to detect errors.
-cookietemple implements a custom linting system, but depending on the template external tools linting tools may be additionally be called.
+cookietemple implements a custom linting system, but depending on the template external tools linting tools may additionally be called.
 
 cookietemple linting
 -----------------------
@@ -13,6 +13,7 @@ cookietemple linting
 cookietemple lint can be invoked on an existing project using
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple lint <OPTIONS> <PATH>
 
@@ -74,13 +75,13 @@ general-2
 general-3
 ~~~~~~~~~
 
-| TODO String found. The origin of this error are ``COOKIETEMPLE TODO`` strings in the respective files. Usually, they point to things that should be
+| TODO string found. The origin of this error are ``COOKIETEMPLE TODO`` strings in the respective files. Usually, they point to things that should be
   manually configured or require other attention. You may remove them if there is no task for you to be solved.
 
 general-4
 ~~~~~~~~~
 
-| Cookiecutter String found. This error occurs if something went wrong at the project creation stage. After a project has been created using cookietemple
+| Cookiecutter string found. This error occurs if something went wrong at the project creation stage. After a project has been created using cookietemple
   there should not be any jinja2 syntax statements left. Web development templates may pose exceptions. However, ``{{ *cookiecutter* }}`` statements
   should definitely not be present anymore.
 
@@ -111,7 +112,7 @@ cli-python-1
 cli-python-2
 ~~~~~~~~~~~~~~~
 
-| PyPI dependency not up to date. The dependenecies specified in the requirements.txt and requirements_dev.txt are not up to date.
+| PyPI dependency not up to date. The dependencies specified in the requirements.txt and requirements_dev.txt are not up to date.
 | It is up to you whether you can and want to update them.
 
 cli-java

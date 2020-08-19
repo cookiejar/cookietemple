@@ -214,7 +214,6 @@ class TemplateCreator:
             else:
                 break
         self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_')
-        # Should only be required for python projects
         self.creator_ctx.project_slug_no_hyphen = self.creator_ctx.project_slug.replace('-', '_')
         self.creator_ctx.project_short_description = cookietemple_questionary_or_dot_cookietemple(function='text',
                                                                                                   question='Short description of your project',
