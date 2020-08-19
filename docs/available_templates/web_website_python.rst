@@ -330,6 +330,11 @@ necessary, if you start your application via :bash:`$ flask run`.
 Automatic Deployment
 ^^^^^^^^^^^^^^^^^^^^
 
+
+**IMPORTANT:** Note that the following is written for a server running Ubuntu 18.04 LTS where Python2 is still the default. If you are using Ubuntu 20 (or similar), you can replace
+:bash:`pip3` with :bash:`pip` and :bash:`python3` with :bash:`python`.
+
+
 Both templates are ready for deployment using nginx and gunicorn and are therefore shipped with a setup script :bash:`path/to/your/project/deployment_scripts/setup.sh`.
 There are a few requirements needed in order to deploy:
 
