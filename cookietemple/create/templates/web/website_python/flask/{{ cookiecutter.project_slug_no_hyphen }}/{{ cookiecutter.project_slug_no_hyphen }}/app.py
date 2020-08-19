@@ -26,22 +26,22 @@ with app.app_context():
 
 config_mail(app){% endif %}
 
-from {{cookiecutter.project_slug}}.errors import bp as errors_bp  # noqa: E402
+from {{ cookiecutter.project_slug_no_hyphen }}.errors import bp as errors_bp  # noqa: E402
 
 app.register_blueprint(errors_bp)
 
 {% if cookiecutter.setup_type == 'basic' -%}
-from {{cookiecutter.project_slug}}.basic import bp as basic_bp  # noqa: E402
+from {{ cookiecutter.project_slug_no_hyphen }}.basic import bp as basic_bp  # noqa: E402
 
 app.register_blueprint(basic_bp)
 {% endif %}
 
 {% if cookiecutter.setup_type == 'advanced' -%}
-from {{cookiecutter.project_slug}}.auth import bp as auth_bp  # noqa: E402
+from {{ cookiecutter.project_slug_no_hyphen }}.auth import bp as auth_bp  # noqa: E402
 
 app.register_blueprint(auth_bp, url_prefix='/auth')
 
-from {{cookiecutter.project_slug}}.main import bp as main_bp  # noqa: E402
+from {{ cookiecutter.project_slug_no_hyphen }}.main import bp as main_bp  # noqa: E402
 
 app.register_blueprint(main_bp)
 
@@ -58,7 +58,7 @@ def init(lang):
     """Initialize a new language"""
     if os.system('pybabel extract -F babel.cfg -o messages.pot .'):
         raise RuntimeError('extract command failed')
-    if os.system('pybabel init -i messages.pot -d {{cookiecutter.project_slug}}/translations -l ' + lang):
+    if os.system('pybabel init -i messages.pot -d {{ cookiecutter.project_slug_no_hyphen }}/translations -l ' + lang):
         raise RuntimeError('init command failed')
     os.remove('messages.pot')
 
@@ -69,7 +69,7 @@ def update():
 
     if os.system('pybabel extract -F babel.cfg -o messages.pot .'):
         raise RuntimeError('extract command failed')
-    if os.system('pybabel update -i messages.pot -d {{cookiecutter.project_slug}}/translations'):
+    if os.system('pybabel update -i messages.pot -d {{ cookiecutter.project_slug_no_hyphen }}/translations'):
         raise RuntimeError('update command failed')
     os.remove('messages.pot')
 
@@ -78,7 +78,7 @@ def update():
 def compile():
     """Compile all languages"""
 
-    if os.system('pybabel compile -d {{cookiecutter.project_slug}}/translations'):
+    if os.system('pybabel compile -d {{ cookiecutter.project_slug_no_hyphen }}/translations'):
         raise RuntimeError('compile command failed')
 
 

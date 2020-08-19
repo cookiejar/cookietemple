@@ -33,8 +33,8 @@ lib:
         handle: lib-cpp
         version: 1.0.0
         available libraries: None
-        short description: A quick C++ template for modern CMake projects, aimed to be an easy to use starting point.
-        long description: 'A template for modern C++ projects - both executables and libraries - using CMake, Clang-Format, CI, unit testing and more, with support for downstream inclusion.'
+        short description: A quick C++ template for modern CMake projects, aimed to be an easy to use starting point. 
+        long description: A template for modern C++ projects - both executables and libraries - using CMake, Clang-Format, CI, unit testing and more, with support for downstream inclusion.
 pub:
     thesis:
         latex:
@@ -50,7 +50,9 @@ web:
         python:
             name: Python Based Website
             handle: web-website-python
-            version: 0.0.1
-            available libraries: flask
-            short description: someShortDescription
-            long description: someLongDescription
+            version: 1.0.0
+            available libraries: Flask
+            short description: A Flask based template to start your website/application project.
+            long description: This template provides two versions of the template. One can choose from a basic version with minimal backend/frontend setup or a more complex version
+                with basic database support (using sqlite), working translation (using flask babel) and a working user registration and login system. Both template version can also include
+                various frontend templates and are shipped with a script for quick deployment on a server running a LinuxOS.

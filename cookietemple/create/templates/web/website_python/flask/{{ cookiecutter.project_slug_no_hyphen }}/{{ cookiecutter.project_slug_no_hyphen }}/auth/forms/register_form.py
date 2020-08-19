@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_babel import _
-from {{cookiecutter.project_slug}}.models.users import User
+from {{ cookiecutter.project_slug_no_hyphen }}.models.users import User
 
 
 class RegistrationForm(FlaskForm):

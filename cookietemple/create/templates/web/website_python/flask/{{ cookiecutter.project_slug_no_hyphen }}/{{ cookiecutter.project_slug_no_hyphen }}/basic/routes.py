@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for
 
-from {{cookiecutter.project_slug}}.basic import bp
+from {{ cookiecutter.project_slug_no_hyphen }}.basic import bp
 
 
 @bp.route('/')

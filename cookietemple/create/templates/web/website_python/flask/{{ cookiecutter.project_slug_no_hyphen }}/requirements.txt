@@ -1,8 +1,6 @@
-{% if cookiecutter.command_line_interface|lower == 'click' %}
-Click==7.1.2
-{%- endif %}
+{% if cookiecutter.command_line_interface|lower == 'click' %}Click==7.1.2{%- endif %}
 Flask==1.1.2
-gevent==1.4.0
+gevent==20.6.2
 {% if cookiecutter.setup_type == 'advanced' -%}
 Flask-Babel==1.0.0
 Flask-Mail==0.9.1

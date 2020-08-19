@@ -3,7 +3,7 @@
 """Tests for `{{cookiecutter.project_slug}}` package."""
 import pytest
 from flask import Flask
-from {{cookiecutter.project_slug}}.config import Config
+from {{ cookiecutter.project_slug_no_hyphen }}.config import Config
 {% if cookiecutter.setup_type == 'advanced' -%}
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
