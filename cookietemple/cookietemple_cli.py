@@ -248,9 +248,10 @@ def warp(input_dir: str, exec: str, output: str) -> None:
 
 
 @cookietemple_cli.command(short_help='Configure your general settings and github credentials.', cls=CustomHelpSubcommand)
+@click.option('--view', '-v', is_flag=True, help='View the current cookietemple configuration.')
 @click.argument('section', type=str, required=False, helpmsg='Section to configure (all, general or pat)', cls=CustomArg)
 @click.pass_context
-def config(ctx, section: str) -> None:
+def config(ctx, view: bool, section: str) -> None:
     """
     Configure your general settings and Github credentials for reuse.
     Available options (sections) are:
@@ -260,6 +261,9 @@ def config(ctx, section: str) -> None:
     - pat: set your Github personal access token for Github repository creation
     - all: calls general and pat
     """
+    if view:
+        ConfigCommand.view_current_config()
+        sys.exit(0)
     if section == 'general':
         # set the full_name and email for reuse in the creation process
         ConfigCommand.config_general_settings()
