@@ -7,7 +7,6 @@ import sys
 from configparser import ConfigParser, NoSectionError
 from distutils.dir_util import copy_tree
 from subprocess import Popen, PIPE
-
 import git
 import json
 import os
@@ -18,10 +17,12 @@ from pathlib import Path
 from packaging import version
 from rich import print
 
-from cookietemple.create.github_support import decrypt_pat, load_github_username
+from cookietemple.create.github_support import decrypt_pat, load_github_username, create_sync_secret
 from cookietemple.common.load_yaml import load_yaml_file
 from cookietemple.create.create import choose_domain
 from cookietemple.common.version import load_project_template_version_and_handle, load_ct_template_version
+from cookietemple.config.config import ConfigCommand
+from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 
 
 class TemplateSync:
@@ -334,6 +335,20 @@ class TemplateSync:
         except git.exc.GitCommandError as e:
             print(f'[bold red]Could not reset to original branch {self.from_branch}:\n{e}')
             sys.exit(1)
+
+    @staticmethod
+    def update_sync_token(project_name: str, gh_username=load_yaml_file(ConfigCommand.CONF_FILE_PATH)['github_username']) -> None:
+        """
+        Update the sync token secret for the repository.
+
+        :param project_name Name of the users project
+        :param gh_username The Github username (only gets passed, if the repo is an orga repo)
+        """
+        # get the personal access token for user authentification
+        updated_sync_token = cookietemple_questionary_or_dot_cookietemple('password', 'Please enter your updated sync token value')
+        print(f'[bold blue]\nUpdating sync secret for project {project_name}.')
+        create_sync_secret(gh_username, project_name, updated_sync_token)
+        print(f'[bold blue]\nSuccessfully updated sync secret for project {project_name}.')
 
     def has_template_version_changed(self, project_dir: Path) -> (bool, bool, bool, str, str):
         """

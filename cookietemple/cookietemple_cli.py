@@ -21,6 +21,7 @@ from cookietemple.custom_cli.click import HelpErrorHandling, print_project_versi
 from cookietemple.config.config import ConfigCommand
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.sync.sync import TemplateSync
+from cookietemple.common.load_yaml import load_yaml_file
 
 WD = os.path.dirname(__file__)
 
@@ -122,19 +123,38 @@ def info(ctx, handle: str) -> None:
 @cookietemple_cli.command(short_help='Sync your project with the latest template release.', cls=CustomHelpSubcommand)
 @click.argument('project_dir', type=str, default=Path(f'{Path.cwd()}'), helpmsg='The projects top level directory you would like to sync. Default is current '
                                                                                 'working directory.', cls=CustomArg)
+@click.option('--set_token', '-st', is_flag=True, help='Set sync token to a new personal access token of the current repo owner.')
 @click.argument('pat', type=str, required=False, helpmsg='Personal access token. Not needed for manual, local syncing!', cls=CustomArg)
 @click.argument('username', type=str, required=False, helpmsg='Github username. Not needed for manual, local syncing!', cls=CustomArg)
 @click.option('--check_update', '-ch', is_flag=True, help='Check whether a new template version is available for your project.')
-def sync(project_dir, pat, username, check_update) -> None:
+def sync(project_dir, set_token, pat, username, check_update) -> None:
     """
     Sync your project with the latest template release.
 
     cookietemple regularly updates its templates.
-    To ensure that you have the latest changes you can invoke sync, which submits a pull request to your Github repository (if existing) or, in case of a minor
-    change, create an issue in your Github repository (if exists).
+    To ensure that you have the latest changes you can invoke sync, which submits a pull request to your Github repository (if existing).
     If no repository exists the TEMPLATE branch will be updated and you can merge manually.
     """
     project_dir_path = Path(f'{Path.cwd()}/{project_dir}') if not str(project_dir).startswith(str(Path.cwd())) else Path(project_dir)
+    # if set_token flag is set, update the sync token value and exit
+    if set_token:
+        try:
+            project_data = load_yaml_file(f'{project_dir}/.cookietemple.yml')
+            # if project is an orga repo, pass orga name as username
+            if project_data['is_github_repo'] and project_data['is_github_orga']:
+                TemplateSync.update_sync_token(project_name=project_data['project_slug'], gh_username=project_data['github_orga'])
+            # if not, use default username
+            elif project_data['is_github_repo']:
+                TemplateSync.update_sync_token(project_name=project_data['project_slug'])
+            else:
+                print('[bold red]Your current project does not seem to have a Github repository!')
+                sys.exit(1)
+        except (FileNotFoundError, KeyError):
+            print(f'[bold red]Your token value is not a valid personal access token for your account or there exists no .cookietemple.yml file at '
+                  f'{project_dir_path}. Is this a cookietemple project?')
+            sys.exit(1)
+        sys.exit(0)
+
     syncer = TemplateSync(project_dir=project_dir_path, gh_username=username, token=pat)
     # check for template version updates
     major_change, minor_change, patch_change, ct_template_version, proj_template_version = syncer.has_template_version_changed(project_dir_path)
