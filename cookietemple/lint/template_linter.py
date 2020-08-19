@@ -422,7 +422,7 @@ class ChangelogLinter:
         for line in self.changelog_content:
             # lint the header until we found a section header
             if self.match_section_header(line):
-                if self.changelog_content[self.line_counter + 1] == f'{"-" * (len(line) - 1)}\n':
+                if self.changelog_content[self.line_counter + 1] >= f'{"-" * (len(line) - 1)}\n':
                     return self.header_offset, header_detected, True
                 else:
                     """
@@ -513,7 +513,7 @@ class ChangelogLinter:
                 last_version = current_section_version
 
             # check if ever section subheader is underlined correctly
-            if not section[0] == f'{"-" * (len(versions[section_nr]) - 1)}\n':
+            if not section[0] >= f'{"-" * (len(versions[section_nr]) - 1)}\n':
                 self.main_linter.failed.append(('general-6', 'Your sections subheader underline does not match the headers length!'))
                 return False
             try:
