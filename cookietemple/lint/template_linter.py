@@ -197,12 +197,15 @@ class TemplateLinter(object):
             for fname in files:
                 with io.open(os.path.join(root, fname), 'rt', encoding='latin1') as file:
                     for line in file:
-                        if 'TODO COOKIETEMPLE:' in line:
+                        if any(todostring in line for todostring in ['TODO COOKIETEMPLE:', 'COOKIETEMPLE TODO:']):
                             line = line.replace('<!--', '') \
                                 .replace('-->', '') \
                                 .replace('# TODO COOKIETEMPLE: ', '') \
                                 .replace('// TODO COOKIETEMPLE: ', '') \
-                                .replace('TODO COOKIETEMPLE: ', '').strip()
+                                .replace('TODO COOKIETEMPLE: ', '').replace('# COOKIETEMPLE TODO: ', '') \
+                                .replace('// COOKIETEMPLE TODO: ', '') \
+                                .replace('COOKIETEMPLE TODO: ', '')\
+                                .strip()
                             self.warned.append(('general-3', f'TODO string found in {self._wrap_quotes(fname)}: {line}'))
 
     def check_no_cookiecutter_strings(self) -> None:

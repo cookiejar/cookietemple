@@ -75,7 +75,7 @@ general-2
 general-3
 ~~~~~~~~~
 
-| TODO string found. The origin of this error are ``COOKIETEMPLE TODO`` strings in the respective files. Usually, they point to things that should be
+| TODO string found. The origin of this error are ``COOKIETEMPLE TODO`` or ``TODO COOKIETEMPLE``strings in the respective files. Usually, they point to things that should be
   manually configured or require other attention. You may remove them if there is no task for you to be solved.
 
 general-4
