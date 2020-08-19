@@ -21,10 +21,10 @@ jobs:
 
         - uses: oleksiyrudenko/gha-git-credentials@v1
           with:
-               name: '{{ cookiecutter.github_username }}'
+               name: '{{ cookiecutter.creator_github_username }}'
                email: '{{ cookiecutter.email }}'
-               actor: '{{ cookiecutter.github_username }}'
+               actor: '{{ cookiecutter.creator_github_username }}'
                token: '{% raw %}${{ secrets.CT_SYNC_TOKEN}}{% endraw %}'
 
         - name: Sync project
-          run: cookietemple sync . {% raw %}${{ secrets.CT_SYNC_TOKEN  }}{% endraw %} {% raw %}${{ github.repository_owner }}{% endraw %}
+          run: cookietemple sync . {% raw %}${{ secrets.CT_SYNC_TOKEN  }}{% endraw %} {{ cookiecutter.creator_github_username }}

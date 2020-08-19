@@ -31,7 +31,6 @@ class TemplateSync:
 
     project_dir (str): The path to the cookietemple project root directory
     from_branch (str): Original branch
-    gh_username (str): GitHub username
     project_dir (str): Path to target project directory
     from_branch (str): Original branch
     original_branch (str): Repo branch that was checked out before we started.
@@ -40,6 +39,7 @@ class TemplateSync:
     patch_update (bool): Whether a patch update was found for the template or not
     minor_update (bool): Whether a minor update was found for the template or not
     major_update (bool): Whether a major update was found for the template or not
+    repo_owner (str): Owner of the repo (either orga name or personal github username)
     """
 
     def __init__(self, project_dir, from_branch=None, gh_username=None, token=None, major_update=False, minor_update=False, patch_update=False):
@@ -54,6 +54,7 @@ class TemplateSync:
         self.gh_username = gh_username if gh_username else load_github_username()
         self.token = token if token else decrypt_pat()
         self.dot_cookietemple = {}
+        self.repo_owner = self.gh_username
 
     def sync(self):
         """
@@ -211,7 +212,7 @@ class TemplateSync:
         Create a pull request to a base branch from a head branch (default: TEMPLATE)
         """
         if self.dot_cookietemple['is_github_orga']:
-            self.gh_username = self.dot_cookietemple['github_orga']
+            self.repo_owner = self.dot_cookietemple['github_orga']
         pr_title = 'Important! Template update for your cookietemple project\'s template.'
         pr_body_text = (
             'A new release of the main template in cookietemple has just been released. '
@@ -238,7 +239,7 @@ class TemplateSync:
         }
 
         r = requests.post(
-            url=f'https://api.github.com/repos/{self.gh_username}/{self.dot_cookietemple["project_slug"]}/pulls',
+            url=f'https://api.github.com/repos/{self.repo_owner}/{self.dot_cookietemple["project_slug"]}/pulls',
             data=json.dumps(pr_content),
             auth=requests.auth.HTTPBasicAuth(self.gh_username, self.token),
         )
@@ -265,7 +266,7 @@ class TemplateSync:
         :return Whether a cookietemple sync PR is already open or not
         """
         state = {'state': 'open'}
-        query_url = f'https://api.github.com/repos/{self.gh_username}/{self.dot_cookietemple["project_slug"]}/pulls'
+        query_url = f'https://api.github.com/repos/{self.repo_owner}/{self.dot_cookietemple["project_slug"]}/pulls'
         headers = {'Authorization': f'token {self.token}'}
         # query all open PRs
         r = requests.get(query_url, headers=headers, data=json.dumps(state))
