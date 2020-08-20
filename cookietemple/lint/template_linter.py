@@ -197,12 +197,15 @@ class TemplateLinter(object):
             for fname in files:
                 with io.open(os.path.join(root, fname), 'rt', encoding='latin1') as file:
                     for line in file:
-                        if 'TODO COOKIETEMPLE:' in line:
+                        if any(todostring in line for todostring in ['TODO COOKIETEMPLE:', 'COOKIETEMPLE TODO:']):
                             line = line.replace('<!--', '') \
                                 .replace('-->', '') \
                                 .replace('# TODO COOKIETEMPLE: ', '') \
                                 .replace('// TODO COOKIETEMPLE: ', '') \
-                                .replace('TODO COOKIETEMPLE: ', '').strip()
+                                .replace('TODO COOKIETEMPLE: ', '').replace('# COOKIETEMPLE TODO: ', '') \
+                                .replace('// COOKIETEMPLE TODO: ', '') \
+                                .replace('COOKIETEMPLE TODO: ', '')\
+                                .strip()
                             self.warned.append(('general-3', f'TODO string found in {self._wrap_quotes(fname)}: {line}'))
 
     def check_no_cookiecutter_strings(self) -> None:
@@ -422,7 +425,7 @@ class ChangelogLinter:
         for line in self.changelog_content:
             # lint the header until we found a section header
             if self.match_section_header(line):
-                if self.changelog_content[self.line_counter + 1] == f'{"-" * (len(line) - 1)}\n':
+                if self.changelog_content[self.line_counter + 1] >= f'{"-" * (len(line) - 1)}\n':
                     return self.header_offset, header_detected, True
                 else:
                     """
@@ -513,7 +516,7 @@ class ChangelogLinter:
                 last_version = current_section_version
 
             # check if ever section subheader is underlined correctly
-            if not section[0] == f'{"-" * (len(versions[section_nr]) - 1)}\n':
+            if not section[0] >= f'{"-" * (len(versions[section_nr]) - 1)}\n':
                 self.main_linter.failed.append(('general-6', 'Your sections subheader underline does not match the headers length!'))
                 return False
             try:

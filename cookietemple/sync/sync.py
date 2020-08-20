@@ -7,7 +7,6 @@ import sys
 from configparser import ConfigParser, NoSectionError
 from distutils.dir_util import copy_tree
 from subprocess import Popen, PIPE
-
 import git
 import json
 import os
@@ -18,10 +17,12 @@ from pathlib import Path
 from packaging import version
 from rich import print
 
-from cookietemple.create.github_support import decrypt_pat, load_github_username
+from cookietemple.create.github_support import decrypt_pat, load_github_username, create_sync_secret
 from cookietemple.common.load_yaml import load_yaml_file
 from cookietemple.create.create import choose_domain
 from cookietemple.common.version import load_project_template_version_and_handle, load_ct_template_version
+from cookietemple.config.config import ConfigCommand
+from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 
 
 class TemplateSync:
@@ -30,7 +31,6 @@ class TemplateSync:
 
     project_dir (str): The path to the cookietemple project root directory
     from_branch (str): Original branch
-    gh_username (str): GitHub username
     project_dir (str): Path to target project directory
     from_branch (str): Original branch
     original_branch (str): Repo branch that was checked out before we started.
@@ -39,9 +39,10 @@ class TemplateSync:
     patch_update (bool): Whether a patch update was found for the template or not
     minor_update (bool): Whether a minor update was found for the template or not
     major_update (bool): Whether a major update was found for the template or not
+    repo_owner (str): Owner of the repo (either orga name or personal github username)
     """
 
-    def __init__(self, project_dir, from_branch=None, gh_username=None, token=None, major_update=False, minor_update=False, patch_update=False):
+    def __init__(self, project_dir, new_template_version, from_branch=None, gh_username=None, token=None, major_update=False, minor_update=False, patch_update=False):
         self.project_dir = os.path.abspath(project_dir)
         self.from_branch = from_branch
         self.original_branch = None
@@ -53,6 +54,8 @@ class TemplateSync:
         self.gh_username = gh_username if gh_username else load_github_username()
         self.token = token if token else decrypt_pat()
         self.dot_cookietemple = {}
+        self.repo_owner = self.gh_username
+        self.new_template_version = new_template_version
 
     def sync(self):
         """
@@ -210,13 +213,14 @@ class TemplateSync:
         Create a pull request to a base branch from a head branch (default: TEMPLATE)
         """
         if self.dot_cookietemple['is_github_orga']:
-            self.gh_username = self.dot_cookietemple['github_orga']
-        pr_title = 'Important! Template update for your cookietemple project\'s template.'
+            self.repo_owner = self.dot_cookietemple['github_orga']
+        pr_title = f'Important cookietemple template update {self.new_template_version} released!'
         pr_body_text = (
             'A new release of the main template in cookietemple has just been released. '
             'This automated pull-request attempts to apply the relevant updates to this Project.\n\n'
             'Please make sure to merge this pull-request as soon as possible. '
-            'Once complete, make a new minor release of your Project.')
+            'Once complete, make a new minor release of your Project.\n\n'
+            'For more information on the actual changes, read the latest cookietemple CHANGELOG.')
 
         # Only create PR if it does not already exist
         if not self.check_pull_request_exists():
@@ -237,7 +241,7 @@ class TemplateSync:
         }
 
         r = requests.post(
-            url=f'https://api.github.com/repos/{self.gh_username}/{self.dot_cookietemple["project_slug"]}/pulls',
+            url=f'https://api.github.com/repos/{self.repo_owner}/{self.dot_cookietemple["project_slug"]}/pulls',
             data=json.dumps(pr_content),
             auth=requests.auth.HTTPBasicAuth(self.gh_username, self.token),
         )
@@ -264,14 +268,14 @@ class TemplateSync:
         :return Whether a cookietemple sync PR is already open or not
         """
         state = {'state': 'open'}
-        query_url = f'https://api.github.com/repos/{self.gh_username}/{self.dot_cookietemple["project_slug"]}/pulls'
+        query_url = f'https://api.github.com/repos/{self.repo_owner}/{self.dot_cookietemple["project_slug"]}/pulls'
         headers = {'Authorization': f'token {self.token}'}
         # query all open PRs
         r = requests.get(query_url, headers=headers, data=json.dumps(state))
         query_data = r.json()
         # iterate over the open PRs of the repo to check if a cookietemple sync PR is open
         for pull_request in query_data:
-            if pull_request['title'] == 'Important! Template update for your cookietemple project\'s template.':
+            if 'Important cookietemple template update' in pull_request['title']:
                 return True
         return False
 
@@ -334,6 +338,21 @@ class TemplateSync:
         except git.exc.GitCommandError as e:
             print(f'[bold red]Could not reset to original branch {self.from_branch}:\n{e}')
             sys.exit(1)
+
+    @staticmethod
+    def update_sync_token(project_name: str, gh_username='') -> None:
+        """
+        Update the sync token secret for the repository.
+
+        :param project_name Name of the users project
+        :param gh_username The Github username (only gets passed, if the repo is an orga repo)
+        """
+        gh_username = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['github_username'] if not gh_username else gh_username
+        # get the personal access token for user authentification
+        updated_sync_token = cookietemple_questionary_or_dot_cookietemple('password', 'Please enter your updated sync token value')
+        print(f'[bold blue]\nUpdating sync secret for project {project_name}.')
+        create_sync_secret(gh_username, project_name, updated_sync_token)
+        print(f'[bold blue]\nSuccessfully updated sync secret for project {project_name}.')
 
     def has_template_version_changed(self, project_dir: Path) -> (bool, bool, bool, str, str):
         """

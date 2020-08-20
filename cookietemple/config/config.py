@@ -4,10 +4,15 @@ import appdirs
 from pathlib import Path
 from cryptography.fernet import Fernet
 from ruamel.yaml import YAML
+from rich.box import HEAVY_HEAD
+from rich.style import Style
 from rich import print
+from rich.table import Table
+from rich.console import Console
 
 from cookietemple.common.levensthein_dist import most_similar_command
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
+from cookietemple.common.load_yaml import load_yaml_file
 
 
 class ConfigCommand:
@@ -105,6 +110,32 @@ class ConfigCommand:
             settings = yaml.load(path)
             settings['pat'] = encrypted_pat
             yaml.dump(settings, Path(ConfigCommand.CONF_FILE_PATH))
+
+    @staticmethod
+    def view_current_config() -> None:
+        """
+        Print the current users cookietemple configuration.
+        """
+        # load current settings
+        settings = load_yaml_file(ConfigCommand.CONF_FILE_PATH)
+
+        # create the table and print
+        table = Table(title="[bold]Your current configuration", title_style="blue", header_style=Style(color="blue", bold=True), box=HEAVY_HEAD)
+        table.add_column('Name', style='green')
+        table.add_column('Value', style='green')
+        # add rows to the table consisting of the name and value of the current setting
+        for (name, value) in settings.items():
+            # don't print token directly, just inform it's set
+            if name == 'pat':
+                table.add_row(f'[bold]Personal access token', 'TOKEN_IS_SET')
+            else:
+                table.add_row(f'[bold]{name.capitalize().replace("_", " ")}', f'[white]{value}')
+        # don't print PAT directly but inform if not set
+        if 'pat' not in settings.keys():
+            table.add_row(f'[bold]Personal access token', '[red]NO_TOKEN_SET')
+
+        console = Console()
+        console.print(table)
 
     @staticmethod
     def similar_handle(section: str) -> None:
