@@ -345,12 +345,11 @@ There are a few requirements needed in order to deploy:
 
 If you meet all the requirements above login (for example via :bash:`$ ssh yourvmusername@your-servers-IP`) into your server:
 In order to run the setup script a few more steps are required (Cloning your project and setting up a virtual environment):
+
  1. Install pip3 and the python3-dev dependencies using :bash:`$ sudo apt-get install python3-pip3 python3-dev nginx -y`
- 2. Clone your GitHub repository using:
-    :bash:`$ git clone https://github.com/<you_github_username>/<your_project_name>`
+ 2. Clone your GitHub repository using :bash:`$ git clone https://github.com/<you_github_username>/<your_project_name>`
  3. Next cd into it via :bash:`$ cd <your_project_name>`
- 4. Then, we need to install and create a virtualenv
-    :bash:`$ sudo pip3 install virtualenv` (note the sudo here!).
+ 4. Then, we need to install and create a virtualenv :bash:`$ sudo pip3 install virtualenv` (note the sudo here!).
  5. Create a virtualenv named :bash:`dpenv` using :bash:`$ virtualenv dpenv`. You must name your environment like this! Also, make sure your current working directory is your project's top level directory!
  6. Activate the virtualenv with :bash:`$ source dpenv/bin/activate`
 

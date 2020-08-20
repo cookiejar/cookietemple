@@ -42,7 +42,7 @@ class TemplateSync:
     repo_owner (str): Owner of the repo (either orga name or personal github username)
     """
 
-    def __init__(self, project_dir, from_branch=None, gh_username=None, token=None, major_update=False, minor_update=False, patch_update=False):
+    def __init__(self, project_dir, new_template_version, from_branch=None, gh_username=None, token=None, major_update=False, minor_update=False, patch_update=False):
         self.project_dir = os.path.abspath(project_dir)
         self.from_branch = from_branch
         self.original_branch = None
@@ -55,6 +55,7 @@ class TemplateSync:
         self.token = token if token else decrypt_pat()
         self.dot_cookietemple = {}
         self.repo_owner = self.gh_username
+        self.new_template_version = new_template_version
 
     def sync(self):
         """
@@ -213,12 +214,13 @@ class TemplateSync:
         """
         if self.dot_cookietemple['is_github_orga']:
             self.repo_owner = self.dot_cookietemple['github_orga']
-        pr_title = 'Important! Template update for your cookietemple project\'s template.'
+        pr_title = f'Important cookietemple template update {self.new_template_version} released!'
         pr_body_text = (
             'A new release of the main template in cookietemple has just been released. '
             'This automated pull-request attempts to apply the relevant updates to this Project.\n\n'
             'Please make sure to merge this pull-request as soon as possible. '
-            'Once complete, make a new minor release of your Project.')
+            'Once complete, make a new minor release of your Project.\n\n'
+            'For more information on the actual changes, read the latest cookietemple CHANGELOG.')
 
         # Only create PR if it does not already exist
         if not self.check_pull_request_exists():
@@ -273,7 +275,7 @@ class TemplateSync:
         query_data = r.json()
         # iterate over the open PRs of the repo to check if a cookietemple sync PR is open
         for pull_request in query_data:
-            if pull_request['title'] == 'Important! Template update for your cookietemple project\'s template.':
+            if 'Important cookietemple template update' in pull_request['title']:
                 return True
         return False
 
