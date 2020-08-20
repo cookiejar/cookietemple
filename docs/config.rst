@@ -16,6 +16,13 @@ Invoke cookietemple config *via*
 
     $ cookietemple config <all/general/pat>
 
+Check your current configuration
+--------------------------------
+
+If you want to see your current configuration (in case of an update for example), you can use ``cookietemple config --view``.
+This will output your current cookietemple configuration. Note that this will only inform you whether your personal access token (PAT) is set or not. It won't actually
+print its value!
+
 cookietemple config all
 ------------------------
 
@@ -34,8 +41,7 @@ cookietemple's Github support requires access to your Github repositories to cre
 Github manages these access rights through Personal Access Tokens (PAT).
 If you are using cookietemple's Github support for the first time :code:`cookietemple config pat` will be run and you will be prompted for your Github PAT.
 Please refer to the `official documentation <https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line>`_ on how to create one.
-cookietemple only requires ``repo`` access, so you only need to tick this box. However, if you want to use cookietemple's sync feature on organisation repositories,
-you also need to tick :code:`admin:org`. This ensures that your PAT would not even allow for the deletion of repositories.
+cookietemple only requires ``repo`` access, so you only need to tick this box. This ensures that your PAT would not even allow for the deletion of repositories.
 cookietemple then encrypts the Personal Access Token, adds the encrypted token to the :code:`cookietemple_conf.cfg` file (OS dependent stored) and saves the key locally in a hidden place.
 This is safer than Github's official way, which recommends the usage of environment variables or Github Credentials, which both save the token in plaintext.
 It is still strongly adviced to secure your personal computer and not allow any foe to get access.
