@@ -77,7 +77,7 @@ Next, ``sync`` provides two flags: ``$ cookietemple sync [PROJECT_DIR] --set_tok
 to sync your project (especially when syncing with the workflow). This could be useful, for example, when the ownership of a repo had changed.
 
 The ``--check_update`` flag, called via ``$ cookietemple sync [PROJECT_DIR] --check_update``, can be used for manually checking whether a new version for your template has been released by cookietemple.
-Note that when you call ``$ cookietemple sync [PROJECT_DIR]`` cookietemple also runs this check, but then process with syncing rather than exiting.
+Note that when you call ``$ cookietemple sync [PROJECT_DIR]`` cookietemple also runs this check, but then proceeds with syncing rather than exiting.
 
 What happens when my project gets synced?
 -------------------------------------------
@@ -86,6 +86,6 @@ This way, cookietemple checks whether a new version has been released or not, an
 current working branch.
 
 The other way would be via the ``sync_project.yml`` workflow. This workflow triggers on push everytime you push changes to your repository. You can safely modify this behaviour to only trigger
-this workflow for example when a PR is created. The result is the same like above but you don't need to remember to run sync manually on a regulary basis.
+this workflow for example when a PR is created. The result is the same like above but you don't need to remember to run sync manually on a regular basis.
 
 Note that the PR is currently automatically created by the one who initially created/owns this repository.
