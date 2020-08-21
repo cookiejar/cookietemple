@@ -13,7 +13,7 @@ class CookietempleTemplateStruct:
     project_slug_no_hyphen: str = ''  # Required for some Python project specific things, since - don't play nice with Python
     template_version: str = ''  # Version of the provided cookietemple template
     template_handle: str = ''  # Handle of the specific template, indicating which template is currently used
-    github_username: str = ''  # Github username (in case of an orga repo, the orga name)
+    github_username: str = ''  # Github username (in case of an organization repository, the organization name)
     creator_github_username: str = ''  # Github username of the person, that created the project
     is_github_repo: bool = False  # Whether the user wants to create a GitHub repo automatically
     is_repo_private: bool = False  # Whether to create a private Github repository
