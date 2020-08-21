@@ -1,4 +1,4 @@
-name: Sync cookietemple project
+name: cookietemple sync
 
 on: [push]
 
