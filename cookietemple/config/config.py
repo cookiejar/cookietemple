@@ -96,7 +96,7 @@ class ConfigCommand:
             # ask for confirmation since this action will delete the PAT irrevocably if the user has not saved it anywhere else
             if not cookietemple_questionary_or_dot_cookietemple(function='confirm',
                                                                 question='You´re about to update your personal access token. This action cannot be undone!\n'
-                                                                           'Do you really want to continue?',
+                                                                         'Do you really want to continue?',
                                                                 default='Yes'):
                 sys.exit(1)
 

@@ -42,7 +42,15 @@ class TemplateSync:
     repo_owner (str): Owner of the repo (either orga name or personal github username)
     """
 
-    def __init__(self, project_dir, new_template_version, from_branch=None, gh_username=None, token=None, major_update=False, minor_update=False, patch_update=False):
+    def __init__(self,
+                 project_dir,
+                 new_template_version,
+                 from_branch=None,
+                 gh_username=None,
+                 token=None,
+                 major_update=False,
+                 minor_update=False,
+                 patch_update=False):
         self.project_dir = os.path.abspath(project_dir)
         self.from_branch = from_branch
         self.original_branch = None
