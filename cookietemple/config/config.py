@@ -38,9 +38,15 @@ class ConfigCommand:
         Set full_name and email for reuse in any project created further on.
         """
         ConfigCommand.check_ct_config_dir_exists()
-        full_name = cookietemple_questionary_or_dot_cookietemple(function='text', question='Full name', default='Homer Simpson')
-        email = cookietemple_questionary_or_dot_cookietemple(function='text', question='Personal or work email', default='homer.simpson@example.com')
-        github_username = cookietemple_questionary_or_dot_cookietemple(function='text', question='Github username', default='HomerGithub')
+        full_name = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                 question='Full name',
+                                                                 default='Homer Simpson')
+        email = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                             question='Personal or work email',
+                                                             default='homer.simpson@example.com')
+        github_username = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                       question='Github username',
+                                                                       default='HomerGithub')
 
         # if the configs exist, just update them
         if os.path.exists(ConfigCommand.CONF_FILE_PATH):
@@ -80,16 +86,16 @@ class ConfigCommand:
             print('[bold blue]Lets create one before setting your Github personal access token!')
             ConfigCommand.config_general_settings()
 
-        if cookietemple_questionary_or_dot_cookietemple('confirm',
-                                                        'Do you want to configure your GitHub personal access token right now?\n'
-                                                        'You can still configure it later '
-                                                        'by calling    cookietemple config pat',
+        if cookietemple_questionary_or_dot_cookietemple(function='confirm',
+                                                        question='Do you want to configure your GitHub personal access token right now?\n'
+                                                        'You can still configure it later by calling    cookietemple config pat',
                                                         default='Yes'):
             access_token = cookietemple_questionary_or_dot_cookietemple('password', 'Please enter your Github Access token')
             access_token_b = access_token.encode('utf-8')
 
             # ask for confirmation since this action will delete the PAT irrevocably if the user has not saved it anywhere else
-            if not cookietemple_questionary_or_dot_cookietemple('confirm', 'You´re about to update your personal access token. This action cannot be undone!\n'
+            if not cookietemple_questionary_or_dot_cookietemple(function='confirm',
+                                                                question='You´re about to update your personal access token. This action cannot be undone!\n'
                                                                            'Do you really want to continue?',
                                                                 default='Yes'):
                 sys.exit(1)

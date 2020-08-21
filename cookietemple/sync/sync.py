@@ -307,8 +307,8 @@ class TemplateSync:
                 return True
         # cookietemple.cfg file was not found or has no section sync_level
         except NoSectionError:
-            print('[bold red]Could not read from cookietemple.cfg file. Make sure your specified path contains a cookietemple.cfg file and has a sync_level '
-                  'section!')
+            print('[bold red]Could not read from cookietemple.cfg file. '
+                  'Make sure your specified path contains a cookietemple.cfg file and has a sync_level section!')
             sys.exit(1)
 
     def get_blacklisted_sync_globs(self) -> list:
@@ -349,7 +349,8 @@ class TemplateSync:
         """
         gh_username = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['github_username'] if not gh_username else gh_username
         # get the personal access token for user authentification
-        updated_sync_token = cookietemple_questionary_or_dot_cookietemple('password', 'Please enter your updated sync token value')
+        updated_sync_token = cookietemple_questionary_or_dot_cookietemple(function='password',
+                                                                          question='Please enter your updated sync token value')
         print(f'[bold blue]\nUpdating sync secret for project {project_name}.')
         create_sync_secret(gh_username, project_name, updated_sync_token)
         print(f'[bold blue]\nSuccessfully updated sync secret for project {project_name}.')
