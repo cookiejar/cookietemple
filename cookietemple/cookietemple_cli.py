@@ -123,10 +123,10 @@ def info(ctx, handle: str) -> None:
 @cookietemple_cli.command(short_help='Sync your project with the latest template release.', cls=CustomHelpSubcommand)
 @click.argument('project_dir', type=str, default=Path(f'{Path.cwd()}'), helpmsg='The projects top level directory you would like to sync. Default is current '
                                                                                 'working directory.', cls=CustomArg)
-@click.option('--set_token', '-st', is_flag=True, help='Set sync token to a new personal access token of the current repo owner.')
+@click.option('--set-token', '-st', is_flag=True, help='Set sync token to a new personal access token of the current repo owner.')
 @click.argument('pat', type=str, required=False, helpmsg='Personal access token. Not needed for manual, local syncing!', cls=CustomArg)
 @click.argument('username', type=str, required=False, helpmsg='Github username. Not needed for manual, local syncing!', cls=CustomArg)
-@click.option('--check_update', '-ch', is_flag=True, help='Check whether a new template version is available for your project.')
+@click.option('--check-update', '-ch', is_flag=True, help='Check whether a new template version is available for your project.')
 def sync(project_dir, set_token, pat, username, check_update) -> None:
     """
     Sync your project with the latest template release.
@@ -155,9 +155,10 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
             sys.exit(1)
         sys.exit(0)
 
-    syncer = TemplateSync(project_dir=project_dir_path, gh_username=username, token=pat)
+    syncer = TemplateSync(new_template_version='', project_dir=project_dir_path, gh_username=username, token=pat)
     # check for template version updates
-    major_change, minor_change, patch_change, ct_template_version, proj_template_version = syncer.has_template_version_changed(project_dir_path)
+    major_change, minor_change, patch_change, proj_template_version, ct_template_version = syncer.has_template_version_changed(project_dir_path)
+    syncer.new_template_version = ct_template_version
     # check for user without actually syncing
     if check_update:
         # a template update has been released by cookietemple

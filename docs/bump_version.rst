@@ -49,6 +49,8 @@ The :code:`bump-version` command follows the syntax
 Use the ``--downgrade`` option to downgrade your version. The changelog will not be changed. Only use this option as a last resort if something went horribly wrong in your development process.
 In a normal development workflow this should never be necessary.
 
+Sometimes, one just wants to check the current project version, for example before a bump. This can be done using the ``project-version`` flag. So use ``cookietemple bump-version --project-version``
+to view your current project's version. Note that using this flag will not trigger any bump process.
 
 .. _bump-version-configuration:
 

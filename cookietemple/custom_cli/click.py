@@ -227,7 +227,7 @@ class CustomHelpSubcommand(click.Command):
         Custom implementation of formatting the options of each subcommand.
         The options will be displayed in their relative order with their corresponding help message and a styled header.
         """
-        options = [('--' + param.name, param.help) for param in self.params if type(param) == click.core.Option]
+        options = [('--' + param.name.replace('_', '-'), param.help) for param in self.params if type(param) == click.core.Option]
         help_option = self.get_help_option(ctx)
         options.append(('--' + help_option.name, help_option.help))
         with formatter.section(self.get_rich_value("Options")):

@@ -37,7 +37,7 @@ Note that you never need to run ``cookietemple sync`` manually with the workflow
 
 What command line options are available?
 -----------------------------------------
-The basic sync command syntax is: ``$ cookietemple sync [PROJECT_DIR] --SET_TOKEN ([PAT] [GITHUB_USERNAME]) --CHECK_UPDATE``
+The basic sync command syntax is: ``$ cookietemple sync [PROJECT_DIR] --set-token ([PAT] [GITHUB_USERNAME]) --check-update``
 
 Running sync manually on an active cookietemple project with a Github repo, you should never ever have to set the ``PAT`` or ``GITHUB_USERNAME``. These
 are options that are only required for the ``sync_project`` workflow for automatic syncing.
@@ -48,10 +48,10 @@ Per default, this one is set to the current working directory. So, for example, 
 your project named ``ExplodingSpringfield`` located in ``/home/homersimpson/projects`` you need to call ``$ cookietemple sync ExplodingSpringfield/``.
 This one should be always set (unless your current working directory is the top level directory of the project you'd like to sync).
 
-Next, ``sync`` provides two flags: ``$ cookietemple sync [PROJECT_DIR] --set_token`` can be used to update your ``CT_SYNC_TOKEN``, which cookietemple uses
+Next, ``sync`` provides two flags: ``$ cookietemple sync [PROJECT_DIR] --set-token`` can be used to update your ``CT_SYNC_TOKEN``, which cookietemple uses
 to sync your project (especially when syncing with the workflow). This could be useful, for example, when the ownership of a repo had changed.
 
-The ``--check_update`` flag, called via ``$ cookietemple sync [PROJECT_DIR] --check_update``, can be used for manually checking whether a new version for your template has been released by cookietemple.
+The ``--check_update`` flag, called via ``$ cookietemple sync [PROJECT_DIR] --check-update``, can be used for manually checking whether a new version for your template has been released by cookietemple.
 Note that when you call ``$ cookietemple sync [PROJECT_DIR]`` cookietemple also runs this check, but then proceeds with syncing rather than exiting.
 
 What happens when my project gets synced?
