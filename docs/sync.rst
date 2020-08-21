@@ -29,31 +29,6 @@ For syncing to work properly, your project has to satisfy a few things:
 
  5. It is strongly advised not to touch the ``TEMPLATE`` branch.
 
-Configuring sync
------------------------
-
-.. _sync_config:
-
-Sync level
-++++++++++++
-
-Since cookietemple strongly adheres to semantic versioning our templates do too.
-Hence, it is customizable whether only major, minor or all (=patch level) releases of the template should trigger cookietemple sync.
-The sync level therefore specifies a lower boundary. It can be configured in the::
-
-    [sync_level]
-    ct_sync_level = minor
-
-section.
-
-Blacklisting files
-++++++++++++++++++++++
-
-Although, cookietemple only submits pull requests for files, which are part of the template sometimes even those files should be ignored.
-Examples could be any html files, which at some point contain only custom content and should not be synced.
-When syncing, cookietemple examines the ``cookietemple.cfg`` file and ignores any file patterns (e.g. ``*.html``) below the ``[sync_files_blacklisted]`` section.
-
-
 How to use sync?
 ----------------
 
@@ -65,7 +40,7 @@ What command line options are available?
 The basic sync command syntax is: ``$ cookietemple sync [PROJECT_DIR] --SET_TOKEN ([PAT] [GITHUB_USERNAME]) --CHECK_UPDATE``
 
 Running sync manually on an active cookietemple project with a Github repo, you should never ever have to set the ``PAT`` or ``GITHUB_USERNAME``. These
-are options that are only required for the ``sync_project`` workflow for automatic sycning.
+are options that are only required for the ``sync_project`` workflow for automatic syncing.
 So: **You never need to care about these parameters when calling cookietemple sync manually**.
 
 An important parameter is ``PROJECT_DIR``. This parameter contains the (relative) path to the cookietemple projects top level directory, you would like to sync.
@@ -89,3 +64,28 @@ The other way would be via the ``sync_project.yml`` workflow. This workflow trig
 this workflow for example when a PR is created. The result is the same like above but you don't need to remember to run sync manually on a regular basis.
 
 Note that the PR is currently automatically created by the one who initially created/owns this repository.
+
+
+Configuring sync
+-----------------------
+
+.. _sync_config:
+
+Sync level
+++++++++++++
+
+Since cookietemple strongly adheres to semantic versioning our templates do too.
+Hence, it is customizable whether only major, minor or all (=patch level) releases of the template should trigger cookietemple sync.
+The sync level therefore specifies a lower boundary. It can be configured in the::
+
+    [sync_level]
+    ct_sync_level = minor
+
+section.
+
+Blacklisting files
+++++++++++++++++++++++
+
+Although, cookietemple only submits pull requests for files, which are part of the template sometimes even those files should be ignored.
+Examples could be any html files, which at some point contain only custom content and should not be synced.
+When syncing, cookietemple examines the ``cookietemple.cfg`` file and ignores any file patterns (e.g. ``*.html``) below the ``[sync_files_blacklisted]`` section.
