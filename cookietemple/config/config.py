@@ -123,25 +123,29 @@ class ConfigCommand:
         Print the current users cookietemple configuration.
         """
         # load current settings
-        settings = load_yaml_file(ConfigCommand.CONF_FILE_PATH)
+        try:
+            settings = load_yaml_file(ConfigCommand.CONF_FILE_PATH)
+            # create the table and print
+            table = Table(title="[bold]Your current configuration", title_style="blue", header_style=Style(color="blue", bold=True), box=HEAVY_HEAD)
+            table.add_column('Name', style='green')
+            table.add_column('Value', style='green')
+            # add rows to the table consisting of the name and value of the current setting
+            for (name, value) in settings.items():
+                # don't print token directly, just inform it's set
+                if name == 'pat':
+                    table.add_row(f'[bold]Personal access token', 'TOKEN_IS_SET')
+                else:
+                    table.add_row(f'[bold]{name.capitalize().replace("_", " ")}', f'[white]{value}')
+            # don't print PAT directly but inform if not set
+            if 'pat' not in settings.keys():
+                table.add_row(f'[bold]Personal access token', '[red]NO_TOKEN_SET')
 
-        # create the table and print
-        table = Table(title="[bold]Your current configuration", title_style="blue", header_style=Style(color="blue", bold=True), box=HEAVY_HEAD)
-        table.add_column('Name', style='green')
-        table.add_column('Value', style='green')
-        # add rows to the table consisting of the name and value of the current setting
-        for (name, value) in settings.items():
-            # don't print token directly, just inform it's set
-            if name == 'pat':
-                table.add_row(f'[bold]Personal access token', 'TOKEN_IS_SET')
-            else:
-                table.add_row(f'[bold]{name.capitalize().replace("_", " ")}', f'[white]{value}')
-        # don't print PAT directly but inform if not set
-        if 'pat' not in settings.keys():
-            table.add_row(f'[bold]Personal access token', '[red]NO_TOKEN_SET')
+            console = Console()
+            console.print(table)
 
-        console = Console()
-        console.print(table)
+        except (FileNotFoundError, KeyError):
+            print('[bold red]Did not found a cookietemple config file!\nIf this is your first time running cookietemple you can set them using cookietemple '
+                  'config general')
 
     @staticmethod
     def similar_handle(section: str) -> None:
