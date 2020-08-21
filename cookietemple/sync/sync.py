@@ -220,7 +220,7 @@ class TemplateSync:
             'This automated pull-request attempts to apply the relevant updates to this Project.\n\n'
             'Please make sure to merge this pull-request as soon as possible. '
             'Once complete, make a new minor release of your Project.\n\n'
-            'For more information on the actual changes, read the latest cookietemple CHANGELOG.')
+            'For more information on the actual changes, read the latest cookietemple changelog.')
 
         # Only create PR if it does not already exist
         if not self.check_pull_request_exists():
