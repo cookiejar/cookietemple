@@ -21,4 +21,13 @@ jobs:
           python-version: {% raw %}${{ matrix.python }}{% endraw %}
 
       - name: Build {{ cookiecutter.project_name }}
-        run: python setup.py clean --all install
+        run: pip install .
+
+      - name: Install required twine packaging dependencies
+        run: pip install setuptools wheel twine
+
+      - name: Build twine package
+        run: python setup.py sdist bdist_wheel
+
+      - name: Check twine package
+        run: twine check dist/*

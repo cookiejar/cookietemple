@@ -25,3 +25,12 @@ jobs:
 
       - name: Call Help Command
         run: cookietemple --help
+        
+      - name: Install required twine packaging dependencies
+        run: pip install setuptools wheel twine
+
+      - name: Build twine package
+        run: python setup.py sdist bdist_wheel
+
+      - name: Check twine package
+        run: twine check dist/*
