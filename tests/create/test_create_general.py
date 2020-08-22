@@ -1,9 +1,9 @@
 import os
-from pathlib import Path
+import sys
 import pytest
-from io import StringIO
 
 from cookietemple.config.config import ConfigCommand
+from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.create.create import choose_domain
 from cookietemple.create.domains.cli_creator import CliCreator
 import cookietemple.create.template_creator
@@ -17,59 +17,78 @@ def get_template_cli_creators():
     return CliCreator
 
 
-def test_if_repo_already_exists_no_overwrite(mocker, monkeypatch, capfd, tmp_path) -> None:
+def test_if_repo_already_exists_no_overwrite(mocker, tmp_path) -> None:
     """
     Ensure that if a project with the same name already exists the user can decide to overwrite or not.
     If no, template creation will be canceled an nothing changes.
     """
+    input_str = b"\n\nHomer\nsimpson@gmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\n\n\nn"
+    r, w = os.pipe()
+    os.dup2(r, sys.stdin.fileno())
+    os.write(w, input_str)
+    os.write(w, b"n")
     mocker.patch.object(os.path, 'isdir', autospec=True)
     os.path.isdir.return_value = True
-    mocker.patch.object(Path, 'cwd', autospec=True)
-    Path.cwd.return_value = tmp_path
+    mocker.patch.object(os, 'getcwd', autospec=True)
+    os.getcwd.return_value = str(tmp_path)
     mocker.patch.object(cookietemple.create.template_creator, 'is_git_repo', autospec=True)
     cookietemple.create.template_creator.is_git_repo.return_value = False
+    mocker.patch.object(TemplateCreator, 'readthedocs_slug_already_exists', autospec=True)
+    TemplateCreator.readthedocs_slug_already_exists.return_value = False
     mocker.patch.object(ConfigCommand, 'CONF_FILE_PATH', autospec=True)
-    ConfigCommand.CONF_FILE_PATH = f'{str(Path.cwd())}/cookietemple_test_cfg.yml'
-
-    prompt = StringIO('cli\npython\nhomer\nhomer@hotmail.com\nhomergithub\nn\nprojectname\ndesc\n0.1.1\nMIT\nClick\npytest\nn\nn')
-    monkeypatch.setattr('sys.stdin', prompt)
+    ConfigCommand.CONF_FILE_PATH = f'{str(os.getcwd())}/cookietemple_test_cfg.yml'
 
     with pytest.raises(SystemExit):
         choose_domain('')
-        out, err = capfd.readouterr()
-        assert out.strip() == 'Aborted! Canceled template creation!'
 
 
-def test_general_prompts_all_input_valid(monkeypatch, tmp_path, mocker) -> None:
+def test_general_prompts_all_input_valid(tmp_path, mocker) -> None:
     """
     Ensure that valid inputs for general prompts for all template are processed properly.
     """
-    mocker.patch.object(Path, 'cwd', autospec=True)
-    Path.cwd.return_value = tmp_path
-    mocker.patch.object(ConfigCommand, 'CONF_FILE_PATH', autospec=True)
-    ConfigCommand.CONF_FILE_PATH = f'{str(Path.cwd())}/cookietemple_test_cfg.yml'
-    prompts = StringIO('Homer\nhomer.simpson@hotmail.com\nhomergithub\nn\nMyProjectName\nMyDesc\n0.1.0\nMIT')
-    monkeypatch.setattr('sys.stdin', prompts)
-    test_creator = CliCreator()
-    test_creator.prompt_general_template_configuration()
-    assert (test_creator.cli_struct.full_name == 'Homer' and test_creator.cli_struct.email == 'homer.simpson@hotmail.com' and
-            test_creator.cli_struct.github_username == 'homergithub' and test_creator.cli_struct.project_name == 'MyProjectName' and
-            test_creator.cli_struct.project_short_description == 'MyDesc' and test_creator.cli_struct.version == '0.1.0' and
-            test_creator.cli_struct.license == 'MIT')
+    input_str = b"Homer\nsimpson@gmail.com\nhomergithub\nn"
+    r, w = os.pipe()
+    os.dup2(r, sys.stdin.fileno())
+    os.write(w, input_str)
+    os.write(w, b"ExplodingSpringfield\nSpringfieldDescription\n1.0.0\n\n")
 
-
-def test_general_prompts_with_license_invalid_choice(monkeypatch, capfd, mocker, tmp_path) -> None:
-    """
-    Ensure that entering an invalid license will trigger an error message.
-    """
-    mocker.patch.object(Path, 'cwd', autospec=True)
-    Path.cwd.return_value = tmp_path
+    mocker.patch.object(os, 'getcwd', autospec=True)
+    os.getcwd.return_value = str(tmp_path)
+    mocker.patch.object(TemplateCreator, 'readthedocs_slug_already_exists', autospec=True)
+    TemplateCreator.readthedocs_slug_already_exists.return_value = False
     mocker.patch.object(ConfigCommand, 'CONF_FILE_PATH', autospec=True)
-    ConfigCommand.CONF_FILE_PATH = f'{str(Path.cwd())}/cookietemple_test_cfg.yml'
-    prompts = StringIO('\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nn\nMyFullName\nMyEmail\nMyProjectName\nMyDesc\n0.1.0\nÄMAITI\nMIT')
-    monkeypatch.setattr('sys.stdin', prompts)
+    ConfigCommand.CONF_FILE_PATH = f'{str(os.getcwd())}/cookietemple_test_cfg.yml'
 
     test_creator = CliCreator()
-    test_creator.prompt_general_template_configuration()
-    out, err = capfd.readouterr()
-    assert 'Error: invalid choice: ÄMAITI.' in out.strip()
+    test_creator.prompt_general_template_configuration(dot_cookietemple={})
+    assert (test_creator.cli_struct.full_name == 'Homer' and test_creator.cli_struct.email == 'simpson@gmail.com' and
+            test_creator.cli_struct.github_username == 'homergithub' and test_creator.cli_struct.project_name == 'ExplodingSpringfield' and
+            test_creator.cli_struct.project_short_description == 'SpringfieldDescription' and test_creator.cli_struct.version == '1.0.0' and
+            test_creator.cli_struct.license == 'MIT' and test_creator.cli_struct.project_slug == 'ExplodingSpringfield' and
+            test_creator.cli_struct.project_slug_no_hyphen == 'ExplodingSpringfield')
+
+
+def test_general_prompts_with_hyphen_slug(mocker, tmp_path) -> None:
+    """
+    Ensure that entering a project name containg a hyphen will lead to correct project_name and project_slug set
+    """
+    input_str = b"Homer\nsimpson@gmail.com\nhomergithub\nn"
+    r, w = os.pipe()
+    os.dup2(r, sys.stdin.fileno())
+    os.write(w, input_str)
+    os.write(w, b"Exploding-Springfield\nSpringfieldDescription\n1.0.0\n\n")
+
+    mocker.patch.object(os, 'getcwd', autospec=True)
+    os.getcwd.return_value = str(tmp_path)
+    mocker.patch.object(TemplateCreator, 'readthedocs_slug_already_exists', autospec=True)
+    TemplateCreator.readthedocs_slug_already_exists.return_value = False
+    mocker.patch.object(ConfigCommand, 'CONF_FILE_PATH', autospec=True)
+    ConfigCommand.CONF_FILE_PATH = f'{str(os.getcwd())}/cookietemple_test_cfg.yml'
+
+    test_creator = CliCreator()
+    test_creator.prompt_general_template_configuration(dot_cookietemple={})
+    assert (test_creator.cli_struct.full_name == 'Homer' and test_creator.cli_struct.email == 'simpson@gmail.com' and
+            test_creator.cli_struct.github_username == 'homergithub' and test_creator.cli_struct.project_name == 'Exploding-Springfield' and
+            test_creator.cli_struct.project_short_description == 'SpringfieldDescription' and test_creator.cli_struct.version == '1.0.0' and
+            test_creator.cli_struct.license == 'MIT' and test_creator.cli_struct.project_slug == 'Exploding-Springfield' and
+            test_creator.cli_struct.project_slug_no_hyphen == 'Exploding_Springfield')

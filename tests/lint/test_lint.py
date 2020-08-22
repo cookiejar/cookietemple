@@ -47,10 +47,6 @@ def test_lint_bad_example(capfd, get_template_linter) -> None:
         test_linter.check_cookietemple_todos()
         test_linter.check_no_cookiecutter_strings()
         test_linter.check_version_match(f'{test_linter.path}/lint_bad_test_file', '1.0.0', 'bumpversion_files_whitelisted')
-
         test_linter.print_results()
 
-        out, err = capfd.readouterr()
-
-        assert 'Cookiecutter string found in \'lint_bad_test_file\': {{ cookiecutter.ohforgetit }}' in out and len(test_linter.warned) == 1 and \
-               len(test_linter.failed) == 1 and 'Version number don´t match in' in out
+        assert len(test_linter.warned) == 1 and len(test_linter.failed) == 1
