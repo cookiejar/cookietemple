@@ -15,6 +15,7 @@ The user also has the option to push his just created project directly to Github
 Invoke :code:`create` by running
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple create
 
@@ -29,6 +30,7 @@ Note that the long description is emitted and the :code:`info` command should be
 Invoke :code:`list` by running
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple list
 
@@ -42,6 +44,7 @@ It prints the name, handle, long description, available libraries and version of
 Invoke :code:`info` by running
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple info <HANDLE>
 
@@ -53,10 +56,10 @@ lint
 :code:`lint` ensures that the template adheres to cookietemple's standards.
 When linting an already existing project several general checks, which all templates share are performed and afterwards template specific linting functions are run.
 All results are collected and printed to the user. If any of the checks fail linting terminates.
-Optionally, `coala <https://coala.io/#/home>`_ can be applied to the project if it was created using a template which features a .coa file.
 Invoke :code:`lint` by running
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple lint
 
@@ -71,6 +74,7 @@ All lines where the version was changed are printed to the console.
 Invoke :code:`bump-version` by running
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple bump-version <NEWVERSION> <PATH>
 
@@ -85,6 +89,7 @@ cookietemple mostly uses it to package JVM based projects, but it may also be us
 Invoke :code:`warp` by running
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple warp --input_dir <INPUTDIR> --exec <EXECUTABLE> --output <OUTPUT>
 
@@ -93,12 +98,12 @@ For more details please visit :ref:`warp_f`.
 sync
 ----
 
-:code:`sync` is unfortunately not yet implemented.
-It is supposed to sync any changes to the templates by opening pull requests to your already existing projects.
-Due to this complexity of this task we are still at the drafting stage, but highly appreciate input and community contributions.
+:code:`sync` checks for a project whether a newer version of the used template is available.
+If so, a pull request with only the changes of the newer template version is created against the development/last active branchh.
 Invoke :code:`sync` by running
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple sync
 
@@ -112,6 +117,7 @@ Moreover, it is required for cookietemple's Github support, since it takes care 
 Invoke :code:`config` by running
 
 .. code-block:: console
+    :linenos:
 
     $ cookietemple config <all/general/pat>
 
@@ -124,6 +130,7 @@ upgrade
 Invoke :code:`upgrade` by running
 
 .. code-block:: console
+    :linenos:
 
    $ cookietemple upgrade
 
@@ -135,6 +142,7 @@ External Python based projects
 To use cookietemple in an external Python based project
 
 .. code-block:: python
+    :linenos:
 
     import cookietemple
 

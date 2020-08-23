@@ -5,6 +5,7 @@ on: [push]
 jobs:
   Build-Package:
     runs-on: ${{ matrix.os }}
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
@@ -24,3 +25,12 @@ jobs:
 
       - name: Call Help Command
         run: cookietemple --help
+
+      - name: Install required twine packaging dependencies
+        run: pip install setuptools wheel twine
+
+      - name: Build twine package
+        run: python setup.py sdist bdist_wheel
+
+      - name: Check twine package
+        run: twine check dist/*

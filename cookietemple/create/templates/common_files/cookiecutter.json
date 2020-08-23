@@ -2,6 +2,7 @@
   "commonName": "common_files_util",
   "full_name": "cookietempleusername",
   "email": "cookietemple@dummy.com",
+  "creator_github_username": "bartsimpson",
   "project_name": "projectname",
   "project_slug": "cookietemplate",
   "version": "0.1.0",
@@ -9,8 +10,6 @@
   "project_short_description" : "A cookietemple template",
   "language": "Language",
   "domain": "domain",
-    "_copy_without_render": [
-        "*.yml"
-    ]
+  "github_username": "github_user"
 }
 

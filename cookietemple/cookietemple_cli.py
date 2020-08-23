@@ -20,8 +20,8 @@ from cookietemple.warp.warp import warp_project
 from cookietemple.custom_cli.click import HelpErrorHandling, print_project_version, CustomHelpSubcommand, CustomArg
 from cookietemple.config.config import ConfigCommand
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
-from cookietemple.sync.sync import Sync
-
+from cookietemple.sync.sync import TemplateSync
+from cookietemple.common.load_yaml import load_yaml_file
 
 WD = os.path.dirname(__file__)
 
@@ -123,34 +123,67 @@ def info(ctx, handle: str) -> None:
 @cookietemple_cli.command(short_help='Sync your project with the latest template release.', cls=CustomHelpSubcommand)
 @click.argument('project_dir', type=str, default=Path(f'{Path.cwd()}'), helpmsg='The projects top level directory you would like to sync. Default is current '
                                                                                 'working directory.', cls=CustomArg)
+@click.option('--set-token', '-st', is_flag=True, help='Set sync token to a new personal access token of the current repo owner.')
 @click.argument('pat', type=str, required=False, helpmsg='Personal access token. Not needed for manual, local syncing!', cls=CustomArg)
 @click.argument('username', type=str, required=False, helpmsg='Github username. Not needed for manual, local syncing!', cls=CustomArg)
-@click.option('--check_update', '-ch', is_flag=True, help='Check whether a new template version is available for your project.')
-def sync(project_dir, pat, username, check_update) -> None:
+@click.option('--check-update', '-ch', is_flag=True, help='Check whether a new template version is available for your project.')
+def sync(project_dir, set_token, pat, username, check_update) -> None:
     """
     Sync your project with the latest template release.
 
     cookietemple regularly updates its templates.
-    To ensure that you have the latest changes you can invoke sync, which submits a pull request to your Github repository (if existing) or, in case of a minor
-    change, create an issue in your Github repository (if exists).
+    To ensure that you have the latest changes you can invoke sync, which submits a pull request to your Github repository (if existing).
     If no repository exists the TEMPLATE branch will be updated and you can merge manually.
     """
-    project_dir_path = Path(f'{Path.cwd()}/{project_dir}')
-    syncer = Sync(pat, username, project_dir_path)
-    # if user wants to check for new template updates
+    project_dir_path = Path(f'{Path.cwd()}/{project_dir}') if not str(project_dir).startswith(str(Path.cwd())) else Path(project_dir)
+    # if set_token flag is set, update the sync token value and exit
+    if set_token:
+        try:
+            project_data = load_yaml_file(f'{project_dir}/.cookietemple.yml')
+            # if project is an orga repo, pass orga name as username
+            if project_data['is_github_repo'] and project_data['is_github_orga']:
+                TemplateSync.update_sync_token(project_name=project_data['project_slug'], gh_username=project_data['github_orga'])
+            # if not, use default username
+            elif project_data['is_github_repo']:
+                TemplateSync.update_sync_token(project_name=project_data['project_slug'])
+            else:
+                print('[bold red]Your current project does not seem to have a Github repository!')
+                sys.exit(1)
+        except (FileNotFoundError, KeyError):
+            print(f'[bold red]Your token value is not a valid personal access token for your account or there exists no .cookietemple.yml file at '
+                  f'{project_dir_path}. Is this a cookietemple project?')
+            sys.exit(1)
+        sys.exit(0)
+
+    syncer = TemplateSync(new_template_version='', project_dir=project_dir_path, gh_username=username, token=pat)
+    # check for template version updates
+    major_change, minor_change, patch_change, proj_template_version, ct_template_version = syncer.has_template_version_changed(project_dir_path)
+    syncer.new_template_version = ct_template_version
+    # check for user without actually syncing
     if check_update:
-        is_version_outdated, ct_template_version, proj_template_version = syncer.has_major_minor_template_version_changed(project_dir_path)
         # a template update has been released by cookietemple
-        if is_version_outdated:
-            click.echo(click.style(f'Your templates version received an update from {proj_template_version} to {ct_template_version}!\n Use ', fg='blue') +
-                       click.style('cookietemple sync', fg='green') + click.style('to sync your project and create a pull request with changes.', fg='blue'))
+        if any(change for change in (major_change, minor_change, patch_change)):
+            print(f'[bold blue]Your templates version received an update from {proj_template_version} to {ct_template_version}!\n'
+                  f' Use [green]cookietemple sync [blue]to sync your project')
         # no updates were found
         else:
-            click.echo(click.style('Congrats, you are using the latest template version for your project. No sync is needed.', fg='blue'))
+            print('[bold blue]Using the latest template version. No sync required.')
+        # exit without syncing
         sys.exit(0)
-    # sync the project
-    # TODO: ADD CHECK IF VERSION CHANGED (AS A SANITY CHECK, BUT DO THIS AFTER DEVELOPMENT FINISHED)
-    syncer.sync()
+    # set sync flags indicating a major, minor or patch update
+    syncer.major_update = major_change
+    syncer.minor_update = minor_change
+    syncer.patch_update = patch_change
+    # sync the project if any changes
+    if any(change for change in (major_change, minor_change, patch_change)):
+        if syncer.check_sync_level():
+            # check if a pull request should be created according to set level constraints
+            syncer.sync()
+        else:
+            print('[bold red]Aborting sync due to set level constraints. You can set the level any time in your cookietemple.cfg in the sync_level section and'
+                  ' sync again.')
+    else:
+        print('[bold blue]No changes detected. Your template is up to date.')
 
 
 @cookietemple_cli.command('bump-version', short_help='Bump the version of an existing cookietemple project.', cls=CustomHelpSubcommand)
@@ -191,8 +224,8 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
                     version_bumper.bump_template_version(new_version, project_dir)
                 elif cookietemple_questionary_or_dot_cookietemple(function='confirm',
                                                                   question=f'Bumping from {version_bumper.CURRENT_VERSION} to {new_version} seems not reasonable.\n'
-                                                                            f'Do you really want to bump the project version?',
-                                                                            default='n'):
+                                                                  f'Do you really want to bump the project version?',
+                                                                  default='n'):
                     print('\n')
                     version_bumper.bump_template_version(new_version, project_dir)
             else:
@@ -216,9 +249,10 @@ def warp(input_dir: str, exec: str, output: str) -> None:
 
 
 @cookietemple_cli.command(short_help='Configure your general settings and github credentials.', cls=CustomHelpSubcommand)
+@click.option('--view', '-v', is_flag=True, help='View the current cookietemple configuration.')
 @click.argument('section', type=str, required=False, helpmsg='Section to configure (all, general or pat)', cls=CustomArg)
 @click.pass_context
-def config(ctx, section: str) -> None:
+def config(ctx, view: bool, section: str) -> None:
     """
     Configure your general settings and Github credentials for reuse.
     Available options (sections) are:
@@ -228,6 +262,9 @@ def config(ctx, section: str) -> None:
     - pat: set your Github personal access token for Github repository creation
     - all: calls general and pat
     """
+    if view:
+        ConfigCommand.view_current_config()
+        sys.exit(0)
     if section == 'general':
         # set the full_name and email for reuse in the creation process
         ConfigCommand.config_general_settings()

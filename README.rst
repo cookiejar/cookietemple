@@ -10,7 +10,7 @@
 
 .. image:: https://github.com/zethson/cookietemple/workflows/Build%20Cookietemple%20Package/badge.svg
         :target: https://github.com/zethson/cookietemple/workflows/Build%20Cookietemple%20Package/badge.svg
-        :alt: Github Workflow Build COOKIETEMPLE Status
+        :alt: Github Workflow Build cookietemple Status
 
 .. image:: https://github.com/zethson/cookietemple/workflows/Run%20Cookietemple%20Tox%20Test%20Suite/badge.svg
         :target: https://github.com/zethson/cookietemple/workflows/Run%20Cookietemple%20Tox%20Test%20Suite/badge.svg
@@ -39,15 +39,6 @@
 .. image:: https://img.shields.io/twitter/follow/cookiejarorg?color=green&style=flat-square
         :target: https://twitter.com/cookiejarorg
         :alt: Twitter Follow
-
-.. image:: https://img.shields.io/twitter/follow/lukasheumos?color=green&style=flat-square
-        :target: https://twitter.com/LukasHeumos
-        :alt: Twitter Follow
-
-.. image:: https://img.shields.io/twitter/follow/Farwent_?color=green&style=flat-square   :alt: Twitter Follow
-        :target: https://twitter.com/Farwent\_
-        :alt: Twitter Follow
-
 
 A cookiecutter based project template creation tool supporting several domains and languages with advanced linting and continuous integration.
 
@@ -86,10 +77,10 @@ Available Templates
 Contributing
 ------------
 
-COOKIETEMPLE is a huge open-source effort and highly welcomes all contributions! Join our `Discord Channel <https://discord.gg/PYF8NUk>`_.
+cookietemple is a huge open-source effort and highly welcomes all contributions! Join our `Discord Channel <https://discord.gg/PYF8NUk>`_.
 Please read :ref:`contributing`  to find out how you can contribute.
 
 Authors
 -------
 
-COOKIETEMPLE was initiated and developed by `Lukas Heumos (Github)  <https://github.com/zethson>`_ and `Philipp Ehmele (Github) <https://github.com/imipenem>`_.
+cookietemple was initiated and developed by `Lukas Heumos (Github)  <https://github.com/zethson>`_ and `Philipp Ehmele (Github) <https://github.com/imipenem>`_.

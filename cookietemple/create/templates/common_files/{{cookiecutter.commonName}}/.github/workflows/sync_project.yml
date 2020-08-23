@@ -1,0 +1,30 @@
+name: cookietemple sync
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Setup Python
+          uses: actions/setup-python@v1
+          with:
+            python-version: 3.8
+
+        - name: Install cookietemple
+          run: pip install cookietemple
+
+        - uses: actions/checkout@v2
+          with:
+              fetch-depth: 0
+          name: Check out source-code repository
+
+        - uses: oleksiyrudenko/gha-git-credentials@v1
+          with:
+               name: '{{ cookiecutter.creator_github_username }}'
+               email: '{{ cookiecutter.email }}'
+               actor: '{{ cookiecutter.creator_github_username }}'
+               token: '{% raw %}${{ secrets.CT_SYNC_TOKEN}}{% endraw %}'
+
+        - name: Sync project
+          run: cookietemple sync . {% raw %}${{ secrets.CT_SYNC_TOKEN  }}{% endraw %} {{ cookiecutter.creator_github_username }}

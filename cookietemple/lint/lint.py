@@ -48,7 +48,7 @@ def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
         lint_obj.lint_project(super(lint_obj.__class__, lint_obj), custom_check_files=disable_check_files, is_subclass_calling=False)
 
         # Run the project specific linting
-        print('[bold blue]Running {template_handle} linting')
+        print(f'[bold blue]Running {template_handle} linting')
 
         # for every python project that is created autopep8 will run one time
         # when linting en existing python COOKIETEMPLE project, autopep8 should be now optional,
@@ -79,7 +79,7 @@ def get_template_handle(dot_cookietemple_path: str = '.cookietemple.yml') -> str
     """
     path = Path(f'{dot_cookietemple_path}/.cookietemple.yml')
     if not path.exists():
-        print('[bold red].cookietemple.yml not found. Is this a COOKIETEMPLE project?')
+        print('[bold red].cookietemple.yml not found. Is this a cookietemple project?')
         sys.exit(1)
     yaml = YAML(typ='safe')
     dot_cookietemple_content = yaml.load(path)

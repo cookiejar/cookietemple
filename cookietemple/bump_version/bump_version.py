@@ -2,7 +2,7 @@ import os
 import sys
 import re
 from packaging import version
-from configparser import ConfigParser
+from configparser import ConfigParser, NoSectionError
 from tempfile import mkstemp
 from shutil import move, copymode
 from os import fdopen, remove
@@ -22,11 +22,16 @@ class VersionBumper:
     """
 
     def __init__(self, project_dir, downgrade):
-        self.parser = ConfigParser()
-        self.parser.read(f'{project_dir}/cookietemple.cfg')
-        self.CURRENT_VERSION = self.parser.get('bumpversion', 'current_version')
-        self.downgrade_mode = downgrade
-        self.top_level_dir = project_dir
+        try:
+            self.parser = ConfigParser()
+            self.parser.read(f'{project_dir}/cookietemple.cfg')
+            self.CURRENT_VERSION = self.parser.get('bumpversion', 'current_version')
+            self.downgrade_mode = downgrade
+            self.top_level_dir = project_dir
+        except (KeyError, NoSectionError):
+            print(f'[bold red]No cookietemple.cfg file was found at [bold blue]{project_dir} [bold red]or your cookietemple.cfg file missing required '
+                  f'bump-version section.\nPlease refer to the bump-version documentation for more information!')
+            sys.exit(1)
 
     def bump_template_version(self, new_version: str, project_dir: Path) -> None:
         """
@@ -139,7 +144,7 @@ class VersionBumper:
         This included the following requirements:
         1.) The new version number matches the format like 1.1.0 or 1.1.0-SNAPSHOT required by cookietemple versions
         2.) The new version is greater than the current one
-        3.) The project is a cookietemple project
+        3.) The project is a cookietemple project (this is already checked when creating the "bumper" object
 
         :param new_version: The new version
         :param project_dir: The directory of the project
@@ -151,21 +156,15 @@ class VersionBumper:
                   'of 0.0.0 or 15.100.239-SNAPSHOT')
             return False
 
-        # ensure the version is bumped within a project created by cookietemple
-        elif not Path(f'{project_dir}/cookietemple.cfg').is_file():
-            print('[bold red]Did not find a cookietemple.cfg file. Make sure you are in the right directory '
-                  'or specify the path to your projects bump_version.cfg file')
-            return False
-
         # equal versions won't be accepted for bump-version
         elif new_version == self.CURRENT_VERSION:
             print(f'[bold red]The new version {new_version} cannot be equal to the current version {self.CURRENT_VERSION}.')
             return False
 
-        # only allow bump from a SNAPSHOT version to its correlate with -SNAPSHOT removed (like 1.0.0-SNAPSHOT to 1.0.0 but not 2.0.0)
+        # only allow bump from a SNAPSHOT version to its correspondance with -SNAPSHOT removed (like 1.0.0-SNAPSHOT to 1.0.0 but not 2.0.0)
         elif self.CURRENT_VERSION.endswith('-SNAPSHOT') and not self.CURRENT_VERSION.split('-')[0] == new_version:
             print(f'[bold red]Cannot bump {self.CURRENT_VERSION} to {new_version}.' +
-                  f'[blue]\n{self.CURRENT_VERSION} as a SNAPSHOT version can only be bumped to its non-snapshot correlate '
+                  f'[blue]\n{self.CURRENT_VERSION} as a SNAPSHOT version can only be bumped to its non-snapshot equivalent '
                   f'{self.CURRENT_VERSION.split("-")[0]}.')
             return False
 

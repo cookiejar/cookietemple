@@ -2,6 +2,8 @@ import os
 import sys
 import requests
 import json
+import tempfile
+import shutil
 
 from base64 import b64encode
 from nacl import encoding, public
@@ -73,13 +75,17 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         # the created projct repository with the copied .git directory
         cloned_repo = Repo(path=project_path)
 
+        fd, temp_path = tempfile.mkstemp()
+        shutil.copy2(f'{project_path}/.github/workflows/sync_project.yml', temp_path)
+        os.remove(f'{project_path}/.github/workflows/sync_project.yml')
+
         # git add
         print('[bold blue]Staging template')
         cloned_repo.git.add(A=True)
 
         # git commit
         cloned_repo.index.commit(f'Created {creator_ctx.project_slug} with {creator_ctx.template_handle} '
-                                 f'template of version {creator_ctx.template_version} using cookietemple.')
+                                 f'template of version {creator_ctx.template_version.replace("# <<COOKIETEMPLE_NO_BUMP>>", "")} using cookietemple.')
 
         print('[bold blue]Pushing template to Github origin master')
         cloned_repo.remotes.origin.push(refspec='master:master')
@@ -103,15 +109,33 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         # git create TEMPLATE branch
         print('[bold blue]Creating TEMPLATE branch.')
         cloned_repo.git.checkout('-b', 'TEMPLATE')
-
-        # git push to TEMPLATE branch
-        print('[bold blue]Pushing template to Github origin TEMPLATE.')
         cloned_repo.remotes.origin.push(refspec='TEMPLATE:TEMPLATE')
 
         # checkout to development branch again
-        print('[bold blue]Checking out development branch.')
+        print('[bold blue]Checking out master branch.')
+        cloned_repo.git.checkout('master')
+        shutil.copy2(temp_path, f'{project_path}/.github/workflows/sync_project.yml')
+        # git add
+        print('[bold blue]Staging template')
+        cloned_repo.git.add(A=True)
+        # git commit
+        cloned_repo.index.commit('Added cookietemple sync workflow')
+        # git push to master branch
+        print('[bold blue]Pushing template to Github origin master')
+        cloned_repo.remotes.origin.push(refspec='master:master')
+        # git checkout to development branch
         cloned_repo.git.checkout('development')
-
+        shutil.copy2(temp_path, f'{project_path}/.github/workflows/sync_project.yml')
+        # git add
+        print('[bold blue]Staging template')
+        cloned_repo.git.add(A=True)
+        # git commit
+        cloned_repo.index.commit('Added cookietemple sync workflow')
+        # git push to development branch
+        print('[bold blue]Pushing template to Github origin development')
+        cloned_repo.remotes.origin.push(refspec='development:development')
+        # remove temp workflow file
+        os.remove(temp_path)
         # did any errors occur?
         print(f'[bold green]Successfully created a Github repository at https://github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}')
 
@@ -312,12 +336,12 @@ def format_github_exception(data: dict) -> None:
 
     :param data: The exceptions data as a dict
     """
-    for k, v in data.items():
-        if not isinstance(v, list):
-            print(f'[bold red]{k.capitalize()}: {v}')
+    for section, description in data.items():
+        if not isinstance(description, list):
+            print(f'[bold red]{section.capitalize()}: {description}')
         else:
-            print(f'[bold red]{k.upper()}: ')
-            messages = [val if not isinstance(val, dict) and not isinstance(val, set) else github_exception_dict_repr(val) for val in v]
+            print(f'[bold red]{section.upper()}: ')
+            messages = [val if not isinstance(val, dict) and not isinstance(val, set) else github_exception_dict_repr(val) for val in description]
             print('[bold red]\n'.join(msg for msg in messages))
 
 
@@ -327,7 +351,7 @@ def github_exception_dict_repr(messages: dict) -> str:
 
     :param messages: The messages as a dict
     """
-    return '\n'.join(f'    {k.capitalize()}: {v}' for k, v in messages.items())
+    return '\n'.join(f'    {section.capitalize()}: {description}' for section, description in messages.items())
 
 
 def is_git_accessible() -> bool:

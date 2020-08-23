@@ -1,35 +1,40 @@
- name: Create lib-cpp Template
+name: Create lib-cpp Template
 
- on: [push]
+on: 
+  push:
+    paths-ignore:
+      - "tests/**"
+      - "docs/**"
 
- jobs:
-   build:
+jobs:
+  build:
 
-       runs-on: ubuntu-latest
-       strategy:
-         matrix:
-             python: [3.7, 3.8]
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+    strategy:
+      matrix:
+          python: [3.7, 3.8]
 
-       steps:
-       - uses: actions/checkout@v2
-         name: Check out source-code repository
+    steps:
+    - uses: actions/checkout@v2
+      name: Check out source-code repository
 
-       - name: Setup Python
-         uses: actions/setup-python@v1
-         with:
-           python-version: ${{ matrix.python }}
+    - name: Setup Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python }}
 
-       - name: Build cookietemple
-         run: |
-           python setup.py clean --all install
+    - name: Build cookietemple
+      run: |
+        python setup.py clean --all install
 
-       - name: Create lib-cpp Template
-         run: |
-           cd ..
-           echo -e "\033[B\n\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n\n\nn\n\n" | cookietemple create
+    - name: Create lib-cpp Template
+      run: |
+        echo -e "\033[B\n\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n\n\nn\n\n" | cookietemple create
 
-       - name: Build Package
-         run: |
-           cmake -Bbuild -DExplodingSpringfield_ENABLE_UNIT_TESTING=0 && \
-           cmake --build build
+    - name: Build Package
+      run: |
+        cd ExplodingSpringfield
+        cmake -Bbuild -DExplodingSpringfield_ENABLE_UNIT_TESTING=0 && \
+        cmake --build build
 

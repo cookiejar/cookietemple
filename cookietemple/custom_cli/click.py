@@ -141,17 +141,17 @@ class HelpErrorHandling(click.Group):
         :param cmd: The invoked subcommand
         """
         if cmd == 'info':
-            print(f'[bold red]Failed to execute [bold green]{cmd.upper()}.\n[bold blue]Please provide a valid handle like [bold green]cli '
+            print(f'[bold red]Failed to execute [bold green]{cmd}.\n[bold blue]Please provide a valid handle like [bold green]cli '
                   '[bold blue]as argument.')
             sys.exit(1)
 
         elif cmd == 'bump-version':
-            print(f'[bold red]Failed to execute [bold green]{cmd.upper()}.\n[bold blue]Please provide a new version like [bold green]1.2.3 '
+            print(f'[bold red]Failed to execute [bold green]{cmd}.\n[bold blue]Please provide a new version like [bold green]1.2.3 '
                   '[bold blue]as first argument.')
             sys.exit(1)
 
         elif cmd == 'config':
-            print(f'[bold red]Failed to execute [bold green]{cmd.upper()}.\n[bold blue]Please provide a valid argument. You can choose general, pat or all.')
+            print(f'[bold red]Failed to execute [bold green]{cmd}.\n[bold blue]Please provide a valid argument. You can choose general, pat or all.')
             sys.exit(1)
 
     def get_rich_value(self, output: str, is_header=True) -> str:
@@ -227,7 +227,7 @@ class CustomHelpSubcommand(click.Command):
         Custom implementation of formatting the options of each subcommand.
         The options will be displayed in their relative order with their corresponding help message and a styled header.
         """
-        options = [('--' + param.name, param.help) for param in self.params if type(param) == click.core.Option]
+        options = [('--' + param.name.replace('_', '-'), param.help) for param in self.params if type(param) == click.core.Option]
         help_option = self.get_help_option(ctx)
         options.append(('--' + help_option.name, help_option.help))
         with formatter.section(self.get_rich_value("Options")):

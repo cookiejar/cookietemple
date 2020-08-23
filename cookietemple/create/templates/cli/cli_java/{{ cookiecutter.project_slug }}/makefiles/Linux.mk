@@ -46,7 +46,7 @@ compile: clean
 binary: dist ## creates a self contained, platform specific executable with bundled JRE
 
 
-dist: clean ## builds source and wheel package
+dist: clean ## builds the binary executable
 	gradle build
 
 run: dist ## builds the binary and runs it

@@ -4,7 +4,7 @@ cli-python
 Purpose
 ^^^^^^^^
 
-cli-python is a `Python <https://www.python.org/>`_ based template for designed for command line applications,
+cli-python is a `Python <https://www.python.org/>`_ based template designed for command line applications,
 but it may also be easily used as standard Python package without any command line interface. It is an improved version of `cookiecutter-pypackage <https://github.com/audreyr/cookiecutter-pypackage>`_.
 
 Design

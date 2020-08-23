@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve {{cookiecutter.project_slug_no_hyphen}}
+After=network.target
+
+[Service]
+User={{cookiecutter.vmusername}}
+Group=www-data
+WorkingDirectory=/home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug_no_hyphen}}
+Environment="PATH=/home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug_no_hyphen}}/dpenv/bin"
+ExecStart=/home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug_no_hyphen}}/dpenv/bin/gunicorn --workers 3 --bind unix:{{cookiecutter.project_slug_no_hyphen}}.sock -m 007 {{cookiecutter.project_slug_no_hyphen}}.app:app
+
+[Install]
+WantedBy=multi-user.target

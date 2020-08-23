@@ -1,8 +1,5 @@
 import os
-from subprocess import Popen
-from rich import print
 
-from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.lint.template_linter import TemplateLinter, files_exist_linting, GetLintingFunctionsMeta
 
 CWD = os.getcwd()
@@ -55,5 +52,3 @@ class LibCppLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
         ]
 
         files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists, handle='lib-cpp')
-
-
