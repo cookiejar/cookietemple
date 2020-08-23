@@ -18,7 +18,7 @@ jobs:
     - run: java -version
     - run: gu install native-image
     - name: Build with Gradle
-      run: ./gradlew build
+      run: make dist
     - name: Rename the artifact to OS-unique name
       shell: bash
       run: |
@@ -49,7 +49,7 @@ jobs:
         shell: cmd
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
-          ./gradlew build
+          make dist
       - name: Rename the artifact to OS-unique name
         shell: bash
         run: |
