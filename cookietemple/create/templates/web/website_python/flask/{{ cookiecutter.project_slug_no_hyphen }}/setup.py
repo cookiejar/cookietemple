@@ -64,7 +64,7 @@ setup(
     {%- if 'no' not in cookiecutter.command_line_interface|lower %}
     entry_points={
         'console_scripts': [
-            '{{ cookiecutter.project_slug_no_hyphen }}={}.server:main'.format(module.__name__),
+            f'{{ cookiecutter.project_slug }}={module.__name__}.server:main',
         ],
     },
     {%- endif %}
