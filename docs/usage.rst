@@ -132,7 +132,7 @@ Invoke :code:`upgrade` by running
 .. code-block:: console
     :linenos:
 
-   $ cookietemple upgrade
+    $ cookietemple upgrade
 
 For more details please visit :ref:`upgrade`.
 
