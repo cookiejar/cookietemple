@@ -21,6 +21,8 @@ def test_if_repo_already_exists_no_overwrite(mocker, tmp_path) -> None:
     """
     Ensure that if a project with the same name already exists the user can decide to overwrite or not.
     If no, template creation will be canceled an nothing changes.
+
+    This tests redirects standard input (basically recreating the pipe operator from bash) because when using questionary, one cannot pass input from stdin.
     """
     input_str = b"\n\nHomer\nsimpson@gmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\n\n\nn"
     r, w = os.pipe()
@@ -45,6 +47,8 @@ def test_if_repo_already_exists_no_overwrite(mocker, tmp_path) -> None:
 def test_general_prompts_all_input_valid(tmp_path, mocker) -> None:
     """
     Ensure that valid inputs for general prompts for all template are processed properly.
+
+    This tests redirects standard input (basically recreating the pipe operator from bash) because when using questionary, one cannot pass input from stdin.
     """
     input_str = b"Homer\nsimpson@gmail.com\nhomergithub\nn"
     r, w = os.pipe()
@@ -71,6 +75,8 @@ def test_general_prompts_all_input_valid(tmp_path, mocker) -> None:
 def test_general_prompts_with_hyphen_slug(mocker, tmp_path) -> None:
     """
     Ensure that entering a project name containg a hyphen will lead to correct project_name and project_slug set
+
+    This tests redirects standard input (basically recreating the pipe operator from bash) because when using questionary, one cannot pass input from stdin.
     """
     input_str = b"Homer\nsimpson@gmail.com\nhomergithub\nn"
     r, w = os.pipe()

@@ -10,6 +10,8 @@ from cookietemple.create.github_support import decrypt_pat
 def test_general_settings(mocker, tmp_path):
     """
     Test cookietemple config general
+
+    This tests redirects standard input (basically recreating the pipe operator from bash) because when using questionary, one cannot pass input from stdin.
     """
     input_str = b"Homer Simpson\nsimpson@gmail.com\nhomergithub\n"
     r, w = os.pipe()
@@ -32,6 +34,8 @@ def test_general_settings(mocker, tmp_path):
 def test_pat_setting_all(mocker, tmp_path):
     """
     Test cookietemple config all
+
+    This tests redirects standard input (basically recreating the pipe operator from bash) because when using questionary, one cannot pass input from stdin.
     """
     input_str = b"Homer Simpson\nsimpson@gmail.com\nhomergithub\ny\nspringfieldToken1234\ny"
     r, w = os.pipe()
@@ -58,6 +62,8 @@ def test_pat_setting_all(mocker, tmp_path):
 def test_canceling_pat_set_will_not_overwrite(mocker, tmp_path):
     """
     Canceling PAT update should not change it
+
+    This tests redirects standard input (basically recreating the pipe operator from bash) because when using questionary, one cannot pass input from stdin.
     """
     input_str = b"Homer Simpson\nsimpson@gmail.com\nhomergithub\ny\nspringfieldToken1234\ny"
     r, w = os.pipe()
@@ -86,6 +92,8 @@ def test_canceling_pat_set_will_not_overwrite(mocker, tmp_path):
 def test_all_settings_update(mocker, tmp_path):
     """
     Test whether all items get updated
+
+    This tests redirects standard input (basically recreating the pipe operator from bash) because when using questionary, one cannot pass input from stdin.
     """
     input_str = b"Homer Simpson\nsimpson@gmail.com\nhomergithub\ny\nspringfieldToken1234\ny"
     r, w = os.pipe()
