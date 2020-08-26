@@ -124,14 +124,14 @@ def get_valid_languages():
 # TEST SECTION ========================================================
 
 
-def test_empty_handle_throws_click_error():
+def test_empty_handle_throws_error():
     """
     Ensure that info command requires a non-empty argument
     """
     runner = CliRunner()
     result = runner.invoke(info, [''])
 
-    assert result.exit_code == 1 and 'Failed to execute info.' in result.output
+    assert result.exit_code == 1
 
 
 def test_non_existing_handle(get_invalid_handles) -> None:
