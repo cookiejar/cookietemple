@@ -30,10 +30,10 @@ jobs:
         uses: mshick/add-pr-comment@v1
         with:
           message: |
-            Hi @${{ github.event.pull_request.user.login }},
+            Hi {% raw %}@${{ github.event.pull_request.user.login }}{% endraw %},
 
-            It looks like this pull-request is has been made against the ${{github.event.pull_request.head.repo.full_name}} `master` branch.
+            It looks like this pull-request is has been made against the {% raw %}${{github.event.pull_request.head.repo.full_name}}{% endraw %} `master` branch.
             A version check determined that you are using a SNAPSHOT version.
             The `master` branch should never have any SNAPSHOT versions, since only fully stable code should be on the `master` branch.
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}
           allow-repeats: false
