@@ -79,11 +79,11 @@ def create_test_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    from {{cookiecutter.project_slug}}.errors import bp as errors_bp  # noqa: E402
+    from {{ cookiecutter.project_slug_no_hyphen }}.errors import bp as errors_bp  # noqa: E402
 
     app.register_blueprint(errors_bp)
 
-    from {{cookiecutter.project_slug}}.basic import bp as basic_bp
+    from {{ cookiecutter.project_slug_no_hyphen }}.basic import bp as basic_bp
 
     app.register_blueprint(basic_bp)
 

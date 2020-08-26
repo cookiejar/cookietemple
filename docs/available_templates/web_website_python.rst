@@ -344,17 +344,42 @@ There are a few requirements needed in order to deploy:
     in order to correctly setup your server.
 
 If you meet all the requirements above login (for example via :bash:`$ ssh yourvmusername@your-servers-IP`) into your server:
-In order to run the setup script a few more steps are required (Cloning your project and setting up a virtual environment):
 
- 1. Install pip3 and the python3-dev dependencies using :bash:`$ sudo apt-get install python3-pip3 python3-dev nginx -y`
+To install pip3 you need to do the following:
+ 1. ``$ sudo apt-get install software-properties-common``
+ 2. ``$ sudo apt-add-repository universe``
+ 3. ``$ sudo apt-get update``
+ 4. ``$ sudo apt-get install python3-pip``
+
+In order to run the setup script a few more steps are required:
+
+ 1. Install the python3-dev dependencies and nginx using :bash:`$ sudo apt-get install python3-dev nginx -y`
  2. Clone your GitHub repository using :bash:`$ git clone https://github.com/<you_github_username>/<your_project_name>`
  3. Next cd into it via :bash:`$ cd <your_project_name>`
  4. Then, we need to install and create a virtualenv :bash:`$ sudo pip3 install virtualenv` (note the sudo here!).
  5. Create a virtualenv named :bash:`dpenv` using :bash:`$ virtualenv dpenv`. You must name your environment like this! Also, make sure your current working directory is your project's top level directory!
  6. Activate the virtualenv with :bash:`$ source dpenv/bin/activate`
+ 7. ``$ sudo apt-get update``
+ 8. ``$ pip3 install gunicorn``
+ 9. ``$ python3 setup.py clean --all install`` (no sudo here, as we don't need to install system wide)
 
 When done, you can now fire up the setup script to deploy your application:
 Use :bash:`$ sudo bash deployment_scripts/setup.sh` and deployment process starts.
+
+**Important**:
+Currently, one more step is required to get ``https`` redirecting to work properly. This will be included into a script in the future, to automate this process.
+ 1. ``$ sudo vim /etc/nginx/sites-enabled/<<my_project_name>>``
+ 2. Now, you need to copy the certbot added section from the second server section into the first server section, so copy:
+    ``listen 443 ssl; # managed by Certbot``
+    ``ssl_certificate /etc/letsencrypt/live/<<my_url>>/fullchain.pem; # managed by Certbot``
+    ``ssl_certificate_key /etc/letsencrypt/live/<<my_url>>/privkey.pem; # managed by Certbot``
+    ``include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot``
+    ``ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot``
+ into the first server section after the ``location`` and delete it from the second one.
+
+ 3. ``$ sudo nginx -t``
+ 4. ``$ sudo nginx -s reload``
+ 5. ``$ sudo systemctl restart <<my_project_name>>``
 
 Tip: You can check :bash:`$ sudo systemctl status <my_project_name>` to check for the working state of your gunicorn instance or any errors.
 

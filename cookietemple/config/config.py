@@ -177,7 +177,7 @@ class ConfigCommand:
         Check if the config directory for cookietemple exists. If not, create it.
         """
         if not os.path.exists(Path(ConfigCommand.CONF_FILE_PATH).parent):
-            os.mkdir(Path(ConfigCommand.CONF_FILE_PATH).parent)
+            os.makedirs(Path(ConfigCommand.CONF_FILE_PATH).parent)
 
     @staticmethod
     def handle_switcher() -> dict:
