@@ -92,7 +92,7 @@ install: clean ## install the package to the active Python's site-packages
 	pip install .
 {%- if cookiecutter.setup_type == 'advanced' %}
 init_db:
-	export FLASK_APP={{cookiecutter.project_slug}}\app.py; \
+	export FLASK_APP={{ cookiecutter.project_slug_no_hyphen }}\app.py; \
 	flask db init; \
 	flask db migrate -m"Init User Table"; \
 	flask db upgrade;{% endif %}
