@@ -31,7 +31,6 @@ class TemplateCreator:
     It holds the basic template information that are common across all templates (like a project name).
     Furthermore it defines methods that are basic for the template creation process.
     """
-
     def __init__(self, creator_ctx: CookietempleTemplateStruct):
         self.WD = os.path.dirname(__file__)
         self.TEMPLATES_PATH = f'{self.WD}/templates'
@@ -96,7 +95,7 @@ class TemplateCreator:
             self.directory_exists_warning()
 
             # Confirm proceeding with overwriting existing directory
-            if cookietemple_questionary_or_dot_cookietemple('confirm', 'Do you really want to continue?', default='Yes'):
+            if cookietemple_questionary_or_dot_cookietemple('confirm', 'Do you really want to continue?', default='No'):
                 cookiecutter(f'{domain_path}/{self.creator_ctx.domain}_{self.creator_ctx.language.lower()}',
                              no_input=True,
                              overwrite_if_exists=True,
