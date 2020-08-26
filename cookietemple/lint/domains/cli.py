@@ -32,9 +32,11 @@ class CliPythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
                              universal_newlines=True, shell=False, close_fds=True)
             (autopep8_stdout, autopep8_stderr) = autopep8.communicate()
 
-    def check_dependencies_not_outdated(self) -> None:
+    def check_dependencies_not_outdated(self) -> bool:
         """
         Check that every dependency from project's requirements.txt is the latest version available at PyPi.
+
+        :return Bool flag that shows code execution went right (used for testing purposes)
         """
 
         def check_dependencies(filename: str) -> None:
@@ -48,7 +50,7 @@ class CliPythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
                 if len(dependency) == 2:
                     _check_pip_package(dependency[0], dependency[1])
 
-        def _check_pip_package(pip_dependency_name, pip_dependency_version):
+        def _check_pip_package(pip_dependency_name, pip_dependency_version) -> None:
             """
             Query PyPi package information.
             Sends a HTTP GET request to the PyPi remote API.
@@ -77,6 +79,7 @@ class CliPythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
         check_dependencies('requirements.txt')
         # check development dependencies
         check_dependencies('requirements_dev.txt')
+        return True
 
     def python_files_exist(self) -> None:
         """
