@@ -74,3 +74,30 @@ or by invoking::
     $ cookietemple upgrade
 
 For more information please visit :ref:`upgrade`.
+
+Windows Installation
+--------------------
+
+Cookietemple exceeds the standard windows path length limit of 260 characters.
+In order to correctly install cookietemple the registry has to be adapted.
+To open the registry editor run:
+
+.. code-block:: console
+
+    $ regedit
+
+in your command prompt or directly open it through windows search bar.
+
+**Consider backing up your current registry state** as changes in the registry can always cause problems resulting in
+your OS not running correctly. You can either export the complete registry by selecting File > Export ... and setting
+the Export Range flag to 'All' or choose to export only selected branches.
+
+Next find the key **'LongPathsEnabled'** under
+
+.. code-block:: rst
+
+    HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem
+
+and change its 'Value Data' from '0' to '1'.
+
+Click 'OK' and close regedit. Continue installing cookietemple.

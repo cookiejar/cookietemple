@@ -22,7 +22,7 @@ jobs:
     - run: java -version
     - run: gu install native-image
     - name: Run gradle tests
-      run: ./gradlew test
+      run: make test
 
   build-windows:
     runs-on: {% raw %}${{ matrix.os }}{% endraw %}
@@ -44,4 +44,4 @@ jobs:
         shell: cmd
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
-          ./gradlew test
+          make test
