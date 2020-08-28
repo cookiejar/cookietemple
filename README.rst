@@ -43,7 +43,7 @@
 A cookiecutter based project template creation tool supporting several domains and languages with advanced linting and continuous integration.
 
 
-* Free  and open-source software: GNU General Public License v3
+* Free  and open-source software: Apache 2.0
 * Documentation: https://cookietemple.readthedocs.io .
 
 
