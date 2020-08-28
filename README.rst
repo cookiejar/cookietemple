@@ -69,9 +69,7 @@ Available Templates
 * Complex website with database support, translations and more based on Flask
 * C++ library or standalone tool based on CMake with support for many more build systems
 * Native Java command-line tool using Picocli and GraalVM
-* Native Kotlin command-line tool using Picocli and GraalVM
 * Native Java GUI tool based on JavaFX and GraalVM
-* Native Kotlin GUI tool based on JavaFX and GraalVM
 * Latex (BSc/MSc/dissertation/...) thesis
 
 Contributing
