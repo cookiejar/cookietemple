@@ -73,7 +73,7 @@ setup(
     include_package_data=True,
     keywords='{{ cookiecutter.project_slug }}',
     name='{{ cookiecutter.project_name }}',
-    packages=find_packages(include=['{{ cookiecutter.project_slug }}', '{{ cookiecutter.project_slug }}.*']),
+    packages=find_packages(include=['{{ cookiecutter.project_slug_no_hyphen }}', '{{ cookiecutter.project_slug_no_hyphen }}.*']),
     package_data = {
         module.__name__: walker(
             os.path.dirname(module.__file__),
