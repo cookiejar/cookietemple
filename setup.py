@@ -77,7 +77,7 @@ setup(
     author='Lukas Heumos',
     author_email='lukas.heumos@posteo.net',
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Natural Language :: English',
@@ -92,7 +92,7 @@ setup(
         ],
     },
     install_requires=requirements,
-    license='GNU General Public License v3',
+    license='Apache 2.0',
     long_description=readme,
     include_package_data=True,
     keywords='cookietemple',
@@ -107,7 +107,7 @@ setup(
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://github.com/zethson/cookietemple',
+    url='https://github.com/cookiejar/cookietemple',
     version='0.1.0',
     zip_safe=False,
     # cmdclass={'install': OverrideInstall} # This breaks the copying of some files! They seem to be cached or something. Dependencies are also not installed?
