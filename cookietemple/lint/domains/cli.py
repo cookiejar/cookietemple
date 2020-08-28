@@ -20,14 +20,14 @@ class CliPythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
 
         # Call autopep8, if needed
         if is_create:
-            print('[blue]Running autopep8 to fix pep8 issues in place')
+            print('[bold blue]Running autopep8 to fix pep8 issues in place')
             autopep8 = Popen(['autopep8', self.path, '--recursive', '--in-place', '--pep8-passes', '2000'],
                              universal_newlines=True, shell=False, close_fds=True)
             (autopep8_stdout, autopep8_stderr) = autopep8.communicate()
         elif cookietemple_questionary_or_dot_cookietemple(function='confirm',
                                                           question='Do you want to run autopep8 to fix pep8 issues?',
                                                           default='n'):
-            print('[blue]Running autopep8 to fix pep8 issues in place')
+            print('[bold blue]Running autopep8 to fix pep8 issues in place')
             autopep8 = Popen(['autopep8', self.path, '--recursive', '--in-place', '--pep8-passes', '2000'],
                              universal_newlines=True, shell=False, close_fds=True)
             (autopep8_stdout, autopep8_stderr) = autopep8.communicate()
