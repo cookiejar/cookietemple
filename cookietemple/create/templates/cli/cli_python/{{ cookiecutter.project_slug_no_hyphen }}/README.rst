@@ -12,8 +12,8 @@
         :alt: Github Workflow Tests Status
 
 .. image:: https://img.shields.io/pypi/v/{{ cookiecutter.project_name }}.svg
-        :target: https://img.shields.io/pypi/v/{{ cookiecutter.project_name }}.svg
         :target: https://pypi.python.org/pypi/{{ cookiecutter.project_name }}
+        :alt: PyPI Status
 
 {% if is_open_source %}
 .. image:: https://readthedocs.org/projects/{{ cookiecutter.project_name }}/badge/?version=latest
