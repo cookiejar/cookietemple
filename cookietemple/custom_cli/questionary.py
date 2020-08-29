@@ -6,6 +6,9 @@ import questionary
 from prompt_toolkit.styles import Style
 from rich import print
 
+log = logging.getLogger(__name__)
+
+
 cookietemple_style = Style([
     ('qmark', 'fg:#0000FF bold'),  # token in front of the question
     ('question', 'bold'),  # question text
@@ -43,8 +46,8 @@ def cookietemple_questionary_or_dot_cookietemple(function: str,
             if to_get_property in dot_cookietemple:
                 return dot_cookietemple[to_get_property]
     except KeyError:
-        logging.debug(f'.cookietemple.yml file was passed when creating a project, but key {to_get_property}'
-                      f' does not exist in the dot_cookietemple dictionary! Assigning default {default} to {to_get_property}.')
+        log.debug(f'.cookietemple.yml file was passed when creating a project, but key {to_get_property}'
+                  f' does not exist in the dot_cookietemple dictionary! Assigning default {default} to {to_get_property}.')
         return default
 
     # There is no .cookietemple.yml file aka dot_cookietemple dict passed -> ask for the properties
@@ -52,26 +55,29 @@ def cookietemple_questionary_or_dot_cookietemple(function: str,
     try:
         if function == 'select':
             if default not in choices:
-                logging.debug(f'Default value {default} is not in the set of choices!')
+                log.debug(f'Default value {default} is not in the set of choices!')
             answer = getattr(questionary, function)(f'{question}: ', choices=choices, style=cookietemple_style).unsafe_ask()
         elif function == 'password':
             while not answer or answer == '':
                 answer = getattr(questionary, function)(f'{question}: ', style=cookietemple_style).unsafe_ask()
         elif function == 'text':
             if not default:
-                logging.debug('Tried to utilize default value in questionary prompt, but is None! Please set a default value.')
+                log.debug('Tried to utilize default value in questionary prompt, but is None! Please set a default value.')
                 default = ''
             answer = getattr(questionary, function)(f'{question} [{default}]: ', style=cookietemple_style).unsafe_ask()
         elif function == 'confirm':
             default_value_bool = True if default == 'Yes' or default == 'yes' else False
             answer = getattr(questionary, function)(f'{question} [{default}]: ', style=cookietemple_style, default=default_value_bool).unsafe_ask()
         else:
-            logging.debug(f'Unsupported questionary function {function} used!')
+            log.debug(f'Unsupported questionary function {function} used!')
 
     except KeyboardInterrupt:
         print('[bold red] Aborted!')
         sys.exit(1)
     if answer is None or answer == '':
         answer = default
+
+    log.debug(f'User was asked the question: ||{question}|| as: {function}')
+    log.debug(f'User selected {answer}')
 
     return answer

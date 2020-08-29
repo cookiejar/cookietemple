@@ -27,6 +27,7 @@ def load_available_handles() -> set:
     nested_dict_to_handle_set(available_templates, unsplit_handles)
     all_handles.update(unsplit_handles)
     split_handles(unsplit_handles, all_handles)
+
     return all_handles
 
 

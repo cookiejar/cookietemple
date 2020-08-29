@@ -5,11 +5,14 @@ import logging
 import os
 import sys
 import click
+
 from pathlib import Path
 from rich import traceback
 from rich import print
 
 import cookietemple
+import rich.logging
+
 from cookietemple.bump_version.bump_version import VersionBumper
 from cookietemple.create.create import choose_domain
 from cookietemple.info.info import TemplateInfo
@@ -24,6 +27,7 @@ from cookietemple.sync.sync import TemplateSync
 from cookietemple.common.load_yaml import load_yaml_file
 
 WD = os.path.dirname(__file__)
+log = logging.getLogger()
 
 
 def main():
@@ -31,8 +35,8 @@ def main():
     print(rf"""[bold blue]
      ██████  ██████   ██████  ██   ██ ██ ███████ ████████ ███████ ███    ███ ██████  ██      ███████ 
     ██      ██    ██ ██    ██ ██  ██  ██ ██         ██    ██      ████  ████ ██   ██ ██      ██      
-    ██      ██    ██ ██    ██ █████   ██ █████      ██    █████   ██ ████ ██ ██████  ██      █████   
-    ██      ██    ██ ██    ██ ██  ██  ██ ██         ██    ██      ██  ██  ██ ██      ██      ██      
+    ██      ██    ██ ██    ██ █████   ██ █████      ██    █████   ██ ████ ██ ██████  ██      █████ 
+    ██      ██    ██ ██    ██ ██  ██  ██ ██         ██    ██      ██  ██  ██ ██      ██      ██    
      ██████  ██████   ██████  ██   ██ ██ ███████    ██    ███████ ██      ██ ██      ███████ ███████ 
         """)
 
@@ -47,15 +51,31 @@ def main():
 @click.group(cls=HelpErrorHandling)
 @click.version_option(cookietemple.__version__, message=click.style(f'cookietemple Version: {cookietemple.__version__}', fg='blue'))
 @click.option('-v', '--verbose', is_flag=True, default=False, help='Enable verbose output (print debug statements).')
+@click.option("-l", "--log-file", help="Save a verbose log to a file.")
 @click.pass_context
-def cookietemple_cli(ctx, verbose):
+def cookietemple_cli(ctx, verbose, log_file):
     """
     Create state of the art projects from production ready templates.
     """
-    if verbose:
-        logging.basicConfig(level=logging.DEBUG, format='\n%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    else:
-        logging.basicConfig(level=logging.INFO, format='\n%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    # Set the base logger to output DEBUG
+    log.setLevel(logging.DEBUG)
+
+    # Set up logs to the console
+    log.addHandler(
+        rich.logging.RichHandler(
+            level=logging.DEBUG if verbose else logging.INFO,
+            console=rich.console.Console(file=sys.stderr),
+            show_time=True,
+            markup=True,
+        )
+    )
+
+    # Set up logs to a file if we asked for one
+    if log_file:
+        log_fh = logging.FileHandler(log_file, encoding="utf-8")
+        log_fh.setLevel(logging.DEBUG)
+        log_fh.setFormatter(logging.Formatter("[%(asctime)s] %(name)-20s [%(levelname)-7s]  %(message)s"))
+        log.addHandler(log_fh)
 
 
 @cookietemple_cli.command(short_help='Create a new project using one of our templates.', cls=CustomHelpSubcommand)

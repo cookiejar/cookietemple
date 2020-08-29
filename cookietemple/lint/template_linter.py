@@ -1,4 +1,5 @@
 import io
+import logging
 import os
 import re
 import configparser
@@ -13,6 +14,8 @@ from packaging import version
 from itertools import groupby
 
 from cookietemple.util.dir_util import pf
+
+log = logging.getLogger(__name__)
 
 
 class TemplateLinter(object):
@@ -51,6 +54,7 @@ class TemplateLinter(object):
             check_functions = [func for func in dir(TemplateLinter) if (callable(getattr(TemplateLinter, func)) and not func.startswith('_'))]
             # Remove internal functions
             check_functions = list(set(check_functions).difference({'lint_project', 'print_results', 'check_version_match'}))
+            log.debug(f'Linting functions of general linting are:\n {check_functions}')
         # Some templates (e.g. latex based) do not adhere to the common programming based templates and therefore do not need to check for e.g. docs
         # or lint changelog
         if custom_check_files:
@@ -63,6 +67,7 @@ class TemplateLinter(object):
             "[bold yellow]{task.completed} of {task.total}[reset] [bold green]{task.fields[func_name]}",
         )
         with progress:
+            log.debug(f'Running linting function: {fun_name}')
             lint_progress = progress.add_task(
                 "Running lint checks", total=len(check_functions), func_name=check_functions
             )
@@ -180,7 +185,7 @@ class TemplateLinter(object):
 
     def check_cookietemple_todos(self) -> None:
         """
-        Go through all template files looking for the string 'TODO COOKIETEMPLE:'
+        Go through all template files looking for the string 'TODO COOKIETEMPLE:' or 'COOKIETEMPLE TODO:'
         """
         ignore = ['.git']
         if os.path.isfile(os.path.join(self.path, '.gitignore')):
@@ -212,7 +217,6 @@ class TemplateLinter(object):
         """
         Verifies that no cookiecutter strings are in any of the files
         """
-
         for root, dirs, files in os.walk(self.path):
             for fname in files:
                 with io.open(os.path.join(root, fname), 'rt', encoding='latin1') as file:

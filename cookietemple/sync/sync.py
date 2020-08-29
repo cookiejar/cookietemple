@@ -3,6 +3,7 @@
 Synchronise a project TEMPLATE branch with the template.
 """
 import fnmatch
+import logging
 import sys
 from configparser import ConfigParser, NoSectionError
 from distutils.dir_util import copy_tree
@@ -23,6 +24,9 @@ from cookietemple.create.create import choose_domain
 from cookietemple.common.version import load_project_template_version_and_handle, load_ct_template_version
 from cookietemple.config.config import ConfigCommand
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
+
+
+log = logging.getLogger(__name__)
 
 
 class TemplateSync:
@@ -92,7 +96,7 @@ class TemplateSync:
 
     def inspect_sync_dir(self):
         """
-        Examines target directory to sync, verifies that it's a git repository and ensures that there are no uncommitted changes.
+        Examines target directory to sync, verifies that it is a git repository and ensures that there are no uncommitted changes.
         """
         if not os.path.exists(os.path.join(str(self.project_dir), '.cookietemple.yml')):
             print(f'[bold red]{self.project_dir} does not appear to contain a .cookietemple.yml file. Did you delete it?')

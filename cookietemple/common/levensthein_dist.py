@@ -1,4 +1,8 @@
+import logging
+
 from cookietemple.common.suggest_similar_commands import SIMILARITY_SUGGEST_FACTOR, SIMILARITY_USE_FACTOR
+
+log = logging.getLogger(__name__)
 
 
 def levensthein_dist(input_command: str, candidate: str) -> int:
