@@ -224,7 +224,7 @@ class VersionBumper:
 
         # patch update like bumping from 1.8.5 to 1.8.6
         elif new_v_split[2] != cur_v_split[2]:
-            log.debug('Identified Patch version bump')
+            log.debug('Identified patch version bump')
             return new_v_split[0] == cur_v_split[0] and new_v_split[1] == cur_v_split[1] and (int(new_v_split[2]) - int(cur_v_split[2]) == 1)
 
         # case when we bumping like 3.0.0-SNAPSHOT to 3.0.0

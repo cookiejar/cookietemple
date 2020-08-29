@@ -108,7 +108,7 @@ class ConfigCommand:
 
             # encrypt the given PAT and save the encryption key and encrypted PAT in separate files
             print('[bold blue]Generating key for encryption.')
-            log.debug('Encrypting personal access key.')
+            log.debug('Generating personal access key.')
             key = Fernet.generate_key()
             fer = Fernet(key)
             log.debug('Encrypting personal access token. ')

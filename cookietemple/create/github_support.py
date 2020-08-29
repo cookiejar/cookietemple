@@ -57,7 +57,7 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
             repo = org.create_repo(creator_ctx.project_slug, description=creator_ctx.project_short_description, private=creator_ctx.is_repo_private)
             creator_ctx.github_username = creator_ctx.github_orga
         else:
-            log.debug(f'Creating a new Github repository for user: {user}.')
+            log.debug(f'Creating a new Github repository for user: {creator_ctx.github_username}.')
             repo = user.create_repo(creator_ctx.project_slug, description=creator_ctx.project_short_description, private=creator_ctx.is_repo_private)
 
         print('[bold blue]Creating labels and default Github settings')

@@ -163,7 +163,7 @@ class TemplateInfo:
             else:
                 # found multiple similar handles
                 nl = '\n'
-                print(f'[bold green red]Unknown handle \'{handle}\'. See [green]cookietemple list [red]for all valid handles.' +
+                print(f'[bold red]Unknown handle \'{handle}\'. See [green]cookietemple list [red]for all valid handles.' +
                       f'\nMost similar handles are: [green]{nl}{nl.join(sorted(self.most_sim))}')
             sys.exit(0)
 

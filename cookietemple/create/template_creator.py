@@ -34,6 +34,7 @@ class TemplateCreator:
     It holds the basic template information that are common across all templates (like a project name).
     Furthermore it defines methods that are basic for the template creation process.
     """
+
     def __init__(self, creator_ctx: CookietempleTemplateStruct):
         self.WD = os.path.dirname(__file__)
         self.TEMPLATES_PATH = f'{self.WD}/templates'
@@ -209,8 +210,8 @@ class TemplateCreator:
             if cookietemple_questionary_or_dot_cookietemple(function='confirm',
                                                             question='Do you want to choose another name for your project?\n'
                                                                      'Otherwise you will not be able to host your docs at readthedocs.io!', default='Yes'):
-                self.creator_ctx.project_name = cookietemple_questionary_or_dot_cookietemple('text',
-                                                                                             'Project name',
+                self.creator_ctx.project_name = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                                             question='Project name',
                                                                                              default='Exploding Springfield')
             # break if the project should be named anyways
             else:
@@ -251,7 +252,7 @@ class TemplateCreator:
             self.creator_ctx.creator_github_username = dot_cookietemple['creator_github_username']
         else:
             self.creator_ctx.github_username = load_github_username()
-            self.creator_ctx.creator_github_username = self.creator_ctx. github_username
+            self.creator_ctx.creator_github_username = self.creator_ctx.github_username
 
     def create_common_files(self) -> None:
         """
@@ -264,10 +265,6 @@ class TemplateCreator:
         cwd_project = Path.cwd()
         os.chdir(dirpath)
 
-        # COOKIETEMPLE TODO: We should use the project_slug_no_hyphen here
-        # Python does not allow for hyphens (module imports etc) -> remove them
-        no_hyphen = self.creator_ctx.project_slug.replace('-', '_')
-
         log.debug(f'Cookiecuttering common files at {dirpath}')
         cookiecutter(dirpath,
                      extra_context={'full_name': self.creator_ctx.full_name,
@@ -275,7 +272,8 @@ class TemplateCreator:
                                     'language': self.creator_ctx.language,
                                     'domain': self.creator_ctx.domain,
                                     'project_name': self.creator_ctx.project_name,
-                                    'project_slug': self.creator_ctx.project_slug if self.creator_ctx.language != 'python' else no_hyphen,
+                                    'project_slug': self.creator_ctx.project_slug if self.creator_ctx.language != 'python'
+                                    else self.creator_ctx.project_slug_no_hyphen,
                                     'version': self.creator_ctx.version,
                                     'license': self.creator_ctx.license,
                                     'project_short_description': self.creator_ctx.project_short_description,
@@ -333,7 +331,7 @@ class TemplateCreator:
 
         :param template_version: Version of the specific template
         """
-        log.debug('Creating .cookietemple file.')
+        log.debug('Creating .cookietemple.yml file.')
         self.creator_ctx.template_version = f'{template_version} # <<COOKIETEMPLE_NO_BUMP>>'
         self.creator_ctx.cookietemple_version = f'{cookietemple.__version__} # <<COOKIETEMPLE_NO_BUMP>>'
         # Python does not allow for hyphens (module imports etc) -> remove them
