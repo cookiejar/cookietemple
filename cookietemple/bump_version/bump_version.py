@@ -262,7 +262,7 @@ class VersionBumper:
                                                                 default='n'):
                 sys.exit(1)
 
-    def add_changelog_section(self, new_version: str) -> None:
+    def add_changelog_section(self, path: Path, new_version: str) -> None:
         """
         Each version bump will add a new section template to the CHANGELOG.rst
         :param path: Path to top level project directory (where the CHANGELOG.rst file should lie)
