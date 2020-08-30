@@ -188,7 +188,7 @@ class ConfigCommand:
         """
         Check if the config directory for cookietemple exists. If not, create it.
         """
-        log.debug(f'Checking whether a config directory already exists at {ConfigCommand.CONF_FILE_PATH}.')
+        log.debug(f'Checking whether a config directory already exists at {Path(ConfigCommand.CONF_FILE_PATH).parent}.')
         if not os.path.exists(Path(ConfigCommand.CONF_FILE_PATH).parent):
             os.makedirs(Path(ConfigCommand.CONF_FILE_PATH).parent)
 
