@@ -5,7 +5,7 @@ from cookietemple.util.dict_util import is_nested_dictionary
 
 AVAILABLE_TEMPLATES_PATH = f'{os.path.dirname(__file__)}/../create/templates/available_templates.yml'
 
-# Cookietemples main commands
+# cookietemple's main commands
 MAIN_COMMANDS = ['create', 'lint', 'list', 'info', 'bump-version', 'sync', 'warp', 'config', 'upgrade']
 
 # the fraction relative to the commands length, a given input could differ from the real command to be automatically used instead

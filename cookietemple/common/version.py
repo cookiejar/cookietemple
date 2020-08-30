@@ -1,11 +1,8 @@
-import logging
 import sys
 from pathlib import Path
 from rich import print
 
 from cookietemple.common.load_yaml import load_yaml_file
-
-log = logging.getLogger(__name__)
 
 
 def load_ct_template_version(handle: str, yaml_path: str) -> str:

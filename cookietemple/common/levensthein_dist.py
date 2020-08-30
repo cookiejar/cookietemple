@@ -1,19 +1,13 @@
-import logging
-
 from cookietemple.common.suggest_similar_commands import SIMILARITY_SUGGEST_FACTOR, SIMILARITY_USE_FACTOR
-
-log = logging.getLogger(__name__)
 
 
 def levensthein_dist(input_command: str, candidate: str) -> int:
     """
     This function implements the Levenshtein algorithm to determine, in case of a non-existing handle,
-    if theres a very similar command to suggest.
-
-    TODO: SPACE-OPTIMIZATION (currently O(n^2) could be done in O(n) using only two arrays)
-
+    if there is a similar command to suggest.
     :param input_command: The non-existing handle the user gave as input
     :param candidate: The (possible similar) alternative command
+
     :return: The similarity between the two strings measured by the levensthein distance
     """
 
@@ -47,9 +41,9 @@ def most_similar_command(command: str, command_list: set) -> (list, str):
     The similarity is determined by the levensthein distance and a factor (currently 1/3)
     sets a limit where a similar command is useful to be automatically used. If the difference diff is 1/3 < diff <= 2/3, one
     or more similar commands could be suggested, but not used automatically.
-
     :param command_list: The commands that are available by the users specific action
     :param command: The command given by the user
+
     :return: A list of similar command(s) or the empty string if there's none and a string that indicates the action to be taken
     """
     min_use = 999999  # some random large integer -> we will never have handles that are larger than 1000 character

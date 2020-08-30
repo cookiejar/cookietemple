@@ -38,14 +38,13 @@ class VersionBumper:
 
     def bump_template_version(self, new_version: str, project_dir: Path) -> None:
         """
-        Update the version number for all files that are whitelisted in the config file.
+        Update the version number for all files that are whitelisted in the config file or explicitly allowed in the blacklisted section.
 
-        INFO on valid versions: All versions must match the format like 1.0.0 or 1.1.0-SNAPSHOT; these are the only valid
+        Concerning valid versions: All versions must match the format like 1.0.0 or 1.1.0-SNAPSHOT; these are the only valid
         version formats cookietemple allows. A valid version therefore contains a three digits (in the range from 0 to however large it will grow)
         separated by two dots.
         Optional is the -SNAPSHOT at the end (for JVM templates especially). NOTE that versions like 1.2.3.4 or 1.2 WILL NOT be recognized as valid versions as
         well as no substring of them will be recognized.
-
         :param new_version: The new version number that should replace the old one in a cookietemple project
         :param project_dir: The default value is the current working directory, so we´re initially assuming the user
                              bumps the version from the projects top level directory. If this is not the case this parameter
@@ -84,9 +83,9 @@ class VersionBumper:
             self.parser.write(configfile)
 
         # add a new changelog section when downgrade mode is disabled
-        self.add_changelog_section(project_dir, new_version)
+        self.add_changelog_section(new_version)
 
-        # check if a project is a git repository and if so, commit bumped version changes
+        # check whether a project is a git repository and if so, commit bumped version changes
         if is_git_repo(project_dir):
             repo = Repo(project_dir)
 
@@ -100,11 +99,9 @@ class VersionBumper:
 
     def replace(self, file_path: str, subst: str, section: str) -> (bool, str):
         """
-        Replace a version with the new version unless the line is explicitly excluded (marked with
-        <<COOKIETEMPLE_NO_BUMP>>).
-        Or, in case of blacklisted files, it ignores all lines with version numbers unless they´re explicitly marked
+        Replace a version with the new version unless the line is explicitly excluded (marked with <<COOKIETEMPLE_NO_BUMP>>).
+        In case of blacklisted files, bump-version ignores all lines with version numbers unless they´re explicitly marked
         for bump with tag <<COOKIETEMPLE_FORCE_BUMP>>.
-
         :param file_path: The path of the file where the version should be updated
         :param subst: The new version that replaces the old one
         :param section: The current section (whitelisted or blacklisted files)
@@ -151,9 +148,9 @@ class VersionBumper:
         1.) The new version number matches the format like 1.1.0 or 1.1.0-SNAPSHOT required by cookietemple versions
         2.) The new version is greater than the current one
         3.) The project is a cookietemple project (this is already checked when creating the "bumper" object
-
         :param new_version: The new version
         :param project_dir: The directory of the project
+
         :return: True if bump version can be run, false otherwise.
         """
         # ensure that the entered version number matches correct format like 1.1.0 or 1.1.0-SNAPSHOT but not 1.2 or 1.2.3.4
@@ -204,9 +201,9 @@ class VersionBumper:
         """
         Check if the new version seems to be a reasonable bump or not (ignored when using the downgrade flag).
         This should not break the bump-version process, but it requires confirmation of the user.
-
         :param current_version: The current version
         :param new_version: The new version
+
         :return: If it´s a reasonable bump
         """
         cur_v_split = current_version.split('.')
@@ -233,10 +230,11 @@ class VersionBumper:
 
     def lint_before_bump(self) -> None:
         """
-        Lint the changelog prior to bumping. Linting consists of two major points (beside checking if a CHANGELOG.rst file even exists at top level directory).
+        Lint the changelog prior to bumping. Linting consists of three major points.
 
-        1. Lint CHANGELOG.rst to ensure that bump-version can safely add a new section
-        2. Check, whether all versions are consistent over the project
+        1. Check, whether a CHANGELOG.rst file exist in top level directory of the project.
+        2. Lint CHANGELOG.rst to ensure that bump-version can safely add a new section
+        3. Check, whether all versions are consistent over the project
         """
         changelog_linter = TemplateLinter(path=self.top_level_dir)
         changelog_path = os.path.join(self.top_level_dir, 'CHANGELOG.rst')
@@ -262,10 +260,9 @@ class VersionBumper:
                                                                 default='n'):
                 sys.exit(1)
 
-    def add_changelog_section(self, path: Path, new_version: str) -> None:
+    def add_changelog_section(self, new_version: str) -> None:
         """
         Each version bump will add a new section template to the CHANGELOG.rst
-        :param path: Path to top level project directory (where the CHANGELOG.rst file should lie)
         :param new_version: The new version
         """
         log.debug('Adding new changelog section.')

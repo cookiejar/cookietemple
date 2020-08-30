@@ -190,12 +190,13 @@ class ConfigCommand:
         """
         log.debug(f'Checking whether a config directory already exists at {Path(ConfigCommand.CONF_FILE_PATH).parent}.')
         if not os.path.exists(Path(ConfigCommand.CONF_FILE_PATH).parent):
+            log.debug('Config directory did not exist. Creating it.')
             os.makedirs(Path(ConfigCommand.CONF_FILE_PATH).parent)
 
     @staticmethod
     def handle_switcher() -> dict:
         """
-        Just a helper to switch between handles.
+        Helper to switch between handles.
 
         :return: The switcher with all handles.
         """
