@@ -269,4 +269,4 @@ def print_cookietemple_version(ctx, param, value):
         print(f'[bold blue]Cookietemple version: {cookietemple.__version__}')
         ctx.exit()
     except click.ClickException:
-        ctx.fail(f'An error occurred fetching cookietemples version!')
+        ctx.fail('An error occurred fetching cookietemples version!')

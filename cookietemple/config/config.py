@@ -133,12 +133,12 @@ class ConfigCommand:
             for (name, value) in settings.items():
                 # don't print token directly, just inform it's set
                 if name == 'pat':
-                    table.add_row(f'[bold]Personal access token', 'TOKEN_IS_SET')
+                    table.add_row('[bold]Personal access token', 'TOKEN_IS_SET')
                 else:
                     table.add_row(f'[bold]{name.capitalize().replace("_", " ")}', f'[white]{value}')
             # don't print PAT directly but inform if not set
             if 'pat' not in settings.keys():
-                table.add_row(f'[bold]Personal access token', '[red]NO_TOKEN_SET')
+                table.add_row('[bold]Personal access token', '[red]NO_TOKEN_SET')
 
             console = Console()
             console.print(table)

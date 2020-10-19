@@ -76,7 +76,7 @@ Contributing
 ------------
 
 cookietemple is a huge open-source effort and highly welcomes all contributions! Join our `Discord Channel <https://discord.gg/PYF8NUk>`_.
-Please read :ref:`contributing`  to find out how you can contribute.
+Please read `contributing  <https://cookietemple.readthedocs.io/en/contributing>`_ to find out how you can contribute.
 
 Authors
 -------
