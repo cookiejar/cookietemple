@@ -44,7 +44,8 @@ def main():
 
 
 @click.group(cls=HelpErrorHandling)
-@click.option('--version', is_flag=True, callback=print_cookietemple_version, expose_value=False, is_eager=True)
+@click.option('--version', is_flag=True, callback=print_cookietemple_version, expose_value=False, is_eager=True,
+              help='Output the current version of cookietemple installed.')
 @click.option('-v', '--verbose', is_flag=True, default=False, help='Enable verbose output (print debug statements).')
 @click.pass_context
 def cookietemple_cli(ctx, verbose):
