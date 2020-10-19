@@ -20,7 +20,7 @@ from cookietemple.lint.lint import lint_project
 from cookietemple.list.list import TemplateLister
 from cookietemple.upgrade.upgrade import UpgradeCommand
 from cookietemple.warp.warp import warp_project
-from cookietemple.custom_cli.click import HelpErrorHandling, print_project_version, CustomHelpSubcommand, CustomArg
+from cookietemple.custom_cli.click import HelpErrorHandling, print_project_version, CustomHelpSubcommand, CustomArg, print_cookietemple_version
 from cookietemple.config.config import ConfigCommand
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.sync.sync import TemplateSync
@@ -49,7 +49,7 @@ def main():
 
 
 @click.group(cls=HelpErrorHandling)
-@click.version_option(cookietemple.__version__, message=click.style(f'cookietemple Version: {cookietemple.__version__}', fg='blue'))
+@click.option('--version', is_flag=True, callback=print_cookietemple_version, expose_value=False, is_eager=True)
 @click.option('-v', '--verbose', is_flag=True, default=False, help='Enable verbose output (print debug statements).')
 @click.option("-l", "--log-file", help="Save a verbose log to a file.")
 @click.pass_context

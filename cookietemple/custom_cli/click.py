@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 from configparser import NoSectionError
 
+import cookietemple
 from cookietemple.common.suggest_similar_commands import MAIN_COMMANDS
 from cookietemple.common.levensthein_dist import most_similar_command
 from cookietemple.bump_version.bump_version import VersionBumper
@@ -102,7 +103,7 @@ class HelpErrorHandling(click.Group):
 
         with formatter.section(self.get_rich_value("Feedback")):
             formatter.write_text("We are always curious about your opinion on cookietemple. Join our Discord at "
-                                 "https://discord.com/channels/708008788505919599/708008788505919602 and drop us message: cookies await you.")
+                                 "https://discord.com/channels/708008788505919599/708008788505919602 and drop us a message: cookies await you.")
 
     def get_command(self, ctx, cmd_name):
         """
@@ -166,22 +167,6 @@ class HelpErrorHandling(click.Group):
             console.print(f"[bold #1874cd]{output}")
 
         return sio.getvalue().replace('\n', '')
-
-
-def print_project_version(ctx, param, value) -> None:
-    """
-    Print the current project version.
-    """
-    # if context uses resilient parsing (no changes of execution flow) or no flag value is provided, do nothing
-    if not value or ctx.resilient_parsing:
-        return
-    try:
-        print(f'[bold blue]Current project version is [bold green]{VersionBumper(Path.cwd(), False).CURRENT_VERSION}!')
-        ctx.exit()
-    # currently, its only possible to get project version from top level project dir where the cookietemple.cfg file is
-    except NoSectionError:
-        ctx.fail(click.style('Unable to read from cookietemple.cfg file.\nMake sure your current working directory has a cookietemple.cfg file '
-                             'when running bump-version with the --project-version flag!', fg='red'))
 
 
 class CustomHelpSubcommand(click.Command):
@@ -255,3 +240,33 @@ class CustomArg(click.Argument):
     def __init__(self, *args, **kwargs):
         self.helpmsg = kwargs.pop('helpmsg')
         super().__init__(*args, **kwargs)
+
+
+def print_project_version(ctx, param, value) -> None:
+    """
+    Print the current project version.
+    """
+    # if context uses resilient parsing (no changes of execution flow) or no flag value is provided, do nothing
+    if not value or ctx.resilient_parsing:
+        return
+    try:
+        print(f'[bold blue]Current project version is [bold green]{VersionBumper(Path.cwd(), False).CURRENT_VERSION}!')
+        ctx.exit()
+    # currently, its only possible to get project version from top level project dir where the cookietemple.cfg file is
+    except NoSectionError:
+        ctx.fail(click.style('Unable to read from cookietemple.cfg file.\nMake sure your current working directory has a cookietemple.cfg file '
+                             'when running bump-version with the --project-version flag!', fg='red'))
+
+
+def print_cookietemple_version(ctx, param, value):
+    """
+    Print cookietemple version styled with rich.
+    """
+    # if context uses resilient parsing (no changes of execution flow) or no flag value is provided, do nothing
+    if not value or ctx.resilient_parsing:
+        return
+    try:
+        print(f'[bold blue]Cookietemple version: {cookietemple.__version__}')
+        ctx.exit()
+    except click.ClickException:
+        ctx.fail(f'An error occurred fetching cookietemples version!')
