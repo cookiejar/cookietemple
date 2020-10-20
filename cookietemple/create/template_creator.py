@@ -284,8 +284,8 @@ class TemplateCreator:
 
         # recursively copy the common files directory content to the created project
         log.debug('Copying common files into the created project')
-        copy_tree(f'{os.getcwd()}/common_files_util', f'{cwd_project}/'
-                                                      f'{self.creator_ctx.project_slug if self.creator_ctx.language != "python" else no_hyphen}')
+        dest_dir = self.creator_ctx.project_slug if self.creator_ctx.language != "python" else self.creator_ctx.project_slug_no_hyphen
+        copy_tree(f'{os.getcwd()}/common_files_util', f'{cwd_project}/{dest_dir}')
         # delete the tmp cookiecuttered common files directory
         log.debug('Delete common files directory.')
         delete_dir_tree(Path(f'{Path.cwd()}/common_files_util'))
