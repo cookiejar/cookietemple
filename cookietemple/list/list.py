@@ -1,13 +1,16 @@
+import logging
 import os
+
 from rich.style import Style
 from rich.console import Console
 from rich.table import Table
 from rich.box import HEAVY_HEAD
 from rich import print
 
-
 from cookietemple.util.dict_util import is_nested_dictionary
 from cookietemple.common.load_yaml import load_yaml_file
+
+log = logging.getLogger(__name__)
 
 
 class TemplateLister:
@@ -24,12 +27,14 @@ class TemplateLister:
         Displays all available templates to stdout in nicely formatted yaml format.
         Omits long descriptions.
         """
+        log.debug(f'Reading available_templates.yml at {self.TEMPLATES_PATH}/available_templates.yml')
         available_templates = load_yaml_file(f'{self.TEMPLATES_PATH}/available_templates.yml')
         print('[bold blue]Run [green]cookietemple info [blue]for long descriptions of your template of interest')
         print()
 
         # What we want to have are lists like
         # [['name', 'handle', 'short description', 'available libraries', 'version'], ['name', 'handle', 'short description', 'available libraries', 'version']]
+        log.debug('Building list table.')
         templates_to_tabulate = []
         for language in available_templates.values():
             for val in language.values():
@@ -55,5 +60,6 @@ class TemplateLister:
         for template in templates_to_tabulate:
             table.add_row(f'[bold]{template[0]}', template[1], template[2], template[3], template[4])
 
+        log.debug('Printing list table.')
         console = Console()
         console.print(table)

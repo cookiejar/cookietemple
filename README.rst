@@ -1,10 +1,9 @@
-|pic1| |pic2|
+|pic1|
 
 .. |pic1| image:: https://user-images.githubusercontent.com/21954664/83797925-a7019400-a6a3-11ea-86ad-44ad00e24234.png
-   :width: 25%
+   :width: 75%
 
-.. |pic2| image:: https://user-images.githubusercontent.com/21954664/83797595-33f81d80-a6a3-11ea-9790-6c5dacef8161.png
-   :width: 25%
+-----------------------------------------------------------
 
 |
 
@@ -40,37 +39,76 @@
         :target: https://twitter.com/cookiejarorg
         :alt: Twitter Follow
 
-A cookiecutter based project template creation tool supporting several domains and languages with advanced linting and continuous integration.
+A cookiecutter based project template creation tool supporting several domains and languages with advanced linting, syncing and standardized workflows to get your project kickstarted in no time.
 
 
 * Free  and open-source software: Apache 2.0
 * Documentation: https://cookietemple.readthedocs.io .
 
 
-Overview
-===============
-
-Features
+Installing
 ---------------
 
-* Kickstart your project using a production ready project template
-* Choose from a variety of domains, languages and frameworks
-* All project templates feature a common structure, but allow flexibility where needed
-* Ensure that your project follows common high standards and best practices using advanced linting and continuous integration pipelines
-* Templates share consistent commands like bump-version or make commands even over different domains and languages
-* Sync your template to assure that your project is up to date
-* Benefit from detailed documentation and support
+Start your journey with cookietemple by installing it via :code:`$ pip install cookietemple`.
 
-Available Templates
--------------------
+Cookietemple
+============
 
-* Python (command-line) package
-* Simple website based on Flask
-* Complex website with database support, translations and more based on Flask
-* C++ library or standalone tool based on CMake with support for many more build systems
-* Native Java command-line tool using Picocli and GraalVM
-* Native Java GUI tool based on JavaFX and GraalVM
-* Latex (BSc/MSc/dissertation/...) thesis
+Create
+------
+Kickstart your customized project with one of cookietemple's templates in no time.
+
+Sync
+------
+Sync your project with the latest cookietemple release to ensure you are up to date.
+
+Lint
+----
+Use advanced linting to ensure your project always adheres to common standards.
+
+.. figure:: img/lint_readme.gif
+
+Bump-Version
+------------
+Bump your project version with many configurable options.
+
+.. figure:: img/bump_version_readme.gif
+
+Config
+------
+Configure your cookietemple settings to ensure you are not always asked for the same thing.
+
+.. figure:: img/config_readme.gif
+
+List
+----
+List all available cookietemple templates with short info for each.
+
+.. figure:: img/list_readme.gif
+
+Info
+----
+Get detailed information on a cookietemple template.
+
+.. figure:: img/info_readme.gif
+
+Warp
+----
+Create a self contained executable.
+Currently, cookietemple does not ship any templates, where this may be required.
+
+Upgrade
+-------
+Check whether you are using the latest cookietemple version and update automatically to benefit from the latest features.
+
+
+Projects using cookietemple
+---------------------------
+A few of those projects using cookietemple are listed below:
+
+* `<https://github.com/mlf-core/system-intelligence>`_
+* `<https://github.com/mlf-core/mlf-core>`_
+* `<https://github.com/cookiejar/cookietemple_website>`_
 
 Contributing
 ------------

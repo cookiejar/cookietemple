@@ -5,9 +5,13 @@ import logging
 import os
 import sys
 import click
+
 from pathlib import Path
 from rich import traceback
 from rich import print
+
+import cookietemple
+import rich.logging
 
 from cookietemple.bump_version.bump_version import VersionBumper
 from cookietemple.create.create import choose_domain
@@ -23,6 +27,7 @@ from cookietemple.sync.sync import TemplateSync
 from cookietemple.common.load_yaml import load_yaml_file
 
 WD = os.path.dirname(__file__)
+log = logging.getLogger()
 
 
 def main():
@@ -47,15 +52,31 @@ def main():
 @click.option('--version', is_flag=True, callback=print_cookietemple_version, expose_value=False, is_eager=True,
               help='Output the current version of cookietemple installed.')
 @click.option('-v', '--verbose', is_flag=True, default=False, help='Enable verbose output (print debug statements).')
+@click.option("-l", "--log-file", help="Save a verbose log to a file.")
 @click.pass_context
-def cookietemple_cli(ctx, verbose):
+def cookietemple_cli(ctx, verbose, log_file):
     """
     Create state of the art projects from production ready templates.
     """
-    if verbose:
-        logging.basicConfig(level=logging.DEBUG, format='\n%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    else:
-        logging.basicConfig(level=logging.INFO, format='\n%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    # Set the base logger to output DEBUG
+    log.setLevel(logging.DEBUG)
+
+    # Set up logs to the console
+    log.addHandler(
+        rich.logging.RichHandler(
+            level=logging.DEBUG if verbose else logging.INFO,
+            console=rich.console.Console(file=sys.stderr),
+            show_time=True,
+            markup=True,
+        )
+    )
+
+    # Set up logs to a file if we asked for one
+    if log_file:
+        log_fh = logging.FileHandler(log_file, encoding="utf-8")
+        log_fh.setLevel(logging.DEBUG)
+        log_fh.setFormatter(logging.Formatter("[%(asctime)s] %(name)-20s [%(levelname)-7s]  %(message)s"))
+        log.addHandler(log_fh)
 
 
 @cookietemple_cli.command(short_help='Create a new project using one of our templates.', cls=CustomHelpSubcommand)
@@ -136,15 +157,20 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
     If no repository exists the TEMPLATE branch will be updated and you can merge manually.
     """
     project_dir_path = Path(f'{Path.cwd()}/{project_dir}') if not str(project_dir).startswith(str(Path.cwd())) else Path(project_dir)
+    log.debug(f'Set project top level path to given path argument {project_dir_path}')
     # if set_token flag is set, update the sync token value and exit
     if set_token:
+        log.debug('Running sync to update sync token in repo.')
         try:
+            log.debug(f'Loading project information from .cookietemple.yml file located at {project_dir}')
             project_data = load_yaml_file(f'{project_dir}/.cookietemple.yml')
             # if project is an orga repo, pass orga name as username
             if project_data['is_github_repo'] and project_data['is_github_orga']:
+                log.debug(f'Project is a Github orga repo. Using {project_data["github_orga"]} as username.')
                 TemplateSync.update_sync_token(project_name=project_data['project_slug'], gh_username=project_data['github_orga'])
             # if not, use default username
             elif project_data['is_github_repo']:
+                log.debug(f'Project is not a Github orga repo.')
                 TemplateSync.update_sync_token(project_name=project_data['project_slug'])
             else:
                 print('[bold red]Your current project does not seem to have a Github repository!')
@@ -155,12 +181,15 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
             sys.exit(1)
         sys.exit(0)
 
+    log.debug(f'Initializing syncer object.')
     syncer = TemplateSync(new_template_version='', project_dir=project_dir_path, gh_username=username, token=pat)
     # check for template version updates
+    log.debug(f'Checking for major/minor or patch version changes in cookietemple templates.')
     major_change, minor_change, patch_change, proj_template_version, ct_template_version = syncer.has_template_version_changed(project_dir_path)
     syncer.new_template_version = ct_template_version
     # check for user without actually syncing
     if check_update:
+        log.debug('Running snyc to manually check whether a new template version is available.')
         # a template update has been released by cookietemple
         if any(change for change in (major_change, minor_change, patch_change)):
             print(f'[bold blue]Your templates version received an update from {proj_template_version} to {ct_template_version}!\n'
@@ -174,10 +203,13 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
     syncer.major_update = major_change
     syncer.minor_update = minor_change
     syncer.patch_update = patch_change
+    log.debug('Major template update found.' if major_change else 'Minor template update found.' if minor_change else 'Patch template update found.' if
+    patch_change else 'No template update found.')
     # sync the project if any changes
     if any(change for change in (major_change, minor_change, patch_change)):
         if syncer.check_sync_level():
             # check if a pull request should be created according to set level constraints
+            log.debug('Starting sync.')
             syncer.sync()
         else:
             print('[bold red]Aborting sync due to set level constraints. You can set the level any time in your cookietemple.cfg in the sync_level section and'

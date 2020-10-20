@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 import appdirs
@@ -13,6 +14,9 @@ from rich.console import Console
 from cookietemple.common.levensthein_dist import most_similar_command
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.common.load_yaml import load_yaml_file
+
+
+log = logging.getLogger(__name__)
 
 
 class ConfigCommand:
@@ -50,6 +54,7 @@ class ConfigCommand:
 
         # if the configs exist, just update them
         if os.path.exists(ConfigCommand.CONF_FILE_PATH):
+            log.debug(f'Configuration was found at {ConfigCommand.CONF_FILE_PATH}. Updating configuration...')
             path = Path(ConfigCommand.CONF_FILE_PATH)
             yaml = YAML()
             settings = yaml.load(path)
@@ -62,6 +67,7 @@ class ConfigCommand:
 
         # the configs don´t exist -> create them
         else:
+            log.debug(f'Configuration was not found at {ConfigCommand.CONF_FILE_PATH}. Creating a new configuration file.')
             settings = {'full_name': full_name, 'email': email, 'github_username': github_username}
             yaml = YAML()
             yaml.dump(settings, Path(ConfigCommand.CONF_FILE_PATH))
@@ -77,12 +83,12 @@ class ConfigCommand:
             yaml = YAML()
             settings = yaml.load(path)
             if not all(attr in settings for attr in ['full_name', 'github_username', 'email']):
-                print('[bold red]The Cookietemple config file misses some required attributes!')
+                print('[bold red]The cookietemple config file misses some required attributes!')
                 print('[bold blue]Lets set them before setting your Github personal access token!')
                 ConfigCommand.config_general_settings()
 
         except FileNotFoundError:
-            print('[bold red]Cannot find a Cookietemple config file. Is this your first time using cookietemple?')
+            print('[bold red]Cannot find a cookietemple config file. Is this your first time using cookietemple?')
             print('[bold blue]Lets create one before setting your Github personal access token!')
             ConfigCommand.config_general_settings()
 
@@ -102,12 +108,15 @@ class ConfigCommand:
 
             # encrypt the given PAT and save the encryption key and encrypted PAT in separate files
             print('[bold blue]Generating key for encryption.')
+            log.debug('Generating personal access key.')
             key = Fernet.generate_key()
             fer = Fernet(key)
+            log.debug('Encrypting personal access token. ')
             print('[bold blue]Encrypting personal access token.')
             encrypted_pat = fer.encrypt(access_token_b)
 
             # write key
+            log.debug(f'Writing key to {ConfigCommand.KEY_PAT_FILE}')
             with open(ConfigCommand.KEY_PAT_FILE, 'wb') as f:
                 f.write(key)
 
@@ -115,6 +124,7 @@ class ConfigCommand:
             yaml = YAML()
             settings = yaml.load(path)
             settings['pat'] = encrypted_pat
+            log.debug(f'Dumping configuration to {ConfigCommand.CONF_FILE_PATH}')
             yaml.dump(settings, Path(ConfigCommand.CONF_FILE_PATH))
 
     @staticmethod
@@ -124,7 +134,9 @@ class ConfigCommand:
         """
         # load current settings
         try:
+            log.debug(f'Fetching current cookietemple configuration at {ConfigCommand.CONF_FILE_PATH}.')
             settings = load_yaml_file(ConfigCommand.CONF_FILE_PATH)
+            log.debug('Creating configuration table')
             # create the table and print
             table = Table(title="[bold]Your current configuration", title_style="blue", header_style=Style(color="blue", bold=True), box=HEAVY_HEAD)
             table.add_column('Name', style='green')
@@ -144,8 +156,8 @@ class ConfigCommand:
             console.print(table)
 
         except (FileNotFoundError, KeyError):
-            print('[bold red]Did not found a cookietemple config file!\nIf this is your first time running cookietemple you can set them using cookietemple '
-                  'config general')
+            print('[bold red]Did not found a cookietemple config file!\n'
+                  'If this is your first time running cookietemple you can set them using [green]cookietemple config general')
 
     @staticmethod
     def similar_handle(section: str) -> None:
@@ -176,13 +188,15 @@ class ConfigCommand:
         """
         Check if the config directory for cookietemple exists. If not, create it.
         """
+        log.debug(f'Checking whether a config directory already exists at {Path(ConfigCommand.CONF_FILE_PATH).parent}.')
         if not os.path.exists(Path(ConfigCommand.CONF_FILE_PATH).parent):
+            log.debug('Config directory did not exist. Creating it.')
             os.makedirs(Path(ConfigCommand.CONF_FILE_PATH).parent)
 
     @staticmethod
     def handle_switcher() -> dict:
         """
-        Just a helper to switch between handles.
+        Helper to switch between handles.
 
         :return: The switcher with all handles.
         """

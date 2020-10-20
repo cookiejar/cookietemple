@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 from collections import OrderedDict
@@ -24,6 +25,8 @@ from cookietemple.config.config import ConfigCommand
 from cookietemple.common.load_yaml import load_yaml_file
 from rich import print
 
+log = logging.getLogger(__name__)
+
 
 class TemplateCreator:
     """
@@ -31,6 +34,7 @@ class TemplateCreator:
     It holds the basic template information that are common across all templates (like a project name).
     Furthermore it defines methods that are basic for the template creation process.
     """
+
     def __init__(self, creator_ctx: CookietempleTemplateStruct):
         self.WD = os.path.dirname(__file__)
         self.TEMPLATES_PATH = f'{self.WD}/templates'
@@ -206,8 +210,8 @@ class TemplateCreator:
             if cookietemple_questionary_or_dot_cookietemple(function='confirm',
                                                             question='Do you want to choose another name for your project?\n'
                                                                      'Otherwise you will not be able to host your docs at readthedocs.io!', default='Yes'):
-                self.creator_ctx.project_name = cookietemple_questionary_or_dot_cookietemple('text',
-                                                                                             'Project name',
+                self.creator_ctx.project_name = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                                             question='Project name',
                                                                                              default='Exploding Springfield')
             # break if the project should be named anyways
             else:
@@ -248,28 +252,28 @@ class TemplateCreator:
             self.creator_ctx.creator_github_username = dot_cookietemple['creator_github_username']
         else:
             self.creator_ctx.github_username = load_github_username()
-            self.creator_ctx.creator_github_username = self.creator_ctx. github_username
+            self.creator_ctx.creator_github_username = self.creator_ctx.github_username
 
     def create_common_files(self) -> None:
         """
         This function creates a temporary directory for common files of all templates and applies cookiecutter on them.
         They are subsequently moved into the directory of the created template.
         """
+        log.debug('Creating common files.')
         dirpath = tempfile.mkdtemp()
         copy_tree(f'{self.COMMON_FILES_PATH}', dirpath)
         cwd_project = Path.cwd()
         os.chdir(dirpath)
 
-        # Python does not allow for hyphens (module imports etc) -> remove them
-        no_hyphen = self.creator_ctx.project_slug.replace('-', '_')
-
+        log.debug(f'Cookiecuttering common files at {dirpath}')
         cookiecutter(dirpath,
                      extra_context={'full_name': self.creator_ctx.full_name,
                                     'email': self.creator_ctx.email,
                                     'language': self.creator_ctx.language,
                                     'domain': self.creator_ctx.domain,
                                     'project_name': self.creator_ctx.project_name,
-                                    'project_slug': self.creator_ctx.project_slug if self.creator_ctx.language != 'python' else no_hyphen,
+                                    'project_slug': self.creator_ctx.project_slug if self.creator_ctx.language != 'python'
+                                    else self.creator_ctx.project_slug_no_hyphen,
                                     'version': self.creator_ctx.version,
                                     'license': self.creator_ctx.license,
                                     'project_short_description': self.creator_ctx.project_short_description,
@@ -279,9 +283,11 @@ class TemplateCreator:
                      overwrite_if_exists=True)
 
         # recursively copy the common files directory content to the created project
+        log.debug('Copying common files into the created project')
         copy_tree(f'{os.getcwd()}/common_files_util', f'{cwd_project}/'
                                                       f'{self.creator_ctx.project_slug if self.creator_ctx.language != "python" else no_hyphen}')
         # delete the tmp cookiecuttered common files directory
+        log.debug('Delete common files directory.')
         delete_dir_tree(Path(f'{Path.cwd()}/common_files_util'))
         shutil.rmtree(dirpath)
         # change to recent cwd so lint etc can run properly
@@ -292,13 +298,16 @@ class TemplateCreator:
         Test whether there´s already a project with the same name on readthedocs
         :param project_name Name of the project the user wants to create
         """
+        log.debug(f'Look up {project_name} at readthedocs.io .')
         print(f'[bold blue]Looking up {project_name} at readthedocs.io!')
         try:
             request = requests.get(f'https://{project_name.replace(" ", "")}.readthedocs.io')
             if request.status_code == 200:
                 return True
         # catch exceptions when server may be unavailable or the request timed out
-        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+            log.debug('Unable to contact readthedocs.io')
+            log.debug(f'Error was: {e}')
             print('[bold red]Cannot check whether name already taken on readthedocs.io because its unreachable at the moment!')
             return False
 
@@ -322,6 +331,7 @@ class TemplateCreator:
 
         :param template_version: Version of the specific template
         """
+        log.debug('Creating .cookietemple.yml file.')
         self.creator_ctx.template_version = f'{template_version} # <<COOKIETEMPLE_NO_BUMP>>'
         self.creator_ctx.cookietemple_version = f'{cookietemple.__version__} # <<COOKIETEMPLE_NO_BUMP>>'
         # Python does not allow for hyphens (module imports etc) -> remove them

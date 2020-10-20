@@ -1,4 +1,5 @@
 import json
+import logging
 import urllib
 import sys
 
@@ -10,6 +11,8 @@ from urllib.error import HTTPError, URLError
 from subprocess import Popen, PIPE, check_call
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from rich import print
+
+log = logging.getLogger(__name__)
 
 
 class UpgradeCommand:
@@ -36,6 +39,8 @@ class UpgradeCommand:
         :return: True if locally version is the latest or PyPI is inaccessible, false otherwise
         """
         latest_local_version = cookietemple.__version__
+        log.debug(f'Latest local cookietemple version is: {latest_local_version}.')
+        log.debug('Checking whether a new cookietemple version exists on PyPI.')
         try:
             # Retrieve info on latest version
             # Adding nosec (bandit) here, since we have a hardcoded https request
@@ -65,6 +70,7 @@ class UpgradeCommand:
         """
         Calls pip as a subprocess with the --upgrade flag to upgrade cookietemple to the latest version.
         """
+        log.debug('Attempting to upgrade cookietemple via    pip install --upgrade cookietemple .')
         if not UpgradeCommand.is_pip_accessible():
             sys.exit(1)
         try:
@@ -80,9 +86,11 @@ class UpgradeCommand:
 
         :return: True if accessible, false if not
         """
+        log.debug('Verifying that pip is accessible.')
         pip_installed = Popen(['pip', '--version'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
         (git_installed_stdout, git_installed_stderr) = pip_installed.communicate()
         if pip_installed.returncode != 0:
+            log.debug('Pip was not accessible!')
             print('[bold red]Unable to find \'pip\' in the PATH. Is it installed?')
             print('[bold red]Run command was [green]\'pip --version \'')
             return False

@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 from rich.style import Style
@@ -8,6 +9,9 @@ from cookietemple.common.levensthein_dist import most_similar_command
 from cookietemple.common.load_yaml import load_yaml_file
 from cookietemple.util.dict_util import is_nested_dictionary
 from cookietemple.common.suggest_similar_commands import load_available_handles
+
+
+log = logging.getLogger(__name__)
 
 
 class TemplateInfo:
@@ -37,12 +41,14 @@ class TemplateInfo:
 
         # only domain OR language specified
         if len(specifiers) == 1:
+            log.debug('Only domain or language was specified.')
             try:
                 template_info = available_templates[domain]
             except KeyError:
                 self.handle_domain_or_language_only(handle, available_templates)
         # domain, subdomain, language
         elif len(specifiers) > 2:
+            log.debug('A domain, subdomain and language was specified.')
             try:
                 sub_domain = specifiers[1]
                 language = specifiers[2]
@@ -51,6 +57,7 @@ class TemplateInfo:
                 self.handle_non_existing_command(handle, True)
         # domain, language OR domain, subdomain
         else:
+            log.debug('A domain and language OR domain and a subdomain was specified.')
             try:
                 second_specifier = specifiers[1]
                 template_info = available_templates[domain][second_specifier]
@@ -112,6 +119,7 @@ class TemplateInfo:
         for template in templates_to_print:
             template[2] = TemplateInfo.set_linebreaks(template[2])
 
+        log.debug('Building info table.')
         table = Table(title=f'[bold]Info on cookietemple´s {handle}', title_style="blue", header_style=Style(color="blue", bold=True), box=HEAVY_HEAD)
 
         table.add_column("Name", justify="left", style="green", no_wrap=True)
@@ -123,6 +131,7 @@ class TemplateInfo:
         for template in templates_to_print:
             table.add_row(f'[bold]{template[0]}', template[1], template[2], template[3], template[4])
 
+        log.debug('Printing info table.')
         console = Console()
         console.print(table)
 
@@ -145,7 +154,7 @@ class TemplateInfo:
         if self.most_sim:
             # found exactly one similar handle
             if len(self.most_sim) == 1 and self.action == 'use':
-                print(f'[bold red]Unknown handle \'{handle}\'. See [green]cookietemple list [red]for all valids handles')
+                print(f'[bold red]Unknown handle \'{handle}\'. See [green]cookietemple list [red]for all valid handles')
                 print(f'[bold blue]Will use best match [green]{self.most_sim[0]}.\n')
                 # use best match if exactly one similar handle was found
                 self.show_info(self.most_sim[0])
@@ -154,7 +163,7 @@ class TemplateInfo:
             else:
                 # found multiple similar handles
                 nl = '\n'
-                print(f'[green red]Unknown handle \'{handle}\'. See [green] cookietemple list [red]for all valid handles.' +
+                print(f'[bold red]Unknown handle \'{handle}\'. See [green]cookietemple list [red]for all valid handles.' +
                       f'\nMost similar handles are: [green]{nl}{nl.join(sorted(self.most_sim))}')
             sys.exit(0)
 
@@ -168,7 +177,7 @@ class TemplateInfo:
         :param handle: Handle inputted by the user
         :param domain_handle: A list of similar commands (will contain only one element most of the time)
         """
-        print(f'[bold red]Unknown handle \'{handle}\'. See [green] cookietemple list [red] for all valid handles.\n')
+        print(f'[bold red]Unknown handle \'{handle}\'. See [green]cookietemple list [red] for all valid handles.\n')
         print(f'[bold red] Did you mean [green]{domain_handle[0]}?\n')
 
     def non_existing_handle(self) -> None:
@@ -227,7 +236,8 @@ class TemplateInfo:
     def load_available_languages(self, ls: list) -> set:
         """
         Load all available languages cookietemple supports.
-        NOTE: ASSUME ALL HANDLES ARE TWO OR THREE PARTS!
+        NOTE: Assumption that all handles have two or three parts
+
         :param ls: The flattended list from the available templates dict
         :return: All available languages as a set
         """
