@@ -67,11 +67,11 @@ class TemplateLinter(object):
             "[bold yellow]{task.completed} of {task.total}[reset] [bold green]{task.fields[func_name]}",
         )
         with progress:
-            log.debug(f'Running linting function: {fun_name}')
             lint_progress = progress.add_task(
                 "Running lint checks", total=len(check_functions), func_name=check_functions
             )
             for fun_name in check_functions:
+                log.debug(f'Running linting function: {fun_name}')
                 progress.update(lint_progress, advance=1, func_name=fun_name)
                 if fun_name == 'check_files_exist':
                     getattr(calling_class, fun_name)(is_subclass_calling)
