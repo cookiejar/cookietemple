@@ -70,7 +70,7 @@ class VersionBumper:
         for section in sections:
             log.debug(f'Bumping files of section: {section}.')
             for file, path in self.parser.items(section):
-                not_changed, file_path = self.replace(f'{project_dir}/{path}', new_version, section)
+                not_changed, file_path = VersionBumper.replace(f'{project_dir}/{path}', new_version, section)
                 # only add file if the version(s) in the file were bumped
                 if not not_changed:
                     path_changed = file_path if file_path.startswith(str(Path.cwd())) else f'{str(Path.cwd())}/{file_path}'
@@ -97,7 +97,8 @@ class VersionBumper:
             print('[bold blue]Committing changes to local git repository.')
             repo.index.commit(f'Bump version from {self.CURRENT_VERSION} to {new_version}')
 
-    def replace(self, file_path: str, subst: str, section: str) -> (bool, str):
+    @staticmethod
+    def replace(file_path: str, subst: str, section: str) -> (bool, str):
         """
         Replace a version with the new version unless the line is explicitly excluded (marked with <<COOKIETEMPLE_NO_BUMP>>).
         In case of blacklisted files, bump-version ignores all lines with version numbers unless they´re explicitly marked

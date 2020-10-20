@@ -10,6 +10,7 @@
   "project_short_description" : "A cookietemple template",
   "language": "Language",
   "domain": "domain",
-  "github_username": "github_user"
+  "github_username": "github_user",
+  "cookietemple_version": "1.0.0"
 }
 

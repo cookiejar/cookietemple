@@ -36,7 +36,7 @@ class HelpErrorHandling(click.Group):
         for p in ctx.command.params:
             ct_main_options.append(('--' + p.name + ': ', p.help))
         ct_main_options.append(('--help: ', '   Get detailed info on a command.'))
-        with formatter.section(self.get_rich_value('Options')):
+        with formatter.section(HelpErrorHandling.get_rich_value('Options')):
             for t in ct_main_options:
                 formatter.write_text(f'{t[0] + t[1]}')
 
@@ -52,7 +52,7 @@ class HelpErrorHandling(click.Group):
         """
         Overwrite format_usage method of class MultiCommand for customized usage section output.
         """
-        formatter.write_text(f'{self.get_rich_value("Usage:")} cookietemple {" ".join(super().collect_usage_pieces(ctx))}')
+        formatter.write_text(f'{HelpErrorHandling.get_rich_value("Usage:")} cookietemple {" ".join(super().collect_usage_pieces(ctx))}')
 
     def format_options(self, ctx, formatter):
         """
@@ -67,7 +67,7 @@ class HelpErrorHandling(click.Group):
         """
         formatter.width = 120
 
-        with formatter.section(self.get_rich_value("General Commands")):
+        with formatter.section(HelpErrorHandling.get_rich_value("General Commands")):
             formatter.write_text(
                 f"{self.commands.get('list').name}\t\t{self.commands.get('list').get_short_help_str(limit=150)}")
             formatter.write_text(
@@ -77,7 +77,7 @@ class HelpErrorHandling(click.Group):
             formatter.write_text(
                 f"{self.commands.get('upgrade').name}\t\t{self.commands.get('upgrade').get_short_help_str(limit=150)}")
 
-        with formatter.section(self.get_rich_value("Commands for cookietemple project")):
+        with formatter.section(HelpErrorHandling.get_rich_value("Commands for cookietemple project")):
             formatter.write_text(
                 f"{self.commands.get('create').name}\t\t{self.commands.get('create').get_short_help_str(limit=150)}")
             formatter.write_text(
@@ -87,21 +87,21 @@ class HelpErrorHandling(click.Group):
             formatter.write_text(
                 f"{self.commands.get('sync').name}\t\t{self.commands.get('sync').get_short_help_str(limit=150)}")
 
-        with formatter.section(self.get_rich_value("Special commands")):
+        with formatter.section(HelpErrorHandling.get_rich_value("Special commands")):
             formatter.write_text(
                 f"{self.commands.get('warp').name}\t\t{self.commands.get('warp').get_short_help_str(limit=150)}")
 
-        with formatter.section(self.get_rich_value("Examples")):
+        with formatter.section(HelpErrorHandling.get_rich_value("Examples")):
             formatter.write_text("$ cookietemple create")
             formatter.write_text("$ cookietemple bump-version 1.0.0 .")
             formatter.write_text("$ cookietemple config all")
             formatter.write_text("$ cookietemple info python")
 
-        with formatter.section(self.get_rich_value("Learn more")):
+        with formatter.section(HelpErrorHandling.get_rich_value("Learn more")):
             formatter.write_text("Use cookietemple <command> --help for more information about a command. You may also want to take a look at our docs at "
                                  "https://cookietemple.readthedocs.io/.")
 
-        with formatter.section(self.get_rich_value("Feedback")):
+        with formatter.section(HelpErrorHandling.get_rich_value("Feedback")):
             formatter.write_text("We are always curious about your opinion on cookietemple. Join our Discord at "
                                  "https://discord.com/channels/708008788505919599/708008788505919602 and drop us a message: cookies await you.")
 
@@ -155,7 +155,8 @@ class HelpErrorHandling(click.Group):
             print(f'[bold red]Failed to execute [bold green]{cmd}.\n[bold blue]Please provide a valid argument. You can choose general, pat or all.')
             sys.exit(1)
 
-    def get_rich_value(self, output: str, is_header=True) -> str:
+    @staticmethod
+    def get_rich_value(output: str, is_header=True) -> str:
         """
         Return a string which contains the output to console rendered by rich for the click formatter.
         :param output: the output string, that should be rendered by rich
@@ -192,7 +193,7 @@ class CustomHelpSubcommand(click.Command):
         Custom implementation if formatting the usage of each subcommand.
         Usage section with a styled header will be printed.
         """
-        formatter.write_text(f'{self.get_rich_value("Usage: ")}cookietemple {self.name} {" ".join(self.collect_usage_pieces(ctx))}')
+        formatter.write_text(f'{HelpErrorHandling.get_rich_value("Usage: ")}cookietemple {self.name} {" ".join(self.collect_usage_pieces(ctx))}')
 
     def format_help_text(self, ctx, formatter):
         """
@@ -204,7 +205,7 @@ class CustomHelpSubcommand(click.Command):
         formatter.write_text(self.help)
         args = [('--' + param.name, param.helpmsg) for param in self.params if type(param) == CustomArg]
         if args:
-            with formatter.section(self.get_rich_value("Arguments")):
+            with formatter.section(HelpErrorHandling.get_rich_value("Arguments")):
                 formatter.write_dl(args)
 
     def format_options(self, ctx, formatter):
@@ -215,7 +216,7 @@ class CustomHelpSubcommand(click.Command):
         options = [('--' + param.name.replace('_', '-'), param.help) for param in self.params if type(param) == click.core.Option]
         help_option = self.get_help_option(ctx)
         options.append(('--' + help_option.name, help_option.help))
-        with formatter.section(self.get_rich_value("Options")):
+        with formatter.section(HelpErrorHandling.get_rich_value("Options")):
             formatter.write_dl(options)
 
     def get_rich_value(self, output: str, is_header=True) -> str:
