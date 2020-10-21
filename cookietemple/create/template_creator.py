@@ -204,8 +204,8 @@ class TemplateCreator:
                                                                                      dot_cookietemple=dot_cookietemple,
                                                                                      to_get_property='project_name')
         if self.creator_ctx.language == 'python':
-            self.check_pypi_readthedocs("PyPi", dot_cookietemple)
-        self.check_pypi_readthedocs("readthedocs.io", dot_cookietemple)
+            self.check_name_available("PyPi", dot_cookietemple)
+        self.check_name_available("readthedocs.io", dot_cookietemple)
         self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_')
         self.creator_ctx.project_slug_no_hyphen = self.creator_ctx.project_slug.replace('-', '_')
         self.creator_ctx.project_short_description = cookietemple_questionary_or_dot_cookietemple(function='text',
@@ -283,12 +283,12 @@ class TemplateCreator:
         # change to recent cwd so lint etc can run properly
         os.chdir(str(cwd_project))
 
-    def check_pypi_readthedocs(self, host, dot_cookietemple) -> None:
+    def check_name_available(self, host, dot_cookietemple) -> None:
         """
         Main function that calls the queries for the project name lookup at PyPi and readthedocs.io
         """
         # if project already exists at either PyPi or readthedocs, ask user for confirmation with the option to change the project name
-        while TemplateCreator.query_readthedocs_pypi(host, self.creator_ctx.project_name) and not dot_cookietemple:
+        while TemplateCreator.query_name_available(host, self.creator_ctx.project_name) and not dot_cookietemple:
             print(f'[bold red]A project named {self.creator_ctx.project_name} already exists at {host}!')
             # provide the user an option to change the project's name
             if cookietemple_questionary_or_dot_cookietemple(function='confirm',
@@ -302,7 +302,7 @@ class TemplateCreator:
                 break
 
     @staticmethod
-    def query_readthedocs_pypi(host: str, project_name: str) -> bool:
+    def query_name_available(host: str, project_name: str) -> bool:
         """
         Make a GET request to the host to check whether a project with this name already exists.
         :param host The host (either PyPi or readthedocs)
@@ -310,10 +310,11 @@ class TemplateCreator:
 
         :return: Whether request was successful (name already taken on host) or not
         """
-        # check if host is either PyPi or readthedocs.io
+        # check if host is either PyPi or readthedocs.io; only relevant for developers working on this code
         if host not in {"PyPi", "readthedocs.io"}:
-            print(f"[bold red]Unknown host {host}. Use either PyPi or readthedocs.io!")
-            sys.exit(1)
+            log.debug(f'[bold red]Unknown host {host}. Use either PyPi or readthedocs.io!')
+            # raise a ValueError if the host name is invalid
+            raise ValueError(f'check_name_available has been called with the invalid host {host}.\nValid hosts are PyPi and readthedocs.io')
         print(f'[bold blue]Looking up {project_name} at {host}!')
         # determine url depending on host being either PyPi or readthedocs.io
         url = 'https://' + (f'pypi.org/project/{project_name.replace(" ", "")}' if host == "PyPi" else f'{project_name.replace(" ", "")}.readthedocs.io')
