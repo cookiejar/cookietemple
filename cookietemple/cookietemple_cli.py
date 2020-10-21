@@ -9,8 +9,6 @@ import click
 from pathlib import Path
 from rich import traceback
 from rich import print
-
-import cookietemple
 import rich.logging
 
 from cookietemple.bump_version.bump_version import VersionBumper
@@ -185,7 +183,7 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
     syncer = TemplateSync(new_template_version='', project_dir=project_dir_path, gh_username=username, token=pat)
     # check for template version updates
     log.debug(f'Checking for major/minor or patch version changes in cookietemple templates.')
-    major_change, minor_change, patch_change, proj_template_version, ct_template_version = syncer.has_template_version_changed(project_dir_path)
+    major_change, minor_change, patch_change, proj_template_version, ct_template_version = TemplateSync.has_template_version_changed(project_dir_path)
     syncer.new_template_version = ct_template_version
     # check for user without actually syncing
     if check_update:

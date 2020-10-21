@@ -245,9 +245,3 @@ class WebCreator(TemplateCreator):
                                                                                        default='pytest',
                                                                                        dot_cookietemple=dot_cookietemple,
                                                                                        to_get_property='testing_library')
-
-    def website_django_options(self):
-        print('[bold red]NOT YET IMPLEMENTED!')
-
-    def handle_rest_api_python(self):
-        print('[bold red]NOT YET IMPLEMENTED!')

@@ -22,7 +22,7 @@ def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
     """
     # Detect which template the project is based on
     template_handle = get_template_handle(project_dir)
-    log.info(f'Detected handle {template_handle}')
+    log.debug(f'Detected handle {template_handle}')
 
     switcher = {
         'cli-python': CliPythonLint,

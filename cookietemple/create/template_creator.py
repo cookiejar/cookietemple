@@ -268,7 +268,8 @@ class TemplateCreator:
                                     'license': self.creator_ctx.license,
                                     'project_short_description': self.creator_ctx.project_short_description,
                                     'github_username': self.creator_ctx.github_username,
-                                    'creator_github_username': self.creator_ctx.creator_github_username},
+                                    'creator_github_username': self.creator_ctx.creator_github_username,
+                                    'cookietemple_version': cookietemple.__version__},
                      no_input=True,
                      overwrite_if_exists=True)
 
