@@ -66,31 +66,31 @@ Lint
 ----
 Use advanced linting to ensure your project always adheres to common standards.
 
-.. figure:: img/lint_readme.gif
+.. image:: https://user-images.githubusercontent.com/31141763/96794606-c86ade80-13fe-11eb-906f-67cb3fba750e.gif
 
 Bump-Version
 ------------
 Bump your project version with many configurable options.
 
-.. figure:: img/bump_version_readme.gif
+.. figure:: https://user-images.githubusercontent.com/31141763/96794879-4cbd6180-13ff-11eb-9bae-82443a41d100.gif
 
 Config
 ------
 Configure your cookietemple settings to ensure you are not always asked for the same thing.
 
-.. figure:: img/config_readme.gif
+.. figure:: https://user-images.githubusercontent.com/31141763/96794940-78404c00-13ff-11eb-925f-1cbfa53378f2.gif
 
 List
 ----
 List all available cookietemple templates with short info for each.
 
-.. figure:: img/list_readme.gif
+.. figure:: https://user-images.githubusercontent.com/31141763/96794966-8d1cdf80-13ff-11eb-9265-6631106037d1.gif
 
 Info
 ----
 Get detailed information on a cookietemple template.
 
-.. figure:: img/info_readme.gif
+.. figure:: https://user-images.githubusercontent.com/31141763/96794781-1bdd2c80-13ff-11eb-99b3-5701827928c9.gif
 
 Warp
 ----
