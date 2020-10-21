@@ -285,22 +285,24 @@ class TemplateCreator:
 
     def check_pypi_readthedocs(self, host, dot_cookietemple) -> None:
         """
-        Main function that calls the checks for PyPi and readthedocs
+        Main function that calls the queries for the project name lookup at PyPi and readthedocs.io
         """
-        while TemplateCreator.call_host(host, self.creator_ctx.project_name) and not dot_cookietemple:
+        # if project already exists at either PyPi or readthedocs, ask user for confirmation with the option to change the project name
+        while TemplateCreator.query_readthedocs_pypi(host, self.creator_ctx.project_name) and not dot_cookietemple:
             print(f'[bold red]A project named {self.creator_ctx.project_name} already exists at {host}!')
+            # provide the user an option to change the project's name
             if cookietemple_questionary_or_dot_cookietemple(function='confirm',
                                                             question='Do you want to choose another name for your project?\n'
                                                                      f'Otherwise you will not be able to host your project at {host}!', default='Yes'):
                 self.creator_ctx.project_name = cookietemple_questionary_or_dot_cookietemple(function='text',
                                                                                              question='Project name',
                                                                                              default='Exploding Springfield')
-            # break if the project should be named anyways
+            # continue if the project should be named anyways
             else:
                 break
 
     @staticmethod
-    def call_host(host: str, project_name: str) -> bool:
+    def query_readthedocs_pypi(host: str, project_name: str) -> bool:
         """
         Make a GET request to the host to check whether a project with this name already exists.
         :param host The host (either PyPi or readthedocs)
@@ -308,7 +310,12 @@ class TemplateCreator:
 
         :return: Whether request was successful (name already taken on host) or not
         """
+        # check if host is either PyPi or readthedocs.io
+        if host not in {"PyPi", "readthedocs.io"}:
+            print(f"[bold red]Unknown host {host}. Use either PyPi or readthedocs.io!")
+            sys.exit(1)
         print(f'[bold blue]Looking up {project_name} at {host}!')
+        # determine url depending on host being either PyPi or readthedocs.io
         url = 'https://' + (f'pypi.org/project/{project_name.replace(" ", "")}' if host == "PyPi" else f'{project_name.replace(" ", "")}.readthedocs.io')
         log.debug(f'Looking up {url}')
         try:
