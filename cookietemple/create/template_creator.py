@@ -205,7 +205,7 @@ class TemplateCreator:
                                                                                      to_get_property='project_name')
 
         # Check whether the project name is already taken on readthedocs.io
-        while self.readthedocs_slug_already_exists(self.creator_ctx.project_name) and not dot_cookietemple:
+        while TemplateCreator.readthedocs_slug_already_exists(self.creator_ctx.project_name) and not dot_cookietemple:
             print(f'[bold red]A project named {self.creator_ctx.project_name} already exists at readthedocs.io!')
             if cookietemple_questionary_or_dot_cookietemple(function='confirm',
                                                             question='Do you want to choose another name for your project?\n'
@@ -278,7 +278,8 @@ class TemplateCreator:
                                     'license': self.creator_ctx.license,
                                     'project_short_description': self.creator_ctx.project_short_description,
                                     'github_username': self.creator_ctx.github_username,
-                                    'creator_github_username': self.creator_ctx.creator_github_username},
+                                    'creator_github_username': self.creator_ctx.creator_github_username,
+                                    'cookietemple_version': cookietemple.__version__},
                      no_input=True,
                      overwrite_if_exists=True)
 
@@ -293,7 +294,8 @@ class TemplateCreator:
         # change to recent cwd so lint etc can run properly
         os.chdir(str(cwd_project))
 
-    def readthedocs_slug_already_exists(self, project_name: str) -> bool:
+    @staticmethod
+    def readthedocs_slug_already_exists(project_name: str) -> bool:
         """
         Test whether there´s already a project with the same name on readthedocs
         :param project_name Name of the project the user wants to create

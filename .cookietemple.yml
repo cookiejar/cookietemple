@@ -1,20 +1,21 @@
-cookietemple_version: 0.1.0
+cookietemple_version: 0.1.0 # <<COOKIETEMPLE_NO_BUMP>>
 domain: cli
-language: Python
+language: python
 full_name: Lukas Heumos, Philipp Ehmele
 email: lukas.heumos@posteo.net
 project_name: cookietemple
 project_slug: cookietemple
+project_slug_no_hyphen: cookietemple
 project_short_description: A cookiecutter based project template creation tool supporting several domains and languages with linting and template sync support.
 version: 0.1.0
 license: MIT
 github_username: cookiejar
+creator_github_username: Zethson
 is_github_repo: true
 is_repo_private: false
 is_github_orga: true
 github_orga: cookiejar
-pypi_username: zethson
 command_line_interface: Click
-use_pytest: y
-template_version: 0.1.0 # <<COOKIETEMPLE_NO_BUMP>>
+testing_library: pytest
+template_version: 1.0.0 # <<COOKIETEMPLE_NO_BUMP>>
 template_handle: cli-python

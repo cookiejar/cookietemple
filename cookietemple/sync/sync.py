@@ -399,7 +399,8 @@ class TemplateSync:
         create_sync_secret(gh_username, project_name, updated_sync_token)
         print(f'[bold blue]\nSuccessfully updated sync secret for project {project_name}.')
 
-    def has_template_version_changed(self, project_dir: Path) -> (bool, bool, bool, str, str):
+    @staticmethod
+    def has_template_version_changed(project_dir: Path) -> (bool, bool, bool, str, str):
         """
         Check, if the cookietemple template has been updated since last check/sync of the user.
 
@@ -409,9 +410,9 @@ class TemplateSync:
         cookietemple will use this to decide which syncing strategy to apply. Also return both versions.
         """
         log.debug('Trying to load the projects template version and the cookietemple template version.')
-        template_version_last_sync, template_handle = self.sync_load_project_template_version_and_handle(project_dir)
+        template_version_last_sync, template_handle = TemplateSync.sync_load_project_template_version_and_handle(project_dir)
         template_version_last_sync = version.parse(template_version_last_sync)
-        current_ct_template_version = version.parse(self.sync_load_template_version(template_handle))
+        current_ct_template_version = version.parse(TemplateSync.sync_load_template_version(template_handle))
         log.debug(f'Projects template version is {template_version_last_sync} and cookietemple template version is {current_ct_template_version}')
         is_major_update, is_minor_update, is_patch_update = False, False, False
 
@@ -426,7 +427,8 @@ class TemplateSync:
             is_patch_update = True
         return is_major_update, is_minor_update, is_patch_update, str(template_version_last_sync), str(current_ct_template_version)
 
-    def sync_load_template_version(self, handle: str) -> str:
+    @staticmethod
+    def sync_load_template_version(handle: str) -> str:
         """
         Load the version of the template available from cookietemple specified by the handler for syncing.
 
@@ -438,7 +440,8 @@ class TemplateSync:
         log.debug(f'Using available templates file from {available_templates_path} to load current cookietemple template version.')
         return load_ct_template_version(handle, available_templates_path)
 
-    def sync_load_project_template_version_and_handle(self, project_dir: Path) -> str:
+    @staticmethod
+    def sync_load_project_template_version_and_handle(project_dir: Path) -> str:
         """
         Return the project template version since last sync for user (if no sync happened, return initial create version of the template)
 

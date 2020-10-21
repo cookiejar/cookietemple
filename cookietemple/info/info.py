@@ -5,6 +5,7 @@ from rich.style import Style
 from rich.console import Console
 from rich.table import Table
 from rich.box import HEAVY_HEAD
+from rich import print
 from cookietemple.common.levensthein_dist import most_similar_command
 from cookietemple.common.load_yaml import load_yaml_file
 from cookietemple.util.dict_util import is_nested_dictionary
@@ -66,7 +67,7 @@ class TemplateInfo:
 
         # Add all templates under template_info to list and output them
         self.flatten_nested_dict(template_info, templates_to_print)
-        self.output_table(templates_to_print, handle)
+        TemplateInfo.output_table(templates_to_print, handle)
 
     def handle_domain_or_language_only(self, handle: str, available_templates: dict) -> None:
         """
@@ -84,11 +85,11 @@ class TemplateInfo:
         templates_flatted = []
         self.flatten_nested_dict(available_templates, templates_flatted)
         # load all available languages
-        available_languages = self.load_available_languages(templates_flatted)
+        available_languages = TemplateInfo.load_available_languages(templates_flatted)
         # if handle exists as language in cookietemple output its available templates and exit with zero status
         if handle in available_languages:
             templates_to_print_ = [template for template in templates_flatted if handle in template[1]]
-            self.output_table(templates_to_print_, handle)
+            TemplateInfo.output_table(templates_to_print_, handle)
 
         # the handle does not match any domain/language; is there a similar language?
         else:
@@ -101,16 +102,17 @@ class TemplateInfo:
                 self.print_console_output(handle)
             # try to suggest a similar domain handle
             elif domain_action == 'suggest' and domain_handle:
-                self.print_suggestion(handle, domain_handle)
+                TemplateInfo.print_suggestion(handle, domain_handle)
             # try to suggest a similar language handle
             elif self.action == 'suggest' and self.most_sim:
-                self.print_suggestion(handle, self.most_sim)
+                TemplateInfo.print_suggestion(handle, self.most_sim)
             # we're done there is no similar handle
             else:
-                self.non_existing_handle()
+                TemplateInfo.non_existing_handle()
         sys.exit(0)
 
-    def output_table(self, templates_to_print: list, handle: str) -> None:
+    @staticmethod
+    def output_table(templates_to_print: list, handle: str) -> None:
         """
         Output a nice looking, rich rendered table.
         :param templates_to_print: The templates tht should go into the table
@@ -169,9 +171,10 @@ class TemplateInfo:
 
         else:
             # found no similar handles
-            self.non_existing_handle()
+            TemplateInfo.non_existing_handle()
 
-    def print_suggestion(self, handle: str, domain_handle: list) -> None:
+    @staticmethod
+    def print_suggestion(handle: str, domain_handle: list) -> None:
         """
         Output a similar command suggestion message for the user
         :param handle: Handle inputted by the user
@@ -180,7 +183,8 @@ class TemplateInfo:
         print(f'[bold red]Unknown handle \'{handle}\'. See [green]cookietemple list [red] for all valid handles.\n')
         print(f'[bold red] Did you mean [green]{domain_handle[0]}?\n')
 
-    def non_existing_handle(self) -> None:
+    @staticmethod
+    def non_existing_handle() -> None:
         """
         Handling key not found access error for non existing template handles.
         Displays an error message and terminates cookietemple.
@@ -233,7 +237,8 @@ class TemplateInfo:
 
         return desc
 
-    def load_available_languages(self, ls: list) -> set:
+    @staticmethod
+    def load_available_languages(ls: list) -> set:
         """
         Load all available languages cookietemple supports.
         NOTE: Assumption that all handles have two or three parts
