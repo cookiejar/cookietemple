@@ -203,19 +203,9 @@ class TemplateCreator:
                                                                                      default='Exploding Springfield',
                                                                                      dot_cookietemple=dot_cookietemple,
                                                                                      to_get_property='project_name')
-
-        # Check whether the project name is already taken on readthedocs.io
-        while TemplateCreator.readthedocs_slug_already_exists(self.creator_ctx.project_name) and not dot_cookietemple:
-            print(f'[bold red]A project named {self.creator_ctx.project_name} already exists at readthedocs.io!')
-            if cookietemple_questionary_or_dot_cookietemple(function='confirm',
-                                                            question='Do you want to choose another name for your project?\n'
-                                                                     'Otherwise you will not be able to host your docs at readthedocs.io!', default='Yes'):
-                self.creator_ctx.project_name = cookietemple_questionary_or_dot_cookietemple(function='text',
-                                                                                             question='Project name',
-                                                                                             default='Exploding Springfield')
-            # break if the project should be named anyways
-            else:
-                break
+        if self.creator_ctx.language == 'python':
+            self.check_name_available("PyPi", dot_cookietemple)
+        self.check_name_available("readthedocs.io", dot_cookietemple)
         self.creator_ctx.project_slug = self.creator_ctx.project_name.replace(' ', '_')
         self.creator_ctx.project_slug_no_hyphen = self.creator_ctx.project_slug.replace('-', '_')
         self.creator_ctx.project_short_description = cookietemple_questionary_or_dot_cookietemple(function='text',
@@ -294,23 +284,51 @@ class TemplateCreator:
         # change to recent cwd so lint etc can run properly
         os.chdir(str(cwd_project))
 
+    def check_name_available(self, host, dot_cookietemple) -> None:
+        """
+        Main function that calls the queries for the project name lookup at PyPi and readthedocs.io
+        """
+        # if project already exists at either PyPi or readthedocs, ask user for confirmation with the option to change the project name
+        while TemplateCreator.query_name_available(host, self.creator_ctx.project_name) and not dot_cookietemple:
+            print(f'[bold red]A project named {self.creator_ctx.project_name} already exists at {host}!')
+            # provide the user an option to change the project's name
+            if cookietemple_questionary_or_dot_cookietemple(function='confirm',
+                                                            question='Do you want to choose another name for your project?\n'
+                                                                     f'Otherwise you will not be able to host your project at {host}!', default='Yes'):
+                self.creator_ctx.project_name = cookietemple_questionary_or_dot_cookietemple(function='text',
+                                                                                             question='Project name',
+                                                                                             default='Exploding Springfield')
+            # continue if the project should be named anyways
+            else:
+                break
+
     @staticmethod
-    def readthedocs_slug_already_exists(project_name: str) -> bool:
+    def query_name_available(host: str, project_name: str) -> bool:
         """
-        Test whether there´s already a project with the same name on readthedocs
+        Make a GET request to the host to check whether a project with this name already exists.
+        :param host The host (either PyPi or readthedocs)
         :param project_name Name of the project the user wants to create
+
+        :return: Whether request was successful (name already taken on host) or not
         """
-        log.debug(f'Look up {project_name} at readthedocs.io .')
-        print(f'[bold blue]Looking up {project_name} at readthedocs.io!')
+        # check if host is either PyPi or readthedocs.io; only relevant for developers working on this code
+        if host not in {"PyPi", "readthedocs.io"}:
+            log.debug(f'[bold red]Unknown host {host}. Use either PyPi or readthedocs.io!')
+            # raise a ValueError if the host name is invalid
+            raise ValueError(f'check_name_available has been called with the invalid host {host}.\nValid hosts are PyPi and readthedocs.io')
+        print(f'[bold blue]Looking up {project_name} at {host}!')
+        # determine url depending on host being either PyPi or readthedocs.io
+        url = 'https://' + (f'pypi.org/project/{project_name.replace(" ", "")}' if host == "PyPi" else f'{project_name.replace(" ", "")}.readthedocs.io')
+        log.debug(f'Looking up {url}')
         try:
-            request = requests.get(f'https://{project_name.replace(" ", "")}.readthedocs.io')
+            request = requests.get(url)
             if request.status_code == 200:
                 return True
         # catch exceptions when server may be unavailable or the request timed out
         except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
-            log.debug('Unable to contact readthedocs.io')
+            log.debug(f'Unable to contact {host}')
             log.debug(f'Error was: {e}')
-            print('[bold red]Cannot check whether name already taken on readthedocs.io because its unreachable at the moment!')
+            print(f'[bold red]Cannot check whether name already taken on {host} because its unreachable at the moment!')
             return False
 
     def directory_exists_warning(self) -> None:
