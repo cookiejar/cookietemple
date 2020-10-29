@@ -11,7 +11,7 @@ cli:
     python:
         name: Python Commandline Package
         handle: cli-python
-        version: 1.0.0
+        version: 2.0.0
         available libraries: click, argparse
         short description: General Python package with command line interface
         long description: Best practice Python package with optional command line support (click, argparse).
@@ -33,7 +33,7 @@ lib:
         handle: lib-cpp
         version: 1.0.0
         available libraries: None
-        short description: A quick C++ template for modern CMake projects, aimed to be an easy to use starting point. 
+        short description: A quick C++ template for modern CMake projects, aimed to be an easy to use starting point.
         long description: A template for modern C++ projects - both executables and libraries - using CMake, Clang-Format, CI, unit testing and more, with support for downstream inclusion.
 pub:
     thesis:
