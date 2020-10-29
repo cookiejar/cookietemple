@@ -125,6 +125,12 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         log.debug('git push origin TEMPLATE')
         print('[bold blue]Pushing template to Github origin TEMPLATE.')
         cloned_repo.remotes.origin.push(refspec='TEMPLATE:TEMPLATE')
+
+        # finally, checkout to development branch
+        log.debug('git checkout development')
+        print('[bold blue]Checking out development branch.')
+        cloned_repo.git.checkout('development')
+
         # did any errors occur?
         print(f'[bold green]Successfully created a Github repository at https://github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}')
 

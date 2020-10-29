@@ -1,6 +1,9 @@
 name: cookietemple sync
 
-on: [push]
+on:
+  schedule:
+    - cron: '0 1 * * *' # 1 am UTC
+  workflow_dispatch:
 
 jobs:
   build:
@@ -11,8 +14,8 @@ jobs:
           with:
             python-version: 3.8
 
-        - name: Clone and install cookietemple
-          run: git clone https://github.com/cookiejar/cookietemple && cd cookietemple && git checkout fix/sync && pip install .
+        - name: Install cookietemple
+          run: pip install cookietemple
 
         - uses: actions/checkout@v2
           with:

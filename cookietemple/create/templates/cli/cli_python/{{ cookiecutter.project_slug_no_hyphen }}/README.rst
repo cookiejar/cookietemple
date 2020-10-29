@@ -40,7 +40,7 @@ Features
 
 Credits
 -------
-Updated for sync
+
 This package was created with cookietemple_ using Cookiecutter_.
 
 .. _cookietemple: https://cookietemple.com
