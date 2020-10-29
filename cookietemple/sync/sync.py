@@ -233,7 +233,7 @@ class TemplateSync:
             log.debug('Setting TEMPLATE branch as upstream tracking branch.')
             self.repo.head.ref.set_tracking_branch(origin.refs.TEMPLATE)
             log.debug('Pushing to upstream branch TEMPLATE.')
-            self.repo.git.push()
+            self.repo.git.push(force=True)
         except git.exc.GitCommandError as e:
             print(f'Could not push TEMPLATE branch:\n{e}')
             sys.exit(1)
@@ -269,7 +269,7 @@ class TemplateSync:
             'body': pr_body_text,
             'maintainer_can_modify': True,
             'head': 'TEMPLATE',
-            'base': self.from_branch,
+            'base': 'development',
         }
         log.debug(f'Trying to submit a sync PR to https://api.github.com/repos/{self.repo_owner}/{self.dot_cookietemple["project_slug"]}/pulls')
         r = requests.post(
@@ -299,12 +299,11 @@ class TemplateSync:
 
         :return Whether a cookietemple sync PR is already open or not
         """
-        state = {'state': 'open'}
-        query_url = f'https://api.github.com/repos/{self.repo_owner}/{self.dot_cookietemple["project_slug"]}/pulls'
+        query_url = f'https://api.github.com/repos/{self.repo_owner}/{self.dot_cookietemple["project_slug"]}/pulls?state=open'
         headers = {'Authorization': f'token {self.token}'}
         # query all open PRs
         log.debug('Querying open PRs to check if a sync PR already exists.')
-        r = requests.get(query_url, headers=headers, data=json.dumps(state))
+        r = requests.get(query_url, headers=headers)
         query_data = r.json()
         log.debug(f'Query returned: {query_data}')
         # iterate over the open PRs of the repo to check if a cookietemple sync PR is open
