@@ -33,7 +33,7 @@ lib:
         handle: lib-cpp
         version: 1.0.0
         available libraries: None
-        short description: A quick C++ template for modern CMake projects, aimed to be an easy to use starting point. 
+        short description: A quick C++ template for modern CMake projects, aimed to be an easy to use starting point.
         long description: A template for modern C++ projects - both executables and libraries - using CMake, Clang-Format, CI, unit testing and more, with support for downstream inclusion.
 pub:
     thesis:

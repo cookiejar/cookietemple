@@ -20,6 +20,7 @@ jobs:
         - uses: actions/checkout@v2
           with:
               fetch-depth: 0
+              token: '{% raw %}${{ secrets.CT_SYNC_TOKEN }}{% endraw %}'
           name: Check out source-code repository
 
         - uses: oleksiyrudenko/gha-git-credentials@v1
