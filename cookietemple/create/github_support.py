@@ -3,9 +3,6 @@ import os
 import sys
 import requests
 import json
-import tempfile
-import shutil
-
 from base64 import b64encode
 from nacl import encoding, public
 from pathlib import Path
@@ -17,7 +14,6 @@ from git import Repo, exc
 from ruamel.yaml import YAML
 from rich import print
 from collections import OrderedDict
-
 
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
