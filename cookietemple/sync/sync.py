@@ -176,8 +176,6 @@ class TemplateSync:
             log.debug(f'Changed directory to {tmpdirname}.')
             log.debug(f'Calling choose_domain with {self.dot_cookietemple}.')
             choose_domain(domain=None, dot_cookietemple=self.dot_cookietemple)
-            log.debug('Removing sync workflow.')
-            os.remove(f'{tmpdirname}/{self.dot_cookietemple["project_slug"]}/.github/workflows/sync_project.yml')
             # copy into the cleaned TEMPLATE branch's project directory
             log.debug(f'Copying created template into {self.project_dir}.')
             copy_tree(os.path.join(tmpdirname, self.dot_cookietemple['project_slug']), str(self.project_dir))
