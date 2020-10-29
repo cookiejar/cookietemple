@@ -106,9 +106,9 @@ Projects using cookietemple
 ---------------------------
 A few of those projects using cookietemple are listed below:
 
-* `<https://github.com/mlf-core/system-intelligence>`_
-* `<https://github.com/mlf-core/mlf-core>`_
-* `<https://github.com/cookiejar/cookietemple_website>`_
+* `cookietemple website <https://github.com/cookiejar/cookietemple_website>`_
+* `system-intelligence <https://github.com/mlf-core/system-intelligence>`_
+* `mlf-core <https://github.com/mlf-core/mlf-core>`_
 
 Contributing
 ------------
