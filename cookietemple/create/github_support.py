@@ -3,9 +3,6 @@ import os
 import sys
 import requests
 import json
-import tempfile
-import shutil
-
 from base64 import b64encode
 from nacl import encoding, public
 from pathlib import Path
@@ -17,7 +14,6 @@ from git import Repo, exc
 from ruamel.yaml import YAML
 from rich import print
 from collections import OrderedDict
-
 
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
@@ -83,10 +79,6 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         # the created project repository with the copied .git directory
         cloned_repo = Repo(path=project_path)
 
-        fd, temp_path = tempfile.mkstemp()
-        shutil.copy2(f'{project_path}/.github/workflows/sync_project.yml', temp_path)
-        os.remove(f'{project_path}/.github/workflows/sync_project.yml')
-
         # git add
         log.debug('git add')
         print('[bold blue]Staging template')
@@ -130,33 +122,11 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         print('[bold blue]Pushing template to Github origin TEMPLATE.')
         cloned_repo.remotes.origin.push(refspec='TEMPLATE:TEMPLATE')
 
-        # checkout to development branch again
-        log.debug('git checkout master')
-        print('[bold blue]Checking out master branch.')
-        cloned_repo.git.checkout('master')
-        shutil.copy2(temp_path, f'{project_path}/.github/workflows/sync_project.yml')
-
-        # Push the sync workflow to master and development
-        # Self modifying workflows are not allowed on Github, hence TEMPLATE is not allowed to have the sync workflow.
-        # We simply do not push it to TEMPLATE.
-        log.debug('git add')
-        cloned_repo.git.add(A=True)
-        log.debug('git commit')
-        cloned_repo.index.commit('Added cookietemple sync workflow')
-        log.debug('git push origin master')
-        print('[bold blue]Pushing sync workflow to Github origin master')
-        cloned_repo.remotes.origin.push(refspec='master:master')
-
+        # finally, checkout to development branch
         log.debug('git checkout development')
+        print('[bold blue]Checking out development branch.')
         cloned_repo.git.checkout('development')
-        shutil.copy2(temp_path, f'{project_path}/.github/workflows/sync_project.yml')
-        cloned_repo.git.add(A=True)
-        cloned_repo.index.commit('Added cookietemple sync workflow')
-        log.debug('git push origin development')
-        print('[bold blue]Pushing sync workflow to Github origin development')
-        cloned_repo.remotes.origin.push(refspec='development:development')
-        # remove temp workflow file
-        os.remove(temp_path)
+
         # did any errors occur?
         print(f'[bold green]Successfully created a Github repository at https://github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}')
 
