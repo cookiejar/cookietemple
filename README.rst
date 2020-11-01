@@ -19,6 +19,10 @@
         :target: https://pypi.python.org/pypi/cookietemple
         :alt: PyPi Status
 
+.. image:: https://img.shields.io/github/license/cookiejar/cookietemple
+        :target: https://github.com/cookiejar/cookietemple/blob/master/LICENSE
+        :alt: Apache 2.0 license
+
 .. image:: https://readthedocs.org/projects/cookietemple/badge/?version=latest
         :target: https://cookietemple.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
@@ -41,70 +45,68 @@
 
 A cookiecutter based project template creation tool supporting several domains and languages with advanced linting, syncing and standardized workflows to get your project kickstarted in no time.
 
-
-* Free  and open-source software: Apache 2.0
 * Documentation: https://cookietemple.readthedocs.io .
 
+cookietemple overview
+========================
 
 Installing
 ---------------
 
-Start your journey with cookietemple by installing it via :code:`$ pip install cookietemple`.
+Start your journey with cookietemple by installing it via ``$ pip install cookietemple``.
 
-Cookietemple
-============
-
-Create
+create
 ------
 Kickstart your customized project with one of cookietemple's templates in no time.
 
-Sync
+sync
 ------
 Sync your project with the latest cookietemple release to ensure you are up to date.
 
-Lint
+lint
 ----
 Use advanced linting to ensure your project always adheres to common standards.
 
 .. image:: https://user-images.githubusercontent.com/31141763/96794606-c86ade80-13fe-11eb-906f-67cb3fba750e.gif
 
-Bump-Version
+bump-version
 ------------
 Bump your project version with many configurable options.
 
 .. figure:: https://user-images.githubusercontent.com/31141763/96794879-4cbd6180-13ff-11eb-9bae-82443a41d100.gif
 
-Config
+See: :ref:`bump-version`.
+
+config
 ------
 Configure your cookietemple settings to ensure you are not always asked for the same thing.
 
 .. figure:: https://user-images.githubusercontent.com/31141763/96794940-78404c00-13ff-11eb-925f-1cbfa53378f2.gif
 
-List
+list
 ----
 List all available cookietemple templates with short info for each.
 
 .. figure:: https://user-images.githubusercontent.com/31141763/96794966-8d1cdf80-13ff-11eb-9265-6631106037d1.gif
 
-Info
+info
 ----
 Get detailed information on a cookietemple template.
 
 .. figure:: https://user-images.githubusercontent.com/31141763/96794781-1bdd2c80-13ff-11eb-99b3-5701827928c9.gif
 
-Warp
+warp
 ----
 Create a self contained executable.
 Currently, cookietemple does not ship any templates, where this may be required.
 
-Upgrade
+upgrade
 -------
 Check whether you are using the latest cookietemple version and update automatically to benefit from the latest features.
 
 
 Projects using cookietemple
 ---------------------------
-A few of those projects using cookietemple are listed below:
 
 * `cookietemple website <https://github.com/cookiejar/cookietemple_website>`_
 * `system-intelligence <https://github.com/mlf-core/system-intelligence>`_

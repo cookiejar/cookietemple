@@ -6,7 +6,7 @@ Bumping the version of an existing project
 
 | Increasing the version of an already existing project is often times a cumbersome and error prone process, since the version has to be changed in multiple places.
 | To facilitate this process, cookietemple provides a :code:`bump-version` command, which conveniently increases the version across several files.
-| Additionally, always adding new sections to the changelog is an annoying process. bump-version therefore inserts a new section into the changelog using the specified new version.
+| Additionally, bump-version inserts a new section into the changelog using the specified new version.
 
 .. code::
 
@@ -23,7 +23,7 @@ Bumping the version of an existing project
 
 bump-version will verify that your new version adheres to `semantic versioning <https://semver.org/>`_ and that you are not trying to update it unreasonably.
 It is for example not allowed to bump from 2.0.0 to 7.1.2, since in a normal development workflow only 2.0.1, 2.1.0 or 3.0.0 adhere to consecutive `semantic versioning <https://semver.org/>`_.
-Note that SNAPSHOT versions are allowed! Hence, :code:`cookietemple bump-version 1.2.5-SNAPSHOT` is allowed. However, it must still follow `semantic versioning <https://semver.org/>`_.
+Note that SNAPSHOT versions are allowed! However, it must still follow `semantic versioning <https://semver.org/>`_.
 Version 1.2.5 therefore cannot be the predecessor of 1.2.5-SNAPSHOT, but only 1.2.4.
 
 Usage
@@ -36,9 +36,9 @@ The :code:`bump-version` command follows the syntax
 
     $ cookietemple bump-version <OPTIONS> X.X.X <PATH>
 
-| where ``X`` corresponds to a (python)-integer value of any possible range.
-| The PATH corresponds to the path to the cookietemple.cfg file, which contains all locations, where the version should be increased.
-| Note that you don´t need to specify a path, if your current working directory contains the :code:`cookietemple.cfg` file.
+- ``X.X.X``, where the ``X`` correspond to integers adhering to consecutive `semantic versioning <https://semver.org/>`_.
+
+- ``PATH``[PWD] is the path to the ``cookietemple.cfg`` file, which contains all locations, where the version should be increased.
 
 .. figure:: images/bump_version_example.png
    :scale: 100 %
@@ -46,11 +46,12 @@ The :code:`bump-version` command follows the syntax
 
    bump-version applied to a fresh cli-python project
 
-Use the ``--downgrade`` option to downgrade your version. The changelog will not be changed. Only use this option as a last resort if something went horribly wrong in your development process.
-In a normal development workflow this should never be necessary.
+Flags
+-------
 
-Sometimes, one just wants to check the current project version, for example before a bump. This can be done using the ``project-version`` flag. So use ``cookietemple bump-version --project-version``
-to view your current project's version. Note that using this flag will not trigger any bump process.
+- ``--downgrade`` to downgrade a version. The changelog will not be modified. Only use this option as a last resort if something went horribly wrong in your development process. In a normal development workflow this should never be necessary.
+
+- ``--project-version`` to get the current project version. No version bumping will be triggered.
 
 .. _bump-version-configuration:
 
