@@ -75,7 +75,7 @@ Bump your project version with many configurable options.
 
 .. figure:: https://user-images.githubusercontent.com/31141763/96794879-4cbd6180-13ff-11eb-9bae-82443a41d100.gif
 
-See: :ref:`bump-version`.
+See `Bumping the version of an existing project  <https://cookietemple.readthedocs.io/en/bump_version>`_
 
 config
 ------
