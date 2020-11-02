@@ -45,16 +45,12 @@ Usage
 cookietemple lint can be invoked on an existing project using
 
 .. code-block:: console
-    :linenos:
 
     $ cookietemple lint <PATH>
 
-- ``PATH``[PWD]: A relative path to the project directory.
+- ``PATH`` A relative path to the project directory.
 
-Flags
---------
-
-None at the moment.
+  Defaults to current working directory.
 
 .. _linting_codes:
 

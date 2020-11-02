@@ -31,7 +31,6 @@ Usage
 Invoke ``warp`` by running
 
 .. code-block:: console
-    :linenos:
 
     $ cookietemple warp --input_dir <INPUTDIR> --exec <EXECUTABLE> --output <OUTPUT>
 

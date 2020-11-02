@@ -24,14 +24,8 @@ Usage
 cookietemple list can be invoked *via*
 
 .. code-block:: console
-    :linenos:
 
     $ cookietemple list
-
-Flags
-~~~~~~~~
-
-None at the moment.
 
 .. _info_f:
 
@@ -52,7 +46,6 @@ Usage
 Invoke :code:`cookietemple info` *via*
 
 .. code-block:: console
-    :linenos:
 
     $ cookietemple info <HANDLE/LANGUAGE/DOMAIN>
 
@@ -62,7 +55,3 @@ Invoke :code:`cookietemple info` *via*
 
 - ``LANGUAGE``: A programming language for which cookietemple provides templates for. Example: ``python``.
 
-Flags
-~~~~~~~~
-
-None at the moment.

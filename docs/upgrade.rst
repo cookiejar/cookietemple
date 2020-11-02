@@ -12,6 +12,5 @@ Usage
 --------
 
 .. code-block::
-    :linenos:
 
     $ cookietemple upgrade

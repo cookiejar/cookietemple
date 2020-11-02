@@ -32,13 +32,12 @@ Usage
 The :code:`bump-version` command follows the syntax
 
 .. code-block:: console
-    :linenos:
 
     $ cookietemple bump-version <OPTIONS> X.X.X <PATH>
 
 - ``X.X.X``: The new version, where the ``X`` correspond to integers adhering to consecutive `semantic versioning <https://semver.org/>`_. You may append ``-SNAPSHOT``.
 
-- ``PATH``[PWD] is the path to the ``cookietemple.cfg`` file, which contains all locations, where the version should be increased.
+- ``PATH`` is the path to the ``cookietemple.cfg`` file, which contains all locations, where the version should be increased. Defaults to current working directory.
 
 .. figure:: images/bump_version_example.png
    :scale: 100 %
@@ -49,9 +48,13 @@ The :code:`bump-version` command follows the syntax
 Flags
 -------
 
-- ``--downgrade`` to downgrade a version. The changelog will not be modified. Only use this option as a last resort if something went horribly wrong in your development process. In a normal development workflow this should never be necessary.
+- ``--downgrade`` to downgrade a version.
 
-- ``--project-version`` to get the current project version. No version bumping will be triggered.
+  The changelog won't be modified. Only use this option as a last resort if something went horribly wrong in your development process. In a normal development workflow, this should never be necessary.
+
+- ``--project-version`` to get the current project version.
+
+  No version bumping will be triggered. Using this flag will cancel any commands executed after and exits the program.
 
 .. _bump-version-configuration:
 
