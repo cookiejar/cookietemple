@@ -38,13 +38,16 @@ None at the moment.
 info
 ------
 
-The ``info`` command should be used when the short description of a template is not sufficient and a more detailed description is required.
+The ``info`` command should be used when the short description of a template is not sufficient and a more detailed description of a specific template is required.
 
 .. figure:: images/info_example.png
    :scale: 100 %
    :alt: Info example
 
    Example output of ``cookietemple info``.
+
+Usage
+~~~~~~~
 
 Invoke :code:`cookietemple info` *via*
 
@@ -58,3 +61,8 @@ Invoke :code:`cookietemple info` *via*
 - ``DOMAIN``: a domain for which cookietemple provides templates for. Example: ``cli``.
 
 - ``LANGUAGE``: A programming language for which cookietemple provides templates for. Example: ``python``.
+
+Flags
+~~~~~~~~
+
+None at the moment.
