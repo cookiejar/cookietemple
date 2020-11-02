@@ -109,6 +109,8 @@ sync
 ------
 Sync your project with the latest cookietemple release to get the latest template features.
 
+.. figure:: https://user-images.githubusercontent.com/31141763/97902308-b0b82200-1d3d-11eb-8e4d-ab86a1fc6f50.gif
+
 See `Syncing a project <https://cookietemple.readthedocs.io/en/sync.html>`_.
 
 warp
