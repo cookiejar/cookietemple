@@ -2,7 +2,6 @@ This file contains some cases, where the linter should complain about and recogn
 myTodoString # TODO COOKIETEMPLE
 {{ cookiecutter.ohforgetit }}
 {{ ima.nocookiecutter }} # should not be marked as remaining cookiecutter string
-{ cookiecutter.noiamnotremainder } # should not be marked as remaining cookiecutter string
 ima valid version 1.0.0
 im also a valid version 1.0.4-SNAPSHOT but im not consistent
 and iam no valid version number 4.3
