@@ -84,7 +84,8 @@ See section below in case your Github repo creation failed during the create pro
 
 
 Error Handling due to failed Github repository creation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Errors during the create process due to a failed Github repo creation may occur due to a vast amount of reasons:
 Some common error sources are:
 
