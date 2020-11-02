@@ -19,6 +19,10 @@
         :target: https://pypi.python.org/pypi/cookietemple
         :alt: PyPi Status
 
+.. image:: https://img.shields.io/github/license/cookiejar/cookietemple
+        :target: https://github.com/cookiejar/cookietemple/blob/master/LICENSE
+        :alt: Apache 2.0 license
+
 .. image:: https://readthedocs.org/projects/cookietemple/badge/?version=latest
         :target: https://cookietemple.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
@@ -41,82 +45,99 @@
 
 A cookiecutter based project template creation tool supporting several domains and languages with advanced linting, syncing and standardized workflows to get your project kickstarted in no time.
 
-
-* Free  and open-source software: Apache 2.0
 * Documentation: https://cookietemple.readthedocs.io .
 
+cookietemple overview
+========================
 
 Installing
 ---------------
 
-Start your journey with cookietemple by installing it via :code:`$ pip install cookietemple`.
+Start your journey with cookietemple by installing it via ``$ pip install cookietemple``.
 
-Cookietemple
-============
+See `Installation  <https://cookietemple.readthedocs.io/en/installation.html>`_.
 
-Create
+config
 ------
-Kickstart your customized project with one of cookietemple's templates in no time.
+Configure cookietemple to get started.
 
-Sync
-------
-Sync your project with the latest cookietemple release to ensure you are up to date.
+.. figure:: https://user-images.githubusercontent.com/31141763/96794940-78404c00-13ff-11eb-925f-1cbfa53378f2.gif
 
-Lint
+See `Configuring cookietemple <https://cookietemple.readthedocs.io/en/config.html>`_
+
+list
 ----
-Use advanced linting to ensure your project always adheres to common standards.
+List all available cookietemple templates.
 
-.. figure:: img/lint_readme.gif
+.. figure:: https://user-images.githubusercontent.com/31141763/96794966-8d1cdf80-13ff-11eb-9265-6631106037d1.gif
 
-Bump-Version
-------------
-Bump your project version with many configurable options.
+See `Listing all templates <https://cookietemple.readthedocs.io/en/list_info.html#list>`_.
 
-.. figure:: img/bump_version_readme.gif
-
-Config
-------
-Configure your cookietemple settings to ensure you are not always asked for the same thing.
-
-.. figure:: img/config_readme.gif
-
-List
-----
-List all available cookietemple templates with short info for each.
-
-.. figure:: img/list_readme.gif
-
-Info
+info
 ----
 Get detailed information on a cookietemple template.
 
-.. figure:: img/info_readme.gif
+.. figure:: https://user-images.githubusercontent.com/31141763/96794781-1bdd2c80-13ff-11eb-99b3-5701827928c9.gif
 
-Warp
+See `Get detailed template information <https://cookietemple.readthedocs.io/en/list_info.html#info>`_.
+
+create
+------
+Kickstart your customized project with one of cookietemple's templates in no time.
+
+See `Create a project <https://cookietemple.readthedocs.io/en/installation.html>`_.
+
+lint
+----
+Use advanced linting to ensure your project always adheres to cookietemple's standards.
+
+.. image:: https://user-images.githubusercontent.com/31141763/96794606-c86ade80-13fe-11eb-906f-67cb3fba750e.gif
+
+See `Linting your project <https://cookietemple.readthedocs.io/en/lint.html>`_
+
+bump-version
+------------
+Bump your project version with many configurable options.
+
+.. figure:: https://user-images.githubusercontent.com/31141763/96794879-4cbd6180-13ff-11eb-9bae-82443a41d100.gif
+
+See `Bumping the version of an existing project  <https://cookietemple.readthedocs.io/en/bump_version.html>`_.
+
+sync
+------
+Sync your project with the latest cookietemple release to get the latest template features.
+
+See `Syncing a project <https://cookietemple.readthedocs.io/en/sync.html>`_.
+
+warp
 ----
 Create a self contained executable.
-Currently, cookietemple does not ship any templates, where this may be required.
+Currently, cookietemple does not ship any templates anymore, where this may be required.
 
-Upgrade
+See `Warping a project <https://cookietemple.readthedocs.io/en/warp.html>`_.
+
+upgrade
 -------
 Check whether you are using the latest cookietemple version and update automatically to benefit from the latest features.
+
+See `<https://cookietemple.readthedocs.io/en/upgrade.html>`_.
 
 
 Projects using cookietemple
 ---------------------------
-A few of those projects using cookietemple are listed below:
 
-* `<https://github.com/mlf-core/system-intelligence>`_
-* `<https://github.com/mlf-core/mlf-core>`_
-* `<https://github.com/cookiejar/cookietemple_website>`_
+* `cookietemple website <https://github.com/cookiejar/cookietemple_website>`_
+* `system-intelligence <https://github.com/mlf-core/system-intelligence>`_
+* `mlf-core <https://github.com/mlf-core/mlf-core>`_
 
 Contributing
 ------------
 
 cookietemple is a huge open-source effort and highly welcomes all contributions! Join our `Discord Channel <https://discord.gg/PYF8NUk>`_.
-Please read `contributing  <https://cookietemple.readthedocs.io/en/contributing>`_ to find out how you can contribute.
+Please read `contributing  <https://cookietemple.readthedocs.io/en/contributing.html>`_ to find out how you can contribute.
 
 Authors
 -------
 
 cookietemple was initiated and developed by `Lukas Heumos (Github)  <https://github.com/zethson>`_ and `Philipp Ehmele (Github) <https://github.com/imipenem>`_.
+A full list of contributors is available on our `statistics webpage <https://cookietemple.com/statistics>`_.

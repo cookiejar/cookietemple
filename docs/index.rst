@@ -7,7 +7,6 @@ Welcome to COOKIETEMPLE's documentation!
 
    readme
    installation
-   usage
    create
    list_info
    lint

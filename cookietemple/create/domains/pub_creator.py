@@ -51,7 +51,7 @@ class PubCreator(TemplateCreator):
 
         self.pub_struct.pubtype = cookietemple_questionary_or_dot_cookietemple(function='select',
                                                                                question='Choose between the following publication types',
-                                                                               choices=['thesis', 'paper'],
+                                                                               choices=['thesis'],
                                                                                dot_cookietemple=dot_cookietemple,
                                                                                to_get_property='pubtype')
 
@@ -101,7 +101,6 @@ class PubCreator(TemplateCreator):
 
         switcher = {
             'thesis': self.handle_thesis_latex,
-            'paper': self.handle_paper_latex
         }
         switcher.get(self.pub_struct.pubtype.lower(), lambda: 'Invalid Pub Project Type!')(dot_cookietemple)
 
@@ -111,9 +110,6 @@ class PubCreator(TemplateCreator):
                                                                               default='PhD',
                                                                               dot_cookietemple=dot_cookietemple,
                                                                               to_get_property='degree')
-
-    def handle_paper_latex(self) -> None:
-        pass
 
     def common_latex_options(self, dot_cookietemple: dict or None) -> None:
         """
