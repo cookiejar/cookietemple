@@ -210,7 +210,7 @@ class TemplateSync:
             log.debug(f'Files to commit are:{nl}{nl.join(file for file in files_to_commit)}' if files_to_commit else
                       'No files to commit found.')
             Popen(['git', 'commit', '-m', 'Cookietemple sync', *files_to_commit], stdout=PIPE, stderr=PIPE, universal_newlines=True)
-            print('[bold blue] Stashing and saving TEMPLATE branch changes!')
+            print('[bold blue]Stashing and saving TEMPLATE branch changes!')
             Popen(['git', 'stash'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
             self.made_changes = True
             print('[bold blue]Committed changes to TEMPLATE branch')
