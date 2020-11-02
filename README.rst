@@ -59,7 +59,7 @@ See `Installation  <https://cookietemple.readthedocs.io/en/installation.html>`_.
 
 config
 ------
-Configure your cookietemple to get started.
+Configure cookietemple to get started.
 
 .. figure:: https://user-images.githubusercontent.com/31141763/96794940-78404c00-13ff-11eb-925f-1cbfa53378f2.gif
 
@@ -89,7 +89,7 @@ See `Create a project <https://cookietemple.readthedocs.io/en/installation.html>
 
 lint
 ----
-Use advanced linting to ensure your project always adheres to common standards.
+Use advanced linting to ensure your project always adheres to cookietemple's standards.
 
 .. image:: https://user-images.githubusercontent.com/31141763/96794606-c86ade80-13fe-11eb-906f-67cb3fba750e.gif
 

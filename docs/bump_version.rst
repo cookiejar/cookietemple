@@ -5,7 +5,7 @@ Bumping the version of an existing project
 ==============================================
 
 Increasing the version of an already existing project is often times a cumbersome and error prone process, since the version has to be changed in multiple places.
-To facilitate this process, cookietemple provides a :code:`bump-version` command, which conveniently increases the version across several files.
+To facilitate this process, cookietemple provides a ``bump-version`` command, which conveniently increases the version across several files.
 Additionally, bump-version inserts a new section into the changelog using the specified new version.
 
 .. code::
@@ -36,7 +36,7 @@ The :code:`bump-version` command follows the syntax
 
     $ cookietemple bump-version <OPTIONS> X.X.X <PATH>
 
-- ``X.X.X``, where the ``X`` correspond to integers adhering to consecutive `semantic versioning <https://semver.org/>`_.
+- ``X.X.X``: The new version, where the ``X`` correspond to integers adhering to consecutive `semantic versioning <https://semver.org/>`_. You may append ``-SNAPSHOT``.
 
 - ``PATH``[PWD] is the path to the ``cookietemple.cfg`` file, which contains all locations, where the version should be increased.
 
@@ -58,9 +58,9 @@ Flags
 Configuration
 ------------------
 
-| All templates of cookietemple ship with a :code:`cookietemple.cfg` file, which defines all files :code:`bump-version` examines.
+All templates of cookietemple ship with a ``cookietemple.cfg`` file, which defines all files ``bump-version`` examines.
 
-The :code:`bump-version` configuration begins with the section::
+The ``bump-version`` configuration begins with the section::
 
     [bumpversion]
     current_version = 0.1.0
@@ -74,10 +74,10 @@ Whitelisted files are listed below a ``[bumpversion_files_whitelisted]`` section
     dot_cookietemple = .cookietemple.yml
     conf_py = docs/conf.py
 
-| All files, which are whitelisted are searched for patterns matching ``X.X.X``, which are updated to the specified new versions.
-| Any lines, which contain the string :code:`<<COOKIETEMPLE_NO_BUMP>>` will be ignored.
+All files, which are whitelisted are searched for patterns matching ``X.X.X``, which are updated to the specified new versions.
+Any lines, which contain the string ``<<COOKIETEMPLE_NO_BUMP>>`` will be ignored.
 
-If files like Maven pom.xml files, contain many version patterns matching ``X.X.X``, it may be a better idea to blacklist them (section ``[bumpversion_files_blacklisted]``) and enable only specific lines to be updated::
+If files, like Maven pom.xml files, contain many version patterns matching ``X.X.X``, it may be a better idea to blacklist them (section ``[bumpversion_files_blacklisted]``) and enable only specific lines to be updated::
 
     [bumpversion_files_blacklisted]
     pom = pom.xml
