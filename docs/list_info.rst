@@ -49,9 +49,9 @@ Invoke :code:`cookietemple info` *via*
 
     $ cookietemple info <HANDLE/LANGUAGE/DOMAIN>
 
-- ``HANDLE``: a cookietemple template handle such as ``cli-python``.
+- ``HANDLE`` : a cookietemple template handle such as ``cli-python``.
 
-- ``DOMAIN``: a domain for which cookietemple provides templates for. Example: ``cli``.
+- ``DOMAIN`` : a domain for which cookietemple provides templates for. Example: ``cli``.
 
-- ``LANGUAGE``: A programming language for which cookietemple provides templates for. Example: ``python``.
+- ``LANGUAGE`` : A programming language for which cookietemple provides templates for. Example: ``python``.
 
