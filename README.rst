@@ -85,6 +85,8 @@ create
 ------
 Kickstart your customized project with one of cookietemple's templates in no time.
 
+.. figure:: https://user-images.githubusercontent.com/31141763/97893851-17374300-1d32-11eb-9e21-c481cf6bd24e.gif
+
 See `Create a project <https://cookietemple.readthedocs.io/en/installation.html>`_.
 
 lint
