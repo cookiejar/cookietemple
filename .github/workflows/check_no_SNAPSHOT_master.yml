@@ -8,6 +8,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    python: 3.8
     steps:
       # PRs to the repository master branch are only ok if coming from any patch or release branch
       - name: Install cookietemple
