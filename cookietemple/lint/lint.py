@@ -19,6 +19,10 @@ def lint_project(project_dir: str, skip_external: bool, is_create: bool = False)
     Verifies the integrity of a project to best coding and practices.
     Runs a set of general linting functions, which all templates share and afterwards runs template specific linting functions.
     All results are collected and presented to the user.
+
+    :param project_dir: The path to the .cookietemple.yml file.
+    :param skip_external: Whether to skip external linters such as autopep8
+    :param is_create: Whether linting is called during project creation
     """
     # Detect which template the project is based on
     template_handle = get_template_handle(project_dir)
