@@ -1,0 +1,31 @@
+name: Run Codecov
+on: [push]
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+    strategy:
+        matrix:
+            python: [3.7, 3.8]
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup Python
+      uses: actions/setup-python@master
+      with:
+        python-version: ${{ matrix.python }}
+
+    - name: Generate coverage report
+      run: |
+        pip install -r requirements_dev.txt -r requirements.txt
+        pip install pytest-cov
+        pytest tests/ --cov-config=.coveragerc --cov=cookietemple/ --cov-report=xml
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        #TODO COOKIETEMPLE: Remove this when Cookietemple goes public!
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: true

@@ -1,0 +1,24 @@
+name: CSS linter
+
+on: 
+  push:
+    paths:
+      - "**/*.css"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: setup Node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Install stylelint for CSS linting
+        run: npm install --global stylelint stylelint-config-standard
+
+      - name: Run stylelint for CSS linting
+        run: stylelint "./{{cookiecutter.project_slug}}/static/**/*.css"

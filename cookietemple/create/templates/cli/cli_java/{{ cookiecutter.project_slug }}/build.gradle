@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+    id "org.mikeneck.graalvm-native-image" version "0.7.0"
+}
+apply plugin: "org.mikeneck.graalvm-native-image"
+
+// {{ cookiecutter.full_name}}
+// {{ cookiecutter.email }}
+group '{{ cookiecutter.group_domain }}.{{ cookiecutter.group_organization }}'
+version '{{ cookiecutter.version }}' // <<COOKIETEMPLE_FORCE_BUMP>>
+
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
+
+repositories {
+    jcenter()
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation 'info.picocli:picocli:4.5.0'
+    implementation 'info.picocli:picocli-jansi-graalvm:1.2.0'
+    implementation 'org.fusesource.jansi:jansi:1.18'
+
+    annotationProcessor 'info.picocli:picocli-codegen:4.5.0'
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.2")
+}
+
+compileJava {
+    options.compilerArgs += [
+            "-Aproject=${project.group}/${project.name}",
+            "-Aother.resource.patterns=testkey.jks"
+    ]
+}
+
+test {
+    useJUnitPlatform()
+}
+test.dependsOn(tasks.getByName('nativeImage'))
+
+// config for org.mikeneck.graalvm-native-image
+nativeImage {
+    graalVmHome = System.getProperty('java.home')
+    mainClass = '{{ cookiecutter.group_domain }}.{{ cookiecutter.group_organization }}.{{ cookiecutter.main_class }}'
+    executableName = '{{ cookiecutter.project_slug }}'
+    arguments(
+            '--no-fallback',
+//            '--enable-all-security-services',
+//            '--initialize-at-run-time=com.example.runtime',
+            '--report-unsupported-elements-at-runtime'
+    )
+}

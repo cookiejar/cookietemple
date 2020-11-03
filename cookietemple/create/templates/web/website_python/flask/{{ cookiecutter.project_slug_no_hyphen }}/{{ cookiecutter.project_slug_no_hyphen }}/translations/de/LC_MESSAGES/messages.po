@@ -1,0 +1,152 @@
+# German translations for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-05-10 17:59+0200\n"
+"PO-Revision-Date: 2020-03-29 20:29+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: de\n"
+"Language-Team: de <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.8.0\n"
+
+#: Exploding_Springfield/auth/routes.py:28
+#: build/lib/Exploding_Springfield/auth/routes.py:28
+msgid "Invalid username or password"
+msgstr "Ungültiger Nutzername oder Passwort"
+
+#: Exploding_Springfield/auth/forms/login_form.py:11
+#: Exploding_Springfield/auth/routes.py:35
+#: Exploding_Springfield/templates/auth/login.html:5
+#: build/lib/Exploding_Springfield/auth/forms/login_form.py:11
+#: build/lib/Exploding_Springfield/auth/routes.py:35
+#: build/lib/Exploding_Springfield/templates/auth/login.html:5
+msgid "Sign In"
+msgstr "Login"
+
+#: Exploding_Springfield/auth/routes.py:54
+#: build/lib/Exploding_Springfield/auth/routes.py:54
+msgid "Congratulations, you are now a registered user!"
+msgstr "Glückwunsch, du bist nun registriert!"
+
+#: Exploding_Springfield/auth/forms/register_form.py:15
+#: Exploding_Springfield/auth/routes.py:56
+#: Exploding_Springfield/templates/auth/register.html:5
+#: build/lib/Exploding_Springfield/auth/forms/register_form.py:15
+#: build/lib/Exploding_Springfield/auth/routes.py:56
+#: build/lib/Exploding_Springfield/templates/auth/register.html:5
+msgid "Register"
+msgstr "Registrieren"
+
+#: Exploding_Springfield/auth/forms/login_form.py:8
+#: Exploding_Springfield/auth/forms/register_form.py:9
+#: build/lib/Exploding_Springfield/auth/forms/login_form.py:8
+#: build/lib/Exploding_Springfield/auth/forms/register_form.py:9
+msgid "Username"
+msgstr "Nutzername"
+
+#: Exploding_Springfield/auth/forms/login_form.py:9
+#: Exploding_Springfield/auth/forms/register_form.py:11
+#: build/lib/Exploding_Springfield/auth/forms/login_form.py:9
+#: build/lib/Exploding_Springfield/auth/forms/register_form.py:11
+msgid "Password"
+msgstr "Passwort"
+
+#: Exploding_Springfield/auth/forms/login_form.py:10
+#: build/lib/Exploding_Springfield/auth/forms/login_form.py:10
+msgid "Remember Me"
+msgstr "Erinnere mich"
+
+#: Exploding_Springfield/auth/forms/register_form.py:13
+#: build/lib/Exploding_Springfield/auth/forms/register_form.py:13
+msgid "Repeat Password"
+msgstr "Passwort wiederholen"
+
+#: Exploding_Springfield/auth/forms/register_form.py:20
+#: build/lib/Exploding_Springfield/auth/forms/register_form.py:20
+msgid "Please use a different username."
+msgstr "Bitte verwende einen anderen Nutzernamen."
+
+#: Exploding_Springfield/auth/forms/register_form.py:25
+#: build/lib/Exploding_Springfield/auth/forms/register_form.py:25
+msgid "Please use a different email address."
+msgstr "Bitte verwende eine andere Mail Adresse"
+
+#: Exploding_Springfield/templates/base.html:4
+#: build/lib/Exploding_Springfield/templates/base.html:4
+msgid "Welcome to MyProject"
+msgstr "Willkommen zu meinem Projekt"
+
+#: Exploding_Springfield/templates/base.html:21
+#: build/lib/Exploding_Springfield/templates/base.html:21
+msgid "Home"
+msgstr ""
+
+#: Exploding_Springfield/templates/base.html:22
+#: build/lib/Exploding_Springfield/templates/base.html:22
+msgid "Explore"
+msgstr "Entdecke mein Projekt"
+
+#: Exploding_Springfield/templates/base.html:26
+#: build/lib/Exploding_Springfield/templates/base.html:26
+msgid "Login"
+msgstr "Einloggen"
+
+#: Exploding_Springfield/templates/base.html:28
+#: build/lib/Exploding_Springfield/templates/base.html:28
+msgid "Profile"
+msgstr "Profil"
+
+#: Exploding_Springfield/templates/base.html:29
+#: build/lib/Exploding_Springfield/templates/base.html:29
+msgid "Logout"
+msgstr "Ausloggen"
+
+#: Exploding_Springfield/templates/index.html:51
+#: build/lib/Exploding_Springfield/templates/index.html:51
+#, python-format
+msgid "Hi %(username)s!"
+msgstr "Hallo %(username)s!"
+
+#: Exploding_Springfield/templates/index.html:75
+#: build/lib/Exploding_Springfield/templates/index.html:75
+msgid "I am a headline"
+msgstr "Ich bin eine Überschrift"
+
+#: Exploding_Springfield/templates/index.html:76
+#: build/lib/Exploding_Springfield/templates/index.html:76
+msgid ""
+"I am a little text that will get translated by clicking the links in the "
+"headline above!"
+msgstr "Beim Klicke auf den Link oben werde ich ins Englische übersetzt!"
+
+#: Exploding_Springfield/templates/auth/login.html:12
+#: build/lib/Exploding_Springfield/templates/auth/login.html:12
+msgid "New User?"
+msgstr "Neu hier?"
+
+#: Exploding_Springfield/templates/auth/login.html:12
+#: build/lib/Exploding_Springfield/templates/auth/login.html:12
+msgid "Click to Register!"
+msgstr "Registrieren!"
+
+#~ msgid "Welcome to CookietempleProject"
+#~ msgstr "Willkommen bei Cookietemple"
+
+#~ msgid "Hi, %(username)s!"
+#~ msgstr ""
+
+#~ msgid "Login Here"
+#~ msgstr "Login hier"
+
+#~ msgid "Logout Here"
+#~ msgstr "Logout hier"
+

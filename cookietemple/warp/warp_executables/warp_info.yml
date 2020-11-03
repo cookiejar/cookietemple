@@ -1,0 +1,5 @@
+name: warp-packer
+version: 0.3.0
+author: Diego Giagio <diego@giagio.com>
+description: Create self-contained single binary application
+url: https://github.com/dgiagio/warp

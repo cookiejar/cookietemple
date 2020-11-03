@@ -1,0 +1,65 @@
+name: Create web-website-python Flask Template
+
+on: 
+  push:
+    paths-ignore:
+      - "tests/**"
+      - "docs/**"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+    strategy:
+      matrix:
+        python: [3.7, 3.8]
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out source-code repository
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Build Cookietemple
+        run: |
+          python setup.py clean --all install
+
+      - name: Create web-website-python basic Flask Template
+        run: |
+          echo -e "\033[B\033[B\033[B\n\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\n\n\n\n\n\nndummy.com\ncookietempleuser\nn" | cookietemple create
+
+      - name: Create web-website-python advanced Flask Template
+        run: |
+          echo -e "\033[B\033[B\033[B\n\nExplodingSpringfieldAdvanced\ndescription\n1.0.0\n\n\n\n\n\033[B\nn\n\n\n\ntest.com\nvmusername\nn" | cookietemple create
+
+      - name: Build basic Package
+        run: |
+          cd ExplodingSpringfield
+          make install
+
+      - name: Install doc dependencies
+        run: |
+          pip install -r docs/requirements.txt
+
+      - name: Build docs basic template
+        run: |
+          cd docs
+          make html
+
+      - name: Build advanced Package
+        run: |
+          cd ExplodingSpringfieldAdvanced
+          make install
+
+      - name: Install doc dependencies
+        run: |
+          pip install -r docs/requirements.txt
+
+      - name: Build docs advanced template
+        run: |
+          cd docs
+          make html

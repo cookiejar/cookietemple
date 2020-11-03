@@ -1,0 +1,33 @@
+name: Publish {{ cookiecutter.project_name }} to PyPI
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+    steps:
+    - uses: actions/checkout@v2
+      name: Check out source-code repository
+
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.8'
+
+    - name: Install pip, setuptools, wheel, twine
+      run: |
+        python -m pip install --upgrade pip
+        pip install setuptools wheel twine
+
+    - name: Build and publish
+      env:
+        TWINE_USERNAME: {% raw %}${{ secrets.PYPI_USERNAME }}{% endraw %}
+        # TODO COOKIETEMPLE: Configure your secrets to enable automatic deployment to PyPi on releases
+        # https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
+        TWINE_PASSWORD: {% raw %}${{ secrets.PYPI_PASSWORD }}{% endraw %}
+      run: |
+        python setup.py sdist bdist_wheel
+        twine upload dist/*

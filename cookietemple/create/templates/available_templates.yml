@@ -1,0 +1,58 @@
+cli:
+    java:
+        name: Java Commandline Tool
+        handle: cli-java
+        version: 1.0.0
+        available libraries: picocli
+        short description: A GraalVM based multiplatform commandline application using Picocli.
+        long description: A commandline application tool written in Java using the Picocli framework.
+                        The commandline application is built using GraalVM, which results in platform dependent binaries.
+                        Multiplatform Github workflows ensure that binaries are built for every platform and easily accessible as Github artifacts.
+    python:
+        name: Python Commandline Package
+        handle: cli-python
+        version: 1.0.0
+        available libraries: click, argparse
+        short description: General Python package with command line interface
+        long description: Best practice Python package with optional command line support (click, argparse).
+                        Pytest or unittest are available as testing libraries.
+                        The package can be easily locally installed and distributed on PyPi.
+gui:
+    java:
+        name: JavaFX Graphical User Interface
+        handle: gui-java
+        version: 1.0.0
+        available libraries: JavaFX
+        short description: Native JavaFX based graphical user interface with Java.
+        long description: A graphical user interface build with JavaFX in Java.
+                        Cookietemple's warp allows for the packaging of the tool into single executables, which already include a JVM.
+                        The entire code is build with Maven and modularized for a strong separation of concerns.
+lib:
+    cpp:
+        name: C++ Library with CMake
+        handle: lib-cpp
+        version: 1.0.0
+        available libraries: None
+        short description: A quick C++ template for modern CMake projects, aimed to be an easy to use starting point.
+        long description: A template for modern C++ projects - both executables and libraries - using CMake, Clang-Format, CI, unit testing and more, with support for downstream inclusion.
+pub:
+    thesis:
+        latex:
+            name: Latex Thesis
+            handle: pub-thesis-latex
+            version: 1.0.0
+            available libraries: latex
+            short description: Template for BSc./MSc./PhD/... thesis
+            long description: A modern LaTeX/XeLaTeX/LuaLaTeX thesis template based on the Cambridge University Engineering Department template.
+                The template is still highly customizable but offers very reasonable defaults and should not require a lot if any configuration.
+web:
+    website:
+        python:
+            name: Python Based Website
+            handle: web-website-python
+            version: 1.0.0
+            available libraries: Flask
+            short description: A Flask based template to start your website/application project.
+            long description: This template provides two versions of the template. One can choose from a basic version with minimal backend/frontend setup or a more complex version
+                with basic database support (using sqlite), working translation (using flask babel) and a working user registration and login system. Both template version can also include
+                various frontend templates and are shipped with a script for quick deployment on a server running a LinuxOS.

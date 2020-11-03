@@ -1,0 +1,18 @@
+name: Create pub-thesis-template Template
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out source-code repository
+
+      - name: Build thesis
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: thesis.tex

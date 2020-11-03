@@ -1,0 +1,20 @@
+server {
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug}}/{{cookiecutter.project_slug}}.sock;
+    }
+}
+
+server {
+    if ($host = {{cookiecutter.url}}) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    if ($host = www.{{cookiecutter.url}}) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    listen 80;
+    server_name {{cookiecutter.url}} www.{{cookiecutter.url}};
+    return 301 https://$host$request_uri;
+}

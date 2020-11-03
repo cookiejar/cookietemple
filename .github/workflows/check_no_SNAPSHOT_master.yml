@@ -1,0 +1,44 @@
+name: No SNAPSHOT version on master branch
+
+on:
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+            python-version: 3.8
+            
+      # PRs to the repository master branch are only ok if coming from any patch or release branch
+      - name: Install cookietemple
+        run: pip install cookietemple
+
+      - name: Check project version
+        run: |
+            PROJECTVERSION=$(cookietemple bump-version --project-version . | tail -n1)
+            echo $PROJECTVERSION;
+            if [[ $PROJECTVERSION == *"SNAPSHOT"* ]];then
+                exit -1
+            else
+                exit 0
+            fi
+
+      # If the above check failed, post a comment on the PR explaining the failure
+      # NOTE - this may not work if the PR is coming from a fork, due to limitations in GitHub actions secrets
+      - name: Post PR comment
+        if: failure()
+        uses: mshick/add-pr-comment@v1
+        with:
+          message: |
+            Hi @${{ github.event.pull_request.user.login }},
+
+            It looks like this pull-request is has been made against the ${{github.event.pull_request.head.repo.full_name}} `master` branch.
+            A version check determined that you are using a SNAPSHOT version.
+            The `master` branch should never have any SNAPSHOT versions, since only fully stable code should be on the `master` branch.
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          allow-repeats: false
