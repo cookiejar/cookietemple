@@ -9,7 +9,7 @@ class GuiJavaLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
     def __init__(self, path):
         super().__init__(path)
 
-    def lint(self):
+    def lint(self, skip_external):
         super().lint_project(self, self.methods)
 
     def java_files_exist(self) -> None:

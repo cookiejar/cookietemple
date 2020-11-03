@@ -50,6 +50,11 @@ cookietemple lint can be invoked on an existing project using
 
 - ``PATH`` [CWD]: The relative path to the project directory.
 
+Flags
+---------
+
+- ``skip-external``: Skips any external linters such as ``autopep8``.
+
 
 .. _linting_codes:
 

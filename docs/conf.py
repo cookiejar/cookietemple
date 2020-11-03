@@ -21,8 +21,8 @@ project = u'cookietemple'
 copyright = u'2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization'
 author = u'Lukas Heumos, Philipp Ehmele, the cookiejar organization'
 
-version = '1.0.0'
-release = '1.0.0'
+version = '1.0.1'
+release = '1.0.1'
 
 language = None
 

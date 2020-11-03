@@ -368,6 +368,7 @@ Use :bash:`$ sudo bash deployment_scripts/setup.sh` and deployment process start
 
 **Important**:
 Currently, one more step is required to get ``https`` redirecting to work properly. This will be included into a script in the future, to automate this process.
+
  1. ``$ sudo vim /etc/nginx/sites-enabled/<<my_project_name>>``
  2. Now, you need to copy the certbot added section from the second server section into the first server section, so copy:
     ``listen 443 ssl; # managed by Certbot``
@@ -375,6 +376,7 @@ Currently, one more step is required to get ``https`` redirecting to work proper
     ``ssl_certificate_key /etc/letsencrypt/live/<<my_url>>/privkey.pem; # managed by Certbot``
     ``include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot``
     ``ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot``
+
  into the first server section after the ``location`` and delete it from the second one.
 
  3. ``$ sudo nginx -t``

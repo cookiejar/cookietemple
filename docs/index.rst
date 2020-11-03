@@ -1,4 +1,4 @@
-Welcome to COOKIETEMPLE's documentation!
+Welcome to cookietemple's documentation!
 ========================================
 
 .. toctree::
@@ -19,6 +19,7 @@ Welcome to COOKIETEMPLE's documentation!
    github_support
    contributing
    adding_new_templates
+   usage
    faq
    troubleshooting
    changelog
