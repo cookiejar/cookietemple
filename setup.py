@@ -48,7 +48,7 @@ setup(
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: Apache License 2 (Apache-2.0)',
+        'OSI Approved :: Apache Software License',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.7',
