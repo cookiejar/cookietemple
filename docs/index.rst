@@ -19,6 +19,7 @@ Welcome to COOKIETEMPLE's documentation!
    github_support
    contributing
    adding_new_templates
+   usage
    faq
    troubleshooting
    changelog
