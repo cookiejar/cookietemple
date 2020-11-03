@@ -95,7 +95,8 @@ def create(domain: str) -> None:
 
 @cookietemple_cli.command(short_help='Lint your existing cookietemple project.', cls=CustomHelpSubcommand)
 @click.argument('project_dir', type=click.Path(), default=Path(str(Path.cwd())), helpmsg='Relative path to projects directory.', cls=CustomArg)
-def lint(project_dir) -> None:
+@click.option('--skip-external', is_flag=True, help='Only run cookietemple linting and not external linters.')
+def lint(project_dir, skip_external) -> None:
     """
     Lint your existing cookietemple project.
 
@@ -105,7 +106,7 @@ def lint(project_dir) -> None:
     Afterwards, template specific linting is invoked. cli-python for example may check for the existence of a setup.py file.
     Both results are collected and displayed.
     """
-    lint_project(project_dir)
+    lint_project(project_dir, skip_external)
 
 
 @cookietemple_cli.command(short_help='List all available cookietemple templates.', cls=CustomHelpSubcommand)

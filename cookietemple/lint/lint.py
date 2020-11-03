@@ -14,7 +14,7 @@ from cookietemple.lint.domains.pub import PubLatexLint
 log = logging.getLogger(__name__)
 
 
-def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
+def lint_project(project_dir: str, skip_external: bool, is_create: bool = False) -> TemplateLinter:
     """
     Verifies the integrity of a project to best coding and practices.
     Runs a set of general linting functions, which all templates share and afterwards runs template specific linting functions.
@@ -60,9 +60,9 @@ def lint_project(project_dir: str, is_create: bool = False) -> TemplateLinter:
         # when linting en existing python cookietemple project, autopep8 should be now optional,
         # since (for example) it messes up Jinja syntax (if included in project)
         if 'python' in template_handle:
-            lint_obj.lint(is_create)
+            lint_obj.lint(is_create, skip_external)
         else:
-            lint_obj.lint()
+            lint_obj.lint(skip_external)
     except AssertionError as e:
         print(f'[bold red]Critical error: {e}')
         print('[bold red] Stopping tests...')

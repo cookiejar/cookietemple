@@ -13,6 +13,8 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 **Fixed**
 
+* cookietemple lint workflow does no longer try to run autopep8 for python projects
+
 **Dependencies**
 
 **Deprecated**
