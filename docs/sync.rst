@@ -35,26 +35,20 @@ To sync your project manually, simply run
 
 .. code-block:: console
 
-    $ cookietemple sync <<PAT>> <<GITHUB_USERNAME>> <<PROJECT_DIR>>
+    $ cookietemple sync [PROJECT_DIR] [PAT] [GITHUB_USERNAME]
 
-- ``PAT`` A Github personal access token with at least the ``repo`` scope.
+- ``PROJECT_DIR`` [CWD] : The path to the ``cookietemple.cfg`` file.
 
-  Defaults to your configured PAT. The ``sync_project.yml`` Github workflow uses the PAT set as a Github secret.
+- ``PAT`` [Configured pat] : A Github personal access token with at least the ``repo`` scope. The ``sync_project.yml`` Github workflow uses the PAT set as a Github secret.
 
-- ``GITHUB_USERNAME`` The Github username to submit a pull request from.
-
-  Must match the supplied PAT.
-
-- ``PROJECT_DIR`` The path to the ``cookietemple.cfg`` file.
+- ``GITHUB_USERNAME`` [Configured username] : The Github username to submit a pull request from. The supplied PAT has to be associated with this username.
 
 Flags
 -------
 
-- ``--set-token``: Update ``CT_SYNC_SECRET`` of your project's repo to a new PAT.
+- ``--set-token`` : Update ``CT_SYNC_SECRET`` of your project's repo to a new PAT. Note that the Github username and the PAT must still match for automatic syncing to work.
 
-  Note that the Github username and the PAT must still match for automatic syncing to work.
-
-- ``check-update``: Check, whether a new release of a template for an already existing project is available.
+- ``check-update`` : Check, whether a new release of a template for an already existing project is available.
 
 Configuring sync
 -----------------------

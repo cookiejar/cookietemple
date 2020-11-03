@@ -19,13 +19,13 @@ Invoke cookietemple config *via*
 
     $ cookietemple config <all/general/pat>
 
-- ``all`` prompt for the full name, email, Github username and Github personal access token.
+- ``all`` : Prompt for the full name, email, Github username and Github personal access token.
 
-- ``general`` only prompt for the full name, email and the Github username.
+- ``general`` : Only prompt for the full name, email and the Github username.
 
   These details are required to create projects.
 
-- ``pat`` solely prompts for the Github personal access token and updates it if already set.
+- ``pat`` : Solely prompts for the Github personal access token and updates it if already set.
 
   Ensure that your Github username still matches with the new personal access token.
   If not you should also update your Github username *via* ``cookietemple config general``. Additionally, any of your already created projects may still feature your old token and you may therefore run into issues when attempting to push.
@@ -34,7 +34,7 @@ Invoke cookietemple config *via*
 Flags
 ------
 
-- ``--view`` to get your current cookietemple configuration.
+- ``--view`` : To get your current cookietemple configuration.
 
   The explicit value of your Github personal access token will not be printed. You will only be informed about whether it is set or not.
 

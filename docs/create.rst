@@ -33,7 +33,7 @@ For more details about the Github support please visit :ref:`github_support`.
 Flags
 ------
 
-- ``--domain`` to directly create a template of the the corresponding domain.
+- ``--domain`` : To directly create a template of the the corresponding domain.
 
   All further prompts will still be asked for. Example: ``cli``.
   It is also possible to directly create a specific template using its handle

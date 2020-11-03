@@ -61,7 +61,7 @@ config
 ------
 Configure cookietemple to get started.
 
-.. figure:: https://user-images.githubusercontent.com/31141763/96794940-78404c00-13ff-11eb-925f-1cbfa53378f2.gif
+.. figure:: https://user-images.githubusercontent.com/31141763/97928842-1faa7080-1d68-11eb-8c82-39d73d662466.gif
 
 See `Configuring cookietemple <https://cookietemple.readthedocs.io/en/config.html>`_
 
@@ -69,7 +69,7 @@ list
 ----
 List all available cookietemple templates.
 
-.. figure:: https://user-images.githubusercontent.com/31141763/96794966-8d1cdf80-13ff-11eb-9265-6631106037d1.gif
+.. figure:: https://user-images.githubusercontent.com/31141763/97928681-d9eda800-1d67-11eb-880d-9d4f8037872b.gif
 
 See `Listing all templates <https://cookietemple.readthedocs.io/en/list_info.html#list>`_.
 
@@ -77,7 +77,7 @@ info
 ----
 Get detailed information on a cookietemple template.
 
-.. figure:: https://user-images.githubusercontent.com/31141763/96794781-1bdd2c80-13ff-11eb-99b3-5701827928c9.gif
+.. figure:: https://user-images.githubusercontent.com/31141763/97928788-03a6cf00-1d68-11eb-8c35-851c792ecf02.gif
 
 See `Get detailed template information <https://cookietemple.readthedocs.io/en/list_info.html#info>`_.
 
@@ -85,13 +85,15 @@ create
 ------
 Kickstart your customized project with one of cookietemple's templates in no time.
 
+.. figure:: https://user-images.githubusercontent.com/31141763/97928626-bb87ac80-1d67-11eb-938f-db2db223d792.gif
+
 See `Create a project <https://cookietemple.readthedocs.io/en/installation.html>`_.
 
 lint
 ----
 Use advanced linting to ensure your project always adheres to cookietemple's standards.
 
-.. image:: https://user-images.githubusercontent.com/31141763/96794606-c86ade80-13fe-11eb-906f-67cb3fba750e.gif
+.. image:: https://user-images.githubusercontent.com/31141763/97929216-f3432400-1d68-11eb-88b8-391fdfd2f4c9.gif
 
 See `Linting your project <https://cookietemple.readthedocs.io/en/lint.html>`_
 
@@ -99,13 +101,15 @@ bump-version
 ------------
 Bump your project version with many configurable options.
 
-.. figure:: https://user-images.githubusercontent.com/31141763/96794879-4cbd6180-13ff-11eb-9bae-82443a41d100.gif
+.. figure:: https://user-images.githubusercontent.com/31141763/97928562-998e2a00-1d67-11eb-9651-5d7c906e2e88.gif
 
 See `Bumping the version of an existing project  <https://cookietemple.readthedocs.io/en/bump_version.html>`_.
 
 sync
 ------
 Sync your project with the latest cookietemple release to get the latest template features.
+
+.. figure:: https://user-images.githubusercontent.com/31141763/97928912-3c46a880-1d68-11eb-8372-8f96370a1b02.gif
 
 See `Syncing a project <https://cookietemple.readthedocs.io/en/sync.html>`_.
 

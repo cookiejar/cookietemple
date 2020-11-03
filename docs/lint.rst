@@ -48,9 +48,8 @@ cookietemple lint can be invoked on an existing project using
 
     $ cookietemple lint <PATH>
 
-- ``PATH`` A relative path to the project directory.
+- ``PATH`` [CWD]: The relative path to the project directory.
 
-  Defaults to current working directory.
 
 .. _linting_codes:
 
