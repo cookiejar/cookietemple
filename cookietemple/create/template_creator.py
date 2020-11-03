@@ -68,7 +68,7 @@ class TemplateCreator:
             fix_short_title_underline(f'{project_path}/docs/index.rst')
 
         # Lint the project to verify that the new template adheres to all standards
-        lint_project(project_path, is_create=True)
+        lint_project(project_path, is_create=True, skip_external=False)
 
         if self.creator_ctx.is_github_repo and not dot_cookietemple:
             # rename the currently created template to a temporary name, create Github repo, push, remove temporary template
