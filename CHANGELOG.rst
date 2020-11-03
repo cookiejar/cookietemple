@@ -11,17 +11,8 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 **Added**
 
-**Fixed**
-
-**Dependencies**
-
-**Deprecated**
-
-
-0.1.0 (2020-05-01)
-------------------
-
-**Added**
+* Documentation hosted on https://cookietemple.readthedocs.io/
+* Configuring cookietemple
 
 * Creating templates
 * cli-python template
@@ -31,6 +22,7 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 * gui-java template
 * gui-kotlin template
 * pub-thesis template
+
 * Linting templates
 * Listing templates
 * Getting detailed info on templates
