@@ -62,7 +62,7 @@ setup(
         ],
     },
     install_requires=requirements,
-    license='Apache 2.0',
+    license='Apache License 2.0',
     long_description=readme,
     include_package_data=True,
     keywords='cookietemple',
