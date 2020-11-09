@@ -10,5 +10,5 @@ requests==2.24.0
 rich==9.2.0
 packaging==20.4
 appdirs==1.4.4
-questionary==1.7.0
+questionary==1.8.0
 pynacl==1.4.0
