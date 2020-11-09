@@ -177,7 +177,13 @@ class TemplateCreator:
         Options are saved in the creator context manager object.
         """
         try:
-            # try to read name and email from existing config file
+            """
+            Check, if the dot_cookietemple dictionary contains the full name and email (this happens, when dry creating the template while syncing on
+            TEMPLATE branch).
+            If that's not the case, try to read them from the config file (created with the config command).
+
+            If none of the approaches above succeed (no config file has been found and its not a dry create run), configure the basic credentials and proceed.
+            """
             if dot_cookietemple:
                 self.creator_ctx.full_name = dot_cookietemple['full_name']
                 self.creator_ctx.email = dot_cookietemple['email']
