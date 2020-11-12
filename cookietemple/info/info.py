@@ -1,6 +1,8 @@
 import logging
 import os
 import sys
+from typing import List
+
 from rich.style import Style
 from rich.console import Console
 from rich.table import Table
@@ -34,11 +36,11 @@ class TemplateInfo:
         :param handle: domain/language/template handle (examples: cli or cli-python)
         """
         # list of all templates that should be printed according to the passed handle
-        templates_to_print = []
+        templates_to_print: List[str] = []
         available_templates = load_yaml_file(f'{self.TEMPLATES_PATH}/available_templates.yml')
         specifiers = handle.split('-')
         domain = specifiers[0]
-        global template_info
+        template_info: List[str] = []
 
         # only domain OR language specified
         if len(specifiers) == 1:
@@ -82,7 +84,7 @@ class TemplateInfo:
             self.print_console_output(handle)
 
         # input may be a language so try this
-        templates_flatted = []
+        templates_flatted: List[str] = []
         self.flatten_nested_dict(available_templates, templates_flatted)
         # load all available languages
         available_languages = TemplateInfo.load_available_languages(templates_flatted)

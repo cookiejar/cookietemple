@@ -5,6 +5,8 @@ from pathlib import Path
 from dataclasses import dataclass
 from distutils.dir_util import copy_tree
 from shutil import copy
+from typing import Optional, Any, Dict
+
 from rich import print
 
 from cookietemple.create.template_creator import TemplateCreator
@@ -55,7 +57,7 @@ class WebCreator(TemplateCreator):
         '""Web Template Versions""'
         self.WEB_WEBSITE_PYTHON_TEMPLATE_VERSION = load_ct_template_version('web-website-python', self.AVAILABLE_TEMPLATES_PATH)
 
-    def create_template(self, dot_cookietemple: dict or None) -> None:
+    def create_template(self, dot_cookietemple: Optional[dict]) -> None:
         """
         Handles the Web domain. Prompts the user for the language, general and domain specific options.
         """
@@ -70,10 +72,10 @@ class WebCreator(TemplateCreator):
         super().prompt_general_template_configuration(dot_cookietemple)
 
         # switch case statement to prompt the user to fetch template specific configurations
-        switcher = {
+        switcher: Dict[str, Any] = {
             'python': self.web_python_options,
         }
-        switcher.get(self.web_struct.language)(dot_cookietemple)
+        switcher.get(self.web_struct.language)(dot_cookietemple)  # type: ignore
         # call handle function for specified language
         self.__getattribute__(f'handle_web_project_type_{self.web_struct.language}')(dot_cookietemple)
         # call handle function for specified webtype according to the chosen language
@@ -98,8 +100,8 @@ class WebCreator(TemplateCreator):
             'python': self.WEB_WEBSITE_PYTHON_TEMPLATE_VERSION
         }
 
-        self.web_struct.template_version, self.web_struct.template_handle = switcher_version.get(
-            self.web_struct.language), f'web-{self.web_struct.webtype}-{self.web_struct.language.lower()}'
+        self.web_struct.template_version, self.web_struct.template_handle\
+            = switcher_version.get(self.web_struct.language), f'web-{self.web_struct.webtype}-{self.web_struct.language.lower()}'  # type: ignore
 
         # perform general operations like creating a GitHub repository and general linting
         super().process_common_operations(domain='web',
@@ -107,7 +109,7 @@ class WebCreator(TemplateCreator):
                                           language=self.web_struct.language,
                                           dot_cookietemple=dot_cookietemple)
 
-    def handle_web_project_type_python(self, dot_cookietemple: dict or None) -> None:
+    def handle_web_project_type_python(self, dot_cookietemple: Optional[dict]) -> None:
         """
         Determine the type of web application
         """
@@ -118,7 +120,7 @@ class WebCreator(TemplateCreator):
                                                                                dot_cookietemple=dot_cookietemple,
                                                                                to_get_property='webtype')
 
-    def handle_website_python(self, dot_cookietemple: dict or None) -> None:
+    def handle_website_python(self, dot_cookietemple: Optional[dict]) -> None:
         """
         Handle the website template creation. The user can choose between a basic website setup and a more advanced
         with database support, mail, translation, cli commands for translation, login and register function.
@@ -151,7 +153,7 @@ class WebCreator(TemplateCreator):
             # strings that start with https: are recognized by most terminal (emulators) as links
             print('[bold blue]https://html5up.net/solid-state')
 
-            self.web_struct.frontend = cookietemple_questionary_or_dot_cookietemple(function='select',
+            self.web_struct.frontend = cookietemple_questionary_or_dot_cookietemple(function='select',  # type: ignore
                                                                                     question='Choose between the following predefined frontend templates',
                                                                                     choices=['SolidState', 'None'],
                                                                                     dot_cookietemple=dot_cookietemple,
@@ -163,7 +165,7 @@ class WebCreator(TemplateCreator):
                                                                            dot_cookietemple=dot_cookietemple,
                                                                            to_get_property='url')
 
-    def website_flask_options(self, dot_cookietemple: OrderedDict or None) -> None:
+    def website_flask_options(self, dot_cookietemple: Optional[dict]) -> None:
         """
         Prompt for flask template options
         """
@@ -231,7 +233,7 @@ class WebCreator(TemplateCreator):
 
         os.chdir(cwd)
 
-    def web_python_options(self, dot_cookietemple: OrderedDict or None):
+    def web_python_options(self, dot_cookietemple: Optional[dict]):
         """ Prompts for web-python specific options and saves them into the CookietempleTemplateStruct """
         self.web_struct.command_line_interface = cookietemple_questionary_or_dot_cookietemple(function='select',
                                                                                               question='Choose a command line library',

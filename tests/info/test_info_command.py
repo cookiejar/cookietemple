@@ -1,4 +1,6 @@
-import pytest
+from typing import Dict, List
+
+import pytest  # type: ignore
 
 from click.testing import CliRunner
 
@@ -193,7 +195,7 @@ def test_valid_handles_domain_and_subdomain(get_valid_handles_domain_subdomain, 
         out, err = capfd.readouterr()
 
         # first entry of value list are expected handles present in output second are the ones that should not be in output
-        switcher = {
+        switcher: Dict[str, list] = {
             'cli-python': [['cli-python'], 'cli-java'],
             'cli-java': [['cli-java'], 'cli-python'],
             'gui-java': [['gui-java']],

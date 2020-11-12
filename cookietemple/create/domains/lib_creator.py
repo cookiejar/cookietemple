@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from dataclasses import dataclass
+from typing import Optional, Any, Dict
 
 from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
@@ -27,7 +28,7 @@ class LibCreator(TemplateCreator):
         '"" TEMPLATE VERSIONS ""'
         self.LIB_CPP_TEMPLATE_VERSION = load_ct_template_version('lib-cpp', self.AVAILABLE_TEMPLATES_PATH)
 
-    def create_template(self, dot_cookietemple: dict or None):
+    def create_template(self, dot_cookietemple: Optional[dict]):
         """
         Handles the LIB domain. Prompts the user for the language, general and domain specific options.
         """
@@ -43,10 +44,10 @@ class LibCreator(TemplateCreator):
         super().prompt_general_template_configuration(dot_cookietemple)
 
         # switch case statement to prompt the user to fetch template specific configurations
-        switcher = {
+        switcher: Dict[str, Any] = {
             'cpp': self.lib_cpp_options,
         }
-        switcher.get(self.lib_struct.language)(dot_cookietemple)
+        switcher.get(self.lib_struct.language)(dot_cookietemple)  # type: ignore
 
         self.lib_struct.is_github_repo, \
             self.lib_struct.is_repo_private, \
@@ -63,12 +64,12 @@ class LibCreator(TemplateCreator):
         switcher_version = {
             'cpp': self.LIB_CPP_TEMPLATE_VERSION,
         }
-        self.lib_struct.template_version, self.lib_struct.template_handle = switcher_version.get(
-            self.lib_struct.language), f'lib-{self.lib_struct.language.lower()}'
+        self.lib_struct.template_version, self.lib_struct.template_handle\
+            = switcher_version.get(self.lib_struct.language), f'lib-{self.lib_struct.language.lower()}'  # type: ignore
 
         # perform general operations like creating a GitHub repository and general linting
         super().process_common_operations(domain='lib', language=self.lib_struct.language, dot_cookietemple=dot_cookietemple)
 
-    def lib_cpp_options(self, dot_cookietemple: dict or None):
+    def lib_cpp_options(self, dot_cookietemple: Optional[Dict]):
         """ Prompts for lib-cpp specific options and saves them into the CookietempleTemplateStruct """
         pass

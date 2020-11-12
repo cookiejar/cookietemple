@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from dataclasses import dataclass
+from typing import Optional, Dict, Any
 
 from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
@@ -37,7 +38,7 @@ class CliCreator(TemplateCreator):
         self.CLI_PYTHON_TEMPLATE_VERSION = load_ct_template_version('cli-python', self.AVAILABLE_TEMPLATES_PATH)
         self.CLI_JAVA_TEMPLATE_VERSION = load_ct_template_version('cli-java', self.AVAILABLE_TEMPLATES_PATH)
 
-    def create_template(self, dot_cookietemple: dict or None):
+    def create_template(self, dot_cookietemple: Optional[dict]):
         """
         Handles the CLI domain. Prompts the user for the language, general and domain specific options.
         """
@@ -53,11 +54,11 @@ class CliCreator(TemplateCreator):
         super().prompt_general_template_configuration(dot_cookietemple)
 
         # switch case statement to prompt the user to fetch template specific configurations
-        switcher = {
+        switcher: Dict[str, Any] = {
             'python': self.cli_python_options,
             'java': self.cli_java_options,
         }
-        switcher.get(self.cli_struct.language)(dot_cookietemple)
+        switcher.get(self.cli_struct.language)(dot_cookietemple)  # type: ignore
 
         self.cli_struct.is_github_repo, \
             self.cli_struct.is_repo_private, \
@@ -75,13 +76,13 @@ class CliCreator(TemplateCreator):
             'python': self.CLI_PYTHON_TEMPLATE_VERSION,
             'java': self.CLI_JAVA_TEMPLATE_VERSION
         }
-        self.cli_struct.template_version, self.cli_struct.template_handle = switcher_version.get(
-            self.cli_struct.language), f'cli-{self.cli_struct.language.lower()}'
+        self.cli_struct.template_version, self.cli_struct.template_handle\
+            = switcher_version.get(self.cli_struct.language), f'cli-{self.cli_struct.language.lower()}'  # type: ignore
 
         # perform general operations like creating a GitHub repository and general linting
         super().process_common_operations(domain='cli', language=self.cli_struct.language, dot_cookietemple=dot_cookietemple)
 
-    def cli_python_options(self, dot_cookietemple: dict or None):
+    def cli_python_options(self, dot_cookietemple: Optional[dict]):
         """ Prompts for cli-python specific options and saves them into the CookietempleTemplateStruct """
         self.cli_struct.command_line_interface = cookietemple_questionary_or_dot_cookietemple(function='select',
                                                                                               question='Choose a command line library',
@@ -96,7 +97,7 @@ class CliCreator(TemplateCreator):
                                                                                        dot_cookietemple=dot_cookietemple,
                                                                                        to_get_property='testing_library')
 
-    def cli_java_options(self, dot_cookietemple: dict or None) -> None:
+    def cli_java_options(self, dot_cookietemple: Optional[dict]) -> None:
         """ Prompts for cli-java specific options and saves them into the CookietempleTemplateStruct """
         self.cli_struct.group_domain = cookietemple_questionary_or_dot_cookietemple(function='text',
                                                                                     question='Domain (e.g. the org of org.apache)',

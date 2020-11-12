@@ -65,6 +65,8 @@ class UpgradeCommand:
             print(f'[bold red]Installed version {latest_local_version} of mlf-core is outdated. Newest version is {latest_pypi_version}!')
             return False
 
+        return False
+
     @classmethod
     def upgrade_cookietemple(cls) -> None:
         """

@@ -1,5 +1,7 @@
 import re
-import pytest
+from typing import Tuple
+
+import pytest  # type: ignore
 import os
 from pathlib import Path
 from click.testing import CliRunner
@@ -22,7 +24,7 @@ def test_bump_version(mocker, valid_version_bumpers) -> None:
     NOTE: If you edit the test files, you must edit the ranges here to (initially versions[0-9] are bumped, the rest should not be bumped)
     """
     mocker.patch.object(Path, 'cwd', autospec=True)
-    Path.cwd.return_value = str(os.path.abspath(os.path.dirname(__file__)))
+    Path.cwd.return_value = str(os.path.abspath(os.path.dirname(__file__)))  # type: ignore
     version_bumper = VersionBumper(Path(str(os.path.abspath(os.path.dirname(__file__)))), downgrade=False)
 
     for version in valid_version_bumpers:
@@ -56,7 +58,7 @@ def test_bad_dir_throws_error() -> None:
     assert result.exit_code != 0
 
 
-def get_file_versions_after_bump(cwd: Path) -> (list, list):
+def get_file_versions_after_bump(cwd: Path) -> Tuple[list, list]:
     """
     Read all version numbers and test whether they were correctly bumped (or not bumped if tagged/not matched)
     :param cwd: Current Working Dir
