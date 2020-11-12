@@ -1,8 +1,9 @@
 import os
-from collections import OrderedDict
 
 from pathlib import Path
 from dataclasses import dataclass
+from typing import Optional, Any, Dict
+
 from rich import print
 
 from cookietemple.create.template_creator import TemplateCreator
@@ -42,7 +43,7 @@ class PubCreator(TemplateCreator):
         '"" TEMPLATE VERSIONS ""'
         self.PUB_LATEX_TEMPLATE_VERSION = load_ct_template_version('pub-thesis-latex', self.AVAILABLE_TEMPLATES_PATH)
 
-    def create_template(self, dot_cookietemple: OrderedDict or None):
+    def create_template(self, dot_cookietemple: Optional[dict]):
         """
         Prompts the user for the publication type and forwards to subsequent prompts.
         Creates the pub template.
@@ -61,10 +62,10 @@ class PubCreator(TemplateCreator):
             ConfigCommand.all_settings()
 
         # switch case statement to prompt the user to fetch template specific configurations
-        switcher = {
+        switcher: Dict[str, Any] = {
             'latex': self.common_latex_options,
         }
-        switcher.get(self.pub_struct.language.lower(), lambda: 'Invalid language!')(dot_cookietemple)
+        switcher.get(self.pub_struct.language.lower(), lambda: 'Invalid language!')(dot_cookietemple)  # type: ignore
 
         self.handle_pub_type(dot_cookietemple)
 
@@ -77,7 +78,7 @@ class PubCreator(TemplateCreator):
         if self.pub_struct.is_github_orga:
             self.pub_struct.github_username = self.pub_struct.github_orga
         # create the pub template
-        super().create_template_with_subdomain(self.TEMPLATES_PUB_PATH, self.pub_struct.pubtype)
+        super().create_template_with_subdomain(self.TEMPLATES_PUB_PATH, self.pub_struct.pubtype)  # type: ignore
 
         # switch case statement to fetch the template version
         switcher_version = {
@@ -93,8 +94,7 @@ class PubCreator(TemplateCreator):
                                           domain='pub', subdomain=self.pub_struct.pubtype, language=self.pub_struct.language,
                                           dot_cookietemple=dot_cookietemple)
 
-    # TODO: IMPLEMENT BELOW
-    def handle_pub_type(self, dot_cookietemple: dict or None) -> None:
+    def handle_pub_type(self, dot_cookietemple: Optional[dict]) -> None:
         """
         Determine the type of publication and handle it further.
         """
@@ -102,16 +102,16 @@ class PubCreator(TemplateCreator):
         switcher = {
             'thesis': self.handle_thesis_latex,
         }
-        switcher.get(self.pub_struct.pubtype.lower(), lambda: 'Invalid Pub Project Type!')(dot_cookietemple)
+        switcher.get(self.pub_struct.pubtype.lower(), lambda: 'Invalid Pub Project Type!')(dot_cookietemple)  # type: ignore
 
-    def handle_thesis_latex(self, dot_cookietemple: dict or None) -> None:
+    def handle_thesis_latex(self, dot_cookietemple: Optional[dict]) -> None:
         self.pub_struct.degree = cookietemple_questionary_or_dot_cookietemple(function='text',
                                                                               question='Degree',
                                                                               default='PhD',
                                                                               dot_cookietemple=dot_cookietemple,
                                                                               to_get_property='degree')
 
-    def common_latex_options(self, dot_cookietemple: dict or None) -> None:
+    def common_latex_options(self, dot_cookietemple: Optional[dict]) -> None:
         """
         Prompt the user for common thesis/paper data
         """
@@ -125,7 +125,7 @@ class PubCreator(TemplateCreator):
                                                                                     default='PhD Thesis',
                                                                                     dot_cookietemple=dot_cookietemple,
                                                                                     to_get_property='project_name')
-        self.pub_struct.project_slug = self.pub_struct.project_name.replace(' ', '_').replace('-', '_')
+        self.pub_struct.project_slug = self.pub_struct.project_name.replace(' ', '_').replace('-', '_')  # type: ignore
         self.pub_struct.title = cookietemple_questionary_or_dot_cookietemple(function='text',
                                                                              question='Publication title',
                                                                              default='On how Springfield exploded',

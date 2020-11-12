@@ -1,7 +1,7 @@
 import os
-from collections import OrderedDict
 from pathlib import Path
 from dataclasses import dataclass
+from typing import Dict, Any, Optional
 
 from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
@@ -30,7 +30,7 @@ class GuiCreator(TemplateCreator):
         '"" TEMPLATE VERSIONS ""'
         self.GUI_JAVA_TEMPLATE_VERSION = load_ct_template_version('gui-java', self.AVAILABLE_TEMPLATES_PATH)
 
-    def create_template(self, dot_cookietemple: OrderedDict or None):
+    def create_template(self, dot_cookietemple: Optional[Dict]):
         self.gui_struct.language = cookietemple_questionary_or_dot_cookietemple(function='select',
                                                                                 question='Choose between the following languages',
                                                                                 choices=['java', 'kotlin'],
@@ -41,10 +41,10 @@ class GuiCreator(TemplateCreator):
         super().prompt_general_template_configuration(dot_cookietemple)
 
         # switch case statement to prompt the user to fetch template specific configurations
-        switcher = {
+        switcher: Dict[str, Any] = {
             'java': self.gui_java_options,
         }
-        switcher.get(self.gui_struct.language.lower())(dot_cookietemple)
+        switcher.get(self.gui_struct.language.lower())(dot_cookietemple)  # type: ignore
 
         self.gui_struct.is_github_repo, \
             self.gui_struct.is_repo_private, \
@@ -62,18 +62,18 @@ class GuiCreator(TemplateCreator):
             'java': self.GUI_JAVA_TEMPLATE_VERSION,
         }
 
-        self.gui_struct.template_version, self.gui_struct.template_handle = switcher_version.get(
-            self.gui_struct.language.lower()), f'gui-{self.gui_struct.language.lower()}'
+        self.gui_struct.template_version, self.gui_struct.template_handle\
+            = switcher_version.get(self.gui_struct.language.lower()), f'gui-{self.gui_struct.language.lower()}'  # type: ignore
 
         # perform general operations like creating a GitHub repository and general linting
         super().process_common_operations(domain='gui', language=self.gui_struct.language, dot_cookietemple=dot_cookietemple)
 
-    def gui_java_options(self, dot_cookietemple: OrderedDict or None) -> None:
+    def gui_java_options(self, dot_cookietemple: Optional[Dict]) -> None:
         """
         Prompt the user for all gui-java specific properties
         """
         # The user id is automatically determined from the full_name as first letter of first name and sur name
-        full_name_split = self.creator_ctx.full_name.split()
+        full_name_split = self.creator_ctx.full_name.split()  # type: ignore
         self.gui_struct.id = f'{full_name_split[0][0]}{full_name_split[1][0]}' if len(full_name_split) > 1 else f'{full_name_split[0][0]}'
         self.gui_struct.organization = cookietemple_questionary_or_dot_cookietemple(function='text',
                                                                                     question='Organization',

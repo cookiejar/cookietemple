@@ -94,7 +94,7 @@ def create(domain: str) -> None:
 
 
 @cookietemple_cli.command(short_help='Lint your existing cookietemple project.', cls=CustomHelpSubcommand)
-@click.argument('project_dir', type=click.Path(), default=Path(str(Path.cwd())), helpmsg='Relative path to projects directory.', cls=CustomArg)
+@click.argument('project_dir', type=click.Path(), default=Path(str(Path.cwd())), helpmsg='Relative path to projects directory.', cls=CustomArg)  # type: ignore
 @click.option('--skip-external', is_flag=True, help='Only run cookietemple linting and not external linters.')
 def lint(project_dir, skip_external) -> None:
     """
@@ -123,7 +123,7 @@ def list() -> None:
 
 
 @cookietemple_cli.command(short_help='Get detailed info on a cookietemple template domain or a single template.', cls=CustomHelpSubcommand)
-@click.argument('handle', type=str, required=False, helpmsg='Language/domain of templates of interest.', cls=CustomArg)
+@click.argument('handle', type=str, required=False, helpmsg='Language/domain of templates of interest.', cls=CustomArg)  # type: ignore
 @click.pass_context
 def info(ctx, handle: str) -> None:
     """
@@ -141,11 +141,11 @@ def info(ctx, handle: str) -> None:
 
 
 @cookietemple_cli.command(short_help='Sync your project with the latest template release.', cls=CustomHelpSubcommand)
-@click.argument('project_dir', type=str, default=Path(f'{Path.cwd()}'), helpmsg='The projects top level directory you would like to sync. Default is current '
-                                                                                'working directory.', cls=CustomArg)
-@click.option('--set-token', '-st', is_flag=True, help='Set sync token to a new personal access token of the current repo owner.')
-@click.argument('pat', type=str, required=False, helpmsg='Personal access token. Not needed for manual, local syncing!', cls=CustomArg)
-@click.argument('username', type=str, required=False, helpmsg='Github username. Not needed for manual, local syncing!', cls=CustomArg)
+@click.argument('project_dir', type=str, default=Path(f'{Path.cwd()}'),
+                helpmsg='The projects top level directory you would like to sync. Default is current working directory.', cls=CustomArg)  # type: ignore
+@click.option('--set-token', '-st', is_flag=True, help='Set sync token to a new personal access token of the current repo owner.')  # type: ignore
+@click.argument('pat', type=str, required=False, helpmsg='Personal access token. Not needed for manual, local syncing!', cls=CustomArg)  # type: ignore
+@click.argument('username', type=str, required=False, helpmsg='Github username. Not needed for manual, local syncing!', cls=CustomArg)  # type: ignore
 @click.option('--check-update', '-ch', is_flag=True, help='Check whether a new template version is available for your project.')
 def sync(project_dir, set_token, pat, username, check_update) -> None:
     """
@@ -218,8 +218,9 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
 
 
 @cookietemple_cli.command('bump-version', short_help='Bump the version of an existing cookietemple project.', cls=CustomHelpSubcommand)
-@click.argument('new_version', type=str, required=False, helpmsg='New project version in a valid format.', cls=CustomArg)
-@click.argument('project_dir', type=click.Path(), default=Path(f'{Path.cwd()}'), helpmsg='Relative path to the projects directory.', cls=CustomArg)
+@click.argument('new_version', type=str, required=False, helpmsg='New project version in a valid format.', cls=CustomArg)  # type: ignore
+@click.argument('project_dir', type=click.Path(), default=Path(f'{Path.cwd()}'),
+                helpmsg='Relative path to the projects directory.', cls=CustomArg)  # type: ignore
 @click.option('--downgrade', '-d', is_flag=True, help='Set this flag to downgrade a version.')
 @click.option('--project-version', is_flag=True, callback=print_project_version, expose_value=False, is_eager=True, help='Print your projects version and exit')
 @click.pass_context
@@ -281,7 +282,7 @@ def warp(input_dir: str, exec: str, output: str) -> None:
 
 @cookietemple_cli.command(short_help='Configure your general settings and github credentials.', cls=CustomHelpSubcommand)
 @click.option('--view', '-v', is_flag=True, help='View the current cookietemple configuration.')
-@click.argument('section', type=str, required=False, helpmsg='Section to configure (all, general or pat)', cls=CustomArg)
+@click.argument('section', type=str, required=False, helpmsg='Section to configure (all, general or pat)', cls=CustomArg)  # type: ignore
 @click.pass_context
 def config(ctx, view: bool, section: str) -> None:
     """

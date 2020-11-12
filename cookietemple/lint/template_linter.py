@@ -4,6 +4,7 @@ import os
 import re
 import configparser
 import sys
+from typing import Tuple
 
 import rich.progress
 import rich.markdown
@@ -264,7 +265,7 @@ class TemplateLinter(object):
                 if ('<<COOKIETEMPLE_NO_BUMP>>' not in line and not section == 'bumpversion_files_blacklisted') or '<<COOKIETEMPLE_FORCE_BUMP>>' in line:
                     line_version = re.search(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', line)
                     if line_version:
-                        line_version = line_version.group(0)
+                        line_version = line_version.group(0)  # type: ignore
                         # No match between the current version number and version in source code file
                         if line_version != version:
                             corrected_line = re.sub(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', version, line)
@@ -423,7 +424,7 @@ class ChangelogLinter:
         self.line_counter = 0
         self.header_offset = 0
 
-    def lint_header(self) -> (int, bool, bool):
+    def lint_header(self) -> Tuple[int, bool, bool]:  # type: ignore
         """
         Lint the header which consists of an optional label, the headline CHANGELOG and an optional small description
         """

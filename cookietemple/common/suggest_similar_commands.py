@@ -1,4 +1,5 @@
 import os
+from typing import Set
 
 from cookietemple.common.load_yaml import load_yaml_file
 from cookietemple.util.dict_util import is_nested_dictionary
@@ -22,8 +23,8 @@ def load_available_handles() -> set:
     :return: A set of all available handles
     """
     available_templates = load_yaml_file(f'{AVAILABLE_TEMPLATES_PATH}')
-    unsplit_handles = set()
-    all_handles = set()
+    unsplit_handles: Set[str] = set()
+    all_handles: Set[str] = set()
     nested_dict_to_handle_set(available_templates, unsplit_handles)
     all_handles.update(unsplit_handles)
     split_handles(unsplit_handles, all_handles)

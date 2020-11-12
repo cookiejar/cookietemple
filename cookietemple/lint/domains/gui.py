@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 from cookietemple.lint.template_linter import TemplateLinter, files_exist_linting, GetLintingFunctionsMeta
 
@@ -41,10 +42,10 @@ class GuiJavaLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
         ]
 
         # List of strings. Fails / warns if any of the strings exist.
-        files_fail_ifexists = [
+        files_fail_ifexists: List[str] = [
 
         ]
-        files_warn_ifexists = [
+        files_warn_ifexists: List[str] = [
 
         ]
 
