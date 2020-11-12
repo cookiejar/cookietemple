@@ -1,4 +1,4 @@
-import pytest  # type: ignore
+import pytest
 import os
 
 from cookietemple.lint.template_linter import TemplateLinter

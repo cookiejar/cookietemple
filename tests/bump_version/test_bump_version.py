@@ -1,7 +1,7 @@
 import re
 from typing import Tuple
 
-import pytest  # type: ignore
+import pytest
 import os
 from pathlib import Path
 from click.testing import CliRunner
