@@ -406,7 +406,20 @@ class TemplateSync:
         Return is_patch_update True if its a micro update (for example 1.2.3 to 1.2.4).
         cookietemple will use this to decide which syncing strategy to apply. Also return both versions.
         """
-        log.debug('Trying to load the projects template version and the cookietemple template version.')
+        # Try to compare against the development branch, since it is the most up to date (usually).
+        # If a development branch does not exist compare against master.
+        repo = git.Repo(project_dir)
+        try:
+            repo.git.checkout('development')
+        except git.exc.GitCommandError:
+            print('[bold red]Could not checkout development branch. Trying to checkout master...')
+            try:
+                repo.git.checkout('master')
+            except git.exc.GitCommandError as e:
+                print(f'[bold red]Could not checkout master branch.\n{e}')
+                sys.exit(1)
+
+        log.debug('Loading the project\'s template version and the cookietemple template version.')
         template_version_last_sync, template_handle = TemplateSync.sync_load_project_template_version_and_handle(project_dir)
         template_version_last_sync = version.parse(template_version_last_sync)
         current_ct_template_version = version.parse(TemplateSync.sync_load_template_version(template_handle))

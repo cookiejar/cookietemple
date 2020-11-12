@@ -1,5 +1,4 @@
 import logging
-from collections import OrderedDict
 
 from cookietemple.create.domains.cli_creator import CliCreator
 from cookietemple.create.domains.web_creator import WebCreator
@@ -12,7 +11,7 @@ from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_
 log = logging.getLogger(__name__)
 
 
-def choose_domain(domain: str or None, dot_cookietemple: OrderedDict = None):
+def choose_domain(domain: str or None, dot_cookietemple: dict = None):
     """
     Prompts the user for the template domain.
     Creates the .cookietemple file.
