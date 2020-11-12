@@ -1,0 +1,29 @@
+name: Run mypy checks
+
+on:
+  push:
+    paths:
+      - "**/*.py"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out source-code repository
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+
+      - name: Install pip
+        run: |
+            python -m pip install --upgrade pip
+
+      - name: Lint with mypy
+        run: |
+            pip install mypy
+            mypy . --show-error-codes
