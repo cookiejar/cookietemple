@@ -37,5 +37,5 @@ def choose_domain(domain: Union[str, bool], dot_cookietemple: Optional[dict]):
         'pub': PubCreator
     }
 
-    creator_obj: Union[CliCreator, WebCreator, GuiCreator, LibCreator, PubCreator] = switcher.get(domain.lower())() # type: ignore
+    creator_obj: Union[CliCreator, WebCreator, GuiCreator, LibCreator, PubCreator] = switcher.get(domain.lower())()  # type: ignore
     creator_obj.create_template(dot_cookietemple)

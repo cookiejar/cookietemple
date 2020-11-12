@@ -202,7 +202,7 @@ def prompt_github_repo(dot_cookietemple: Optional[dict]) -> Tuple[bool, bool, bo
                                                     question='Do you want to create a Github repository and push your template to it?',
                                                     default='Yes'):
         create_git_repo = True
-        is_github_org = cookietemple_questionary_or_dot_cookietemple(function='confirm', # type: ignore
+        is_github_org = cookietemple_questionary_or_dot_cookietemple(function='confirm',  # type: ignore
                                                                      question='Do you want to create an organization repository?',
                                                                      default='No')
         github_org = cookietemple_questionary_or_dot_cookietemple(function='text',  # type: ignore
