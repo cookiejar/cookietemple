@@ -7,7 +7,7 @@ Contributing
 ============
 
 Contributions are welcome and greatly appreciated! Every little bit helps and credit will always be given.
-If you have any questions or want to get in touch with the core team feel free to join our `Discord server <https://discord.com/channels/708008788505919599/708008788505919602>`_.
+If you have any questions or want to get in touch with the core team feel free to join our `Discord server <https://discord.com/invite/PYF8NUk>`_.
 
 You can contribute in many ways:
 
