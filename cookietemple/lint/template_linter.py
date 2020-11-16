@@ -149,6 +149,14 @@ class TemplateLinter(object):
 
         files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists, is_subclass_calling)
 
+    def lint_cookietemple_config(self):
+        """
+        Lint the cookietemple.cfg file and ensure it meets all requirements for cookietemple.
+        """
+        config_file_path = os.path.join(self.path, 'cookietemple.cfg')
+        linter = ConfigLinter(config_file_path, self)
+        linter.lint_ct_config_file()
+
     def lint_changelog(self):
         """
         Lint the Changelog.rst file
@@ -210,7 +218,7 @@ class TemplateLinter(object):
                                 .replace('// TODO COOKIETEMPLE: ', '') \
                                 .replace('TODO COOKIETEMPLE: ', '').replace('# COOKIETEMPLE TODO: ', '') \
                                 .replace('// COOKIETEMPLE TODO: ', '') \
-                                .replace('COOKIETEMPLE TODO: ', '')\
+                                .replace('COOKIETEMPLE TODO: ', '') \
                                 .strip()
                             self.warned.append(('general-3', f'TODO string found in {self._wrap_quotes(fname)}: {line}'))
 
@@ -583,3 +591,93 @@ class ChangelogLinter:
             content = f.readlines()
 
         return content
+
+
+class ConfigLinter:
+    def __init__(self, path, linter_ctx: TemplateLinter):
+        self.config_file_path = path
+        self.parser = configparser.ConfigParser()
+        self.linter_ctx = linter_ctx
+
+    def lint_ct_config_file(self):
+        """
+        Lint the sections from the cookietemple.cfg file applying the following rules:
+
+        1.) Every config file should have at least the following sections:
+            bumpversion, bumpversion_files_whitelisted, bumpversion_files_blacklisted,
+            sync_files_blacklisted, sync_level
+
+        2.) 'bumpversion' should contain a 'current_version' value (the project's current version)
+
+        3.) 'bumpversion_files_whitelisted' should contain at least the '.cookietemple.yml' file
+
+        4.) 'sync_level' should contain a 'ct_sync_level' value (and this value should be one of either 'patch', 'minor' or 'major')
+
+        5.) 'sync_files_blacklisted' should contain at least the 'CHANGELOG.rst' file (excluding it from syncing to avoid PR updates)
+        """
+        self.parser.read(f'{self.config_file_path}')
+        no_section_missing = self.check_missing_sections(self.parser.sections())
+        if no_section_missing:
+            check_section_flag = True
+            check_section_flag &= self.check_section(self.parser.items('bumpversion'), 'bumpversion')
+            check_section_flag &= self.check_section(self.parser.items('bumpversion_files_whitelisted'), 'bumpversion_files_whitelisted')
+            check_section_flag &= self.check_section(self.parser.items('sync_level'), 'sync_level')
+            check_section_flag &= self.check_section(self.parser.items('sync_files_blacklisted'), 'sync_files_blacklisted')
+            if check_section_flag:
+                self.linter_ctx.passed.append(('general-7', 'All config sections passed cookietemple linting!'))
+        else:
+            self.linter_ctx.failed.append(('general-7', 'Aborted config section linting. Fix missing sections first!'))
+
+    def check_missing_sections(self, parsed_sections) -> bool:
+        """
+        Examine cookietemple config file for missing sections
+        :param parsed_sections: All parsed sections from the user's cookietemple.cfg file
+        """
+        sections = ['bumpversion', 'bumpversion_files_whitelisted', 'bumpversion_files_blacklisted', 'sync_files_blacklisted', 'sync_level']
+        missing_sections = []
+        # for every section check whether its in the parsed sections or not
+        for section in sections:
+            if section not in parsed_sections:
+                missing_sections.append(section)
+        # if there were any missing sections, let linter fail
+        if missing_sections:
+            miss_section_info = 'Cookietemple config file misses section' + 's' if len(missing_sections) > 1 else ''
+            self.linter_ctx.failed.append(('general-7', miss_section_info + f': {" ".join(section for section in missing_sections)}'))
+            return False
+        else:
+            self.linter_ctx.passed.append(('general-7', 'All required cookietemple.cfg sections were found!'))
+            return True
+
+    def check_section(self, section_items, section_name) -> bool:
+        """
+        Check requirements 2.) - 5.) stated above.
+        :param section_items: A pair (name, value) for all items in a section
+        :param section_name: The sections name
+        """
+        if section_name == 'bumpversion':
+            if not len(section_items) == 1 and not section_items[0][0] == 'current_version':
+                self.linter_ctx.failed.append(('general-7', 'The bumpversion should only contain one item named current_version'))
+                return False
+
+        elif section_name == 'bumpversion_files_whitelisted':
+            if not [section_item for idx, section_item in enumerate(section_items) if section_items[idx][1] == '.cookietemple.yml']:
+                self.linter_ctx.failed.append(('general-7', 'The bumpversion_files_whitelisted should at least contain the .cookietemple.yml file as value'))
+                return False
+
+        elif section_name == 'sync_level':
+            # check for empty section to ensure later statement won't result in index error
+            if not section_items:
+                self.linter_ctx.failed.append(('general-7', 'The sync_level should only contain one item named current_version with a value either patch, '
+                                                            'minor or major'))
+                return False
+            elif not len(section_items) == 1 or not section_items[0][1] in ['patch', 'minor', 'major'] or section_items[0][0] != 'ct_sync_level':
+                self.linter_ctx.failed.append(('general-7', 'The sync_level should only contain one item named current_version with a value either patch, '
+                                                            'minor or major'))
+                return False
+
+        elif section_name == 'sync_files_blacklisted':
+            if not [section_item for idx, section_item in enumerate(section_items) if section_items[idx][1] == 'CHANGELOG.rst']:
+                self.linter_ctx.failed.append(('general-7', 'sync_files_blacklisted should at least contain the CHANGELOG.rst file as value'))
+                return False
+
+        return True
