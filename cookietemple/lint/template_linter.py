@@ -269,7 +269,7 @@ class TemplateLinter(object):
         """
         with open(path) as file:
             for line in file:
-                # if a tag is found and (depending on wether its a white or blacklisted file) check if the versions are matching
+                # if a tag is found and (depending on wether it is a white or blacklisted file) check if the versions are matching
                 if ('<<COOKIETEMPLE_NO_BUMP>>' not in line and not section == 'bumpversion_files_blacklisted') or '<<COOKIETEMPLE_FORCE_BUMP>>' in line:
                     line_version = re.search(r'(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)', line)
                     if line_version:
@@ -635,14 +635,14 @@ class ConfigLinter:
         """
         sections = ['bumpversion', 'bumpversion_files_whitelisted', 'bumpversion_files_blacklisted', 'sync_files_blacklisted', 'sync_level']
         missing_sections = []
-        # for every section check whether its in the parsed sections or not
+        # for every section check whether it is in the parsed sections or not
         for section in sections:
             if section not in parsed_sections:
                 missing_sections.append(section)
         # if there were any missing sections, let linter fail
         if missing_sections:
             miss_section_info = 'Cookietemple config file misses section' + 's' if len(missing_sections) > 1 else ''
-            self.linter_ctx.failed.append(('general-7', miss_section_info + f': {" ".join(section for section in missing_sections)}'))
+            self.linter_ctx.failed.append(('general-7', f'{miss_section_info}: {" ".join(section for section in missing_sections)}'))
             return False
         else:
             self.linter_ctx.passed.append(('general-7', 'All required cookietemple.cfg sections were found!'))
