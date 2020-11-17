@@ -94,7 +94,7 @@ def create(domain: str) -> None:
 
 
 @cookietemple_cli.command(short_help='Lint your existing cookietemple project.', cls=CustomHelpSubcommand)
-@click.argument('project_dir', type=click.Path(), default=Path(str(Path.cwd())), helpmsg='Relative path to projects directory.', cls=CustomArg)  # type: ignore
+@click.argument('project_dir', type=click.Path(), default=Path(str(Path.cwd())), helpmsg='Path to projects directory.', cls=CustomArg)  # type: ignore
 @click.option('--skip-external', is_flag=True, help='Only run cookietemple linting and not external linters.')
 def lint(project_dir, skip_external) -> None:
     """
@@ -220,7 +220,7 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
 @cookietemple_cli.command('bump-version', short_help='Bump the version of an existing cookietemple project.', cls=CustomHelpSubcommand)
 @click.argument('new_version', type=str, required=False, helpmsg='New project version in a valid format.', cls=CustomArg)  # type: ignore
 @click.argument('project_dir', type=click.Path(), default=Path(f'{Path.cwd()}'),
-                helpmsg='Relative path to the projects directory.', cls=CustomArg)  # type: ignore
+                helpmsg='Path to the projects directory.', cls=CustomArg)  # type: ignore
 @click.option('--downgrade', '-d', is_flag=True, help='Set this flag to downgrade a version.')
 @click.option('--project-version', is_flag=True, callback=print_project_version, expose_value=False, is_eager=True, help='Print your projects version and exit')
 @click.pass_context
@@ -280,7 +280,7 @@ def warp(input_dir: str, exec: str, output: str) -> None:
     warp_project(input_dir, exec, output)
 
 
-@cookietemple_cli.command(short_help='Configure your general settings and github credentials.', cls=CustomHelpSubcommand)
+@cookietemple_cli.command(short_help='Configure your general settings and Github credentials.', cls=CustomHelpSubcommand)
 @click.option('--view', '-v', is_flag=True, help='View the current cookietemple configuration.')
 @click.argument('section', type=str, required=False, helpmsg='Section to configure (all, general or pat)', cls=CustomArg)  # type: ignore
 @click.pass_context

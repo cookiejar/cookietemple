@@ -103,7 +103,7 @@ class HelpErrorHandling(click.Group):
 
         with formatter.section(HelpErrorHandling.get_rich_value("Feedback")):
             formatter.write_text("We are always curious about your opinion on cookietemple. Join our Discord at "
-                                 "https://discord.com/channels/708008788505919599/708008788505919602 and drop us a message: cookies await you.")
+                                 "https://discord.gg/CwRXMdSg and drop us a message: cookies await you.")
 
     def get_command(self, ctx, cmd_name):
         """
