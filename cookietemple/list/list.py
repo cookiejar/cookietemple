@@ -58,7 +58,7 @@ class TemplateLister:
         table.add_column("Version", justify="left")
 
         for template in templates_to_tabulate:
-            table.add_row(f'[bold]{template[0]}', template[1], template[2], template[3], template[4])
+            table.add_row(f'[bold]{template[0]}', template[1], f'{template[2]}\n', template[3], template[4])
 
         log.debug('Printing list table.')
         console = Console()

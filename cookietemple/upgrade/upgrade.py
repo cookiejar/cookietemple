@@ -57,12 +57,12 @@ class UpgradeCommand:
             return True
 
         if parse_version(latest_local_version) > parse_version(latest_pypi_version):
-            print(f'[bold yellow]Installed version {latest_local_version} of mlf-core is newer than the latest release {latest_pypi_version}!'
+            print(f'[bold yellow]Installed version {latest_local_version} of cookietemple is newer than the latest release {latest_pypi_version}!'
                   f' You are running a nightly version and features may break!')
         elif parse_version(latest_local_version) == parse_version(latest_pypi_version):
             return True
         else:
-            print(f'[bold red]Installed version {latest_local_version} of mlf-core is outdated. Newest version is {latest_pypi_version}!')
+            print(f'[bold red]Installed version {latest_local_version} of cookietemple is outdated. Newest version is {latest_pypi_version}!')
             return False
 
         return False
