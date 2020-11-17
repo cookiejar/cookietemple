@@ -246,19 +246,21 @@ class TemplateLinter(object):
         parser.read(f'{self.path}/cookietemple.cfg')
         sections = ['bumpversion_files_whitelisted', 'bumpversion_files_blacklisted']
 
-        current_version = parser.get('bumpversion', 'current_version')
+        try:
+            current_version = parser.get('bumpversion', 'current_version')
+            cwd = os.getcwd()
+            os.chdir(self.path)
 
-        cwd = os.getcwd()
-        os.chdir(self.path)
-
-        # check if the version matches current version in each listed file (depending on whitelisted or blacklisted)
-        for section in sections:
-            for file, path in parser.items(section):
-                self.check_version_match(path, current_version, section)
-        os.chdir(cwd)
-        # Pass message if there weren't any inconsistencies within the version numbers
-        if not any('general-5' in tup[0] for tup in self.failed):
-            self.passed.append(('general-5', 'Versions were consistent over all files'))
+            # check if the version matches current version in each listed file (depending on whitelisted or blacklisted)
+            for section in sections:
+                for file, path in parser.items(section):
+                    self.check_version_match(path, current_version, section)
+            os.chdir(cwd)
+            # Pass message if there weren't any inconsistencies within the version numbers
+            if not any('general-5' in tup[0] for tup in self.failed):
+                self.passed.append(('general-5', 'Versions were consistent over all files'))
+        except configparser.NoOptionError:
+            self.failed.append(('general-5', 'Cannot check versions due to missing current_version in bumpversion config section!'))
 
     def check_version_match(self, path: str, version: str, section: str) -> None:
         """
@@ -619,10 +621,10 @@ class ConfigLinter:
         no_section_missing = self.check_missing_sections(self.parser.sections())
         if no_section_missing:
             check_section_flag = True
-            check_section_flag &= self.check_section(self.parser.items('bumpversion'), 'bumpversion')
-            check_section_flag &= self.check_section(self.parser.items('bumpversion_files_whitelisted'), 'bumpversion_files_whitelisted')
-            check_section_flag &= self.check_section(self.parser.items('sync_level'), 'sync_level')
-            check_section_flag &= self.check_section(self.parser.items('sync_files_blacklisted'), 'sync_files_blacklisted')
+            check_section_flag &= self.check_section(self.parser.items('bumpversion'), 'bumpversion', self.linter_ctx)
+            check_section_flag &= self.check_section(self.parser.items('bumpversion_files_whitelisted'), 'bumpversion_files_whitelisted', self.linter_ctx)
+            check_section_flag &= self.check_section(self.parser.items('sync_level'), 'sync_level', self.linter_ctx)
+            check_section_flag &= self.check_section(self.parser.items('sync_files_blacklisted'), 'sync_files_blacklisted', self.linter_ctx)
             if check_section_flag:
                 self.linter_ctx.passed.append(('general-7', 'All config sections passed cookietemple linting!'))
         else:
@@ -648,36 +650,46 @@ class ConfigLinter:
             self.linter_ctx.passed.append(('general-7', 'All required cookietemple.cfg sections were found!'))
             return True
 
-    def check_section(self, section_items, section_name) -> bool:
+    def check_section(self, section_items, section_name: str, main_linter: TemplateLinter) -> bool:
         """
         Check requirements 2.) - 5.) stated above.
         :param section_items: A pair (name, value) for all items in a section
         :param section_name: The sections name
+        :param main_linter: The linter calling the function
         """
-        if section_name == 'bumpversion':
-            if not len(section_items) == 1 and not section_items[0][0] == 'current_version':
-                self.linter_ctx.failed.append(('general-7', 'The bumpversion should only contain one item named current_version'))
-                return False
+        # a set containig the section name as a key and its linting rules as values
+        # linting rules made of:
+        #   1.) a tuple with a variable_name and its value ('*' if value does not care for linting)
+        #   => NOTE: if one variable can have multiple valid values, they are separated by '|'
+        #
+        #   2.) a number, stating the minimum number of items in a section (-1 if number does not care)
+        check_set = {
+            'bumpversion': [('current_version', '*'), 1],
+            'bumpversion_files_whitelisted': [('dot_cookietemple', '.cookietemple.yml'), -1],
+            'sync_level': [('ct_sync_level', 'patch|minor|major'), 1],
+            'sync_files_blacklisted': [('changelog', 'CHANGELOG.rst'), -1]
+        }
+        return ConfigLinter.apply_section_linting_rules(section_name, section_items, check_set.get(section_name), main_linter)
 
-        elif section_name == 'bumpversion_files_whitelisted':
-            if not [section_item for idx, section_item in enumerate(section_items) if section_items[idx][1] == '.cookietemple.yml']:
-                self.linter_ctx.failed.append(('general-7', 'The bumpversion_files_whitelisted should at least contain the .cookietemple.yml file as value'))
-                return False
+    @staticmethod
+    def apply_section_linting_rules(section: str, section_items, section_lint_rules, main_linter: TemplateLinter) -> bool:
+        """
+        For each section, check if the applied linting rules are met!
+        """
+        linting_passed = True
+        section_tuple_needed = section_lint_rules[0]
+        # if a section needs a concrete number of items, check if this holds true for the section
+        if section_lint_rules[1] != -1:
+            linting_passed &= len(section_items) == section_lint_rules[1]
+        # decide, whether we should check for the whole tuple or just any part of it
+        if section_tuple_needed[1] != '*':
+            # it is possible to have several valid values for a concrete section item
+            valid_values = section_tuple_needed[1].split('|')
+            linting_passed &= any(section_item for idx, section_item in enumerate(section_items) if section_items[idx][0] == section_tuple_needed[0] and
+                                  section_items[idx][1] in valid_values)
+        else:
+            linting_passed &= any(section_item for idx, section_item in enumerate(section_items) if section_items[idx][0] == section_tuple_needed[0])
 
-        elif section_name == 'sync_level':
-            # check for empty section to ensure later statement won't result in index error
-            if not section_items:
-                self.linter_ctx.failed.append(('general-7', 'The sync_level should only contain one item named current_version with a value either patch, '
-                                                            'minor or major'))
-                return False
-            elif not len(section_items) == 1 or not section_items[0][1] in ['patch', 'minor', 'major'] or section_items[0][0] != 'ct_sync_level':
-                self.linter_ctx.failed.append(('general-7', 'The sync_level should only contain one item named current_version with a value either patch, '
-                                                            'minor or major'))
-                return False
-
-        elif section_name == 'sync_files_blacklisted':
-            if not [section_item for idx, section_item in enumerate(section_items) if section_items[idx][1] == 'CHANGELOG.rst']:
-                self.linter_ctx.failed.append(('general-7', 'sync_files_blacklisted should at least contain the CHANGELOG.rst file as value'))
-                return False
-
-        return True
+        if not linting_passed:
+            main_linter.failed.append(('general-7', f'Config linting failed for section {section}!'))
+        return linting_passed
