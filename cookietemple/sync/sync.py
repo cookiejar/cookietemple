@@ -171,13 +171,12 @@ class TemplateSync:
         print('[bold blue]Creating a new template project.')
         # dry create run from dot_cookietemple in tmp directory
         with tempfile.TemporaryDirectory() as tmpdirname:
-            # TODO REFACTOR THIS BY PASSING A PATH PARAM TO CHOOSE DOMAIN WHICH DEFAULTS TO CWD WHEN NOT PASSED (INITIAL CREATE)
             old_cwd = str(Path.cwd())
             log.debug(f'Saving current working directory {old_cwd}.')
             os.chdir(tmpdirname)
             log.debug(f'Changed directory to {tmpdirname}.')
             log.debug(f'Calling choose_domain with {self.dot_cookietemple}.')
-            choose_domain(domain=None, dot_cookietemple=self.dot_cookietemple)
+            choose_domain(path=Path.cwd(), domain=None, dot_cookietemple=self.dot_cookietemple)
             # copy into the cleaned TEMPLATE branch's project directory
             log.debug(f'Copying created template into {self.project_dir}.')
             copy_tree(os.path.join(tmpdirname, self.dot_cookietemple['project_slug']), str(self.project_dir))

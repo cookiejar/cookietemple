@@ -1,4 +1,5 @@
 import os
+from shutil import move
 from pathlib import Path
 from dataclasses import dataclass
 from typing import Optional, Any, Dict
@@ -28,7 +29,7 @@ class LibCreator(TemplateCreator):
         '"" TEMPLATE VERSIONS ""'
         self.LIB_CPP_TEMPLATE_VERSION = load_ct_template_version('lib-cpp', self.AVAILABLE_TEMPLATES_PATH)
 
-    def create_template(self, dot_cookietemple: Optional[dict]):
+    def create_template(self, path: Path, dot_cookietemple: Optional[dict]):
         """
         Handles the LIB domain. Prompts the user for the language, general and domain specific options.
         """
@@ -69,6 +70,9 @@ class LibCreator(TemplateCreator):
 
         # perform general operations like creating a GitHub repository and general linting
         super().process_common_operations(domain='lib', language=self.lib_struct.language, dot_cookietemple=dot_cookietemple)
+        path = Path(path).resolve()
+        if path != Path.cwd():
+            move(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}', f'{path}/{self.creator_ctx.project_slug_no_hyphen}')
 
     def lib_cpp_options(self, dot_cookietemple: Optional[Dict]):
         """ Prompts for lib-cpp specific options and saves them into the CookietempleTemplateStruct """
