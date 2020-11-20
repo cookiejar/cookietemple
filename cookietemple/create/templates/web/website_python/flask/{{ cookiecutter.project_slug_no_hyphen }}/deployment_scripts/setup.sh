@@ -6,8 +6,8 @@ sudo apt-add-repository universe
 sudo apt-get update
 sudo apt-get install python3-pip
 sudo apt-get install python3-dev nginx -y
-
 sudo pip3 install virtualenv
+
 virtualenv dpenv
 source dpenv/bin/activate
 
@@ -15,17 +15,17 @@ sudo apt-get update
 pip3 install gunicorn
 make install
 
-sudo cp /home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug}}/deployment_scripts/{{cookiecutter.project_slug_no_hyphen}}.service \
+cp /home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug}}/deployment_scripts/{{cookiecutter.project_slug_no_hyphen}}.service \
 /etc/systemd/system/{{cookiecutter.project_slug_no_hyphen}}.service
 
 sudo systemctl start {{cookiecutter.project_slug}}
 
 sudo systemctl enable {{cookiecutter.project_slug}}
 
-sudo cp /home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug}}/deployment_scripts/{{cookiecutter.project_slug_no_hyphen}} \
+cp /home/{{cookiecutter.vmusername}}/{{cookiecutter.project_slug}}/deployment_scripts/{{cookiecutter.project_slug_no_hyphen}} \
 /etc/nginx/sites-available/{{cookiecutter.project_slug_no_hyphen}}
 
-sudo ln -s /etc/nginx/sites-available/{{cookiecutter.project_slug_no_hyphen}} /etc/nginx/sites-enabled
+ln -s /etc/nginx/sites-available/{{cookiecutter.project_slug_no_hyphen}} /etc/nginx/sites-enabled
 
 sudo nginx -t
 
