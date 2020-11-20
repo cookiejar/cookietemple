@@ -1,10 +1,8 @@
 import os
-from distutils.dir_util import copy_tree
+from shutil import move
 from pathlib import Path
 from dataclasses import dataclass
 from typing import Optional, Any, Dict
-
-from cookietemple.util.dir_util import delete_dir_tree
 
 from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
@@ -74,8 +72,7 @@ class LibCreator(TemplateCreator):
         super().process_common_operations(domain='lib', language=self.lib_struct.language, dot_cookietemple=dot_cookietemple)
         path = Path(path).resolve()
         if path != Path.cwd():
-            copy_tree(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}', f'{path}/{self.creator_ctx.project_slug_no_hyphen}')
-            delete_dir_tree(Path(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}'))
+            move(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}', f'{path}/{self.creator_ctx.project_slug_no_hyphen}')
 
     def lib_cpp_options(self, dot_cookietemple: Optional[Dict]):
         """ Prompts for lib-cpp specific options and saves them into the CookietempleTemplateStruct """

@@ -1,11 +1,7 @@
 import os
-from distutils.dir_util import copy_tree
-
 from pathlib import Path
 from dataclasses import dataclass
 from typing import Optional, Any, Dict
-
-from cookietemple.util.dir_util import delete_dir_tree
 from rich import print
 
 from cookietemple.create.template_creator import TemplateCreator
@@ -94,8 +90,7 @@ class PubCreator(TemplateCreator):
                                           dot_cookietemple=dot_cookietemple)
         path = Path(path).resolve()
         if path != Path.cwd():
-            copy_tree(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}', f'{path}/{self.creator_ctx.project_slug_no_hyphen}')
-            delete_dir_tree(Path(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}'))
+            move(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}', f'{path}/{self.creator_ctx.project_slug_no_hyphen}')
 
     def handle_pub_type(self, dot_cookietemple: Optional[dict]) -> None:
         """
