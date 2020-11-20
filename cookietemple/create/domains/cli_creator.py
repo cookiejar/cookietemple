@@ -2,6 +2,8 @@ import os
 from pathlib import Path
 from dataclasses import dataclass
 from typing import Optional, Dict, Any
+from distutils.dir_util import copy_tree
+from cookietemple.util.dir_util import delete_dir_tree
 
 from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
@@ -34,15 +36,14 @@ class CliCreator(TemplateCreator):
         self.WD_Path = Path(os.path.dirname(__file__))
         self.TEMPLATES_CLI_PATH = f'{self.WD_Path.parent}/templates/cli'
 
-        '"" TEMPLATE VERSIONS ""'
+        """ TEMPLATE VERSIONS """
         self.CLI_PYTHON_TEMPLATE_VERSION = load_ct_template_version('cli-python', self.AVAILABLE_TEMPLATES_PATH)
         self.CLI_JAVA_TEMPLATE_VERSION = load_ct_template_version('cli-java', self.AVAILABLE_TEMPLATES_PATH)
 
-    def create_template(self, dot_cookietemple: Optional[dict]):
+    def create_template(self, path: Path, dot_cookietemple: Optional[dict]):
         """
         Handles the CLI domain. Prompts the user for the language, general and domain specific options.
         """
-
         self.cli_struct.language = cookietemple_questionary_or_dot_cookietemple(function='select',
                                                                                 question='Choose the project\'s primary language',
                                                                                 choices=['python', 'java'],
@@ -81,9 +82,15 @@ class CliCreator(TemplateCreator):
 
         # perform general operations like creating a GitHub repository and general linting
         super().process_common_operations(domain='cli', language=self.cli_struct.language, dot_cookietemple=dot_cookietemple)
+        path = Path(path).resolve()
+        if path != Path.cwd():
+            copy_tree(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}', f'{path}/{self.creator_ctx.project_slug_no_hyphen}')
+            delete_dir_tree(Path(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}'))
 
     def cli_python_options(self, dot_cookietemple: Optional[dict]):
-        """ Prompts for cli-python specific options and saves them into the CookietempleTemplateStruct """
+        """
+        Prompts for cli-python specific options and saves them into the CookietempleTemplateStruct
+        """
         self.cli_struct.command_line_interface = cookietemple_questionary_or_dot_cookietemple(function='select',
                                                                                               question='Choose a command line library',
                                                                                               choices=['Click', 'Argparse', 'No command-line interface'],

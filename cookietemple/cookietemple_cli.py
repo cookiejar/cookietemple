@@ -78,9 +78,10 @@ def cookietemple_cli(ctx, verbose, log_file):
 
 
 @cookietemple_cli.command(short_help='Create a new project using one of our templates.', cls=CustomHelpSubcommand)
+@click.argument('path', type=click.Path(), default=Path.cwd(), helpmsg='Path where the project should be created at.', cls=CustomArg)  # type: ignore
 @click.option('--domain', type=click.Choice(['cli', 'lib', 'gui', 'web', 'pub']),
               help='The projects domain with currently cli, lib, gui, web and pub supported.')
-def create(domain: str) -> None:
+def create(path: Path, domain: str) -> None:
     """
     Create a new project using one of our templates.
 
@@ -90,7 +91,7 @@ def create(domain: str) -> None:
     Next, you will be asked whether you want to use cookietemple's Github support create a repository, push your template and enable a few settings.
     After the project has been created it will be linted and you will be notified of any TODOs.
     """
-    choose_domain(domain, None)
+    choose_domain(path, domain, None)
 
 
 @cookietemple_cli.command(short_help='Lint your existing cookietemple project.', cls=CustomHelpSubcommand)
