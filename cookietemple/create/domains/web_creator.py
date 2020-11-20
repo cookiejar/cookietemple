@@ -56,7 +56,7 @@ class WebCreator(TemplateCreator):
         '""Web Template Versions""'
         self.WEB_WEBSITE_PYTHON_TEMPLATE_VERSION = load_ct_template_version('web-website-python', self.AVAILABLE_TEMPLATES_PATH)
 
-    def create_template(self, dot_cookietemple: Optional[dict]) -> None:
+    def create_template(self, path: Path, dot_cookietemple: Optional[dict]) -> None:
         """
         Handles the Web domain. Prompts the user for the language, general and domain specific options.
         """
@@ -107,6 +107,10 @@ class WebCreator(TemplateCreator):
                                           subdomain=self.web_struct.webtype,
                                           language=self.web_struct.language,
                                           dot_cookietemple=dot_cookietemple)
+        path = Path(path).resolve()
+        if path != Path.cwd():
+            copy_tree(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}', f'{path}/{self.creator_ctx.project_slug_no_hyphen}')
+            delete_dir_tree(Path(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}'))
 
     def handle_web_project_type_python(self, dot_cookietemple: Optional[dict]) -> None:
         """

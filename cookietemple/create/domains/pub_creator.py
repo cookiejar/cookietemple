@@ -1,9 +1,11 @@
 import os
+from distutils.dir_util import copy_tree
 
 from pathlib import Path
 from dataclasses import dataclass
 from typing import Optional, Any, Dict
 
+from cookietemple.util.dir_util import delete_dir_tree
 from rich import print
 
 from cookietemple.create.template_creator import TemplateCreator
@@ -43,7 +45,7 @@ class PubCreator(TemplateCreator):
         '"" TEMPLATE VERSIONS ""'
         self.PUB_LATEX_TEMPLATE_VERSION = load_ct_template_version('pub-thesis-latex', self.AVAILABLE_TEMPLATES_PATH)
 
-    def create_template(self, dot_cookietemple: Optional[dict]):
+    def create_template(self, path:Path, dot_cookietemple: Optional[dict]):
         """
         Prompts the user for the publication type and forwards to subsequent prompts.
         Creates the pub template.
@@ -93,6 +95,10 @@ class PubCreator(TemplateCreator):
         super().process_common_operations(skip_common_files=True, skip_fix_underline=True,
                                           domain='pub', subdomain=self.pub_struct.pubtype, language=self.pub_struct.language,
                                           dot_cookietemple=dot_cookietemple)
+        path = Path(path).resolve()
+        if path != Path.cwd():
+            copy_tree(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}', f'{path}/{self.creator_ctx.project_slug_no_hyphen}')
+            delete_dir_tree(Path(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}'))
 
     def handle_pub_type(self, dot_cookietemple: Optional[dict]) -> None:
         """
