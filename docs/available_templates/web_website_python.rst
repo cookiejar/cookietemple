@@ -345,26 +345,10 @@ There are a few requirements needed in order to deploy:
 
 If you meet all the requirements above login (for example via :bash:`$ ssh yourvmusername@your-servers-IP`) into your server:
 
-To install pip3 you need to do the following:
- 1. ``$ sudo apt-get install software-properties-common``
- 2. ``$ sudo apt-add-repository universe``
- 3. ``$ sudo apt-get update``
- 4. ``$ sudo apt-get install python3-pip``
+Now, you need to clone your repository in order to start the deployment process.
+So ``$ git clone <<GITHUB_URL_OF_YOUR_PROJECT>>`` and cd ``$ YOUR_PROJECTS_TOP_LEVEL_DIRECTORY``.
+Now simply run ``$ source deployment_scripts/setup.sh`` and the deployment starts. You may be prompted for your password as some commands run need ``sudo`` rights.
 
-In order to run the setup script a few more steps are required:
-
- 1. Install the python3-dev dependencies and nginx using :bash:`$ sudo apt-get install python3-dev nginx -y`
- 2. Clone your GitHub repository using :bash:`$ git clone https://github.com/<you_github_username>/<your_project_name>`
- 3. Next cd into it via :bash:`$ cd <your_project_name>`
- 4. Then, we need to install and create a virtualenv :bash:`$ sudo pip3 install virtualenv` (note the sudo here!).
- 5. Create a virtualenv named :bash:`dpenv` using :bash:`$ virtualenv dpenv`. You must name your environment like this! Also, make sure your current working directory is your project's top level directory!
- 6. Activate the virtualenv with :bash:`$ source dpenv/bin/activate`
- 7. ``$ sudo apt-get update``
- 8. ``$ pip3 install gunicorn``
- 9. ``$ python3 setup.py clean --all install`` (no sudo here, as we don't need to install system wide)
-
-When done, you can now fire up the setup script to deploy your application:
-Use :bash:`$ sudo bash deployment_scripts/setup.sh` and deployment process starts.
 
 **Important**:
 Currently, one more step is required to get ``https`` redirecting to work properly. This will be included into a script in the future, to automate this process.
