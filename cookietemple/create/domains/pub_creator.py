@@ -45,7 +45,7 @@ class PubCreator(TemplateCreator):
         '"" TEMPLATE VERSIONS ""'
         self.PUB_LATEX_TEMPLATE_VERSION = load_ct_template_version('pub-thesis-latex', self.AVAILABLE_TEMPLATES_PATH)
 
-    def create_template(self, path:Path, dot_cookietemple: Optional[dict]):
+    def create_template(self, path: Path, dot_cookietemple: Optional[dict]):
         """
         Prompts the user for the publication type and forwards to subsequent prompts.
         Creates the pub template.
@@ -72,9 +72,9 @@ class PubCreator(TemplateCreator):
         self.handle_pub_type(dot_cookietemple)
 
         self.pub_struct.is_github_repo, \
-            self.pub_struct.is_repo_private, \
-            self.pub_struct.is_github_orga, \
-            self.pub_struct.github_orga \
+        self.pub_struct.is_repo_private, \
+        self.pub_struct.is_github_orga, \
+        self.pub_struct.github_orga \
             = prompt_github_repo(dot_cookietemple)
 
         if self.pub_struct.is_github_orga:
