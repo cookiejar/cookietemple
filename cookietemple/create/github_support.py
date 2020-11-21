@@ -94,15 +94,24 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         cloned_repo.index.commit(f'Created {creator_ctx.project_slug} with {creator_ctx.template_handle} '
                                  f'template of version {creator_ctx.template_version.replace("# <<COOKIETEMPLE_NO_BUMP>>", "")} using cookietemple.')
 
-        log.debug('git push origin master')
-        print('[bold blue]Pushing template to Github origin master')
-        cloned_repo.remotes.origin.push(refspec='master:master')
+        # get the default branch of the repository as default branch of GitHub repositories are nor configurable by the user and can be set to any branch name
+        # but cookietemple needs to know which one is the default branch in order to push to the correct remote branch and rename local branch, if necessary
+        headers = {'Authorization': f'token {access_token}'}
+        url = f"https://api.github.com/repos/{creator_ctx.github_username}/{creator_ctx.project_slug}"
+        response = requests.get(url, headers=headers).json()
+        default_branch = response['default_branch']
+        log.debug(f'git push origin {default_branch}')
+        print(f'[bold blue]Pushing template to Github origin {default_branch}')
+        if default_branch != 'master':
+            cloned_repo.git.branch('-M', f'{default_branch}')
+        cloned_repo.remotes.origin.push(refspec=f'{default_branch}:{default_branch}')
 
         # set branch protection (all WF must pass, dismiss stale PR reviews) only when repo is public
         log.debug('Set branch protection rules.')
+
         if not creator_ctx.is_repo_private and not creator_ctx.is_github_orga:
-            master_branch = authenticated_github_user.get_user().get_repo(name=creator_ctx.project_slug).get_branch("master")
-            master_branch.edit_protection(dismiss_stale_reviews=True)
+            main_branch = authenticated_github_user.get_user().get_repo(name=creator_ctx.project_slug).get_branch(f'{default_branch}')
+            main_branch.edit_protection(dismiss_stale_reviews=True)
         else:
             print('[bold blue]Cannot set branch protection rules due to your repository being private or an organization repo!\n'
                   'You can set them manually later on.')

@@ -1,13 +1,12 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from wtforms.validators import ValidationError, DataRequired, EqualTo
 from flask_babel import _
 from {{ cookiecutter.project_slug_no_hyphen }}.models.users import User
 
 
 class RegistrationForm(FlaskForm):
     username = StringField(_('Username'), validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField(_('Password'), validators=[DataRequired()])
     password2 = PasswordField(
         _('Repeat Password'), validators=[DataRequired(),
@@ -19,7 +18,3 @@ class RegistrationForm(FlaskForm):
         if user is not None:
             raise ValidationError(_('Please use a different username.'))
 
-    def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
-        if user is not None:
-            raise ValidationError(_('Please use a different email address.'))

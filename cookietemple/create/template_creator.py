@@ -1,12 +1,10 @@
 import logging
 import os
 import sys
-
 import shutil
 import re
 import tempfile
 from typing import Optional, Union
-
 import cookietemple
 import requests
 from distutils.dir_util import copy_tree
@@ -44,7 +42,7 @@ class TemplateCreator:
         self.CWD = os.getcwd()
         self.creator_ctx = creator_ctx
 
-    def process_common_operations(self, skip_common_files=False, skip_fix_underline=False,
+    def process_common_operations(self, path: Path, skip_common_files=False, skip_fix_underline=False,
                                   domain: Optional[str] = None, subdomain: Union[str, bool] = None, language: Union[str, bool] = None,
                                   dot_cookietemple: Optional[dict] = None) -> None:
         """
@@ -85,6 +83,9 @@ class TemplateCreator:
             print()
             print('[bold blue]Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates/available_templates.html'
                   f'#{domain}-{language} for more information about how to use your chosen template.')
+
+        if path != Path.cwd():
+            shutil.move(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}', f'{path}/{self.creator_ctx.project_slug_no_hyphen}')
 
     def create_template_without_subdomain(self, domain_path: str) -> None:
         """

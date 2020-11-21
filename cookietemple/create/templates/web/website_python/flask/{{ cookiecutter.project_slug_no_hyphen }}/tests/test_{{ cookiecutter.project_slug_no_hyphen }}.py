@@ -36,7 +36,6 @@ def create_test_app():
     login = LoginManager()
     login.login_view = 'auth.login'
     login.login_message = 'Please log in to access this page.'
-    mail = Mail()
     bootstrap = Bootstrap()
     babel = Babel()
 
@@ -44,7 +43,6 @@ def create_test_app():
     app.config.from_object(Config)
     migrate.init_app(app, db)
     login.init_app(app)
-    mail.init_app(app)
     bootstrap.init_app(app)
     babel.init_app(app)
 

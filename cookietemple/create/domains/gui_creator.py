@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 from dataclasses import dataclass
 from typing import Dict, Any, Optional
-from shutil import move
 
 from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
@@ -34,7 +33,7 @@ class GuiCreator(TemplateCreator):
     def create_template(self, path: Path, dot_cookietemple: Optional[Dict]):
         self.gui_struct.language = cookietemple_questionary_or_dot_cookietemple(function='select',
                                                                                 question='Choose between the following languages',
-                                                                                choices=['java', 'kotlin'],
+                                                                                choices=['java'],
                                                                                 dot_cookietemple=dot_cookietemple,
                                                                                 to_get_property='language')
 
@@ -64,10 +63,7 @@ class GuiCreator(TemplateCreator):
             = switcher_version.get(self.gui_struct.language.lower()), f'gui-{self.gui_struct.language.lower()}'  # type: ignore
 
         # perform general operations like creating a GitHub repository and general linting
-        super().process_common_operations(domain='gui', language=self.gui_struct.language, dot_cookietemple=dot_cookietemple)
-        path = Path(path).resolve()
-        if path != Path.cwd():
-            move(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}', f'{path}/{self.creator_ctx.project_slug_no_hyphen}')
+        super().process_common_operations(path=Path(path).resolve(), domain='gui', language=self.gui_struct.language, dot_cookietemple=dot_cookietemple)
 
     def gui_java_options(self, dot_cookietemple: Optional[Dict]) -> None:
         """

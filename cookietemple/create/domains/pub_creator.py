@@ -1,5 +1,4 @@
 import os
-from shutil import move
 from pathlib import Path
 from dataclasses import dataclass
 from typing import Optional, Any, Dict
@@ -86,12 +85,9 @@ class PubCreator(TemplateCreator):
             self.pub_struct.language.lower(), lambda: 'Invalid language!'), f'pub-{self.pub_struct.pubtype}-{self.pub_struct.language.lower()}'
 
         # perform general operations like creating a GitHub repository and general linting, but skip common_files copying and rst linting
-        super().process_common_operations(skip_common_files=True, skip_fix_underline=True,
+        super().process_common_operations(path=Path(path).resolve(), skip_common_files=True, skip_fix_underline=True,
                                           domain='pub', subdomain=self.pub_struct.pubtype, language=self.pub_struct.language,
                                           dot_cookietemple=dot_cookietemple)
-        path = Path(path).resolve()
-        if path != Path.cwd():
-            move(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}', f'{path}/{self.creator_ctx.project_slug_no_hyphen}')
 
     def handle_pub_type(self, dot_cookietemple: Optional[dict]) -> None:
         """
