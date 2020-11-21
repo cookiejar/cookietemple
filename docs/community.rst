@@ -11,7 +11,7 @@ Development Leads
 -------------------
 
 - Lukas Heumos (`@zethson Github <https://github.com/zethson/>`_, `@Lukas Heumos Twitter <https://twitter.com/LukasHeumos>`_)
-- Philipp Ehmele (`@imipenem Github <https://github.com/imipenem>`_, `@Philipp Ehmele Twitter <https://twitter.com/1207_philipp>`_)
+- Philipp Ehmele (`@imipenem Github <https://github.com/imipenem>`_, `@Philipp Ehmele Twitter <https://twitter.com/Farwent_>`_)
 
 Core contributors
 ------------------

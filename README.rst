@@ -116,13 +116,15 @@ See `Syncing a project <https://cookietemple.readthedocs.io/en/sync.html>`_.
 warp
 ----
 Create a self contained executable.
-Currently, cookietemple does not ship any templates anymore, where this may be required.
+Currently, cookietemple does not ship any templates, where this may be required.
 
 See `Warping a project <https://cookietemple.readthedocs.io/en/warp.html>`_.
 
 upgrade
 -------
 Check whether you are using the latest cookietemple version and update automatically to benefit from the latest features.
+
+See `Upgrade cookietemple <https://cookietemple.readthedocs.io/en/upgrade.html>`_.
 
 See `<https://cookietemple.readthedocs.io/en/upgrade.html>`_.
 
@@ -144,4 +146,4 @@ Authors
 -------
 
 cookietemple was initiated and developed by `Lukas Heumos (Github)  <https://github.com/zethson>`_ and `Philipp Ehmele (Github) <https://github.com/imipenem>`_.
-A full list of contributors is available on our `statistics webpage <https://cookietemple.com/statistics>`_.
+.. A full list of contributors is available on our `statistics webpage <https://cookietemple.com/statistics>`_.

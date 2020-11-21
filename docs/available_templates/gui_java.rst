@@ -90,14 +90,17 @@ Included frameworks/libraries
 5. `JUnit 5 <https://junit.org/junit5/>`_ for unit tests
 6. `TestFX <https://github.com/TestFX/TestFX>`_ for JavaFX GUI tests
 7. Preconfigured `readthedocs <https://readthedocs.org/>`_
-8. Six Github workflows:
+8. Nine Github workflows:
 
-  1. :code:`build_docs.yml`, which builds the readthedocs documentation.
-  2. :code:`compile_package.yml`, which compiles the gui-java project.
-  3. :code:`run_java_linting.yml`, which runs `checkstyle <https://checkstyle.sourceforge.io/>`_ linting using Google's ruleset.
-  4. :code:`run_tests.yml`, which runs the Unit tests. Note that this workflow is currently disabled, since GUI unittests are not possible using Github Actions.
-  5. :code:`run_codecov`, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
-  6. :code:`pr_to_master_from_patch_release_only`: Please read :ref:`pr_master_workflow_docs`.
+  1. ``build_docs.yml``, which builds the readthedocs documentation.
+  2. ``compile_package.yml``, which compiles the gui-java project.
+  3. ``run_java_linting.yml``, which runs `checkstyle <https://checkstyle.sourceforge.io/>`_ linting using Google's ruleset.
+  4. ``run_tests.yml``, which runs the Unit tests. Note that this workflow is currently disabled, since GUI unittests are not possible using Github Actions.
+  5. ``run_codecov``, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
+  6. ``pr_to_master_from_patch_release_only``: Please read :ref:`pr_master_workflow_docs`.
+  7. ``check_no_SNAPSHOT_master.yml``: Please read :ref:`pr_master_workflow_docs`
+  8. ``run_cookietemple_lint.yml``, which runs ``cookietemple lint`` on the project.
+  9. ``sync_project.yml``, which syncs the project to the most recent cookietemple template version.
 
 Usage
 ^^^^^^^^

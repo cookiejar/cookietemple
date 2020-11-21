@@ -34,6 +34,7 @@ Flags
 ------
 
 - ``--domain`` : To directly create a template of the the corresponding domain.
+- ``--path`` [CWD]: An absolute or relative path to create the template at.
 
   All further prompts will still be asked for. Example: ``cli``.
   It is also possible to directly create a specific template using its handle

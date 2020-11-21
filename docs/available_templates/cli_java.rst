@@ -89,13 +89,16 @@ Included frameworks/libraries
 3. `GraalVM Native Image <https://www.graalvm.org/docs/reference-manual/native-image/>`_ to build platform dependent self-contained executables
 4. `JUnit 5 <https://junit.org/junit5/>`_ as main testing framework
 5. Preconfigured `readthedocs <https://readthedocs.org/>`_
-6. Five Github workflows:
+6. Seven Github workflows:
 
-  1. :code:`build_docs.yml`, which builds the readthedocs documentation.
-  2. :code:`build_deploy.yml`, which builds the cli-java project into Linux, MacOS and Windows executables. They are deployed as build artifacts.
-  3. :code:`run_checkstyle.yml`, which runs `checkstyle <https://checkstyle.sourceforge.io/>`_ linting using Google's ruleset.
-  4. :code:`run_tests.yml`, which runs all JUnit tests.
-  5. :code:`pr_to_master_from_patch_release_only`: Please read :ref:`pr_master_workflow_docs`.
+  1. ``build_docs.yml``, which builds the Read the Docs documentation.
+  2. ``build_deploy.yml``, which builds the cli-java project into Linux, MacOS and Windows executables. They are deployed as build artifacts.
+  3. ``run_checkstyle.yml``, which runs `checkstyle <https://checkstyle.sourceforge.io/>`_ linting using Google's ruleset.
+  4. ``run_tests.yml``, which runs all JUnit tests.
+  5. ``pr_to_master_from_patch_release_only``: Please read :ref:`pr_master_workflow_docs`.
+  6. ``check_no_SNAPSHOT_master.yml``: Please read :ref:`pr_master_workflow_docs`
+  7. ``run_cookietemple_lint.yml``, which runs ``cookietemple lint`` on the project.
+  8. ``sync_project.yml``, which syncs the project to the most recent cookietemple template version
 
 Usage
 ^^^^^^^^

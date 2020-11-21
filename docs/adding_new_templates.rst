@@ -107,12 +107,12 @@ The file tree of the template should resemble
         ├── cookietemple.cfg
         └── README.rst
 
-3. | Now it is time to subclass the :code:`TemplateCreator` to implement all required functions to create our template!
+3. | Now it is time to subclass the ``TemplateCreator`` to implement all required functions to create our template!
    | Let's edit ``/create/domains/cli_creator.py``. Note that for new domains you would simply create a new file called DomainCreator.
    | In this case we suggest to simply copy the code of an existing Creator and adapt it to the new domain. Your new domain may make use of other creation functions instead of :code:`create_template_without_subdomain`, if they for example contain subdomains. You can examine :code:`create/TemplatorCreator.py` to see what's available. You may also remove functions such as the creation of common files.
    | If we have any brainfuck specific cookiecutter variables that we need to populate, we may add them to the TemplateStructCli.
    | Our brainfuck templates does not have them, so we just leave it as is.
-   | For the next step we simply go through the :code:`CliCreator` class and add our brainfuck template where required. Moreover, we implement a :code:`cli_brainfuck_options` function, which we use to prompt for template specific cookiecutter variables.
+   | For the next step we simply go through the ``CliCreator`` class and add our brainfuck template where required. Moreover, we implement a ``cli_brainfuck_options`` function, which we use to prompt for template specific cookiecutter variables.
    | Assuming ``cli_creator.py`` already contains a ``cli-java`` template
 
 .. code-block:: python
@@ -143,7 +143,7 @@ The file tree of the template should resemble
             self.CLI_JAVA_TEMPLATE_VERSION = super().load_version('cli-java')
             self.CLI_BRAINFUCK_TEMPLATE_VERSION = super().load_version('cli-brainfuck')
 
-        def create_template(self, dot_cookietemple: dict or None):
+        def create_template(self, path: Path, dot_cookietemple: dict or None):
             """
             Handles the CLI domain. Prompts the user for the language, general and domain specific options.
             """
