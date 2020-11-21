@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: eLaGuardo/setup-graalvm@8bbfe44ef9c6f5c07e5af036a1bffd561c037d18
+    - uses: DeLaGuardo/setup-graalvm@8bbfe44ef9c6f5c07e5af036a1bffd561c037d18
       with:
         graalvm-version: '20.1.0.java11'
     - run: java -version
@@ -33,7 +33,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - uses: eLaGuardo/setup-graalvm@8bbfe44ef9c6f5c07e5af036a1bffd561c037d18
+      - uses: DeLaGuardo/setup-graalvm@8bbfe44ef9c6f5c07e5af036a1bffd561c037d18
         with:
           graalvm-version: '20.1.0.java11'
       - run: java -version
