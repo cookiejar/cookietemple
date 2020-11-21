@@ -8,6 +8,7 @@ Syncing is supposed to integrate any changes to the cookietemple templates back 
 When ``cookietemple sync`` is invoked, cookietemple checks whether a new version of the corresponding template for the current project is available.
 If so, cookietemple creates a temporary project with the most recent template and pushes it to the ``TEMPLATE`` branch.
 Next, a pull request is submitted to the ``development`` branch.
+Please note that the required ``CT_SYNC_TOKEN`` (see below) is automatically set and manual syncing should be avoided if possible.
 
 
 The syncing process is configurable by setting the desired lower syncing boundary level and blacklisting files from syncing (see :ref:`sync_config`).
@@ -59,7 +60,7 @@ Sync level
 ~~~~~~~~~~~~~~~~
 
 Since cookietemple strongly adheres to semantic versioning our templates do too.
-Hence, it is customizable whether only major, minor or all (= patch level) releases of the template should trigger cookietemple sync.
+Hence, it is customizable whether only major, minor or patch releases of the template should trigger cookietemple sync.
 The sync level therefore specifies a lower boundary. It can be configured in the::
 
     [sync_level]

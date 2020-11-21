@@ -13,7 +13,6 @@ Stable release
 To install cookietemple, run this command in your terminal:
 
 .. code-block:: console
-    :linenos:
 
     $ pip install cookietemple
 
@@ -34,28 +33,24 @@ The sources for cookietemple can be downloaded from the `Github repo`_.
 You can either clone the public repository:
 
 .. code-block:: console
-    :linenos:
 
     $ git clone git://github.com/cookiejardealer/cookietemple
 
 Or download the `tarball`_:
 
 .. code-block:: console
-    :linenos:
 
     $ curl  -OL https://github.com/cookiejardealer/cookietemple/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
 .. code-block:: console
-    :linenos:
 
     $ pip install .
 
 Alternatively you can also install it using the Makefile:
 
 .. code-block:: console
-    :linenos:
 
     $ make install
 

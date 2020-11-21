@@ -123,4 +123,6 @@ Tips
 
 To run a subset of tests::
 
-$ py.test tests.test_cookietemple
+.. code-block:: console
+
+    $ py.test tests/something

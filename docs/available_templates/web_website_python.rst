@@ -229,16 +229,19 @@ make heavy use of its extensions.
 3. `pytest <https://docs.pytest.org/en/latest/>`_ or `unittest <https://docs.python.org/3/library/unittest.html>`_ as testing frameworks
 4. Preconfigured `tox <https://tox.readthedocs.io/en/latest/>`_ to run pytest matrices with different Python environments
 5. Preconfigured `readthedocs <https://readthedocs.org/>`_
-6. Eight Github workflows:
+6. Eleven Github workflows:
 
-  1. :code:`build_docs.yml`, which builds the readthedocs documentation.
-  2. :code:`build_package.yml`, which builds the web-template package.
-  3. :code:`run_flake8_linting.yml`, which runs `flake8 <https://flake8.pycqa.org/en/latest/>`_ linting.
-  4. :code:`run_tox_testsuite.yml`, which runs the tox testing suite.
-  5. :code:`run_css_lint.yml`, which runs `Stylelint <https://stylelint.io/>`_ CSS linting.
-  6. :code:`run_codecov`, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
-  7. :code:`run_bandit`, run `bandit <https://github.com/PyCQA/bandit>`_ to discover security issues in your python code
-  8. :code:`pr_to_master_from_patch_release_only`: Please read :ref:`pr_master_workflow_docs`.
+  1. ``build_docs.yml``, which builds the readthedocs documentation.
+  2. ``build_package.yml``, which builds the web-template package.
+  3. ``run_flake8_linting.yml``, which runs `flake8 <https://flake8.pycqa.org/en/latest/>`_ linting.
+  4. ``run_tox_testsuite.yml``, which runs the tox testing suite.
+  5. ``run_css_lint.yml``, which runs `Stylelint <https://stylelint.io/>`_ CSS linting.
+  6. ``run_codecov``, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
+  7. ``run_bandit``, run `bandit <https://github.com/PyCQA/bandit>`_ to discover security issues in your python code
+  8. ``pr_to_master_from_patch_release_only``: Please read :ref:`pr_master_workflow_docs`.
+  9. ``check_no_SNAPSHOT_master.yml``: Please read :ref:`pr_master_workflow_docs`
+  10. ``run_cookietemple_lint.yml``, which runs ``cookietemple lint`` on the project.
+  11. ``sync_project.yml``, which syncs the project to the most recent cookietemple template version
 
 
 We highly recommend to use click (if commandline interface is required) together with pytest.
