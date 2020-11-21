@@ -185,7 +185,7 @@ The file tree of the template should resemble
             self.cli_struct.template_version, self.cli_struct.template_handle = switcher_version.get(
                 self.cli_struct.language.lower()), f'cli-{self.cli_struct.language.lower()}'
 
-            super().process_common_operations(domain='cli', language=self.cli_struct.language, dot_cookietemple=dot_cookietemple)
+            super().process_common_operations(path=Path(path).resolve(), domain='cli', language=self.cli_struct.language, dot_cookietemple=dot_cookietemple)
 
         def cli_python_options(self, dot_cookietemple: dict or None):
             """ Prompts for cli-python specific options and saves them into the CookietempleTemplateStruct """

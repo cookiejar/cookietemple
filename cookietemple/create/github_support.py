@@ -94,6 +94,8 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         cloned_repo.index.commit(f'Created {creator_ctx.project_slug} with {creator_ctx.template_handle} '
                                  f'template of version {creator_ctx.template_version.replace("# <<COOKIETEMPLE_NO_BUMP>>", "")} using cookietemple.')
 
+        # get the default branch of the repository as default branch of GitHub repositories are nor configurable by the user and can be set to any branch name
+        # but cookietemple needs to know which one is the default branch in order to push to the correct remote branch and rename local branch, if necessary
         headers = {'Authorization': f'token {access_token}'}
         url = f"https://api.github.com/repos/{creator_ctx.github_username}/{creator_ctx.project_slug}"
         response = requests.get(url, headers=headers).json()
