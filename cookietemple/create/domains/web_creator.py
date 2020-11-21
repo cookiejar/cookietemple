@@ -1,5 +1,4 @@
 import os
-from shutil import move
 from pathlib import Path
 from dataclasses import dataclass
 from distutils.dir_util import copy_tree
@@ -102,13 +101,10 @@ class WebCreator(TemplateCreator):
             = switcher_version.get(self.web_struct.language), f'web-{self.web_struct.webtype}-{self.web_struct.language.lower()}'  # type: ignore
 
         # perform general operations like creating a GitHub repository and general linting
-        super().process_common_operations(domain='web',
+        super().process_common_operations(path=Path(path).resolve(), domain='web',
                                           subdomain=self.web_struct.webtype,
                                           language=self.web_struct.language,
                                           dot_cookietemple=dot_cookietemple)
-        path = Path(path).resolve()
-        if path != Path.cwd():
-            move(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}', f'{path}/{self.creator_ctx.project_slug_no_hyphen}')
 
     def handle_web_project_type_python(self, dot_cookietemple: Optional[dict]) -> None:
         """

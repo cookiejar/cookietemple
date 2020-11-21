@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 from dataclasses import dataclass
 from typing import Optional, Dict, Any
-from shutil import move
 
 from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
@@ -80,10 +79,7 @@ class CliCreator(TemplateCreator):
             = switcher_version.get(self.cli_struct.language), f'cli-{self.cli_struct.language.lower()}'  # type: ignore
 
         # perform general operations like creating a GitHub repository and general linting
-        super().process_common_operations(domain='cli', language=self.cli_struct.language, dot_cookietemple=dot_cookietemple)
-        path = Path(path).resolve()
-        if path != Path.cwd():
-            move(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}', f'{path}/{self.creator_ctx.project_slug_no_hyphen}')
+        super().process_common_operations(path=Path(path).resolve(), domain='cli', language=self.cli_struct.language, dot_cookietemple=dot_cookietemple)
 
     def cli_python_options(self, dot_cookietemple: Optional[dict]):
         """
