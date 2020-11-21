@@ -104,7 +104,7 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
             master_branch = authenticated_github_user.get_user().get_repo(name=creator_ctx.project_slug).get_branch("master")
             master_branch.edit_protection(dismiss_stale_reviews=True)
         else:
-            print('[bold blue]Cannot set branch protection rules due to your repository being private or an orga repo!\n'
+            print('[bold blue]Cannot set branch protection rules due to your repository being private or an organization repo!\n'
                   'You can set them manually later on.')
 
         # git create development branch

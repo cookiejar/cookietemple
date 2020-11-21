@@ -20,7 +20,7 @@ git branches can be understood as diverging copies of the main line of developme
 To learn more about branches read `Branches in a Nutshell <https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell>`_ of the `Pro Git Book <https://git-scm.com/book>`_.
 A simple best practice development workflow follows the pattern that the ``master`` branch always contains the latest released code.
 It should only be touched for new releases. Code on the ``master`` branch must compile and be as bug free as possible.
-Development takes place on the ``development`` branch. All parallelly developed features eventually make it into this branch.
+Development takes place on the ``development`` branch. All in parallel developed features eventually make it into this branch.
 The ``development`` branch should always compile, but it may contain incomplete features or known bugs.
 cookietemple creates a ``TEMPLATE`` branch, which is required for :ref:`sync` to work and should not be touched manually.
 
@@ -95,6 +95,8 @@ Some common error sources are:
 `the Github status page <https://www.githubstatus.com/>`_.
 
 3. A repo with the same name already exists in your account/your organisation.
+
+4. Your Github Token/Secret does not have all required permissions (all repository and workflow permissions).
 
 Creation fails, ok: But how can I then access the full features of cookietemple?
 You can try to fix the issue (or wait some time on case, for example, when Github is down) and then process to create a Github repository manually.
