@@ -95,26 +95,24 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
                                  f'template of version {creator_ctx.template_version.replace("# <<COOKIETEMPLE_NO_BUMP>>", "")} using cookietemple.')
 
         log.debug('git push origin main')
-        print('[bold blue]Pushing template to Github origin main')
         headers = {'Authorization': f'token {access_token}'}
         url = f"https://api.github.com/repos/{creator_ctx.github_username}/{creator_ctx.project_slug}"
         response = requests.get(url, headers=headers).json()
         default_branch = response['default_branch']
+        print(f'[bold blue]Pushing template to Github origin {default_branch}')
         if default_branch != 'master':
             cloned_repo.git.branch('-M', f'{default_branch}')
-        #cloned_repo.git.push('-u', 'origin', 'main')
-        #cloned_repo.active_branch.rename('main')
-        #print(cloned_repo.active_branch)
         cloned_repo.remotes.origin.push(refspec=f'{default_branch}:{default_branch}')
 
         # set branch protection (all WF must pass, dismiss stale PR reviews) only when repo is public
         log.debug('Set branch protection rules.')
-        #if not creator_ctx.is_repo_private and not creator_ctx.is_github_orga:
-         #   main_branch = authenticated_github_user.get_user().get_repo(name=creator_ctx.project_slug).get_branch("main")
-          #  main_branch.edit_protection(dismiss_stale_reviews=True)
-        #else:
-         #   print('[bold blue]Cannot set branch protection rules due to your repository being private or an orga repo!\n'
-          #        'You can set them manually later on.')
+
+        if not creator_ctx.is_repo_private and not creator_ctx.is_github_orga:
+            main_branch = authenticated_github_user.get_user().get_repo(name=creator_ctx.project_slug).get_branch("main")
+            main_branch.edit_protection(dismiss_stale_reviews=True)
+        else:
+            print('[bold blue]Cannot set branch protection rules due to your repository being private or an orga repo!\n'
+                  'You can set them manually later on.')
 
         # git create development branch
         log.debug('git checkout -b development')
