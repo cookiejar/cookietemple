@@ -10,20 +10,23 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 ------------------
 
 **Added**
-linter for cookietemple.cfg file to ensure integrity
-a path parameter to create projects on other locations than the CWD
+
+* a linter for cookietemple.cfg file to ensure integrity
+* a path parameter to create projects on other locations than the CWD
 
 **Fixed**
-sync workflow
-java templates WFs due to a GithubActions update
-default branch creation when creating and pushing a project to GitHub
-updated documentation
-web template deployment script (refactored) and workflows
+
+* sync workflow (try to create a PR against development or, if none, default branch)
+* java templates WFs due to a GithubActions update
+* default branch creation when creating and pushing a project to GitHub
+* web template deployment script (refactored) and workflows
+* updated documentation
 
 **Dependencies**
 
 **Deprecated**
-GitHub PAT with only repo scope (needs workflows permissions now too)
+
+* GitHub PAT with only repo scope (needs workflows permissions now too)
 
 
 1.0.1 (2020-11-03)
