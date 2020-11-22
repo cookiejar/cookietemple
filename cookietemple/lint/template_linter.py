@@ -301,7 +301,8 @@ class TemplateLinter(object):
             """
             results = []
             for eid, msg in test_results:
-                results.append(f"1. [https://cookietemple/linting/errors#{eid}](https://cookietemple/linting/errors#{eid}): {msg}")
+                results.append(f"1. [https://cookietemple.readthedocs.io/en/latest/lint.html#{eid}]"
+                               f"(https://cookietemple.readthedocs.io/en/latest/lint.html#{eid}) : {msg}")
             return rich.markdown.Markdown("\n".join(results))
 
         if len(self.passed) > 0:
