@@ -78,6 +78,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/cookiejar/cookietemple',
-    version='1.0.1',
+    version='1.2.0',
     zip_safe=False,
 )
