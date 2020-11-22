@@ -8,7 +8,9 @@ import sys
 from configparser import ConfigParser, NoSectionError
 from distutils.dir_util import copy_tree
 from subprocess import Popen, PIPE
-import git
+from typing import Tuple
+
+import git  # type: ignore
 import json
 import os
 import requests
@@ -169,13 +171,12 @@ class TemplateSync:
         print('[bold blue]Creating a new template project.')
         # dry create run from dot_cookietemple in tmp directory
         with tempfile.TemporaryDirectory() as tmpdirname:
-            # TODO REFACTOR THIS BY PASSING A PATH PARAM TO CHOOSE DOMAIN WHICH DEFAULTS TO CWD WHEN NOT PASSED (INITIAL CREATE)
             old_cwd = str(Path.cwd())
             log.debug(f'Saving current working directory {old_cwd}.')
             os.chdir(tmpdirname)
             log.debug(f'Changed directory to {tmpdirname}.')
             log.debug(f'Calling choose_domain with {self.dot_cookietemple}.')
-            choose_domain(domain=None, dot_cookietemple=self.dot_cookietemple)
+            choose_domain(path=Path.cwd(), domain=None, dot_cookietemple=self.dot_cookietemple)
             # copy into the cleaned TEMPLATE branch's project directory
             log.debug(f'Copying created template into {self.project_dir}.')
             copy_tree(os.path.join(tmpdirname, self.dot_cookietemple['project_slug']), str(self.project_dir))
@@ -397,7 +398,7 @@ class TemplateSync:
         print(f'[bold blue]\nSuccessfully updated sync secret for project {project_name}.')
 
     @staticmethod
-    def has_template_version_changed(project_dir: Path) -> (bool, bool, bool, str, str):
+    def has_template_version_changed(project_dir: Path) -> Tuple[bool, bool, bool, str, str]:
         """
         Check, if the cookietemple template has been updated since last check/sync of the user.
 
@@ -406,21 +407,34 @@ class TemplateSync:
         Return is_patch_update True if its a micro update (for example 1.2.3 to 1.2.4).
         cookietemple will use this to decide which syncing strategy to apply. Also return both versions.
         """
-        log.debug('Trying to load the projects template version and the cookietemple template version.')
+        # Try to compare against the development branch, since it is the most up to date (usually).
+        # If a development branch does not exist compare against master.
+        repo = git.Repo(project_dir)
+        try:
+            repo.git.checkout('development')
+        except git.exc.GitCommandError:
+            print('[bold red]Could not checkout development branch. Trying to checkout master...')
+            try:
+                repo.git.checkout('master')
+            except git.exc.GitCommandError as e:
+                print(f'[bold red]Could not checkout master branch.\n{e}')
+                sys.exit(1)
+
+        log.debug('Loading the project\'s template version and the cookietemple template version.')
         template_version_last_sync, template_handle = TemplateSync.sync_load_project_template_version_and_handle(project_dir)
-        template_version_last_sync = version.parse(template_version_last_sync)
+        template_version_last_sync = version.parse(template_version_last_sync)  # type: ignore
         current_ct_template_version = version.parse(TemplateSync.sync_load_template_version(template_handle))
         log.debug(f'Projects template version is {template_version_last_sync} and cookietemple template version is {current_ct_template_version}')
         is_major_update, is_minor_update, is_patch_update = False, False, False
 
         # check if a major change happened (for example 1.2.3 to 2.0.0)
-        if template_version_last_sync.major < current_ct_template_version.major:
+        if template_version_last_sync.major < current_ct_template_version.major:  # type: ignore
             is_major_update = True
         # check if minor update happened (for example 1.2.3 to 1.3.0)
-        elif template_version_last_sync.minor < current_ct_template_version.minor:
+        elif template_version_last_sync.minor < current_ct_template_version.minor:  # type: ignore
             is_minor_update = True
         # check if a patch update happened (for example 1.2.3 to 1.2.4)
-        elif template_version_last_sync.micro < current_ct_template_version.micro:
+        elif template_version_last_sync.micro < current_ct_template_version.micro:  # type: ignore
             is_patch_update = True
         return is_major_update, is_minor_update, is_patch_update, str(template_version_last_sync), str(current_ct_template_version)
 
@@ -438,7 +452,7 @@ class TemplateSync:
         return load_ct_template_version(handle, available_templates_path)
 
     @staticmethod
-    def sync_load_project_template_version_and_handle(project_dir: Path) -> str:
+    def sync_load_project_template_version_and_handle(project_dir: Path) -> Tuple[str, str]:
         """
         Return the project template version since last sync for user (if no sync happened, return initial create version of the template)
 

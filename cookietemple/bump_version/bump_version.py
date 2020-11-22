@@ -2,13 +2,15 @@ import logging
 import os
 import sys
 import re
+from typing import Tuple
+
 from packaging import version
 from configparser import ConfigParser, NoSectionError
 from tempfile import mkstemp
 from shutil import move, copymode
 from os import fdopen, remove
 from pathlib import Path
-from git import Repo
+from git import Repo  # type: ignore
 from datetime import datetime
 from rich import print
 
@@ -98,7 +100,7 @@ class VersionBumper:
             repo.index.commit(f'Bump version from {self.CURRENT_VERSION} to {new_version}')
 
     @staticmethod
-    def replace(file_path: str, subst: str, section: str) -> (bool, str):
+    def replace(file_path: str, subst: str, section: str) -> Tuple[bool, str]:
         """
         Replace a version with the new version unless the line is explicitly excluded (marked with <<COOKIETEMPLE_NO_BUMP>>).
         In case of blacklisted files, bump-version ignores all lines with version numbers unless they´re explicitly marked

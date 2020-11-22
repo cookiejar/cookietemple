@@ -1,3 +1,5 @@
+from typing import Tuple
+
 from cookietemple.common.suggest_similar_commands import SIMILARITY_SUGGEST_FACTOR, SIMILARITY_USE_FACTOR
 
 
@@ -35,7 +37,7 @@ def levensthein_dist(input_command: str, candidate: str) -> int:
     return dp_table[len(candidate)][len(input_command)]
 
 
-def most_similar_command(command: str, command_list: set) -> (list, str):
+def most_similar_command(command: str, command_list: set) -> Tuple[list, str]:
     """
     This function determines whether its possible to suggest a similar command.
     The similarity is determined by the levensthein distance and a factor (currently 1/3)

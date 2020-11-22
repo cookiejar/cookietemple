@@ -1,5 +1,6 @@
 import logging
-from collections import OrderedDict
+from typing import Union, Optional
+from pathlib import Path
 
 from cookietemple.create.domains.cli_creator import CliCreator
 from cookietemple.create.domains.web_creator import WebCreator
@@ -12,7 +13,7 @@ from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_
 log = logging.getLogger(__name__)
 
 
-def choose_domain(domain: str or None, dot_cookietemple: OrderedDict = None):
+def choose_domain(path: Path, domain: Union[str, bool], dot_cookietemple: Optional[dict]):
     """
     Prompts the user for the template domain.
     Creates the .cookietemple file.
@@ -37,5 +38,5 @@ def choose_domain(domain: str or None, dot_cookietemple: OrderedDict = None):
         'pub': PubCreator
     }
 
-    creator_obj = switcher.get(domain.lower())()
-    creator_obj.create_template(dot_cookietemple)
+    creator_obj: Union[CliCreator, WebCreator, GuiCreator, LibCreator, PubCreator] = switcher.get(domain.lower())()  # type: ignore
+    creator_obj.create_template(path, dot_cookietemple)

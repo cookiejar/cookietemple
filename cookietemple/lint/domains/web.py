@@ -1,5 +1,7 @@
 import os
 from subprocess import Popen
+from typing import List
+
 from rich import print
 
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
@@ -68,7 +70,7 @@ class WebWebsitePythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
         files_fail_ifexists = [
             '__pycache__'
         ]
-        files_warn_ifexists = [
+        files_warn_ifexists: List[str] = [
 
         ]
 

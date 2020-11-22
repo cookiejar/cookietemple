@@ -1,9 +1,9 @@
 import logging
 import sys
-from typing import Union
+from typing import Optional, List, Dict, Union
 
 import questionary
-from prompt_toolkit.styles import Style
+from prompt_toolkit.styles import Style  # type: ignore
 from rich import print
 
 log = logging.getLogger(__name__)
@@ -25,9 +25,9 @@ cookietemple_style = Style([
 
 def cookietemple_questionary_or_dot_cookietemple(function: str,
                                                  question: str,
-                                                 choices: list = None,
-                                                 default: str = None,
-                                                 dot_cookietemple: dict = None,
+                                                 choices: Optional[List[str]] = None,
+                                                 default: Optional[str] = None,
+                                                 dot_cookietemple: Dict = None,
                                                  to_get_property: str = None) -> Union[str, bool]:
     """
     Custom selection based on Questionary. Handles keyboard interrupts and default values.
@@ -48,13 +48,13 @@ def cookietemple_questionary_or_dot_cookietemple(function: str,
     except KeyError:
         log.debug(f'.cookietemple.yml file was passed when creating a project, but key {to_get_property}'
                   f' does not exist in the dot_cookietemple dictionary! Assigning default {default} to {to_get_property}.')
-        return default
+        return default  # type: ignore
 
     # There is no .cookietemple.yml file aka dot_cookietemple dict passed -> ask for the properties
-    answer = ''
+    answer: Optional[str] = ''
     try:
         if function == 'select':
-            if default not in choices:
+            if default not in choices:  # type: ignore
                 log.debug(f'Default value {default} is not in the set of choices!')
             answer = getattr(questionary, function)(f'{question}: ', choices=choices, style=cookietemple_style).unsafe_ask()
         elif function == 'password':
@@ -80,4 +80,4 @@ def cookietemple_questionary_or_dot_cookietemple(function: str,
     log.debug(f'User was asked the question: ||{question}|| as: {function}')
     log.debug(f'User selected {answer}')
 
-    return answer
+    return answer  # type: ignore
