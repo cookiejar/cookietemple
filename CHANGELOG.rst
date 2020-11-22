@@ -13,6 +13,8 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 **Fixed**
 
+* linting errors URL
+
 **Dependencies**
 
 **Deprecated**
