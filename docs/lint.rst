@@ -106,6 +106,25 @@ general-6
   The version above another changelog section should always be *greater* than the section below (e.g. 1.1.0 above 1.0.0).
   Every section must have the headings ``**Added**``, ``**Fixed**``, ``**Dependencies**`` and ``**Deprecated**``.
 
+general-7
+~~~~~~~~~~~~~
+
+| ``cookietemple.cfg`` linting failed. The ``cookietemple.cfg`` plays a major role in cookietemple's ``sync`` and ``bump-version`` functionality.
+
+The linter ensures that following requirements are met:
+
+
+1.) Every config file should have at least the following sections: ``bumpversion, bumpversion_files_whitelisted, bumpversion_files_blacklisted, sync_files_blacklisted, sync_level``
+
+2.) ``bumpversion`` should only contain a ``current_version`` value (the project's current version)
+
+3.) ``bumpversion_files_whitelisted`` should contain at least the ``.cookietemple.yml`` file in the ``dot_cookietemple`` variable
+
+4.) ``sync_level`` should only contain a ``ct_sync_level`` value (and this value should be one of either ``patch``, ``minor`` or ``major``)
+
+5.) ``sync_files_blacklisted`` should contain at least the ``CHANGELOG.rst`` file (excluding it from syncing to avoid PR updates)
+
+
 cli-python
 ^^^^^^^^^^^^
 
