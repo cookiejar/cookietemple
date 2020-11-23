@@ -1,19 +1,20 @@
 import logging
 import os
 import sys
+from typing import Union, Tuple, Optional
+
 import requests
 import json
 from base64 import b64encode
-from nacl import encoding, public
+from nacl import encoding, public  # type: ignore
 from pathlib import Path
 from cryptography.fernet import Fernet
 from distutils.dir_util import copy_tree
 from subprocess import Popen, PIPE
 from github import Github, GithubException
-from git import Repo, exc
+from git import Repo, exc  # type: ignore
 from ruamel.yaml import YAML
 from rich import print
-from collections import OrderedDict
 
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
@@ -50,11 +51,15 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         if creator_ctx.is_github_orga:
             log.debug(f'Creating a new Github repository for organizaton: {creator_ctx.github_orga}.')
             org = authenticated_github_user.get_organization(creator_ctx.github_orga)
-            repo = org.create_repo(creator_ctx.project_slug, description=creator_ctx.project_short_description, private=creator_ctx.is_repo_private)
+            repo = org.create_repo(creator_ctx.project_slug,
+                                   description=creator_ctx.project_short_description,  # type: ignore
+                                   private=creator_ctx.is_repo_private)
             creator_ctx.github_username = creator_ctx.github_orga
         else:
             log.debug(f'Creating a new Github repository for user: {creator_ctx.github_username}.')
-            repo = user.create_repo(creator_ctx.project_slug, description=creator_ctx.project_short_description, private=creator_ctx.is_repo_private)
+            repo = user.create_repo(creator_ctx.project_slug,
+                                    description=creator_ctx.project_short_description,  # type: ignore
+                                    private=creator_ctx.is_repo_private)
 
         print('[bold blue]Creating labels and default Github settings')
         create_github_labels(repo=repo, labels=[('DEPENDABOT', '1BB0CE')])
@@ -89,17 +94,26 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         cloned_repo.index.commit(f'Created {creator_ctx.project_slug} with {creator_ctx.template_handle} '
                                  f'template of version {creator_ctx.template_version.replace("# <<COOKIETEMPLE_NO_BUMP>>", "")} using cookietemple.')
 
-        log.debug('git push origin master')
-        print('[bold blue]Pushing template to Github origin master')
-        cloned_repo.remotes.origin.push(refspec='master:master')
+        # get the default branch of the repository as default branch of GitHub repositories are nor configurable by the user and can be set to any branch name
+        # but cookietemple needs to know which one is the default branch in order to push to the correct remote branch and rename local branch, if necessary
+        headers = {'Authorization': f'token {access_token}'}
+        url = f"https://api.github.com/repos/{creator_ctx.github_username}/{creator_ctx.project_slug}"
+        response = requests.get(url, headers=headers).json()
+        default_branch = response['default_branch']
+        log.debug(f'git push origin {default_branch}')
+        print(f'[bold blue]Pushing template to Github origin {default_branch}')
+        if default_branch != 'master':
+            cloned_repo.git.branch('-M', f'{default_branch}')
+        cloned_repo.remotes.origin.push(refspec=f'{default_branch}:{default_branch}')
 
         # set branch protection (all WF must pass, dismiss stale PR reviews) only when repo is public
         log.debug('Set branch protection rules.')
+
         if not creator_ctx.is_repo_private and not creator_ctx.is_github_orga:
-            master_branch = authenticated_github_user.get_user().get_repo(name=creator_ctx.project_slug).get_branch("master")
-            master_branch.edit_protection(dismiss_stale_reviews=True)
+            main_branch = authenticated_github_user.get_user().get_repo(name=creator_ctx.project_slug).get_branch(f'{default_branch}')
+            main_branch.edit_protection(dismiss_stale_reviews=True)
         else:
-            print('[bold blue]Cannot set branch protection rules due to your repository being private or an orga repo!\n'
+            print('[bold blue]Cannot set branch protection rules due to your repository being private or an organization repo!\n'
                   'You can set them manually later on.')
 
         # git create development branch
@@ -170,8 +184,10 @@ def handle_pat_authentification() -> str:
     else:
         print('[bold red]Cannot find a cookietemple config file! Did you delete it?')
 
+    return ''
 
-def prompt_github_repo(dot_cookietemple: OrderedDict or None) -> (bool, bool, bool, str):
+
+def prompt_github_repo(dot_cookietemple: Optional[dict]) -> Tuple[bool, bool, bool, str]:
     """
     Ask user for all settings needed in order to create and push automatically to GitHub repo.
 
@@ -195,20 +211,20 @@ def prompt_github_repo(dot_cookietemple: OrderedDict or None) -> (bool, bool, bo
                                                     question='Do you want to create a Github repository and push your template to it?',
                                                     default='Yes'):
         create_git_repo = True
-        is_github_org = cookietemple_questionary_or_dot_cookietemple(function='confirm',
+        is_github_org = cookietemple_questionary_or_dot_cookietemple(function='confirm',  # type: ignore
                                                                      question='Do you want to create an organization repository?',
                                                                      default='No')
-        github_org = cookietemple_questionary_or_dot_cookietemple(function='text',
+        github_org = cookietemple_questionary_or_dot_cookietemple(function='text',  # type: ignore
                                                                   question='Please enter the name of the Github organization',
                                                                   default='SpringfieldNuclearPowerPlant') if is_github_org else ''
-        private = cookietemple_questionary_or_dot_cookietemple(function='confirm',
+        private = cookietemple_questionary_or_dot_cookietemple(function='confirm',  # type: ignore
                                                                question='Do you want your repository to be private?',
                                                                default='No')
 
     return create_git_repo, private, is_github_org, github_org
 
 
-def create_sync_secret(username: str, repo_name: str, token: str) -> None:
+def create_sync_secret(username: str, repo_name: str, token: Union[str, bool]) -> None:
     """
     Create the secret cookietemple uses to sync repos. The secret contains the personal access token with the repo scope.
     Following steps are required (PAT MUST have at least repo access):
@@ -225,7 +241,7 @@ def create_sync_secret(username: str, repo_name: str, token: str) -> None:
     create_secret(username, repo_name, token, public_key_dict['key'], public_key_dict['key_id'])
 
 
-def get_repo_public_key(username: str, repo_name: str, token: str) -> dict:
+def get_repo_public_key(username: str, repo_name: str, token: Union[str, bool]) -> dict:
     """
     Get the public key for a repository via the Github API. At least for private repos, a personal access token (PAT) with the repo scope is required.
 
@@ -241,7 +257,7 @@ def get_repo_public_key(username: str, repo_name: str, token: str) -> dict:
     return r.json()
 
 
-def create_secret(username: str, repo_name: str, token: str, public_key_value: str, public_key_id: str) -> None:
+def create_secret(username: str, repo_name: str, token: Union[str, bool], public_key_value: str, public_key_id: str) -> None:
     """
     Create the secret named CT_SYNC_TOKEN using a PUT request via the Github API. This request needs a PAT with the repo scope for authentification purposes.
     Using PyNacl, a Python binding for Javascripts LibSodium, it encrypts the secret value, which is required by the Github API.
@@ -266,7 +282,7 @@ def create_secret(username: str, repo_name: str, token: str, public_key_value: s
     requests.put(put_url, headers=headers, data=json.dumps(params))
 
 
-def encrypt_sync_secret(public_key: str, token: str) -> str:
+def encrypt_sync_secret(public_key: str, token: Union[str, bool]) -> str:
     """
     Encrypt the sync secret (which is the PAT).
 
@@ -278,7 +294,7 @@ def encrypt_sync_secret(public_key: str, token: str) -> str:
     log.debug('Encrypting Github repository secret.')
     public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
     sealed_box = public.SealedBox(public_key)
-    encrypted = sealed_box.encrypt(token.encode("utf-8"))
+    encrypted = sealed_box.encrypt(token.encode("utf-8"))  # type: ignore
 
     return b64encode(encrypted).decode("utf-8")
 
@@ -313,7 +329,7 @@ def load_github_username() -> str:
     return load_yaml_file(ConfigCommand.CONF_FILE_PATH)['github_username']
 
 
-def handle_failed_github_repo_creation(e: ConnectionError or GithubException) -> None:
+def handle_failed_github_repo_creation(e: Union[ConnectionError, GithubException]) -> None:
     """
     Called, when the automatic GitHub repo creation process failed during the create process. As this may have various issue sources,
     try to provide the user a detailed error message for the individual exception and inform them about what they should/can do next.
@@ -340,7 +356,8 @@ def format_github_exception(data: dict) -> None:
             print(f'[bold red]{section.capitalize()}: {description}')
         else:
             print(f'[bold red]{section.upper()}: ')
-            messages = [val if not isinstance(val, dict) and not isinstance(val, set) else github_exception_dict_repr(val) for val in description]
+            messages = [val if not isinstance(val, dict) and not isinstance(val, set)
+                        else github_exception_dict_repr(val) for val in description]  # type: ignore
             print('[bold red]\n'.join(msg for msg in messages))
 
 

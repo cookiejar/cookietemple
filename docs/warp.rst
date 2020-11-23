@@ -17,6 +17,7 @@ However, ``warp`` can also be applied to .NET Core projects, NodeJS and others, 
 
 The resulting binary is self contained and does not have any additional dependencies. Note however, that the binaries are **not** cross platform. You need to compile and package on the target platform.
 For more information please read the `Warp README <https://github.com/dgiagio/warp>`_.
+Currently no cookietemple template requires Warp.
 
 Warp setup
 ---------------

@@ -5,7 +5,7 @@ Bumping the version of an existing project
 ==============================================
 
 Increasing the version of an already existing project is often times a cumbersome and error prone process, since the version has to be changed in multiple places.
-To facilitate this process, cookietemple provides a ``bump-version`` command, which conveniently increases the version across several files.
+To facilitate this process, cookietemple provides a ``bump-version`` command, which conveniently increases the version across several files and commits them.
 Additionally, bump-version inserts a new section into the changelog using the specified new version.
 
 .. code::

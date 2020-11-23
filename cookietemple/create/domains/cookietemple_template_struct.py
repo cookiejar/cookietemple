@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Union
 
 
 @dataclass
@@ -23,9 +24,9 @@ class CookietempleTemplateStruct:
     """
     This section contains some attributes common to cli, lib, gui, web
     """
-    full_name: str = ''  # Name of the template creator/organization
-    email: str = ''  # Email of the creator
-    project_name: str = ''  # Project's name the template is created for
-    project_short_description: str = ''  # A short description of the project
-    version: str = ''  # Version of the project; of the form: [0-9]*\.[0-9]*\.[0-9]*
-    license: str = ''  # License of the project
+    full_name: Union[str, bool] = ''  # Name of the template creator/organization
+    email: Union[str, bool] = ''  # Email of the creator
+    project_name: Union[str, bool] = ''  # Project's name the template is created for
+    project_short_description: Union[str, bool] = ''  # A short description of the project
+    version: Union[str, bool] = ''  # Version of the project; of the form: [0-9]*\.[0-9]*\.[0-9]*
+    license: Union[str, bool] = ''  # License of the project

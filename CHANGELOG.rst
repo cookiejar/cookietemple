@@ -6,6 +6,43 @@ Changelog
 
 This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
+1.2.1 (2020-11-22)
+------------------
+
+**Added**
+
+**Fixed**
+
+* linting errors URL
+
+**Dependencies**
+
+**Deprecated**
+
+
+1.2.0 (2020-11-22)
+------------------
+
+**Added**
+
+* a linter for cookietemple.cfg file to ensure integrity
+* a path parameter to create projects on other locations than the CWD
+
+**Fixed**
+
+* sync workflow (try to create a PR against development or, if none, default branch)
+* java templates WFs due to a GithubActions update
+* default branch creation when creating and pushing a project to GitHub
+* web template deployment script (refactored) and workflows
+* updated documentation
+
+**Dependencies**
+
+**Deprecated**
+
+* GitHub PAT with only repo scope (needs workflows permissions now too)
+
+
 1.0.1 (2020-11-03)
 ------------------
 

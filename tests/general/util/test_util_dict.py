@@ -1,4 +1,4 @@
-import pytest
+import pytest  # type: ignore
 
 from cookietemple.util.dict_util import (delete_keys_from_dict, is_nested_dictionary)
 

@@ -1,6 +1,6 @@
 name: Run Tests
 
-on: 
+on:
   push:
     paths-ignore:
       - "docs/**"
@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: DeLaGuardo/setup-graalvm@2.0
+    - uses: DeLaGuardo/setup-graalvm@8bbfe44ef9c6f5c07e5af036a1bffd561c037d18
       with:
         graalvm-version: '20.1.0.java11'
     - run: java -version
@@ -33,9 +33,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - uses: DeLaGuardo/setup-graalvm@2.0
+      - uses: DeLaGuardo/setup-graalvm@8bbfe44ef9c6f5c07e5af036a1bffd561c037d18
         with:
-          graalvm-version: '19.3.0.2.java11'
+          graalvm-version: '20.1.0.java11'
       - run: java -version
       - name: Set up Visual C Build Tools Workload for Visual Studio 2017 Build Tools
         run: |

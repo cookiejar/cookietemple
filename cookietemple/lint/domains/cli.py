@@ -1,5 +1,6 @@
 import os
 from subprocess import Popen
+from typing import List
 
 import requests
 from pkg_resources import parse_version
@@ -122,7 +123,7 @@ class CliPythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
         files_fail_ifexists = [
             '__pycache__'
         ]
-        files_warn_ifexists = [
+        files_warn_ifexists: List[str] = [
 
         ]
 
@@ -174,10 +175,10 @@ class CliJavaLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
         ]
 
         # List of strings. Fails / warns if any of the strings exist.
-        files_fail_ifexists = [
+        files_fail_ifexists: List[str] = [
 
         ]
-        files_warn_ifexists = [
+        files_warn_ifexists: List[str] = [
 
         ]
 

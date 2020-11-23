@@ -18,7 +18,7 @@ assignees: ''
 **To Reproduce**
 
 Steps to reproduce the behavior:
-1. Run COOKIETEMPLE with command: '...'
+1. Run cookietemple with command: '...'
 2. Select: '...'
 3. See error
 
@@ -31,7 +31,7 @@ Steps to reproduce the behavior:
  - OS: e.g. [Ubuntu 18.04]
  - Python: [e.g. 3.8]
  - Virtual environment: [e.g. Conda]
- - COOKIETEMPLE: [e.g. 1.0.0]
+ - cookietemple: [e.g. 1.0.0]
 
 **Additional context**
 

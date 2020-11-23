@@ -1,7 +1,7 @@
 import logging
 import os
 import sys
-import appdirs
+import appdirs  # type: ignore
 from pathlib import Path
 from cryptography.fernet import Fernet
 from ruamel.yaml import YAML
@@ -96,8 +96,9 @@ class ConfigCommand:
                                                         question='Do you want to configure your GitHub personal access token right now?\n'
                                                         'You can still configure it later by calling    cookietemple config pat',
                                                         default='Yes'):
+            print('[bold blue]cookietemple requires your Github Access token to have full repository and workflow permissions!')
             access_token = cookietemple_questionary_or_dot_cookietemple('password', 'Please enter your Github Access token')
-            access_token_b = access_token.encode('utf-8')
+            access_token_b = access_token.encode('utf-8')  # type: ignore
 
             # ask for confirmation since this action will delete the PAT irrevocably if the user has not saved it anywhere else
             if not cookietemple_questionary_or_dot_cookietemple(function='confirm',

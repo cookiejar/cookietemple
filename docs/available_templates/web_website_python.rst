@@ -229,16 +229,19 @@ make heavy use of its extensions.
 3. `pytest <https://docs.pytest.org/en/latest/>`_ or `unittest <https://docs.python.org/3/library/unittest.html>`_ as testing frameworks
 4. Preconfigured `tox <https://tox.readthedocs.io/en/latest/>`_ to run pytest matrices with different Python environments
 5. Preconfigured `readthedocs <https://readthedocs.org/>`_
-6. Eight Github workflows:
+6. Eleven Github workflows:
 
-  1. :code:`build_docs.yml`, which builds the readthedocs documentation.
-  2. :code:`build_package.yml`, which builds the web-template package.
-  3. :code:`run_flake8_linting.yml`, which runs `flake8 <https://flake8.pycqa.org/en/latest/>`_ linting.
-  4. :code:`run_tox_testsuite.yml`, which runs the tox testing suite.
-  5. :code:`run_css_lint.yml`, which runs `Stylelint <https://stylelint.io/>`_ CSS linting.
-  6. :code:`run_codecov`, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
-  7. :code:`run_bandit`, run `bandit <https://github.com/PyCQA/bandit>`_ to discover security issues in your python code
-  8. :code:`pr_to_master_from_patch_release_only`: Please read :ref:`pr_master_workflow_docs`.
+  1. ``build_docs.yml``, which builds the readthedocs documentation.
+  2. ``build_package.yml``, which builds the web-template package.
+  3. ``run_flake8_linting.yml``, which runs `flake8 <https://flake8.pycqa.org/en/latest/>`_ linting.
+  4. ``run_tox_testsuite.yml``, which runs the tox testing suite.
+  5. ``run_css_lint.yml``, which runs `Stylelint <https://stylelint.io/>`_ CSS linting.
+  6. ``run_codecov``, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
+  7. ``run_bandit``, run `bandit <https://github.com/PyCQA/bandit>`_ to discover security issues in your python code
+  8. ``pr_to_master_from_patch_release_only``: Please read :ref:`pr_master_workflow_docs`.
+  9. ``check_no_SNAPSHOT_master.yml``: Please read :ref:`pr_master_workflow_docs`
+  10. ``run_cookietemple_lint.yml``, which runs ``cookietemple lint`` on the project.
+  11. ``sync_project.yml``, which syncs the project to the most recent cookietemple template version
 
 
 We highly recommend to use click (if commandline interface is required) together with pytest.
@@ -345,26 +348,10 @@ There are a few requirements needed in order to deploy:
 
 If you meet all the requirements above login (for example via :bash:`$ ssh yourvmusername@your-servers-IP`) into your server:
 
-To install pip3 you need to do the following:
- 1. ``$ sudo apt-get install software-properties-common``
- 2. ``$ sudo apt-add-repository universe``
- 3. ``$ sudo apt-get update``
- 4. ``$ sudo apt-get install python3-pip``
+Now, you need to clone your repository in order to start the deployment process.
+So ``$ git clone <<GITHUB_URL_OF_YOUR_PROJECT>>`` and cd ``$ YOUR_PROJECTS_TOP_LEVEL_DIRECTORY``.
+Now simply run ``$ source deployment_scripts/setup.sh`` and the deployment starts. You may be prompted for your password as some commands run need ``sudo`` rights.
 
-In order to run the setup script a few more steps are required:
-
- 1. Install the python3-dev dependencies and nginx using :bash:`$ sudo apt-get install python3-dev nginx -y`
- 2. Clone your GitHub repository using :bash:`$ git clone https://github.com/<you_github_username>/<your_project_name>`
- 3. Next cd into it via :bash:`$ cd <your_project_name>`
- 4. Then, we need to install and create a virtualenv :bash:`$ sudo pip3 install virtualenv` (note the sudo here!).
- 5. Create a virtualenv named :bash:`dpenv` using :bash:`$ virtualenv dpenv`. You must name your environment like this! Also, make sure your current working directory is your project's top level directory!
- 6. Activate the virtualenv with :bash:`$ source dpenv/bin/activate`
- 7. ``$ sudo apt-get update``
- 8. ``$ pip3 install gunicorn``
- 9. ``$ python3 setup.py clean --all install`` (no sudo here, as we don't need to install system wide)
-
-When done, you can now fire up the setup script to deploy your application:
-Use :bash:`$ sudo bash deployment_scripts/setup.sh` and deployment process starts.
 
 **Important**:
 Currently, one more step is required to get ``https`` redirecting to work properly. This will be included into a script in the future, to automate this process.
