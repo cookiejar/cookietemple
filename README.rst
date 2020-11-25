@@ -27,8 +27,8 @@
         :target: https://cookietemple.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-.. image:: https://codecov.io/gh/Zethson/cookietemple/branch/master/graph/badge.svg?token=dijn0M0p7m
-        :target: https://codecov.io/gh/Zethson/cookietemple
+.. image:: https://codecov.io/gh/cookiejar/cookietemple/branch/master/graph/badge.svg?token=dijn0M0p7m
+        :target: https://codecov.io/gh/cookiejar/cookietemple
         :alt: Codecov Status
 
 .. image:: https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot
