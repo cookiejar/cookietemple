@@ -147,7 +147,7 @@ cli-java
 cli-java-1
 ~~~~~~~~~~~~~
 
-| File not found. This error occurs when your project does not include all of cli-python's expected files.
+| File not found. This error occurs when your project does not include all of cli-java's expected files.
 | Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
   at the time of the project creation using cookietemple this file should not have been missing!
 
@@ -157,7 +157,7 @@ lib-cpp
 lib-cpp-1
 ~~~~~~~~~~~~
 
-| File not found. This error occurs when your project does not include all of cli-python's expected files.
+| File not found. This error occurs when your project does not include all of lib-cpp's expected files.
 | Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
   at the time of the project creation using cookietemple this file should not have been missing!
 
@@ -168,7 +168,7 @@ web-python
 web-python-1
 ~~~~~~~~~~~~~~~~
 
-| File not found. This error occurs when your project does not include all of cli-python's expected files.
+| File not found. This error occurs when your project does not include all of web-python's expected files.
 | Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
   at the time of the project creation using cookietemple this file should not have been missing!
 
@@ -178,7 +178,7 @@ gui-java
 gui-java-1
 ~~~~~~~~~~~~~
 
-| File not found. This error occurs when your project does not include all of cli-python's expected files.
+| File not found. This error occurs when your project does not include all of gui-java's expected files.
 | Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
   at the time of the project creation using cookietemple this file should not have been missing!
 
@@ -189,6 +189,6 @@ pub-thesis
 pub-thesis-1
 ~~~~~~~~~~~~~~~~~~~~~
 
-| File not found. This error occurs when your project does not include all of cli-python's expected files.
+| File not found. This error occurs when your project does not include all of pub-thesis's expected files.
 | Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
   at the time of the project creation using cookietemple this file should not have been missing!

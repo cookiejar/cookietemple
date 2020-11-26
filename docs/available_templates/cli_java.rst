@@ -88,8 +88,9 @@ Included frameworks/libraries
 2. `GraalVM <https://www.graalvm.org/>`_ as main JDK and virtual layer to allow for native binaries
 3. `GraalVM Native Image <https://www.graalvm.org/docs/reference-manual/native-image/>`_ to build platform dependent self-contained executables
 4. `JUnit 5 <https://junit.org/junit5/>`_ as main testing framework
-5. Preconfigured `readthedocs <https://readthedocs.org/>`_
-6. Seven Github workflows:
+5. `Picocli <https://picocli.info/>`_ to implement the command line interface
+6. Preconfigured `readthedocs <https://readthedocs.org/>`_
+7. Seven Github workflows:
 
   1. ``build_docs.yml``, which builds the Read the Docs documentation.
   2. ``build_deploy.yml``, which builds the cli-java project into Linux, MacOS and Windows executables. They are deployed as build artifacts.
@@ -107,7 +108,7 @@ cli-java requires you to have `Gradle <https://gradle.org/>`_, `GraalVM <https:/
 `GraalVM Native Image <https://www.graalvm.org/docs/reference-manual/native-image/>`_ installed.
 Please follow the instructions on the respective websites to install them. Ensure that GraalVM is the default JDK by running `java --version`
 
-A platform dependent (of the current running operating system!) can then be build by invoking::
+A platform dependent executable (of the current running operating system!) can then be build by invoking::
 
     make binary
 
