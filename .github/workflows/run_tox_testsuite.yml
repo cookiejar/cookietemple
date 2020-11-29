@@ -1,6 +1,6 @@
 name: Run Cookietemple Tox Test Suite
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   Run-tests:

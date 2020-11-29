@@ -1,10 +1,11 @@
 name: Create lib-cpp Template
 
-on: 
+on:
   push:
     paths-ignore:
       - "tests/**"
       - "docs/**"
+  pull_request:
 
 jobs:
   build:

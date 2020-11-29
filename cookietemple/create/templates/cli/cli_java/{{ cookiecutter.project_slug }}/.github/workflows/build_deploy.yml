@@ -1,6 +1,6 @@
 name: Build Linux, MacOS, Windows and deploy artifacts
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build-ubuntu-mac:
@@ -25,6 +25,7 @@ jobs:
       run: |
         value=`mv build/native-image/{{ cookiecutter.project_slug }} build/native-image/{{ cookiecutter.project_slug }}-{% raw %}${{ matrix.os }}{% endraw %}`
     - name: Publish artifact
+      if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
       uses: actions/upload-artifact@master
       with:
         name: {{ cookiecutter.project_slug }}-{% raw %}${{ matrix.os }}{% endraw %}
@@ -56,6 +57,7 @@ jobs:
         run: |
           value=`mv build/native-image/{{ cookiecutter.project_slug }} build/native-image/{{ cookiecutter.project_slug }}-{% raw %}${{ matrix.os }}{% endraw %}`
       - name: Publish artifact
+        if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
         uses: actions/upload-artifact@master
         with:
           name: {{ cookiecutter.project_slug }}-{% raw %}${{ matrix.os }}{% endraw %}.exe

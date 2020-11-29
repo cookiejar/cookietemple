@@ -1,6 +1,6 @@
 name: Run {{ cookiecutter.project_slug }} Tox Test Suite
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   test:

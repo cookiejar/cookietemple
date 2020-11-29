@@ -1,10 +1,11 @@
 name: Create pub-thesis-template Template
 
-on: 
+on:
   push:
     paths-ignore:
       - "tests/**"
       - "docs/**"
+  pull_request:
 
 jobs:
   build:

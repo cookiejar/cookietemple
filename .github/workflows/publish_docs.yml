@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "docs/**"
+  pull_request:
 
 jobs:
   build:
@@ -34,7 +35,7 @@ jobs:
             make html
 
       - name: Deploy
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

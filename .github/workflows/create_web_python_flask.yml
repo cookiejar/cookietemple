@@ -1,10 +1,11 @@
 name: Create web-website-python Flask Template
 
-on: 
+on:
   push:
     paths-ignore:
       - "tests/**"
       - "docs/**"
+  pull_request:
 
 jobs:
   build:

@@ -1,9 +1,10 @@
 name: Run flake8 linting
 
-on: 
+on:
   push:
     paths:
       - "**/*.py"
+  pull_request:
 
 jobs:
   lint:
