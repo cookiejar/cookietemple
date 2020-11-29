@@ -6,6 +6,21 @@ Changelog
 
 This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
+1.2.2-SNAPSHOT (2020-11-29)
+---------------------------
+
+**Added**
+
+Support for deploying the documentation on Github Pages. By default the Documentation is pushed to the gh-pages branch.
+Simply enable Github pages (repository settings) with the gh-pages branch and your documentation will build on ``https://username.github.io/repositoryname``
+
+**Fixed**
+
+**Dependencies**
+
+**Deprecated**
+
+
 1.2.1 (2020-11-22)
 ------------------
 
