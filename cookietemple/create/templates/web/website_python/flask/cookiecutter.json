@@ -16,9 +16,22 @@
         "Argparse",
         "No command-line interface"
     ],
-    "license": ["MIT", "BSD", "ISC", "Apache2.0", "GNUv3",
-                "Not open source", "Boost", "Affero", "CC0", "Eclipse",
-                "CCBY", "CCBYSA", "WTFPL", "unlicence"],
+    "license": [
+        "MIT",
+        "BSD",
+        "ISC",
+        "Apache2.0",
+        "GNUv3",
+        "Not open source",
+        "Boost",
+        "Affero",
+        "CC0",
+        "Eclipse",
+        "CCBY",
+        "CCBYSA",
+        "WTFPL",
+        "unlicence"
+    ],
     "vmusername": "cookietempleVM",
     "url": "myDomain.com",
     "_copy_without_render": [
