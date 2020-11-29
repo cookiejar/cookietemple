@@ -8,5 +8,7 @@
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
   "project_short_description": "GUI Java contains all the boilerplate you need to create a standalone JavaFX application.",
   "version": "1.0.0",
-  "license": ["MIT", "BSD", "ISC", "Apache2.0", "GNUv3", "Not open source"]
+    "license": ["MIT", "BSD", "ISC", "Apache2.0", "GNUv3", "Not open source",
+                "Boost", "Affero", "CC0", "Eclipse", "CCBY", "CCBYSA", "WTFPL", "unlicence"]
+
 }

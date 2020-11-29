@@ -10,5 +10,6 @@
   "version": "0.1.0",
   "testing_library": "pytest",
   "command_line_interface": ["Click", "Argparse", "No command-line interface"],
-  "license": ["MIT", "BSD", "ISC", "Apache2.0", "GNUv3", "Not open source"]
+  "license": ["MIT", "BSD", "ISC", "Apache2.0", "GNUv3", "Not open source",
+              "Boost", "Affero", "CC0", "Eclipse", "CCBY", "CCBYSA", "WTFPL", "unlicence"]
 }
