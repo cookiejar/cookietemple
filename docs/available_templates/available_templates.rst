@@ -35,14 +35,14 @@ How do I publish my documentation?
 cookietemple ships with a full, production ready `Read the Docs <https://readthedocs.org/>`_ setup and with a complete gh-pages setup.
 
 Read the Docs
-~~~~~~~~~~~~~~~
++++++++++++++++++
 
 You need to `import your documentation <https://docs.readthedocs.io/en/stable/intro/import-guide.html>`_ on Read the Docs website.
 Do not forget to sync your account first to see your repository.
 Your documentation will then be available on ``https://repositoryname.readthedocs.io/``
 
 Github Pages
-~~~~~~~~~~~~~~
++++++++++++++++
 
 Your documentation is automatically pushed to the ``gh-pages`` branch. Follow the documentation on
 ``configuring a publishing source for your Github pages site <https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site>`_
