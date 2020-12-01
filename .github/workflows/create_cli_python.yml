@@ -6,6 +6,8 @@ on:
       - "tests/**"
       - "docs/**"
   pull_request:
+      - "tests/**"
+      - "docs/**"
 
 jobs:
   build:

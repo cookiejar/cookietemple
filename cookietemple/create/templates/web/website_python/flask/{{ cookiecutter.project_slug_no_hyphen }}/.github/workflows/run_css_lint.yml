@@ -5,6 +5,8 @@ on:
     paths:
       - "**/*.css"
   pull_request:
+    paths:
+      - "**/*.css"
 
 jobs:
   build:

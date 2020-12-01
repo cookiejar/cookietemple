@@ -8,6 +8,9 @@ on:
       - "**/CONTRIBUTING.*"
   pull_request:
     branches: [ master ]
+    paths-ignore:
+      - "**/README.*"
+      - "**/CONTRIBUTING.*"
 
 env:
   BUILD_TYPE: Release
@@ -42,7 +45,7 @@ jobs:
 
     - name: configure
       run: cmake -Bbuild -DCMAKE_INSTALL_PREFIX="$HOME/$env:INSTALL_LOCATION"
-      
+
     - name: build
       run: cmake --build build --config "$env:BUILD_TYPE" -j4
 
@@ -52,5 +55,5 @@ jobs:
         ctest -C "$env:BUILD_TYPE" -VV
 
     - name: install project
-      run: cmake --build build --target install --config Release 
+      run: cmake --build build --target install --config Release
 

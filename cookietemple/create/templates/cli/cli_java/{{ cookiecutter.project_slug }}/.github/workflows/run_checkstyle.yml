@@ -6,6 +6,9 @@ on:
       - "docs/**"
       - "tests/**"
   pull_request:
+    paths-ignore:
+      - "docs/**"
+      - "tests/**"
 
 jobs:
   build:
