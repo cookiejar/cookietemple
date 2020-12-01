@@ -6,6 +6,7 @@ on:
       - "tests/**"
       - "docs/**"
   pull_request:
+    paths-ignore:
       - "tests/**"
       - "docs/**"
 
