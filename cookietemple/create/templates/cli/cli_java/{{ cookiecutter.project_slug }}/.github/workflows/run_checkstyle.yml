@@ -1,7 +1,11 @@
 name: Java Checkstyle
 
-on: 
+on:
   push:
+    paths-ignore:
+      - "docs/**"
+      - "tests/**"
+  pull_request:
     paths-ignore:
       - "docs/**"
       - "tests/**"

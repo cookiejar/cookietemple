@@ -1,7 +1,11 @@
 name: Create cli-python Template
 
-on: 
+on:
   push:
+    paths-ignore:
+      - "tests/**"
+      - "docs/**"
+  pull_request:
     paths-ignore:
       - "tests/**"
       - "docs/**"

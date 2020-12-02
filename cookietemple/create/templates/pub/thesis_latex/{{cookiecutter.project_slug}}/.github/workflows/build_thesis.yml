@@ -1,6 +1,6 @@
 name: Create pub-thesis-template Template
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
