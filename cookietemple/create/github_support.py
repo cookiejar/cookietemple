@@ -225,8 +225,8 @@ def prompt_github_repo(dot_cookietemple: Optional[dict]) -> Tuple[bool, bool, bo
         else:
             # assert that this won't be prompted during a dry create run
             if not dot_cookietemple:
-                print(f'[bold red]\nBy not creating a GitHub repo, you will not be able to use some features. If you want to use those features in the future '
-                      f'you have to configure them manually!')
+                print('[bold red]\nBy not creating a GitHub repo, you will not be able to use some features. If you want to use those features in the future '
+                      'you have to configure them manually!')
                 proceed = cookietemple_questionary_or_dot_cookietemple(function='confirm',  # type: ignore
                                                                        question='Do you want to continue?',
                                                                        default='No')

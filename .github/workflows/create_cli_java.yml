@@ -35,7 +35,7 @@ jobs:
       - name: Create cli-java Template
         run: |
           cd ..
-          echo -e "\n\033[B\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\ngroup_domain\ngroup_organization\nn" | cookietemple create
+          echo -e "\n\033[B\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\ngroup_domain\ngroup_organization\nn\ny" | cookietemple create
 
       - uses: actions/checkout@v2
       - uses: DeLaGuardo/setup-graalvm@8bbfe44ef9c6f5c07e5af036a1bffd561c037d18
