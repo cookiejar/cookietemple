@@ -8,8 +8,6 @@ import click
 
 from pathlib import Path
 from rich import traceback
-from rich import print
-from rich.console import Console
 import rich.logging
 
 from cookietemple.bump_version.bump_version import VersionBumper
@@ -24,6 +22,7 @@ from cookietemple.config.config import ConfigCommand
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.sync.sync import TemplateSync
 from cookietemple.common.load_yaml import load_yaml_file
+from cookietemple.util.rich import console
 
 WD = os.path.dirname(__file__)
 log = logging.getLogger()
@@ -31,7 +30,6 @@ log = logging.getLogger()
 
 def main():
     traceback.install(width=200, word_wrap=True)
-    console = Console(file=sys.stderr, force_terminal=True)
     console.print(rf"""[bold blue]
      ██████  ██████   ██████  ██   ██ ██ ███████ ████████ ███████ ███    ███ ██████  ██      ███████ 
     ██      ██    ██ ██    ██ ██  ██  ██ ██         ██    ██      ████  ████ ██   ██ ██      ██      
@@ -175,11 +173,11 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
                 log.debug(f'Project is not a Github orga repo.')
                 TemplateSync.update_sync_token(project_name=project_data['project_slug'])
             else:
-                print('[bold red]Your current project does not seem to have a Github repository!')
+                console.print('[bold red]Your current project does not seem to have a Github repository!')
                 sys.exit(1)
         except (FileNotFoundError, KeyError):
-            print(f'[bold red]Your token value is not a valid personal access token for your account or there exists no .cookietemple.yml file at '
-                  f'{project_dir_path}. Is this a cookietemple project?')
+            console.print(f'[bold red]Your token value is not a valid personal access token for your account or there exists no .cookietemple.yml file at '
+                          f'{project_dir_path}. Is this a cookietemple project?')
             sys.exit(1)
         sys.exit(0)
 
@@ -194,11 +192,11 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
         log.debug('Running snyc to manually check whether a new template version is available.')
         # a template update has been released by cookietemple
         if any(change for change in (major_change, minor_change, patch_change)):
-            print(f'[bold blue]Your templates version received an update from {proj_template_version} to {ct_template_version}!\n'
-                  f' Use [green]cookietemple sync [blue]to sync your project')
+            console.print(f'[bold blue]Your templates version received an update from {proj_template_version} to {ct_template_version}!\n'
+                          f' Use [green]cookietemple sync [blue]to sync your project')
         # no updates were found
         else:
-            print('[bold blue]Using the latest template version. No sync required.')
+            console.print('[bold blue]Using the latest template version. No sync required.')
         # exit without syncing
         sys.exit(0)
     # set sync flags indicating a major, minor or patch update
@@ -214,10 +212,11 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
             log.debug('Starting sync.')
             syncer.sync()
         else:
-            print('[bold red]Aborting sync due to set level constraints. You can set the level any time in your cookietemple.cfg in the sync_level section and'
-                  ' sync again.')
+            console.print(
+                '[bold red]Aborting sync due to set level constraints. You can set the level any time in your cookietemple.cfg in the sync_level section and'
+                ' sync again.')
     else:
-        print('[bold blue]No changes detected. Your template is up to date.')
+        console.print('[bold blue]No changes detected. Your template is up to date.')
 
 
 @cookietemple_cli.command('bump-version', short_help='Bump the version of an existing cookietemple project.', cls=CustomHelpSubcommand)
@@ -259,9 +258,9 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
                     version_bumper.bump_template_version(new_version, project_dir)
                 elif cookietemple_questionary_or_dot_cookietemple(function='confirm',
                                                                   question=f'Bumping from {version_bumper.CURRENT_VERSION} to {new_version} seems not reasonable.\n'
-                                                                  f'Do you really want to bump the project version?',
+                                                                           f'Do you really want to bump the project version?',
                                                                   default='n'):
-                    print('\n')
+                    console.print('\n')
                     version_bumper.bump_template_version(new_version, project_dir)
             else:
                 version_bumper.bump_template_version(new_version, project_dir)

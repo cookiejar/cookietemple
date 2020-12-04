@@ -14,7 +14,7 @@ from subprocess import Popen, PIPE
 from github import Github, GithubException
 from git import Repo, exc  # type: ignore
 from ruamel.yaml import YAML
-from rich import print
+from cookietemple.util.rich import console
 
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
@@ -42,12 +42,12 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
 
         # Login to Github
         log.debug('Logging into Github.')
-        print('[bold blue]Logging into Github')
+        console.print('[bold blue]Logging into Github')
         authenticated_github_user = Github(access_token)
         user = authenticated_github_user.get_user()
 
         # Create new repository
-        print('[bold blue]Creating Github repository')
+        console.print('[bold blue]Creating Github repository')
         if creator_ctx.is_github_orga:
             log.debug(f'Creating a new Github repository for organizaton: {creator_ctx.github_orga}.')
             org = authenticated_github_user.get_organization(creator_ctx.github_orga)
@@ -61,7 +61,7 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
                                     description=creator_ctx.project_short_description,  # type: ignore
                                     private=creator_ctx.is_repo_private)
 
-        print('[bold blue]Creating labels and default Github settings')
+        console.print('[bold blue]Creating labels and default Github settings')
         create_github_labels(repo=repo, labels=[('DEPENDABOT', '1BB0CE')])
 
         repository = f'{tmp_repo_path}'
@@ -69,11 +69,11 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         # NOTE: github_username is the organizations name, if an organization repository is to be created
 
         # create the repos sync secret
-        print('[bold blue]Creating repository sync secret')
+        console.print('[bold blue]Creating repository sync secret')
         create_sync_secret(creator_ctx.github_username, creator_ctx.project_slug, access_token)
 
         # git clone
-        print('[bold blue]Cloning empty Github repository')
+        console.print('[bold blue]Cloning empty Github repository')
         log.debug(f'Cloning repository {creator_ctx.github_username}/{creator_ctx.project_slug}')
         Repo.clone_from(f'https://{creator_ctx.github_username}:{access_token}@github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}', repository)
 
@@ -86,7 +86,7 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
 
         # git add
         log.debug('git add')
-        print('[bold blue]Staging template')
+        console.print('[bold blue]Staging template')
         cloned_repo.git.add(A=True)
 
         # git commit
@@ -101,7 +101,7 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
         response = requests.get(url, headers=headers).json()
         default_branch = response['default_branch']
         log.debug(f'git push origin {default_branch}')
-        print(f'[bold blue]Pushing template to Github origin {default_branch}')
+        console.print(f'[bold blue]Pushing template to Github origin {default_branch}')
         if default_branch != 'master':
             cloned_repo.git.branch('-M', f'{default_branch}')
         cloned_repo.remotes.origin.push(refspec=f'{default_branch}:{default_branch}')
@@ -113,36 +113,36 @@ def create_push_github_repository(project_path: str, creator_ctx: CookietempleTe
             main_branch = authenticated_github_user.get_user().get_repo(name=creator_ctx.project_slug).get_branch(f'{default_branch}')
             main_branch.edit_protection(dismiss_stale_reviews=True)
         else:
-            print('[bold blue]Cannot set branch protection rules due to your repository being private or an organization repo!\n'
-                  'You can set them manually later on.')
+            console.print('[bold blue]Cannot set branch protection rules due to your repository being private or an organization repo!\n'
+                          'You can set them manually later on.')
 
         # git create development branch
         log.debug('git checkout -b development')
-        print('[bold blue]Creating development branch.')
+        console.print('[bold blue]Creating development branch.')
         cloned_repo.git.checkout('-b', 'development')
 
         # git push to origin development
         log.debug('git push origin development')
-        print('[bold blue]Pushing template to Github origin development.')
+        console.print('[bold blue]Pushing template to Github origin development.')
         cloned_repo.remotes.origin.push(refspec='development:development')
 
         # git create TEMPLATE branch
         log.debug('git checkout -b TEMPLATE')
-        print('[bold blue]Creating TEMPLATE branch.')
+        console.print('[bold blue]Creating TEMPLATE branch.')
         cloned_repo.git.checkout('-b', 'TEMPLATE')
 
         # git push to origin TEMPLATE
         log.debug('git push origin TEMPLATE')
-        print('[bold blue]Pushing template to Github origin TEMPLATE.')
+        console.print('[bold blue]Pushing template to Github origin TEMPLATE.')
         cloned_repo.remotes.origin.push(refspec='TEMPLATE:TEMPLATE')
 
         # finally, checkout to development branch
         log.debug('git checkout development')
-        print('[bold blue]Checking out development branch.')
+        console.print('[bold blue]Checking out development branch.')
         cloned_repo.git.checkout('development')
 
         # did any errors occur?
-        print(f'[bold green]Successfully created a Github repository at https://github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}')
+        console.print(f'[bold green]Successfully created a Github repository at https://github.com/{creator_ctx.github_username}/{creator_ctx.project_slug}')
 
     except (GithubException, ConnectionError) as e:
         handle_failed_github_repo_creation(e)
@@ -166,23 +166,24 @@ def handle_pat_authentification() -> str:
             return pat
         else:
             log.debug(f'Unable to read the personal access token from {ConfigCommand.CONF_FILE_PATH}')
-            print('[bold red]Could not find encrypted personal access token!\n')
-            print('[bold blue]Please navigate to Github -> Your profile -> Settings -> Developer Settings -> Personal access token -> Generate a new Token')
-            print('[bold blue]Only tick \'repo\'. The token is a hidden input to cookietemple and stored encrypted locally on your machine.')
-            print('[bold blue]For more information please read' +
-                  'https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line\n\n')
-            print('[bold blue]Lets move on to set your personal access token for your cookietemple project!')
+            console.print('[bold red]Could not find encrypted personal access token!\n')
+            console.print(
+                '[bold blue]Please navigate to Github -> Your profile -> Settings -> Developer Settings -> Personal access token -> Generate a new Token')
+            console.print('[bold blue]Only tick \'repo\'. The token is a hidden input to cookietemple and stored encrypted locally on your machine.')
+            console.print('[bold blue]For more information please read' +
+                          'https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line\n\n')
+            console.print('[bold blue]Lets move on to set your personal access token for your cookietemple project!')
             # set the PAT
             ConfigCommand.config_pat()
             # if the user wants to create a GitHub repo but accidentally presses no on PAT config prompt
             if not os.path.exists(ConfigCommand.KEY_PAT_FILE):
-                print('[bold red]No Github personal access token found. Please set it using [green]cookietemple config github')
+                console.print('[bold red]No Github personal access token found. Please set it using [green]cookietemple config github')
                 sys.exit(1)
             else:
                 pat = decrypt_pat()
             return pat
     else:
-        print('[bold red]Cannot find a cookietemple config file! Did you delete it?')
+        console.print('[bold red]Cannot find a cookietemple config file! Did you delete it?')
 
     return ''
 
@@ -203,7 +204,7 @@ def prompt_github_repo(dot_cookietemple: Optional[dict]) -> Tuple[bool, bool, bo
                 return dot_cookietemple['is_github_repo'], dot_cookietemple['is_repo_private'], dot_cookietemple['is_github_orga'], \
                        dot_cookietemple['github_orga']
     except KeyError:
-        print('[bold red]Missing required Github properties in .cookietemple.yml file!')
+        console.print('[bold red]Missing required Github properties in .cookietemple.yml file!')
 
     # No dot_cookietemple_dict was passed -> prompt whether to create a Github repository and the required settings
     create_git_repo, private, is_github_org, github_org = False, False, False, ''
@@ -313,7 +314,7 @@ def decrypt_pat() -> str:
     log.debug(f'Reading personal access token from {ConfigCommand.CONF_FILE_PATH}.')
     encrypted_pat = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['pat']
     # decrypt the PAT and decode it to string
-    print('[bold blue]Decrypting personal access token.')
+    console.print('[bold blue]Decrypting personal access token.')
     log.debug('Successfully decrypted personal access token.')
     decrypted_pat = fer.decrypt(encrypted_pat).decode('utf-8')
 
@@ -338,11 +339,12 @@ def handle_failed_github_repo_creation(e: Union[ConnectionError, GithubException
     """
     # output the error dict thrown by PyGitHub due to an error related to GitHub
     if isinstance(e, GithubException):
-        print('[bold red]\nError while trying to create a Github repo due to an error related to Github API. See below output for detailed information!\n')
+        console.print(
+            '[bold red]\nError while trying to create a Github repo due to an error related to Github API. See below output for detailed information!\n')
         format_github_exception(e.data)
     # output an error that might occur due to a missing internet connection
     elif isinstance(e, ConnectionError):
-        print('[bold red]Error while trying to establish a connection to https://github.com. Do you have an active internet connection?')
+        console.print('[bold red]Error while trying to establish a connection to https://github.com. Do you have an active internet connection?')
 
 
 def format_github_exception(data: dict) -> None:
@@ -353,12 +355,12 @@ def format_github_exception(data: dict) -> None:
     """
     for section, description in data.items():
         if not isinstance(description, list):
-            print(f'[bold red]{section.capitalize()}: {description}')
+            console.print(f'[bold red]{section.capitalize()}: {description}')
         else:
-            print(f'[bold red]{section.upper()}: ')
+            console.print(f'[bold red]{section.upper()}: ')
             messages = [val if not isinstance(val, dict) and not isinstance(val, set)
                         else github_exception_dict_repr(val) for val in description]  # type: ignore
-            print('[bold red]\n'.join(msg for msg in messages))
+            console.print('[bold red]\n'.join(msg for msg in messages))
 
 
 def github_exception_dict_repr(messages: dict) -> str:
@@ -380,8 +382,8 @@ def is_git_accessible() -> bool:
     git_installed = Popen(['git', '--version'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
     (git_installed_stdout, git_installed_stderr) = git_installed.communicate()
     if git_installed.returncode != 0:
-        print('[bold red]Could not find \'git\' in the PATH. Is it installed?')
-        print('[bold red]Run command was: \'git --version \'')
+        console.print('[bold red]Could not find \'git\' in the PATH. Is it installed?')
+        console.print('[bold red]Run command was: \'git --version \'')
         log.debug('git is not accessible!')
         return False
 
@@ -402,7 +404,7 @@ def create_github_labels(repo, labels: list) -> None:
             repo.create_label(name=label[0], color=label[1])
         except GithubException:
             log.debug(f'Unable to create label {label[0]}')
-            print(f'[bold red]Unable to create label {label[0]} due to permissions')
+            console.print(f'[bold red]Unable to create label {label[0]} due to permissions')
 
 
 def is_git_repo(path: Path) -> bool:

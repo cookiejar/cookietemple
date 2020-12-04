@@ -9,12 +9,11 @@ from typing import Tuple
 import rich.progress
 import rich.markdown
 import rich.panel
-import rich.console
-
 from packaging import version
 from itertools import groupby
 
 from cookietemple.util.dir_util import pf
+from cookietemple.util.rich import console
 
 log = logging.getLogger(__name__)
 
@@ -282,7 +281,6 @@ class TemplateLinter(object):
                             self.failed.append(('general-5', f'Version number don´t match in\n {path}: \n {line.strip()} should be {corrected_line.strip()}'))
 
     def print_results(self):
-        console = rich.console.Console()
         console.print()
         console.rule("[bold green] LINT RESULTS")
         console.print()
