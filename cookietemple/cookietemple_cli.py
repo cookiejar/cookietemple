@@ -9,6 +9,7 @@ import click
 from pathlib import Path
 from rich import traceback
 from rich import print
+from rich.console import Console
 import rich.logging
 
 from cookietemple.bump_version.bump_version import VersionBumper
@@ -30,7 +31,8 @@ log = logging.getLogger()
 
 def main():
     traceback.install(width=200, word_wrap=True)
-    print(rf"""[bold blue]
+    console = Console(file=sys.stderr, force_terminal=True)
+    console.print(rf"""[bold blue]
      ██████  ██████   ██████  ██   ██ ██ ███████ ████████ ███████ ███    ███ ██████  ██      ███████ 
     ██      ██    ██ ██    ██ ██  ██  ██ ██         ██    ██      ████  ████ ██   ██ ██      ██      
     ██      ██    ██ ██    ██ █████   ██ █████      ██    █████   ██ ████ ██ ██████  ██      █████ 
@@ -38,11 +40,11 @@ def main():
      ██████  ██████   ██████  ██   ██ ██ ███████    ██    ███████ ██      ██ ██      ███████ ███████ 
         """)
 
-    print('[bold blue]Run [green]cookietemple --help [blue]for an overview of all commands\n')
+    console.print('[bold blue]Run [green]cookietemple --help [blue]for an overview of all commands\n')
 
     # Is the latest cookietemple version installed? Upgrade if not!
     if not UpgradeCommand.check_cookietemple_latest():
-        print('[bold blue]Run [green]cookietemple upgrade [blue]to get the latest version.')
+        console.print('[bold blue]Run [green]cookietemple upgrade [blue]to get the latest version.')
     cookietemple_cli()
 
 
