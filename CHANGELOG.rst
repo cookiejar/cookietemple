@@ -17,6 +17,8 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 * Inform user during project creation, that GitHub repo creation is highly recommended to use all features of cookietemple
 
+* Fixed a bug that caused the upgrade command to print the wrong information if the local version of cookietemple was a SNAPSHOT version
+
 **Fixed**
 
 **Dependencies**

@@ -2,11 +2,8 @@ import json
 import logging
 import urllib
 import sys
-
 from pkg_resources import parse_version
-
 import cookietemple
-
 from urllib.error import HTTPError, URLError
 from subprocess import Popen, PIPE, check_call
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
@@ -19,6 +16,7 @@ class UpgradeCommand:
     """
     Responsible for checking for newer versions cookietemple and upgrading it if required.
     """
+
     @staticmethod
     def check_upgrade_cookietemple() -> None:
         """
@@ -39,6 +37,7 @@ class UpgradeCommand:
         :return: True if locally version is the latest or PyPI is inaccessible, false otherwise
         """
         latest_local_version = cookietemple.__version__
+        sliced_local_version = latest_local_version[:-9] if latest_local_version.endswith('-SNAPSHOT') else latest_local_version
         log.debug(f'Latest local cookietemple version is: {latest_local_version}.')
         log.debug('Checking whether a new cookietemple version exists on PyPI.')
         try:
@@ -56,10 +55,10 @@ class UpgradeCommand:
             # Returning true by default, since this is not a serious issue
             return True
 
-        if parse_version(latest_local_version) > parse_version(latest_pypi_version):
+        if parse_version(sliced_local_version) > parse_version(latest_pypi_version):
             print(f'[bold yellow]Installed version {latest_local_version} of cookietemple is newer than the latest release {latest_pypi_version}!'
                   f' You are running a nightly version and features may break!')
-        elif parse_version(latest_local_version) == parse_version(latest_pypi_version):
+        elif parse_version(sliced_local_version) == parse_version(latest_pypi_version):
             return True
         else:
             print(f'[bold red]Installed version {latest_local_version} of cookietemple is outdated. Newest version is {latest_pypi_version}!')
