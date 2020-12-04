@@ -21,6 +21,12 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 * Cookietemple's GitHub Actions now print lint and create results colored
 
+* Added requirements.txt and requirements_dev.txt (Python projects) to blacklisted sync files
+
+* Added build.gradle (Cli Java) and pom.xml (GUI Java) to blacklisted sync files
+
+* Updated the config file linter to check whether those files are excluded from sync
+
 **Fixed**
 
 **Dependencies**

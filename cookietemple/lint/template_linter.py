@@ -1,4 +1,5 @@
 import io
+import inspect
 import logging
 import os
 import re
@@ -153,7 +154,7 @@ class TemplateLinter(object):
         Lint the cookietemple.cfg file and ensure it meets all requirements for cookietemple.
         """
         config_file_path = os.path.join(self.path, 'cookietemple.cfg')
-        linter = ConfigLinter(config_file_path, self)
+        linter = ConfigLinter(config_file_path, self, TemplateLinter.get_calling_class())
         linter.lint_ct_config_file()
 
     def lint_changelog(self):
@@ -328,6 +329,16 @@ class TemplateLinter(object):
         ansi_escape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 
         return ansi_escape.sub(replace_with, string)
+
+    @staticmethod
+    def get_calling_class() -> str:
+        """
+        Get the name of the linting class, calling the linter
+
+        :return: The name of the linting class calling
+        """
+        stack = inspect.stack()
+        return stack[1][0].f_locals["self"].__class__.__name__
 
 
 def files_exist_linting(self,
@@ -595,10 +606,11 @@ class ChangelogLinter:
 
 
 class ConfigLinter:
-    def __init__(self, path, linter_ctx: TemplateLinter):
+    def __init__(self, path, linter_ctx: TemplateLinter, calling_lint_class: str):
         self.config_file_path = path
         self.parser = configparser.ConfigParser()
         self.linter_ctx = linter_ctx
+        self.calling_lint_class = calling_lint_class
 
     def lint_ct_config_file(self):
         """
@@ -619,12 +631,12 @@ class ConfigLinter:
         self.parser.read(f'{self.config_file_path}')
         no_section_missing = self.check_missing_sections(self.parser.sections())
         if no_section_missing:
-            check_section_flag = True
-            check_section_flag &= self.check_section(self.parser.items('bumpversion'), 'bumpversion', self.linter_ctx)
-            check_section_flag &= self.check_section(self.parser.items('bumpversion_files_whitelisted'), 'bumpversion_files_whitelisted', self.linter_ctx)
-            check_section_flag &= self.check_section(self.parser.items('sync_level'), 'sync_level', self.linter_ctx)
-            check_section_flag &= self.check_section(self.parser.items('sync_files_blacklisted'), 'sync_files_blacklisted', self.linter_ctx)
-            if check_section_flag:
+            lint_section_flag = True
+            lint_section_flag &= self.check_section(self.parser.items('bumpversion'), 'bumpversion', self.linter_ctx)
+            lint_section_flag &= self.check_section(self.parser.items('bumpversion_files_whitelisted'), 'bumpversion_files_whitelisted', self.linter_ctx)
+            lint_section_flag &= self.check_section(self.parser.items('sync_level'), 'sync_level', self.linter_ctx)
+            lint_section_flag &= self.lint_sync_blacklisted_section(self.parser.items('sync_files_blacklisted'))
+            if lint_section_flag:
                 self.linter_ctx.passed.append(('general-7', 'All config sections passed cookietemple linting!'))
         else:
             self.linter_ctx.failed.append(('general-7', 'Aborted config section linting. Fix missing sections first!'))
@@ -648,6 +660,43 @@ class ConfigLinter:
         else:
             self.linter_ctx.passed.append(('general-7', 'All required cookietemple.cfg sections were found!'))
             return True
+
+    def lint_sync_blacklisted_section(self, section_items) -> bool:
+        """
+        Lint the 'sync_files_blacklisted' section according to the following rules:
+
+        1.) 'sync_files_blacklisted' should contain at least the 'CHANGELOG.rst' file (excluding it from syncing to avoid PR updates)
+
+        2.) If the project is a Python project, there should be: - a 'requirements = requirements.txt'
+                                                                 - and a 'requirements_dev = requirements_dev.txt' key-value pair
+
+        3.) If the project is a Java project: Either a 'gradle_build = gradle.build' (currently only Cli Java) or 'pom = pom.xml' must be present (GUI Java)
+
+        :return: Whether linting passed or not
+        """
+        # linting a Python project
+        if 'Python' in self.calling_lint_class:
+            if ('requirements', 'requirements.txt') in section_items and ('requirements_dev', 'requirements_dev.txt') in section_items:
+                return True
+            else:
+                self.linter_ctx.failed.append(('cli-python-3' if 'Cli' in self.calling_lint_class else 'web-python-2',
+                                               'Blacklisted sync section should at least contain requirements.txt and requirements_dev.txt!'))
+        # linting Java project
+        elif 'Java' in self.calling_lint_class:
+            # linting Cli Java
+            if 'Cli' in self.calling_lint_class:
+                if ('build_gradle', 'build.gradle') in section_items:
+                    return True
+                else:
+                    self.linter_ctx.failed.append(('cli-java-2', 'Blacklisted sync section should at least contain build.gradle!'))
+            # linting GUI Java
+            elif 'Gui' in self.calling_lint_class:
+                if ('pom', 'pom.xml') in section_items:
+                    return True
+                else:
+                    self.linter_ctx.failed.append(('gui-java-2', 'Blacklisted sync section should at least contain pom.xml!'))
+
+        return False
 
     def check_section(self, section_items, section_name: str, main_linter: TemplateLinter) -> bool:
         """
