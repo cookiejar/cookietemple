@@ -207,33 +207,22 @@ def prompt_github_repo(dot_cookietemple: Optional[dict]) -> Tuple[bool, bool, bo
 
     # No dot_cookietemple_dict was passed -> prompt whether to create a Github repository and the required settings
     create_git_repo, private, is_github_org, github_org = False, False, False, ''
-    while True:
-        if cookietemple_questionary_or_dot_cookietemple(function='confirm',
-                                                        question='Do you want to create a Github repository and push your template to it?',
-                                                        default='Yes'):
-            create_git_repo = True
-            is_github_org = cookietemple_questionary_or_dot_cookietemple(function='confirm',  # type: ignore
-                                                                         question='Do you want to create an organization repository?',
-                                                                         default='No')
-            github_org = cookietemple_questionary_or_dot_cookietemple(function='text',  # type: ignore
-                                                                      question='Please enter the name of the Github organization',
-                                                                      default='SpringfieldNuclearPowerPlant') if is_github_org else ''
-            private = cookietemple_questionary_or_dot_cookietemple(function='confirm',  # type: ignore
-                                                                   question='Do you want your repository to be private?',
-                                                                   default='No')
-            break
-        else:
-            # assert that this won't be prompted during a dry create run
-            if not dot_cookietemple:
-                print('[bold red]\nBy not creating a GitHub repo, you will not be able to use some features. If you want to use those features in the future '
-                      'you have to configure them manually!')
-                proceed = cookietemple_questionary_or_dot_cookietemple(function='confirm',  # type: ignore
-                                                                       question='Do you want to continue?',
-                                                                       default='Yes')
-                # user does not want to create a repository now
-                if proceed:
-                    break
+    print('[bold blue]You will now be asked whether to create a GitHub repository with cookietemple for your project.\n Note that this'
+          'is highly recommended; otherwise you will not be able to use some of cookietemples features!\n')
 
+    if cookietemple_questionary_or_dot_cookietemple(function='confirm',
+                                                    question='Do you want to create a Github repository and push your template to it?',
+                                                    default='Yes'):
+        create_git_repo = True
+        is_github_org = cookietemple_questionary_or_dot_cookietemple(function='confirm',  # type: ignore
+                                                                     question='Do you want to create an organization repository?',
+                                                                     default='No')
+        github_org = cookietemple_questionary_or_dot_cookietemple(function='text',  # type: ignore
+                                                                  question='Please enter the name of the Github organization',
+                                                                  default='SpringfieldNuclearPowerPlant') if is_github_org else ''
+        private = cookietemple_questionary_or_dot_cookietemple(function='confirm',  # type: ignore
+                                                               question='Do you want your repository to be private?',
+                                                               default='No')
     return create_git_repo, private, is_github_org, github_org
 
 
