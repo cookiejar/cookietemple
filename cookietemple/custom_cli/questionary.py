@@ -4,7 +4,8 @@ from typing import Optional, List, Dict, Union
 
 import questionary
 from prompt_toolkit.styles import Style  # type: ignore
-from rich import print
+from cookietemple.util.rich import console
+
 
 log = logging.getLogger(__name__)
 
@@ -72,7 +73,7 @@ def cookietemple_questionary_or_dot_cookietemple(function: str,
             log.debug(f'Unsupported questionary function {function} used!')
 
     except KeyboardInterrupt:
-        print('[bold red] Aborted!')
+        console.print('[bold red] Aborted!')
         sys.exit(1)
     if answer is None or answer == '':
         answer = default

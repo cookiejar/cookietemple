@@ -19,6 +19,8 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 * Fixed a bug that caused the upgrade command to print the wrong information if the local version of cookietemple was a SNAPSHOT version
 
+* Cookietemple's GitHub Actions now print lint and create results colored
+
 **Fixed**
 
 **Dependencies**

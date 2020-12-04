@@ -21,7 +21,7 @@ from cookietemple.util.docs_util import fix_short_title_underline
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.config.config import ConfigCommand
 from cookietemple.common.load_yaml import load_yaml_file
-from rich import print
+from cookietemple.util.rich import console
 
 log = logging.getLogger(__name__)
 
@@ -76,13 +76,13 @@ class TemplateCreator:
             shutil.rmtree(tmp_project_path, ignore_errors=True)
 
         if subdomain:
-            print()
-            print('[bold blue]Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates/available_templates.html'
-                  f'#{domain}-{subdomain}-{language} for more information about how to use your chosen template.')
+            console.print()
+            console.print('[bold blue]Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates/available_templates.html'
+                          f'#{domain}-{subdomain}-{language} for more information about how to use your chosen template.')
         else:
-            print()
-            print('[bold blue]Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates/available_templates.html'
-                  f'#{domain}-{language} for more information about how to use your chosen template.')
+            console.print()
+            console.print('[bold blue]Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates/available_templates.html'
+                          f'#{domain}-{language} for more information about how to use your chosen template.')
 
         if path != Path.cwd():
             shutil.move(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}', f'{path}/{self.creator_ctx.project_slug_no_hyphen}')
@@ -106,7 +106,7 @@ class TemplateCreator:
                              overwrite_if_exists=True,
                              extra_context=self.creator_ctx_to_dict())
             else:
-                print('[bold red]Aborted! Canceled template creation!')
+                console.print('[bold red]Aborted! Canceled template creation!')
                 sys.exit(0)
         else:
             cookiecutter(f'{domain_path}/{self.creator_ctx.domain}_{self.creator_ctx.language.lower()}',
@@ -135,7 +135,7 @@ class TemplateCreator:
                              extra_context=self.creator_ctx_to_dict())
 
             else:
-                print('[bold red]Aborted! Canceled template creation!')
+                console.print('[bold red]Aborted! Canceled template creation!')
                 sys.exit(0)
         else:
             cookiecutter(f'{domain_path}/{subdomain}_{self.creator_ctx.language.lower()}',
@@ -164,7 +164,7 @@ class TemplateCreator:
                              extra_context=self.creator_ctx_to_dict())
 
             else:
-                print('[bold red]Aborted! Canceled template creation!')
+                console.print('[bold red]Aborted! Canceled template creation!')
                 sys.exit(0)
         else:
             cookiecutter(f'{domain_path}/{subdomain}_{self.creator_ctx.language.lower()}/{framework}',
@@ -193,9 +193,9 @@ class TemplateCreator:
                 self.creator_ctx.email = load_yaml_file(ConfigCommand.CONF_FILE_PATH)['email']
         except FileNotFoundError:
             # style and automatic use config
-            print('[bold red]Cannot find a cookietemple config file. Is this your first time using cookietemple?')
+            console.print('[bold red]Cannot find a cookietemple config file. Is this your first time using cookietemple?')
             # inform the user and config all settings (with PAT optional)
-            print('[bold blue]Lets set your name, email and Github username and you´re ready to go!')
+            console.print('[bold blue]Lets set your name, email and Github username and you´re ready to go!')
             ConfigCommand.all_settings()
             # load mail and full name
             path = Path(ConfigCommand.CONF_FILE_PATH)
@@ -229,8 +229,8 @@ class TemplateCreator:
 
         # make sure that the version has the right format
         while not re.match(r'(?<!.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!.)', poss_vers) and not dot_cookietemple:  # type: ignore
-            print('[bold red]The version number entered does not match semantic versioning.\n' +
-                  'Please enter the version in the format \[number].\[number].\[number]!')  # noqa: W605
+            console.print('[bold red]The version number entered does not match semantic versioning.\n' +
+                          'Please enter the version in the format \[number].\[number].\[number]!')  # noqa: W605
             poss_vers = cookietemple_questionary_or_dot_cookietemple(function='text',
                                                                      question='Initial version of your project',
                                                                      default='0.1.0')
@@ -297,7 +297,7 @@ class TemplateCreator:
         """
         # if project already exists at either PyPi or readthedocs, ask user for confirmation with the option to change the project name
         while TemplateCreator.query_name_available(host, self.creator_ctx.project_name) and not dot_cookietemple:  # type: ignore
-            print(f'[bold red]A project named {self.creator_ctx.project_name} already exists at {host}!')
+            console.print(f'[bold red]A project named {self.creator_ctx.project_name} already exists at {host}!')
             # provide the user an option to change the project's name
             if cookietemple_questionary_or_dot_cookietemple(function='confirm',
                                                             question='Do you want to choose another name for your project?\n'
@@ -323,7 +323,7 @@ class TemplateCreator:
             log.debug(f'[bold red]Unknown host {host}. Use either PyPi or readthedocs.io!')
             # raise a ValueError if the host name is invalid
             raise ValueError(f'check_name_available has been called with the invalid host {host}.\nValid hosts are PyPi and readthedocs.io')
-        print(f'[bold blue]Looking up {project_name} at {host}!')
+        console.print(f'[bold blue]Looking up {project_name} at {host}!')
         # determine url depending on host being either PyPi or readthedocs.io
         url = 'https://' + (f'pypi.org/project/{project_name.replace(" ", "")}' if host == "PyPi" else f'{project_name.replace(" ", "")}.readthedocs.io')
         log.debug(f'Looking up {url}')
@@ -335,7 +335,7 @@ class TemplateCreator:
         except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
             log.debug(f'Unable to contact {host}')
             log.debug(f'Error was: {e}')
-            print(f'[bold red]Cannot check whether name already taken on {host} because its unreachable at the moment!')
+            console.print(f'[bold red]Cannot check whether name already taken on {host} because its unreachable at the moment!')
             return False
 
         return False
@@ -346,12 +346,12 @@ class TemplateCreator:
         Otherwise print a warning that a directory already exists and any further action on the directory will overwrite its contents.
         """
         if is_git_repo(Path(f'{os.getcwd()}/{self.creator_ctx.project_slug}')):
-            print(f'[bold red]Error: A git project named {self.creator_ctx.project_slug} already exists at [green]{os.getcwd()}\n')
-            print('[bold red]Aborting!')
+            console.print(f'[bold red]Error: A git project named {self.creator_ctx.project_slug} already exists at [green]{os.getcwd()}\n')
+            console.print('[bold red]Aborting!')
             sys.exit(1)
         else:
-            print(f'[bold yellow]WARNING: [red]A directory named {self.creator_ctx.project_slug} already exists at [blue]{os.getcwd()}\n')
-            print('Proceeding now will overwrite this directory and its content!')
+            console.print(f'[bold yellow]WARNING: [red]A directory named {self.creator_ctx.project_slug} already exists at [blue]{os.getcwd()}\n')
+            console.print('Proceeding now will overwrite this directory and its content!')
 
     def create_dot_cookietemple(self, template_version: str):
         """
