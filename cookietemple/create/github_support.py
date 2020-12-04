@@ -229,7 +229,7 @@ def prompt_github_repo(dot_cookietemple: Optional[dict]) -> Tuple[bool, bool, bo
                       'you have to configure them manually!')
                 proceed = cookietemple_questionary_or_dot_cookietemple(function='confirm',  # type: ignore
                                                                        question='Do you want to continue?',
-                                                                       default='No')
+                                                                       default='Yes')
                 # user does not want to create a repository now
                 if proceed:
                     break
