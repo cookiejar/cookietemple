@@ -212,9 +212,8 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
             log.debug('Starting sync.')
             syncer.sync()
         else:
-            console.print(
-                '[bold red]Aborting sync due to set level constraints. You can set the level any time in your cookietemple.cfg in the sync_level section and'
-                ' sync again.')
+            console.print('[bold red]Aborting sync due to set level constraints. You can set the level any time in your cookietemple.cfg in the sync_level '
+                          'section and sync again.')
     else:
         console.print('[bold blue]No changes detected. Your template is up to date.')
 

@@ -167,8 +167,8 @@ def handle_pat_authentification() -> str:
         else:
             log.debug(f'Unable to read the personal access token from {ConfigCommand.CONF_FILE_PATH}')
             console.print('[bold red]Could not find encrypted personal access token!\n')
-            console.print(
-                '[bold blue]Please navigate to Github -> Your profile -> Settings -> Developer Settings -> Personal access token -> Generate a new Token')
+            console.print('[bold blue]Please navigate to Github -> Your profile -> Settings -> Developer Settings -> Personal access token -> '
+                          'Generate a new Token')
             console.print('[bold blue]Only tick \'repo\'. The token is a hidden input to cookietemple and stored encrypted locally on your machine.')
             console.print('[bold blue]For more information please read' +
                           'https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line\n\n')
@@ -341,8 +341,8 @@ def handle_failed_github_repo_creation(e: Union[ConnectionError, GithubException
     """
     # output the error dict thrown by PyGitHub due to an error related to GitHub
     if isinstance(e, GithubException):
-        console.print(
-            '[bold red]\nError while trying to create a Github repo due to an error related to Github API. See below output for detailed information!\n')
+        console.print('[bold red]\nError while trying to create a Github repo due to an error related to Github API. '
+                      'See below output for detailed information!\n')
         format_github_exception(e.data)
     # output an error that might occur due to a missing internet connection
     elif isinstance(e, ConnectionError):
