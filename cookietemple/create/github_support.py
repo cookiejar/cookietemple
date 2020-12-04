@@ -208,6 +208,9 @@ def prompt_github_repo(dot_cookietemple: Optional[dict]) -> Tuple[bool, bool, bo
 
     # No dot_cookietemple_dict was passed -> prompt whether to create a Github repository and the required settings
     create_git_repo, private, is_github_org, github_org = False, False, False, ''
+    print('[bold blue]Automatically creating a Github repository with cookietemple is strongly recommended. Otherwise you will not be able to use all of '
+          'cookietemple\'s features.!\n')
+
     if cookietemple_questionary_or_dot_cookietemple(function='confirm',
                                                     question='Do you want to create a Github repository and push your template to it?',
                                                     default='Yes'):
@@ -221,7 +224,6 @@ def prompt_github_repo(dot_cookietemple: Optional[dict]) -> Tuple[bool, bool, bo
         private = cookietemple_questionary_or_dot_cookietemple(function='confirm',  # type: ignore
                                                                question='Do you want your repository to be private?',
                                                                default='No')
-
     return create_git_repo, private, is_github_org, github_org
 
 

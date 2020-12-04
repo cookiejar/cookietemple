@@ -11,8 +11,13 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 **Added**
 
-Support for deploying the documentation on Github Pages. By default the Documentation is pushed to the gh-pages branch.
-Simply enable Github pages (repository settings) with the gh-pages branch and your documentation will build on ``https://username.github.io/repositoryname``
+* Support for deploying the documentation on Github Pages. By default the Documentation is pushed to the gh-pages branch.
+  Simply enable Github pages (repository settings) with the gh-pages branch and your documentation will build on ``https://username.github.io/repositoryname``
+
+
+* Inform user during project creation, that GitHub repo creation is highly recommended to use all features of cookietemple
+
+* Fixed a bug that caused the upgrade command to print the wrong information if the local version of cookietemple was a SNAPSHOT version
 
 **Fixed**
 
