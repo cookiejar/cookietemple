@@ -607,7 +607,7 @@ class ChangelogLinter:
 
 
 class ConfigLinter:
-    def __init__(self, path, linter_ctx: TemplateLinter, calling_class: object):
+    def __init__(self, path, linter_ctx: TemplateLinter, calling_class):
         self.config_file_path = path
         self.parser = configparser.ConfigParser()
         self.linter_ctx = linter_ctx
