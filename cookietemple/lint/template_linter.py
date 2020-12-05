@@ -154,7 +154,7 @@ class TemplateLinter(object):
         Lint the cookietemple.cfg file and ensure it meets all requirements for cookietemple.
         """
         config_file_path = os.path.join(self.path, 'cookietemple.cfg')
-        linter = ConfigLinter(config_file_path, self, TemplateLinter.get_calling_class())
+        linter = ConfigLinter(config_file_path, self, self.get_calling_class())
         linter.lint_ct_config_file()
 
     def lint_changelog(self):
@@ -331,14 +331,15 @@ class TemplateLinter(object):
         return ansi_escape.sub(replace_with, string)
 
     @staticmethod
-    def get_calling_class() -> str:
+    def get_calling_class() -> object:
         """
         Get the name of the linting class, calling the linter
 
         :return: The name of the linting class calling
         """
         stack = inspect.stack()
-        return stack[1][0].f_locals["self"].__class__.__name__
+        print(stack[1][0].f_locals["self"].__dict__.keys())
+        return stack[1][0].f_locals["self"]
 
 
 def files_exist_linting(self,
@@ -606,11 +607,11 @@ class ChangelogLinter:
 
 
 class ConfigLinter:
-    def __init__(self, path, linter_ctx: TemplateLinter, calling_lint_class: str):
+    def __init__(self, path, linter_ctx: TemplateLinter, calling_class: object):
         self.config_file_path = path
         self.parser = configparser.ConfigParser()
         self.linter_ctx = linter_ctx
-        self.calling_lint_class = calling_lint_class
+        self.calling_lint_class = calling_class
 
     def lint_ct_config_file(self):
         """
@@ -635,7 +636,7 @@ class ConfigLinter:
             lint_section_flag &= self.check_section(self.parser.items('bumpversion'), 'bumpversion', self.linter_ctx)
             lint_section_flag &= self.check_section(self.parser.items('bumpversion_files_whitelisted'), 'bumpversion_files_whitelisted', self.linter_ctx)
             lint_section_flag &= self.check_section(self.parser.items('sync_level'), 'sync_level', self.linter_ctx)
-            lint_section_flag &= self.lint_sync_blacklisted_section(self.parser.items('sync_files_blacklisted'))
+            lint_section_flag &= self.check_section(self.parser.items('sync_files_blacklisted'), 'sync_files_blacklisted', self.linter_ctx)
             if lint_section_flag:
                 self.linter_ctx.passed.append(('general-7', 'All config sections passed cookietemple linting!'))
         else:
@@ -661,43 +662,6 @@ class ConfigLinter:
             self.linter_ctx.passed.append(('general-7', 'All required cookietemple.cfg sections were found!'))
             return True
 
-    def lint_sync_blacklisted_section(self, section_items) -> bool:
-        """
-        Lint the 'sync_files_blacklisted' section according to the following rules:
-
-        1.) 'sync_files_blacklisted' should contain at least the 'CHANGELOG.rst' file (excluding it from syncing to avoid PR updates)
-
-        2.) If the project is a Python project, there should be: - a 'requirements = requirements.txt'
-                                                                 - and a 'requirements_dev = requirements_dev.txt' key-value pair
-
-        3.) If the project is a Java project: Either a 'gradle_build = gradle.build' (currently only Cli Java) or 'pom = pom.xml' must be present (GUI Java)
-
-        :return: Whether linting passed or not
-        """
-        # linting a Python project
-        if 'Python' in self.calling_lint_class:
-            if ('requirements', 'requirements.txt') in section_items and ('requirements_dev', 'requirements_dev.txt') in section_items:
-                return True
-            else:
-                self.linter_ctx.failed.append(('cli-python-3' if 'Cli' in self.calling_lint_class else 'web-python-2',
-                                               'Blacklisted sync section should at least contain requirements.txt and requirements_dev.txt!'))
-        # linting Java project
-        elif 'Java' in self.calling_lint_class:
-            # linting Cli Java
-            if 'Cli' in self.calling_lint_class:
-                if ('build_gradle', 'build.gradle') in section_items:
-                    return True
-                else:
-                    self.linter_ctx.failed.append(('cli-java-2', 'Blacklisted sync section should at least contain build.gradle!'))
-            # linting GUI Java
-            elif 'Gui' in self.calling_lint_class:
-                if ('pom', 'pom.xml') in section_items:
-                    return True
-                else:
-                    self.linter_ctx.failed.append(('gui-java-2', 'Blacklisted sync section should at least contain pom.xml!'))
-
-        return False
-
     def check_section(self, section_items, section_name: str, main_linter: TemplateLinter) -> bool:
         """
         Check requirements 2.) - 5.) stated above.
@@ -712,32 +676,34 @@ class ConfigLinter:
         #
         #   2.) a number, stating the minimum number of items in a section (-1 if number does not care)
         check_set = {
-            'bumpversion': [('current_version', '*'), 1],
-            'bumpversion_files_whitelisted': [('dot_cookietemple', '.cookietemple.yml'), -1],
-            'sync_level': [('ct_sync_level', 'patch|minor|major'), 1],
-            'sync_files_blacklisted': [('changelog', 'CHANGELOG.rst'), -1]
+            'bumpversion': [[('current_version', '*')], 1],
+            'bumpversion_files_whitelisted': [[('dot_cookietemple', '.cookietemple.yml')], -1],
+            'sync_level': [[('ct_sync_level', 'patch|minor|major')], 1],
+            'sync_files_blacklisted': [self.calling_lint_class.blacklisted_sync_files, -1]
         }
-        return ConfigLinter.apply_section_linting_rules(section_name, section_items, check_set.get(section_name), main_linter)
+        return self.apply_section_linting_rules(section_name, section_items, check_set.get(section_name), main_linter)
 
-    @staticmethod
-    def apply_section_linting_rules(section: str, section_items, section_lint_rules, main_linter: TemplateLinter) -> bool:
+    def apply_section_linting_rules(self, section: str, section_items, section_lint_rules, main_linter: TemplateLinter) -> bool:
         """
         For each section, check if the applied linting rules are met!
         """
         linting_passed = True
-        section_tuple_needed = section_lint_rules[0]
         # if a section needs a concrete number of items, check if this holds true for the section
         if section_lint_rules[1] != -1:
             linting_passed &= len(section_items) == section_lint_rules[1]
         # decide, whether we should check for the whole tuple or just any part of it
-        if section_tuple_needed[1] != '*':
-            # it is possible to have several valid values for a concrete section item
-            valid_values = section_tuple_needed[1].split('|')
-            linting_passed &= any(section_item for idx, section_item in enumerate(section_items) if section_items[idx][0] == section_tuple_needed[0] and
-                                  section_items[idx][1] in valid_values)
-        else:
-            linting_passed &= any(section_item for idx, section_item in enumerate(section_items) if section_items[idx][0] == section_tuple_needed[0])
+        for section_tuple in section_lint_rules[0]:
+            if section_tuple[1] != '*':
+                # it is possible to have several valid values for a concrete section item
+                valid_values = section_tuple[1].split('|')
+                linting_passed &= any(section_item for idx, section_item in enumerate(section_items) if section_items[idx][0] == section_tuple[0] and
+                                      section_items[idx][1] in valid_values)
+            else:
+                linting_passed &= any(section_item for idx, section_item in enumerate(section_items) if section_items[idx][0] == section_tuple[0])
 
         if not linting_passed:
-            main_linter.failed.append(('general-7', f'Config linting failed for section {section}!'))
+            if section == 'sync_files_blacklisted':
+                main_linter.failed.append((self.calling_lint_class.blacklisted_lint_code, 'Linting failed for sync_files_blacklisted config section!'))
+            else:
+                main_linter.failed.append(('general-7', f'Config linting failed for section {section}!'))
         return linting_passed

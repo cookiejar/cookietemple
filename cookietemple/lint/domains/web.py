@@ -13,6 +13,8 @@ CWD = os.getcwd()
 class WebWebsitePythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
     def __init__(self, path):
         super().__init__(path)
+        self.blacklisted_sync_files = [('requirements', 'requirements.txt'), ('requirements_dev', 'requirements_dev.txt'), ('changelog', 'CHANGELOG.rst')]
+        self.blacklisted_lint_code = 'web-python-2'
 
     def lint(self, is_create, skip_external):
         super().lint_project(self, self.methods)

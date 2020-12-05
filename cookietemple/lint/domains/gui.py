@@ -9,6 +9,8 @@ CWD = os.getcwd()
 class GuiJavaLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
     def __init__(self, path):
         super().__init__(path)
+        self.blacklisted_sync_files = [('pom', 'pom.xml'), ('changelog', 'CHANGELOG.rst')]
+        self.blacklisted_lint_code = 'gui-java-2'
 
     def lint(self, skip_external):
         super().lint_project(self, self.methods)

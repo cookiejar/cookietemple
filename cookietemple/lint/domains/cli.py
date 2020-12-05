@@ -13,8 +13,11 @@ CWD = os.getcwd()
 
 
 class CliPythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
+
     def __init__(self, path):
         super().__init__(path)
+        self.blacklisted_sync_files = [('requirements', 'requirements.txt'), ('requirements_dev', 'requirements_dev.txt'), ('changelog', 'CHANGELOG.rst')]
+        self.blacklisted_lint_code = 'cli-python-3'
 
     def lint(self, is_create, skip_external):
         super().lint_project(self, self.methods)
@@ -133,6 +136,8 @@ class CliPythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
 class CliJavaLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
     def __init__(self, path):
         super().__init__(path)
+        self.blacklisted_sync_files = [('build_gradle', 'build.gradle'), ('changelog', 'CHANGELOG.rst')]
+        self.blacklisted_lint_code = 'cli-java-2'
 
     def lint(self, skip_external):
         super().lint_project(self, self.methods)
