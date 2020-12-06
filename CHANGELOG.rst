@@ -13,20 +13,12 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 * Support for deploying the documentation on Github Pages. By default the Documentation is pushed to the gh-pages branch.
   Simply enable Github pages (repository settings) with the gh-pages branch and your documentation will build on ``https://username.github.io/repositoryname``
-
-
 * Inform user during project creation, that GitHub repo creation is highly recommended to use all features of cookietemple
-
 * Fixed a bug that caused the upgrade command to print the wrong information if the local version of cookietemple was a SNAPSHOT version
-
 * Cookietemple's GitHub Actions now print lint and create results colored
-
 * Added requirements.txt and requirements_dev.txt (Python projects) to blacklisted sync files
-
 * Added build.gradle (Cli Java) and pom.xml (GUI Java) to blacklisted sync files
-
 * Updated the config file linter to check whether those files are excluded from sync
-
 * Updated docs with new lint error handling codes
 
 **Fixed**
