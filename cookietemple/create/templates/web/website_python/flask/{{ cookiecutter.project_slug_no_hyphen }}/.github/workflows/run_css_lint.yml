@@ -1,7 +1,10 @@
 name: CSS linter
 
-on: 
+on:
   push:
+    paths:
+      - "**/*.css"
+  pull_request:
     paths:
       - "**/*.css"
 

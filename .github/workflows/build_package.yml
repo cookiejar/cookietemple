@@ -1,6 +1,6 @@
 name: Build Cookietemple Package
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   Build-Package:
@@ -36,4 +36,4 @@ jobs:
 
       - name: Check twine package
         run: twine check dist/*
-      
+

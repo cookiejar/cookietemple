@@ -39,7 +39,16 @@ test_requirements = [{%- if cookiecutter.testing_library == 'pytest' %}'pytest>=
     'BSD': 'License :: OSI Approved :: BSD License',
     'ISC': 'License :: OSI Approved :: ISC License (ISCL)',
     'Apache2.0': 'License :: OSI Approved :: Apache Software License',
-    'GNUv3': 'License :: OSI Approved :: GNU General Public License v3 (GPLv3)'
+    'GNUv3': 'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+    'Boost': 'License :: OSI Approved :: Boost Software License 1.0 (BSL-1.0)',
+    'Affero': 'License :: OSI Approved :: GNU Affero General Public License v3',
+    'CC0': 'License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication',
+    'Eclipse': 'License :: OSI Approved :: Eclipse Public License 2.0 (EPL-2.0)',
+    'CCBY': 'License :: Public Domain',
+    'CCBYSA': 'License :: Public Domain',
+    'WTFPL': 'License :: Public Domain',
+    'unlicence': 'License :: Other/Proprietary License',
+    'Not open source': 'License :: Other/Proprietary License'
 } %}
 
 setup(

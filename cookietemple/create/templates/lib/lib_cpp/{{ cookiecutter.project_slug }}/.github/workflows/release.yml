@@ -1,7 +1,7 @@
 name: Release
 
 on:
-  push:
+  release:
     tags:
       - 'v*'
 
@@ -47,7 +47,7 @@ jobs:
       run: |
         $TAG = ({% raw %}${env:GITHUB_REF}{% endraw %} -replace 'refs/tags/', '')
         echo "::set-output name=name::$TAG"
-    
+
     - name: set version name
       id: version
       if: {% raw %}${{ runner.os != 'Windows' }}{% endraw %}
@@ -78,7 +78,7 @@ jobs:
 
     - name: configure
       run: cmake -Bbuild -DCMAKE_INSTALL_PREFIX="$HOME/.local"
-      
+
     - name: build
       run: cmake --build build --config "$env:BUILD_TYPE" -j4
 

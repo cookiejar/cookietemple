@@ -246,6 +246,20 @@ The file tree of the template should resemble
         def lint(self):
             super().lint_project(self, self.methods)
 
+        def check_sync_section(self) -> bool:
+            """
+            Check the sync_files_blacklisted section containing every required file!
+            """
+            config_linter = ConfigLinter(f'{self.path}/cookietemple.cfg', self)
+            result = config_linter.check_section(section_items=config_linter.parser.items('sync_files_blacklisted'), section_name='sync_files_blacklisted',
+                                                 main_linter=self, blacklisted_sync_files=[[('changelog', 'CHANGELOG.rst')], -1],
+                                                 error_code='cli-brainfuck-2', is_sublinter_calling=True)
+            if result:
+                self.passed.append(('cli-brainfuck-2', 'All required sync blacklisted files are configured!'))
+            else:
+                self.failed.append(('cli-brainfuck-2', 'Blacklisted sync files section misses some required files!'))
+            return result
+
         def brainfuck_files_exist(self) -> None:
             """
             Checks a given pipeline directory for required files.
@@ -342,7 +356,7 @@ Our shiny new CliBrainfuckLinter is now ready for action!
               brainfucky --file ExplodingSpringfield/hello.bf
 
 
-    We were pleasently surprised to see that someone already made a Github Action for brainfuck.
+We were pleasently surprised to see that someone already made a Github Action for brainfuck.
 
 7. | Finally, we add some documentation to :code:`/docs/available_templates.rst` and explain the purpose, design and frameworks/libraries.
 

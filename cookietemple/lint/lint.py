@@ -4,7 +4,6 @@ from pathlib import Path
 from typing import Union, Any, Optional
 
 from ruamel.yaml import YAML
-from rich import print
 
 from cookietemple.lint.template_linter import TemplateLinter
 from cookietemple.lint.domains.cli import CliPythonLint, CliJavaLint
@@ -12,6 +11,7 @@ from cookietemple.lint.domains.web import WebWebsitePythonLint
 from cookietemple.lint.domains.gui import GuiJavaLint
 from cookietemple.lint.domains.lib import LibCppLint
 from cookietemple.lint.domains.pub import PubLatexLint
+from cookietemple.util.rich import console
 
 log = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ def lint_project(project_dir: str, skip_external: bool, is_create: bool = False)
     try:
         lint_obj: Union[TemplateLinter, Any] = switcher.get(template_handle)(project_dir)  # type: ignore
     except TypeError:
-        print(f'[bold red]Unable to find linter for handle {template_handle}! Aborting...')
+        console.print(f'[bold red]Unable to find linter for handle {template_handle}! Aborting...')
         sys.exit(1)
 
     # Run the linting tests
@@ -55,12 +55,12 @@ def lint_project(project_dir: str, skip_external: bool, is_create: bool = False)
             disable_check_files = False
         # Run non project specific linting
         log.debug('Running general linting.')
-        print('[bold blue]Running general linting')
+        console.print('[bold blue]Running general linting')
         lint_obj.lint_project(super(lint_obj.__class__, lint_obj), custom_check_files=disable_check_files, is_subclass_calling=False)
 
         # Run the project specific linting
         log.debug(f'Running linting of {template_handle}')
-        print(f'[bold blue]Running {template_handle} linting')
+        console.print(f'[bold blue]Running {template_handle} linting')
 
         # for every python project that is created autopep8 will run one time
         # when linting en existing python cookietemple project, autopep8 should be now optional,
@@ -70,8 +70,8 @@ def lint_project(project_dir: str, skip_external: bool, is_create: bool = False)
         else:
             lint_obj.lint(skip_external)  # type: ignore
     except AssertionError as e:
-        print(f'[bold red]Critical error: {e}')
-        print('[bold red] Stopping tests...')
+        console.print(f'[bold red]Critical error: {e}')
+        console.print('[bold red] Stopping tests...')
         return lint_obj
 
     # Print the results
@@ -79,7 +79,7 @@ def lint_project(project_dir: str, skip_external: bool, is_create: bool = False)
 
     # Exit code
     if len(lint_obj.failed) > 0:
-        print(f'[bold red] {len(lint_obj.failed)} tests failed! Exiting with non-zero error code.')
+        console.print(f'[bold red] {len(lint_obj.failed)} tests failed! Exiting with non-zero error code.')
         sys.exit(1)
 
     return None
@@ -93,7 +93,7 @@ def get_template_handle(dot_cookietemple_path: str = '.cookietemple.yml') -> str
     """
     path = Path(f'{dot_cookietemple_path}/.cookietemple.yml')
     if not path.exists():
-        print('[bold red].cookietemple.yml not found. Is this a cookietemple project?')
+        console.print('[bold red].cookietemple.yml not found. Is this a cookietemple project?')
         sys.exit(1)
     yaml = YAML(typ='safe')
     dot_cookietemple_content = yaml.load(path)

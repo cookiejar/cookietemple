@@ -22,7 +22,15 @@
         "ISC",
         "Apache2.0",
         "GNUv3",
-        "Not open source"
+        "Not open source",
+        "Boost",
+        "Affero",
+        "CC0",
+        "Eclipse",
+        "CCBY",
+        "CCBYSA",
+        "WTFPL",
+        "unlicence"
     ],
     "vmusername": "cookietempleVM",
     "url": "myDomain.com",

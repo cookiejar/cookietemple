@@ -5,7 +5,7 @@ from typing import List
 from rich import print
 
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
-from cookietemple.lint.template_linter import TemplateLinter, files_exist_linting, GetLintingFunctionsMeta
+from cookietemple.lint.template_linter import TemplateLinter, files_exist_linting, GetLintingFunctionsMeta, ConfigLinter
 
 CWD = os.getcwd()
 
@@ -32,6 +32,22 @@ class WebWebsitePythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
             autopep8 = Popen(['autopep8', self.path, '--recursive', '--in-place', '--pep8-passes', '2000'],
                              universal_newlines=True, shell=False, close_fds=True)
             (autopep8_stdout, autopep8_stderr) = autopep8.communicate()
+
+    def check_sync_section(self) -> bool:
+        """
+        Check the sync_files_blacklisted section containing every required file!
+        """
+        config_linter = ConfigLinter(f'{self.path}/cookietemple.cfg', self)
+        result = config_linter.check_section(section_items=config_linter.parser.items('sync_files_blacklisted'), section_name='sync_files_blacklisted',
+                                             main_linter=self,
+                                             blacklisted_sync_files=[[('requirements', 'requirements.txt'), ('requirements_dev', 'requirements_dev.txt'),
+                                                                      ('changelog', 'CHANGELOG.rst')], -1], error_code='web-python-2',
+                                             is_sublinter_calling=True)
+        if result:
+            self.passed.append(('web-python-2', 'All required sync blacklisted files are configured!'))
+        else:
+            self.failed.append(('web-python-2', 'Blacklisted sync files section misses some required files!'))
+        return result
 
     def python_files_exist(self) -> None:
         """
