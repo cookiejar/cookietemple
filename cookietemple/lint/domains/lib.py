@@ -1,7 +1,7 @@
 import os
 from typing import List
 
-from cookietemple.lint.template_linter import TemplateLinter, files_exist_linting, GetLintingFunctionsMeta
+from cookietemple.lint.template_linter import TemplateLinter, files_exist_linting, GetLintingFunctionsMeta, ConfigLinter
 
 CWD = os.getcwd()
 
@@ -9,11 +9,22 @@ CWD = os.getcwd()
 class LibCppLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
     def __init__(self, path):
         super().__init__(path)
-        self.blacklisted_sync_files = [('changelog', 'CHANGELOG.rst')]
-        self.blacklisted_lint_code = 'lib-cpp-2'
 
     def lint(self, skip_external):
         super().lint_project(self, self.methods)
+
+    def check_sync_section(self) -> bool:
+        """
+        Check the sync_files_blacklisted section containing every required file!
+        """
+        config_linter = ConfigLinter(f'{self.path}/cookietemple.cfg', self)
+        result = config_linter.check_section(config_linter.parser.items('sync_files_blacklisted'), 'sync_files_blacklisted', self,
+                                             [[('changelog', 'CHANGELOG.rst')], -1], 'lib-cpp-2', True)
+        if result:
+            self.passed.append(('lib-cpp-2', 'All required sync blacklisted files are configured!'))
+        else:
+            self.failed.append(('lib-cpp-2', 'Blacklisted sync files section misses some required files!'))
+        return result
 
     def cpp_files_exist(self) -> None:
         """

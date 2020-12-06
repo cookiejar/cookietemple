@@ -154,7 +154,7 @@ class TemplateLinter(object):
         Lint the cookietemple.cfg file and ensure it meets all requirements for cookietemple.
         """
         config_file_path = os.path.join(self.path, 'cookietemple.cfg')
-        linter = ConfigLinter(config_file_path, self, self.get_calling_class())
+        linter = ConfigLinter(config_file_path, self)
         linter.lint_ct_config_file()
 
     def lint_changelog(self):
@@ -329,17 +329,6 @@ class TemplateLinter(object):
         ansi_escape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 
         return ansi_escape.sub(replace_with, string)
-
-    @staticmethod
-    def get_calling_class() -> object:
-        """
-        Get the name of the linting class, calling the linter
-
-        :return: The name of the linting class calling
-        """
-        stack = inspect.stack()
-        print(stack[1][0].f_locals["self"].__dict__.keys())
-        return stack[1][0].f_locals["self"]
 
 
 def files_exist_linting(self,
@@ -607,11 +596,11 @@ class ChangelogLinter:
 
 
 class ConfigLinter:
-    def __init__(self, path, linter_ctx: TemplateLinter, calling_class):
+    def __init__(self, path, linter_ctx: TemplateLinter):
         self.config_file_path = path
         self.parser = configparser.ConfigParser()
         self.linter_ctx = linter_ctx
-        self.calling_lint_class = calling_class
+        self.parser.read(f'{self.config_file_path}')
 
     def lint_ct_config_file(self):
         """
@@ -626,19 +615,15 @@ class ConfigLinter:
         3.) 'bumpversion_files_whitelisted' should contain at least the '.cookietemple.yml' file
 
         4.) 'sync_level' should contain a 'ct_sync_level' value (and this value should be one of either 'patch', 'minor' or 'major')
-
-        5.) 'sync_files_blacklisted' should contain at least the 'CHANGELOG.rst' file (excluding it from syncing to avoid PR updates)
         """
-        self.parser.read(f'{self.config_file_path}')
         no_section_missing = self.check_missing_sections(self.parser.sections())
         if no_section_missing:
             lint_section_flag = True
             lint_section_flag &= self.check_section(self.parser.items('bumpversion'), 'bumpversion', self.linter_ctx)
             lint_section_flag &= self.check_section(self.parser.items('bumpversion_files_whitelisted'), 'bumpversion_files_whitelisted', self.linter_ctx)
             lint_section_flag &= self.check_section(self.parser.items('sync_level'), 'sync_level', self.linter_ctx)
-            lint_section_flag &= self.check_section(self.parser.items('sync_files_blacklisted'), 'sync_files_blacklisted', self.linter_ctx)
             if lint_section_flag:
-                self.linter_ctx.passed.append(('general-7', 'All config sections passed cookietemple linting!'))
+                self.linter_ctx.passed.append(('general-7', 'All general config sections passed cookietemple linting!'))
         else:
             self.linter_ctx.failed.append(('general-7', 'Aborted config section linting. Fix missing sections first!'))
 
@@ -662,12 +647,16 @@ class ConfigLinter:
             self.linter_ctx.passed.append(('general-7', 'All required cookietemple.cfg sections were found!'))
             return True
 
-    def check_section(self, section_items, section_name: str, main_linter: TemplateLinter) -> bool:
+    def check_section(self, section_items, section_name: str, main_linter: TemplateLinter, blacklisted_sync_files=None, error_code='general-7',
+                      is_sublinter_calling=False) -> bool:
         """
-        Check requirements 2.) - 5.) stated above.
+        Check requirements 2.) - 4.) stated above.
         :param section_items: A pair (name, value) for all items in a section
         :param section_name: The sections name
         :param main_linter: The linter calling the function
+        :param blacklisted_sync_files: The files, that should be blacklisted for sync
+        :param error_code: The lint error code, in case of a failing lint function
+        :param is_sublinter_calling: Whether the function has been called from a sublinter or not
         """
         # a set containig the section name as a key and its linting rules as values
         # linting rules made of:
@@ -678,12 +667,14 @@ class ConfigLinter:
         check_set = {
             'bumpversion': [[('current_version', '*')], 1],
             'bumpversion_files_whitelisted': [[('dot_cookietemple', '.cookietemple.yml')], -1],
-            'sync_level': [[('ct_sync_level', 'patch|minor|major')], 1],
-            'sync_files_blacklisted': [self.calling_lint_class.blacklisted_sync_files, -1]
+            'sync_level': [[('ct_sync_level', 'patch|minor|major')], 1]
         }
-        return self.apply_section_linting_rules(section_name, section_items, check_set.get(section_name), main_linter)
+        if section_name == 'sync_files_blacklisted' and is_sublinter_calling:
+            return self.apply_section_linting_rules('sync_files_blacklisted', section_items, blacklisted_sync_files, main_linter, error_code)
 
-    def apply_section_linting_rules(self, section: str, section_items, section_lint_rules, main_linter: TemplateLinter) -> bool:
+        return self.apply_section_linting_rules(section_name, section_items, check_set.get(section_name), main_linter, error_code)
+
+    def apply_section_linting_rules(self, section: str, section_items, section_lint_rules, main_linter: TemplateLinter, error_code: str) -> bool:
         """
         For each section, check if the applied linting rules are met!
         """
@@ -702,8 +693,5 @@ class ConfigLinter:
                 linting_passed &= any(section_item for idx, section_item in enumerate(section_items) if section_items[idx][0] == section_tuple[0])
 
         if not linting_passed:
-            if section == 'sync_files_blacklisted':
-                main_linter.failed.append((self.calling_lint_class.blacklisted_lint_code, 'Linting failed for sync_files_blacklisted config section!'))
-            else:
-                main_linter.failed.append(('general-7', f'Config linting failed for section {section}!'))
+            main_linter.failed.append((error_code, f'Config linting failed for section {section}!'))
         return linting_passed
