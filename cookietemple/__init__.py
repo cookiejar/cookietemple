@@ -7,4 +7,4 @@
 
 # __version__ = metadata.version('cookietemple')
 
-__version__ = '1.2.2-SNAPSHOT'
+__version__ = '1.2.2'

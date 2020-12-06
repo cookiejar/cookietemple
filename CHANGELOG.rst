@@ -6,8 +6,8 @@ Changelog
 
 This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
-1.2.2-SNAPSHOT (2020-11-29)
----------------------------
+1.2.2 (2020-12-06)
+------------------
 
 **Added**
 
