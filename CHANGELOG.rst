@@ -6,8 +6,8 @@ Changelog
 
 This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
-1.2.2-SNAPSHOT (2020-11-29)
----------------------------
+1.2.2 (2020-12-06)
+------------------
 
 **Added**
 
@@ -20,6 +20,14 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 * Fixed a bug that caused the upgrade command to print the wrong information if the local version of cookietemple was a SNAPSHOT version
 
 * Cookietemple's GitHub Actions now print lint and create results colored
+
+* Added requirements.txt and requirements_dev.txt (Python projects) to blacklisted sync files
+
+* Added build.gradle (Cli Java) and pom.xml (GUI Java) to blacklisted sync files
+
+* Updated the config file linter to check whether those files are excluded from sync
+
+* Updated docs with new lint error handling codes
 
 **Fixed**
 
