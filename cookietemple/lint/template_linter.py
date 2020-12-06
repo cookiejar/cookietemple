@@ -681,6 +681,7 @@ class ConfigLinter:
         if section_lint_rules[1] != -1:
             linting_passed &= len(section_items) == section_lint_rules[1]
         # decide, whether we should check for the whole tuple or just any part of it
+        # for each key value pair, that should be blacklisted in the config file sync_blacklisted_files section, check whether it is in the parsed items or not
         for section_tuple in section_lint_rules[0]:
             if section_tuple[1] != '*':
                 # it is possible to have several valid values for a concrete section item
