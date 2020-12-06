@@ -27,6 +27,8 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 * Updated the config file linter to check whether those files are excluded from sync
 
+* Updated docs with new lint error handling codes
+
 **Fixed**
 
 **Dependencies**

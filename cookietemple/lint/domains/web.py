@@ -38,9 +38,11 @@ class WebWebsitePythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
         Check the sync_files_blacklisted section containing every required file!
         """
         config_linter = ConfigLinter(f'{self.path}/cookietemple.cfg', self)
-        result = config_linter.check_section(config_linter.parser.items('sync_files_blacklisted'), 'sync_files_blacklisted', self,
-                                             [[('requirements', 'requirements.txt'), ('requirements_dev', 'requirements_dev.txt'),
-                                               ('changelog', 'CHANGELOG.rst')], -1], 'web-python-2', True)
+        result = config_linter.check_section(section_items=config_linter.parser.items('sync_files_blacklisted'), section_name='sync_files_blacklisted',
+                                             main_linter=self,
+                                             blacklisted_sync_files=[[('requirements', 'requirements.txt'), ('requirements_dev', 'requirements_dev.txt'),
+                                                                      ('changelog', 'CHANGELOG.rst')], -1], error_code='web-python-2',
+                                             is_sublinter_calling=True)
         if result:
             self.passed.append(('web-python-2', 'All required sync blacklisted files are configured!'))
         else:

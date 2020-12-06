@@ -1,12 +1,10 @@
 import io
-import inspect
 import logging
 import os
 import re
 import configparser
 import sys
 from typing import Tuple
-
 import rich.progress
 import rich.markdown
 import rich.panel

@@ -144,8 +144,9 @@ cli-python-2
 cli-python-3
 ~~~~~~~~~~~~~~~
 
-| The ``cookietemple.cfg`` section called ``sync_files_blacklisted`` misses either ``requirements = requirements.txt`` or ``requirements_dev = requirements_dev.txt``.
-  Both are required to exclude them from syncing and interference with services like dependabot.
+| The ``cookietemple.cfg`` section called ``sync_files_blacklisted`` misses either ``requirements = requirements.txt``, ``requirements_dev = requirements_dev.txt`` or
+  ``changelog = CHANGELOG.rst``.
+  All are required to exclude them from syncing and interference with services like dependabot.
 
 cli-java
 ^^^^^^^^^^^^
@@ -160,8 +161,9 @@ cli-java-1
 cli-java-2
 ~~~~~~~~~~~~~~~
 
-| The ``cookietemple.cfg`` section called ``sync_files_blacklisted`` misses ``build_gradle = gradle.build``.
-  This is required to exclude the gradle build file from syncing.
+| The ``cookietemple.cfg`` section called ``sync_files_blacklisted`` misses ``build_gradle = gradle.build`` or
+  ``changelog = CHANGELOG.rst``.
+  Both are required to exclude the gradle build file from syncing.
 
 
 lib-cpp
@@ -174,6 +176,11 @@ lib-cpp-1
 | Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
   at the time of the project creation using cookietemple this file should not have been missing!
 
+lib-cpp-2
+~~~~~~~~~~~~
+
+| The ``cookietemple.cfg`` section called ``sync_files_blacklisted`` misses ``changelog = CHANGELOG.rst``.
+  This is required to be excluded from syncing.
 
 web-python
 ^^^^^^^^^^^^
@@ -188,8 +195,9 @@ web-python-1
 web-python-2
 ~~~~~~~~~~~~~~~
 
-| The ``cookietemple.cfg`` section called ``sync_files_blacklisted`` misses either ``requirements = requirements.txt`` or ``requirements_dev = requirements_dev.txt``.
-  Both are required to exclude them from syncing and interference with services like dependabot.
+| The ``cookietemple.cfg`` section called ``sync_files_blacklisted`` misses either ``requirements = requirements.txt``, ``requirements_dev = requirements_dev.txt``
+  or ``changelog = CHANGELOG.rst``.
+  All are required to exclude them from syncing and interference with services like dependabot.
 
 gui-java
 ^^^^^^^^^
@@ -204,8 +212,8 @@ gui-java-1
 gui-java-2
 ~~~~~~~~~~~~~~~
 
-| The ``cookietemple.cfg`` section called ``sync_files_blacklisted`` misses ``pom = pom.xml``.
-  This is required to exclude the pom.xml file from syncing.
+| The ``cookietemple.cfg`` section called ``sync_files_blacklisted`` misses ``pom = pom.xml`` or ``changelog = CHANGELOG.rst``.
+  Both are required to be excluded from syncing.
 
 
 
@@ -218,3 +226,9 @@ pub-thesis-1
 | File not found. This error occurs when your project does not include all of pub-thesis's expected files.
 | Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
   at the time of the project creation using cookietemple this file should not have been missing!
+
+pub-thesis-2
+~~~~~~~~~~~~~~~~~~~~~
+
+| The ``cookietemple.cfg`` section called ``sync_files_blacklisted`` misses ``changelog = CHANGELOG.rst``.
+  This is required to be excluded from syncing.
