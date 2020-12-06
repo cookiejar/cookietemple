@@ -1,0 +1,591 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>web-website-python &mdash; cookietemple 1.2.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom_cookietemple.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> cookietemple
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">cookietemple overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../create.html">Create a project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../list_info.html">Getting information about available templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lint.html">Linting your project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bump_version.html">Bumping the version of an existing project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sync.html">Syncing your project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../warp.html">Packaging using warp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">Configure cookietemple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrade.html">Upgrade cookietemple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="available_templates.html">Available templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_support.html">Github Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../adding_new_templates.html">Adding new templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">External Python based projects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../community.html">Community</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_of_conduct.html">Contributor Covenant Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cookietemple</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>web-website-python</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/available_templates/web_website_python.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="web-website-python">
+<h1>web-website-python<a class="headerlink" href="#web-website-python" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="purpose">
+<h2>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline">¶</a></h2>
+<p>This template is a <a class="reference external" href="https://flask.palletsprojects.com/en/1.1.x/">Flask</a>  based Web Template that can be customized from two basic layouts and many available frontend templates.
+It contains all the code, necessary for project setup and automatic deployment on a Linux server. It also provides a GitHub Workflow for automatic CSS linting on push using
+<a class="reference external" href="https://stylelint.io/">Stylelint</a>.</p>
+</div>
+<div class="section" id="design">
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h2>
+<p>The whole template is designed to be as customizable as possible. Note that all templates could be customized
+with a full featured Frontend template setup during the template creation process. However, if you don´t like the offered templates or simply want to create your own frontend,
+you can create your template with only a minimal frontend.
+You can choose from two main options:</p>
+<div class="section" id="the-basic-setup">
+<h3>The basic setup<a class="headerlink" href="#the-basic-setup" title="Permalink to this headline">¶</a></h3>
+<p>The basic theme is designed to provide only minimal code needed for getting started: Thus it comes
+with only minimal HTML/CSS/JS code (but you can initalize it with a full featured frontend, if you want to) and basic Flask configuration.
+However, it contains all the code needed for automatic deployment on a Linux server and adheres to the cookietemple project structure standards.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── AUTHORS.rst
+├── CHANGELOG.rst
+├── .coafile
+├── CODEOFCONDUCT.rst
+├── cookietemple.cfg
+├── .cookietemple.yml
+├── .dependabot
+│   └── config.yml
+├── Dockerfile
+├── docs
+│   ├── authors.rst
+│   ├── changelog.rst
+│   ├── codeofconduct.rst
+│   ├── conf.py
+│   ├── index.rst
+│   ├── installation.rst
+│   ├── make.bat
+│   ├── Makefile
+│   ├── modules.rst
+│   ├── readme.rst
+│   ├── requirements.txt
+│   ├── _static
+│   │   └── custom_cookietemple.css
+│   └── usage.rst
+├── .editorconfig
+├── Exploding_Springfield
+│   ├── cli.py
+│   ├── Exploding_Springfield.py
+│   ├── files
+│   │   └── test.txt
+│   └── __init__.py
+├── .github
+│   ├── ISSUE_TEMPLATE
+│   │   ├── bug_report.md
+│   │   ├── feature_request.md
+│   │   └── general_question.md
+│   ├── pull_request.md
+│   └── workflows
+│       ├── build_docs.yml
+│       ├── build_package.yml
+│       ├── flake8_linting.yml
+│       ├── pr_to_master_from_dev_only.yml
+│       ├── publish_package.yml
+│       └── tox_testsuite.yml
+├── .gitignore
+├── LICENSE
+├── Makefile
+├── MANIFEST.in
+├── README.rst
+├── .readthedocs.yml
+├── requirements_dev.txt
+├── requirements.txt
+├── setup.cfg
+├── setup.py
+├── tests
+│   ├── __init__.py
+│   └── test_Exploding_Springfield.py
+├── tox.ini
+└── .travis.yml
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-advanced-setup">
+<h3>The advanced setup<a class="headerlink" href="#the-advanced-setup" title="Permalink to this headline">¶</a></h3>
+<p>The advanced theme comes with a lot more functionality by default (and can also be initialized with a full featured, nice frontend):</p>
+<ol class="arabic simple">
+<li><p>It uses <a class="reference external" href="https://flask-sqlalchemy.palletsprojects.com/en/2.x/">FlaskSQL-Alchemy</a> and <a class="reference external" href="https://flask-migrate.readthedocs.io/en/latest/">FlaskMigrate</a> to setup a <a class="reference external" href="https://www.sqlite.org/index.html">SQLite</a> application for simple User Login.</p></li>
+<li><p>It provides translation for German and English using <a class="reference external" href="https://pythonhosted.org/Flask-Babel/">Flask-Babel</a>.</p></li>
+<li><p>It provides sending mail through <a class="reference external" href="https://pythonhosted.org/Flask-Mail/">Flask-Mail</a>.</p></li>
+<li><p>It provides error handling through custom error pages.</p></li>
+<li><p>Its configured to be automatically deployed in seconds on a Linux server.</p></li>
+<li><p>More is WIP (Contributions are welcome).</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── AUTHORS.rst
+├── babel.cfg
+├── CHANGELOG.rst
+├── CODEOFCONDUCT.rst
+├── cookietemple.cfg
+├── .cookietemple.yml
+├── .dependabot
+│   └── config.yml
+├── deployment_scripts
+│   ├── Exploding_Springfield
+│   ├── Exploding_Springfield.service
+│   ├── README.md
+│   └── setup.sh
+├── Dockerfile
+├── docs
+│   ├── authors.rst
+│   ├── changelog.rst
+│   ├── conf.py
+│   ├── contributing.rst
+│   ├── index.rst
+│   ├── installation.rst
+│   ├── make.bat
+│   ├── Makefile
+│   ├── readme.rst
+│   ├── requirements.txt
+│   ├── _static
+│   │   └── custom_cookietemple.css
+│   └── usage.rst
+├── .editorconfig
+├── Exploding_Springfield
+│   ├── app.py
+│   ├── auth
+│   │   ├── forms
+│   │   │   ├── __init__.py
+│   │   │   ├── login_form.py
+│   │   │   └── register_form.py
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   ├── config.py
+│   ├── errors
+│   │   ├── handlers.py
+│   │   └── __init__.py
+│   ├── __init__.py
+│   ├── main
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   ├── models
+│   │   ├── __init__.py
+│   │   └── users.py
+│   ├── server.py
+│   ├── services
+│   │   └── __init__.py
+│   ├── static
+│   │   ├── assets
+│   │   │   ├── css
+│   │   │   │   └── min_css.css
+│   │   │   ├── images
+│   │   │   │   └── gitkeep
+│   │   │   ├── js
+│   │   │   │   └── min_jss.js
+│   │   │   ├── sass
+│   │   │   │   ├── base
+│   │   │   │   │   └── gitkeep
+│   │   │   │   ├── components
+│   │   │   │   │   └── gitkeep
+│   │   │   │   ├── layout
+│   │   │   │   │   └── gitkeep
+│   │   │   │   └── libs
+│   │   │   │       └── gitkeep
+│   │   │   └── webfonts
+│   │   │       └── gitkeep
+│   │   └── mail_stub.conf
+│   ├── templates
+│   │   ├── auth
+│   │   │   ├── login.html
+│   │   │   └── register.html
+│   │   ├── base.html
+│   │   ├── errors
+│   │   │   ├── 400.html
+│   │   │   ├── 403.html
+│   │   │   ├── 404.html
+│   │   │   ├── 410.html
+│   │   │   ├── 500.html
+│   │   │   └── error_template.html
+│   │   └── index.html
+│   └── translations
+│       └── de
+│           └── LC_MESSAGES
+│               ├── messages.mo
+│               └── messages.po
+├── .github
+│   ├── ISSUE_TEMPLATE
+│   │   ├── bug_report.md
+│   │   ├── feature_request.md
+│   │   └── general_question.md
+│   ├── pull_request.md
+│   └── workflows
+│       ├── build_docs.yml
+│       ├── build_package.yml
+│       ├── css_lint.yml
+│       ├── flake8_linting.yml
+│       ├── pr_to_master_from_dev_only.yml
+│       └── tox_testsuite.yml
+├── .gitignore
+├── LICENSE
+├── Makefile
+├── MANIFEST.in
+├── README.rst
+├── .readthedocs.yml
+├── requirements_dev.txt
+├── requirements.txt
+├── setup.cfg
+├── setup.py
+├── .stylelintrc.json
+├── tests
+│   ├── __init__.py
+│   └── test_Exploding_Springfield.py
+├── tox.ini
+└── .travis.yml
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="included-frameworks-libraries">
+<h2>Included frameworks/libraries<a class="headerlink" href="#included-frameworks-libraries" title="Permalink to this headline">¶</a></h2>
+<p>Both templates are based on <a class="reference external" href="https://flask.palletsprojects.com/en/1.1.x/">Flask</a> and, in the case of the advanced layout,
+make heavy use of its extensions.</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://flask.palletsprojects.com/en/1.1.x/">Flask</a></p></li>
+<li><p><a class="reference external" href="https://click.palletsprojects.com/">click</a>, <a class="reference external" href="https://docs.python.org/3/library/argparse.html">argparse</a> or no command line interface</p></li>
+<li><p><a class="reference external" href="https://docs.pytest.org/en/latest/">pytest</a> or <a class="reference external" href="https://docs.python.org/3/library/unittest.html">unittest</a> as testing frameworks</p></li>
+<li><p>Preconfigured <a class="reference external" href="https://tox.readthedocs.io/en/latest/">tox</a> to run pytest matrices with different Python environments</p></li>
+<li><p>Preconfigured <a class="reference external" href="https://readthedocs.org/">readthedocs</a></p></li>
+<li><p>Eleven Github workflows:</p></li>
+</ol>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">build_docs.yml</span></code>, which builds the readthedocs documentation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">build_package.yml</span></code>, which builds the web-template package.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_flake8_linting.yml</span></code>, which runs <a class="reference external" href="https://flake8.pycqa.org/en/latest/">flake8</a> linting.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_tox_testsuite.yml</span></code>, which runs the tox testing suite.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_css_lint.yml</span></code>, which runs <a class="reference external" href="https://stylelint.io/">Stylelint</a> CSS linting.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_codecov</span></code>, apply codecov to your project/PRs in your project and create automatically a report with the details at <a class="reference external" href="https://codecov.io">codecov.io</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_bandit</span></code>, run <a class="reference external" href="https://github.com/PyCQA/bandit">bandit</a> to discover security issues in your python code</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pr_to_master_from_patch_release_only</span></code>: Please read <a class="reference internal" href="../github_support.html#pr-master-workflow-docs"><span class="std std-ref">pr_to_master_from_patch_release_only workflow</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">check_no_SNAPSHOT_master.yml</span></code>: Please read <a class="reference internal" href="../github_support.html#pr-master-workflow-docs"><span class="std std-ref">pr_to_master_from_patch_release_only workflow</span></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_cookietemple_lint.yml</span></code>, which runs <code class="docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">lint</span></code> on the project.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sync_project.yml</span></code>, which syncs the project to the most recent cookietemple template version</p></li>
+</ol>
+</div></blockquote>
+<p>We highly recommend to use click (if commandline interface is required) together with pytest.</p>
+<p>The advanced template therefore uses some more packages including:</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://flask-sqlalchemy.palletsprojects.com/en/2.x/">FlaskSQL-Alchemy</a></p></li>
+<li><p><a class="reference external" href="https://flask-migrate.readthedocs.io/en/latest/">Flask-Migrate</a></p></li>
+<li><p><a class="reference external" href="https://pythonhosted.org/Flask-Babel/">Flask-Babel</a> for translations</p></li>
+<li><p><a class="reference external" href="https://pythonhosted.org/Flask-Mail/">Flask-Mail</a> for mail</p></li>
+<li><p><a class="reference external" href="https://pythonhosted.org/Flask-Bootstrap/">Flask-Bootstrap</a> for basic login page styling</p></li>
+<li><p><a class="reference external" href="https://flask-login.readthedocs.io/en/latest/">Flask-Login</a> for login session management</p></li>
+<li><p><a class="reference external" href="https://flask-wtf.readthedocs.io/en/stable/">Flask-wtf</a> for the login forms</p></li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-basic-template-usage">
+<h3>The basic template usage<a class="headerlink" href="#the-basic-template-usage" title="Permalink to this headline">¶</a></h3>
+<p>The generated flask web project can be installed using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make install
+</pre></div>
+</div>
+<p>or alternatively:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python setup.py install
+</pre></div>
+</div>
+<p>Your package is then installed globally (or in your virtual environment) on your machine and can be called from your favorite shell:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ &lt;&lt;your_project_name&gt;&gt;
+</pre></div>
+</div>
+<p>Other make targets include:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make clean
+</pre></div>
+</div>
+<p>which removes all build files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make dist
+</pre></div>
+</div>
+<p>which builds source and wheel packages, which can then be used for a PyPi release using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make release
+</pre></div>
+</div>
+<p>All possible Makefile commands can be viewed using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make help
+</pre></div>
+</div>
+<p>Another possibility is to simply run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ export FLASK_APP = path/to/your/app.py
+$ flask run
+</pre></div>
+</div>
+<p>Note that, if your current directory contains your app.py file, you do not need to set the environment variable lika above!</p>
+</div>
+<div class="section" id="the-advanced-template-usage">
+<h3>The advanced template usage<a class="headerlink" href="#the-advanced-template-usage" title="Permalink to this headline">¶</a></h3>
+<p>Using the advanced template, you have to consider a few more steps in order to make it work properly:</p>
+<ol class="arabic simple">
+<li><p>You can install the project just like described above via <code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="pre">make</span> <span class="pre">install</span></code>.</p></li>
+<li><p>Now, you have to setup and initialize your SQLite database file using <code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="pre">make</span> <span class="pre">init_db</span></code>. This step is needed otherwise your app won’t work!</p></li>
+<li><p>In order to make your translations working, we need to update and compile the recent translations
+Therefore <code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="pre">flask</span> <span class="pre">translate</span> <span class="pre">update</span></code> and then <code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="pre">flask</span> <span class="pre">translate</span> <span class="pre">compile</span></code>. Note that you have to <code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="name builtin"><span class="pre">export</span></span> <span class="name variable"><span class="pre">FLASK_APP</span></span><span class="operator"><span class="pre">=</span></span><span class="pre">your/path/to/app.py</span></code>
+if not already done. Then, again, run <code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="pre">make</span> <span class="pre">install</span></code> to pick up your translations into your actual build.</p></li>
+</ol>
+<ol class="arabic simple" start="3">
+<li><p>Now, fire up <code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="pre">&lt;&lt;your_project_name&gt;&gt;</span></code> and see your project setup working.</p></li>
+</ol>
+<p>A quick note on translations: Your advanced template comes with a basic translation setup for German and English translation.
+As your project grows, you may need to add new translations. This can be easily done using the provided cli-commands by the template:</p>
+<p>1. If you want to add a new language: Use <code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="pre">flask</span> <span class="pre">translate</span> <span class="pre">init</span> <span class="pre">&lt;&lt;my_new_language&gt;&gt;</span></code>. Note that my new language must be a valid language literal like
+<code class="code bash docutils literal notranslate"><span class="pre">en</span></code> for english.</p>
+<ol class="arabic simple" start="2">
+<li><p><code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="pre">flask</span> <span class="pre">translate</span> <span class="pre">update</span></code> to update all language repositories</p></li>
+<li><p>Now you can update your translations in <code class="code bash docutils literal notranslate"><span class="pre">your/path/to/translations/yourlanguage/LC_MESSAGES/messages.po</span></code>.</p></li>
+</ol>
+<ol class="arabic simple" start="3">
+<li><p><code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="pre">flask</span> <span class="pre">translate</span> <span class="pre">compile</span></code> to compile all language repositories</p></li>
+</ol>
+<p>Note that you need to run <code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="pre">make</span> <span class="pre">install</span></code> each time after updating and compiling your new translations in order for them to take effect. However, this is not
+necessary, if you start your application via <code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="pre">flask</span> <span class="pre">run</span></code>.</p>
+</div>
+</div>
+<div class="section" id="automatic-deployment">
+<h2>Automatic Deployment<a class="headerlink" href="#automatic-deployment" title="Permalink to this headline">¶</a></h2>
+<p><strong>IMPORTANT:</strong> Note that the following is written for a server running Ubuntu 18.04 LTS where Python2 is still the default. If you are using Ubuntu 20 (or similar), you can replace
+<code class="code bash docutils literal notranslate"><span class="pre">pip3</span></code> with <code class="code bash docutils literal notranslate"><span class="pre">pip</span></code> and <code class="code bash docutils literal notranslate"><span class="pre">python3</span></code> with <code class="code bash docutils literal notranslate"><span class="pre">python</span></code>.</p>
+<p>Both templates are ready for deployment using nginx and gunicorn and are therefore shipped with a setup script <code class="code bash docutils literal notranslate"><span class="pre">path/to/your/project/deployment_scripts/setup.sh</span></code>.
+There are a few requirements needed in order to deploy:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>You need a registered Domain from your preferred DNS-Provider like <a class="reference external" href="https://www.namecheap.com/">Namecheap</a>.</p></li>
+<li><p>You need a Linux server, like a droplet at <a class="reference external" href="https://www.digitalocean.com/">DigitalOcean</a>, in order to deploy your application.</p></li>
+<li><p>To start deployment, you have to setup your server initially. You can follow, for example, the steps <a class="reference external" href="https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-18-04">here</a>
+in order to correctly setup your server.</p></li>
+</ol>
+</div></blockquote>
+<p>If you meet all the requirements above login (for example via <code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="pre">ssh</span> <span class="pre">yourvmusername&#64;your-servers-IP</span></code>) into your server:</p>
+<p>Now, you need to clone your repository in order to start the deployment process.
+So <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">clone</span> <span class="pre">&lt;&lt;GITHUB_URL_OF_YOUR_PROJECT&gt;&gt;</span></code> and cd <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">YOUR_PROJECTS_TOP_LEVEL_DIRECTORY</span></code>.
+Now simply run <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">source</span> <span class="pre">deployment_scripts/setup.sh</span></code> and the deployment starts. You may be prompted for your password as some commands run need <code class="docutils literal notranslate"><span class="pre">sudo</span></code> rights.</p>
+<p><strong>Important</strong>:
+Currently, one more step is required to get <code class="docutils literal notranslate"><span class="pre">https</span></code> redirecting to work properly. This will be included into a script in the future, to automate this process.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">sudo</span> <span class="pre">vim</span> <span class="pre">/etc/nginx/sites-enabled/&lt;&lt;my_project_name&gt;&gt;</span></code></p></li>
+<li><p>Now, you need to copy the certbot added section from the second server section into the first server section, so copy:
+<code class="docutils literal notranslate"><span class="pre">listen</span> <span class="pre">443</span> <span class="pre">ssl;</span> <span class="pre">#</span> <span class="pre">managed</span> <span class="pre">by</span> <span class="pre">Certbot</span></code>
+<code class="docutils literal notranslate"><span class="pre">ssl_certificate</span> <span class="pre">/etc/letsencrypt/live/&lt;&lt;my_url&gt;&gt;/fullchain.pem;</span> <span class="pre">#</span> <span class="pre">managed</span> <span class="pre">by</span> <span class="pre">Certbot</span></code>
+<code class="docutils literal notranslate"><span class="pre">ssl_certificate_key</span> <span class="pre">/etc/letsencrypt/live/&lt;&lt;my_url&gt;&gt;/privkey.pem;</span> <span class="pre">#</span> <span class="pre">managed</span> <span class="pre">by</span> <span class="pre">Certbot</span></code>
+<code class="docutils literal notranslate"><span class="pre">include</span> <span class="pre">/etc/letsencrypt/options-ssl-nginx.conf;</span> <span class="pre">#</span> <span class="pre">managed</span> <span class="pre">by</span> <span class="pre">Certbot</span></code>
+<code class="docutils literal notranslate"><span class="pre">ssl_dhparam</span> <span class="pre">/etc/letsencrypt/ssl-dhparams.pem;</span> <span class="pre">#</span> <span class="pre">managed</span> <span class="pre">by</span> <span class="pre">Certbot</span></code></p></li>
+</ol>
+<p>into the first server section after the <code class="docutils literal notranslate"><span class="pre">location</span></code> and delete it from the second one.</p>
+<ol class="arabic simple" start="3">
+<li><p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">sudo</span> <span class="pre">nginx</span> <span class="pre">-t</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">sudo</span> <span class="pre">nginx</span> <span class="pre">-s</span> <span class="pre">reload</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">sudo</span> <span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">&lt;&lt;my_project_name&gt;&gt;</span></code></p></li>
+</ol>
+</div></blockquote>
+<p>Tip: You can check <code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="pre">sudo</span> <span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">&lt;my_project_name&gt;</span></code> to check for the working state of your gunicorn instance or any errors.</p>
+<p>If everything went fine, you should now be able to access your application at your domain.
+Note that the setup process also includes HTTP to HTTPS redirecting.</p>
+<p>In case of any problems, dont hesitate to drop us a message in our <a class="reference external" href="https://discord.com/channels/708008788505919599/708008788505919602">Discord</a>. or create an issue <a class="reference external" href="https://github.com/cookiejar/cookietemple/issues/new/choose">at our github repo</a></p>
+</div>
+<div class="section" id="faq">
+<h2>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h2>
+<p>None yet.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

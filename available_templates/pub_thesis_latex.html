@@ -1,0 +1,813 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pub-thesis-latex &mdash; cookietemple 1.2.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom_cookietemple.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> cookietemple
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">cookietemple overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../create.html">Create a project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../list_info.html">Getting information about available templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lint.html">Linting your project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bump_version.html">Bumping the version of an existing project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sync.html">Syncing your project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../warp.html">Packaging using warp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">Configure cookietemple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrade.html">Upgrade cookietemple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="available_templates.html">Available templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_support.html">Github Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../adding_new_templates.html">Adding new templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">External Python based projects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../community.html">Community</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_of_conduct.html">Contributor Covenant Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cookietemple</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>pub-thesis-latex</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/available_templates/pub_thesis_latex.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pub-thesis-latex">
+<h1>pub-thesis-latex<a class="headerlink" href="#pub-thesis-latex" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="purpose">
+<h2>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">pub-thesis is a latex based template designed for University theses. It is especially suited for Bachelor-, Master theses and dissertations.</div>
+<div class="line">The <a class="reference external" href="https://github.com/kks32/phd-thesis-template">CUED</a> PhD thesis template served as basis for this template.</div>
+</div>
+</div>
+<div class="section" id="design">
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">pub-thesis is a modular latex template, which is reflected in the folder structure. The main tex files are <code class="code docutils literal notranslate"><span class="pre">thesis.tex</span></code> and <code class="code docutils literal notranslate"><span class="pre">thesis-info.tex</span></code>.</div>
+<div class="line"><code class="code docutils literal notranslate"><span class="pre">thesis-info.tex</span></code> mostly defines general information such as name, degree, university etc and <code class="code docutils literal notranslate"><span class="pre">thesis.tex</span></code> includes all other tex files such as abstracts, chapters etc.</div>
+<div class="line">The tex files for these chapters are found in their respective subfolders.</div>
+<div class="line">All figures go inside the <code class="code docutils literal notranslate"><span class="pre">Figs</span></code> subfolder and all references should be included in <code class="code docutils literal notranslate"><span class="pre">References/references.bib</span></code>.</div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── Abstract
+│   └── abstract.tex
+├── Acknowledgement
+│   └── acknowledgement.tex
+├── Appendix1
+│   └── appendix1.tex
+├── Chapter1
+│   └── chapter1.tex
+├── Chapter2
+│   ├── chapter2.tex
+│   └── Figs
+│       ├── Raster
+│       │   ├── minion.png
+│       │   ├── TomandJerry.png
+│       │   └── WallE.png
+│       └── Vector
+│           ├── minion.eps
+│           ├── TomandJerry.eps
+│           └── WallE.eps
+├── Chapter3
+│   └── chapter3.tex
+├── compile-thesis.sh
+├── compile-thesis-windows.bat
+├── cookietemple.cfg
+├── .cookietemple.yml
+├── Declaration
+│   └── declaration.tex
+├── Dedication
+│   └── dedication.tex
+├── Dockerfile
+├── Figs
+│   ├── CollegeShields
+│   │   ├── Downing.eps
+│   │   ├── Downing.pdf
+│   │   ├── Fitzwilliam.eps
+│   │   ├── Fitzwilliam.pdf
+│   │   ├── FitzwilliamRed.eps
+│   │   ├── FitzwilliamRed.pdf
+│   │   ├── Gonville_and_Caius.jpg
+│   │   ├── Kings.eps
+│   │   ├── Kings.pdf
+│   │   ├── Licenses.md
+│   │   ├── Peterhouse.pdf
+│   │   ├── Queens.eps
+│   │   ├── Queens.pdf
+│   │   ├── src
+│   │   │   ├── Downing.svg
+│   │   │   ├── Kings.svg
+│   │   │   ├── Peterhouse.svg
+│   │   │   ├── Queens.svg
+│   │   │   └── Trinity.svg
+│   │   ├── StJohns.eps
+│   │   ├── StJohns.pdf
+│   │   ├── Trinity.eps
+│   │   └── Trinity.pdf
+│   ├── University_Crest.eps
+│   ├── University_Crest_Long.eps
+│   ├── University_Crest_Long.pdf
+│   └── University_Crest.pdf
+├── .github
+│   └── workflows
+│       └── build_thesis.yml
+├── .gitignore
+├── glyphtounicode.tex
+├── hooks
+│   ├── install.sh
+│   └── pre-commit
+├── LICENSE
+├── Makefile
+├── PhDThesisPSnPDF.cls
+├── Preamble
+│   └── preamble.tex
+├── README.rst
+├── References
+│   └── references.bib
+├── sty
+│   └── breakurl.sty
+├── thesis-info.tex
+├── thesis.pdf
+├── thesis.ps
+├── thesis.tex
+└── Variables.ini
+</pre></div>
+</div>
+</div>
+<div class="section" id="included-frameworks-libraries">
+<h2>Included frameworks/libraries<a class="headerlink" href="#included-frameworks-libraries" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>LaTeX, XeLaTeX and LuaLaTeX support</p></li>
+<li><p>Draft mode: Draft water mark, timestamp, version numbering and line numbering</p></li>
+<li><p><a class="reference external" href="http://www.bibtex.org/Using/">Bibtex</a> support</p></li>
+<li><p>A Github workflow <code class="code docutils literal notranslate"><span class="pre">build_thesis.yml</span></code>, which builds your thesis in a Docker container</p></li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="building-your-thesis-latex-pdflatex">
+<h3>Building your thesis - LaTeX / PDFLaTeX<a class="headerlink" href="#building-your-thesis-latex-pdflatex" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="using-latexmk-unix-linux-windows">
+<h4>Using latexmk (Unix/Linux/Windows)<a class="headerlink" href="#using-latexmk-unix-linux-windows" title="Permalink to this headline">¶</a></h4>
+<p>This template supports <code class="docutils literal notranslate"><span class="pre">latexmk</span></code>. To generate DVI, PS and PDF run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">latexmk</span> <span class="o">-</span><span class="n">dvi</span> <span class="o">-</span><span class="n">ps</span> <span class="o">-</span><span class="n">pdf</span> <span class="n">thesis</span><span class="o">.</span><span class="n">tex</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-the-make-file-unix-linux">
+<h4>Using the make file (Unix/Linux)<a class="headerlink" href="#using-the-make-file-unix-linux" title="Permalink to this headline">¶</a></h4>
+<p>The template supports PDF, DVI and PS formats. All three formats can be
+generated with the provided <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>.</p>
+<p>To build the <code class="docutils literal notranslate"><span class="pre">PDF</span></code> version of your thesis, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span>
+</pre></div>
+</div>
+<p>This build procedure uses <code class="docutils literal notranslate"><span class="pre">pdflatex</span></code> with <code class="docutils literal notranslate"><span class="pre">bibtex</span></code> and will produce
+<code class="docutils literal notranslate"><span class="pre">thesis.pdf</span></code>. To use <code class="docutils literal notranslate"><span class="pre">pdflatex</span></code> with <code class="docutils literal notranslate"><span class="pre">biblatex</span></code>, you should run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">BIB_STRATEGY</span><span class="o">=</span><span class="n">biblatex</span>
+</pre></div>
+</div>
+<p>To use <code class="docutils literal notranslate"><span class="pre">XeLaTeX</span></code>, you should run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">BUILD_STRATEGY</span><span class="o">=</span><span class="n">xelatex</span>
+</pre></div>
+</div>
+<p>or with <code class="docutils literal notranslate"><span class="pre">biblatex</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">BUILD_STRATEGY</span><span class="o">=</span><span class="n">xelatex</span> <span class="n">BIB_STRATEGY</span><span class="o">=</span><span class="n">biblatex</span>
+</pre></div>
+</div>
+<p>To use <code class="docutils literal notranslate"><span class="pre">LuaLaTeX</span></code>, you should run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">BUILD_STRATEGY</span><span class="o">=</span><span class="n">lualatex</span>
+</pre></div>
+</div>
+<p>or with <code class="docutils literal notranslate"><span class="pre">biblatex</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">BUILD_STRATEGY</span><span class="o">=</span><span class="n">lualatex</span> <span class="n">BIB_STRATEGY</span><span class="o">=</span><span class="n">biblatex</span>
+</pre></div>
+</div>
+<p>To produce <code class="docutils literal notranslate"><span class="pre">DVI</span></code> and <code class="docutils literal notranslate"><span class="pre">PS</span></code> versions of your document, you should run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">BUILD_STRATEGY</span><span class="o">=</span><span class="n">latex</span>
+</pre></div>
+</div>
+<p>This will use the <code class="docutils literal notranslate"><span class="pre">latex</span></code> command to build the document and will
+produce <code class="docutils literal notranslate"><span class="pre">thesis.dvi</span></code>, <code class="docutils literal notranslate"><span class="pre">thesis.ps</span></code> and <code class="docutils literal notranslate"><span class="pre">thesis.pdf</span></code> documents. You
+will need psutils installed</p>
+<p>Clean unwanted files</p>
+<p>To clean unwanted clutter (all LaTeX auto-generated files), run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">clean</span>
+</pre></div>
+</div>
+<p><strong>Note</strong>: the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> itself is take from and maintained at
+<a class="reference external" href="http://code.google.com/p/latex-makefile/">here</a>.</p>
+</div>
+<div class="section" id="shell-script-for-pdflatex-unix-linux">
+<h4>Shell script for PDFLaTeX (Unix/Linux)<a class="headerlink" href="#shell-script-for-pdflatex-unix-linux" title="Permalink to this headline">¶</a></h4>
+<p>Usage: <code class="docutils literal notranslate"><span class="pre">sh</span> <span class="pre">./compile-thesis.sh</span> <span class="pre">[OPTIONS]</span> <span class="pre">[filename]</span></code></p>
+<p>[option] compile: Compiles the PhD Thesis</p>
+<p>[option] clean: removes temporary files - no filename required</p>
+</div>
+<div class="section" id="using-the-batch-file-on-windows-os-pdflatex">
+<h4>Using the batch file on Windows OS (PDFLaTeX)<a class="headerlink" href="#using-the-batch-file-on-windows-os-pdflatex" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p>Open command prompt and navigate to the directory with the tex file.
+Run:</p>
+<p><code class="docutils literal notranslate"><span class="pre">compile-thesis-windows.bat</span></code>.</p>
+</li>
+<li><p>Alternatively, double click on <code class="docutils literal notranslate"><span class="pre">compile-thesis-windows.bat</span></code></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="building-your-thesis-xelatex">
+<h3>Building your thesis - XeLaTeX<a class="headerlink" href="#building-your-thesis-xelatex" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h4>Using latexmk (Unix/Linux/Windows)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<p>This template supports <code class="docutils literal notranslate"><span class="pre">XeLaTeX</span></code> compilation chain. To generate PDF
+run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">latexmk</span> <span class="o">-</span><span class="n">xelatex</span> <span class="n">thesis</span><span class="o">.</span><span class="n">tex</span>
+<span class="n">makeindex</span> <span class="n">thesis</span><span class="o">.</span><span class="n">nlo</span> <span class="o">-</span><span class="n">s</span> <span class="n">nomencl</span><span class="o">.</span><span class="n">ist</span> <span class="o">-</span><span class="n">o</span> <span class="n">thesis</span><span class="o">.</span><span class="n">nls</span>
+<span class="n">latexmk</span> <span class="o">-</span><span class="n">xelatex</span> <span class="o">-</span><span class="n">g</span> <span class="n">thesis</span><span class="o">.</span><span class="n">tex</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="building-your-thesis-lualatex">
+<h3>Building your thesis - LuaLaTeX<a class="headerlink" href="#building-your-thesis-lualatex" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h4>Using latexmk (Unix/Linux/Windows)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>This template supports <code class="docutils literal notranslate"><span class="pre">LuaLaTeX</span></code> compilation chain. To generate PDF
+run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">latexmk</span> <span class="o">-</span><span class="n">pdflatex</span><span class="o">=</span><span class="n">lualatex</span> <span class="o">-</span><span class="n">pdf</span> <span class="n">thesis</span><span class="o">.</span><span class="n">tex</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="usage-details">
+<h3>Usage details<a class="headerlink" href="#usage-details" title="Permalink to this headline">¶</a></h3>
+<p>Thesis information such as title, author, year, degree, etc., and other
+meta-data can be modified in <code class="docutils literal notranslate"><span class="pre">thesis-info.tex</span></code></p>
+<div class="section" id="class-options">
+<h4>Class options<a class="headerlink" href="#class-options" title="Permalink to this headline">¶</a></h4>
+<p>The class file, <code class="docutils literal notranslate"><span class="pre">PhDThesisPSnPDF</span></code>, is based on the standard <code class="docutils literal notranslate"><span class="pre">book</span></code>
+class</p>
+<p>It supports the following custom options in the documentclass in
+thesis.tex:</p>
+<p>(Usage <code class="docutils literal notranslate"><span class="pre">\documentclass[a4paper,11pt,print]{PhDThesisPSnPDF}</span></code>)</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">a4paper</span></code> (default as per the University guidelines) or
+<code class="docutils literal notranslate"><span class="pre">a5paper</span></code>: Paper size</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">11pt</span></code> or <code class="docutils literal notranslate"><span class="pre">12pt</span></code>: The University of Cambridge guidelines
+recommend using a minimum font size of 11pt (12pt is preferred) and
+10pt for footnotes. This template also supports <code class="docutils literal notranslate"><span class="pre">10pt</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">oneside</span></code> or <code class="docutils literal notranslate"><span class="pre">twoside</span></code> (default): This is especially useful for
+printing double side (twoside) or single side.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">print</span></code>: Supports Print and Online Version with different page
+margins and hyperlink styles. Use <code class="docutils literal notranslate"><span class="pre">print</span></code> in the options to
+activate Print Version with appropriate margins and page layout and
+view styles. Leaving the options field blank will activate Online
+version.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">custommargin</span></code>: You can alter the margin dimension for both print
+and online version by using the keyword <code class="docutils literal notranslate"><span class="pre">custommargin</span></code> in the
+options. Then you can define the dimensions of the margin in the
+<code class="docutils literal notranslate"><span class="pre">preamble.tex</span></code> file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">ifsetCustomMargin</span>
+  \<span class="n">RequirePackage</span><span class="p">[</span><span class="n">left</span><span class="o">=</span><span class="mi">37</span><span class="n">mm</span><span class="p">,</span><span class="n">right</span><span class="o">=</span><span class="mi">30</span><span class="n">mm</span><span class="p">,</span><span class="n">top</span><span class="o">=</span><span class="mi">35</span><span class="n">mm</span><span class="p">,</span><span class="n">bottom</span><span class="o">=</span><span class="mi">30</span><span class="n">mm</span><span class="p">]{</span><span class="n">geometry</span><span class="p">}</span>
+  \<span class="n">setFancyHdr</span>
+\<span class="n">fi</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">\setFancyHdr</span></code> should be called when using custom margins for
+proper header/footer dimensions</p>
+<p><code class="docutils literal notranslate"><span class="pre">\ifsetMargin</span></code> is deprecated, please use <code class="docutils literal notranslate"><span class="pre">\ifsetCustomMargin</span></code>
+instead.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">index</span></code>: Including this option builds the index, which is placed at
+the end of the thesis.</p>
+<p>Instructions on how to use the index can be found
+<a class="reference external" href="http://en.wikibooks.org/wiki/LaTeX/Indexing#Using_makeidx">here</a>.</p>
+<p><em>Note</em>: the package <code class="docutils literal notranslate"><span class="pre">makeidx</span></code> is used to create the index.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">abstract</span></code>: This option enables only the thesis title page and the
+abstract with title and author to be printed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chapter</span></code>: This option enables only the specified chapter and it’s
+references. Useful for review and corrections.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">draft</span></code>: The default draft mode supports some special features such
+as line numbers, images, and water mark with timestamp and custom
+text. Position of the text can be modified in <code class="docutils literal notranslate"><span class="pre">preamble.tex</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">draftclassic</span></code>: This mode is similar to the default draft mode in
+the book class. Images are not loaded.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lineno</span></code>: Enables pagewise line numbering on the outer edge. You
+can switch-off line numbering by specifying <code class="docutils literal notranslate"><span class="pre">nolineno</span></code> in the
+options.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">flushleft</span></code>: The University recommends using ragged right or flush
+left alignment for texts. The reason behind this is left justifying a
+text may exclude a certain readers. Dyslexic people find it hard to
+read justified text. You can enable <code class="docutils literal notranslate"><span class="pre">raggedright</span></code> option in the
+document class by passing <code class="docutils literal notranslate"><span class="pre">flushleft</span></code> argument. Default is flush
+left and right.</p></li>
+</ul>
+</div>
+<div class="section" id="title-page">
+<h4>Title page<a class="headerlink" href="#title-page" title="Permalink to this headline">¶</a></h4>
+<p>The front page (title page) resizes to fit your title length. You can
+modify the options in <code class="docutils literal notranslate"><span class="pre">thesis-info.tex</span></code>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">\subtitle</span></code> (optional): Adds a subtitle to your thesis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">\college</span></code> (optional): This option adds the name of your college on
+the bottom left.</p></li>
+</ul>
+<p>If <code class="docutils literal notranslate"><span class="pre">\college</span></code> is defined, the bottom of the title page will look like
+this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">King</span><span class="s1">&#39;s College                                                   2014</span>
+</pre></div>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">\college</span></code> is undefined or blank, the <code class="docutils literal notranslate"><span class="pre">degreedate</span></code> will be
+centered.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2014</span>
+</pre></div>
+</div>
+<p>The template offers support to having both the college and university
+crests or just one of the crests.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">\collegeshield</span></code> (optional): Includes college crest in addition to
+the university crest. This reformats the front page layout.</p></li>
+</ul>
+</div>
+<div class="section" id="abstract-separate">
+<h4>Abstract separate<a class="headerlink" href="#abstract-separate" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p>A separate abstract with the title of the PhD and the candidate name
+has to be submitted to the Student Registry. This can be generated
+using <code class="docutils literal notranslate"><span class="pre">abstract</span></code> option in the document class. Ignore subsequent
+warnings about skipping sections (if any).</p></li>
+<li><p>To generate the separate abstract and the title page, make sure the
+following commands are in the preamble section of <code class="docutils literal notranslate"><span class="pre">thesis.tex</span></code>
+file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">ifdefineAbstract</span>
+\<span class="n">includeonly</span><span class="p">{</span><span class="n">Abstract</span><span class="o">/</span><span class="n">abstract</span><span class="p">}</span>
+\<span class="n">fi</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="chapter-mode">
+<h4>Chapter mode<a class="headerlink" href="#chapter-mode" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p>The chapter mode allows user to only print specific chapters along
+with references. By default, it excludes everything else in the front
+matter and appendices. This can done by using <code class="docutils literal notranslate"><span class="pre">chapter</span></code> option in
+the document class in <code class="docutils literal notranslate"><span class="pre">thesis.tex</span></code>. Ignore subsequent warnings
+about skipping sections (if any).</p></li>
+<li><p>To generate the separate abstract and the title page, make sure the
+following commands are in the preamble section of <code class="docutils literal notranslate"><span class="pre">thesis.tex</span></code>
+file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">ifdefineChapter</span>
+    \<span class="n">includeonly</span><span class="p">{</span><span class="n">Chapter3</span><span class="o">/</span><span class="n">chapter3</span><span class="p">}</span>
+\<span class="n">fi</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="draft">
+<h4>Draft<a class="headerlink" href="#draft" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">draft</span></code> adds a watermark <code class="docutils literal notranslate"><span class="pre">draft</span></code> text with timestamp and version
+number at the top or the bottom of the page. Pagewise line numbering is
+added on every page. <code class="docutils literal notranslate"><span class="pre">draft</span></code> settings can be tweaked in the
+<code class="docutils literal notranslate"><span class="pre">preamble.tex</span></code>.</p>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">draftclassic</span></code> in the document class options to use the default
+book class draft mode.</p></li>
+<li><p>To add figures in draft mode (default enabled), in the preamble set
+<code class="docutils literal notranslate"><span class="pre">\setkeys{Gin}{draft=false}</span></code>. <code class="docutils literal notranslate"><span class="pre">draft=true</span></code> disables figures</p></li>
+<li><p>To change the watermark text</p></li>
+<li><p>To change the position of the watermark text. Default watermark
+position is top. The location can be changed to (top / bottom)</p></li>
+<li><p>To change the draft version. Default draft version is v1.0.</p></li>
+<li><p>Watermark grayscale value can be modified. Text grayscale value
+(should be between 0-black and 1-white). Default value is 0.75</p></li>
+</ul>
+</div>
+<div class="section" id="choosing-the-fonts">
+<h4>Choosing the fonts<a class="headerlink" href="#choosing-the-fonts" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">PhDThesisPSnPDF</span></code> currently supports three fonts <code class="docutils literal notranslate"><span class="pre">Times</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Fourier</span></code> and <code class="docutils literal notranslate"><span class="pre">Latin</span> <span class="pre">Modern</span> <span class="pre">(default)</span></code>.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">times</span></code>: (The University of Cambridge guidelines recommend using
+Times). Specifying times option in the document class will use
+<code class="docutils literal notranslate"><span class="pre">mathptpx</span></code> or <code class="docutils literal notranslate"><span class="pre">Times</span></code> font with Math Support.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fourier</span></code>: fourier font with math support</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">(empty)</span></code>: When no font is specified, <code class="docutils literal notranslate"><span class="pre">Latin</span> <span class="pre">Modern</span></code> is
+used as the default font with Math Support.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">customfont</span></code>: Any custom font can be set in preamble by using
+<code class="docutils literal notranslate"><span class="pre">customfont</span></code> option in the document class. Then the custom font can
+be loaded in preamble.tex in the line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">ifsetCustomFont</span>
+  \<span class="n">RequirePackage</span><span class="p">{</span><span class="n">Your_Custom_Font</span><span class="p">}</span>
+\<span class="n">fi</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="choosing-the-bibliography-style">
+<h4>Choosing the bibliography style<a class="headerlink" href="#choosing-the-bibliography-style" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">PhDThesisPSnPDF</span></code> currently supports two styles <code class="docutils literal notranslate"><span class="pre">authoryear</span></code> and
+<code class="docutils literal notranslate"><span class="pre">numbered</span> <span class="pre">(default)</span></code>. Citation style has to be set. You can also
+specify <code class="docutils literal notranslate"><span class="pre">custombib</span></code> style and customise the bibliography.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">authoryear</span></code>: For author-year citation eg., Krishna (2013)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numbered</span></code>: (Default Option) For numbered and sorted citation e.g.,
+[1,5,2]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">custombib</span></code>: Define your own bibliography style in the
+<code class="docutils literal notranslate"><span class="pre">preamble.tex</span></code> file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">RequirePackage</span><span class="p">[</span><span class="n">square</span><span class="p">,</span> <span class="n">sort</span><span class="p">,</span> <span class="n">numbers</span><span class="p">,</span> <span class="n">authoryear</span><span class="p">]{</span><span class="n">natbib</span><span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>(Overview of Bibtex-Styles with
+preview)[<a class="reference external" href="http://nodonn.tipido.net/bibstyle.php">http://nodonn.tipido.net/bibstyle.php</a>?]</p></li>
+<li><p>If you would like to use biblatex instead of natbib. Pass the option
+<code class="docutils literal notranslate"><span class="pre">custombib</span></code> in the documentclass. In the <code class="docutils literal notranslate"><span class="pre">preamble.tex</span></code> file,
+edit the custombib section. Make sure you don’t load the natbib
+package and you can specify the layout of your references in
+<code class="docutils literal notranslate"><span class="pre">thesis.tex</span></code> in the reference section. If you are using <code class="docutils literal notranslate"><span class="pre">biber</span></code>
+as backend, run
+<code class="docutils literal notranslate"><span class="pre">pdflatex</span> <span class="pre">thesis.tex</span> <span class="pre">&gt;&gt;</span> <span class="pre">biber</span> <span class="pre">thesis</span> <span class="pre">&gt;&gt;</span> <span class="pre">pdflatex</span> <span class="pre">thesis.tex</span> <span class="pre">&gt;&gt;</span> <span class="pre">biber</span> <span class="pre">thesis</span> <span class="pre">&gt;&gt;</span> <span class="pre">pdflatex</span> <span class="pre">thesis.tex</span></code>.
+If you are using the default natbib package, don’t worry about this.</p></li>
+</ul>
+</div>
+<div class="section" id="choosing-the-page-style">
+<h4>Choosing the page style<a class="headerlink" href="#choosing-the-page-style" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">PhDThesisPSnPDF</span></code> defines 3 different page styles (header and footer).
+The following definition is for <code class="docutils literal notranslate"><span class="pre">twoside</span></code> layout. To choose a page
+style, include it in the <code class="docutils literal notranslate"><span class="pre">documentclass</span></code> options:
+<code class="docutils literal notranslate"><span class="pre">\documentclass[PageStyleI]{PhDThesisPSnPDF}</span></code>. Alternatively, page
+style can be changed by adding <code class="docutils literal notranslate"><span class="pre">\pagestyle{PageStyleI}</span></code> or
+<code class="docutils literal notranslate"><span class="pre">\pagestyle{PageStyleII}</span></code> in <code class="docutils literal notranslate"><span class="pre">thesis.tex</span></code>. Note: Using
+<code class="docutils literal notranslate"><span class="pre">\pagestyle</span></code> command will override <code class="docutils literal notranslate"><span class="pre">documentclass</span></code> options when used
+globally.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">(leave</span> <span class="pre">empty)</span></code>: For Page Numbers in Header (Left Even,
+Right Odd) and Chapter Name in Header (Right Even) and Section #.
+Section Name (Left Odd). Blank Footer.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Header</span> <span class="p">(</span><span class="n">Even</span><span class="p">)</span>   <span class="p">:</span> <span class="mi">4</span>                                                 <span class="n">Introduction</span>
+
+<span class="n">Header</span> <span class="p">(</span><span class="n">Odd</span><span class="p">)</span>    <span class="p">:</span> <span class="mf">1.2</span> <span class="n">Section</span> <span class="n">Name</span>                                  <span class="mi">5</span>
+
+<span class="n">Footer</span>          <span class="p">:</span> <span class="n">Empty</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PageStyleI</span></code>: For Page Numbers in Header (Left Even, Right Odd) and
+Chapter Name next to the Page Number on Even Side (Left Even).
+Section Number and Section Name and Page Number in Header on Odd Side
+(Right Odd). Footer is empty. Layout:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Header</span> <span class="p">(</span><span class="n">Even</span><span class="p">)</span>   <span class="p">:</span> <span class="mi">4</span> <span class="o">|</span> <span class="n">Introduction</span>
+
+<span class="n">Header</span> <span class="p">(</span><span class="n">Odd</span><span class="p">)</span>    <span class="p">:</span>                                                   <span class="mf">1.2</span> <span class="n">Section</span> <span class="n">Name</span> <span class="o">|</span> <span class="mi">5</span>
+
+<span class="n">Footer</span>          <span class="p">:</span>                               <span class="n">Empty</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PageStyleII</span></code>: Chapter Name on Even Side (Left Even) in Header.
+Section Number and Section Name in Header on Odd Side (Right Odd).
+Page numbering in footer. Layout:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Header</span> <span class="p">(</span><span class="n">Even</span><span class="p">)</span>   <span class="p">:</span> <span class="n">Introduction</span>
+
+<span class="n">Header</span> <span class="p">(</span><span class="n">Odd</span><span class="p">)</span>    <span class="p">:</span>                                                   <span class="mf">1.2</span> <span class="n">Section</span> <span class="n">Name</span>
+
+<span class="n">Footer</span><span class="p">[</span><span class="n">centered</span><span class="p">]:</span>                               <span class="mi">3</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="changing-the-visual-style-of-chapter-headings">
+<h4>Changing the visual style of chapter headings<a class="headerlink" href="#changing-the-visual-style-of-chapter-headings" title="Permalink to this headline">¶</a></h4>
+<p>The visual style of chapter headings can be modified using the
+<code class="docutils literal notranslate"><span class="pre">titlesec</span></code> package. Edit the following lines in the <code class="docutils literal notranslate"><span class="pre">preamble.tex</span></code>
+file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">RequirePackage</span><span class="p">{</span><span class="n">titlesec</span><span class="p">}</span>
+\<span class="n">newcommand</span><span class="p">{</span>\<span class="n">PreContentTitleFormat</span><span class="p">}{</span>\<span class="n">titleformat</span><span class="p">{</span>\<span class="n">chapter</span><span class="p">}[</span><span class="n">display</span><span class="p">]{</span>\<span class="n">scshape</span>\<span class="n">Large</span><span class="p">}</span>
+<span class="p">{</span>\<span class="n">Large</span>\<span class="n">filleft</span><span class="p">{</span>\<span class="n">chaptertitlename</span><span class="p">}</span> \<span class="n">Huge</span>\<span class="n">thechapter</span><span class="p">}</span>
+<span class="p">{</span><span class="mi">1</span><span class="n">ex</span><span class="p">}{}</span>
+<span class="p">[</span>\<span class="n">vspace</span><span class="p">{</span><span class="mi">1</span><span class="n">ex</span><span class="p">}</span>\<span class="n">titlerule</span><span class="p">]}</span>
+\<span class="n">newcommand</span><span class="p">{</span>\<span class="n">ContentTitleFormat</span><span class="p">}{</span>\<span class="n">titleformat</span><span class="p">{</span>\<span class="n">chapter</span><span class="p">}[</span><span class="n">display</span><span class="p">]{</span>\<span class="n">scshape</span>\<span class="n">huge</span><span class="p">}</span>
+<span class="p">{</span>\<span class="n">Large</span>\<span class="n">filleft</span><span class="p">{</span>\<span class="n">chaptertitlename</span><span class="p">}</span> \<span class="n">Huge</span>\<span class="n">thechapter</span><span class="p">}{</span><span class="mi">1</span><span class="n">ex</span><span class="p">}</span>
+<span class="p">{</span>\<span class="n">titlerule</span>\<span class="n">vspace</span><span class="p">{</span><span class="mi">1</span><span class="n">ex</span><span class="p">}</span>\<span class="n">filright</span><span class="p">}</span>
+<span class="p">[</span>\<span class="n">vspace</span><span class="p">{</span><span class="mi">1</span><span class="n">ex</span><span class="p">}</span>\<span class="n">titlerule</span><span class="p">]}</span>
+\<span class="n">newcommand</span><span class="p">{</span>\<span class="n">PostContentTitleFormat</span><span class="p">}{</span>\<span class="n">PreContentTitleFormat</span><span class="p">}</span>
+\<span class="n">PreContentTitleFormat</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="custom-settings">
+<h4>Custom settings<a class="headerlink" href="#custom-settings" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p>The depth for the table of contents can be set using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">setcounter</span><span class="p">{</span><span class="n">secnumdepth</span><span class="p">}{</span><span class="mi">3</span><span class="p">}</span>
+\<span class="n">setcounter</span><span class="p">{</span><span class="n">tocdepth</span><span class="p">}{</span><span class="mi">3</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>A depth of [3] indicates to a level of <code class="docutils literal notranslate"><span class="pre">\subsubsection</span></code> or #.#.#.#.
+Default set as 2.</p>
+</li>
+<li><p>To hide sections from appearing in TOC use:
+<code class="docutils literal notranslate"><span class="pre">\tochide\section{Section</span> <span class="pre">name}</span></code> in your TeX files</p></li>
+<li><p>Define custom caption style for figure and table caption in
+<code class="docutils literal notranslate"><span class="pre">preamble.tex</span></code> using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">RequirePackage</span><span class="p">[</span><span class="n">small</span><span class="p">,</span><span class="n">bf</span><span class="p">,</span><span class="n">figurename</span><span class="o">=</span><span class="n">Fig</span><span class="o">.</span><span class="p">,</span><span class="n">labelsep</span><span class="o">=</span><span class="n">space</span><span class="p">,</span><span class="n">tableposition</span><span class="o">=</span><span class="n">top</span><span class="p">]{</span><span class="n">caption</span><span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>Uncomment the following lines in <code class="docutils literal notranslate"><span class="pre">preamble.tex</span></code> to force a figure
+to be displayed in a particular location. Use <code class="docutils literal notranslate"><span class="pre">H</span></code> when including
+graphics. Note <code class="docutils literal notranslate"><span class="pre">H</span></code> instead of <code class="docutils literal notranslate"><span class="pre">h</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">usepackage</span><span class="p">{</span><span class="nb">float</span><span class="p">}</span>
+\<span class="n">restylefloat</span><span class="p">{</span><span class="n">figure</span><span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>Bibliography with Author-Year Citation in <code class="docutils literal notranslate"><span class="pre">preamble.tex</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">RequirePackage</span><span class="p">[</span><span class="nb">round</span><span class="p">,</span> <span class="n">sort</span><span class="p">,</span> <span class="n">numbers</span><span class="p">,</span> <span class="n">authoryear</span><span class="p">]{</span><span class="n">natbib</span><span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>Line spacing for the entire document can be specified in
+<code class="docutils literal notranslate"><span class="pre">preamble.tex</span></code>. Uncomment the line spacing you prefer. e.g.,</p></li>
+</ul>
+</div>
+<div class="section" id="nomenclature-definition">
+<h4>Nomenclature definition<a class="headerlink" href="#nomenclature-definition" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p>To use nomenclature in your chapters:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\nomenclature[g-pi]{$\pi$}{ $\simeq 3.14\ldots$}
+</pre></div>
+</div>
+<p>The sort keys have prefix. In this case a prefix of <code class="docutils literal notranslate"><span class="pre">g</span></code> is used to
+denote Greek Symbols, followed by <code class="docutils literal notranslate"><span class="pre">-pi</span></code> or <code class="docutils literal notranslate"><span class="pre">-sort_key</span></code>. Use a
+<code class="docutils literal notranslate"><span class="pre">-</span></code> to separate sort key from the prefixes. The standard prefixes
+defined in this class are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">A</span></code> or <code class="docutils literal notranslate"><span class="pre">a</span></code>: Roman Symbols</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">G</span></code> or <code class="docutils literal notranslate"><span class="pre">g</span></code>: Greek Symbols</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Z</span></code> or <code class="docutils literal notranslate"><span class="pre">z</span></code>: Acronyms/Abbreviations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">R</span></code> or <code class="docutils literal notranslate"><span class="pre">r</span></code>: Superscripts</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">S</span></code> or <code class="docutils literal notranslate"><span class="pre">s</span></code>: Subscripts</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">X</span></code> or <code class="docutils literal notranslate"><span class="pre">x</span></code>: Other Symbols</p></li>
+</ul>
+</li>
+<li><p>You can change the Title of Nomenclature to Notations or Symbols in
+the <code class="docutils literal notranslate"><span class="pre">preamble.tex</span></code> using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">renewcommand</span>\<span class="n">nomname</span><span class="p">{</span><span class="n">Symbols</span><span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>TexStudio’s default compile option doesn’t include <code class="docutils literal notranslate"><span class="pre">nomenclature</span></code>, to
+compile your document with the nomenclature, do the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Options</span> <span class="o">&gt;&gt;</span> <span class="n">Configure</span> <span class="n">TexStudio</span> <span class="o">&gt;&gt;</span> <span class="n">Build</span> <span class="o">&gt;&gt;</span> <span class="n">User</span> <span class="n">Commands</span> <span class="o">&gt;&gt;</span> <span class="n">add</span> <span class="n">user</span> <span class="n">command</span>
+</pre></div>
+</div>
+<p>In <code class="docutils literal notranslate"><span class="pre">add</span> <span class="pre">user</span> <span class="pre">command</span></code> type <code class="docutils literal notranslate"><span class="pre">makenomeclature:makenomenclature</span></code> on the
+left pane and <code class="docutils literal notranslate"><span class="pre">makeindex</span> <span class="pre">%.nlo</span> <span class="pre">-s</span> <span class="pre">nomencl.ist</span> <span class="pre">-o</span> <span class="pre">%.nls</span></code> on the
+execution side. Now you can run the user defined command
+<code class="docutils literal notranslate"><span class="pre">makenomenclature</span></code> from <code class="docutils literal notranslate"><span class="pre">Tools</span> <span class="pre">&gt;&gt;</span> <span class="pre">User</span> <span class="pre">&gt;&gt;</span> <span class="pre">makenomenclature</span></code>.</p>
+<p>Alternatively, you can use the <code class="docutils literal notranslate"><span class="pre">compile-thesis-windows.bat</span></code> file or
+run <code class="docutils literal notranslate"><span class="pre">make</span></code> on Unix / Linux / MacOS</p>
+</div>
+</div>
+<div class="section" id="git-hooks">
+<h3>Git hooks<a class="headerlink" href="#git-hooks" title="Permalink to this headline">¶</a></h3>
+<p>You rarely want to commit changes to your TeX files which are not
+reflected in the PDF included in the repo. You can automate this
+process, among other things, with a git hook. Install the hook with
+<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">hooks</span></code> (or see how to do it in <code class="docutils literal notranslate"><span class="pre">./hooks/install.sh</span></code>). Now
+every time you commit, if any files affecting your build have changed in
+this commit and those changes are more recent than the last modification
+of <code class="docutils literal notranslate"><span class="pre">thesis.pdf</span></code>, the default <code class="docutils literal notranslate"><span class="pre">make</span></code> target will be run and changes
+to <code class="docutils literal notranslate"><span class="pre">thesis.pdf</span></code> will be <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span></code>ed.</p>
+<p>Currently, changes to any tex/pdf/eps/png/cls files are picked up. This
+can be changed in <code class="docutils literal notranslate"><span class="pre">./hooks/pre-commit</span></code>.</p>
+<p>Skip the hook with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">--no-verify</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">bash</span></code>-only.</p>
+</div>
+<div class="section" id="general-guidelines">
+<h3>General guidelines<a class="headerlink" href="#general-guidelines" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p>To restrict the length of the figure caption in List of figures use a
+[short-title] and {longtitle} for the caption or the section:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>`\caption[Caption that you want to appear in TOC]{Actual caption of the figure}`
+`\section[short]{title}`
+</pre></div>
+</div>
+</li>
+<li><p>To exclude sections from being numbered and disable it from appearing
+in the Table of Contents use or</p></li>
+<li><p>To only exclude it from being listed in the Table of Contents
+encapsulate the section command inside the <code class="docutils literal notranslate"><span class="pre">\tochide</span></code> command.
+<code class="docutils literal notranslate"><span class="pre">\tochide{\section{Section_Name}}</span></code> the section will not appear in
+the Table of Contents, but the section will be numbered.</p></li>
+<li><p>When including figures in your tex file, it’s a good practice to size
+your picture depending on the page size, instead of using absolute
+values. In the following example <code class="docutils literal notranslate"><span class="pre">0.75\textwidth</span></code> refers to picture
+width being set to 75% of the text width.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">includegraphics</span><span class="p">[</span><span class="n">width</span><span class="o">=</span><span class="mf">0.75</span>\<span class="n">textwidth</span><span class="p">]{</span><span class="n">minion</span><span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use a <code class="docutils literal notranslate"><span class="pre">-</span></code> to separate sort key from the prefixes, eg., <code class="docutils literal notranslate"><span class="pre">g-pi</span></code>
+denotes the Greek symbol <code class="docutils literal notranslate"><span class="pre">pi</span></code>.</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

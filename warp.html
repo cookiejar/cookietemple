@@ -1,0 +1,274 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Packaging using warp &mdash; cookietemple 1.2.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom_cookietemple.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configure cookietemple" href="config.html" />
+    <link rel="prev" title="Syncing your project" href="sync.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> cookietemple
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">cookietemple overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create.html">Create a project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="list_info.html">Getting information about available templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lint.html">Linting your project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bump_version.html">Bumping the version of an existing project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sync.html">Syncing your project</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Packaging using warp</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#warp-setup">Warp setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flags">Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configure cookietemple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrade.html">Upgrade cookietemple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="available_templates/available_templates.html">Available templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github_support.html">Github Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adding_new_templates.html">Adding new templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">External Python based projects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="community.html">Community</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Contributor Covenant Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cookietemple</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Packaging using warp</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/warp.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="packaging-using-warp">
+<span id="warp-f"></span><h1>Packaging using warp<a class="headerlink" href="#packaging-using-warp" title="Permalink to this headline">¶</a></h1>
+<p>cookietemple ships with Rust binaries of <a class="reference external" href="https://github.com/dgiagio/warp">Warp</a> for the three major operating systems, Linux, MacOS and Windows.
+Warp can be called when complex output scripts with dependencies should be merged into single, distributable binaries.
+An example would be the output of <a class="reference external" href="https://docs.oracle.com/javase/9/tools/jlink.htm">jlink</a> applied to modular Java projects.
+However, <code class="docutils literal notranslate"><span class="pre">warp</span></code> can also be applied to .NET Core projects, NodeJS and others, making it more flexible than e.g. the with Java 14 introduced JPackager.</p>
+<div class="figure align-default" id="id1">
+<a class="reference internal image-reference" href="_images/warp_example.png"><img alt="Warp example" src="_images/warp_example.png" style="width: 1487.0px; height: 346.0px;" /></a>
+<p class="caption"><span class="caption-text">Example output of <code class="docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">warp</span></code> applied to a (former) gui-java project. The project was first packaged using <code class="docutils literal notranslate"><span class="pre">mvn</span> <span class="pre">javafx:jlink</span></code> and then warp was applied. Please note the relative path for <code class="docutils literal notranslate"><span class="pre">--exec</span></code>. Note that this is not necessary for GraalVM based projects.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>The resulting binary is self contained and does not have any additional dependencies. Note however, that the binaries are <strong>not</strong> cross platform. You need to compile and package on the target platform.
+For more information please read the <a class="reference external" href="https://github.com/dgiagio/warp">Warp README</a>.
+Currently no cookietemple template requires Warp.</p>
+<div class="section" id="warp-setup">
+<h2>Warp setup<a class="headerlink" href="#warp-setup" title="Permalink to this headline">¶</a></h2>
+<p>Warp for all major platforms (Linux, Windows 10+, MacOS) is already shipped with cookietemple. Hence, there is no need to install the Warp externally.
+However, the first time that you invoke Warp you may be asked for your sudo/administrator password, since the Warp executable needs to be granted executable rights.
+You should only be prompted once, since this setting is permanent. If you update cookietemple or reinstall, the Warp executable may be replaced and you once again need to provide it the required rights.</p>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>Invoke <code class="docutils literal notranslate"><span class="pre">warp</span></code> by running</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> cookietemple warp --input_dir &lt;INPUTDIR&gt; --exec &lt;EXECUTABLE&gt; --output &lt;OUTPUT&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="flags">
+<h2>Flags<a class="headerlink" href="#flags" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">input-dir</span></code>: The path to the directory to package.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--exec</span></code>: A relative path from the packaged folder to the executable. Please note that the <code class="docutils literal notranslate"><span class="pre">--exec</span></code> operates relative to the packaged folder and may result in ‘file not found’ errors, if a wrongly relative path is given!</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--output</span></code>: A path to the output directory.</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="config.html" class="btn btn-neutral float-right" title="Configure cookietemple" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sync.html" class="btn btn-neutral float-left" title="Syncing your project" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

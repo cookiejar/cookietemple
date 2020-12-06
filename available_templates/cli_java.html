@@ -1,0 +1,373 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cli-java &mdash; cookietemple 1.2.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom_cookietemple.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> cookietemple
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">cookietemple overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../create.html">Create a project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../list_info.html">Getting information about available templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lint.html">Linting your project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bump_version.html">Bumping the version of an existing project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sync.html">Syncing your project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../warp.html">Packaging using warp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">Configure cookietemple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrade.html">Upgrade cookietemple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="available_templates.html">Available templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_support.html">Github Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../adding_new_templates.html">Adding new templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">External Python based projects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../community.html">Community</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_of_conduct.html">Contributor Covenant Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cookietemple</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>cli-java</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/available_templates/cli_java.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cli-java">
+<h1>cli-java<a class="headerlink" href="#cli-java" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="purpose">
+<h2>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline">¶</a></h2>
+<p>cli-java is a <a class="reference external" href="https://www.java.com">Java</a> based template for designed for command line applications, which require a fast startup time.
+Hence, it is based on <a class="reference external" href="https://www.graalvm.org/">GraalVM</a>, which allows for the packaging of the application into small, native self-contained executables.
+<a class="reference external" href="https://picocli.info/">Picocli</a> is used as main library for the design of the command line interface.</p>
+</div>
+<div class="section" id="design">
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h2>
+<p>The template is based on a standard <a class="reference external" href="https://www.baeldung.com/maven-directory-structure">Maven directory structure</a>. However, it is using <a class="reference external" href="https://gradle.org/">Gradle</a> as build tool.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── AUTHORS.rst
+├── build.gradle
+├── CHANGELOG.rst
+├── CODE_OF_CONDUCT.rst
+├── cookietemple.cfg
+├── .cookietemple.yml
+├── .dependabot
+│   └── config.yml
+├── Dockerfile
+├── docs
+│   ├── authors.rst
+│   ├── changelog.rst
+│   ├── codeofconduct.rst
+│   ├── conf.py
+│   ├── index.rst
+│   ├── installation.rst
+│   ├── make.bat
+│   ├── Makefile
+│   ├── readme.rst
+│   ├── requirements.txt
+│   ├── _static
+│   │   └── custom_cookietemple.css
+│   └── usage.rst
+├── .editorconfig
+├── .gitattributes
+├── .github
+│   ├── ISSUE_TEMPLATE
+│   │   ├── bug_report.md
+│   │   ├── feature_request.md
+│   │   └── general_question.md
+│   ├── pull_request_template.md
+│   └── workflows
+│       ├── build_deploy.yml
+│       ├── pr_to_master_from_patch_release_only.yml
+│       ├── run_checkstyle.yml
+│       └── run_tests.yml
+├── .gitignore
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradlew
+├── gradlew.bat
+├── LICENSE
+├── Makefile
+├── .project
+├── README.rst
+├── .readthedocs.yml
+├── .settings
+│   └── org.eclipse.buildship.core.prefs
+├── settings.gradle
+└── src
+    ├── main
+    │   └── java
+    │       └── com
+    │           └── organization
+    │               └── Exploding_springfield.java
+    └── test
+        └── java
+            └── com
+                └── organization
+                    ├── Exploding_springfieldImageTest.java
+                    ├── Exploding_springfieldTest.java
+                    └── NativeImageHelper.java
+</pre></div>
+</div>
+</div>
+<div class="section" id="included-frameworks-libraries">
+<h2>Included frameworks/libraries<a class="headerlink" href="#included-frameworks-libraries" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://gradle.org/">Gradle</a> as build tool</p></li>
+<li><p><a class="reference external" href="https://www.graalvm.org/">GraalVM</a> as main JDK and virtual layer to allow for native binaries</p></li>
+<li><p><a class="reference external" href="https://www.graalvm.org/docs/reference-manual/native-image/">GraalVM Native Image</a> to build platform dependent self-contained executables</p></li>
+<li><p><a class="reference external" href="https://junit.org/junit5/">JUnit 5</a> as main testing framework</p></li>
+<li><p><a class="reference external" href="https://picocli.info/">Picocli</a> to implement the command line interface</p></li>
+<li><p>Preconfigured <a class="reference external" href="https://readthedocs.org/">readthedocs</a></p></li>
+<li><p>Seven Github workflows:</p></li>
+</ol>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">build_docs.yml</span></code>, which builds the Read the Docs documentation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">build_deploy.yml</span></code>, which builds the cli-java project into Linux, MacOS and Windows executables. They are deployed as build artifacts.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_checkstyle.yml</span></code>, which runs <a class="reference external" href="https://checkstyle.sourceforge.io/">checkstyle</a> linting using Google’s ruleset.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_tests.yml</span></code>, which runs all JUnit tests.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pr_to_master_from_patch_release_only</span></code>: Please read <a class="reference internal" href="../github_support.html#pr-master-workflow-docs"><span class="std std-ref">pr_to_master_from_patch_release_only workflow</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">check_no_SNAPSHOT_master.yml</span></code>: Please read <a class="reference internal" href="../github_support.html#pr-master-workflow-docs"><span class="std std-ref">pr_to_master_from_patch_release_only workflow</span></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_cookietemple_lint.yml</span></code>, which runs <code class="docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">lint</span></code> on the project.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sync_project.yml</span></code>, which syncs the project to the most recent cookietemple template version</p></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>cli-java requires you to have <a class="reference external" href="https://gradle.org/">Gradle</a>, <a class="reference external" href="https://www.graalvm.org/">GraalVM</a> and
+<a class="reference external" href="https://www.graalvm.org/docs/reference-manual/native-image/">GraalVM Native Image</a> installed.
+Please follow the instructions on the respective websites to install them. Ensure that GraalVM is the default JDK by running <cite>java –version</cite></p>
+<p>A platform dependent executable (of the current running operating system!) can then be build by invoking:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">binary</span>
+</pre></div>
+</div>
+<p>or alternatively:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gradle</span> <span class="n">build</span>
+</pre></div>
+</div>
+<p>Your platform dependent executable can then be found in the folder <code class="docutils literal notranslate"><span class="pre">build/native-image</span></code>.</p>
+<p>Alternatively you can directly build and run your binary by invoking:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">run</span>
+</pre></div>
+</div>
+<p>All tests can be run by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">test</span>
+</pre></div>
+</div>
+<p>Other make targets include:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">clean</span>
+</pre></div>
+</div>
+<p>which removes all build files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">dist</span>
+</pre></div>
+</div>
+<p>All possible Makefile commands can be viewed using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">help</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="faq">
+<h2>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="can-i-use-cli-java-without-graalvm">
+<h3>Can I use cli-java without GraalVM?<a class="headerlink" href="#can-i-use-cli-java-without-graalvm" title="Permalink to this headline">¶</a></h3>
+<p>cli-java is purposefully designed with GraalVM and native images in mind. We advise against using it without GraalVM.</p>
+</div>
+<div class="section" id="how-can-i-access-the-build-artifacts">
+<h3>How can I access the build artifacts?<a class="headerlink" href="#how-can-i-access-the-build-artifacts" title="Permalink to this headline">¶</a></h3>
+<p>Go to the Github Actions tab, select the build_deploy workflow and there you can find the artifacts.
+Note that the workflow must have completed successfully for all operating systems.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,313 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Bumping the version of an existing project &mdash; cookietemple 1.2.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom_cookietemple.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Syncing your project" href="sync.html" />
+    <link rel="prev" title="Linting your project" href="lint.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> cookietemple
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">cookietemple overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create.html">Create a project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="list_info.html">Getting information about available templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lint.html">Linting your project</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Bumping the version of an existing project</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flags">Flags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sync.html">Syncing your project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="warp.html">Packaging using warp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configure cookietemple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrade.html">Upgrade cookietemple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="available_templates/available_templates.html">Available templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github_support.html">Github Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adding_new_templates.html">Adding new templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">External Python based projects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="community.html">Community</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Contributor Covenant Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cookietemple</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Bumping the version of an existing project</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/bump_version.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="bumping-the-version-of-an-existing-project">
+<span id="bump-version"></span><h1>Bumping the version of an existing project<a class="headerlink" href="#bumping-the-version-of-an-existing-project" title="Permalink to this headline">¶</a></h1>
+<p>Increasing the version of an already existing project is often times a cumbersome and error prone process, since the version has to be changed in multiple places.
+To facilitate this process, cookietemple provides a <code class="docutils literal notranslate"><span class="pre">bump-version</span></code> command, which conveniently increases the version across several files and commits them.
+Additionally, bump-version inserts a new section into the changelog using the specified new version.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">New</span> <span class="n">Version</span> <span class="p">(</span><span class="n">Date</span><span class="p">)</span>
+<span class="o">------------------</span>
+
+<span class="o">**</span><span class="n">Added</span><span class="o">**</span>
+
+<span class="o">**</span><span class="n">Fixed</span><span class="o">**</span>
+
+<span class="o">**</span><span class="n">Dependencies</span><span class="o">**</span>
+
+<span class="o">**</span><span class="n">Deprecated</span><span class="o">**</span>
+</pre></div>
+</div>
+<p>bump-version will verify that your new version adheres to <a class="reference external" href="https://semver.org/">semantic versioning</a> and that you are not trying to update it unreasonably.
+It is for example not allowed to bump from 2.0.0 to 7.1.2, since in a normal development workflow only 2.0.1, 2.1.0 or 3.0.0 adhere to consecutive <a class="reference external" href="https://semver.org/">semantic versioning</a>.
+Note that SNAPSHOT versions are allowed! However, it must still follow <a class="reference external" href="https://semver.org/">semantic versioning</a>.
+Version 1.2.5 therefore cannot be the predecessor of 1.2.5-SNAPSHOT, but only 1.2.4.</p>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="code docutils literal notranslate"><span class="pre">bump-version</span></code> command follows the syntax</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> cookietemple bump-version &lt;OPTIONS&gt; X.X.X &lt;PATH&gt;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">X.X.X</span></code> : The new version, where the <code class="docutils literal notranslate"><span class="pre">X</span></code> correspond to integers adhering to consecutive <a class="reference external" href="https://semver.org/">semantic versioning</a>. You may append <code class="docutils literal notranslate"><span class="pre">-SNAPSHOT</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PATH</span></code> [CWD]: The path to the <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> file, which contains all locations, where the version should be increased.</p></li>
+</ul>
+<div class="figure align-default" id="id4">
+<a class="reference internal image-reference" href="_images/bump_version_example.png"><img alt="bump-version example" src="_images/bump_version_example.png" style="width: 1070.0px; height: 533.0px;" /></a>
+<p class="caption"><span class="caption-text">bump-version applied to a fresh cli-python project</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="flags">
+<h2>Flags<a class="headerlink" href="#flags" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">--downgrade</span></code> : To downgrade a version.</p>
+<p>The changelog won’t be modified. Only use this option as a last resort if something went horribly wrong in your development process. In a normal development workflow, this should never be necessary.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--project-version</span></code> : To get the current project version.</p>
+<p>No version bumping will be triggered. Using this flag will cancel any commands executed after and exits the program.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="configuration">
+<span id="bump-version-configuration"></span><h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>All templates of cookietemple ship with a <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> file, which defines all files <code class="docutils literal notranslate"><span class="pre">bump-version</span></code> examines.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">bump-version</span></code> configuration begins with the section:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">bumpversion</span><span class="p">]</span>
+<span class="n">current_version</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">.</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>where the current version is defined. All files are either white- or blacklisted (see below for explanations).
+An arbitrary name is followed by the path to the file: <code class="docutils literal notranslate"><span class="pre">arbitrary_name</span> <span class="pre">=</span> <span class="pre">path_to_file</span></code>.</p>
+<p>Whitelisted files are listed below a <code class="docutils literal notranslate"><span class="pre">[bumpversion_files_whitelisted]</span></code> section, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">bumpversion_files_whitelisted</span><span class="p">]</span>
+<span class="n">dot_cookietemple</span> <span class="o">=</span> <span class="o">.</span><span class="n">cookietemple</span><span class="o">.</span><span class="n">yml</span>
+<span class="n">conf_py</span> <span class="o">=</span> <span class="n">docs</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>All files, which are whitelisted are searched for patterns matching <code class="docutils literal notranslate"><span class="pre">X.X.X</span></code>, which are updated to the specified new versions.
+Any lines, which contain the string <code class="docutils literal notranslate"><span class="pre">&lt;&lt;COOKIETEMPLE_NO_BUMP&gt;&gt;</span></code> will be ignored.</p>
+<p>If files, like Maven pom.xml files, contain many version patterns matching <code class="docutils literal notranslate"><span class="pre">X.X.X</span></code>, it may be a better idea to blacklist them (section <code class="docutils literal notranslate"><span class="pre">[bumpversion_files_blacklisted]</span></code>) and enable only specific lines to be updated:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">bumpversion_files_blacklisted</span><span class="p">]</span>
+<span class="n">pom</span> <span class="o">=</span> <span class="n">pom</span><span class="o">.</span><span class="n">xml</span>
+</pre></div>
+</div>
+<p>Analogously to whitelisted files, which allow for specific lines to be ignored, blacklisted files allow for specific lines to be forcibly updated using the string <code class="code docutils literal notranslate"><span class="pre">&lt;&lt;COOKIETEMPLE_FORCE_BUMP&gt;&gt;</span></code>.</p>
+<p>Note that those tags must be on the same line as the version (commonly placed in a comment), otherwise they wont work!</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sync.html" class="btn btn-neutral float-right" title="Syncing your project" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="lint.html" class="btn btn-neutral float-left" title="Linting your project" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

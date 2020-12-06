@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cookietemple overview &mdash; cookietemple 1.2.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom_cookietemple.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="Welcome to cookietemple’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> cookietemple
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">cookietemple overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installing">Installing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#config">config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list">list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#info">info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create">create</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lint">lint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bump-version">bump-version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sync">sync</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#warp">warp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#upgrade">upgrade</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#projects-using-cookietemple">Projects using cookietemple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contributing">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#authors">Authors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create.html">Create a project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="list_info.html">Getting information about available templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lint.html">Linting your project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bump_version.html">Bumping the version of an existing project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sync.html">Syncing your project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="warp.html">Packaging using warp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configure cookietemple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrade.html">Upgrade cookietemple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="available_templates/available_templates.html">Available templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github_support.html">Github Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adding_new_templates.html">Adding new templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">External Python based projects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="community.html">Community</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Contributor Covenant Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cookietemple</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>cookietemple overview</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/readme.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p><a class="reference internal" href="https://user-images.githubusercontent.com/21954664/83797925-a7019400-a6a3-11ea-86ad-44ad00e24234.png"><img alt="pic1" src="https://user-images.githubusercontent.com/21954664/83797925-a7019400-a6a3-11ea-86ad-44ad00e24234.png" style="width: 75%;" /></a></p>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<a class="reference external image-reference" href="https://github.com/zethson/cookietemple/workflows/Build%20Cookietemple%20Package/badge.svg"><img alt="Github Workflow Build cookietemple Status" src="https://github.com/zethson/cookietemple/workflows/Build%20Cookietemple%20Package/badge.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/zethson/cookietemple/workflows/Run%20Cookietemple%20Tox%20Test%20Suite/badge.svg"><img alt="Github Workflow Tests Status" src="https://github.com/zethson/cookietemple/workflows/Run%20Cookietemple%20Tox%20Test%20Suite/badge.svg" /></a>
+<a class="reference external image-reference" href="https://pypi.python.org/pypi/cookietemple"><img alt="PyPi Status" src="https://img.shields.io/pypi/v/cookietemple.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/cookiejar/cookietemple/blob/master/LICENSE"><img alt="Apache 2.0 license" src="https://img.shields.io/github/license/cookiejar/cookietemple" /></a>
+<a class="reference external image-reference" href="https://cookietemple.readthedocs.io/en/latest/?badge=latest"><img alt="Documentation Status" src="https://readthedocs.org/projects/cookietemple/badge/?version=latest" /></a>
+<a class="reference external image-reference" href="https://codecov.io/gh/cookiejar/cookietemple"><img alt="Codecov Status" src="https://codecov.io/gh/cookiejar/cookietemple/branch/master/graph/badge.svg?token=dijn0M0p7m" /></a>
+<a class="reference external image-reference" href="https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot"><img alt="Dependabot Enabled" src="https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot" /></a>
+<a class="reference external image-reference" href="https://zenodo.org/badge/latestdoi/202421008"><img alt="Zenodo ID" src="https://zenodo.org/badge/202421008.svg" /></a>
+<a class="reference external image-reference" href="https://discord.gg/PYF8NUk"><img alt="Discord" src="https://img.shields.io/discord/708008788505919599?color=passing&amp;label=Discord%20Chat&amp;style=flat-square" /></a>
+<a class="reference external image-reference" href="https://twitter.com/cookiejarorg"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/cookiejarorg?color=green&amp;style=flat-square" /></a>
+<p>A cookiecutter based project template creation tool supporting several domains and languages with advanced linting, syncing and standardized workflows to get your project kickstarted in no time.</p>
+<ul class="simple">
+<li><p>Documentation: <a class="reference external" href="https://cookietemple.readthedocs.io">https://cookietemple.readthedocs.io</a> .</p></li>
+</ul>
+<div class="section" id="cookietemple-overview">
+<h1>cookietemple overview<a class="headerlink" href="#cookietemple-overview" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installing">
+<h2>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h2>
+<p>Start your journey with cookietemple by installing it via <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">cookietemple</span></code>.</p>
+<p>See <a class="reference external" href="https://cookietemple.readthedocs.io/en/latest/readme.html#installing">Installation</a>.</p>
+</div>
+<div class="section" id="config">
+<h2>config<a class="headerlink" href="#config" title="Permalink to this headline">¶</a></h2>
+<p>Configure cookietemple to get started.</p>
+<div class="figure align-default">
+<img alt="https://user-images.githubusercontent.com/31141763/97928842-1faa7080-1d68-11eb-8c82-39d73d662466.gif" src="https://user-images.githubusercontent.com/31141763/97928842-1faa7080-1d68-11eb-8c82-39d73d662466.gif" />
+</div>
+<p>See <a class="reference external" href="https://cookietemple.readthedocs.io/en/latest/config.html">Configuring cookietemple</a></p>
+</div>
+<div class="section" id="list">
+<h2>list<a class="headerlink" href="#list" title="Permalink to this headline">¶</a></h2>
+<p>List all available cookietemple templates.</p>
+<div class="figure align-default">
+<img alt="https://user-images.githubusercontent.com/31141763/97928681-d9eda800-1d67-11eb-880d-9d4f8037872b.gif" src="https://user-images.githubusercontent.com/31141763/97928681-d9eda800-1d67-11eb-880d-9d4f8037872b.gif" />
+</div>
+<p>See <a class="reference external" href="https://cookietemple.readthedocs.io/en/latest/list_info.html#list">Listing all templates</a>.</p>
+</div>
+<div class="section" id="info">
+<h2>info<a class="headerlink" href="#info" title="Permalink to this headline">¶</a></h2>
+<p>Get detailed information on a cookietemple template.</p>
+<div class="figure align-default">
+<img alt="https://user-images.githubusercontent.com/31141763/97928788-03a6cf00-1d68-11eb-8c35-851c792ecf02.gif" src="https://user-images.githubusercontent.com/31141763/97928788-03a6cf00-1d68-11eb-8c35-851c792ecf02.gif" />
+</div>
+<p>See <a class="reference external" href="https://cookietemple.readthedocs.io/en/latest/list_info.html#info">Get detailed template information</a>.</p>
+</div>
+<div class="section" id="create">
+<h2>create<a class="headerlink" href="#create" title="Permalink to this headline">¶</a></h2>
+<p>Kickstart your customized project with one of cookietemple’s templates in no time.</p>
+<div class="figure align-default">
+<img alt="https://user-images.githubusercontent.com/31141763/97928626-bb87ac80-1d67-11eb-938f-db2db223d792.gif" src="https://user-images.githubusercontent.com/31141763/97928626-bb87ac80-1d67-11eb-938f-db2db223d792.gif" />
+</div>
+<p>See <a class="reference external" href="https://cookietemple.readthedocs.io/en/latest/create.html">Create a project</a>.</p>
+</div>
+<div class="section" id="lint">
+<h2>lint<a class="headerlink" href="#lint" title="Permalink to this headline">¶</a></h2>
+<p>Use advanced linting to ensure your project always adheres to cookietemple’s standards.</p>
+<img alt="https://user-images.githubusercontent.com/31141763/97929216-f3432400-1d68-11eb-88b8-391fdfd2f4c9.gif" src="https://user-images.githubusercontent.com/31141763/97929216-f3432400-1d68-11eb-88b8-391fdfd2f4c9.gif" />
+<p>See <a class="reference external" href="https://cookietemple.readthedocs.io/en/latest/lint.html">Linting your project</a></p>
+</div>
+<div class="section" id="bump-version">
+<h2>bump-version<a class="headerlink" href="#bump-version" title="Permalink to this headline">¶</a></h2>
+<p>Bump your project version with many configurable options.</p>
+<div class="figure align-default">
+<img alt="https://user-images.githubusercontent.com/31141763/97928562-998e2a00-1d67-11eb-9651-5d7c906e2e88.gif" src="https://user-images.githubusercontent.com/31141763/97928562-998e2a00-1d67-11eb-9651-5d7c906e2e88.gif" />
+</div>
+<p>See <a class="reference external" href="https://cookietemple.readthedocs.io/en/latest/bump_version.html">Bumping the version of an existing project</a>.</p>
+</div>
+<div class="section" id="sync">
+<h2>sync<a class="headerlink" href="#sync" title="Permalink to this headline">¶</a></h2>
+<p>Sync your project with the latest cookietemple release to get the latest template features.</p>
+<div class="figure align-default">
+<img alt="https://user-images.githubusercontent.com/31141763/97928912-3c46a880-1d68-11eb-8372-8f96370a1b02.gif" src="https://user-images.githubusercontent.com/31141763/97928912-3c46a880-1d68-11eb-8372-8f96370a1b02.gif" />
+</div>
+<p>See <a class="reference external" href="https://cookietemple.readthedocs.io/en/latest/sync.html">Syncing a project</a>.</p>
+</div>
+<div class="section" id="warp">
+<h2>warp<a class="headerlink" href="#warp" title="Permalink to this headline">¶</a></h2>
+<p>Create a self contained executable.
+Currently, cookietemple does not ship any templates anymore, where this may be required.</p>
+<p>See <a class="reference external" href="https://cookietemple.readthedocs.io/en/latest/warp.html">Warping a project</a>.</p>
+</div>
+<div class="section" id="upgrade">
+<h2>upgrade<a class="headerlink" href="#upgrade" title="Permalink to this headline">¶</a></h2>
+<p>Check whether you are using the latest cookietemple version and update automatically to benefit from the latest features.</p>
+<p>See <a class="reference external" href="https://cookietemple.readthedocs.io/en/latest/upgrade.html">https://cookietemple.readthedocs.io/en/latest/upgrade.html</a>.</p>
+</div>
+<div class="section" id="projects-using-cookietemple">
+<h2>Projects using cookietemple<a class="headerlink" href="#projects-using-cookietemple" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/cookiejar/cookietemple_website">cookietemple website</a></p></li>
+<li><p><a class="reference external" href="https://github.com/mlf-core/system-intelligence">system-intelligence</a></p></li>
+<li><p><a class="reference external" href="https://github.com/mlf-core/mlf-core">mlf-core</a></p></li>
+</ul>
+</div>
+<div class="section" id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h2>
+<p>cookietemple is a huge open-source effort and highly welcomes all contributions! Join our <a class="reference external" href="https://discord.gg/PYF8NUk">Discord Channel</a>.
+Please read <a class="reference external" href="https://cookietemple.readthedocs.io/en/latest/contributing.html">contributing</a> to find out how you can contribute.</p>
+</div>
+<div class="section" id="authors">
+<h2>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">¶</a></h2>
+<p>cookietemple was initiated and developed by <a class="reference external" href="https://github.com/zethson">Lukas Heumos (Github)</a> and <a class="reference external" href="https://github.com/Imipenem">Philipp Ehmele (Github)</a>.
+A full list of contributors is available on our <a class="reference external" href="https://www.cookietemple.com/stats">statistics webpage</a>.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to cookietemple’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

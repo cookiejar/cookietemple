@@ -1,0 +1,506 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Linting your project &mdash; cookietemple 1.2.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom_cookietemple.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Bumping the version of an existing project" href="bump_version.html" />
+    <link rel="prev" title="Getting information about available templates" href="list_info.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> cookietemple
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">cookietemple overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create.html">Create a project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="list_info.html">Getting information about available templates</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Linting your project</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flags">Flags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linting-codes">Linting codes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#general">General</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#general-1">general-1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#general-2">general-2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#general-3">general-3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#general-4">general-4</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#general-5">general-5</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#general-6">general-6</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#general-7">general-7</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cli-python">cli-python</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cli-python-1">cli-python-1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cli-python-2">cli-python-2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cli-python-3">cli-python-3</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cli-java">cli-java</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cli-java-1">cli-java-1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cli-java-2">cli-java-2</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#lib-cpp">lib-cpp</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#lib-cpp-1">lib-cpp-1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lib-cpp-2">lib-cpp-2</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#web-python">web-python</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#web-python-1">web-python-1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#web-python-2">web-python-2</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#gui-java">gui-java</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gui-java-1">gui-java-1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gui-java-2">gui-java-2</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pub-thesis">pub-thesis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pub-thesis-1">pub-thesis-1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pub-thesis-2">pub-thesis-2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bump_version.html">Bumping the version of an existing project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sync.html">Syncing your project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="warp.html">Packaging using warp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configure cookietemple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrade.html">Upgrade cookietemple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="available_templates/available_templates.html">Available templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github_support.html">Github Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adding_new_templates.html">Adding new templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">External Python based projects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="community.html">Community</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Contributor Covenant Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cookietemple</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Linting your project</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/lint.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="linting-your-project">
+<span id="lint"></span><h1>Linting your project<a class="headerlink" href="#linting-your-project" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Lint_(software)">Linting</a> is the process of statically analyzing code to find code style violations and to detect errors.
+cookietemple implements a custom linting system, but depending on the template external tools linting tools may additionally be called.</p>
+<p>cookietemple’s linting is divided into three distinct phases.</p>
+<ol class="arabic simple">
+<li><p>All linting functions, which all templates share are called and the results are collected.</p></li>
+<li><p>Template specific linting functions are invoked and the results are appended to the results of phase 1</p></li>
+<li><p>Template specific external linters are called (e.g. autopep8 for Python based projects)</p></li>
+</ol>
+<p>The linting results of the first two phases are assigned into 3 groups:</p>
+<style> .green {color:#008000; } </style>
+<style> .yellow {color:#ffff00; } </style>
+<style> .red {color:#aa0060; } </style><ol class="arabic simple">
+<li><p><span class="green">Passed</span></p></li>
+<li><p><span class="yellow">Passed with warning</span></p></li>
+<li><p><span class="red">Failed</span></p></li>
+</ol>
+<p>If any of the checks failed linting stops and returns an error code.</p>
+<div class="figure align-default" id="id2">
+<a class="reference internal image-reference" href="_images/linting_example.png"><img alt="Linting example" src="_images/linting_example.png" style="width: 1096.0px; height: 343.0px;" /></a>
+<p class="caption"><span class="caption-text">Linting applied to a newly created cli-java project.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>To examine the reason for a failed linting test please follow the URL. All reasons are explained in the section <a class="reference internal" href="#linting-codes"><span class="std std-ref">Linting codes</span></a>.</p>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>cookietemple lint can be invoked on an existing project using</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> cookietemple lint &lt;PATH&gt;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">PATH</span></code> [CWD]: The relative path to the project directory.</p></li>
+</ul>
+</div>
+<div class="section" id="flags">
+<h2>Flags<a class="headerlink" href="#flags" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">skip-external</span></code>: Skips any external linters such as <code class="docutils literal notranslate"><span class="pre">autopep8</span></code>.</p></li>
+</ul>
+</div>
+<div class="section" id="linting-codes">
+<span id="id1"></span><h2>Linting codes<a class="headerlink" href="#linting-codes" title="Permalink to this headline">¶</a></h2>
+<p>The following error numbers correspond to errors found during linting.
+If you are not sure why a specific linting error has occured you may find more information using the respective error code.</p>
+<div class="section" id="general">
+<h3>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="general-1">
+<h4>general-1<a class="headerlink" href="#general-1" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">File not found. This error occurs when your project does not include all of cookietemple’s files, which all templates share.</div>
+<div class="line">Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
+at the time of the project creation using cookietemple this file should not have been missing!</div>
+</div>
+</div>
+<div class="section" id="general-2">
+<h4>general-2<a class="headerlink" href="#general-2" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">Dockerfile invalid. This error usually originates from empty Dockerfiles or missing FROM statements.</div>
+</div>
+</div>
+<div class="section" id="general-3">
+<h4>general-3<a class="headerlink" href="#general-3" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">TODO string found. The origin of this error are <code class="docutils literal notranslate"><span class="pre">COOKIETEMPLE</span> <span class="pre">TODO:</span></code> or <code class="docutils literal notranslate"><span class="pre">TODO</span> <span class="pre">COOKIETEMPLE:</span></code> strings in the respective files. Usually, they point to things that should be
+manually configured or require other attention. You may remove them if there is no task for you to be solved.</div>
+</div>
+</div>
+<div class="section" id="general-4">
+<h4>general-4<a class="headerlink" href="#general-4" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">Cookiecutter string found. This error occurs if something went wrong at the project creation stage. After a project has been created using cookietemple
+there should not be any jinja2 syntax statements left. Web development templates may pose exceptions. However, <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">*cookiecutter*</span> <span class="pre">}}</span></code> statements
+should definitely not be present anymore.</div>
+</div>
+</div>
+<div class="section" id="general-5">
+<h4>general-5<a class="headerlink" href="#general-5" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">Versions not consistent. If the version of all files specified in the [bumpversion] sections defined in the qube.cfg file are not consistent,
+this error may be found. Please ensure that the version is consistent! If you need to exclude specific lines from this check please consult <a class="reference internal" href="bump_version.html#bump-version"><span class="std std-ref">Bumping the version of an existing project</span></a>.
+To prevent this error you should only increase the version of your project using <code class="code docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">bump-version</span></code>.</div>
+</div>
+</div>
+<div class="section" id="general-6">
+<h4>general-6<a class="headerlink" href="#general-6" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">changelog.rst</span></code> invalid. The <code class="docutils literal notranslate"><span class="pre">changelog.rst</span></code> file requires that every changelog section has a header with the version and the corresponding release date.
+The version above another changelog section should always be <em>greater</em> than the section below (e.g. 1.1.0 above 1.0.0).
+Every section must have the headings <code class="docutils literal notranslate"><span class="pre">**Added**</span></code>, <code class="docutils literal notranslate"><span class="pre">**Fixed**</span></code>, <code class="docutils literal notranslate"><span class="pre">**Dependencies**</span></code> and <code class="docutils literal notranslate"><span class="pre">**Deprecated**</span></code>.</div>
+</div>
+</div>
+<div class="section" id="general-7">
+<h4>general-7<a class="headerlink" href="#general-7" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> linting failed. The <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> plays a major role in cookietemple’s <code class="docutils literal notranslate"><span class="pre">sync</span></code> and <code class="docutils literal notranslate"><span class="pre">bump-version</span></code> functionality.</div>
+</div>
+<p>The linter ensures that following requirements are met:</p>
+<p>1.) Every config file should have at least the following sections: <code class="docutils literal notranslate"><span class="pre">bumpversion,</span> <span class="pre">bumpversion_files_whitelisted,</span> <span class="pre">bumpversion_files_blacklisted,</span> <span class="pre">sync_files_blacklisted,</span> <span class="pre">sync_level</span></code></p>
+<p>2.) <code class="docutils literal notranslate"><span class="pre">bumpversion</span></code> should only contain a <code class="docutils literal notranslate"><span class="pre">current_version</span></code> value (the project’s current version)</p>
+<p>3.) <code class="docutils literal notranslate"><span class="pre">bumpversion_files_whitelisted</span></code> should contain at least the <code class="docutils literal notranslate"><span class="pre">.cookietemple.yml</span></code> file in the <code class="docutils literal notranslate"><span class="pre">dot_cookietemple</span></code> variable</p>
+<p>4.) <code class="docutils literal notranslate"><span class="pre">sync_level</span></code> should only contain a <code class="docutils literal notranslate"><span class="pre">ct_sync_level</span></code> value (and this value should be one of either <code class="docutils literal notranslate"><span class="pre">patch</span></code>, <code class="docutils literal notranslate"><span class="pre">minor</span></code> or <code class="docutils literal notranslate"><span class="pre">major</span></code>)</p>
+<p>5.) <code class="docutils literal notranslate"><span class="pre">sync_files_blacklisted</span></code> should contain at least the <code class="docutils literal notranslate"><span class="pre">CHANGELOG.rst</span></code> file (excluding it from syncing to avoid PR updates)</p>
+</div>
+</div>
+<div class="section" id="cli-python">
+<h3>cli-python<a class="headerlink" href="#cli-python" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="cli-python-1">
+<h4>cli-python-1<a class="headerlink" href="#cli-python-1" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">File not found. This error occurs when your project does not include all of cli-python’s expected files.</div>
+<div class="line">Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
+at the time of the project creation using cookietemple this file should not have been missing!</div>
+</div>
+</div>
+<div class="section" id="cli-python-2">
+<h4>cli-python-2<a class="headerlink" href="#cli-python-2" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">PyPI dependency not up to date. The dependencies specified in the requirements.txt and requirements_dev.txt are not up to date.</div>
+<div class="line">It is up to you whether you can and want to update them.</div>
+</div>
+</div>
+<div class="section" id="cli-python-3">
+<h4>cli-python-3<a class="headerlink" href="#cli-python-3" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">The <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> section called <code class="docutils literal notranslate"><span class="pre">sync_files_blacklisted</span></code> misses either <code class="docutils literal notranslate"><span class="pre">requirements</span> <span class="pre">=</span> <span class="pre">requirements.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">requirements_dev</span> <span class="pre">=</span> <span class="pre">requirements_dev.txt</span></code> or
+<code class="docutils literal notranslate"><span class="pre">changelog</span> <span class="pre">=</span> <span class="pre">CHANGELOG.rst</span></code>.
+All are required to exclude them from syncing and interference with services like dependabot.</div>
+</div>
+</div>
+</div>
+<div class="section" id="cli-java">
+<h3>cli-java<a class="headerlink" href="#cli-java" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="cli-java-1">
+<h4>cli-java-1<a class="headerlink" href="#cli-java-1" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">File not found. This error occurs when your project does not include all of cli-java’s expected files.</div>
+<div class="line">Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
+at the time of the project creation using cookietemple this file should not have been missing!</div>
+</div>
+</div>
+<div class="section" id="cli-java-2">
+<h4>cli-java-2<a class="headerlink" href="#cli-java-2" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">The <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> section called <code class="docutils literal notranslate"><span class="pre">sync_files_blacklisted</span></code> misses <code class="docutils literal notranslate"><span class="pre">build_gradle</span> <span class="pre">=</span> <span class="pre">gradle.build</span></code> or
+<code class="docutils literal notranslate"><span class="pre">changelog</span> <span class="pre">=</span> <span class="pre">CHANGELOG.rst</span></code>.
+Both are required to exclude the gradle build file from syncing.</div>
+</div>
+</div>
+</div>
+<div class="section" id="lib-cpp">
+<h3>lib-cpp<a class="headerlink" href="#lib-cpp" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="lib-cpp-1">
+<h4>lib-cpp-1<a class="headerlink" href="#lib-cpp-1" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">File not found. This error occurs when your project does not include all of lib-cpp’s expected files.</div>
+<div class="line">Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
+at the time of the project creation using cookietemple this file should not have been missing!</div>
+</div>
+</div>
+<div class="section" id="lib-cpp-2">
+<h4>lib-cpp-2<a class="headerlink" href="#lib-cpp-2" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">The <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> section called <code class="docutils literal notranslate"><span class="pre">sync_files_blacklisted</span></code> misses <code class="docutils literal notranslate"><span class="pre">changelog</span> <span class="pre">=</span> <span class="pre">CHANGELOG.rst</span></code>.
+This is required to be excluded from syncing.</div>
+</div>
+</div>
+</div>
+<div class="section" id="web-python">
+<h3>web-python<a class="headerlink" href="#web-python" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="web-python-1">
+<h4>web-python-1<a class="headerlink" href="#web-python-1" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">File not found. This error occurs when your project does not include all of web-python’s expected files.</div>
+<div class="line">Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
+at the time of the project creation using cookietemple this file should not have been missing!</div>
+</div>
+</div>
+<div class="section" id="web-python-2">
+<h4>web-python-2<a class="headerlink" href="#web-python-2" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">The <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> section called <code class="docutils literal notranslate"><span class="pre">sync_files_blacklisted</span></code> misses either <code class="docutils literal notranslate"><span class="pre">requirements</span> <span class="pre">=</span> <span class="pre">requirements.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">requirements_dev</span> <span class="pre">=</span> <span class="pre">requirements_dev.txt</span></code>
+or <code class="docutils literal notranslate"><span class="pre">changelog</span> <span class="pre">=</span> <span class="pre">CHANGELOG.rst</span></code>.
+All are required to exclude them from syncing and interference with services like dependabot.</div>
+</div>
+</div>
+</div>
+<div class="section" id="gui-java">
+<h3>gui-java<a class="headerlink" href="#gui-java" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="gui-java-1">
+<h4>gui-java-1<a class="headerlink" href="#gui-java-1" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">File not found. This error occurs when your project does not include all of gui-java’s expected files.</div>
+<div class="line">Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
+at the time of the project creation using cookietemple this file should not have been missing!</div>
+</div>
+</div>
+<div class="section" id="gui-java-2">
+<h4>gui-java-2<a class="headerlink" href="#gui-java-2" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">The <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> section called <code class="docutils literal notranslate"><span class="pre">sync_files_blacklisted</span></code> misses <code class="docutils literal notranslate"><span class="pre">pom</span> <span class="pre">=</span> <span class="pre">pom.xml</span></code> or <code class="docutils literal notranslate"><span class="pre">changelog</span> <span class="pre">=</span> <span class="pre">CHANGELOG.rst</span></code>.
+Both are required to be excluded from syncing.</div>
+</div>
+</div>
+</div>
+<div class="section" id="pub-thesis">
+<h3>pub-thesis<a class="headerlink" href="#pub-thesis" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="pub-thesis-1">
+<h4>pub-thesis-1<a class="headerlink" href="#pub-thesis-1" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">File not found. This error occurs when your project does not include all of pub-thesis’s expected files.</div>
+<div class="line">Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
+at the time of the project creation using cookietemple this file should not have been missing!</div>
+</div>
+</div>
+<div class="section" id="pub-thesis-2">
+<h4>pub-thesis-2<a class="headerlink" href="#pub-thesis-2" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">The <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> section called <code class="docutils literal notranslate"><span class="pre">sync_files_blacklisted</span></code> misses <code class="docutils literal notranslate"><span class="pre">changelog</span> <span class="pre">=</span> <span class="pre">CHANGELOG.rst</span></code>.
+This is required to be excluded from syncing.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="bump_version.html" class="btn btn-neutral float-right" title="Bumping the version of an existing project" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="list_info.html" class="btn btn-neutral float-left" title="Getting information about available templates" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

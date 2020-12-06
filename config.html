@@ -1,0 +1,284 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Configure cookietemple &mdash; cookietemple 1.2.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom_cookietemple.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Upgrade cookietemple" href="upgrade.html" />
+    <link rel="prev" title="Packaging using warp" href="warp.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> cookietemple
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">cookietemple overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create.html">Create a project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="list_info.html">Getting information about available templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lint.html">Linting your project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bump_version.html">Bumping the version of an existing project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sync.html">Syncing your project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="warp.html">Packaging using warp</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configure cookietemple</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flags">Flags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#on-github-personal-access-tokens">On Github personal access tokens</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="upgrade.html">Upgrade cookietemple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="available_templates/available_templates.html">Available templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github_support.html">Github Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adding_new_templates.html">Adding new templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">External Python based projects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="community.html">Community</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Contributor Covenant Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cookietemple</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Configure cookietemple</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/config.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="configure-cookietemple">
+<span id="config"></span><h1>Configure cookietemple<a class="headerlink" href="#configure-cookietemple" title="Permalink to this headline">¶</a></h1>
+<p>To prevent frequent prompts for information, which rarely or never changes at all such as the full name, email or Github username of the user, cookietemple uses a configuration file.
+Moreover, the personal access token associated with the Github username is stored, in encrypted form, to allow for various Github functionalities, such as automatic Github repository creation or <a class="reference internal" href="sync.html#sync"><span class="std std-ref">Syncing your project</span></a>.
+The creation of projects with cookietemple requires a configuration file. A personal access token is not required, if Github support is not used.
+The configuration file is saved operating system dependent in common config file locations (<code class="docutils literal notranslate"><span class="pre">~/.config/cookietemple</span></code> on Unix, <code class="docutils literal notranslate"><span class="pre">C:\Users\Username\AppData\Local\cookietemple\cookietemple</span></code> on Windows).
+Configuring cookietemple is only required once, although it is always possible to update the current configuration.</p>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>Invoke cookietemple config <em>via</em></p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> cookietemple config &lt;all/general/pat&gt;
+</pre></div>
+</div>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">all</span></code> : Prompt for the full name, email, Github username and Github personal access token.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">general</span></code> : Only prompt for the full name, email and the Github username.</p>
+<p>These details are required to create projects.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pat</span></code> : Solely prompts for the Github personal access token and updates it if already set.</p>
+<p>Ensure that your Github username still matches with the new personal access token.
+If not you should also update your Github username <em>via</em> <code class="docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">config</span> <span class="pre">general</span></code>. Additionally, any of your already created projects may still feature your old token and you may therefore run into issues when attempting to push.
+Hence, you must also <a class="reference external" href="https://help.github.com/en/github/using-git/changing-a-remotes-url">update your remote URL</a> for those projects!</p>
+</li>
+</ul>
+</div>
+<div class="section" id="flags">
+<h2>Flags<a class="headerlink" href="#flags" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">--view</span></code> : To get your current cookietemple configuration.</p>
+<p>The explicit value of your Github personal access token will not be printed. You will only be informed about whether it is set or not.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="on-github-personal-access-tokens">
+<h2>On Github personal access tokens<a class="headerlink" href="#on-github-personal-access-tokens" title="Permalink to this headline">¶</a></h2>
+<p>cookietemple’s Github support requires access to your Github repositories to create repositories, add issues labels and set branch protection rules.
+Github manages these access rights through Personal Access Tokens (PAT).
+If you are using cookietemple’s Github support for the first time <code class="docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">config</span> <span class="pre">pat</span></code> will be run and you will be prompted for your Github PAT.
+Please refer to the <a class="reference external" href="https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line">official documentation</a> on how to create one.
+cookietemple requires <code class="docutils literal notranslate"><span class="pre">repo</span></code> access and <code class="docutils literal notranslate"><span class="pre">workflow</span></code>. This ensures that your PAT would not even allow for the deletion of repositories.
+cookietemple then encrypts the Personal Access Token, adds the encrypted token to the <code class="docutils literal notranslate"><span class="pre">cookietemple_conf.cfg</span></code> file and saves the key locally in a hidden place.
+This is safer than Github’s official way, which recommends the usage of environment variables or Github Credentials, which both save the token in plaintext.
+It is still strongly advised to secure your personal computer and not allow any foe to get access.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="upgrade.html" class="btn btn-neutral float-right" title="Upgrade cookietemple" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="warp.html" class="btn btn-neutral float-left" title="Packaging using warp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
