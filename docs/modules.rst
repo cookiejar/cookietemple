@@ -1,0 +1,6 @@
+=======
+Modules
+=======
+
+.. automodapi:: cookietemple.cookietemple
+

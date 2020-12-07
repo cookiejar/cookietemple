@@ -11,7 +11,7 @@ updates:
   - dependabot
   commit-message:
     prefix: "[DEPENDABOT]"
-    
+
 - package-ecosystem: github-actions
   directory: "/"
   schedule:

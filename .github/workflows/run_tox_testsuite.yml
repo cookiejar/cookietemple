@@ -1,4 +1,4 @@
-name: Run Cookietemple Tox Test Suite
+name: Run cookietemple Tox Test Suite
 
 on: [push, pull_request]
 
