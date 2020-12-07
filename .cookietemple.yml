@@ -1,0 +1,20 @@
+cookietemple_version: '1.2.2-SNAPSHOT # <<COOKIETEMPLE_NO_BUMP>>'
+domain: cli
+language: python
+project_slug: cookietemple
+project_slug_no_hyphen: cookietemple
+template_version: '1.0.1 # <<COOKIETEMPLE_NO_BUMP>>'
+template_handle: cli-python
+github_username: zethson
+creator_github_username: zethson
+is_github_repo: false
+is_repo_private: false
+is_github_orga: false
+full_name: Lukas Heumos
+email: lukas.heumos@posteo.net
+project_name: cookietemple
+project_short_description: cookietemple. A cookietemple based .
+version: 1.2.2
+license: Apache2.0
+command_line_interface: Click
+testing_library: pytest

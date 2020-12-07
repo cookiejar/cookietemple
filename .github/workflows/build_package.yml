@@ -1,0 +1,33 @@
+name: Build cookietemple Package
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        python: [3.7, 3.8]
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out source-code repository
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Build cookietemple
+        run: pip install .
+
+      - name: Install required twine packaging dependencies
+        run: pip install setuptools wheel twine
+
+      - name: Build twine package
+        run: python setup.py sdist bdist_wheel
+
+      - name: Check twine package
+        run: twine check dist/*
