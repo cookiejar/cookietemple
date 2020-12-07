@@ -25,10 +25,10 @@ jobs:
 
         - uses: oleksiyrudenko/gha-git-credentials@v2
           with:
-               name: 'zethson'
+               name: 'Zethson'
                email: 'lukas.heumos@posteo.net'
-               actor: 'zethson'
+               actor: 'Zethson'
                token: '${{ secrets.CT_SYNC_TOKEN}}'
 
         - name: Sync project
-          run: cookietemple sync . ${{ secrets.CT_SYNC_TOKEN  }} zethson
+          run: cookietemple sync . ${{ secrets.CT_SYNC_TOKEN  }} Zethson

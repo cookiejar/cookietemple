@@ -2,12 +2,12 @@
 cookietemple
 ============
 
-.. image:: https://github.com/zethson/cookietemple/workflows/Build%20cookietemple%20Package/badge.svg
-        :target: https://github.com/zethson/cookietemple/workflows/Build%20cookietemple%20Package/badge.svg
+.. image:: https://github.com/cookiejar/cookietemple/workflows/Build%20cookietemple%20Package/badge.svg
+        :target: https://github.com/cookiejar/cookietemple/workflows/Build%20cookietemple%20Package/badge.svg
         :alt: Github Workflow Build cookietemple Status
 
-.. image:: https://github.com/zethson/cookietemple/workflows/Run%20cookietemple%20Tox%20Test%20Suite/badge.svg
-        :target: https://github.com/zethson/cookietemple/workflows/Run%20cookietemple%20Tox%20Test%20Suite/badge.svg
+.. image:: https://github.com/cookiejar/cookietemple/workflows/Run%20cookietemple%20Tox%20Test%20Suite/badge.svg
+        :target: https://github.com/cookiejar/cookietemple/workflows/Run%20cookietemple%20Tox%20Test%20Suite/badge.svg
         :alt: Github Workflow Tests Status
 
 .. image:: https://img.shields.io/pypi/v/cookietemple.svg
@@ -24,10 +24,10 @@ cookietemple
         :alt: Dependabot Enabled
 
 
-cookietemple. A cookietemple based .
+A cookiecutter based project template creation tool supporting several domains and languages with linting and template sync support.
 
 
-* Free software: Apache2.0
+* Free software: MIT
 * Documentation: https://cookietemple.readthedocs.io.
 
 

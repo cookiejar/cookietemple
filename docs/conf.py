@@ -45,8 +45,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'cookietemple'
-copyright = "2020, Lukas Heumos"
-author = "Lukas Heumos"
+copyright = "2020, Lukas Heumos, Philipp Ehmele"
+author = "Lukas Heumos, Philipp Ehmele"
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -127,7 +127,7 @@ latex_elements = {
 latex_documents = [
     (master_doc, 'cookietemple.tex',
      'cookietemple Documentation',
-     'Lukas Heumos', 'manual'),
+     'Lukas Heumos, Philipp Ehmele', 'manual'),
 ]
 
 

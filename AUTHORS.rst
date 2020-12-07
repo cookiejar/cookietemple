@@ -5,7 +5,7 @@ Credits
 Development Lead
 ----------------
 
-* Lukas Heumos <lukas.heumos@posteo.net>
+* Lukas Heumos, Philipp Ehmele <lukas.heumos@posteo.net>
 
 Contributors
 ------------
