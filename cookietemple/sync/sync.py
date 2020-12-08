@@ -196,6 +196,10 @@ class TemplateSync:
             # git add only non-blacklisted files
             print('[bold blue]Staging template.')
             self.repo.git.add(A=True)
+            Popen(['git', 'reset', 'requirements.txt'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
+            Popen(['git', 'reset', 'requirements_dev.txt'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
+            Popen(['git', 'checkout', '--' 'requirements.txt'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
+            Popen(['git', 'checkout', '--', 'requirements_dev.txt'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
             changed_files = [item.a_path for item in self.repo.index.diff('HEAD')]
             globs = self.get_blacklisted_sync_globs()
             blacklisted_changed_files = []
@@ -210,11 +214,12 @@ class TemplateSync:
             files_to_commit = [file for file in changed_files if file not in blacklisted_changed_files]
             log.debug(f'Files to commit are:{nl}{nl.join(file for file in files_to_commit)}' if files_to_commit else
                       'No files to commit found.')
-            Popen(['git', 'commit', '-m', 'Cookietemple sync', *files_to_commit], stdout=PIPE, stderr=PIPE, universal_newlines=True)
-            print('[bold blue]Stashing and saving TEMPLATE branch changes!')
-            Popen(['git', 'stash'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
-            self.made_changes = True
-            print('[bold blue]Committed changes to TEMPLATE branch')
+            if files_to_commit:
+                Popen(['git', 'commit', '-m', 'Cookietemple sync', *files_to_commit], stdout=PIPE, stderr=PIPE, universal_newlines=True)
+                print('[bold blue]Stashing and saving TEMPLATE branch changes!')
+                Popen(['git', 'stash'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
+                self.made_changes = True
+                print('[bold blue]Committed changes to TEMPLATE branch')
         except Exception as e:
             print(f'[bold red]Could not commit changes to TEMPLATE:\n{e}')
             sys.exit(1)
