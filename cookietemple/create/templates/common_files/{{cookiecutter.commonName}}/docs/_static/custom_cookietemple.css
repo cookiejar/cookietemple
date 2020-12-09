@@ -13,6 +13,24 @@ div, span, code {
     background-color: #005fff !important;
 }
 
+.wy-side-nav-search form {
+    background-color: #005fff !important;
+}
+
+.wy-side-nav-search .wy-form input {
+    background-color: #2D2E2F !important;
+}
+
+.wy-side-nav-search .wy-form input:focus {
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+}
+
 /*Font color is mainly white*/
 .rst-content p, li, h1, h2, h3, h4, h5, h6, .highlight-console, .n, .section {
     color: #FFFFFF;
@@ -63,6 +81,17 @@ div, span, code {
     background: #005fff !important;
 }
 
+.wy-menu-vertical li.toctree-l3.current li.toctree-l4 > a {
+    color: #FFFFFF !important;
+    background: #2D2E2F !important;
+}
+
+.wy-menu-vertical li.toctree-l3.current li.toctree-l4 > a:hover {
+    color: #FFFFFF !important;
+    background: #005fff !important;
+}
+
+
 .wy-menu-vertical li.toctree-l2.current > a:hover {
     color: #FFFFFF !important;
     background: #005fff !important;
@@ -106,6 +135,21 @@ div, span, code {
 
 .wy-menu-vertical li.toctree-l3 a span.toctree-expand {
     background-color: #2D2E2F !important;
+}
+
+.wy-menu-vertical li.toctree-l2.current a .toctree-expand {
+    background-color: #2D2E2F !important;
+    color: #FFFFFF !important;
+}
+
+.wy-menu-vertical li.toctree-l2.current a:hover .toctree-expand {
+    background-color: #005fff !important;
+    color: #FFFFFF !important;
+}
+
+.wy-menu-vertical li.toctree-l3.current a .toctree-expand {
+    background-color: #2D2E2F !important;
+    color: #FFFFFF !important;
 }
 
 .wy-menu-vertical li.toctree-l3 a:hover span.toctree-expand {

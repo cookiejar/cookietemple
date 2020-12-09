@@ -34,13 +34,13 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/cookiejardealer/cookietemple
+    $ git clone git://github.com/cookiejar/cookietemple
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/cookiejardealer/cookietemple/tarball/master
+    $ curl -OJL https://github.com/cookiejar/cookietemple/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
