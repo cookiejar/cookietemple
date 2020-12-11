@@ -9,7 +9,7 @@ from configparser import ConfigParser, NoSectionError
 from distutils.dir_util import copy_tree
 from subprocess import Popen, PIPE
 from typing import Tuple
-
+from github import Github
 import git  # type: ignore
 import json
 import os
@@ -195,31 +195,41 @@ class TemplateSync:
         try:
             # git add only non-blacklisted files
             print('[bold blue]Staging template.')
+            # add all files to stage
             self.repo.git.add(A=True)
-            Popen(['git', 'reset', 'requirements.txt'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
-            Popen(['git', 'reset', 'requirements_dev.txt'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
-            Popen(['git', 'checkout', '--' 'requirements.txt'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
-            Popen(['git', 'checkout', '--', 'requirements_dev.txt'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
+            # get all changed/modified files during the sync (including blacklisted ones)
             changed_files = [item.a_path for item in self.repo.index.diff('HEAD')]
             globs = self.get_blacklisted_sync_globs()
-            blacklisted_changed_files = []
+            blacklisted_changed_files = set()
             for pattern in globs:
                 # keep track of all staged files matching a glob from the cookietemple.cfg file
                 # those files will be excluded from syncing but will still be available in every new created projects
-                blacklisted_changed_files += fnmatch.filter(changed_files, pattern)
+                blacklisted_changed_files |= {file for file in fnmatch.filter(changed_files, pattern)}
             nl = '\n'
             log.debug(f'Blacklisted (unsynced) files are:{nl}{nl.join(file for file in blacklisted_changed_files)}' if blacklisted_changed_files else
                       'No blacklisted files for syncing found.')
-            print('[bold blue]Committing changes of non blacklisted files.')
+            # each blacklisted file must be first unstaged and then get its changes discarded, so it will not be marked as modified by git
+            for blacklisted_file in blacklisted_changed_files:
+                log.debug(f'Unstaging {blacklisted_file}')
+                Popen(['git', 'reset', blacklisted_file], stdout=PIPE, stderr=PIPE, universal_newlines=True)
+                log.debug(f'Discarding changes in working directory of file {blacklisted_file}')
+                Popen(['git', 'checkout', '--', blacklisted_file], stdout=PIPE, stderr=PIPE, universal_newlines=True)
+
             files_to_commit = [file for file in changed_files if file not in blacklisted_changed_files]
             log.debug(f'Files to commit are:{nl}{nl.join(file for file in files_to_commit)}' if files_to_commit else
                       'No files to commit found.')
             if files_to_commit:
+                print('[bold blue]Committing changes of non blacklisted files.')
                 Popen(['git', 'commit', '-m', 'Cookietemple sync', *files_to_commit], stdout=PIPE, stderr=PIPE, universal_newlines=True)
                 print('[bold blue]Stashing and saving TEMPLATE branch changes!')
                 Popen(['git', 'stash'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
                 self.made_changes = True
                 print('[bold blue]Committed changes to TEMPLATE branch')
+
+            # if a file was added to the template, but is blacklisted, it remains untracked; so it should be removed
+            for untracked_file in self.repo.untracked_files:
+                log.debug(f'Removing untracked file {untracked_file}')
+                Path(untracked_file).unlink()
         except Exception as e:
             print(f'[bold red]Could not commit changes to TEMPLATE:\n{e}')
             sys.exit(1)
@@ -227,8 +237,8 @@ class TemplateSync:
 
     def push_template_branch(self):
         """
-        If we made any changes, push the TEMPLATE branch to the default remote
-        and try to make a PR.
+        If there are any changes to the template, push the TEMPLATE branch to the default remote
+        and push to the actual sync temporary branch, where a PR is actually created from to development branch.
         """
         print(f'[bold blue]Pushing TEMPLATE branch to remote: {os.path.basename(self.project_dir)}')
         try:
@@ -238,13 +248,19 @@ class TemplateSync:
             self.repo.head.ref.set_tracking_branch(origin.refs.TEMPLATE)
             log.debug('Pushing to upstream branch TEMPLATE.')
             self.repo.git.push(force=True)
+            print(f'[bold blue]Checking out to new branch cookietemple_sync_v{self.new_template_version}')
+            log.debug(f'git checkout -b cookietemple_sync_v{self.new_template_version}')
+            self.repo.git.checkout('-b', f'cookietemple_sync_v{self.new_template_version}')
+            log.debug(f'git push origin cookietemple_sync_v{self.new_template_version}')
+            print(f'[bold blue]Pushing to remote branch cookietemple_sync_v{self.new_template_version}')
+            self.repo.remotes.origin.push(refspec=f'cookietemple_sync_v{self.new_template_version}:cookietemple_sync_v{self.new_template_version}')
         except git.exc.GitCommandError as e:
-            print(f'Could not push TEMPLATE branch:\n{e}')
+            print(f'Could not push TEMPLATE or cookietemple_sync_v{self.new_template_version} branch:\n{e}')
             sys.exit(1)
 
     def make_pull_request(self):
         """
-        Create a pull request to a base branch from a head branch (default: TEMPLATE)
+        Create a pull request to a base branch from a head branch (that is, a temporary branch only created for syncing the new template version)
         """
         log.debug('Preparing PR contents to submit a sync PR.')
         if self.dot_cookietemple['is_github_orga']:
@@ -258,11 +274,10 @@ class TemplateSync:
             'For more information on the actual changes, read the latest cookietemple changelog.')
         log.debug(f'PR title is {pr_title} and PR body: {pr_body_text}')
 
-        # Only create PR if it does not already exist
-        if not self.check_pull_request_exists():
-            self.submit_pull_request(pr_title, pr_body_text)
-        else:
-            print('[bold blue]An open cookietemple sync PR already exists at your repo. Changes were added to the existing PR!')
+        # Check, whether a cookietemple sync PR is already open
+        self.check_pull_request_exists()
+        # Submit the new pull request with the latest cookietemple sync changes
+        self.submit_pull_request(pr_title, pr_body_text)
 
     def submit_pull_request(self, pr_title, pr_body_text):
         """
@@ -272,7 +287,7 @@ class TemplateSync:
             'title': pr_title,
             'body': pr_body_text,
             'maintainer_can_modify': True,
-            'head': 'TEMPLATE',
+            'head': f'cookietemple_sync_v{self.new_template_version}',
             'base': 'development',
         }
         log.debug(f'Trying to submit a sync PR to https://api.github.com/repos/{self.repo_owner}/{self.dot_cookietemple["project_slug"]}/pulls')
@@ -299,21 +314,21 @@ class TemplateSync:
 
     def check_pull_request_exists(self) -> bool:
         """
-        Check, if a cookietemple sync PR is already pending. If so, just push changes and do not create a new PR!
+        Check, whether a cookietemple sync PR is already open. If so, close this one, as it is outdated.
 
         :return Whether a cookietemple sync PR is already open or not
         """
-        query_url = f'https://api.github.com/repos/{self.repo_owner}/{self.dot_cookietemple["project_slug"]}/pulls?state=open'
-        headers = {'Authorization': f'token {self.token}'}
+        g = Github(self.token)
+        repo = g.get_repo(f'{self.repo_owner}/{self.dot_cookietemple["project_slug"]}')
         # query all open PRs
         log.debug('Querying open PRs to check if a sync PR already exists.')
-        r = requests.get(query_url, headers=headers)
-        query_data = r.json()
-        log.debug(f'Query returned: {query_data}')
         # iterate over the open PRs of the repo to check if a cookietemple sync PR is open
-        for pull_request in query_data:
+        for pull_request in repo.get_pulls(state='open'):
             log.debug('Already open sync PR has been found.')
-            if 'Important cookietemple template update' in pull_request['title']:
+            # if an older, outdated cookietemple sync PR is still open, close it first
+            if 'Important cookietemple template update' in pull_request.title:
+                print('[bold blue]Detected open, but outdated cookietemple sync PR. Closing it in favor of the newest sync PR!')
+                pull_request.edit(state='closed')
                 return True
         return False
 
