@@ -7,4 +7,3 @@ RUN apk add make automake gcc g++ git
 RUN pip install cookietemple
 
 CMD cookietemple
-

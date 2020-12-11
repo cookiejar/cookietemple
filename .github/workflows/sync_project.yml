@@ -28,7 +28,7 @@ jobs:
                name: 'zethson'
                email: 'lukas.heumos@posteo.net'
                actor: 'zethson'
-               token: '${{ secrets.CT_SYNC_TOKEN}}'
+               token: '${{ secrets.CT_SYNC_TOKEN }}'
 
         - name: Sync project
           run: cookietemple sync . ${{ secrets.CT_SYNC_TOKEN  }} zethson
