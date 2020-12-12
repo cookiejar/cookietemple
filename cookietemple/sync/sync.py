@@ -220,7 +220,7 @@ class TemplateSync:
                       'No files to commit found.')
             if files_to_commit:
                 print('[bold blue]Committing changes of non blacklisted files.')
-                Popen(['git', 'commit', '-m', 'Cookietemple sync', *files_to_commit], stdout=PIPE, stderr=PIPE, universal_newlines=True)
+                Popen(['git', 'commit', '-m', 'cookietemple sync', *files_to_commit], stdout=PIPE, stderr=PIPE, universal_newlines=True)
                 print('[bold blue]Stashing and saving TEMPLATE branch changes!')
                 Popen(['git', 'stash'], stdout=PIPE, stderr=PIPE, universal_newlines=True)
                 self.made_changes = True
