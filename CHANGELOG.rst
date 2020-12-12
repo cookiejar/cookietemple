@@ -11,7 +11,12 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 **Added**
 
+* the sync PR is now always created from a new, temporary sync branch and not from TEMPLATE branch anymore
+
 **Fixed**
+
+* fixed a bug, that causes blacklisted files to be synced
+* fixed a bug, where changes made to blacklisted files during sync were not discarded
 
 **Dependencies**
 
