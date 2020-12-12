@@ -6,6 +6,23 @@ Changelog
 
 This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
+1.2.3-SNAPSHOT (2020-12-12)
+---------------------------
+
+**Added**
+
+* the sync PR is now always created from a new, temporary sync branch and not from TEMPLATE branch anymore
+
+**Fixed**
+
+* fixed a bug, that causes blacklisted files to be synced
+* fixed a bug, where changes made to blacklisted files during sync were not discarded
+
+**Dependencies**
+
+**Deprecated**
+
+
 1.2.2 (2020-12-06)
 ------------------
 
