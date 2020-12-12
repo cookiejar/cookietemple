@@ -1,9 +1,9 @@
-name: Build Cookietemple Package
+name: Build cookietemple Package
 
 on: [push, pull_request]
 
 jobs:
-  Build-Package:
+  build:
     runs-on: ${{ matrix.os }}
     if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
     strategy:
@@ -36,4 +36,3 @@ jobs:
 
       - name: Check twine package
         run: twine check dist/*
-

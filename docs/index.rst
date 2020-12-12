@@ -1,8 +1,4 @@
 Welcome to cookietemple's documentation!
-========================================
-
-.. toctree::
-   :maxdepth: 5
    :caption: Contents:
 
    readme
