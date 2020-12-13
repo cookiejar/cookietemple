@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Linting your project &mdash; cookietemple 1.2.2 documentation</title>
+  <title>Linting your project &mdash; cookietemple 1.2.3 documentation</title>
   
 
   
@@ -36,9 +36,7 @@
 
     
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Bumping the version of an existing project" href="bump_version.html" />
-    <link rel="prev" title="Getting information about available templates" href="list_info.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -62,7 +60,7 @@
             
             
               <div class="version">
-                1.2.2
+                1.2.3
               </div>
             
           
@@ -87,78 +85,59 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="readme.html">cookietemple overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create.html">Create a project</a></li>
-<li class="toctree-l1"><a class="reference internal" href="list_info.html">Getting information about available templates</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Linting your project</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#flags">Flags</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#linting-codes">Linting codes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#general">General</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#general-1">general-1</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#general-2">general-2</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#general-3">general-3</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#general-4">general-4</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#general-5">general-5</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#general-6">general-6</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#general-7">general-7</a></li>
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Linting your project</a><ul>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#flags">Flags</a></li>
+<li><a class="reference internal" href="#linting-codes">Linting codes</a><ul>
+<li><a class="reference internal" href="#general">General</a><ul>
+<li><a class="reference internal" href="#general-1">general-1</a></li>
+<li><a class="reference internal" href="#general-2">general-2</a></li>
+<li><a class="reference internal" href="#general-3">general-3</a></li>
+<li><a class="reference internal" href="#general-4">general-4</a></li>
+<li><a class="reference internal" href="#general-5">general-5</a></li>
+<li><a class="reference internal" href="#general-6">general-6</a></li>
+<li><a class="reference internal" href="#general-7">general-7</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#cli-python">cli-python</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#cli-python-1">cli-python-1</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cli-python-2">cli-python-2</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cli-python-3">cli-python-3</a></li>
+<li><a class="reference internal" href="#cli-python">cli-python</a><ul>
+<li><a class="reference internal" href="#cli-python-1">cli-python-1</a></li>
+<li><a class="reference internal" href="#cli-python-2">cli-python-2</a></li>
+<li><a class="reference internal" href="#cli-python-3">cli-python-3</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#cli-java">cli-java</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#cli-java-1">cli-java-1</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cli-java-2">cli-java-2</a></li>
+<li><a class="reference internal" href="#cli-java">cli-java</a><ul>
+<li><a class="reference internal" href="#cli-java-1">cli-java-1</a></li>
+<li><a class="reference internal" href="#cli-java-2">cli-java-2</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#lib-cpp">lib-cpp</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#lib-cpp-1">lib-cpp-1</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#lib-cpp-2">lib-cpp-2</a></li>
+<li><a class="reference internal" href="#lib-cpp">lib-cpp</a><ul>
+<li><a class="reference internal" href="#lib-cpp-1">lib-cpp-1</a></li>
+<li><a class="reference internal" href="#lib-cpp-2">lib-cpp-2</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#web-python">web-python</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#web-python-1">web-python-1</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#web-python-2">web-python-2</a></li>
+<li><a class="reference internal" href="#web-python">web-python</a><ul>
+<li><a class="reference internal" href="#web-python-1">web-python-1</a></li>
+<li><a class="reference internal" href="#web-python-2">web-python-2</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#gui-java">gui-java</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#gui-java-1">gui-java-1</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#gui-java-2">gui-java-2</a></li>
+<li><a class="reference internal" href="#gui-java">gui-java</a><ul>
+<li><a class="reference internal" href="#gui-java-1">gui-java-1</a></li>
+<li><a class="reference internal" href="#gui-java-2">gui-java-2</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#pub-thesis">pub-thesis</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#pub-thesis-1">pub-thesis-1</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pub-thesis-2">pub-thesis-2</a></li>
+<li><a class="reference internal" href="#pub-thesis">pub-thesis</a><ul>
+<li><a class="reference internal" href="#pub-thesis-1">pub-thesis-1</a></li>
+<li><a class="reference internal" href="#pub-thesis-2">pub-thesis-2</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="bump_version.html">Bumping the version of an existing project</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sync.html">Syncing your project</a></li>
-<li class="toctree-l1"><a class="reference internal" href="warp.html">Packaging using warp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="config.html">Configure cookietemple</a></li>
-<li class="toctree-l1"><a class="reference internal" href="upgrade.html">Upgrade cookietemple</a></li>
-<li class="toctree-l1"><a class="reference internal" href="available_templates/available_templates.html">Available templates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="github_support.html">Github Support</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="adding_new_templates.html">Adding new templates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">External Python based projects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="community.html">Community</a></li>
-<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Contributor Covenant Code of Conduct</a></li>
 </ul>
-
+</div>
             
           
         </div>
@@ -452,15 +431,6 @@ This is required to be excluded from syncing.</div>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="bump_version.html" class="btn btn-neutral float-right" title="Bumping the version of an existing project" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="list_info.html" class="btn btn-neutral float-left" title="Getting information about available templates" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
