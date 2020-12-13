@@ -84,7 +84,9 @@ class TemplateCreator:
             console.print('[bold blue]Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates/available_templates.html'
                           f'#{domain}-{language} for more information about how to use your chosen template.')
 
-        if path != Path.cwd():
+        cwd = Path.cwd()
+        # do not move if path is current working directory or a directory named like the project in the current working directory (second is default case)
+        if path != cwd and path != Path(cwd/self.creator_ctx.project_slug_no_hyphen):
             shutil.move(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}', f'{path}/{self.creator_ctx.project_slug_no_hyphen}')
 
     def create_template_without_subdomain(self, domain_path: str) -> None:
