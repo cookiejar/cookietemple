@@ -17,6 +17,7 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 * fixed a bug, that causes blacklisted files to be synced
 * fixed a bug, where changes made to blacklisted files during sync were not discarded
+* fixed a bug, when creating a project with a path parameter named like the project caused a move
 
 **Dependencies**
 
