@@ -21,8 +21,8 @@ project = u'cookietemple'
 copyright = u'2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization'
 author = u'Lukas Heumos, Philipp Ehmele, the cookiejar organization'
 
-version = '1.2.2'
-release = '1.2.2'
+version = '1.2.3'
+release = '1.2.3'
 
 language = None
 
@@ -74,11 +74,12 @@ latex_elements = {
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title, author, documentclass [howto, manual, or own class]).
+# (source start file, target name, title, author, documentclass
+# [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'cookietemple.tex',
-     u'cookietemple Documentation',
-     u'Lukas Heumos', 'manual'),
+     'cookietemple Documentation',
+     'Lukas Heumos, Philipp Ehmele', 'manual'),
 ]
 
 
@@ -88,7 +89,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     (master_doc, 'cookietemple',
-     u'cookietemple Documentation',
+     'cookietemple Documentation',
      [author], 1)
 ]
 
@@ -96,10 +97,11 @@ man_pages = [
 # -- Options for Texinfo output ----------------------------------------
 
 # Grouping the document tree into Texinfo files. List of tuples
-# (source start file, target name, title, author, dir menu entry, description, category)
+# (source start file, target name, title, author,
+#  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'cookietemple',
-     u'cookietemple Documentation',
+     'cookietemple Documentation',
      author,
      'cookietemple',
      'One line description of project.',

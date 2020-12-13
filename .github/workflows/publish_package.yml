@@ -1,4 +1,4 @@
-name: Publish Cookietemple to PyPI
+name: Publish cookietemple to PyPI
 
 on:
   release:

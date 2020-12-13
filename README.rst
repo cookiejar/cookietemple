@@ -39,6 +39,10 @@
         :target: https://zenodo.org/badge/latestdoi/202421008
         :alt: Zenodo ID
 
+.. image:: https://zenodo.org/badge/202421008.svg
+        :target: https://zenodo.org/badge/latestdoi/202421008
+        :alt: Zenodo ID
+
 .. image:: https://img.shields.io/discord/708008788505919599?color=passing&label=Discord%20Chat&style=flat-square
         :target: https://discord.gg/PYF8NUk
         :alt: Discord
