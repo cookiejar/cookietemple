@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         - name: Setup Python
-          uses: actions/setup-python@v2.1.4
+          uses: actions/setup-python@v2.2.0
           with:
             python-version: 3.8
 
