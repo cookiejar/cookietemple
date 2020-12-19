@@ -9,11 +9,9 @@ from configparser import ConfigParser, NoSectionError
 from distutils.dir_util import copy_tree
 from subprocess import Popen, PIPE
 from typing import Tuple
-from github import Github
+from github import Github, GithubException
 import git  # type: ignore
-import json
 import os
-import requests
 import shutil
 import tempfile
 from pathlib import Path
@@ -283,33 +281,15 @@ class TemplateSync:
         """
         Create a new pull-request on GitHub
         """
-        pr_content = {
-            'title': pr_title,
-            'body': pr_body_text,
-            'maintainer_can_modify': True,
-            'head': f'cookietemple_sync_v{self.new_template_version}',
-            'base': 'development',
-        }
-        log.debug(f'Trying to submit a sync PR to https://api.github.com/repos/{self.repo_owner}/{self.dot_cookietemple["project_slug"]}/pulls')
-        r = requests.post(
-            url=f'https://api.github.com/repos/{self.repo_owner}/{self.dot_cookietemple["project_slug"]}/pulls',
-            data=json.dumps(pr_content),
-            auth=requests.auth.HTTPBasicAuth(self.gh_username, self.token),
-        )
+        g = Github(self.token)
+        repo = g.get_repo(f'{self.repo_owner}/{self.dot_cookietemple["project_slug"]}')
         try:
-            self.gh_pr_returned_data = json.loads(r.content)
-            returned_data_prettyprint = json.dumps(self.gh_pr_returned_data, indent=4)
-        except requests.RequestException:
-            self.gh_pr_returned_data = r.content
-            returned_data_prettyprint = r.content
-
-        # PR worked
-        if r.status_code == 201:
+            repo.create_pull(title=pr_title, body=pr_body_text, head=f'cookietemple_sync_v{self.new_template_version}', base='development', maintainer_can_modify=True)
             print('[bold blue]Successfully created PR!')
 
         # Something went wrong
-        else:
-            print(f'GitHub API returned code {r.status_code}: \n{returned_data_prettyprint}')
+        except GithubException as e:
+            print(f'[bold red]Could not create a PR due to the following error:\n{e}')
             sys.exit(1)
 
     def check_pull_request_exists(self) -> bool:
