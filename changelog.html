@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Changelog &mdash; cookietemple 1.2.3 documentation</title>
+  <title>Changelog &mdash; cookietemple 1.2.4 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.2.3
+                1.2.4
               </div>
             
           
@@ -88,12 +88,13 @@
               <!-- Local TOC -->
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
-<li><a class="reference internal" href="#id1">1.2.3 (2020-12-13)</a></li>
-<li><a class="reference internal" href="#id2">1.2.2 (2020-12-06)</a></li>
-<li><a class="reference internal" href="#id3">1.2.1 (2020-11-22)</a></li>
-<li><a class="reference internal" href="#id4">1.2.0 (2020-11-22)</a></li>
-<li><a class="reference internal" href="#id5">1.0.1 (2020-11-03)</a></li>
-<li><a class="reference internal" href="#id6">1.0.0 (2020-11-03)</a></li>
+<li><a class="reference internal" href="#id1">1.2.4 (2020-12-19)</a></li>
+<li><a class="reference internal" href="#id2">1.2.3 (2020-12-13)</a></li>
+<li><a class="reference internal" href="#id3">1.2.2 (2020-12-06)</a></li>
+<li><a class="reference internal" href="#id4">1.2.1 (2020-11-22)</a></li>
+<li><a class="reference internal" href="#id5">1.2.0 (2020-11-22)</a></li>
+<li><a class="reference internal" href="#id6">1.0.1 (2020-11-03)</a></li>
+<li><a class="reference internal" href="#id7">1.0.0 (2020-11-03)</a></li>
 </ul>
 </li>
 </ul>
@@ -165,7 +166,20 @@
 <span id="changelog-f"></span><h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
 <p>This project adheres to <a class="reference external" href="https://semver.org/">Semantic Versioning</a>.</p>
 <div class="section" id="id1">
-<h2>1.2.3 (2020-12-13)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>1.2.4 (2020-12-19)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p><strong>Added</strong></p>
+<ul class="simple">
+<li><p>refactored sync PR queries using pygithub now instead of requests</p></li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul class="simple">
+<li><p>fixed a bug causing pub template creation to fail and remove the current working directory</p></li>
+</ul>
+<p><strong>Dependencies</strong></p>
+<p><strong>Deprecated</strong></p>
+</div>
+<div class="section" id="id2">
+<h2>1.2.3 (2020-12-13)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p>the sync PR is now always created from a new, temporary sync branch and not from TEMPLATE branch anymore</p></li>
@@ -179,8 +193,8 @@
 <p><strong>Dependencies</strong></p>
 <p><strong>Deprecated</strong></p>
 </div>
-<div class="section" id="id2">
-<h2>1.2.2 (2020-12-06)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h2>1.2.2 (2020-12-06)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p>Support for deploying the documentation on Github Pages. By default the Documentation is pushed to the gh-pages branch.
@@ -197,8 +211,8 @@ Simply enable Github pages (repository settings) with the gh-pages branch and yo
 <p><strong>Dependencies</strong></p>
 <p><strong>Deprecated</strong></p>
 </div>
-<div class="section" id="id3">
-<h2>1.2.1 (2020-11-22)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2>1.2.1 (2020-11-22)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p><strong>Added</strong></p>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
@@ -207,8 +221,8 @@ Simply enable Github pages (repository settings) with the gh-pages branch and yo
 <p><strong>Dependencies</strong></p>
 <p><strong>Deprecated</strong></p>
 </div>
-<div class="section" id="id4">
-<h2>1.2.0 (2020-11-22)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h2>1.2.0 (2020-11-22)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p>a linter for cookietemple.cfg file to ensure integrity</p></li>
@@ -228,8 +242,8 @@ Simply enable Github pages (repository settings) with the gh-pages branch and yo
 <li><p>GitHub PAT with only repo scope (needs workflows permissions now too)</p></li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h2>1.0.1 (2020-11-03)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2>1.0.1 (2020-11-03)<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <p><strong>Added</strong></p>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
@@ -238,8 +252,8 @@ Simply enable Github pages (repository settings) with the gh-pages branch and yo
 <p><strong>Dependencies</strong></p>
 <p><strong>Deprecated</strong></p>
 </div>
-<div class="section" id="id6">
-<h2>1.0.0 (2020-11-03)<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h2>1.0.0 (2020-11-03)<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p>Documentation hosted on <a class="reference external" href="https://cookietemple.readthedocs.io/">https://cookietemple.readthedocs.io/</a></p></li>
