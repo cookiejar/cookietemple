@@ -187,7 +187,7 @@ class ConfigCommand:
     @staticmethod
     def check_ct_config_dir_exists() -> None:
         """
-        Check if the config directory for cookietemple exists. If not, create it.
+        Check whether the config directory for cookietemple exists. If not, create it.
         """
         log.debug(f'Checking whether a config directory already exists at {Path(ConfigCommand.CONF_FILE_PATH).parent}.')
         if not os.path.exists(Path(ConfigCommand.CONF_FILE_PATH).parent):

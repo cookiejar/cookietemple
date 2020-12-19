@@ -6,6 +6,22 @@ Changelog
 
 This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
+1.2.4-SNAPSHOT (2020-12-19)
+---------------------------
+
+**Added**
+
+* refactored sync PR queries using pygithub now instead of requests
+
+**Fixed**
+
+* fixed a bug causing pub template creation to fail and remove the current working directory
+
+**Dependencies**
+
+**Deprecated**
+
+
 1.2.3 (2020-12-13)
 ------------------
 

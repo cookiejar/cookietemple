@@ -8,10 +8,8 @@ AVAILABLE_TEMPLATES_PATH = f'{os.path.dirname(__file__)}/../create/templates/ava
 
 # cookietemple's main commands
 MAIN_COMMANDS = ['create', 'lint', 'list', 'info', 'bump-version', 'sync', 'warp', 'config', 'upgrade']
-
 # the fraction relative to the commands length, a given input could differ from the real command to be automatically used instead
 SIMILARITY_USE_FACTOR = 1 / 3
-
 # the fraction relative to the commands length, a given input could differ from the real command to be suggested (if >1/3 of course)
 SIMILARITY_SUGGEST_FACTOR = 2 / 3
 

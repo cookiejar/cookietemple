@@ -36,7 +36,6 @@ class PubCreator(TemplateCreator):
         super().__init__(self.pub_struct)
         self.WD_Path = Path(os.path.dirname(__file__))
         self.TEMPLATES_PUB_PATH = f'{self.WD_Path.parent}/templates/pub'
-        self.CWD = os.getcwd()
 
         '"" TEMPLATE VERSIONS ""'
         self.PUB_LATEX_TEMPLATE_VERSION = load_ct_template_version('pub-thesis-latex', self.AVAILABLE_TEMPLATES_PATH)
@@ -115,12 +114,12 @@ class PubCreator(TemplateCreator):
                                                                               default='Homer Simpson',
                                                                               dot_cookietemple=dot_cookietemple,
                                                                               to_get_property='author')
-        self.pub_struct.project_name = cookietemple_questionary_or_dot_cookietemple(function='text',
+        self.pub_struct.project_slug = cookietemple_questionary_or_dot_cookietemple(function='text',
                                                                                     question='Project name',
                                                                                     default='PhD Thesis',
                                                                                     dot_cookietemple=dot_cookietemple,
-                                                                                    to_get_property='project_name')
-        self.pub_struct.project_slug = self.pub_struct.project_name.replace(' ', '_').replace('-', '_')  # type: ignore
+                                                                                    to_get_property='project_name').replace(' ', '_')  # type: ignore
+        self.pub_struct.project_slug_no_hyphen = self.pub_struct.project_slug.replace('-', '_')
         self.pub_struct.title = cookietemple_questionary_or_dot_cookietemple(function='text',
                                                                              question='Publication title',
                                                                              default='On how Springfield exploded',

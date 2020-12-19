@@ -249,7 +249,7 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
         # lint before run bump-version
         version_bumper.lint_before_bump()
         # only run bump-version if conditions are met
-        if version_bumper.can_run_bump_version(new_version, project_dir):
+        if version_bumper.can_run_bump_version(new_version):
             # only run "sanity" checker when the downgrade flag is not set
             if not downgrade:
                 # if the check fails, ask the user for confirmation
