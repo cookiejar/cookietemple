@@ -39,7 +39,7 @@ class TemplateCreator:
         self.COMMON_FILES_PATH = f'{self.TEMPLATES_PATH}/common_files'
         self.AVAILABLE_TEMPLATES_PATH = f'{self.TEMPLATES_PATH}/available_templates.yml'
         self.AVAILABLE_TEMPLATES = load_yaml_file(self.AVAILABLE_TEMPLATES_PATH)
-        self.CWD = os.getcwd()
+        self.CWD = Path.cwd()
         self.creator_ctx = creator_ctx
 
     def process_common_operations(self, path: Path, skip_common_files=False, skip_fix_underline=False,
@@ -84,10 +84,9 @@ class TemplateCreator:
             console.print('[bold blue]Please visit: https://cookietemple.readthedocs.io/en/latest/available_templates/available_templates.html'
                           f'#{domain}-{language} for more information about how to use your chosen template.')
 
-        cwd = Path.cwd()
         # do not move if path is current working directory or a directory named like the project in the current working directory (second is default case)
-        if path != cwd and path != Path(cwd/self.creator_ctx.project_slug_no_hyphen):
-            shutil.move(f'{Path.cwd()}/{self.creator_ctx.project_slug_no_hyphen}', f'{path}/{self.creator_ctx.project_slug_no_hyphen}')
+        if path != self.CWD and path != Path(self.CWD/self.creator_ctx.project_slug_no_hyphen):
+            shutil.move(f'{self.CWD}/{self.creator_ctx.project_slug_no_hyphen}', f'{path}/{self.creator_ctx.project_slug_no_hyphen}')
 
     def create_template_without_subdomain(self, domain_path: str) -> None:
         """
@@ -97,7 +96,7 @@ class TemplateCreator:
         :param domain_path: Path to the template, which is still in cookiecutter format
         """
         # Target directory is already occupied -> overwrite?
-        occupied = os.path.isdir(f'{os.getcwd()}/{self.creator_ctx.project_slug}')
+        occupied = os.path.isdir(f'{self.CWD}/{self.creator_ctx.project_slug}')
         if occupied:
             self.directory_exists_warning()
 
@@ -124,13 +123,13 @@ class TemplateCreator:
         :param domain_path: Path to the template, which is still in cookiecutter format
         :param subdomain: Subdomain of the chosen template
         """
-        occupied = os.path.isdir(f'{os.getcwd()}/{self.creator_ctx.project_slug}')
+        occupied = os.path.isdir(f'{self.CWD}/{self.creator_ctx.project_slug}')
         if occupied:
             self.directory_exists_warning()
 
             # Confirm proceeding with overwriting existing directory
             if cookietemple_questionary_or_dot_cookietemple('confirm', 'Do you really want to continue?', default='Yes'):
-                delete_dir_tree(Path(f'{os.getcwd()}/{self.creator_ctx.project_slug}'))
+                delete_dir_tree(Path(f'{self.CWD}/{self.creator_ctx.project_slug}'))
                 cookiecutter(f'{domain_path}/{subdomain}_{self.creator_ctx.language.lower()}',
                              no_input=True,
                              overwrite_if_exists=True,
@@ -154,7 +153,7 @@ class TemplateCreator:
         :param subdomain: Subdomain of the chosen template
         :param framework: Chosen framework
         """
-        occupied = os.path.isdir(f'{os.getcwd()}/{self.creator_ctx.project_slug}')
+        occupied = os.path.isdir(f'{self.CWD}/{self.creator_ctx.project_slug}')
         if occupied:
             self.directory_exists_warning()
 
@@ -255,15 +254,14 @@ class TemplateCreator:
 
     def create_common_files(self) -> None:
         """
-        This function creates a temporary directory for common files of all templates and applies cookiecutter on them.
+        Create a temporary directory for common files of all templates and apply cookiecutter on them.
         They are subsequently moved into the directory of the created template.
         """
         log.debug('Creating common files.')
         dirpath = tempfile.mkdtemp()
         copy_tree(f'{self.COMMON_FILES_PATH}', dirpath)
-        cwd_project = Path.cwd()
+        cwd_project = self.CWD
         os.chdir(dirpath)
-
         log.debug(f'Cookiecuttering common files at {dirpath}')
         cookiecutter(dirpath,
                      extra_context={'full_name': self.creator_ctx.full_name,
@@ -285,7 +283,7 @@ class TemplateCreator:
         # recursively copy the common files directory content to the created project
         log.debug('Copying common files into the created project')
         dest_dir = self.creator_ctx.project_slug if self.creator_ctx.language != "python" else self.creator_ctx.project_slug_no_hyphen
-        copy_tree(f'{os.getcwd()}/common_files_util', f'{cwd_project}/{dest_dir}')
+        copy_tree(f'{Path.cwd()}/common_files_util', f'{cwd_project}/{dest_dir}')
         # delete the tmp cookiecuttered common files directory
         log.debug('Delete common files directory.')
         delete_dir_tree(Path(f'{Path.cwd()}/common_files_util'))
@@ -347,12 +345,12 @@ class TemplateCreator:
         If the directory is already a git directory within the same project, print error message and exit.
         Otherwise print a warning that a directory already exists and any further action on the directory will overwrite its contents.
         """
-        if is_git_repo(Path(f'{os.getcwd()}/{self.creator_ctx.project_slug}')):
-            console.print(f'[bold red]Error: A git project named {self.creator_ctx.project_slug} already exists at [green]{os.getcwd()}\n')
+        if is_git_repo(Path(f'{self.CWD}/{self.creator_ctx.project_slug}')):
+            console.print(f'[bold red]Error: A git project named {self.creator_ctx.project_slug} already exists at [green]{self.CWD}\n')
             console.print('[bold red]Aborting!')
             sys.exit(1)
         else:
-            console.print(f'[bold yellow]WARNING: [red]A directory named {self.creator_ctx.project_slug} already exists at [blue]{os.getcwd()}\n')
+            console.print(f'[bold yellow]WARNING: [red]A directory named {self.creator_ctx.project_slug} already exists at [blue]{self.CWD}\n')
             console.print('Proceeding now will overwrite this directory and its content!')
 
     def create_dot_cookietemple(self, template_version: str):

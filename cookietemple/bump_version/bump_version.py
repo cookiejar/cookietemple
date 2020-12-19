@@ -3,7 +3,6 @@ import os
 import sys
 import re
 from typing import Tuple
-
 from packaging import version
 from configparser import ConfigParser, NoSectionError
 from tempfile import mkstemp
@@ -144,7 +143,7 @@ class VersionBumper:
 
         return file_is_unchanged, path_changed
 
-    def can_run_bump_version(self, new_version: str, project_dir: str) -> bool:
+    def can_run_bump_version(self, new_version: str) -> bool:
         """
         Ensure that all requirements are met, so that the bump version command can be run successfully.
         This included the following requirements:
@@ -152,7 +151,6 @@ class VersionBumper:
         2.) The new version is greater than the current one
         3.) The project is a cookietemple project (this is already checked when creating the "bumper" object
         :param new_version: The new version
-        :param project_dir: The directory of the project
 
         :return: True if bump version can be run, false otherwise.
         """
@@ -202,12 +200,12 @@ class VersionBumper:
 
     def check_bump_range(self, current_version: str, new_version: str) -> bool:
         """
-        Check if the new version seems to be a reasonable bump or not (ignored when using the downgrade flag).
+        Check whether the new version seems to be a reasonable bump or not (ignored when using the downgrade flag).
         This should not break the bump-version process, but it requires confirmation of the user.
         :param current_version: The current version
         :param new_version: The new version
 
-        :return: If it´s a reasonable bump
+        :return: Whether it´s a reasonable bump
         """
         cur_v_split = current_version.split('.')
         new_v_split = new_version.split('.')
@@ -285,7 +283,7 @@ class VersionBumper:
 
                 self.insert_latest_version_section(old_changelog_file=f'{self.top_level_dir}/CHANGELOG.rst', section=section)
 
-    def replace_snapshot_header(self, source_file_path, new_version: str, date: str) -> None:
+    def replace_snapshot_header(self, source_file_path: str, new_version: str, date: str) -> None:
         """
         Replace the SNAPSHOT header section in CHANGELOG. The pattern (currently) cannot include any newline characters, therefore no multiline support!
         :param source_file_path: Path to source file (the path where CHANGELOG lies)

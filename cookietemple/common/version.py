@@ -1,7 +1,6 @@
 import sys
 from pathlib import Path
 from typing import Tuple
-
 from rich import print
 
 from cookietemple.common.load_yaml import load_yaml_file
