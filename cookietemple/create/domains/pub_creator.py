@@ -118,7 +118,7 @@ class PubCreator(TemplateCreator):
                                                                                     question='Project name',
                                                                                     default='PhD Thesis',
                                                                                     dot_cookietemple=dot_cookietemple,
-                                                                                    to_get_property='project_name').replace(' ', '_')
+                                                                                    to_get_property='project_name').replace(' ', '_')  # type: ignore
         self.pub_struct.project_slug_no_hyphen = self.pub_struct.project_slug.replace('-', '_')
         self.pub_struct.title = cookietemple_questionary_or_dot_cookietemple(function='text',
                                                                              question='Publication title',
