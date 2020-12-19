@@ -11,7 +11,11 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 **Added**
 
+* refactored sync PR queries using pygithub now instead of requests
+
 **Fixed**
+
+* fixed a bug causing pub template creation to fail and remove the current working directory
 
 **Dependencies**
 
