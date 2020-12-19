@@ -9,11 +9,9 @@ from configparser import ConfigParser, NoSectionError
 from distutils.dir_util import copy_tree
 from subprocess import Popen, PIPE
 from typing import Tuple
-from github import Github
+from github import Github, GithubException
 import git  # type: ignore
-import json
 import os
-import requests
 import shutil
 import tempfile
 from pathlib import Path
@@ -70,6 +68,7 @@ class TemplateSync:
         self.dot_cookietemple = {}
         self.repo_owner = self.gh_username
         self.new_template_version = new_template_version
+        self.github = Github(self.token)
 
     def sync(self):
         """
@@ -238,7 +237,7 @@ class TemplateSync:
     def push_template_branch(self):
         """
         If there are any changes to the template, push the TEMPLATE branch to the default remote
-        and push to the actual sync temporary branch, where a PR is actually created from to development branch.
+        and push to the actual sync temporary branch, where a sync PR is created from to development branch.
         """
         print(f'[bold blue]Pushing TEMPLATE branch to remote: {os.path.basename(self.project_dir)}')
         try:
@@ -272,44 +271,27 @@ class TemplateSync:
             'Please make sure to merge this pull-request as soon as possible. '
             'Once complete, make a new minor release of your Project.\n\n'
             'For more information on the actual changes, read the latest cookietemple changelog.')
-        log.debug(f'PR title is {pr_title} and PR body: {pr_body_text}')
+        log.debug(f'PR title is:\n{pr_title}')
+        log.debug(f'PR body is:\n{pr_body_text}')
 
         # Check, whether a cookietemple sync PR is already open
         self.check_pull_request_exists()
         # Submit the new pull request with the latest cookietemple sync changes
         self.submit_pull_request(pr_title, pr_body_text)
 
-    def submit_pull_request(self, pr_title, pr_body_text):
+    def submit_pull_request(self, pr_title: str, pr_body_text: str):
         """
         Create a new pull-request on GitHub
         """
-        pr_content = {
-            'title': pr_title,
-            'body': pr_body_text,
-            'maintainer_can_modify': True,
-            'head': f'cookietemple_sync_v{self.new_template_version}',
-            'base': 'development',
-        }
-        log.debug(f'Trying to submit a sync PR to https://api.github.com/repos/{self.repo_owner}/{self.dot_cookietemple["project_slug"]}/pulls')
-        r = requests.post(
-            url=f'https://api.github.com/repos/{self.repo_owner}/{self.dot_cookietemple["project_slug"]}/pulls',
-            data=json.dumps(pr_content),
-            auth=requests.auth.HTTPBasicAuth(self.gh_username, self.token),
-        )
+        repo = self.github.get_repo(f'{self.repo_owner}/{self.dot_cookietemple["project_slug"]}')
         try:
-            self.gh_pr_returned_data = json.loads(r.content)
-            returned_data_prettyprint = json.dumps(self.gh_pr_returned_data, indent=4)
-        except requests.RequestException:
-            self.gh_pr_returned_data = r.content
-            returned_data_prettyprint = r.content
-
-        # PR worked
-        if r.status_code == 201:
+            repo.create_pull(title=pr_title, body=pr_body_text, head=f'cookietemple_sync_v{self.new_template_version}', base='development',
+                             maintainer_can_modify=True)
             print('[bold blue]Successfully created PR!')
 
         # Something went wrong
-        else:
-            print(f'GitHub API returned code {r.status_code}: \n{returned_data_prettyprint}')
+        except GithubException as e:
+            print(f'[bold red]Could not create a PR due to the following error:\n{e}')
             sys.exit(1)
 
     def check_pull_request_exists(self) -> bool:
@@ -318,8 +300,7 @@ class TemplateSync:
 
         :return Whether a cookietemple sync PR is already open or not
         """
-        g = Github(self.token)
-        repo = g.get_repo(f'{self.repo_owner}/{self.dot_cookietemple["project_slug"]}')
+        repo = self.github.get_repo(f'{self.repo_owner}/{self.dot_cookietemple["project_slug"]}')
         # query all open PRs
         log.debug('Querying open PRs to check if a sync PR already exists.')
         # iterate over the open PRs of the repo to check if a cookietemple sync PR is open
@@ -401,7 +382,7 @@ class TemplateSync:
             sys.exit(1)
 
     @staticmethod
-    def update_sync_token(project_name: str, gh_username='') -> None:
+    def update_sync_token(project_name: str, gh_username: str = '') -> None:
         """
         Update the sync token secret for the repository.
 
@@ -420,7 +401,7 @@ class TemplateSync:
     @staticmethod
     def has_template_version_changed(project_dir: Path) -> Tuple[bool, bool, bool, str, str]:
         """
-        Check, if the cookietemple template has been updated since last check/sync of the user.
+        Check, whether the cookietemple template has been updated since last check/sync of the user.
 
         :return: Both false if no versions changed or a micro change happened (for ex. 1.2.3 to 1.2.4). Return is_major_update True if a major version release
         happened for the cookietemple template (for example 1.2.3 to 2.0.0). Return is_minor_update True if a minor change happened (1.2.3 to 1.3.0).

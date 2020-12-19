@@ -5,7 +5,7 @@ from cookietemple.common.suggest_similar_commands import SIMILARITY_SUGGEST_FACT
 
 def levensthein_dist(input_command: str, candidate: str) -> int:
     """
-    This function implements the Levenshtein algorithm to determine, in case of a non-existing handle,
+    Implement the Levenshtein distance algorithm to determine, in case of a non-existing handle,
     if there is a similar command to suggest.
     :param input_command: The non-existing handle the user gave as input
     :param candidate: The (possible similar) alternative command
@@ -39,7 +39,7 @@ def levensthein_dist(input_command: str, candidate: str) -> int:
 
 def most_similar_command(command: str, command_list: set) -> Tuple[list, str]:
     """
-    This function determines whether its possible to suggest a similar command.
+    Determine whether its possible to suggest a similar command.
     The similarity is determined by the levensthein distance and a factor (currently 1/3)
     sets a limit where a similar command is useful to be automatically used. If the difference diff is 1/3 < diff <= 2/3, one
     or more similar commands could be suggested, but not used automatically.
