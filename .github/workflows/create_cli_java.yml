@@ -24,7 +24,7 @@ jobs:
         name: Check out source-code repository
 
       - name: Setup Python
-        uses: actions/setup-python@v2.2.0
+        uses: actions/setup-python@v2.2.1
         with:
           python-version: ${{ matrix.python }}
 
