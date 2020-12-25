@@ -1,7 +1,7 @@
 cookiecutter==1.7.2
 click==7.1.2
 ruamel.yaml==0.16.12
-pygithub==1.53
+pygithub==1.54.1
 GitPython==3.1.11
 autopep8==1.5.4
 cffi==1.14.4
