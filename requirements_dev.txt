@@ -4,7 +4,7 @@ wheel>=0.35.1
 flake8==3.8.4
 tox==3.20.1
 coverage==5.3.1
-Sphinx==3.4.0
+Sphinx==3.4.1
 twine>=3.2.0
 pytest==6.2.1
 pytest-runner==5.2
