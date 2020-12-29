@@ -38,7 +38,7 @@ jobs:
           echo -e "\n\033[B\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\ngroup_domain\ngroup_organization\nn" | cookietemple create
 
       - uses: actions/checkout@v2
-      - uses: DeLaGuardo/setup-graalvm@8bbfe44ef9c6f5c07e5af036a1bffd561c037d18
+      - uses: DeLaGuardo/setup-graalvm@b990167df27a6253bcd645d6b0eed91d4c795b38
         with:
           graalvm-version: '20.1.0.java11'
       - run: java -version
