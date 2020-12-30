@@ -305,15 +305,15 @@ class TemplateLinter(object):
         if len(self.passed) > 0:
             console.print()
             console.rule("[bold green][[\u2714]] Tests Passed", style="green")
-            console.print(rich.panel.Panel(format_result(self.passed), style="green"), no_wrap=True, overflow="ellipsis")
+            console.print(rich.panel.Panel(format_result(self.passed), style="green"), overflow="ellipsis")
         if len(self.warned) > 0:
             console.print()
             console.rule("[bold yellow][[!]] Test Warnings", style="yellow")
-            console.print(rich.panel.Panel(format_result(self.warned), style="yellow"), no_wrap=True, overflow="ellipsis")
+            console.print(rich.panel.Panel(format_result(self.warned), style="yellow"), overflow="ellipsis")
         if len(self.failed) > 0:
             console.print()
             console.rule("[bold red][[\u2717]] Test Failures", style="red")
-            console.print(rich.panel.Panel(format_result(self.failed), style="red"), no_wrap=True, overflow="ellipsis")
+            console.print(rich.panel.Panel(format_result(self.failed), style="red"), overflow="ellipsis")
 
     def _wrap_quotes(self, files):
         if not isinstance(files, list):
