@@ -89,23 +89,21 @@ Included frameworks/libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 1. `poetry <https://setuptools.readthedocs.io/en/latest/>`_ for code packaging
-2. `click <https://click.palletsprojects.com/>`_, `argparse <https://docs.python.org/3/library/argparse.html>`_ or no command line interface
+2. `click <https://click.palletsprojects.com/>`_ or no command line interface
 3. `pytest <https://docs.pytest.org/en/latest/>`_ or `unittest <https://docs.python.org/3/library/unittest.html>`_ as testing frameworks
-4. Preconfigured `tox <https://tox.readthedocs.io/en/latest/>`_ to run pytest matrices with different Python environments
-5. Preconfigured `readthedocs <https://readthedocs.org/>`_
-6. Eleven Github workflows:
+4. `nox <https://nox.thea.codes/en/stable/>`_ to automate testing in multiple Python environments
+5. `pre-commit <https://pre-commit.com/>`_ to run various code style linters and to enforce a common style
+6. Preconfigured `readthedocs <https://readthedocs.org/>`_
+7. Eleven Github workflows:
 
   1. ``build_docs.yml``, which builds the readthedocs documentation.
   2. ``build_package.yml``, which builds the cli-python package.
-  3. ``run_flake8_linting.yml``, which runs `flake8 <https://flake8.pycqa.org/en/latest/>`_ linting.
-  4. ``run_tox_testsuite.yml``, which runs the tox testing suite.
-  5. ``publish_package.yml``, which publishes the package to PyPi. Note that it only runs on Github release and requires PyPi secrets to be set up.
-  6. ``run_codecov``, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
-  7. ``run_bandit``, run `bandit <https://github.com/PyCQA/bandit>`_ to discover security issues in your python code
-  8. ``pr_to_master_from_patch_release_only``: Please read :ref:`pr_master_workflow_docs`.
-  9. ``check_no_SNAPSHOT_master.yml``: Please read :ref:`pr_master_workflow_docs`
-  10. ``run_cookietemple_lint.yml``, which runs ``cookietemple lint`` on the project.
-  11. ``sync_project.yml``, which syncs the project to the most recent cookietemple template version
+  3. ``publish_package.yml``, which publishes the package to PyPi. Note that it only runs on Github release and requires PyPi secrets to be set up.
+  4. ``run_tests``, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
+  5. ``pr_to_master_from_patch_release_only``: Please read :ref:`pr_master_workflow_docs`.
+  6. ``check_no_SNAPSHOT_master.yml``: Please read :ref:`pr_master_workflow_docs`
+  7. ``run_cookietemple_lint.yml``, which runs ``cookietemple lint`` on the project.
+  8. ``sync_project.yml``, which syncs the project to the most recent cookietemple template version
 
 
 We highly recommend to use click (if commandline interface is required) together with pytest.
@@ -119,9 +117,9 @@ The generated cli-python project can be installed using::
 
 or alternatively::
 
-    python setup.py install
+    poetry install
 
-Your package is then installed globally (or in your virtual environment) on your machine and can be called from your favorite shell::
+Your package is then installed in a custom virtual environment on your machine and can be called from your favorite shell::
 
     <<your_project_name>>
 
@@ -131,7 +129,7 @@ Other make targets include::
 
 which removes all build files::
 
-    make dist
+    make build
 
 which builds source and wheel packages, which can then be used for a PyPi release using
 
@@ -148,8 +146,3 @@ Do I need a command line interface?
 ++++++++++++++++++++++++++++++++++++++++++++++
 
 No you do not need a command line interface. cli-python can also be used as a Python package.
-
-Does cli-python offer `Poetry <https://python-poetry.org/>`_ support?
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-No, but we would like to add it in the future. Contributions are welcome!
