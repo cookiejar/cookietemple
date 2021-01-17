@@ -44,14 +44,6 @@ jobs:
              cd explodingspringfield
              make install
 
-      - name: Run pre-commit
-        run: |
-             shopt -s extglob
-             find -maxdepth 1 ! -name explodingspringfield ! -name . ! -name .git -exec rm -rv {} \;
-             cd explodingspringfield
-             ls
-             poetry run pre-commit run --all-files
-
       - name: Install doc dependencies
         run: pip install -r explodingspringfield/docs/requirements.txt
 
