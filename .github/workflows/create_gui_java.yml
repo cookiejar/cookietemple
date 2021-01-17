@@ -43,7 +43,7 @@ jobs:
 
       - name: Compile Package
         run: |
-             cd ExplodingSpringfield
+             cd explodingspringfield
              make compile
 
       - name: Install doc dependencies
