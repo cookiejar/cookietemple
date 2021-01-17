@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # mypy: ignore-errors
-
 # {{ cookiecutter.project_slug }} documentation build configuration file
 #
 # If extensions (or modules to document with autodoc) are in another

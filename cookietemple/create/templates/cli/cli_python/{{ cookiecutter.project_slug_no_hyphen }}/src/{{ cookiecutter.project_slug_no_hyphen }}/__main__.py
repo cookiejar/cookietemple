@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 """Command-line interface."""
 import click
 
