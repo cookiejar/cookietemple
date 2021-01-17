@@ -210,7 +210,7 @@ class TemplateCreator:
                                                                                      question='Project name',
                                                                                      default='exploding-springfield',
                                                                                      dot_cookietemple=dot_cookietemple,
-                                                                                     to_get_property='project_name').lower()
+                                                                                     to_get_property='project_name').lower()  # type: ignore
         if self.creator_ctx.language == 'python':
             self.check_name_available("PyPi", dot_cookietemple)
         self.check_name_available("readthedocs.io", dot_cookietemple)
