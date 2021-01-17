@@ -45,7 +45,9 @@ jobs:
              make install
 
       - name: Run pre-commit
-        run: pre-commit run --all-files
+        run: |
+             cd explodingspringfield
+             pre-commit run --all-files
 
       - name: Install doc dependencies
         run: pip install -r docs/requirements.txt
