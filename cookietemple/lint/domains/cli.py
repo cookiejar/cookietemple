@@ -2,8 +2,6 @@ import os
 from subprocess import Popen
 from typing import List
 
-import requests
-from pkg_resources import parse_version
 from rich import print
 
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
@@ -53,7 +51,6 @@ class CliPythonLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
         else:
             self.failed.append(('cli-python-3', 'Blacklisted sync files section misses some required files!'))
         return result
-
 
     def python_files_exist(self) -> None:
         """
