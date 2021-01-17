@@ -1,4 +1,4 @@
-name: Publish exploding-springfield to PyPI
+name: Publish {{ cookiecutter.project_name }} to PyPI
 
 on:
     release:
@@ -29,39 +29,17 @@ jobs:
                   pip install --constraint=.github/workflows/constraints.txt poetry
                   poetry --version
 
-            - name: Check if there is a parent commit
-              id: check-parent-commit
-              run: |
-                  echo "::set-output name=sha::$(git rev-parse --verify --quiet HEAD^)"
-
-            - name: Detect and tag new version
-              id: check-version
-              if: steps.check-parent-commit.outputs.sha
-              uses: salsify/action-detect-and-tag-new-version@v2.0.1
-              with:
-                  version-command: |
-                      bash -o pipefail -c "poetry version | awk '{ print \$2 }'"
-
             - name: Build package
               run: |
                   poetry build --ansi
 {% raw %}
             - name: Publish package on PyPI
-              if: steps.check-version.outputs.tag
               uses: pypa/gh-action-pypi-publish@v1.4.1
               with:
                   # TODO COOKIETEMPLE: Configure your PyPI Token to enable automatic deployment to PyPi on releases
                   # https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
                   user: __token__
                   password: ${{ secrets.PYPI_TOKEN }}
-
-            - name: Publish package on TestPyPI
-              if: "! steps.check-version.outputs.tag"
-              uses: pypa/gh-action-pypi-publish@v1.4.1
-              with:
-                  user: __token__
-                  password: ${{ secrets.TEST_PYPI_TOKEN }}
-                  repository_url: https://test.pypi.org/legacy/
 
             - name: Publish the release notes
               uses: release-drafter/release-drafter@v5.12.1

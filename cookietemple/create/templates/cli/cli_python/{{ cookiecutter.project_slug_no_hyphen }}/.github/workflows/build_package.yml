@@ -1,4 +1,4 @@
-name: Build exploding-springfield Package
+name: Build {{ cookiecutter.project_name }} Package
 
 on: [push, pull_request]
 
