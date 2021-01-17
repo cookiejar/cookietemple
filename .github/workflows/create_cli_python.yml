@@ -48,7 +48,8 @@ jobs:
         run: |
              ls
              shopt -s extglob
-             find -maxdepth 1 ! -name explodingspringfield ! -name . -exec rm -rv {} \;
+             find -maxdepth 1 ! -name explodingspringfield ! -name . ! -name .git -exec rm -rv {} \;
+             ls
              cd explodingspringfield
              poetry run pre-commit run --all-files
 
