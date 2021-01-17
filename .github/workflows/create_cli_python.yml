@@ -17,7 +17,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
     strategy:
       matrix:
-        python: [3.7, 3.8]
+        python: [3.8, 3.9]
 
     steps:
       - uses: actions/checkout@v2
@@ -44,7 +44,6 @@ jobs:
         run: |
              cd ../explodingspringfield
              make install
-             poetry run pre-commit install
 
       - name: Run pre-commit
         run: |
