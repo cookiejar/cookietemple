@@ -31,6 +31,7 @@ jobs:
       - name: Build Cookietemple
         run: |
           python setup.py clean --all install
+          rm -rf ../cookietemple
 
       - name: Create cli-python Template
         run: |
@@ -47,6 +48,7 @@ jobs:
       - name: Run pre-commit
         run: |
              cd explodingspringfield
+             pre-commit install
              pre-commit run --all-files
 
       - name: Install doc dependencies
