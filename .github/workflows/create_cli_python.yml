@@ -34,6 +34,7 @@ jobs:
 
       - name: Create cli-python Template
         run: |
+         cd ..
          echo -e "\n\nHomer\nsimpson@gmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\nn" | cookietemple create
 
       - name: Install Poetry and pre-commit
@@ -41,11 +42,13 @@ jobs:
 
       - name: Build Package and install pre-commits
         run: |
-             cd explodingspringfield
+             cd ../explodingspringfield
              make install
+             poetry run pre-commit install
 
       - name: Run pre-commit
         run: |
+             cd ../
              rm -rf cookietemple
              cd explodingspringfield
              poetry run pre-commit run --all-files
