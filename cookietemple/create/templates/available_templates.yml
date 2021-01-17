@@ -11,11 +11,11 @@ cli:
     python:
         name: Python Commandline Package
         handle: cli-python
-        version: 1.1.0
-        available libraries: click, argparse
+        version: 2.0.0
+        available libraries: click
         short description: General Python package with command line interface
-        long description: Best practice Python package with optional command line support (click, argparse).
-                        Pytest or unittest are available as testing libraries.
+        long description: Best practice Python package with (optional) command line support (click).
+                        Pytest together with nox serve as testrunners.
                         The package can be easily locally installed and distributed on PyPi.
 gui:
     java:
