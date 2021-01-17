@@ -36,14 +36,16 @@ jobs:
         run: |
          echo -e "\n\nHomer\nsimpson@gmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\nn" | cookietemple create
 
+      - name: Install Poetry
+        run: pip install poetry
+
       - name: Build Package
         run: |
              cd explodingspringfield
              make install
 
       - name: Install doc dependencies
-        run: |
-            pip install -r docs/requirements.txt
+        run: pip install -r docs/requirements.txt
 
       - name: Build docs
         run: |
