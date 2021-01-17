@@ -46,17 +46,16 @@ jobs:
 
       - name: Run pre-commit
         run: |
-             ls
              shopt -s extglob
              find -maxdepth 1 ! -name explodingspringfield ! -name . ! -name .git -exec rm -rv {} \;
-             ls
              cd explodingspringfield
+             ls
              poetry run pre-commit run --all-files
 
       - name: Install doc dependencies
-        run: pip install -r docs/requirements.txt
+        run: pip install -r explodingspringfield/docs/requirements.txt
 
       - name: Build docs
         run: |
-            cd docs
+            cd explodingspringfield/docs
             make html
