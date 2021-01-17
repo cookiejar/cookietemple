@@ -42,7 +42,7 @@ jobs:
 
       - name: Build basic Package
         run: |
-          cd ExplodingSpringfield
+          cd explodingspringfield
           make install
 
       - name: Install doc dependencies
@@ -56,7 +56,7 @@ jobs:
 
       - name: Build advanced Package
         run: |
-          cd ExplodingSpringfieldAdvanced
+          cd explodingspringfieldadvanced
           make install
 
       - name: Install doc dependencies

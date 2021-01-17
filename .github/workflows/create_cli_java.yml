@@ -47,7 +47,7 @@ jobs:
       - name: Build with Gradle
         run: |
             cd ..
-            cd ExplodingSpringfield
+            cd explodingspringfield
             make binary
 
       - name: Install doc dependencies

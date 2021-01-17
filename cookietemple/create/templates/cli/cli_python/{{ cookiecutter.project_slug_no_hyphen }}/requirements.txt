@@ -1,3 +1,0 @@
-rich==9.1.0
-{% if cookiecutter.command_line_interface|lower == 'click' %}click==7.1.2
-{%- endif %}

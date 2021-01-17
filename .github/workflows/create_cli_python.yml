@@ -17,7 +17,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
     strategy:
       matrix:
-        python: [3.7, 3.8]
+        python: [3.8, 3.9]
 
     steps:
       - uses: actions/checkout@v2
@@ -34,18 +34,20 @@ jobs:
 
       - name: Create cli-python Template
         run: |
-         echo -e "\n\nHomer\nsimpson@gmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\n\n\nn" | cookietemple create
+         echo -e "\n\nHomer\nsimpson@gmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\nn" | cookietemple create
 
-      - name: Build Package
+      - name: Install Poetry and pre-commit
+        run: pip install poetry pre-commit
+
+      - name: Build Package and install pre-commits
         run: |
-             cd ExplodingSpringfield
+             cd explodingspringfield
              make install
 
       - name: Install doc dependencies
-        run: |
-            pip install -r docs/requirements.txt
+        run: pip install -r explodingspringfield/docs/requirements.txt
 
       - name: Build docs
         run: |
-            cd docs
+            cd explodingspringfield/docs
             make html

@@ -8,7 +8,7 @@ Welcome to {{ cookiecutter.project_name }}'s documentation!
    readme
    installation
    usage
-   modules
+   {% if (cookiecutter.language == 'python') and (cookiecutter.domain == 'cli') -%}reference{% endif %}
    authors
    changelog
    code_of_conduct

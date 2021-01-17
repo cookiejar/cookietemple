@@ -1,10 +1,9 @@
 ---
 name: Bug report
 about: Create a bug report to help us improve
-title: 'Bug Summary'
-labels: 'bug'
-assignees: ''
-
+title: "Bug Summary"
+labels: "bug"
+assignees: ""
 ---
 
 **Describe the bug**
@@ -14,18 +13,20 @@ assignees: ''
 **To Reproduce**
 
 Steps to reproduce the behavior:
+
 1. ...
 2. ...
 3. ...
 
 **Expected behavior**
+
 <!-- A clear and concise description of what you expected to happen. -->
 
 **System [please complete the following information]:**
 
- - OS: e.g. [Ubuntu 18.04]
- - Language Version: [e.g. Python 3.8]
- - Virtual environment: [e.g. Conda]
+-   OS: e.g. [Ubuntu 18.04]
+-   Language Version: [e.g. Python 3.8]
+-   Virtual environment: [e.g. Conda]
 
 **Additional context**
 

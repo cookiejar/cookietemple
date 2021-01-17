@@ -38,7 +38,7 @@ jobs:
 
     - name: Build Package
       run: |
-        cd ExplodingSpringfield
-        cmake -Bbuild -DExplodingSpringfield_ENABLE_UNIT_TESTING=0 && \
+        cd explodingspringfield
+        cmake -Bbuild -Dexplodingspringfield_ENABLE_UNIT_TESTING=0 && \
         cmake --build build
 
