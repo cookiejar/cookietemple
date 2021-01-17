@@ -1,4 +1,4 @@
-name: Publish {{ cookiecutter.project_name }} to PyPI
+name: Publish {{ cookiecutter.project_slug }} to PyPI
 
 on:
     release:

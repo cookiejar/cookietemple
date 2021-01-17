@@ -13,7 +13,7 @@
    :target: https://opensource.org/licenses/{{ cookiecutter.license }}
    :alt: License
 .. |Read the Docs| image:: https://img.shields.io/readthedocs/{{ cookiecutter.project_slug }}/latest.svg?label=Read%20the%20Docs
-   :target: https://{{cookiecutter.project_name}}.readthedocs.io/
+   :target: https://{{ cookiecutter.project_slug }}.readthedocs.io/
    :alt: Read the documentation at https://{{ cookiecutter.project_slug }}.readthedocs.io/
 .. |Build| image:: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/workflows/Build%20{{ cookiecutter.project_slug }}%20Package/badge.svg
    :target: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/workflows/Build%20{{ cookiecutter.project_slug }}%20Package/badge.svg
@@ -45,7 +45,7 @@ You can install *{{ cookiecutter.project_name }}* via pip_ from PyPI_:
 
 .. code:: console
 
-   $ pip install {{ cookiecutter.project_name }}
+   $ pip install {{ cookiecutter.project_slug }}
 
 
 Usage
@@ -72,4 +72,4 @@ This package was created with cookietemple_ using Cookiecutter_ based on Hypermo
 .. _Hypermodern_Python_Cookiecutter: https://github.com/cjolowicz/cookiecutter-hypermodern-python
 .. _pip: https://pip.pypa.io/
 .. _Contributor Guide: CONTRIBUTING.rst
-.. _Usage: https://{{ cookiecutter.project_name }}.readthedocs.io/en/latest/usage.html
+.. _Usage: https://{{ cookiecutter.project_slug }}.readthedocs.io/en/latest/usage.html

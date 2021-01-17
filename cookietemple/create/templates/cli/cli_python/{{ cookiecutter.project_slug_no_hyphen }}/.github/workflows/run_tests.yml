@@ -1,4 +1,4 @@
-name: Tests
+name: Run {{ cookiecutter.project_slug }} Tests
 
 on:
     - push
@@ -38,11 +38,6 @@ jobs:
                           session: "mypy",
                       }
                     - {
-                          python-version: 3.6,
-                          os: ubuntu-latest,
-                          session: "mypy",
-                      }
-                    - {
                           python-version: 3.9,
                           os: ubuntu-latest,
                           session: "tests",
@@ -54,11 +49,6 @@ jobs:
                       }
                     - {
                           python-version: 3.7,
-                          os: ubuntu-latest,
-                          session: "tests",
-                      }
-                    - {
-                          python-version: 3.6,
                           os: ubuntu-latest,
                           session: "tests",
                       }

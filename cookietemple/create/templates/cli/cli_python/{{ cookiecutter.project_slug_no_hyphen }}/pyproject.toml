@@ -14,7 +14,6 @@ packages = [
 ]
 {% endif -%}
 classifiers = [
-    "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -24,7 +23,7 @@ classifiers = [
 Changelog = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/releases"
 
 [tool.poetry.dependencies]
-python = "^3.6.1"
+python = "^3.7.1"
 click = "^7.0"
 rich = "^9.8.2"
 
@@ -53,7 +52,7 @@ sphinx-click = "^2.5.0"
 Pygments = "^2.7.2"
 
 [tool.poetry.scripts]
-{{cookiecutter.project_slug_no_hyphen}} = "{{cookiecutter.project_slug_no_hyphen}}.__main__:main"
+{{cookiecutter.project_slug}} = "{{cookiecutter.project_slug_no_hyphen}}.__main__:main"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]

@@ -1,4 +1,4 @@
-name: Build {{ cookiecutter.project_name }} Package
+name: Build {{ cookiecutter.project_slug }} Package
 
 on: [push, pull_request]
 
