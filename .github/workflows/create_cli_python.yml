@@ -47,7 +47,7 @@ jobs:
       - name: Run pre-commit
         run: |
              shopt -s extglob
-             rm -r myfolder/!(explodingspringfield)/
+             rm -r ./!(explodingspringfield)/
              cd explodingspringfield
              poetry run pre-commit run --all-files
 
