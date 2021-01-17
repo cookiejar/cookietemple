@@ -136,8 +136,7 @@ dmypy.json
 .idea/
 
 # Coala
-*.orig
-{% elif cookiecutter.language == 'java' %}
+*.orig{% elif cookiecutter.language == 'java' %}
 
 # Compiled class file
 *.class

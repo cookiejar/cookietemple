@@ -1,41 +1,41 @@
-name: Build {{ cookiecutter.project_slug }} Package
+name: Build exploding-springfield Package
 
 on: [push, pull_request]
 
 jobs:
-  build:
-    runs-on: {% raw %}${{ matrix.os }}{% endraw %}
-    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-        python: [3.7, 3.8, 3.9]
+    build:
+        runs-on: {% raw %}${{ matrix.os }}{% endraw %}
+        if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+        strategy:
+            matrix:
+                os: [macos-latest, ubuntu-latest, windows-latest]
+                python: [3.7, 3.8, 3.9]
 
-    steps:
-      - uses: actions/checkout@v2
-        name: Check out source-code repository
+        steps:
+            - uses: actions/checkout@v2
+              name: Check out source-code repository
 
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: {% raw %}${{ matrix.python }}{% endraw %}
+            - name: Setup Python
+              uses: actions/setup-python@v2
+              with:
+                  python-version: {% raw %}${{ matrix.python }}{% endraw %}
 
-      - name: Upgrade pip
-        run: |
-            pip install --constraint=.github/workflows/constraints.txt pip
-            pip --version
+            - name: Upgrade pip
+              run: |
+                  pip install --constraint=.github/workflows/constraints.txt pip
+                  pip --version
 
-      - name: Install Poetry
-        run: |
-            pip install --constraint=.github/workflows/constraints.txt poetry
-            poetry --version
+            - name: Install Poetry
+              run: |
+                  pip install --constraint=.github/workflows/constraints.txt poetry
+                  poetry --version
 
-      - name: Build package
-        run: |
-            poetry build --ansi
+            - name: Build package
+              run: |
+                  poetry build --ansi
 
-      - name: Install required twine packaging dependencies
-        run: pip install setuptools wheel twine
+            - name: Install required twine packaging dependencies
+              run: pip install setuptools wheel twine
 
-      - name: Check twine package
-        run: twine check dist/*
+            - name: Check twine package
+              run: twine check dist/*

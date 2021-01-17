@@ -11,6 +11,8 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 **Added**
 
+* cli-python version 2.0.0 with poetry and nox support
+
 **Fixed**
 
 **Dependencies**

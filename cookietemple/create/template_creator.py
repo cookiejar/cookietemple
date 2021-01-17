@@ -361,8 +361,8 @@ class TemplateCreator:
         :param template_version: Version of the specific template
         """
         log.debug('Creating .cookietemple.yml file.')
-        self.creator_ctx.template_version = f'{template_version} # <<COOKIETEMPLE_NO_BUMP>>'
-        self.creator_ctx.cookietemple_version = f'{cookietemple.__version__} # <<COOKIETEMPLE_NO_BUMP>>'
+        self.creator_ctx.template_version = f"{template_version} # <<COOKIETEMPLE_NO_BUMP>>"
+        self.creator_ctx.cookietemple_version = f"{cookietemple.__version__} # <<COOKIETEMPLE_NO_BUMP>>"
         # Python does not allow for hyphens (module imports etc) -> remove them
         no_hyphen = self.creator_ctx.project_slug.replace('-', '_')
         with open(f'{self.creator_ctx.project_slug if self.creator_ctx.language != "python" else no_hyphen}/.cookietemple.yml', 'w') as f:
