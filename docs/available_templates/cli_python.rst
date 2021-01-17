@@ -10,72 +10,85 @@ but it may also be easily used as standard Python package without any command li
 Design
 ^^^^^^^^
 
-| The Python package is based on a standard `setuptools <https://setuptools.readthedocs.io/en/latest/>`_ structure including a :code:`setup.py`, :code:`setup.cfg`, :code:`MANIFEST.in`,
-  :code:`requirements.txt` and :code:`requirements_dev.txt` file.
+| The Python package is based on a standard `poetry <https://python-poetry.org/>`_ structure with a corresponding ``pyproject.toml`` and ``poetry.lock`` file.
 
 .. code::
 
     ├── AUTHORS.rst
+    ├── .bandit.yml
     ├── CHANGELOG.rst
-    ├── .coafile
-    ├── CODEOFCONDUCT.rst
+    ├── codecov.yml
+    ├── CODE_OF_CONDUCT.rst
     ├── cookietemple.cfg
     ├── .cookietemple.yml
-    ├── .dependabot
-    │   └── config.yml
+    ├── .darglint
     ├── Dockerfile
     ├── docs
     │   ├── authors.rst
     │   ├── changelog.rst
-    │   ├── codeofconduct.rst
+    │   ├── code_of_conduct.rst
     │   ├── conf.py
     │   ├── index.rst
     │   ├── installation.rst
     │   ├── make.bat
     │   ├── Makefile
-    │   ├── modules.rst
     │   ├── readme.rst
+    │   ├── reference.rst
     │   ├── requirements.txt
+    │   ├── _static
+    │   │   └── custom_cookietemple.css
     │   └── usage.rst
     ├── .editorconfig
-    ├── Exploding_Springfield
-    │   ├── cli.py
-    │   ├── Exploding_Springfield.py
-    │   ├── files
-    │   │   └── test.txt
-    │   ├── __init__.py
+    ├── .flake8
+    ├── .gitattributes
     ├── .github
+    │   ├── dependabot.yml
     │   ├── ISSUE_TEMPLATE
     │   │   ├── bug_report.md
     │   │   ├── feature_request.md
     │   │   └── general_question.md
-    │   ├── pull_request.md
+    │   ├── labels.yml
+    │   ├── pull_request_template.md
+    │   ├── release-drafter.yml
     │   └── workflows
-    │       ├── build_docs.yml
     │       ├── build_package.yml
-    │       ├── run_flake8_linting.yml
+    │       ├── check_no_SNAPSHOT_master.yml
+    │       ├── check_patch_release_master_only.yml
+    │       ├── constraints.txt
+    │       ├── labeler.yml
+    │       ├── publish_docs.yml
     │       ├── publish_package.yml
-    │       └── run_tox_testsuite.yml
+    │       ├── run_cookietemple_lint.yml
+    │       ├── run_tests.yml
+    │       └── sync_project.yml
     ├── .gitignore
     ├── LICENSE
     ├── Makefile
-    ├── MANIFEST.in
+    ├── makefiles
+    │   ├── Linux.mk
+    │   └── Windows.mk
+    ├── mypy.ini
+    ├── noxfile.py
+    ├── poetry.lock
+    ├── .pre-commit-config.yaml
+    ├── .prettierignore
+    ├── pyproject.toml
     ├── README.rst
     ├── .readthedocs.yml
-    ├── requirements_dev.txt
-    ├── requirements.txt
-    ├── setup.cfg
-    ├── setup.py
-    ├── tests
-    │   ├── __init__.py
-    │   └── test_Exploding_Springfield.py
-    ├── tox.ini
-    └── .travis.yml
+    ├── src
+    │   └── project_name
+    │       ├── __init__.py
+    │       ├── __main__.py
+    │       └── py.typed
+    └── tests
+        ├── __init__.py
+        └── test_main.py
+
 
 Included frameworks/libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. `setuptools <https://setuptools.readthedocs.io/en/latest/>`_ for code packaging
+1. `poetry <https://setuptools.readthedocs.io/en/latest/>`_ for code packaging
 2. `click <https://click.palletsprojects.com/>`_, `argparse <https://docs.python.org/3/library/argparse.html>`_ or no command line interface
 3. `pytest <https://docs.pytest.org/en/latest/>`_ or `unittest <https://docs.python.org/3/library/unittest.html>`_ as testing frameworks
 4. Preconfigured `tox <https://tox.readthedocs.io/en/latest/>`_ to run pytest matrices with different Python environments
