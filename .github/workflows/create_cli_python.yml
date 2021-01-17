@@ -36,13 +36,16 @@ jobs:
         run: |
          echo -e "\n\nHomer\nsimpson@gmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\nn" | cookietemple create
 
-      - name: Install Poetry
-        run: pip install poetry
+      - name: Install Poetry and pre-commit
+        run: pip install poetry pre-commit
 
       - name: Build Package
         run: |
              cd explodingspringfield
              make install
+
+      - name: Run pre-commit
+        run: pre-commit run --all-files
 
       - name: Install doc dependencies
         run: pip install -r docs/requirements.txt

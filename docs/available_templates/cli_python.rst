@@ -94,7 +94,7 @@ Included frameworks/libraries
 4. `nox <https://nox.thea.codes/en/stable/>`_ to automate testing in multiple Python environments
 5. `pre-commit <https://pre-commit.com/>`_ to run various code style linters and to enforce a common style
 6. Preconfigured `readthedocs <https://readthedocs.org/>`_
-7. Eleven Github workflows:
+7. Eight Github workflows:
 
   1. ``build_docs.yml``, which builds the readthedocs documentation.
   2. ``build_package.yml``, which builds the cli-python package.
