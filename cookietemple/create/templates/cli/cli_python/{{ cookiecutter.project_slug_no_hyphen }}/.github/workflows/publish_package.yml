@@ -5,29 +5,68 @@ on:
     types: [created]
 
 jobs:
-  deploy:
+  release:
+    name: Release
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
     steps:
-    - uses: actions/checkout@v2
-      name: Check out source-code repository
+      - name: Check out the repository
+        uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 2
 
-    - name: Set up Python
-      uses: actions/setup-python@v1
-      with:
-        python-version: '3.8'
+      - name: Set up Python
+        uses: actions/setup-python@v2.1.4
+        with:
+          python-version: "3.9"
 
-    - name: Install pip, setuptools, wheel, twine
-      run: |
-        python -m pip install --upgrade pip
-        pip install setuptools wheel twine
+      - name: Upgrade pip
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt pip
+          pip --version
 
-    - name: Build and publish
-      env:
-        TWINE_USERNAME: {% raw %}${{ secrets.PYPI_USERNAME }}{% endraw %}
-        # TODO COOKIETEMPLE: Configure your secrets to enable automatic deployment to PyPi on releases
-        # https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
-        TWINE_PASSWORD: {% raw %}${{ secrets.PYPI_PASSWORD }}{% endraw %}
-      run: |
-        python setup.py sdist bdist_wheel
-        twine upload dist/*
+      - name: Install Poetry
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt poetry
+          poetry --version
+
+      - name: Check if there is a parent commit
+        id: check-parent-commit
+        run: |
+          echo "::set-output name=sha::$(git rev-parse --verify --quiet HEAD^)"
+
+      - name: Detect and tag new version
+        id: check-version
+        if: steps.check-parent-commit.outputs.sha
+        uses: salsify/action-detect-and-tag-new-version@v2.0.1
+        with:
+          version-command: |
+            bash -o pipefail -c "poetry version | awk '{ print \$2 }'"
+
+      - name: Build package
+        run: |
+          poetry build --ansi
+
+      - name: Publish package on PyPI
+        if: steps.check-version.outputs.tag
+        uses: pypa/gh-action-pypi-publish@v1.4.1
+        with:
+          # TODO COOKIETEMPLE: Configure your PyPI Token to enable automatic deployment to PyPi on releases
+          # https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
+          user: __token__
+          password: {% raw %}${{ secrets.PYPI_TOKEN }}{% endraw %}
+
+      - name: Publish package on TestPyPI
+        if: "! steps.check-version.outputs.tag"
+        uses: pypa/gh-action-pypi-publish@v1.4.1
+        with:
+          user: __token__
+          password: {% raw %}${{ secrets.TEST_PYPI_TOKEN }}{% endraw %}
+          repository_url: https://test.pypi.org/legacy/
+
+      - name: Publish the release notes
+        uses: release-drafter/release-drafter@v5.12.1
+        with:
+          publish: {% raw %}${{ steps.check-version.outputs.tag != '' }}{% endraw %}
+          tag: {% raw %}${{ steps.check-version.outputs.tag }}{% endraw %}
+        env:
+          GITHUB_TOKEN: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}

@@ -208,9 +208,9 @@ class TemplateCreator:
 
         self.creator_ctx.project_name = cookietemple_questionary_or_dot_cookietemple(function='text',
                                                                                      question='Project name',
-                                                                                     default='Exploding Springfield',
+                                                                                     default='exploding-springfield',
                                                                                      dot_cookietemple=dot_cookietemple,
-                                                                                     to_get_property='project_name')
+                                                                                     to_get_property='project_name').lower()
         if self.creator_ctx.language == 'python':
             self.check_name_available("PyPi", dot_cookietemple)
         self.check_name_available("readthedocs.io", dot_cookietemple)

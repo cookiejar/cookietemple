@@ -9,33 +9,25 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        python: [3.7, 3.8, 3.9]
+        python: [3.7, 3.8]
 
     steps:
       - uses: actions/checkout@v2
         name: Check out source-code repository
 
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v1
         with:
           python-version: {% raw %}${{ matrix.python }}{% endraw %}
 
-      - name: Upgrade pip
-        run: |
-            pip install --constraint=.github/workflows/constraints.txt pip
-            pip --version
-
-      - name: Install Poetry
-        run: |
-            pip install --constraint=.github/workflows/constraints.txt poetry
-            poetry --version
-
-      - name: Build package
-        run: |
-            poetry build --ansi
+      - name: Build {{ cookiecutter.project_name }}
+        run: pip install .
 
       - name: Install required twine packaging dependencies
         run: pip install setuptools wheel twine
+
+      - name: Build twine package
+        run: python setup.py sdist bdist_wheel
 
       - name: Check twine package
         run: twine check dist/*

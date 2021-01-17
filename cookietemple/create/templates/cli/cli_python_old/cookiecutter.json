@@ -1,0 +1,33 @@
+{
+    "full_name": "Homer Simpson",
+    "email": "homer.simpson@example.com",
+    "github_username": "homersimpson",
+    "project_name": "Python CLI",
+    "project_slug": "Project_slug",
+    "project_slug_no_hyphen": "Project_slug",
+    "project_short_description": "Python CLI contains all the boilerplate you need to create a Python package with commandline support.",
+    "pypi_username": "{{ cookiecutter.github_username }}",
+    "version": "0.1.0",
+    "testing_library": "pytest",
+    "command_line_interface": [
+        "Click",
+        "Argparse",
+        "No command-line interface"
+    ],
+    "license": [
+        "MIT",
+        "BSD",
+        "ISC",
+        "Apache2.0",
+        "GNUv3",
+        "Not open source",
+        "Boost",
+        "Affero",
+        "CC0",
+        "Eclipse",
+        "CCBY",
+        "CCBYSA",
+        "WTFPL",
+        "unlicence"
+    ]
+}
