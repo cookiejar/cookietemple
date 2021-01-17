@@ -46,8 +46,9 @@ jobs:
 
       - name: Run pre-commit
         run: |
+             ls
              shopt -s extglob
-             rm -r ./!(explodingspringfield)/
+             find -maxdepth 1 ! -name explodingspringfield ! -name . -exec rm -rv {} \;
              cd explodingspringfield
              poetry run pre-commit run --all-files
 
