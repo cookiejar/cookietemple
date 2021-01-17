@@ -38,7 +38,7 @@ jobs:
 
       - name: Build Package
         run: |
-             cd ExplodingSpringfield
+             cd explodingspringfield
              make install
 
       - name: Install doc dependencies
