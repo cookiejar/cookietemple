@@ -1,2 +1,0 @@
-I am a file called 'test.txt' which is automatically included and packaged.
-I reside in the folder 'files' and that folder is specified in setup.py
