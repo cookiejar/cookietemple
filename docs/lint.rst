@@ -124,6 +124,8 @@ The linter ensures that following requirements are met:
 
 5.) ``sync_files_blacklisted`` should contain at least the ``CHANGELOG.rst`` file (excluding it from syncing to avoid PR updates)
 
+6.) ``sync`` should only contain a ``sync_enabled`` value (and this value should be one of either ``True|true|Yes|yes|Y|y|False|false|No|no|N|n``)
+
 
 cli-python
 ^^^^^^^^^^^^

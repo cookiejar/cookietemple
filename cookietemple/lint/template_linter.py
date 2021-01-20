@@ -613,6 +613,8 @@ class ConfigLinter:
         3.) 'bumpversion_files_whitelisted' should contain at least the '.cookietemple.yml' file
 
         4.) 'sync_level' should contain a 'ct_sync_level' value (and this value should be one of either 'patch', 'minor' or 'major')
+
+        5.) 'sync' should contain a 'sync_enabled' value (and this value should be one of either "True, true, Yes, yes, Y, y or False, false, No, no, N, n")
         """
         no_section_missing = self.check_missing_sections(self.parser.sections())
         if no_section_missing:
@@ -620,6 +622,7 @@ class ConfigLinter:
             lint_section_flag &= self.check_section(self.parser.items('bumpversion'), 'bumpversion', self.linter_ctx)
             lint_section_flag &= self.check_section(self.parser.items('bumpversion_files_whitelisted'), 'bumpversion_files_whitelisted', self.linter_ctx)
             lint_section_flag &= self.check_section(self.parser.items('sync_level'), 'sync_level', self.linter_ctx)
+            lint_section_flag &= self.check_section(self.parser.items('sync'), 'sync', self.linter_ctx)
             if lint_section_flag:
                 self.linter_ctx.passed.append(('general-7', 'All general config sections passed cookietemple linting!'))
         else:
@@ -630,7 +633,7 @@ class ConfigLinter:
         Examine cookietemple config file for missing sections
         :param parsed_sections: All parsed sections from the user's cookietemple.cfg file
         """
-        sections = ['bumpversion', 'bumpversion_files_whitelisted', 'bumpversion_files_blacklisted', 'sync_files_blacklisted', 'sync_level']
+        sections = ['bumpversion', 'bumpversion_files_whitelisted', 'bumpversion_files_blacklisted', 'sync_files_blacklisted', 'sync_level', 'sync']
         missing_sections = []
         # for every section check whether it is in the parsed sections or not
         for section in sections:
@@ -648,7 +651,7 @@ class ConfigLinter:
     def check_section(self, section_items, section_name: str, main_linter: TemplateLinter, blacklisted_sync_files=None, error_code='general-7',
                       is_sublinter_calling=False) -> bool:
         """
-        Check requirements 2.) - 4.) stated above.
+        Check requirements 2.) - 5.) stated above.
         :param section_items: A pair (name, value) for all items in a section
         :param section_name: The sections name
         :param main_linter: The linter calling the function
@@ -665,7 +668,8 @@ class ConfigLinter:
         check_set = {
             'bumpversion': [[('current_version', '*')], 1],
             'bumpversion_files_whitelisted': [[('dot_cookietemple', '.cookietemple.yml')], -1],
-            'sync_level': [[('ct_sync_level', 'patch|minor|major')], 1]
+            'sync_level': [[('ct_sync_level', 'patch|minor|major')], 1],
+            'sync': [[('sync_enabled', 'True|true|Yes|yes|Y|y|False|false|No|no|N|n')], 1]
         }
         if section_name == 'sync_files_blacklisted' and is_sublinter_calling:
             return self.apply_section_linting_rules('sync_files_blacklisted', section_items, blacklisted_sync_files, main_linter, error_code)
