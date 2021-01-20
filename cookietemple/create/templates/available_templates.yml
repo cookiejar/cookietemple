@@ -2,7 +2,7 @@ cli:
     java:
         name: Java Commandline Tool
         handle: cli-java
-        version: 1.1.0
+        version: 1.1.1
         available libraries: picocli
         short description: A GraalVM based multiplatform commandline application using Picocli.
         long description: A commandline application tool written in Java using the Picocli framework.
@@ -21,7 +21,7 @@ gui:
     java:
         name: JavaFX Graphical User Interface
         handle: gui-java
-        version: 1.1.0
+        version: 1.1.1
         available libraries: JavaFX
         short description: Native JavaFX based graphical user interface with Java.
         long description: A graphical user interface build with JavaFX in Java.
@@ -31,7 +31,7 @@ lib:
     cpp:
         name: C++ Library with CMake
         handle: lib-cpp
-        version: 1.1.0
+        version: 1.1.1
         available libraries: None
         short description: A quick C++ template for modern CMake projects, aimed to be an easy to use starting point.
         long description: A template for modern C++ projects - both executables and libraries - using CMake, Clang-Format, CI, unit testing and more, with support for downstream inclusion.
@@ -40,7 +40,7 @@ pub:
         latex:
             name: Latex Thesis
             handle: pub-thesis-latex
-            version: 1.1.0
+            version: 1.1.1
             available libraries: latex
             short description: Template for BSc./MSc./PhD/... thesis
             long description: A modern LaTeX/XeLaTeX/LuaLaTeX thesis template based on the Cambridge University Engineering Department template.
@@ -50,7 +50,7 @@ web:
         python:
             name: Python Based Website
             handle: web-website-python
-            version: 1.1.0
+            version: 1.1.1
             available libraries: Flask
             short description: A Flask based template to start your website/application project.
             long description: This template provides two versions of the template. One can choose from a basic version with minimal backend/frontend setup or a more complex version

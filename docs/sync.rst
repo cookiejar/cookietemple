@@ -56,6 +56,19 @@ Configuring sync
 
 .. _sync_config:
 
+Enable/Disable sync
+~~~~~~~~~~~~~~~~~~~
+
+Cookietemple aims to provide the user as much configuration as possible. So, the sync feature is optional and should also
+be switched on or off. If you want to enable sync (which is the default), the ``sync_enable`` accepts the following values: ``True, true, Yes, yes, Y, y``. To disable sync,
+simply change this value into ``False, false, No, no, N, n``. It can be configured in the::
+
+    [sync]
+    sync_enable = True
+
+section.
+
+
 Sync level
 ~~~~~~~~~~~~~~~~
 
