@@ -313,11 +313,11 @@ class TemplateSync:
                 return True
         return False
 
-    def check_sync_enabled(self) -> bool:
+    def should_run_sync(self) -> bool:
         """
         Check, whether sync should run. This depends on two things:
         1.) First check, whether the user disabled sync in the cookietemple.cfg file with sync_enabled = False in the [sync] section
-        2.) Secondly, whether the configured level in the [ct_sync_level] does not restrict the sync.
+        2.) Secondly, whether the configured level in the [sync_level] section does not restrict the sync.
         Possible levels are:
             - patch: Always create a pull request (lower bound)
             - minor: Create a pull request if it's a minor or major change
@@ -329,10 +329,18 @@ class TemplateSync:
             parser = ConfigParser()
             parser.read(f'{self.project_dir}/cookietemple.cfg')
             sync_enabled = parser.items('sync')
+            # sync is enabled
+            if sync_enabled[0][1].lower() in {'yes', 'y', 'true'}:
+                pass
             # sync is disabled
-            if not sync_enabled[0][1].lower() in {'yes', 'y', 'true'}:
+            elif sync_enabled[0][1].lower() in {'no', 'n', 'false'}:
                 return False
-
+            # misconfigured sync_enabled with some unknown value
+            else:
+                print(f'[bold blue]Unknown value {sync_enabled[0][1]} for sync_enabled config.\nAllowed values are [bold green]Yes, yes, True, true, Y, y '
+                      f'[bold blue] or [bold green]No, no, False, false, N, n [bold blue]!')
+                return False
+            # now, check for the sync level
             level_item = list(parser.items('sync_level'))
             log.debug(f'Parsing level constraint returned: {level_item}.')
             # check for proper configuration if the sync_level section (only one item named ct_sync_level with valid levels major or minor

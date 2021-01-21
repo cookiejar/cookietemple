@@ -207,7 +207,7 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
               patch_change else 'No template update found.')
     # sync the project if any changes
     if any(change for change in (major_change, minor_change, patch_change)):
-        if syncer.check_sync_enabled():
+        if syncer.should_run_sync():
             # check if a pull request should be created according to set level constraints
             log.debug('Starting sync.')
             syncer.sync()
