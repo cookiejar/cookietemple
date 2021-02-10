@@ -23,7 +23,7 @@ jobs:
               token: '${{ secrets.CT_SYNC_TOKEN }}'
           name: Check out source-code repository
 
-        - uses: oleksiyrudenko/gha-git-credentials@v2
+        - uses: oleksiyrudenko/gha-git-credentials@v2.1
           with:
                name: 'zethson'
                email: 'lukas.heumos@posteo.net'
