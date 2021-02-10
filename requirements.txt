@@ -5,7 +5,7 @@ pygithub==1.54.1
 GitPython==3.1.12
 autopep8==1.5.5
 cffi==1.14.4
-cryptography==3.4.1
+cryptography==3.4.4
 requests>=2.25.1
 rich>=9.10.0
 packaging>=20.9
