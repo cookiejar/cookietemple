@@ -328,11 +328,16 @@ class TemplateSync:
         try:
             parser = ConfigParser()
             parser.read(f'{self.project_dir}/cookietemple.cfg')
-            sync_enabled = parser.items('sync')
-            # sync is enabled
+            try:
+                sync_enabled = parser.items('sync')
+            except NoSectionError:
+                print('[bold yellow]Could not find the <sync> section in cookietemple.cfg!')
+                print('[bold yellow]Enabling sync temporarily.')
+                sync_enabled = [('sync_enabled', 'True')]
+            # sync is enabled -> just proceed
             if sync_enabled[0][1].lower() in {'yes', 'y', 'true'}:
                 pass
-            # sync is disabled
+            # sync is disabled -> stop sync
             elif sync_enabled[0][1].lower() in {'no', 'n', 'false'}:
                 return False
             # misconfigured sync_enabled with some unknown value
@@ -346,7 +351,7 @@ class TemplateSync:
             # check for proper configuration if the sync_level section (only one item named ct_sync_level with valid levels major or minor
             if len(level_item) != 1 or 'ct_sync_level' not in level_item[0][0] or not any(level_item[0][1] == valid_lvl for valid_lvl in
                                                                                           ['major', 'minor', 'patch']):
-                print('[bold red]Your sync_level section is missconfigured. Make sure that it only contains one item named ct_sync_level with only valid levels'
+                print('[bold red]Your sync_level section is misconfigured. Make sure that it only contains one item named ct_sync_level with only valid levels'
                       ' patch, minor or major!')
                 sys.exit(1)
             # check in case of minor update that level is not set to major (major case must not be handled as level is a lower bound)
