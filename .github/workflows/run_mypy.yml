@@ -29,4 +29,4 @@ jobs:
       - name: Lint with mypy
         run: |
             pip install mypy
-            mypy . --show-error-codes
+            mypy -p cookietemple --show-error-codes
