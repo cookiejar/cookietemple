@@ -14,18 +14,19 @@ packages = [
 ]
 {% endif -%}
 classifiers = [
+    "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
 ]
 
-[tool.poetry.urls]
-Changelog = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/releases"
 
 [tool.poetry.dependencies]
-python = "^3.7.1"
-click = "^7.0"
-rich = "^9.8.2"
+python = "^3.6.1"
+click = "^7.1.2"
+rich = "^9.12.4"
+PyYAML = "^5.4.1"
+Jinja2 = "^2.11.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.1.2"
@@ -52,18 +53,17 @@ sphinx-click = "^2.5.0"
 Pygments = "^2.7.2"
 
 [tool.poetry.scripts]
-{{cookiecutter.project_slug}} = "{{cookiecutter.project_slug_no_hyphen}}.__main__:main"
+test-project-poetry = "test_project_poetry.__main__:main"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
 
 [tool.coverage.run]
 branch = true
-source = ["{{cookiecutter.project_slug_no_hyphen}}"]
+source = ["test_project_poetry"]
 
 [tool.coverage.report]
 show_missing = true
-fail_under = 100
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
