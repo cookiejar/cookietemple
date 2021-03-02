@@ -53,14 +53,14 @@ sphinx-click = "^2.5.0"
 Pygments = "^2.7.2"
 
 [tool.poetry.scripts]
-test-project-poetry = "test_project_poetry.__main__:main"
+{{cookiecutter.project_slug}} = "{{cookiecutter.project_slug_no_hyphen}}.__main__:main"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
 
 [tool.coverage.run]
 branch = true
-source = ["test_project_poetry"]
+source = ["{{cookiecutter.project_slug_no_hyphen}}"]
 
 [tool.coverage.report]
 show_missing = true
