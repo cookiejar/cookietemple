@@ -55,6 +55,9 @@ Pygments = "^2.7.2"
 [tool.poetry.scripts]
 {{cookiecutter.project_slug}} = "{{cookiecutter.project_slug_no_hyphen}}.__main__:main"
 
+[tool.black]
+line-length = 120
+
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
 
