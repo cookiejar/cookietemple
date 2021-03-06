@@ -28,27 +28,7 @@ jobs:
                           session: "mypy",
                       }
                     - {
-                          python-version: 3.8,
-                          os: ubuntu-latest,
-                          session: "mypy",
-                      }
-                    - {
-                          python-version: 3.7,
-                          os: ubuntu-latest,
-                          session: "mypy",
-                      }
-                    - {
                           python-version: 3.9,
-                          os: ubuntu-latest,
-                          session: "tests",
-                      }
-                    - {
-                          python-version: 3.8,
-                          os: ubuntu-latest,
-                          session: "tests",
-                      }
-                    - {
-                          python-version: 3.7,
                           os: ubuntu-latest,
                           session: "tests",
                       }
@@ -73,7 +53,7 @@ jobs:
                           session: "xdoctest",
                       }
                     - {
-                          python-version: 3.8,
+                          python-version: 3.9,
                           os: ubuntu-latest,
                           session: "docs-build",
                       }
