@@ -23,6 +23,7 @@ categories:
       labels:
           - "dependencies"
           - "build"
+          - "dependabot"
 template: |
     ## Changes
 
