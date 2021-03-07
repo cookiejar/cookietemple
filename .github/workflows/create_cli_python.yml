@@ -47,9 +47,12 @@ jobs:
       - name: Run Tests
         run: |
             mv explodingspringfield /tmp
-            rm -rf *
+            cd ..
+            rm -rf cookietemple
+            ls
             mv /tmp/explodingspringfield .
             cd explodingspringfield
+            ls
             nox
 
       - name: Install doc dependencies
