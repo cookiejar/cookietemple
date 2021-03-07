@@ -47,11 +47,7 @@ jobs:
       - name: Run Tests
         run: |
             mv explodingspringfield /tmp
-            cd ..
-            rm -rf cookietemple
-            ls
-            mv /tmp/explodingspringfield .
-            cd explodingspringfield
+            cd /tmp/explodingspringfield
             ls
             nox
 
