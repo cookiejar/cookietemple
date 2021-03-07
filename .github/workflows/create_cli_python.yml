@@ -48,8 +48,8 @@ jobs:
         run: |
             mv explodingspringfield /tmp
             cd /tmp/explodingspringfield
-            ls -la
             git init
+            git add .
             nox
 
       - name: Install doc dependencies
