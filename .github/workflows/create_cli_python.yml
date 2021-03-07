@@ -46,13 +46,16 @@ jobs:
 
       - name: Run Tests
         run: |
-            cd explodingspringfield
+            mv explodingspringfield /tmp
+            cd /tmp/explodingspringfield
+            git init
+            git add .
             nox
 
       - name: Install doc dependencies
-        run: pip install -r explodingspringfield/docs/requirements.txt
+        run: pip install -r /tmp/explodingspringfield/docs/requirements.txt
 
       - name: Build docs
         run: |
-            cd explodingspringfield/docs
+            cd /tmp/explodingspringfield/docs
             make html

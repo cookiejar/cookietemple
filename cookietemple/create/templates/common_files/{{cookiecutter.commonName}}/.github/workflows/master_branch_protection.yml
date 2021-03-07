@@ -69,5 +69,4 @@ jobs:
                       A version check determined that you are using a SNAPSHOT version.
                       The `master` branch should never have any SNAPSHOT versions, since only fully stable code should be on the `master` branch.
                   repo-token: ${{ secrets.GITHUB_TOKEN }}
-                  allow-repeats: false
-{% endraw %}
+                  allow-repeats: false{% endraw %}

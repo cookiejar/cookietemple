@@ -5,12 +5,11 @@ from pathlib import Path
 from textwrap import dedent
 
 import nox
-import nox_poetry.patch
 from nox_poetry import Session
 from nox_poetry import session
 
 
-package = "{{ cookiecutter.project_slug_no_hyphen }}"
+package = "{{ cookiecutter.project_slug_no_hyphen}}"
 python_versions = ["3.9", "3.8"]
 nox.options.sessions = (
     "pre-commit",
@@ -50,9 +49,7 @@ def activate_virtualenv_in_precommit_hooks(session: Session) -> None:
 
         text = hook.read_text()
         bindir = repr(session.bin)[1:-1]  # strip quotes
-        if not (
-            Path("A") == Path("a") and bindir.lower() in text.lower() or bindir in text
-        ):
+        if not (Path("A") == Path("a") and bindir.lower() in text.lower() or bindir in text):
             continue
 
         lines = text.splitlines()
@@ -77,7 +74,7 @@ def activate_virtualenv_in_precommit_hooks(session: Session) -> None:
 @session(name="pre-commit", python="3.9")
 def precommit(session: Session) -> None:
     """Lint using pre-commit."""
-    args = session.posargs or ["run", "--all-files", "--show-diff-on-failure"]
+    args = session.posargs or ["run", "--all-files"]
     session.install(
         "black",
         "darglint",
