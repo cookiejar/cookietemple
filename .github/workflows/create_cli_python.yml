@@ -46,7 +46,9 @@ jobs:
 
       - name: Run Tests
         run: |
-            rm -r !("explodingspringfield")
+            mv explodingspringfield /tmp
+            rm -rf *
+            mv /tmp/explodingspringfield .
             cd explodingspringfield
             nox
 
