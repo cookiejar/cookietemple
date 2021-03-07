@@ -24,6 +24,19 @@ categories:
           - "dependencies"
           - "build"
           - "dependabot"
+autolabeler:
+  - label: 'bug'
+    branch:
+      - '/fix\/.+'
+    title:
+      - '/fix\/.+'
+  - label: 'enhancement'
+    branch:
+      - '/feature\/.+'
+    title:
+      - '/feature\/.+'
+    body:
+      - '/JIRA-[0-9]{1,4}/'
 template: |
     ## Changes
 
