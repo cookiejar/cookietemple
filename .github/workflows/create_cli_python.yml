@@ -46,9 +46,9 @@ jobs:
 
       - name: Run Tests
         run: |
+            rm -r !("explodingspringfield")
             cd explodingspringfield
-            ls -la
-            
+            nox
 
       - name: Install doc dependencies
         run: pip install -r explodingspringfield/docs/requirements.txt
