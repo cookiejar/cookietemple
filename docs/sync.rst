@@ -87,3 +87,5 @@ Blacklisting files
 Although, cookietemple only submits pull requests for files, which are part of the template, sometimes even those files should be ignored.
 Examples could be any html files, which ,at some point, contain only custom content and should not be synced.
 When syncing, cookietemple examines the ``cookietemple.cfg`` file and ignores any file patterns (globs) (e.g. ``*.html``) below the ``[sync_files_blacklisted]`` section.
+IMPORTANT NOTE: If you would like to add some files to this section, make sure your current branch (if you are syncing manually, which is not recommended) or your default branch
+has the latest blacklisted sync file section with your changes, so it will be used by the sync.
