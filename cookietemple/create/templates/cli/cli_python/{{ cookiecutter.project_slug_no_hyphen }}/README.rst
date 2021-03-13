@@ -18,7 +18,7 @@
 .. |Build| image:: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/workflows/Build%20{{ cookiecutter.project_slug }}%20Package/badge.svg
    :target: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/workflows/Build%20{{ cookiecutter.project_slug }}%20Package/badge.svg
    :alt: Build package Status
-.. |Tests| image:: https://github.com/{{ cookiecutter.github_username }}/{{cookiecutter.project_slug }}/workflows/Tests/badge.svg
+.. |Tests| image:: https://github.com/{{ cookiecutter.github_username }}/{{cookiecutter.project_slug }}/workflows/run_tests.yml/badge.svg
    :target: https://github.com/{{ cookiecutter.github_username}}/{{cookiecutter.project_slug }}/actions?workflow=Tests
    :alt: Tests
 .. |Codecov| image:: https://codecov.io/gh/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/branch/master/graph/badge.svg
