@@ -1,4 +1,4 @@
-Sphinx==3.4.3
+Sphinx==3.5.3
 sphinx_rtd_theme==0.5.1
 {% if cookiecutter.language == 'python' -%}sphinx-automodapi==0.13
 sphinx_click
