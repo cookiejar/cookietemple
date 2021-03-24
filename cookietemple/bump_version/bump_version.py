@@ -1,5 +1,4 @@
 import logging
-import os
 import sys
 import re
 from typing import Tuple
@@ -10,7 +9,6 @@ from shutil import move, copymode
 from os import fdopen, remove
 from pathlib import Path
 from git import Repo  # type: ignore
-from datetime import datetime
 from rich import print
 
 from cookietemple.create.github_support import is_git_repo
@@ -225,7 +223,7 @@ class VersionBumper:
 
     def lint_before_bump(self) -> None:
         """
-        Lint the changelog prior to bumping. Check, whether all versions are consistent over the project
+        Check, whether all versions are consistent over the project
         """
         version_linter = TemplateLinter(path=self.top_level_dir)
         version_linter.check_version_consistent()

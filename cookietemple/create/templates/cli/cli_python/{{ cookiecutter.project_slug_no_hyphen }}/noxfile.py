@@ -3,10 +3,18 @@ import shutil
 import sys
 from pathlib import Path
 from textwrap import dedent
+from rich import print
 
 import nox
-from nox_poetry import Session
-from nox_poetry import session
+try:
+    from nox_poetry import Session
+    from nox_poetry import session
+except ImportError:
+    print('[bold red]Did not found nox-poetry installed in your current environment!')
+    print('[bold blue]Try installing it using [bold green]pip install nox-poetry [bold blue]! ')
+    sys.exit(1)
+
+
 
 package = "{{ cookiecutter.project_slug_no_hyphen }}"
 python_versions = ["3.8", "3.9"]
