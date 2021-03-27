@@ -1,5 +1,5 @@
-name-template: "v$RESOLVED_VERSION 🌈"
-tag-template: v$RESOLVED_VERSION
+name-template: "{{ cookiecutter.version }} 🌈" # <<COOKIETEMPLE_FORCE_BUMP>>
+tag-template: {{ cookiecutter.version }} # <<COOKIETEMPLE_FORCE_BUMP>>
 categories:
     - title: "🚀 Features"
       labels:

@@ -181,7 +181,7 @@ class TemplateSync:
             choose_domain(path=Path.cwd(), domain=None, dot_cookietemple=self.dot_cookietemple)
             # copy into the cleaned TEMPLATE branch's project directory
             log.debug(f'Copying created template into {self.project_dir}.')
-            copy_tree(os.path.join(tmpdirname, self.dot_cookietemple['project_slug']), str(self.project_dir))
+            copy_tree(os.path.join(tmpdirname, self.dot_cookietemple['project_slug_no_hyphen']), str(self.project_dir))
             log.debug(f'Changing directory back to {old_cwd}.')
             os.chdir(old_cwd)
 
