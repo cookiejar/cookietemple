@@ -32,19 +32,11 @@ jobs:
             - name: Build package
               run: |
                   poetry build --ansi
-{% raw %}
+
             - name: Publish package on PyPI
               uses: pypa/gh-action-pypi-publish@v1.4.1
               with:
                   # TODO COOKIETEMPLE: Configure your PyPI Token to enable automatic deployment to PyPi on releases
                   # https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
                   user: __token__
-                  password: ${{ secrets.PYPI_TOKEN }}
-
-            - name: Publish the release notes
-              uses: release-drafter/release-drafter@v5.14.0
-              with:
-                  publish: True
-                  tag: {% endraw %}{{ cookiecutter.version }}{% raw %} # <<COOKIETEMPLE_FORCE_BUMP>>
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}{% endraw %}
+                  password: {% raw %}${{ secrets.PYPI_TOKEN }}{% endraw %}
