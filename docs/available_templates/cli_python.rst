@@ -5,7 +5,7 @@ Purpose
 ^^^^^^^^
 
 cli-python is a `Python <https://www.python.org/>`_ based template designed for command line applications,
-but it may also be easily used as standard Python package without any command line interface. It is an improved version of `cookiecutter-pypackage <https://github.com/audreyr/cookiecutter-pypackage>`_.
+but it may also be easily used as standard Python package without any command line interface. It is an improved version of `cookiecutter-hypermodern-python <https://github.com/cjolowicz/cookiecutter-hypermodern-python>`_.
 
 Design
 ^^^^^^^^
@@ -111,7 +111,8 @@ We highly recommend to use click (if commandline interface is required) together
 Usage
 ^^^^^^^^
 
-The generated cli-python project can be installed using::
+The package requires the installation of ``poetry``, ``nox`` and ``nox-poetry``.
+Then generated cli-python project can be installed using::
 
     make install
 
@@ -123,6 +124,11 @@ Your package is then installed in a custom virtual environment on your machine a
 
     <<your_project_name>>
 
+Run all pre-commit tests with::
+
+    make test-all
+
+Ensure that you have ``nox`` ``nox-poetry`` installed (as specified in the ``.github/workflows/constraints.txt`` file.
 Other make targets include::
 
     make clean
@@ -131,7 +137,7 @@ which removes all build files::
 
     make build
 
-which builds source and wheel packages, which can then be used for a PyPi release using
+which builds source and wheel packages, which can then be used for a PyPi release using::
 
     make release
 

@@ -15,6 +15,9 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 **Fixed**
 
+* blacklisted files for sync defined by the user are now correctly picked up
+* blacklisted sync files, that are newly introduced by a PR are now included in the sync PR, they were introduced but not in the following ones
+
 **Dependencies**
 
 **Deprecated**

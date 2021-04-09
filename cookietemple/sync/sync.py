@@ -69,12 +69,15 @@ class TemplateSync:
         self.repo_owner = self.gh_username
         self.new_template_version = new_template_version
         self.github = Github(self.token)
+        self.blacklisted_globs = []
 
     def sync(self):
         """
         Sync the cookietemple project
         """
         self.inspect_sync_dir()
+        # get blacklisted files on current working branch
+        self.blacklisted_globs = self.get_blacklisted_sync_globs()
         self.checkout_template_branch()
         self.delete_template_branch_files()
         self.make_template_project()
@@ -178,7 +181,7 @@ class TemplateSync:
             choose_domain(path=Path.cwd(), domain=None, dot_cookietemple=self.dot_cookietemple)
             # copy into the cleaned TEMPLATE branch's project directory
             log.debug(f'Copying created template into {self.project_dir}.')
-            copy_tree(os.path.join(tmpdirname, self.dot_cookietemple['project_slug']), str(self.project_dir))
+            copy_tree(os.path.join(tmpdirname, self.dot_cookietemple['project_slug_no_hyphen']), str(self.project_dir))
             log.debug(f'Changing directory back to {old_cwd}.')
             os.chdir(old_cwd)
 
@@ -198,9 +201,8 @@ class TemplateSync:
             self.repo.git.add(A=True)
             # get all changed/modified files during the sync (including blacklisted ones)
             changed_files = [item.a_path for item in self.repo.index.diff('HEAD')]
-            globs = self.get_blacklisted_sync_globs()
             blacklisted_changed_files = set()
-            for pattern in globs:
+            for pattern in self.blacklisted_globs:
                 # keep track of all staged files matching a glob from the cookietemple.cfg file
                 # those files will be excluded from syncing but will still be available in every new created projects
                 blacklisted_changed_files |= {file for file in fnmatch.filter(changed_files, pattern)}

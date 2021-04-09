@@ -1,5 +1,4 @@
 import logging
-import os
 import sys
 import re
 from typing import Tuple
@@ -10,7 +9,6 @@ from shutil import move, copymode
 from os import fdopen, remove
 from pathlib import Path
 from git import Repo  # type: ignore
-from datetime import datetime
 from rich import print
 
 from cookietemple.create.github_support import is_git_repo
@@ -57,12 +55,9 @@ class VersionBumper:
         # if project_dir was given as handle use cwd since we need it for git add
         ct_cfg_path = f'{str(project_dir)}/cookietemple.cfg' if str(project_dir).startswith(str(Path.cwd())) else \
             f'{str(Path.cwd())}/{project_dir}/cookietemple.cfg'
-        # path to CHANGELOG.rst file
-        changelog_path = f'{str(project_dir)}/CHANGELOG.rst' if str(project_dir).startswith(str(Path.cwd())) else \
-            f'{str(Path.cwd())}/{project_dir}/CHANGELOG.rst'
 
         # keep path of all files that were changed during bump version
-        changed_files = [ct_cfg_path, changelog_path]
+        changed_files = [ct_cfg_path]
 
         print(f'[bold blue]Changing version number.\nCurrent version is {self.CURRENT_VERSION}.'
               f'\nNew version will be {new_version}\n')
@@ -82,9 +77,6 @@ class VersionBumper:
         self.parser.set('bumpversion', 'current_version', new_version)
         with open(f'{project_dir}/cookietemple.cfg', 'w') as configfile:
             self.parser.write(configfile)
-
-        # add a new changelog section when downgrade mode is disabled
-        self.add_changelog_section(new_version)
 
         # check whether a project is a git repository and if so, commit bumped version changes
         if is_git_repo(project_dir):
@@ -231,109 +223,19 @@ class VersionBumper:
 
     def lint_before_bump(self) -> None:
         """
-        Lint the changelog prior to bumping. Linting consists of three major points.
-
-        1. Check, whether a CHANGELOG.rst file exist in top level directory of the project.
-        2. Lint CHANGELOG.rst to ensure that bump-version can safely add a new section
-        3. Check, whether all versions are consistent over the project
+        Check, whether all versions are consistent over the project
         """
-        changelog_linter = TemplateLinter(path=self.top_level_dir)
-        changelog_path = os.path.join(self.top_level_dir, 'CHANGELOG.rst')
-        # ensure changelog exists, else abort
-        if not os.path.exists(changelog_path):
-            print(f'[bold red]No file named CHANGELOG.rst found at {self.top_level_dir}. Aborting!')
-            sys.exit(1)
-        # lint changelog and check version consistency
-        log.debug('Linting changelog')
-        changelog_linter.lint_changelog()
-        log.debug('Linting version consistent')
-        changelog_linter.check_version_consistent()
+        version_linter = TemplateLinter(path=self.top_level_dir)
+        version_linter.check_version_consistent()
         print()
-        changelog_linter.print_results()
+        version_linter.print_results()
         print()
         # if any failed linting tests, ask user for confirmation of proceeding with bump (which results in undefined behavior)
-        if len(changelog_linter.failed) > 0 or len(changelog_linter.warned) > 0:
+        if len(version_linter.failed) > 0 or len(version_linter.warned) > 0:
             # ask for confirmation if the user really wants to proceed bumping when linting failed
-            print('[bold red]Changelog linting and/or version check failed!\n'
+            print('[bold red]Version check failed!\n'
                   'You can fix them and try bumping again. Proceeding bump will result in undefined behavior!')
             if not cookietemple_questionary_or_dot_cookietemple(function='confirm',
                                                                 question='Do you really want to continue?',
                                                                 default='n'):
                 sys.exit(1)
-
-    def add_changelog_section(self, new_version: str) -> None:
-        """
-        Each version bump will add a new section template to the CHANGELOG.rst
-        :param new_version: The new version
-        """
-        log.debug('Adding new changelog section.')
-        if self.downgrade_mode:
-            print('[bold yellow]WARNING: Running bump-version in downgrade mode will not add a new changelog section currently!')
-        else:
-            date = datetime.today().strftime("%Y-%m-%d")
-            # replace the SNAPSHOT SECTION header with its non-snapshot correlate
-            if self.CURRENT_VERSION.endswith('-SNAPSHOT'):
-                self.replace_snapshot_header(f'{self.top_level_dir}/CHANGELOG.rst', new_version, date)
-
-            else:
-                # the section template for a new changelog section
-                nl = '\n'
-                section = f'{new_version} ({date}){nl}{"-" * (len(new_version) + len(date) + 3)}{nl}{nl}' \
-                    f'{f"**{nl}{nl}".join(["**Added", "**Fixed", "**Dependencies", "**Deprecated**"])}'
-
-                self.insert_latest_version_section(old_changelog_file=f'{self.top_level_dir}/CHANGELOG.rst', section=section)
-
-    def replace_snapshot_header(self, source_file_path: str, new_version: str, date: str) -> None:
-        """
-        Replace the SNAPSHOT header section in CHANGELOG. The pattern (currently) cannot include any newline characters, therefore no multiline support!
-        :param source_file_path: Path to source file (the path where CHANGELOG lies)
-        :param new_version: The new version
-        :param date: Current date
-        """
-        log.debug('Replacing the changelog header in the changelog file.')
-        # create a temp file (requires to be explicitly deleted later)
-        fh, target_file_path = mkstemp()
-        # read from old file (the source file) and write into new file (the target file)
-        with open(target_file_path, 'w') as target_file:
-            with open(source_file_path, 'r') as source_file:
-                for line in source_file:
-                    pattern, subst = '', ''
-                    # check if the line is a header section with SNAPSHOT version
-                    if re.match(r'^(?<!\.)\d+(?:\.\d+){2}(?!\.)-SNAPSHOT \(\d\d\d\d-\d\d-\d\d\)$', line):
-                        dotted_snapshot_line = source_file.readline()
-                        next_new_line = source_file.readline()  # noqa: F841 necessary to omit an additional newline
-                        snapshot_date = line.split('(')[1][:-2]  # extract date of SNAPSHOT version adding
-                        pattern = f'{self.CURRENT_VERSION} ({snapshot_date})'
-                        subst = f'{new_version} ({date})\n{(len(new_version) + len(date) + 3) * "-"}'
-                        # replace -SNASPHOT in the header and adjust the dotted line below to the new header length
-                        target_file.write(line.replace(pattern, subst))
-                        target_file.write(dotted_snapshot_line.replace('-', ''))
-                    else:
-                        # else just write the line to the new file
-                        target_file.write(line.replace(pattern, subst))
-        # remove old file
-        remove(source_file_path)
-        # move new file to replace old file
-        move(target_file_path, source_file_path)
-
-    def insert_latest_version_section(self, old_changelog_file: str, section: str) -> None:
-        """
-        Insert the new changelog section as the latest section right after the header
-        :param old_changelog_file: path to the current CHANGELOG.rst file
-        :param section: the new section template block for changelog
-        """
-        log.debug('Inserting latest version section into the changelog.')
-        # create a temp file (requires to be explicitly deleted later)
-        fh, target_file_path = mkstemp()
-        # read from old file (the source file) and write into new file (the target file)
-        with open(target_file_path, 'w') as target_file:
-            with open(old_changelog_file, 'r') as source_file:
-                for line in source_file:
-                    # check if the line is the header section with the latest version
-                    if re.match(rf'^{self.CURRENT_VERSION} \(\d\d\d\d-\d\d-\d\d\)$', line):
-                        target_file.write(f'{section}\n\n\n')
-                    target_file.write(line)
-        # remove old file
-        remove(old_changelog_file)
-        # move new file to replace old file
-        move(target_file_path, old_changelog_file)

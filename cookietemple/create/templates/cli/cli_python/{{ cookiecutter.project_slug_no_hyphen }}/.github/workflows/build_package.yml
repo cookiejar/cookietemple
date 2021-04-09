@@ -20,14 +20,9 @@ jobs:
               with:
                   python-version: {% raw %}${{ matrix.python }}{% endraw %}
 
-            - name: Upgrade pip
-              run: |
-                  pip install --constraint=.github/workflows/constraints.txt pip
-                  pip --version
-
             - name: Install Poetry
               run: |
-                  pip install --constraint=.github/workflows/constraints.txt poetry
+                  pip install poetry
                   poetry --version
 
             - name: Build package
