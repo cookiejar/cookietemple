@@ -1,11 +1,11 @@
 cookiecutter==1.7.2
 click==7.1.2
-ruamel.yaml==0.16.13
+ruamel.yaml==0.17.4
 pygithub==1.54.1
 GitPython==3.1.14
-autopep8==1.5.5
+autopep8==1.5.6
 cffi==1.14.5
-cryptography==3.4.6
+cryptography==3.4.7
 requests>=2.25.1
 rich>=9.10.0
 packaging>=20.9
