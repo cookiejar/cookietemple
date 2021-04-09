@@ -23,7 +23,7 @@ jobs:
                   token: "{% raw %}${{ secrets.CT_SYNC_TOKEN }}{% endraw %}"
               name: Check out source-code repository
 
-            - uses: oleksiyrudenko/gha-git-credentials@v2
+            - uses: oleksiyrudenko/gha-git-credentials@v2.1
               with:
                   name: "{{ cookiecutter.creator_github_username }}"
                   email: "{{ cookiecutter.email }}"

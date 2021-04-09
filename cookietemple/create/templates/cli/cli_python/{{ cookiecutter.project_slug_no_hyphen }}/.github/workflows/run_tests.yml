@@ -70,19 +70,14 @@ jobs:
               with:
                   python-version: ${{ matrix.python-version }}
 
-            - name: Upgrade pip
-              run: |
-                  pip install --constraint=.github/workflows/constraints.txt pip
-                  pip --version
-
             - name: Install Poetry
               run: |
-                  pip install --constraint=.github/workflows/constraints.txt poetry
+                  pip install poetry
                   poetry --version
 
             - name: Install Nox
               run: |
-                  pip install --constraint=.github/workflows/constraints.txt nox nox-poetry
+                  pip install nox nox-poetry
                   nox --version
 
             - name: Install Rich
@@ -119,14 +114,14 @@ jobs:
 
             - name: Upload coverage data
               if: always() && matrix.session == 'tests'
-              uses: "actions/upload-artifact@v2.2.2"
+              uses: "actions/upload-artifact@v2.2.3"
               with:
                   name: coverage-data
                   path: ".coverage.*"
 
             - name: Upload documentation
               if: matrix.session == 'docs-build'
-              uses: actions/upload-artifact@v2.2.2
+              uses: actions/upload-artifact@v2.2.3
               with:
                   name: docs
                   path: docs/_build
@@ -143,19 +138,14 @@ jobs:
               with:
                   python-version: 3.8
 
-            - name: Upgrade pip
-              run: |
-                  pip install --constraint=.github/workflows/constraints.txt pip
-                  pip --version
-
             - name: Install Poetry
               run: |
-                  pip install --constraint=.github/workflows/constraints.txt poetry
+                  pip install poetry
                   poetry --version
 
             - name: Install Nox
               run: |
-                  pip install --constraint=.github/workflows/constraints.txt nox nox-poetry
+                  pip install nox nox-poetry
                   nox --version
 
             - name: Install Rich
@@ -163,7 +153,7 @@ jobs:
                   pip install rich
 
             - name: Download coverage data
-              uses: actions/download-artifact@v2.0.8
+              uses: actions/download-artifact@v2.0.9
               with:
                   name: coverage-data
 
@@ -176,4 +166,4 @@ jobs:
                   nox --force-color --session=coverage -- xml
 
             - name: Upload coverage report
-              uses: codecov/codecov-action@v1.3.1{% endraw %}
+              uses: codecov/codecov-action@v1.3.2{% endraw %}
