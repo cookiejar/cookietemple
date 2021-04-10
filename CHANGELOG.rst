@@ -6,6 +6,24 @@ Changelog
 
 This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
+1.3.0 (2021-01-17)
+------------------
+
+**Added**
+
+* cli-python version 2.0.0 with Poetry, Nox, pre-commit (with black, prettier, [...]), working module autogeneration and much more.
+* [ALL TEMPLATES] Removed Changelog.rst files in favor of Release Drafter, a GitHub Action to automatically include descriptions of changes into a new release
+
+**Fixed**
+
+* blacklisted files for sync defined by the user are now correctly picked up
+* blacklisted sync files, that are newly introduced by a PR are now included in the sync PR, they were introduced but not in the following ones
+
+**Dependencies**
+
+**Deprecated**
+
+
 1.2.4 (2020-12-19)
 ------------------
 

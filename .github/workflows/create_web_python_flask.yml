@@ -24,7 +24,7 @@ jobs:
         name: Check out source-code repository
 
       - name: Setup Python
-        uses: actions/setup-python@v2.1.4
+        uses: actions/setup-python@v2.2.1
         with:
           python-version: ${{ matrix.python }}
 
@@ -42,7 +42,7 @@ jobs:
 
       - name: Build basic Package
         run: |
-          cd ExplodingSpringfield
+          cd explodingspringfield
           make install
 
       - name: Install doc dependencies
@@ -56,7 +56,7 @@ jobs:
 
       - name: Build advanced Package
         run: |
-          cd ExplodingSpringfieldAdvanced
+          cd explodingspringfieldadvanced
           make install
 
       - name: Install doc dependencies

@@ -4,12 +4,9 @@ import os
 import re
 import configparser
 import sys
-from typing import Tuple
 import rich.progress
 import rich.markdown
 import rich.panel
-from packaging import version
-from itertools import groupby
 
 from cookietemple.util.dir_util import pf
 from cookietemple.util.rich import console
@@ -55,10 +52,8 @@ class TemplateLinter(object):
             check_functions = list(set(check_functions).difference({'lint_project', 'print_results', 'check_version_match'}))
             log.debug(f'Linting functions of general linting are:\n {check_functions}')
         # Some templates (e.g. latex based) do not adhere to the common programming based templates and therefore do not need to check for e.g. docs
-        # or lint changelog
         if custom_check_files:
             check_functions.remove('check_files_exist')
-            check_functions.remove('lint_changelog')
 
         progress = rich.progress.Progress(
             "[bold green]{task.description}",
@@ -86,11 +81,9 @@ class TemplateLinter(object):
             'cookietemple.cfg'
             'Makefile'
             'README.rst'
-            'CHANGELOG.rst'
             '[LICENSE, LICENSE.md, LICENCE, LICENCE.md]'
             'docs/index.rst'
             'docs/readme.rst'
-            'docs/changelog.rst'
             'docs/installation.rst'
             'docs/usage.rst'
         Files that *should* be present::
@@ -114,11 +107,9 @@ class TemplateLinter(object):
             ['cookietemple.cfg'],
             ['Makefile'],
             ['README.rst'],
-            ['CHANGELOG.rst'],
             ['LICENSE', 'LICENSE.md', 'LICENCE', 'LICENCE.md'],  # NB: British / American spelling
             [os.path.join('docs', 'index.rst')],
             [os.path.join('docs', 'readme.rst')],
-            [os.path.join('docs', 'changelog.rst')],
             [os.path.join('docs', 'installation.rst')],
             [os.path.join('docs', 'usage.rst')],
         ]
@@ -154,25 +145,6 @@ class TemplateLinter(object):
         config_file_path = os.path.join(self.path, 'cookietemple.cfg')
         linter = ConfigLinter(config_file_path, self)
         linter.lint_ct_config_file()
-
-    def lint_changelog(self):
-        """
-        Lint the Changelog.rst file
-        """
-        changelog_path = os.path.join(self.path, 'CHANGELOG.rst')
-        linter = ChangelogLinter(changelog_path, self)
-        if not len(linter.changelog_content) < 3:
-            # lint header first
-            header_lint_code, header_detected, header_lint_passed = linter.lint_header()
-            if header_lint_code != -1 and header_detected:
-                # if head linting did not found any errors lint sections
-                section_lint_passed = linter.lint_changelog_section()
-                if section_lint_passed and header_lint_passed:
-                    self.passed.append(('general-6', 'Changelog linting passed!'))
-            elif not header_detected:
-                self.failed.append(('general-6', 'Changelog does not seem to contain a header or your header syntax is wrong!'))
-        else:
-            self.failed.append(('general-6', 'Changelog does not seem to contain a header and/or at least one section!'))
 
     def check_docker(self):
         """
@@ -305,15 +277,15 @@ class TemplateLinter(object):
         if len(self.passed) > 0:
             console.print()
             console.rule("[bold green][[\u2714]] Tests Passed", style="green")
-            console.print(rich.panel.Panel(format_result(self.passed), style="green"), no_wrap=True, overflow="ellipsis")
+            console.print(rich.panel.Panel(format_result(self.passed), style="green"), overflow="ellipsis")
         if len(self.warned) > 0:
             console.print()
             console.rule("[bold yellow][[!]] Test Warnings", style="yellow")
-            console.print(rich.panel.Panel(format_result(self.warned), style="yellow"), no_wrap=True, overflow="ellipsis")
+            console.print(rich.panel.Panel(format_result(self.warned), style="yellow"), overflow="ellipsis")
         if len(self.failed) > 0:
             console.print()
             console.rule("[bold red][[\u2717]] Test Failures", style="red")
-            console.print(rich.panel.Panel(format_result(self.failed), style="red"), no_wrap=True, overflow="ellipsis")
+            console.print(rich.panel.Panel(format_result(self.failed), style="red"), overflow="ellipsis")
 
     def _wrap_quotes(self, files):
         if not isinstance(files, list):
@@ -410,189 +382,6 @@ class GetLintingFunctionsMeta(type):
         return cls
 
 
-class ChangelogLinter:
-    """
-    A linter for our templates Changelog.rst to ensure consistency across templates
-
-    :attribute self.changelog_path: Path to the changelog file
-    :attribute self.main_linter: The calling linter
-    :attribute self.changelog_content: The content line by line of the CHANGELOG.rst file
-    :attribute self.line_counter: A counter to keep track of the currents line index
-    :attribute self.header_offset: An offset value to indicate where the CHANGELOG header ends
-    """
-
-    def __init__(self, path, linter: TemplateLinter):
-        """
-        :param path: Path to the Changelog file
-        :param linter: a reference to the calling linter
-        """
-        self.changelog_path = path
-        self.main_linter = linter
-        self.changelog_content = self.init_changelog_lint_content()
-        self.line_counter = 0
-        self.header_offset = 0
-
-    def lint_header(self) -> Tuple[int, bool, bool]:  # type: ignore
-        """
-        Lint the header which consists of an optional label, the headline CHANGELOG and an optional small description
-        """
-        header_detected = False
-        for line in self.changelog_content:
-            # lint the header until we found a section header
-            if self.match_section_header(line):
-                if self.changelog_content[self.line_counter + 1] >= f'{"-" * (len(line) - 1)}\n':
-                    return self.header_offset, header_detected, True
-                else:
-                    """
-                    This also helps with bump-version and automatic section adding to ensure a correct section start.
-                    Example:
-                    1.2.3 (12.12.2020)
-                    Some text were underscores belong for correct underline
-                    """
-                    self.main_linter.failed.append(('general-6', 'Invalid section header start detected!'))
-                    return -1, header_detected, False
-            # lint header (optional label, title and an optional small description)
-            elif any(cl in line for cl in ['CHANGELOG', 'Changelog']):
-                head_liner = f'{"=" * len(line)}\n'
-                header_ok = self.changelog_content[self.line_counter - 1] == head_liner and self.changelog_content[self.line_counter + 1] == head_liner
-                """
-                Example:
-                ======
-                MY HEADER IS TOO LONG
-                =====================
-                """
-                if not header_ok:
-                    self.main_linter.failed.append(('general-6', 'Your Changelog header syntax does not match length of your Changelogs title!'))
-                    return -1, header_detected, False
-                header_detected = True
-
-            if self.header_offset >= len(self.changelog_content) - 2:
-                """
-                A Changelog EVER should contain at least one section (thus when the template has been created)!
-                Example
-                .. changelog_f
-
-                =========
-                CHANGELOG
-                =========
-
-                End
-                """
-                self.main_linter.failed.append(('general-6', 'No changelog sections detected!'))
-                return -1, header_detected, False
-            self.header_offset += 1
-            self.line_counter += 1
-
-    def lint_changelog_section(self) -> bool:
-        """
-        Lint a changelog section
-        Example:
-        1.2.3 (2020-12-06)
-        ------------------
-        **Added**
-        We added ...
-
-        **Fixed**
-        We fixed ...
-
-        **Dependencies**
-        Dependencies ...
-
-        **Deprecated**
-        Whats deprecated now ...
-        """
-        # this will actually not generate a copy of the list, it just copies a reference
-        section_changelog_content = self.changelog_content[self.header_offset:]
-        versions = []
-
-        # define separator keys
-        def split_condition(x):
-            is_split_key = self.match_section_header(x)
-            # keep track of the versions
-            if is_split_key:
-                versions.append(x)
-            return is_split_key
-
-        grouper = groupby(section_changelog_content, key=split_condition)
-        sections = list((list(sect) for split, sect in grouper if not split))
-
-        # keep track how many sections seen so far
-        section_nr = 0
-        # keep track of the last version of the processed section; init with high number
-        last_version = '1000000.1000000.1000000'
-
-        for section in sections:
-            # check if newer sections have a strict greater version than older sections
-            current_section_version = versions[section_nr][:-1].replace('-SNAPSHOT', '').split(' ')[0]
-            if version.parse(current_section_version) >= version.parse(last_version):
-                self.main_linter.failed.append(('general-6', 'Older sections cannot have greater version numbers than newer sections!'))
-                return False
-            else:
-                last_version = current_section_version
-
-            # check if ever section subheader is underlined correctly
-            if not section[0] >= f'{"-" * (len(versions[section_nr]) - 1)}\n':
-                self.main_linter.failed.append(('general-6', 'Your sections subheader underline does not match the headers length!'))
-                return False
-            try:
-                index_order_ok = section.index('**Added**\n') < section.index('**Fixed**\n') < section.index('**Dependencies**\n') < \
-                                 section.index('**Deprecated**\n')
-                if not index_order_ok:
-                    """
-                    Example (for a section)
-                    1.2.3 (2020-12-06)
-                    **Added**
-
-                    **Fixed**
-
-                    **Deprecated
-
-                    **Dependencies**
-
-                    Dependencies and Deprecated should be changed
-                    """
-                    self.main_linter.failed.append(('general-6', 'Sections subheader order should be **Added**\n**Fixed**\n'
-                                                                 '**Dependencies**\n**Deprecated**!'))
-                    return False
-
-            except ValueError:
-                """
-                Example when missing a subsection
-                1.2.3 (2020-12-06)
-                **Added**
-
-                **Deprecated
-
-                **Dependencies**
-
-                Fixed section is missing
-                """
-                self.main_linter.failed.append(('general-6', 'Section misses one or more required subsections!'))
-                return False
-            section_nr += 1
-        return True
-
-    def match_section_header(self, line: str) -> bool:
-        """
-        Check if beginning of a section header was reached
-        :param line: The current line that has been read
-        """
-        no_snapshot_header = re.compile(r'^(?<!\.)\d+(?:\.\d+){2}(?!\.) \(\d\d\d\d-\d\d-\d\d\)$')
-        snapshot_header = re.compile(r'^(?<!\.)\d+(?:\.\d+){2}(?!\.)-SNAPSHOT \(\d\d\d\d-\d\d-\d\d\)$')
-
-        return bool(no_snapshot_header.match(line)) or bool(snapshot_header.match(line))
-
-    def init_changelog_lint_content(self) -> list:
-        """
-        Reads from the project's CHANGELOG.rst.
-        :return: Changelog.rst contents line by line as a list
-        """
-        with open(self.changelog_path, 'r') as f:
-            content = f.readlines()
-
-        return content
-
-
 class ConfigLinter:
     def __init__(self, path, linter_ctx: TemplateLinter):
         self.config_file_path = path
@@ -613,6 +402,8 @@ class ConfigLinter:
         3.) 'bumpversion_files_whitelisted' should contain at least the '.cookietemple.yml' file
 
         4.) 'sync_level' should contain a 'ct_sync_level' value (and this value should be one of either 'patch', 'minor' or 'major')
+
+        5.) 'sync' should contain a 'sync_enabled' value (and this value should be one of either "True, true, Yes, yes, Y, y or False, false, No, no, N, n")
         """
         no_section_missing = self.check_missing_sections(self.parser.sections())
         if no_section_missing:
@@ -620,6 +411,7 @@ class ConfigLinter:
             lint_section_flag &= self.check_section(self.parser.items('bumpversion'), 'bumpversion', self.linter_ctx)
             lint_section_flag &= self.check_section(self.parser.items('bumpversion_files_whitelisted'), 'bumpversion_files_whitelisted', self.linter_ctx)
             lint_section_flag &= self.check_section(self.parser.items('sync_level'), 'sync_level', self.linter_ctx)
+            lint_section_flag &= self.check_section(self.parser.items('sync'), 'sync', self.linter_ctx)
             if lint_section_flag:
                 self.linter_ctx.passed.append(('general-7', 'All general config sections passed cookietemple linting!'))
         else:
@@ -630,7 +422,7 @@ class ConfigLinter:
         Examine cookietemple config file for missing sections
         :param parsed_sections: All parsed sections from the user's cookietemple.cfg file
         """
-        sections = ['bumpversion', 'bumpversion_files_whitelisted', 'bumpversion_files_blacklisted', 'sync_files_blacklisted', 'sync_level']
+        sections = ['bumpversion', 'bumpversion_files_whitelisted', 'bumpversion_files_blacklisted', 'sync_files_blacklisted', 'sync_level', 'sync']
         missing_sections = []
         # for every section check whether it is in the parsed sections or not
         for section in sections:
@@ -648,7 +440,7 @@ class ConfigLinter:
     def check_section(self, section_items, section_name: str, main_linter: TemplateLinter, blacklisted_sync_files=None, error_code='general-7',
                       is_sublinter_calling=False) -> bool:
         """
-        Check requirements 2.) - 4.) stated above.
+        Check requirements 2.) - 5.) stated above.
         :param section_items: A pair (name, value) for all items in a section
         :param section_name: The sections name
         :param main_linter: The linter calling the function
@@ -665,7 +457,8 @@ class ConfigLinter:
         check_set = {
             'bumpversion': [[('current_version', '*')], 1],
             'bumpversion_files_whitelisted': [[('dot_cookietemple', '.cookietemple.yml')], -1],
-            'sync_level': [[('ct_sync_level', 'patch|minor|major')], 1]
+            'sync_level': [[('ct_sync_level', 'patch|minor|major')], 1],
+            'sync': [[('sync_enabled', 'True|true|Yes|yes|Y|y|False|false|No|no|N|n')], 1]
         }
         if section_name == 'sync_files_blacklisted' and is_sublinter_calling:
             return self.apply_section_linting_rules('sync_files_blacklisted', section_items, blacklisted_sync_files, main_linter, error_code)

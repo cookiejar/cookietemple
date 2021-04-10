@@ -69,12 +69,15 @@ class TemplateSync:
         self.repo_owner = self.gh_username
         self.new_template_version = new_template_version
         self.github = Github(self.token)
+        self.blacklisted_globs = []
 
     def sync(self):
         """
         Sync the cookietemple project
         """
         self.inspect_sync_dir()
+        # get blacklisted files on current working branch
+        self.blacklisted_globs = self.get_blacklisted_sync_globs()
         self.checkout_template_branch()
         self.delete_template_branch_files()
         self.make_template_project()
@@ -178,7 +181,7 @@ class TemplateSync:
             choose_domain(path=Path.cwd(), domain=None, dot_cookietemple=self.dot_cookietemple)
             # copy into the cleaned TEMPLATE branch's project directory
             log.debug(f'Copying created template into {self.project_dir}.')
-            copy_tree(os.path.join(tmpdirname, self.dot_cookietemple['project_slug']), str(self.project_dir))
+            copy_tree(os.path.join(tmpdirname, self.dot_cookietemple['project_slug_no_hyphen']), str(self.project_dir))
             log.debug(f'Changing directory back to {old_cwd}.')
             os.chdir(old_cwd)
 
@@ -198,9 +201,8 @@ class TemplateSync:
             self.repo.git.add(A=True)
             # get all changed/modified files during the sync (including blacklisted ones)
             changed_files = [item.a_path for item in self.repo.index.diff('HEAD')]
-            globs = self.get_blacklisted_sync_globs()
             blacklisted_changed_files = set()
-            for pattern in globs:
+            for pattern in self.blacklisted_globs:
                 # keep track of all staged files matching a glob from the cookietemple.cfg file
                 # those files will be excluded from syncing but will still be available in every new created projects
                 blacklisted_changed_files |= {file for file in fnmatch.filter(changed_files, pattern)}
@@ -265,12 +267,22 @@ class TemplateSync:
         if self.dot_cookietemple['is_github_orga']:
             self.repo_owner = self.dot_cookietemple['github_orga']
         pr_title = f'Important cookietemple template update {self.new_template_version} released!'
-        pr_body_text = (
-            'A new release of the main template in cookietemple has just been released. '
-            'This automated pull-request attempts to apply the relevant updates to this Project.\n\n'
-            'Please make sure to merge this pull-request as soon as possible. '
-            'Once complete, make a new minor release of your Project.\n\n'
-            'For more information on the actual changes, read the latest cookietemple changelog.')
+        if self.major_update:
+            pr_body_text = (
+                'A new major release of the corresponding template in cookietemple has just been released. '
+                'This automated pull-request attempts to apply the relevant updates to this Project.\n\n'
+                'This means, that the project template has received significant updates and some new features may be '
+                'difficult to integrate into your current project.\n'
+                'Consider disabling sync by editing the cookietemple.cfg file, if you do not plan on migrating to the new template structure.'
+                'For more information on the actual changes, read the latest cookietemple release notes.')
+
+        else:
+            pr_body_text = (
+                'A new release of the corresponding template in cookietemple has just been released. '
+                'This automated pull-request attempts to apply the relevant updates to this Project.\n\n'
+                'Please make sure to merge this pull-request as soon as possible. '
+                'Once complete, make a new minor release of your Project.\n\n'
+                'For more information on the actual changes, read the latest cookietemple release notes.')
         log.debug(f'PR title is:\n{pr_title}')
         log.debug(f'PR body is:\n{pr_body_text}')
 
@@ -313,25 +325,45 @@ class TemplateSync:
                 return True
         return False
 
-    def check_sync_level(self) -> bool:
+    def should_run_sync(self) -> bool:
         """
-        Check whether a pull request should be made according to the set level in the cookietemple.cfg file.
+        Check, whether sync should run. This depends on two things:
+        1.) First check, whether the user disabled sync in the cookietemple.cfg file with sync_enabled = False in the [sync] section
+        2.) Secondly, whether the configured level in the [sync_level] section does not restrict the sync.
         Possible levels are:
             - patch: Always create a pull request (lower bound)
             - minor: Create a pull request if it's a minor or major change
             - major: Create a pull request only if it's a major change
-        :return: Whether the changes level is equal to or smaller than the set sync level; whether a PR should be created or not
+        :return: Whether a sync should run determined by the rules above
         """
-        log.debug(f'Checking sync level constraints using parsed results from {self.project_dir}/cookietemple.cfg')
+        log.debug(f'Checking sync rules using parsed results from {self.project_dir}/cookietemple.cfg')
         try:
             parser = ConfigParser()
             parser.read(f'{self.project_dir}/cookietemple.cfg')
+            try:
+                sync_enabled = parser.items('sync')
+            except NoSectionError:
+                print('[bold yellow]Could not find the <sync> section in cookietemple.cfg!')
+                print('[bold yellow]Enabling sync temporarily.')
+                sync_enabled = [('sync_enabled', 'True')]
+            # sync is enabled -> just proceed
+            if sync_enabled[0][1].lower() in {'yes', 'y', 'true'}:
+                pass
+            # sync is disabled -> stop sync
+            elif sync_enabled[0][1].lower() in {'no', 'n', 'false'}:
+                return False
+            # misconfigured sync_enabled with some unknown value
+            else:
+                print(f'[bold blue]Unknown value {sync_enabled[0][1]} for sync_enabled config.\nAllowed values are [bold green]Yes, yes, True, true, Y, y '
+                      f'[bold blue] or [bold green]No, no, False, false, N, n [bold blue]!')
+                return False
+            # now, check for the sync level
             level_item = list(parser.items('sync_level'))
             log.debug(f'Parsing level constraint returned: {level_item}.')
             # check for proper configuration if the sync_level section (only one item named ct_sync_level with valid levels major or minor
             if len(level_item) != 1 or 'ct_sync_level' not in level_item[0][0] or not any(level_item[0][1] == valid_lvl for valid_lvl in
                                                                                           ['major', 'minor', 'patch']):
-                print('[bold red]Your sync_level section is missconfigured. Make sure that it only contains one item named ct_sync_level with only valid levels'
+                print('[bold red]Your sync_level section is misconfigured. Make sure that it only contains one item named ct_sync_level with only valid levels'
                       ' patch, minor or major!')
                 sys.exit(1)
             # check in case of minor update that level is not set to major (major case must not be handled as level is a lower bound)
@@ -344,10 +376,10 @@ class TemplateSync:
             else:
                 log.debug('All updates are allowed because patch level is set.')
                 return True
-        # cookietemple.cfg file was not found or has no section sync_level
+        # cookietemple.cfg file was not found or has no section sync or sync_level
         except NoSectionError:
             print('[bold red]Could not read from cookietemple.cfg file. '
-                  'Make sure your specified path contains a cookietemple.cfg file and has a sync_level section!')
+                  'Make sure your specified path contains a cookietemple.cfg file and has a sync and a sync_level section!')
             sys.exit(1)
 
     def get_blacklisted_sync_globs(self) -> list:

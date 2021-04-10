@@ -5,94 +5,105 @@ Purpose
 ^^^^^^^^
 
 cli-python is a `Python <https://www.python.org/>`_ based template designed for command line applications,
-but it may also be easily used as standard Python package without any command line interface. It is an improved version of `cookiecutter-pypackage <https://github.com/audreyr/cookiecutter-pypackage>`_.
+but it may also be easily used as standard Python package without any command line interface. It is an improved version of `cookiecutter-hypermodern-python <https://github.com/cjolowicz/cookiecutter-hypermodern-python>`_.
 
 Design
 ^^^^^^^^
 
-| The Python package is based on a standard `setuptools <https://setuptools.readthedocs.io/en/latest/>`_ structure including a :code:`setup.py`, :code:`setup.cfg`, :code:`MANIFEST.in`,
-  :code:`requirements.txt` and :code:`requirements_dev.txt` file.
+| The Python package is based on a standard `poetry <https://python-poetry.org/>`_ structure with a corresponding ``pyproject.toml`` and ``poetry.lock`` file.
 
 .. code::
 
     ├── AUTHORS.rst
+    ├── .bandit.yml
     ├── CHANGELOG.rst
-    ├── .coafile
-    ├── CODEOFCONDUCT.rst
+    ├── codecov.yml
+    ├── CODE_OF_CONDUCT.rst
     ├── cookietemple.cfg
     ├── .cookietemple.yml
-    ├── .dependabot
-    │   └── config.yml
+    ├── .darglint
     ├── Dockerfile
     ├── docs
     │   ├── authors.rst
     │   ├── changelog.rst
-    │   ├── codeofconduct.rst
+    │   ├── code_of_conduct.rst
     │   ├── conf.py
     │   ├── index.rst
     │   ├── installation.rst
     │   ├── make.bat
     │   ├── Makefile
-    │   ├── modules.rst
     │   ├── readme.rst
+    │   ├── reference.rst
     │   ├── requirements.txt
+    │   ├── _static
+    │   │   └── custom_cookietemple.css
     │   └── usage.rst
     ├── .editorconfig
-    ├── Exploding_Springfield
-    │   ├── cli.py
-    │   ├── Exploding_Springfield.py
-    │   ├── files
-    │   │   └── test.txt
-    │   ├── __init__.py
+    ├── .flake8
+    ├── .gitattributes
     ├── .github
+    │   ├── dependabot.yml
     │   ├── ISSUE_TEMPLATE
     │   │   ├── bug_report.md
     │   │   ├── feature_request.md
     │   │   └── general_question.md
-    │   ├── pull_request.md
+    │   ├── labels.yml
+    │   ├── pull_request_template.md
+    │   ├── release-drafter.yml
     │   └── workflows
-    │       ├── build_docs.yml
     │       ├── build_package.yml
-    │       ├── run_flake8_linting.yml
+    │       ├── check_no_SNAPSHOT_master.yml
+    │       ├── check_patch_release_master_only.yml
+    │       ├── constraints.txt
+    │       ├── labeler.yml
+    │       ├── publish_docs.yml
     │       ├── publish_package.yml
-    │       └── run_tox_testsuite.yml
+    │       ├── run_cookietemple_lint.yml
+    │       ├── run_tests.yml
+    │       └── sync_project.yml
     ├── .gitignore
     ├── LICENSE
     ├── Makefile
-    ├── MANIFEST.in
+    ├── makefiles
+    │   ├── Linux.mk
+    │   └── Windows.mk
+    ├── mypy.ini
+    ├── noxfile.py
+    ├── poetry.lock
+    ├── .pre-commit-config.yaml
+    ├── .prettierignore
+    ├── pyproject.toml
     ├── README.rst
     ├── .readthedocs.yml
-    ├── requirements_dev.txt
-    ├── requirements.txt
-    ├── setup.cfg
-    ├── setup.py
-    ├── tests
-    │   ├── __init__.py
-    │   └── test_Exploding_Springfield.py
-    ├── tox.ini
-    └── .travis.yml
+    ├── src
+    │   └── project_name
+    │       ├── __init__.py
+    │       ├── __main__.py
+    │       └── py.typed
+    └── tests
+        ├── __init__.py
+        └── test_main.py
+
 
 Included frameworks/libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. `setuptools <https://setuptools.readthedocs.io/en/latest/>`_ for code packaging
-2. `click <https://click.palletsprojects.com/>`_, `argparse <https://docs.python.org/3/library/argparse.html>`_ or no command line interface
+1. `poetry <https://setuptools.readthedocs.io/en/latest/>`_ for code packaging
+2. `click <https://click.palletsprojects.com/>`_ or no command line interface
 3. `pytest <https://docs.pytest.org/en/latest/>`_ or `unittest <https://docs.python.org/3/library/unittest.html>`_ as testing frameworks
-4. Preconfigured `tox <https://tox.readthedocs.io/en/latest/>`_ to run pytest matrices with different Python environments
-5. Preconfigured `readthedocs <https://readthedocs.org/>`_
-6. Eleven Github workflows:
+4. `nox <https://nox.thea.codes/en/stable/>`_ to automate testing in multiple Python environments
+5. `pre-commit <https://pre-commit.com/>`_ to run various code style linters and to enforce a common style
+6. Preconfigured `readthedocs <https://readthedocs.org/>`_
+7. Eight Github workflows:
 
   1. ``build_docs.yml``, which builds the readthedocs documentation.
   2. ``build_package.yml``, which builds the cli-python package.
-  3. ``run_flake8_linting.yml``, which runs `flake8 <https://flake8.pycqa.org/en/latest/>`_ linting.
-  4. ``run_tox_testsuite.yml``, which runs the tox testing suite.
-  5. ``publish_package.yml``, which publishes the package to PyPi. Note that it only runs on Github release and requires PyPi secrets to be set up.
-  6. ``run_codecov``, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
-  7. ``run_bandit``, run `bandit <https://github.com/PyCQA/bandit>`_ to discover security issues in your python code
-  8. ``pr_to_master_from_patch_release_only``: Please read :ref:`pr_master_workflow_docs`.
-  9. ``check_no_SNAPSHOT_master.yml``: Please read :ref:`pr_master_workflow_docs`
-  10. ``run_cookietemple_lint.yml``, which runs ``cookietemple lint`` on the project.
-  11. ``sync_project.yml``, which syncs the project to the most recent cookietemple template version
+  3. ``publish_package.yml``, which publishes the package to PyPi. Note that it only runs on Github release and requires PyPi secrets to be set up.
+  4. ``run_tests``, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
+  5. ``pr_to_master_from_patch_release_only``: Please read :ref:`pr_master_workflow_docs`.
+  6. ``check_no_SNAPSHOT_master.yml``: Please read :ref:`pr_master_workflow_docs`
+  7. ``run_cookietemple_lint.yml``, which runs ``cookietemple lint`` on the project.
+  8. ``sync_project.yml``, which syncs the project to the most recent cookietemple template version
 
 
 We highly recommend to use click (if commandline interface is required) together with pytest.
@@ -100,27 +111,33 @@ We highly recommend to use click (if commandline interface is required) together
 Usage
 ^^^^^^^^
 
-The generated cli-python project can be installed using::
+The package requires the installation of ``poetry``, ``nox`` and ``nox-poetry``.
+Then generated cli-python project can be installed using::
 
     make install
 
 or alternatively::
 
-    python setup.py install
+    poetry install
 
-Your package is then installed globally (or in your virtual environment) on your machine and can be called from your favorite shell::
+Your package is then installed in a custom virtual environment on your machine and can be called from your favorite shell::
 
     <<your_project_name>>
 
+Run all pre-commit tests with::
+
+    make test-all
+
+Ensure that you have ``nox`` ``nox-poetry`` installed (as specified in the ``.github/workflows/constraints.txt`` file.
 Other make targets include::
 
     make clean
 
 which removes all build files::
 
-    make dist
+    make build
 
-which builds source and wheel packages, which can then be used for a PyPi release using
+which builds source and wheel packages, which can then be used for a PyPi release using::
 
     make release
 
@@ -135,8 +152,3 @@ Do I need a command line interface?
 ++++++++++++++++++++++++++++++++++++++++++++++
 
 No you do not need a command line interface. cli-python can also be used as a Python package.
-
-Does cli-python offer `Poetry <https://python-poetry.org/>`_ support?
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-No, but we would like to add it in the future. Contributions are welcome!

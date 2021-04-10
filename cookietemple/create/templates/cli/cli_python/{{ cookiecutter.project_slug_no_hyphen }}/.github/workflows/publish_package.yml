@@ -1,33 +1,37 @@
-name: Publish {{ cookiecutter.project_name }} to PyPI
+name: Publish {{ cookiecutter.project_slug }} to PyPI
 
 on:
-  release:
-    types: [created]
+    release:
+        types: [created]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
-    steps:
-    - uses: actions/checkout@v2
-      name: Check out source-code repository
+    release:
+        name: Release
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out the repository
+              uses: actions/checkout@v2.3.4
+              with:
+                  fetch-depth: 2
 
-    - name: Set up Python
-      uses: actions/setup-python@v1
-      with:
-        python-version: '3.8'
+            - name: Set up Python
+              uses: actions/setup-python@v2.1.4
+              with:
+                  python-version: "3.9"
 
-    - name: Install pip, setuptools, wheel, twine
-      run: |
-        python -m pip install --upgrade pip
-        pip install setuptools wheel twine
+            - name: Install Poetry
+              run: |
+                  pip install poetry
+                  poetry --version
 
-    - name: Build and publish
-      env:
-        TWINE_USERNAME: {% raw %}${{ secrets.PYPI_USERNAME }}{% endraw %}
-        # TODO COOKIETEMPLE: Configure your secrets to enable automatic deployment to PyPi on releases
-        # https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
-        TWINE_PASSWORD: {% raw %}${{ secrets.PYPI_PASSWORD }}{% endraw %}
-      run: |
-        python setup.py sdist bdist_wheel
-        twine upload dist/*
+            - name: Build package
+              run: |
+                  poetry build --ansi
+
+            - name: Publish package on PyPI
+              uses: pypa/gh-action-pypi-publish@v1.4.2
+              with:
+                  # TODO COOKIETEMPLE: Configure your PyPI Token to enable automatic deployment to PyPi on releases
+                  # https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
+                  user: __token__
+                  password: {% raw %}${{ secrets.PYPI_TOKEN }}{% endraw %}

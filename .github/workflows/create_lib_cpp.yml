@@ -24,7 +24,7 @@ jobs:
       name: Check out source-code repository
 
     - name: Setup Python
-      uses: actions/setup-python@v2.1.4
+      uses: actions/setup-python@v2.2.1
       with:
         python-version: ${{ matrix.python }}
 
@@ -38,7 +38,7 @@ jobs:
 
     - name: Build Package
       run: |
-        cd ExplodingSpringfield
-        cmake -Bbuild -DExplodingSpringfield_ENABLE_UNIT_TESTING=0 && \
+        cd explodingspringfield
+        cmake -Bbuild -Dexplodingspringfield_ENABLE_UNIT_TESTING=0 && \
         cmake --build build
 

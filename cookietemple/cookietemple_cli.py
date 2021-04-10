@@ -156,7 +156,7 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
     To ensure that you have the latest changes you can invoke sync, which submits a pull request to your Github repository (if existing).
     If no repository exists the TEMPLATE branch will be updated and you can merge manually.
     """
-    project_dir_path = Path(f'{Path.cwd()}/{project_dir}') if not str(project_dir).startswith(str(Path.cwd())) else Path(project_dir)
+    project_dir_path = Path(project_dir).resolve()
     log.debug(f'Set project top level path to given path argument {project_dir_path}')
     # if set_token flag is set, update the sync token value and exit
     if set_token:
@@ -204,16 +204,16 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
     syncer.minor_update = minor_change
     syncer.patch_update = patch_change
     log.debug('Major template update found.' if major_change else 'Minor template update found.' if minor_change else 'Patch template update found.' if
-    patch_change else 'No template update found.')
+              patch_change else 'No template update found.')
     # sync the project if any changes
     if any(change for change in (major_change, minor_change, patch_change)):
-        if syncer.check_sync_level():
+        if syncer.should_run_sync():
             # check if a pull request should be created according to set level constraints
             log.debug('Starting sync.')
             syncer.sync()
         else:
-            console.print('[bold red]Aborting sync due to set level constraints. You can set the level any time in your cookietemple.cfg in the sync_level '
-                          'section and sync again.')
+            console.print('[bold red]Aborting sync due to set level constraints or sync being disabled. You can set the level any time in your cookietemple.cfg'
+                          ' in the sync_level section and sync again.')
     else:
         console.print('[bold blue]No changes detected. Your template is up to date.')
 
