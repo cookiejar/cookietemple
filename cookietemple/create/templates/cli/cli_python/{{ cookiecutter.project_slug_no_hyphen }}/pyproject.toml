@@ -8,11 +8,9 @@ readme = "README.rst"
 homepage = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
 repository = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
 documentation = "https://{{ cookiecutter.project_slug }}.readthedocs.io"
-{% if cookiecutter.project_slug != cookiecutter.project_slug_no_hyphen -%}
 packages = [
     { include = "{{ cookiecutter.project_slug_no_hyphen }}", from = "src" },
 ]
-{% endif -%}
 classifiers = [
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
