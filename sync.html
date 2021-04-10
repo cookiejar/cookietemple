@@ -3,11 +3,12 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Syncing your project &mdash; cookietemple 1.2.4 documentation</title>
+  <title>Syncing your project &mdash; cookietemple 1.3.0 documentation</title>
   
 
   
@@ -17,7 +18,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -30,7 +34,6 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -52,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> cookietemple
+            <a href="index.html" class="icon icon-home"> cookietemple
           
 
           
@@ -62,7 +65,7 @@
             
             
               <div class="version">
-                1.2.4
+                1.3.0
               </div>
             
           
@@ -87,7 +90,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="readme.html">cookietemple overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
@@ -100,6 +103,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#flags">Flags</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#configuring-sync">Configuring sync</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#enable-disable-sync">Enable/Disable sync</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sync-level">Sync level</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#blacklisting-files">Blacklisting files</a></li>
 </ul>
@@ -159,6 +163,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -170,7 +176,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/sync.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -184,15 +190,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="syncing-your-project">
+  <section id="syncing-your-project">
 <span id="sync"></span><h1>Syncing your project<a class="headerlink" href="#syncing-your-project" title="Permalink to this headline">¶</a></h1>
 <p>Syncing is supposed to integrate any changes to the cookietemple templates back into your already existing project.
 When <code class="docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">sync</span></code> is invoked, cookietemple checks whether a new version of the corresponding template for the current project is available.
 If so, cookietemple creates a temporary project with the most recent template and pushes it to the <code class="docutils literal notranslate"><span class="pre">TEMPLATE</span></code> branch.
 Next, a pull request is submitted to the <code class="docutils literal notranslate"><span class="pre">development</span></code> branch.
 Please note that the required <code class="docutils literal notranslate"><span class="pre">CT_SYNC_TOKEN</span></code> (see below) is automatically set and manual syncing should be avoided if possible.</p>
-<p>The syncing process is configurable by setting the desired lower syncing boundary level and blacklisting files from syncing (see <a class="reference internal" href="#sync-config"><span class="std std-ref">Sync level</span></a>).</p>
-<div class="section" id="requirements-for-sync">
+<p>The syncing process is configurable by setting the desired lower syncing boundary level and blacklisting files from syncing (see <a class="reference internal" href="#sync-config"><span class="std std-ref">Enable/Disable sync</span></a>).</p>
+<section id="requirements-for-sync">
 <h2>Requirements for sync<a class="headerlink" href="#requirements-for-sync" title="Permalink to this headline">¶</a></h2>
 <p>For syncing to work properly, your project has to satisfy a few things:</p>
 <blockquote>
@@ -204,11 +210,11 @@ Please note that the required <code class="docutils literal notranslate"><span c
 </ol>
 </div></blockquote>
 <p>Points 3 and 4 are only required when not syncing manually.</p>
-</div>
-<div class="section" id="usage">
+</section>
+<section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <p>To sync your project manually, simply run</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> cookietemple sync <span class="o">[</span>PROJECT_DIR<span class="o">]</span> <span class="o">[</span>PAT<span class="o">]</span> <span class="o">[</span>GITHUB_USERNAME<span class="o">]</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cookietemple sync <span class="o">[</span>PROJECT_DIR<span class="o">]</span> <span class="o">[</span>PAT<span class="o">]</span> <span class="o">[</span>GITHUB_USERNAME<span class="o">]</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -216,18 +222,29 @@ Please note that the required <code class="docutils literal notranslate"><span c
 <li><p><code class="docutils literal notranslate"><span class="pre">PAT</span></code> [Configured pat] : A Github personal access token with at least the <code class="docutils literal notranslate"><span class="pre">repo</span></code> scope. The <code class="docutils literal notranslate"><span class="pre">sync_project.yml</span></code> Github workflow uses the PAT set as a Github secret.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">GITHUB_USERNAME</span></code> [Configured username] : The Github username to submit a pull request from. The supplied PAT has to be associated with this username.</p></li>
 </ul>
-</div>
-<div class="section" id="flags">
+</section>
+<section id="flags">
 <h2>Flags<a class="headerlink" href="#flags" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--set-token</span></code> : Update <code class="docutils literal notranslate"><span class="pre">CT_SYNC_SECRET</span></code> of your project’s repo to a new PAT. Note that the Github username and the PAT must still match for automatic syncing to work.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">check-update</span></code> : Check, whether a new release of a template for an already existing project is available.</p></li>
 </ul>
-</div>
-<div class="section" id="configuring-sync">
+</section>
+<section id="configuring-sync">
 <h2>Configuring sync<a class="headerlink" href="#configuring-sync" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="sync-level">
-<span id="sync-config"></span><h3>Sync level<a class="headerlink" href="#sync-level" title="Permalink to this headline">¶</a></h3>
+<section id="enable-disable-sync">
+<span id="sync-config"></span><h3>Enable/Disable sync<a class="headerlink" href="#enable-disable-sync" title="Permalink to this headline">¶</a></h3>
+<p>Cookietemple aims to provide the user as much configuration as possible. So, the sync feature is optional and should also
+be switched on or off. If you want to enable sync (which is the default), the <code class="docutils literal notranslate"><span class="pre">sync_enable</span></code> accepts the following values: <code class="docutils literal notranslate"><span class="pre">True,</span> <span class="pre">true,</span> <span class="pre">Yes,</span> <span class="pre">yes,</span> <span class="pre">Y,</span> <span class="pre">y</span></code>. To disable sync,
+simply change this value into one of <code class="docutils literal notranslate"><span class="pre">False,</span> <span class="pre">false,</span> <span class="pre">No,</span> <span class="pre">no,</span> <span class="pre">N,</span> <span class="pre">n</span></code>. It can be configured in the:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">sync</span><span class="p">]</span>
+<span class="n">sync_enable</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>section.</p>
+</section>
+<section id="sync-level">
+<h3>Sync level<a class="headerlink" href="#sync-level" title="Permalink to this headline">¶</a></h3>
 <p>Since cookietemple strongly adheres to semantic versioning our templates do too.
 Hence, it is customizable whether only major, minor or patch releases of the template should trigger cookietemple sync.
 The sync level therefore specifies a lower boundary. It can be configured in the:</p>
@@ -236,52 +253,46 @@ The sync level therefore specifies a lower boundary. It can be configured in the
 </pre></div>
 </div>
 <p>section.</p>
-</div>
-<div class="section" id="blacklisting-files">
+</section>
+<section id="blacklisting-files">
 <h3>Blacklisting files<a class="headerlink" href="#blacklisting-files" title="Permalink to this headline">¶</a></h3>
 <p>Although, cookietemple only submits pull requests for files, which are part of the template, sometimes even those files should be ignored.
-Examples could be any html files, which ,at some point, contain only custom content and should not be synced.
-When syncing, cookietemple examines the <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> file and ignores any file patterns (globs) (e.g. <code class="docutils literal notranslate"><span class="pre">*.html</span></code>) below the <code class="docutils literal notranslate"><span class="pre">[sync_files_blacklisted]</span></code> section.</p>
-</div>
-</div>
-</div>
+Examples could be any html files, which, at some point, contain only custom content and should not be synced.
+When syncing, cookietemple examines the <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> file and ignores any file patterns (globs) (e.g. <code class="docutils literal notranslate"><span class="pre">*.html</span></code>) below the <code class="docutils literal notranslate"><span class="pre">[sync_files_blacklisted]</span></code> section.
+IMPORTANT NOTE: If you would like to add some files to this section, make sure your current branch (if you are syncing manually, which is not recommended) or your default branch
+has the latest blacklisted sync file section with your changes, so it will be used by the sync.</p>
+</section>
+</section>
+</section>
 
 
            </div>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="warp.html" class="btn btn-neutral float-right" title="Packaging using warp" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="bump_version.html" class="btn btn-neutral float-left" title="Bumping the version of an existing project" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="warp.html" class="btn btn-neutral float-right" title="Packaging using warp" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="bump_version.html" class="btn btn-neutral float-left" title="Bumping the version of an existing project" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization
+        &#169; Copyright 2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

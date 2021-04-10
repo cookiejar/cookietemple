@@ -3,11 +3,12 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Create a project &mdash; cookietemple 1.2.4 documentation</title>
+  <title>Create a project &mdash; cookietemple 1.3.0 documentation</title>
   
 
   
@@ -17,7 +18,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -30,7 +34,6 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -52,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> cookietemple
+            <a href="index.html" class="icon icon-home"> cookietemple
           
 
           
@@ -62,7 +65,7 @@
             
             
               <div class="version">
-                1.2.4
+                1.3.0
               </div>
             
           
@@ -87,7 +90,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="readme.html">cookietemple overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
@@ -153,6 +156,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -164,7 +169,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/create.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -178,15 +183,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="create-a-project">
+  <section id="create-a-project">
 <span id="create"></span><h1>Create a project<a class="headerlink" href="#create-a-project" title="Permalink to this headline">¶</a></h1>
 <p>Creating projects from templates is the heart of cookietemple.
 Our templates adhere to best practices and try to be as modern as possible. Furthermore, they try to automate tasks such as automatical dependency resolvement and installation, packaging, deployment and more.
 To learn more about our templates please visit <a class="reference internal" href="available_templates/available_templates.html#available-templates"><span class="std std-ref">Available templates</span></a> and check out your template of interest.</p>
-<div class="section" id="usage">
+<section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <p>The creation of a new project can be invoked by</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> cookietemple create
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cookietemple create
 </pre></div>
 </div>
 <p>which will guide you through the creation process of your (customized) project via prompts. If you do not have cookietemple configured yet, you will be asked to do so. For more details please visit <a class="reference internal" href="config.html#config"><span class="std std-ref">Configure cookietemple</span></a>.</p>
@@ -195,8 +200,8 @@ The project will be created at the current working directory, where cookietemple
 <p>After the project has been created, linting (see <a class="reference internal" href="lint.html#lint"><span class="std std-ref">Linting your project</span></a>) is automatically performed to verify that the template creation process was successful.</p>
 <p>Finally, you will be asked whether you want to automatically push your new project to Github. Note that for this purpose you need to have cookietemple configured with a Github personal access token.
 For more details about the Github support please visit <a class="reference internal" href="github_support.html#github-support"><span class="std std-ref">Github Support</span></a>.</p>
-</div>
-<div class="section" id="flags">
+</section>
+<section id="flags">
 <h2>Flags<a class="headerlink" href="#flags" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">--domain</span></code> : To directly create a template of the the corresponding domain.</p></li>
@@ -205,45 +210,37 @@ For more details about the Github support please visit <a class="reference inter
 It is also possible to directly create a specific template using its handle</p>
 </li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="list_info.html" class="btn btn-neutral float-right" title="Getting information about available templates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="list_info.html" class="btn btn-neutral float-right" title="Getting information about available templates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization
+        &#169; Copyright 2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

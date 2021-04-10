@@ -3,11 +3,12 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Github Support &mdash; cookietemple 1.2.4 documentation</title>
+  <title>Github Support &mdash; cookietemple 1.3.0 documentation</title>
   
 
   
@@ -17,7 +18,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -30,7 +34,6 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -52,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> cookietemple
+            <a href="index.html" class="icon icon-home"> cookietemple
           
 
           
@@ -62,7 +65,7 @@
             
             
               <div class="version">
-                1.2.4
+                1.3.0
               </div>
             
           
@@ -87,7 +90,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="readme.html">cookietemple overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
@@ -168,6 +171,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -179,7 +184,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/github_support.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -193,16 +198,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="github-support">
+  <section id="github-support">
 <span id="id1"></span><h1>Github Support<a class="headerlink" href="#github-support" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="overview">
+<section id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>cookietemple uses <a class="reference external" href="https://gitpython.readthedocs.io/en/stable/">GitPython</a> and <a class="reference external" href="https://pygithub.readthedocs.io/en/latest/introduction.html">PyGithub</a> to automatically create a repository, add, commit and push all files.
 Moreover, issue labels, a development and a TEMPLATE branch are created. The TEMPLATE branch is required for <a class="reference internal" href="sync.html#sync"><span class="std std-ref">Syncing your project</span></a> to work and should not be touched manually.</p>
-</div>
-<div class="section" id="branches">
+</section>
+<section id="branches">
 <h2>Branches<a class="headerlink" href="#branches" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id2">
+<section id="id2">
 <h3>Overview<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>git branches can be understood as diverging copies of the main line of development and facilitate parallel development.
 To learn more about branches read <a class="reference external" href="https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell">Branches in a Nutshell</a> of the <a class="reference external" href="https://git-scm.com/book">Pro Git Book</a>.
@@ -211,8 +216,8 @@ It should only be touched for new releases. Code on the <code class="docutils li
 Development takes place on the <code class="docutils literal notranslate"><span class="pre">development</span></code> branch. All in parallel developed features eventually make it into this branch.
 The <code class="docutils literal notranslate"><span class="pre">development</span></code> branch should always compile, but it may contain incomplete features or known bugs.
 cookietemple creates a <code class="docutils literal notranslate"><span class="pre">TEMPLATE</span></code> branch, which is required for <a class="reference internal" href="sync.html#sync"><span class="std std-ref">Syncing your project</span></a> to work and should not be touched manually.</p>
-</div>
-<div class="section" id="branch-protection-rules">
+</section>
+<section id="branch-protection-rules">
 <h3>Branch protection rules<a class="headerlink" href="#branch-protection-rules" title="Permalink to this headline">¶</a></h3>
 <p>cookietemple sets several branch protection rules, which enforce a minimum standard of best branch practices.
 For more information please read <a class="reference external" href="https://help.github.com/en/github/administering-a-repository/about-protected-branches">about protected branches</a>.
@@ -221,11 +226,11 @@ The following branch protection rules only apply to the <code class="docutils li
 <li><p>Required review for pull requests: A pull request to <code class="docutils literal notranslate"><span class="pre">master</span></code> can only be merged if the code was at least reviewed by one person. If you are developing alone you can merge with your administrator powers.</p></li>
 <li><p>Dismiss stale pull request approvals when new commits are pushed.</p></li>
 </ol>
-</div>
-</div>
-<div class="section" id="github-actions">
+</section>
+</section>
+<section id="github-actions">
 <h2>Github Actions<a class="headerlink" href="#github-actions" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id3">
+<section id="id3">
 <h3>Overview<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>Modern development tries to merge new features and bug fixes as soon as possible into the <code class="docutils literal notranslate"><span class="pre">development</span></code> branch, since big, diverging branches are more likely to lead to merge conflicts.
 This practice is known as <a class="reference external" href="https://en.wikipedia.org/wiki/Continuous_integration">continuous integration</a> (CI).
@@ -234,8 +239,8 @@ All of cookietemple’s templates feature <a class="reference external" href="ht
 Please read the <a class="reference external" href="https://github.com/features/actions">Github Actions Overview</a> for more information.
 On specific conditions (usually push events), the Github Actions workflows are triggered and executed.
 The developers should ensure that all workflows always pass before merging, since they ensure that the package still builds and all tests are executed successfully.</p>
-</div>
-<div class="section" id="pr-to-master-from-patch-release-only-workflow">
+</section>
+<section id="pr-to-master-from-patch-release-only-workflow">
 <span id="pr-master-workflow-docs"></span><h3>pr_to_master_from_patch_release_only workflow<a class="headerlink" href="#pr-to-master-from-patch-release-only-workflow" title="Permalink to this headline">¶</a></h3>
 <p>All templates feature <code class="docutils literal notranslate"><span class="pre">pr_to_master_from_patch_release_only.yml</span></code> and a <code class="docutils literal notranslate"><span class="pre">check_no_SNAPSHOT_master.yml</span></code> workflows.
 These workflow runs everytime a PR to your projects master branch is created. It fails, if the PR to the <code class="docutils literal notranslate"><span class="pre">master</span></code> branch
@@ -246,16 +251,16 @@ This ensures that new developments can already be merged into <code class="docut
 The <code class="docutils literal notranslate"><span class="pre">patch</span></code> branch should be used for required <code class="docutils literal notranslate"><span class="pre">hotfixes</span></code> (checked out directly from <code class="docutils literal notranslate"><span class="pre">master</span></code> branch) because, in the meantime, there might
 multiple developments going on at <code class="docutils literal notranslate"><span class="pre">development</span></code> branch and you dont want to interfere with them.
 Pull requests against the master branch should not contain any <code class="docutils literal notranslate"><span class="pre">SNAPSHOT</span></code> versions, since they are only used for development versions.</p>
-</div>
-<div class="section" id="sync-project-yml">
+</section>
+<section id="sync-project-yml">
 <h3>sync_project.yml<a class="headerlink" href="#sync-project-yml" title="Permalink to this headline">¶</a></h3>
 <p>All templates also feature this workflow. This workflow is used for automatic syncing (if enabled) your project with the latest cookietemple template version.
 The workflow is run every night, although this behavior can be customized if desired.
 The workflow calls <code class="docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">sync</span></code>, which first checks whether a new template version is available and if so it submits a pull request.
 For more details please visit <a class="reference internal" href="sync.html#sync"><span class="std std-ref">Syncing your project</span></a>.</p>
-</div>
-</div>
-<div class="section" id="secrets">
+</section>
+</section>
+<section id="secrets">
 <h2>Secrets<a class="headerlink" href="#secrets" title="Permalink to this headline">¶</a></h2>
 <p>Github secrets are what their name suggests: Encrypted secret values in a repository or an organisation; once they are set their value can be used for sensible data in
 a project or an organisation but their raw value can never be seen again even by an administrator (but it can be updated).</p>
@@ -264,7 +269,7 @@ The secret contains your encrypted personal access token as its value. Note that
 If you remove the secret or change its value (even with another personal access token of you) the syncing feature will no longer work.
 In case you are creating an organisation repository, the secret will also be stored as a repository secret, only usable for your specific project.</p>
 <p>See section below in case your Github repo creation failed during the create process.</p>
-<div class="section" id="error-handling-due-to-failed-github-repository-creation">
+<section id="error-handling-due-to-failed-github-repository-creation">
 <h3>Error Handling due to failed Github repository creation<a class="headerlink" href="#error-handling-due-to-failed-github-repository-creation" title="Permalink to this headline">¶</a></h3>
 <p>Errors during the create process due to a failed Github repo creation may occur due to a vast amount of reasons:
 Some common error sources are:</p>
@@ -282,52 +287,44 @@ You can try to fix the issue (or wait some time on case, for example, when Githu
 After this, make sure to create a secret named <code class="docutils literal notranslate"><span class="pre">CT_SYNC_TOKEN</span></code> with the value of your PAT for your repository. See <a class="reference external" href="https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets">the Github docs</a>
 for more information on how to create a secret.</p>
 <p>We’re planning to provide a command like <code class="docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">config</span> <span class="pre">fix-github</span></code> that tries to create a Github repo, set the secret and all other stuff that is going on during the Github repository creation in the create process in a later version.</p>
-</div>
-</div>
-<div class="section" id="issue-labels">
+</section>
+</section>
+<section id="issue-labels">
 <h2>Issue labels<a class="headerlink" href="#issue-labels" title="Permalink to this headline">¶</a></h2>
 <p>cookietemple’s Github support automatically creates <a class="reference external" href="https://help.github.com/en/github/managing-your-work-on-github/labeling-issues-and-pull-requests">issue labels</a>.
 Currently the following labels are automatically created:
 1. dependabot: All templates, which include <a class="reference external" href="https://dependabot.com/">Dependabot</a> support label all Dependabot pull requests with this label.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="contributing.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="available_templates/available_templates.html" class="btn btn-neutral float-left" title="Available templates" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="contributing.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="available_templates/available_templates.html" class="btn btn-neutral float-left" title="Available templates" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization
+        &#169; Copyright 2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

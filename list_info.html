@@ -3,11 +3,12 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Getting information about available templates &mdash; cookietemple 1.2.4 documentation</title>
+  <title>Getting information about available templates &mdash; cookietemple 1.3.0 documentation</title>
   
 
   
@@ -17,7 +18,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -30,7 +34,6 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -52,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> cookietemple
+            <a href="index.html" class="icon icon-home"> cookietemple
           
 
           
@@ -62,7 +65,7 @@
             
             
               <div class="version">
-                1.2.4
+                1.3.0
               </div>
             
           
@@ -87,7 +90,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="readme.html">cookietemple overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
@@ -159,6 +162,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -170,7 +175,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/list_info.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -184,36 +189,40 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="getting-information-about-available-templates">
+  <section id="getting-information-about-available-templates">
 <span id="list-info"></span><h1>Getting information about available templates<a class="headerlink" href="#getting-information-about-available-templates" title="Permalink to this headline">¶</a></h1>
 <p>Although, information on all cookietemple templates is provided in <a class="reference internal" href="available_templates/available_templates.html#available-templates"><span class="std std-ref">Available templates</span></a> in our documentation, it is often times more convenient to get a quick overview from the commandline.
 Hence, cookietemple provides two commands <code class="docutils literal notranslate"><span class="pre">list</span></code> and <code class="docutils literal notranslate"><span class="pre">info</span></code>, which print information on all available templates with different levels of detail.</p>
-<div class="section" id="list">
+<section id="list">
 <h2>list<a class="headerlink" href="#list" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">list</span></code> is restricted to the short descriptions of the templates. If you want to read more about a specific (sets of) template, please use the <a class="reference internal" href="#info-f"><span class="std std-ref">info</span></a> command.</p>
-<div class="figure align-default" id="id2">
+<figure class="align-default" id="id2">
 <a class="reference internal image-reference" href="_images/list_example.png"><img alt="List example" src="_images/list_example.png" style="width: 1547.0px; height: 237.0px;" /></a>
-<p class="caption"><span class="caption-text">Example output of <code class="code docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">list</span></code>. Note that the content of the output is of course subject to change.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
-</div>
-<div class="section" id="usage">
+<figcaption>
+<p><span class="caption-text">Example output of <code class="code docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">list</span></code>. Note that the content of the output is of course subject to change.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<section id="usage">
 <h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
 <p>cookietemple list can be invoked <em>via</em></p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> cookietemple list
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cookietemple list
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="info">
+</section>
+</section>
+<section id="info">
 <span id="info-f"></span><h2>info<a class="headerlink" href="#info" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">info</span></code> command should be used when the short description of a template is not sufficient and a more detailed description of a specific template is required.</p>
-<div class="figure align-default" id="id3">
+<figure class="align-default" id="id3">
 <a class="reference internal image-reference" href="_images/info_example.png"><img alt="Info example" src="_images/info_example.png" style="width: 1345.0px; height: 171.0px;" /></a>
-<p class="caption"><span class="caption-text">Example output of <code class="docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">info</span></code>.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
-</div>
-<div class="section" id="id1">
+<figcaption>
+<p><span class="caption-text">Example output of <code class="docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">info</span></code>.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<section id="id1">
 <h3>Usage<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>Invoke <code class="code docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">info</span></code> <em>via</em></p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> cookietemple info &lt;HANDLE/LANGUAGE/DOMAIN&gt;
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cookietemple info &lt;HANDLE/LANGUAGE/DOMAIN&gt;
 </pre></div>
 </div>
 <ul class="simple">
@@ -221,46 +230,38 @@ Hence, cookietemple provides two commands <code class="docutils literal notransl
 <li><p><code class="docutils literal notranslate"><span class="pre">DOMAIN</span></code> : a domain for which cookietemple provides templates for. Example: <code class="docutils literal notranslate"><span class="pre">cli</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">LANGUAGE</span></code> : A programming language for which cookietemple provides templates for. Example: <code class="docutils literal notranslate"><span class="pre">python</span></code>.</p></li>
 </ul>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="lint.html" class="btn btn-neutral float-right" title="Linting your project" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="create.html" class="btn btn-neutral float-left" title="Create a project" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="lint.html" class="btn btn-neutral float-right" title="Linting your project" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="create.html" class="btn btn-neutral float-left" title="Create a project" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization
+        &#169; Copyright 2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
