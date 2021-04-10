@@ -12,6 +12,7 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 **Added**
 
 * cli-python version 2.0.0 with Poetry, Nox, pre-commit (with black, prettier, [...]), working module autogeneration and much more.
+* [ALL TEMPLATES] Removed Changelog.rst files in favor of Release Drafter, a GitHub Action to automatically include descriptions of changes into a new release
 
 **Fixed**
 

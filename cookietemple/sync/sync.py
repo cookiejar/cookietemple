@@ -269,16 +269,16 @@ class TemplateSync:
         pr_title = f'Important cookietemple template update {self.new_template_version} released!'
         if self.major_update:
             pr_body_text = (
-                'A new major release of the main template in cookietemple has just been released. '
+                'A new major release of the corresponding template in cookietemple has just been released. '
                 'This automated pull-request attempts to apply the relevant updates to this Project.\n\n'
                 'This means, that the project template has received significant updates and some new features may be '
-                'hard to integrate into your current project.\n'
-                'You may need to consider disabling sync if you do not want to integrate those changes into your project.'
+                'difficult to integrate into your current project.\n'
+                'Consider disabling sync by editing the cookietemple.cfg file, if you do not plan on migrating to the new template structure.'
                 'For more information on the actual changes, read the latest cookietemple release notes.')
 
         else:
             pr_body_text = (
-                'A new release of the main template in cookietemple has just been released. '
+                'A new release of the corresponding template in cookietemple has just been released. '
                 'This automated pull-request attempts to apply the relevant updates to this Project.\n\n'
                 'Please make sure to merge this pull-request as soon as possible. '
                 'Once complete, make a new minor release of your Project.\n\n'
