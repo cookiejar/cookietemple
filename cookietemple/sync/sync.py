@@ -267,12 +267,22 @@ class TemplateSync:
         if self.dot_cookietemple['is_github_orga']:
             self.repo_owner = self.dot_cookietemple['github_orga']
         pr_title = f'Important cookietemple template update {self.new_template_version} released!'
-        pr_body_text = (
-            'A new release of the main template in cookietemple has just been released. '
-            'This automated pull-request attempts to apply the relevant updates to this Project.\n\n'
-            'Please make sure to merge this pull-request as soon as possible. '
-            'Once complete, make a new minor release of your Project.\n\n'
-            'For more information on the actual changes, read the latest cookietemple changelog.')
+        if self.major_update:
+            pr_body_text = (
+                'A new major release of the main template in cookietemple has just been released. '
+                'This automated pull-request attempts to apply the relevant updates to this Project.\n\n'
+                'This means, that the project template has received significant updates and some new features may be '
+                'hard to integrate into your current project.\n'
+                'You may need to consider disabling sync if you do not want to integrate those changes into your project.'
+                'For more information on the actual changes, read the latest cookietemple release notes.')
+
+        else:
+            pr_body_text = (
+                'A new release of the main template in cookietemple has just been released. '
+                'This automated pull-request attempts to apply the relevant updates to this Project.\n\n'
+                'Please make sure to merge this pull-request as soon as possible. '
+                'Once complete, make a new minor release of your Project.\n\n'
+                'For more information on the actual changes, read the latest cookietemple release notes.')
         log.debug(f'PR title is:\n{pr_title}')
         log.debug(f'PR body is:\n{pr_body_text}')
 
