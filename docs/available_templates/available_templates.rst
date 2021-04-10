@@ -56,6 +56,15 @@ cookietemple templates ship with dependabot configurations, if the language is s
 To enable Dependabot you need to login (with your Github account) and add your repository (or enable Dependabot for all repositories).
 Note that you need to do this for every organization separately. Dependabot will then pick up the configuration and start submitting pull requests!
 
+Release Drafter
+^^^^^^^^^^^^^^^^^^
+
+In Cookietemple 1.3.0, all templates received a new GitHub Action called Release drafter. This replaces the CHANGELOG.rst file of all templates.
+Release drafter automatically includes references to all PRs made to the default branch and a description of what this PR was about (basically the PRs title) in a
+release draft on GitHub. Per default, the release drafter of cookietemple's templates has been configured to distinguish between two main categories: Features and Fixes.
+Every PR that was made from a branch called either feature/ (for Features) or fix/ (for Fixes) will automatically be grouped into those categories and be labelled
+automatically. If no category was found, the changes will be grouped into a common Changes category.
+
 How do I add a new template?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
