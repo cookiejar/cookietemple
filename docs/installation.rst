@@ -27,6 +27,7 @@ From sources
 ------------
 
 The sources for cookietemple can be downloaded from the `Github repo`_.
+Please note that you require `poetry`_ to be installed.
 
 You can either clone the public repository:
 
@@ -49,3 +50,4 @@ Once you have a copy of the source, you can install it with:
 
 .. _Github repo: https://github.com/cookiejar/cookietemple
 .. _tarball: https://github.com/cookiejar/cookietemple/tarball/master
+.. _poetry: https://python-poetry.org/

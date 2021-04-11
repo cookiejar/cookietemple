@@ -7,9 +7,8 @@ Welcome to cookietemple's documentation!
    readme
    installation
    usage
-   modules
+   reference
    authors
-   changelog
    code_of_conduct
 
 Indices and tables

@@ -1,1 +1,1 @@
-"""Unit test package for cookietemple."""
+"""Test suite for the cookietemple package."""

@@ -1,7 +1,6 @@
-=====
 Usage
 =====
 
-To use cookietemple in a project::
-
-    import cookietemple
+.. click:: cookietemple.__main__:main
+   :prog: cookietemple
+   :nested: full
