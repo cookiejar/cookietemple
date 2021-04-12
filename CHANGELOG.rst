@@ -6,6 +6,21 @@ Changelog
 
 This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
+1.3.1 (2021-04-12)
+------------------
+
+**Added**
+
+**Fixed**
+
+* sync will now not happen if a unmerged cookietemple sync PR is still open
+
+**Dependencies**
+
+**Deprecated**
+
+
+
 1.3.0 (2021-01-17)
 ------------------
 
