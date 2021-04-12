@@ -14,6 +14,7 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 **Fixed**
 
 * sync will now not happen if a unmerged cookietemple sync PR is still open
+* cookietemple lint workflow now uses current cookietemple version, where changes were introduced
 
 **Dependencies**
 
