@@ -24,7 +24,7 @@ jobs:
         name: Check out source-code repository
 
       - name: Setup Python
-        uses: actions/setup-python@v2.2.1
+        uses: actions/setup-python@v2.2.2
         with:
           python-version: ${{ matrix.python }}
 
@@ -38,7 +38,7 @@ jobs:
           echo -e "\n\033[B\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\ngroup_domain\ngroup_organization\nn" | cookietemple create
 
       - uses: actions/checkout@v2
-      - uses: DeLaGuardo/setup-graalvm@b990167df27a6253bcd645d6b0eed91d4c795b38
+      - uses: DeLaGuardo/setup-graalvm@a766aa7b5fcc0a801fa3d4fd521ca299c03c9c00
         with:
           graalvm-version: '20.1.0.java11'
       - run: java -version
