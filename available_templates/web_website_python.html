@@ -4,8 +4,7 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>web-website-python &mdash; cookietemple 1.3.0 documentation</title>
@@ -88,7 +87,7 @@
               
             
             
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../readme.html">cookietemple overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
@@ -177,21 +176,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="web-website-python">
+  <div class="section" id="web-website-python">
 <h1>web-website-python<a class="headerlink" href="#web-website-python" title="Permalink to this headline">¶</a></h1>
-<section id="purpose">
+<div class="section" id="purpose">
 <h2>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline">¶</a></h2>
 <p>This template is a <a class="reference external" href="https://flask.palletsprojects.com/en/1.1.x/">Flask</a>  based Web Template that can be customized from two basic layouts and many available frontend templates.
 It contains all the code, necessary for project setup and automatic deployment on a Linux server. It also provides a GitHub Workflow for automatic CSS linting on push using
 <a class="reference external" href="https://stylelint.io/">Stylelint</a>.</p>
-</section>
-<section id="design">
+</div>
+<div class="section" id="design">
 <h2>Design<a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h2>
 <p>The whole template is designed to be as customizable as possible. Note that all templates could be customized
 with a full featured Frontend template setup during the template creation process. However, if you don´t like the offered templates or simply want to create your own frontend,
 you can create your template with only a minimal frontend.
 You can choose from two main options:</p>
-<section id="the-basic-setup">
+<div class="section" id="the-basic-setup">
 <h3>The basic setup<a class="headerlink" href="#the-basic-setup" title="Permalink to this headline">¶</a></h3>
 <p>The basic theme is designed to provide only minimal code needed for getting started: Thus it comes
 with only minimal HTML/CSS/JS code (but you can initalize it with a full featured frontend, if you want to) and basic Flask configuration.
@@ -257,8 +256,8 @@ However, it contains all the code needed for automatic deployment on a Linux ser
 └── .travis.yml
 </pre></div>
 </div>
-</section>
-<section id="the-advanced-setup">
+</div>
+<div class="section" id="the-advanced-setup">
 <h3>The advanced setup<a class="headerlink" href="#the-advanced-setup" title="Permalink to this headline">¶</a></h3>
 <p>The advanced theme comes with a lot more functionality by default (and can also be initialized with a full featured, nice frontend):</p>
 <ol class="arabic simple">
@@ -390,9 +389,9 @@ However, it contains all the code needed for automatic deployment on a Linux ser
 └── .travis.yml
 </pre></div>
 </div>
-</section>
-</section>
-<section id="included-frameworks-libraries">
+</div>
+</div>
+<div class="section" id="included-frameworks-libraries">
 <h2>Included frameworks/libraries<a class="headerlink" href="#included-frameworks-libraries" title="Permalink to this headline">¶</a></h2>
 <p>Both templates are based on <a class="reference external" href="https://flask.palletsprojects.com/en/1.1.x/">Flask</a> and, in the case of the advanced layout,
 make heavy use of its extensions.</p>
@@ -430,10 +429,10 @@ make heavy use of its extensions.</p>
 <li><p><a class="reference external" href="https://flask-login.readthedocs.io/en/latest/">Flask-Login</a> for login session management</p></li>
 <li><p><a class="reference external" href="https://flask-wtf.readthedocs.io/en/stable/">Flask-wtf</a> for the login forms</p></li>
 </ol>
-</section>
-<section id="usage">
+</div>
+<div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<section id="the-basic-template-usage">
+<div class="section" id="the-basic-template-usage">
 <h3>The basic template usage<a class="headerlink" href="#the-basic-template-usage" title="Permalink to this headline">¶</a></h3>
 <p>The generated flask web project can be installed using:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make install
@@ -469,8 +468,8 @@ $ flask run
 </pre></div>
 </div>
 <p>Note that, if your current directory contains your app.py file, you do not need to set the environment variable lika above!</p>
-</section>
-<section id="the-advanced-template-usage">
+</div>
+<div class="section" id="the-advanced-template-usage">
 <h3>The advanced template usage<a class="headerlink" href="#the-advanced-template-usage" title="Permalink to this headline">¶</a></h3>
 <p>Using the advanced template, you have to consider a few more steps in order to make it work properly:</p>
 <ol class="arabic simple">
@@ -496,9 +495,9 @@ As your project grows, you may need to add new translations. This can be easily 
 </ol>
 <p>Note that you need to run <code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="pre">make</span> <span class="pre">install</span></code> each time after updating and compiling your new translations in order for them to take effect. However, this is not
 necessary, if you start your application via <code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="pre">flask</span> <span class="pre">run</span></code>.</p>
-</section>
-</section>
-<section id="automatic-deployment">
+</div>
+</div>
+<div class="section" id="automatic-deployment">
 <h2>Automatic Deployment<a class="headerlink" href="#automatic-deployment" title="Permalink to this headline">¶</a></h2>
 <p><strong>IMPORTANT:</strong> Note that the following is written for a server running Ubuntu 18.04 LTS where Python2 is still the default. If you are using Ubuntu 20 (or similar), you can replace
 <code class="code bash docutils literal notranslate"><span class="pre">pip3</span></code> with <code class="code bash docutils literal notranslate"><span class="pre">pip</span></code> and <code class="code bash docutils literal notranslate"><span class="pre">python3</span></code> with <code class="code bash docutils literal notranslate"><span class="pre">python</span></code>.</p>
@@ -539,12 +538,12 @@ Currently, one more step is required to get <code class="docutils literal notran
 <p>If everything went fine, you should now be able to access your application at your domain.
 Note that the setup process also includes HTTP to HTTPS redirecting.</p>
 <p>In case of any problems, dont hesitate to drop us a message in our <a class="reference external" href="https://discord.com/channels/708008788505919599/708008788505919602">Discord</a>. or create an issue <a class="reference external" href="https://github.com/cookiejar/cookietemple/issues/new/choose">at our github repo</a></p>
-</section>
-<section id="faq">
+</div>
+<div class="section" id="faq">
 <h2>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h2>
 <p>None yet.</p>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>

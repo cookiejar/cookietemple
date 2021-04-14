@@ -4,8 +4,7 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Available templates &mdash; cookietemple 1.3.0 documentation</title>
@@ -90,7 +89,7 @@
               
             
             
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../readme.html">cookietemple overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
@@ -269,7 +268,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="available-templates">
+  <div class="section" id="available-templates">
 <span id="id1"></span><h1>Available templates<a class="headerlink" href="#available-templates" title="Permalink to this headline">¶</a></h1>
 <p>cookietemple currently has the following templates available:</p>
 <ol class="arabic simple">
@@ -283,14 +282,14 @@
 <p>In the following every template is devoted its own section, which explains its purpose, design, included frameworks/libraries, usage and frequently asked questions.
 A set of frequently questions, which all templates share see here: <a class="reference internal" href="#all-templates-faq"><span class="std std-ref">Shared FAQ</span></a> FAQ.
 It is recommended to use the sidebar to navigate this documentation, since it is very long and cumbersome to scroll through.</p>
-<section id="cli-python">
+<div class="section" id="cli-python">
 <h2>cli-python<a class="headerlink" href="#cli-python" title="Permalink to this headline">¶</a></h2>
-<section id="purpose">
+<div class="section" id="purpose">
 <h3>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline">¶</a></h3>
 <p>cli-python is a <a class="reference external" href="https://www.python.org/">Python</a> based template designed for command line applications,
 but it may also be easily used as standard Python package without any command line interface. It is an improved version of <a class="reference external" href="https://github.com/cjolowicz/cookiecutter-hypermodern-python">cookiecutter-hypermodern-python</a>.</p>
-</section>
-<section id="design">
+</div>
+<div class="section" id="design">
 <h3>Design<a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">The Python package is based on a standard <a class="reference external" href="https://python-poetry.org/">poetry</a> structure with a corresponding <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> and <code class="docutils literal notranslate"><span class="pre">poetry.lock</span></code> file.</div>
@@ -366,8 +365,8 @@ but it may also be easily used as standard Python package without any command li
     └── test_main.py
 </pre></div>
 </div>
-</section>
-<section id="included-frameworks-libraries">
+</div>
+<div class="section" id="included-frameworks-libraries">
 <h3>Included frameworks/libraries<a class="headerlink" href="#included-frameworks-libraries" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li><p><a class="reference external" href="https://setuptools.readthedocs.io/en/latest/">poetry</a> for code packaging</p></li>
@@ -391,8 +390,8 @@ but it may also be easily used as standard Python package without any command li
 </ol>
 </div></blockquote>
 <p>We highly recommend to use click (if commandline interface is required) together with pytest.</p>
-</section>
-<section id="usage">
+</div>
+<div class="section" id="usage">
 <h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
 <p>The package requires the installation of <code class="docutils literal notranslate"><span class="pre">poetry</span></code>, <code class="docutils literal notranslate"><span class="pre">nox</span></code> and <code class="docutils literal notranslate"><span class="pre">nox-poetry</span></code>.
 Then generated cli-python project can be installed using:</p>
@@ -428,24 +427,24 @@ Other make targets include:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">help</span>
 </pre></div>
 </div>
-</section>
-<section id="faq">
+</div>
+<div class="section" id="faq">
 <h3>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h3>
-<section id="do-i-need-a-command-line-interface">
+<div class="section" id="do-i-need-a-command-line-interface">
 <h4>Do I need a command line interface?<a class="headerlink" href="#do-i-need-a-command-line-interface" title="Permalink to this headline">¶</a></h4>
 <p>No you do not need a command line interface. cli-python can also be used as a Python package.</p>
-</section>
-</section>
-</section>
-<section id="cli-java">
+</div>
+</div>
+</div>
+<div class="section" id="cli-java">
 <h2>cli-java<a class="headerlink" href="#cli-java" title="Permalink to this headline">¶</a></h2>
-<section id="id3">
+<div class="section" id="id3">
 <h3>Purpose<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>cli-java is a <a class="reference external" href="https://www.java.com">Java</a> based template for designed for command line applications, which require a fast startup time.
 Hence, it is based on <a class="reference external" href="https://www.graalvm.org/">GraalVM</a>, which allows for the packaging of the application into small, native self-contained executables.
 <a class="reference external" href="https://picocli.info/">Picocli</a> is used as main library for the design of the command line interface.</p>
-</section>
-<section id="id4">
+</div>
+<div class="section" id="id4">
 <h3>Design<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>The template is based on a standard <a class="reference external" href="https://www.baeldung.com/maven-directory-structure">Maven directory structure</a>. However, it is using <a class="reference external" href="https://gradle.org/">Gradle</a> as build tool.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── AUTHORS.rst
@@ -514,8 +513,8 @@ Hence, it is based on <a class="reference external" href="https://www.graalvm.or
                     └── NativeImageHelper.java
 </pre></div>
 </div>
-</section>
-<section id="id5">
+</div>
+<div class="section" id="id5">
 <h3>Included frameworks/libraries<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li><p><a class="reference external" href="https://gradle.org/">Gradle</a> as build tool</p></li>
@@ -538,8 +537,8 @@ Hence, it is based on <a class="reference external" href="https://www.graalvm.or
 <li><p><code class="docutils literal notranslate"><span class="pre">sync_project.yml</span></code>, which syncs the project to the most recent cookietemple template version</p></li>
 </ol>
 </div></blockquote>
-</section>
-<section id="id10">
+</div>
+<div class="section" id="id10">
 <h3>Usage<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <p>cli-java requires you to have <a class="reference external" href="https://gradle.org/">Gradle</a>, <a class="reference external" href="https://www.graalvm.org/">GraalVM</a> and
 <a class="reference external" href="https://www.graalvm.org/docs/reference-manual/native-image/">GraalVM Native Image</a> installed.
@@ -573,30 +572,30 @@ Please follow the instructions on the respective websites to install them. Ensur
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">help</span>
 </pre></div>
 </div>
-</section>
-<section id="id14">
+</div>
+<div class="section" id="id14">
 <h3>FAQ<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
-<section id="can-i-use-cli-java-without-graalvm">
+<div class="section" id="can-i-use-cli-java-without-graalvm">
 <h4>Can I use cli-java without GraalVM?<a class="headerlink" href="#can-i-use-cli-java-without-graalvm" title="Permalink to this headline">¶</a></h4>
 <p>cli-java is purposefully designed with GraalVM and native images in mind. We advise against using it without GraalVM.</p>
-</section>
-<section id="how-can-i-access-the-build-artifacts">
+</div>
+<div class="section" id="how-can-i-access-the-build-artifacts">
 <h4>How can I access the build artifacts?<a class="headerlink" href="#how-can-i-access-the-build-artifacts" title="Permalink to this headline">¶</a></h4>
 <p>Go to the Github Actions tab, select the build_deploy workflow and there you can find the artifacts.
 Note that the workflow must have completed successfully for all operating systems.</p>
-</section>
-</section>
-</section>
-<section id="gui-java">
+</div>
+</div>
+</div>
+<div class="section" id="gui-java">
 <h2>gui-java<a class="headerlink" href="#gui-java" title="Permalink to this headline">¶</a></h2>
-<section id="id15">
+<div class="section" id="id15">
 <h3>Purpose<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">gui-java is a modular <a class="reference external" href="https://openjfx.io/">JavaFX</a> based template to build cross platform Desktop graphical user interfaces (GUIs).</div>
 <div class="line">It uses <a class="reference external" href="https://maven.apache.org/">Apache Maven</a> to compile the package and <a class="reference internal" href="../warp.html#warp-f"><span class="std std-ref">Packaging using warp</span></a> to distribute binaries containing a Java Runtime Environment (JRE).</div>
 </div>
-</section>
-<section id="id16">
+</div>
+<div class="section" id="id16">
 <h3>Design<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">The template follows the <a class="reference external" href="https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html">standard Maven directory layout</a>.
@@ -668,8 +667,8 @@ As a result, binaries are a lot smaller. Assuming that your organization is call
                     └── SimpleJUnit5ExampleTest.java
 </pre></div>
 </div>
-</section>
-<section id="id17">
+</div>
+<div class="section" id="id17">
 <h3>Included frameworks/libraries<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li><p><a class="reference external" href="https://maven.apache.org/">Apache Maven</a> to build and solve dependencies</p></li>
@@ -694,8 +693,8 @@ As a result, binaries are a lot smaller. Assuming that your organization is call
 <li><p><code class="docutils literal notranslate"><span class="pre">sync_project.yml</span></code>, which syncs the project to the most recent cookietemple template version.</p></li>
 </ol>
 </div></blockquote>
-</section>
-<section id="id23">
+</div>
+<div class="section" id="id23">
 <h3>Usage<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">The usage of gui-java is primarily Makefile based. Please be aware that you need <a class="reference external" href="https://maven.apache.org/">Apache Maven</a> and Java 11+ installed.</div>
@@ -729,19 +728,19 @@ This executable can then be easily distributed.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">help</span>
 </pre></div>
 </div>
-</section>
-<section id="id25">
+</div>
+<div class="section" id="id25">
 <h3>FAQ<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
 <p>None yet.</p>
-</section>
-</section>
-<section id="lib-cpp">
+</div>
+</div>
+<div class="section" id="lib-cpp">
 <h2>lib-cpp<a class="headerlink" href="#lib-cpp" title="Permalink to this headline">¶</a></h2>
-<section id="id26">
+<div class="section" id="id26">
 <h3>Purpose<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <p>A template for modern C++ projects - both executables and libraries - using CMake, Clang-Format, CI, unit testing and more, with support for downstream inclusion.</p>
-</section>
-<section id="id27">
+</div>
+<div class="section" id="id27">
 <h3>Design<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
 <p>The template is inspired by several others (mainly <a class="reference external" href="https://github.com/TheLartians/ModernCppStarter">TheLartians’</a> <cite>and Jason Turner’s &lt;https://github.com/lefticus/cpp_starter_project&gt;</cite>). It is using <a class="reference external" href="https://cmake.org/">CMake</a> as its build system.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── AUTHORS.rst
@@ -812,8 +811,8 @@ This executable can then be easily distributed.</p>
         └── tmp_test.cpp
 </pre></div>
 </div>
-</section>
-<section id="id28">
+</div>
+<div class="section" id="id28">
 <h3>Included frameworks/libraries<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li><p>Modern <strong>CMake</strong> configuration and project</p></li>
@@ -829,10 +828,10 @@ This executable can then be easily distributed.</p>
 static or shared library</p></li>
 <li><p><strong>CCache</strong> integration, for speeding up build times</p></li>
 </ol>
-</section>
-<section id="id29">
+</div>
+<div class="section" id="id29">
 <h3>Usage<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
-<section id="installing">
+<div class="section" id="installing">
 <h4>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h4>
 <p>To install an already built project, you need to run the <code class="docutils literal notranslate"><span class="pre">install</span></code>
 target with CMake. For example:</p>
@@ -842,8 +841,8 @@ target with CMake. For example:</p>
 cmake --build &lt;build_directory&gt; --target install --config &lt;desired_config&gt;
 </pre></div>
 </div>
-</section>
-<section id="building-the-project">
+</div>
+<div class="section" id="building-the-project">
 <h4>Building the project<a class="headerlink" href="#building-the-project" title="Permalink to this headline">¶</a></h4>
 <p>To build the project, all you need to do, <strong>after
 correctly `installing the project &lt;README.rst#Installing&gt;`_</strong>, is run
@@ -865,8 +864,8 @@ configuration may be needed in their respective <code class="docutils literal no
 Conan needs the <code class="docutils literal notranslate"><span class="pre">CONAN_REQUIRES</span></code> and might need the <code class="docutils literal notranslate"><span class="pre">CONAN_OPTIONS</span></code>
 to be setup for it work correctly; the two are set in the
 <a class="reference external" href="cookietemple/create/templates/lib/lib_cpp/{{cookiecutter.project_slug}}/cmake/Conan.cmake">cmake/Conan.cmake file</a>).</p>
-</section>
-<section id="generating-the-documentation">
+</div>
+<div class="section" id="generating-the-documentation">
 <h4>Generating the documentation<a class="headerlink" href="#generating-the-documentation" title="Permalink to this headline">¶</a></h4>
 <p>In order to generate documentation for the project, you need to
 configure the build to use Doxygen. This is easily done, by modifying
@@ -880,8 +879,8 @@ cmake --build . --target doxygen-docs
 <div><p><strong>Note:</strong> <em>This will generate a</em> <code class="docutils literal notranslate"><span class="pre">docs\/</span></code> <em>directory in
 the **project’s root directory*</em>.*</p>
 </div></blockquote>
-</section>
-<section id="running-tests">
+</div>
+<div class="section" id="running-tests">
 <h4>Running tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h4>
 <p>By default, the template uses <a class="reference external" href="https://github.com/google/googletest/">Google
 Test</a> for unit testing. Unit
@@ -898,23 +897,23 @@ ctest -C Release  <span class="c1"># or `ctest -C Debug` or any other configurat
 <span class="c1">#GoogleTest output as well)</span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="id30">
+</div>
+</div>
+<div class="section" id="id30">
 <h3>FAQ<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
 <p>None yet.</p>
-</section>
-</section>
-<section id="pub-thesis-latex">
+</div>
+</div>
+<div class="section" id="pub-thesis-latex">
 <h2>pub-thesis-latex<a class="headerlink" href="#pub-thesis-latex" title="Permalink to this headline">¶</a></h2>
-<section id="id31">
+<div class="section" id="id31">
 <h3>Purpose<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">pub-thesis is a latex based template designed for University theses. It is especially suited for Bachelor-, Master theses and dissertations.</div>
 <div class="line">The <a class="reference external" href="https://github.com/kks32/phd-thesis-template">CUED</a> PhD thesis template served as basis for this template.</div>
 </div>
-</section>
-<section id="id32">
+</div>
+<div class="section" id="id32">
 <h3>Design<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">pub-thesis is a modular latex template, which is reflected in the folder structure. The main tex files are <code class="code docutils literal notranslate"><span class="pre">thesis.tex</span></code> and <code class="code docutils literal notranslate"><span class="pre">thesis-info.tex</span></code>.</div>
@@ -1006,8 +1005,8 @@ ctest -C Release  <span class="c1"># or `ctest -C Debug` or any other configurat
 └── Variables.ini
 </pre></div>
 </div>
-</section>
-<section id="id33">
+</div>
+<div class="section" id="id33">
 <h3>Included frameworks/libraries<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li><p>LaTeX, XeLaTeX and LuaLaTeX support</p></li>
@@ -1015,19 +1014,19 @@ ctest -C Release  <span class="c1"># or `ctest -C Debug` or any other configurat
 <li><p><a class="reference external" href="http://www.bibtex.org/Using/">Bibtex</a> support</p></li>
 <li><p>A Github workflow <code class="code docutils literal notranslate"><span class="pre">build_thesis.yml</span></code>, which builds your thesis in a Docker container</p></li>
 </ol>
-</section>
-<section id="id34">
+</div>
+<div class="section" id="id34">
 <h3>Usage<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
-<section id="building-your-thesis-latex-pdflatex">
+<div class="section" id="building-your-thesis-latex-pdflatex">
 <h4>Building your thesis - LaTeX / PDFLaTeX<a class="headerlink" href="#building-your-thesis-latex-pdflatex" title="Permalink to this headline">¶</a></h4>
-<section id="using-latexmk-unix-linux-windows">
+<div class="section" id="using-latexmk-unix-linux-windows">
 <h5>Using latexmk (Unix/Linux/Windows)<a class="headerlink" href="#using-latexmk-unix-linux-windows" title="Permalink to this headline">¶</a></h5>
 <p>This template supports <code class="docutils literal notranslate"><span class="pre">latexmk</span></code>. To generate DVI, PS and PDF run</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">latexmk</span> <span class="o">-</span><span class="n">dvi</span> <span class="o">-</span><span class="n">ps</span> <span class="o">-</span><span class="n">pdf</span> <span class="n">thesis</span><span class="o">.</span><span class="n">tex</span>
 </pre></div>
 </div>
-</section>
-<section id="using-the-make-file-unix-linux">
+</div>
+<div class="section" id="using-the-make-file-unix-linux">
 <h5>Using the make file (Unix/Linux)<a class="headerlink" href="#using-the-make-file-unix-linux" title="Permalink to this headline">¶</a></h5>
 <p>The template supports PDF, DVI and PS formats. All three formats can be
 generated with the provided <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>.</p>
@@ -1070,14 +1069,14 @@ will need psutils installed</p>
 </div>
 <p><strong>Note</strong>: the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> itself is take from and maintained at
 <a class="reference external" href="http://code.google.com/p/latex-makefile/">here</a>.</p>
-</section>
-<section id="shell-script-for-pdflatex-unix-linux">
+</div>
+<div class="section" id="shell-script-for-pdflatex-unix-linux">
 <h5>Shell script for PDFLaTeX (Unix/Linux)<a class="headerlink" href="#shell-script-for-pdflatex-unix-linux" title="Permalink to this headline">¶</a></h5>
 <p>Usage: <code class="docutils literal notranslate"><span class="pre">sh</span> <span class="pre">./compile-thesis.sh</span> <span class="pre">[OPTIONS]</span> <span class="pre">[filename]</span></code></p>
 <p>[option] compile: Compiles the PhD Thesis</p>
 <p>[option] clean: removes temporary files - no filename required</p>
-</section>
-<section id="using-the-batch-file-on-windows-os-pdflatex">
+</div>
+<div class="section" id="using-the-batch-file-on-windows-os-pdflatex">
 <h5>Using the batch file on Windows OS (PDFLaTeX)<a class="headerlink" href="#using-the-batch-file-on-windows-os-pdflatex" title="Permalink to this headline">¶</a></h5>
 <ul>
 <li><p>Open command prompt and navigate to the directory with the tex file.
@@ -1086,11 +1085,11 @@ Run:</p>
 </li>
 <li><p>Alternatively, double click on <code class="docutils literal notranslate"><span class="pre">compile-thesis-windows.bat</span></code></p></li>
 </ul>
-</section>
-</section>
-<section id="building-your-thesis-xelatex">
+</div>
+</div>
+<div class="section" id="building-your-thesis-xelatex">
 <h4>Building your thesis - XeLaTeX<a class="headerlink" href="#building-your-thesis-xelatex" title="Permalink to this headline">¶</a></h4>
-<section id="id35">
+<div class="section" id="id35">
 <h5>Using latexmk (Unix/Linux/Windows)<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h5>
 <p>This template supports <code class="docutils literal notranslate"><span class="pre">XeLaTeX</span></code> compilation chain. To generate PDF
 run</p>
@@ -1099,24 +1098,24 @@ run</p>
 <span class="n">latexmk</span> <span class="o">-</span><span class="n">xelatex</span> <span class="o">-</span><span class="n">g</span> <span class="n">thesis</span><span class="o">.</span><span class="n">tex</span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="building-your-thesis-lualatex">
+</div>
+</div>
+<div class="section" id="building-your-thesis-lualatex">
 <h4>Building your thesis - LuaLaTeX<a class="headerlink" href="#building-your-thesis-lualatex" title="Permalink to this headline">¶</a></h4>
-<section id="id36">
+<div class="section" id="id36">
 <h5>Using latexmk (Unix/Linux/Windows)<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h5>
 <p>This template supports <code class="docutils literal notranslate"><span class="pre">LuaLaTeX</span></code> compilation chain. To generate PDF
 run</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">latexmk</span> <span class="o">-</span><span class="n">pdflatex</span><span class="o">=</span><span class="n">lualatex</span> <span class="o">-</span><span class="n">pdf</span> <span class="n">thesis</span><span class="o">.</span><span class="n">tex</span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="usage-details">
+</div>
+</div>
+<div class="section" id="usage-details">
 <h4>Usage details<a class="headerlink" href="#usage-details" title="Permalink to this headline">¶</a></h4>
 <p>Thesis information such as title, author, year, degree, etc., and other
 meta-data can be modified in <code class="docutils literal notranslate"><span class="pre">thesis-info.tex</span></code></p>
-<section id="class-options">
+<div class="section" id="class-options">
 <h5>Class options<a class="headerlink" href="#class-options" title="Permalink to this headline">¶</a></h5>
 <p>The class file, <code class="docutils literal notranslate"><span class="pre">PhDThesisPSnPDF</span></code>, is based on the standard <code class="docutils literal notranslate"><span class="pre">book</span></code>
 class</p>
@@ -1176,8 +1175,8 @@ read justified text. You can enable <code class="docutils literal notranslate"><
 document class by passing <code class="docutils literal notranslate"><span class="pre">flushleft</span></code> argument. Default is flush
 left and right.</p></li>
 </ul>
-</section>
-<section id="title-page">
+</div>
+<div class="section" id="title-page">
 <h5>Title page<a class="headerlink" href="#title-page" title="Permalink to this headline">¶</a></h5>
 <p>The front page (title page) resizes to fit your title length. You can
 modify the options in <code class="docutils literal notranslate"><span class="pre">thesis-info.tex</span></code>.</p>
@@ -1202,8 +1201,8 @@ crests or just one of the crests.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">\collegeshield</span></code> (optional): Includes college crest in addition to
 the university crest. This reformats the front page layout.</p></li>
 </ul>
-</section>
-<section id="abstract-separate">
+</div>
+<div class="section" id="abstract-separate">
 <h5>Abstract separate<a class="headerlink" href="#abstract-separate" title="Permalink to this headline">¶</a></h5>
 <ul>
 <li><p>A separate abstract with the title of the PhD and the candidate name
@@ -1220,8 +1219,8 @@ file:</p>
 </div>
 </li>
 </ul>
-</section>
-<section id="chapter-mode">
+</div>
+<div class="section" id="chapter-mode">
 <h5>Chapter mode<a class="headerlink" href="#chapter-mode" title="Permalink to this headline">¶</a></h5>
 <ul>
 <li><p>The chapter mode allows user to only print specific chapters along
@@ -1239,8 +1238,8 @@ file:</p>
 </div>
 </li>
 </ul>
-</section>
-<section id="draft">
+</div>
+<div class="section" id="draft">
 <h5>Draft<a class="headerlink" href="#draft" title="Permalink to this headline">¶</a></h5>
 <p><code class="docutils literal notranslate"><span class="pre">draft</span></code> adds a watermark <code class="docutils literal notranslate"><span class="pre">draft</span></code> text with timestamp and version
 number at the top or the bottom of the page. Pagewise line numbering is
@@ -1258,8 +1257,8 @@ position is top. The location can be changed to (top / bottom)</p></li>
 <li><p>Watermark grayscale value can be modified. Text grayscale value
 (should be between 0-black and 1-white). Default value is 0.75</p></li>
 </ul>
-</section>
-<section id="choosing-the-fonts">
+</div>
+<div class="section" id="choosing-the-fonts">
 <h5>Choosing the fonts<a class="headerlink" href="#choosing-the-fonts" title="Permalink to this headline">¶</a></h5>
 <p><code class="docutils literal notranslate"><span class="pre">PhDThesisPSnPDF</span></code> currently supports three fonts <code class="docutils literal notranslate"><span class="pre">Times</span></code>,
 <code class="docutils literal notranslate"><span class="pre">Fourier</span></code> and <code class="docutils literal notranslate"><span class="pre">Latin</span> <span class="pre">Modern</span> <span class="pre">(default)</span></code>.</p>
@@ -1280,8 +1279,8 @@ be loaded in preamble.tex in the line:</p>
 </div>
 </li>
 </ul>
-</section>
-<section id="choosing-the-bibliography-style">
+</div>
+<div class="section" id="choosing-the-bibliography-style">
 <h5>Choosing the bibliography style<a class="headerlink" href="#choosing-the-bibliography-style" title="Permalink to this headline">¶</a></h5>
 <p><code class="docutils literal notranslate"><span class="pre">PhDThesisPSnPDF</span></code> currently supports two styles <code class="docutils literal notranslate"><span class="pre">authoryear</span></code> and
 <code class="docutils literal notranslate"><span class="pre">numbered</span> <span class="pre">(default)</span></code>. Citation style has to be set. You can also
@@ -1307,8 +1306,8 @@ as backend, run
 <code class="docutils literal notranslate"><span class="pre">pdflatex</span> <span class="pre">thesis.tex</span> <span class="pre">&gt;&gt;</span> <span class="pre">biber</span> <span class="pre">thesis</span> <span class="pre">&gt;&gt;</span> <span class="pre">pdflatex</span> <span class="pre">thesis.tex</span> <span class="pre">&gt;&gt;</span> <span class="pre">biber</span> <span class="pre">thesis</span> <span class="pre">&gt;&gt;</span> <span class="pre">pdflatex</span> <span class="pre">thesis.tex</span></code>.
 If you are using the default natbib package, don’t worry about this.</p></li>
 </ul>
-</section>
-<section id="choosing-the-page-style">
+</div>
+<div class="section" id="choosing-the-page-style">
 <h5>Choosing the page style<a class="headerlink" href="#choosing-the-page-style" title="Permalink to this headline">¶</a></h5>
 <p><code class="docutils literal notranslate"><span class="pre">PhDThesisPSnPDF</span></code> defines 3 different page styles (header and footer).
 The following definition is for <code class="docutils literal notranslate"><span class="pre">twoside</span></code> layout. To choose a page
@@ -1354,8 +1353,8 @@ Page numbering in footer. Layout:</p>
 </div>
 </li>
 </ul>
-</section>
-<section id="changing-the-visual-style-of-chapter-headings">
+</div>
+<div class="section" id="changing-the-visual-style-of-chapter-headings">
 <h5>Changing the visual style of chapter headings<a class="headerlink" href="#changing-the-visual-style-of-chapter-headings" title="Permalink to this headline">¶</a></h5>
 <p>The visual style of chapter headings can be modified using the
 <code class="docutils literal notranslate"><span class="pre">titlesec</span></code> package. Edit the following lines in the <code class="docutils literal notranslate"><span class="pre">preamble.tex</span></code>
@@ -1373,8 +1372,8 @@ file.</p>
 \<span class="n">PreContentTitleFormat</span>
 </pre></div>
 </div>
-</section>
-<section id="custom-settings">
+</div>
+<div class="section" id="custom-settings">
 <h5>Custom settings<a class="headerlink" href="#custom-settings" title="Permalink to this headline">¶</a></h5>
 <ul>
 <li><p>The depth for the table of contents can be set using:</p>
@@ -1409,8 +1408,8 @@ graphics. Note <code class="docutils literal notranslate"><span class="pre">H</s
 <li><p>Line spacing for the entire document can be specified in
 <code class="docutils literal notranslate"><span class="pre">preamble.tex</span></code>. Uncomment the line spacing you prefer. e.g.,</p></li>
 </ul>
-</section>
-<section id="nomenclature-definition">
+</div>
+<div class="section" id="nomenclature-definition">
 <h5>Nomenclature definition<a class="headerlink" href="#nomenclature-definition" title="Permalink to this headline">¶</a></h5>
 <ul>
 <li><p>To use nomenclature in your chapters:</p>
@@ -1448,9 +1447,9 @@ execution side. Now you can run the user defined command
 <code class="docutils literal notranslate"><span class="pre">makenomenclature</span></code> from <code class="docutils literal notranslate"><span class="pre">Tools</span> <span class="pre">&gt;&gt;</span> <span class="pre">User</span> <span class="pre">&gt;&gt;</span> <span class="pre">makenomenclature</span></code>.</p>
 <p>Alternatively, you can use the <code class="docutils literal notranslate"><span class="pre">compile-thesis-windows.bat</span></code> file or
 run <code class="docutils literal notranslate"><span class="pre">make</span></code> on Unix / Linux / MacOS</p>
-</section>
-</section>
-<section id="git-hooks">
+</div>
+</div>
+<div class="section" id="git-hooks">
 <h4>Git hooks<a class="headerlink" href="#git-hooks" title="Permalink to this headline">¶</a></h4>
 <p>You rarely want to commit changes to your TeX files which are not
 reflected in the PDF included in the repo. You can automate this
@@ -1464,8 +1463,8 @@ to <code class="docutils literal notranslate"><span class="pre">thesis.pdf</span
 can be changed in <code class="docutils literal notranslate"><span class="pre">./hooks/pre-commit</span></code>.</p>
 <p>Skip the hook with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">--no-verify</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">bash</span></code>-only.</p>
-</section>
-<section id="general-guidelines">
+</div>
+<div class="section" id="general-guidelines">
 <h4>General guidelines<a class="headerlink" href="#general-guidelines" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p>To restrict the length of the figure caption in List of figures use a
@@ -1492,24 +1491,24 @@ width being set to 75% of the text width.</p>
 <li><p>Use a <code class="docutils literal notranslate"><span class="pre">-</span></code> to separate sort key from the prefixes, eg., <code class="docutils literal notranslate"><span class="pre">g-pi</span></code>
 denotes the Greek symbol <code class="docutils literal notranslate"><span class="pre">pi</span></code>.</p></li>
 </ul>
-</section>
-</section>
-</section>
-<section id="web-website-python">
+</div>
+</div>
+</div>
+<div class="section" id="web-website-python">
 <h2>web-website-python<a class="headerlink" href="#web-website-python" title="Permalink to this headline">¶</a></h2>
-<section id="id37">
+<div class="section" id="id37">
 <h3>Purpose<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h3>
 <p>This template is a <a class="reference external" href="https://flask.palletsprojects.com/en/1.1.x/">Flask</a>  based Web Template that can be customized from two basic layouts and many available frontend templates.
 It contains all the code, necessary for project setup and automatic deployment on a Linux server. It also provides a GitHub Workflow for automatic CSS linting on push using
 <a class="reference external" href="https://stylelint.io/">Stylelint</a>.</p>
-</section>
-<section id="id38">
+</div>
+<div class="section" id="id38">
 <h3>Design<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h3>
 <p>The whole template is designed to be as customizable as possible. Note that all templates could be customized
 with a full featured Frontend template setup during the template creation process. However, if you don´t like the offered templates or simply want to create your own frontend,
 you can create your template with only a minimal frontend.
 You can choose from two main options:</p>
-<section id="the-basic-setup">
+<div class="section" id="the-basic-setup">
 <h4>The basic setup<a class="headerlink" href="#the-basic-setup" title="Permalink to this headline">¶</a></h4>
 <p>The basic theme is designed to provide only minimal code needed for getting started: Thus it comes
 with only minimal HTML/CSS/JS code (but you can initalize it with a full featured frontend, if you want to) and basic Flask configuration.
@@ -1575,8 +1574,8 @@ However, it contains all the code needed for automatic deployment on a Linux ser
 └── .travis.yml
 </pre></div>
 </div>
-</section>
-<section id="the-advanced-setup">
+</div>
+<div class="section" id="the-advanced-setup">
 <h4>The advanced setup<a class="headerlink" href="#the-advanced-setup" title="Permalink to this headline">¶</a></h4>
 <p>The advanced theme comes with a lot more functionality by default (and can also be initialized with a full featured, nice frontend):</p>
 <ol class="arabic simple">
@@ -1708,9 +1707,9 @@ However, it contains all the code needed for automatic deployment on a Linux ser
 └── .travis.yml
 </pre></div>
 </div>
-</section>
-</section>
-<section id="id39">
+</div>
+</div>
+<div class="section" id="id39">
 <h3>Included frameworks/libraries<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h3>
 <p>Both templates are based on <a class="reference external" href="https://flask.palletsprojects.com/en/1.1.x/">Flask</a> and, in the case of the advanced layout,
 make heavy use of its extensions.</p>
@@ -1748,10 +1747,10 @@ make heavy use of its extensions.</p>
 <li><p><a class="reference external" href="https://flask-login.readthedocs.io/en/latest/">Flask-Login</a> for login session management</p></li>
 <li><p><a class="reference external" href="https://flask-wtf.readthedocs.io/en/stable/">Flask-wtf</a> for the login forms</p></li>
 </ol>
-</section>
-<section id="id51">
+</div>
+<div class="section" id="id51">
 <h3>Usage<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h3>
-<section id="the-basic-template-usage">
+<div class="section" id="the-basic-template-usage">
 <h4>The basic template usage<a class="headerlink" href="#the-basic-template-usage" title="Permalink to this headline">¶</a></h4>
 <p>The generated flask web project can be installed using:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make install
@@ -1787,8 +1786,8 @@ $ flask run
 </pre></div>
 </div>
 <p>Note that, if your current directory contains your app.py file, you do not need to set the environment variable lika above!</p>
-</section>
-<section id="the-advanced-template-usage">
+</div>
+<div class="section" id="the-advanced-template-usage">
 <h4>The advanced template usage<a class="headerlink" href="#the-advanced-template-usage" title="Permalink to this headline">¶</a></h4>
 <p>Using the advanced template, you have to consider a few more steps in order to make it work properly:</p>
 <ol class="arabic simple">
@@ -1814,9 +1813,9 @@ As your project grows, you may need to add new translations. This can be easily 
 </ol>
 <p>Note that you need to run <code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="pre">make</span> <span class="pre">install</span></code> each time after updating and compiling your new translations in order for them to take effect. However, this is not
 necessary, if you start your application via <code class="code bash docutils literal notranslate"><span class="pre">$</span> <span class="pre">flask</span> <span class="pre">run</span></code>.</p>
-</section>
-</section>
-<section id="automatic-deployment">
+</div>
+</div>
+<div class="section" id="automatic-deployment">
 <h3>Automatic Deployment<a class="headerlink" href="#automatic-deployment" title="Permalink to this headline">¶</a></h3>
 <p><strong>IMPORTANT:</strong> Note that the following is written for a server running Ubuntu 18.04 LTS where Python2 is still the default. If you are using Ubuntu 20 (or similar), you can replace
 <code class="code bash docutils literal notranslate"><span class="pre">pip3</span></code> with <code class="code bash docutils literal notranslate"><span class="pre">pip</span></code> and <code class="code bash docutils literal notranslate"><span class="pre">python3</span></code> with <code class="code bash docutils literal notranslate"><span class="pre">python</span></code>.</p>
@@ -1857,51 +1856,51 @@ Currently, one more step is required to get <code class="docutils literal notran
 <p>If everything went fine, you should now be able to access your application at your domain.
 Note that the setup process also includes HTTP to HTTPS redirecting.</p>
 <p>In case of any problems, dont hesitate to drop us a message in our <a class="reference external" href="https://discord.com/channels/708008788505919599/708008788505919602">Discord</a>. or create an issue <a class="reference external" href="https://github.com/cookiejar/cookietemple/issues/new/choose">at our github repo</a></p>
-</section>
-<section id="id52">
+</div>
+<div class="section" id="id52">
 <h3>FAQ<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h3>
 <p>None yet.</p>
-</section>
-</section>
-<section id="shared-faq">
+</div>
+</div>
+<div class="section" id="shared-faq">
 <span id="all-templates-faq"></span><h2>Shared FAQ<a class="headerlink" href="#shared-faq" title="Permalink to this headline">¶</a></h2>
-<section id="how-do-i-publish-my-documentation">
+<div class="section" id="how-do-i-publish-my-documentation">
 <h3>How do I publish my documentation?<a class="headerlink" href="#how-do-i-publish-my-documentation" title="Permalink to this headline">¶</a></h3>
 <p>cookietemple ships with a full, production ready <a class="reference external" href="https://readthedocs.org/">Read the Docs</a> setup and with a complete gh-pages setup.</p>
-<section id="id53">
+<div class="section" id="id53">
 <h4>Read the Docs<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h4>
 <p>You need to <a class="reference external" href="https://docs.readthedocs.io/en/stable/intro/import-guide.html">import your documentation</a> on Read the Docs website.
 Do not forget to sync your account first to see your repository.
 Your documentation will then be available on <code class="docutils literal notranslate"><span class="pre">https://repositoryname.readthedocs.io/</span></code></p>
-</section>
-<section id="github-pages">
+</div>
+<div class="section" id="github-pages">
 <h4>Github Pages<a class="headerlink" href="#github-pages" title="Permalink to this headline">¶</a></h4>
 <p>Your documentation is automatically pushed to the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch. Follow the documentation on
 <code class="docutils literal notranslate"><span class="pre">configuring</span> <span class="pre">a</span> <span class="pre">publishing</span> <span class="pre">source</span> <span class="pre">for</span> <span class="pre">your</span> <span class="pre">Github</span> <span class="pre">pages</span> <span class="pre">site</span> <span class="pre">&lt;https://docs.github.com/en/free-pro-team&#64;latest/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site&gt;`_</span>
 <span class="pre">and</span> <span class="pre">select</span> <span class="pre">the</span> <span class="pre">gh-pages</span> <span class="pre">branch.</span> <span class="pre">Your</span> <span class="pre">documentation</span> <span class="pre">will</span> <span class="pre">then</span> <span class="pre">be</span> <span class="pre">available</span> <span class="pre">on</span> <span class="pre">``https://username.github.io/repositoryname</span></code>.</p>
-</section>
-</section>
-<section id="what-is-dependabot-and-how-do-i-set-it-up">
+</div>
+</div>
+<div class="section" id="what-is-dependabot-and-how-do-i-set-it-up">
 <h3>What is Dependabot and how do I set it up?<a class="headerlink" href="#what-is-dependabot-and-how-do-i-set-it-up" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://dependabot.com/">Dependabot</a> is a service, which (for supported languages) automatically submits pull requests for dependency updates.
 cookietemple templates ship with dependabot configurations, if the language is supported by Dependabot.
 To enable Dependabot you need to login (with your Github account) and add your repository (or enable Dependabot for all repositories).
 Note that you need to do this for every organization separately. Dependabot will then pick up the configuration and start submitting pull requests!</p>
-</section>
-<section id="release-drafter">
+</div>
+<div class="section" id="release-drafter">
 <h3>Release Drafter<a class="headerlink" href="#release-drafter" title="Permalink to this headline">¶</a></h3>
 <p>In Cookietemple 1.3.0, all templates received a new GitHub Action called Release drafter. This replaces the CHANGELOG.rst file of all templates.
 Release drafter automatically includes references to all PRs made to the default branch and a description of what this PR was about (basically the PRs title) in a
 release draft on GitHub. Per default, the release drafter of cookietemple’s templates has been configured to distinguish between two main categories: Features and Fixes.
 Every PR that was made from a branch called either feature/ (for Features) or fix/ (for Fixes) will automatically be grouped into those categories and be labelled
 automatically. If no category was found, the changes will be grouped into a common Changes category.</p>
-</section>
-<section id="how-do-i-add-a-new-template">
+</div>
+<div class="section" id="how-do-i-add-a-new-template">
 <h3>How do I add a new template?<a class="headerlink" href="#how-do-i-add-a-new-template" title="Permalink to this headline">¶</a></h3>
 <p>Please follow <a class="reference internal" href="../adding_new_templates.html#adding-templates"><span class="std std-ref">Adding new templates</span></a>.</p>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
            </div>

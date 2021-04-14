@@ -4,8 +4,7 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Configure cookietemple &mdash; cookietemple 1.3.0 documentation</title>
@@ -90,7 +89,7 @@
               
             
             
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="readme.html">cookietemple overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
@@ -184,14 +183,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="configure-cookietemple">
+  <div class="section" id="configure-cookietemple">
 <span id="config"></span><h1>Configure cookietemple<a class="headerlink" href="#configure-cookietemple" title="Permalink to this headline">¶</a></h1>
 <p>To prevent frequent prompts for information, which rarely or never changes at all such as the full name, email or Github username of the user, cookietemple uses a configuration file.
 Moreover, the personal access token associated with the Github username is stored, in encrypted form, to allow for various Github functionalities, such as automatic Github repository creation or <a class="reference internal" href="sync.html#sync"><span class="std std-ref">Syncing your project</span></a>.
 The creation of projects with cookietemple requires a configuration file. A personal access token is not required, if Github support is not used.
 The configuration file is saved operating system dependent in common config file locations (<code class="docutils literal notranslate"><span class="pre">~/.config/cookietemple</span></code> on Unix, <code class="docutils literal notranslate"><span class="pre">C:\Users\Username\AppData\Local\cookietemple\cookietemple</span></code> on Windows).
 Configuring cookietemple is only required once, although it is always possible to update the current configuration.</p>
-<section id="usage">
+<div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <p>Invoke cookietemple config <em>via</em></p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cookietemple config &lt;all/general/pat&gt;
@@ -208,16 +207,16 @@ If not you should also update your Github username <em>via</em> <code class="doc
 Hence, you must also <a class="reference external" href="https://help.github.com/en/github/using-git/changing-a-remotes-url">update your remote URL</a> for those projects!</p>
 </li>
 </ul>
-</section>
-<section id="flags">
+</div>
+<div class="section" id="flags">
 <h2>Flags<a class="headerlink" href="#flags" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">--view</span></code> : To get your current cookietemple configuration.</p>
 <p>The explicit value of your Github personal access token will not be printed. You will only be informed about whether it is set or not.</p>
 </li>
 </ul>
-</section>
-<section id="on-github-personal-access-tokens">
+</div>
+<div class="section" id="on-github-personal-access-tokens">
 <h2>On Github personal access tokens<a class="headerlink" href="#on-github-personal-access-tokens" title="Permalink to this headline">¶</a></h2>
 <p>cookietemple’s Github support requires access to your Github repositories to create repositories, add issues labels and set branch protection rules.
 Github manages these access rights through Personal Access Tokens (PAT).
@@ -227,8 +226,8 @@ cookietemple requires <code class="docutils literal notranslate"><span class="pr
 cookietemple then encrypts the Personal Access Token, adds the encrypted token to the <code class="docutils literal notranslate"><span class="pre">cookietemple_conf.cfg</span></code> file and saves the key locally in a hidden place.
 This is safer than Github’s official way, which recommends the usage of environment variables or Github Credentials, which both save the token in plaintext.
 It is still strongly advised to secure your personal computer and not allow any foe to get access.</p>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>

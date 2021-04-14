@@ -4,8 +4,7 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Syncing your project &mdash; cookietemple 1.3.0 documentation</title>
@@ -90,7 +89,7 @@
               
             
             
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="readme.html">cookietemple overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
@@ -190,7 +189,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="syncing-your-project">
+  <div class="section" id="syncing-your-project">
 <span id="sync"></span><h1>Syncing your project<a class="headerlink" href="#syncing-your-project" title="Permalink to this headline">¶</a></h1>
 <p>Syncing is supposed to integrate any changes to the cookietemple templates back into your already existing project.
 When <code class="docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">sync</span></code> is invoked, cookietemple checks whether a new version of the corresponding template for the current project is available.
@@ -198,7 +197,7 @@ If so, cookietemple creates a temporary project with the most recent template an
 Next, a pull request is submitted to the <code class="docutils literal notranslate"><span class="pre">development</span></code> branch.
 Please note that the required <code class="docutils literal notranslate"><span class="pre">CT_SYNC_TOKEN</span></code> (see below) is automatically set and manual syncing should be avoided if possible.</p>
 <p>The syncing process is configurable by setting the desired lower syncing boundary level and blacklisting files from syncing (see <a class="reference internal" href="#sync-config"><span class="std std-ref">Enable/Disable sync</span></a>).</p>
-<section id="requirements-for-sync">
+<div class="section" id="requirements-for-sync">
 <h2>Requirements for sync<a class="headerlink" href="#requirements-for-sync" title="Permalink to this headline">¶</a></h2>
 <p>For syncing to work properly, your project has to satisfy a few things:</p>
 <blockquote>
@@ -210,8 +209,8 @@ Please note that the required <code class="docutils literal notranslate"><span c
 </ol>
 </div></blockquote>
 <p>Points 3 and 4 are only required when not syncing manually.</p>
-</section>
-<section id="usage">
+</div>
+<div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <p>To sync your project manually, simply run</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cookietemple sync <span class="o">[</span>PROJECT_DIR<span class="o">]</span> <span class="o">[</span>PAT<span class="o">]</span> <span class="o">[</span>GITHUB_USERNAME<span class="o">]</span>
@@ -222,17 +221,17 @@ Please note that the required <code class="docutils literal notranslate"><span c
 <li><p><code class="docutils literal notranslate"><span class="pre">PAT</span></code> [Configured pat] : A Github personal access token with at least the <code class="docutils literal notranslate"><span class="pre">repo</span></code> scope. The <code class="docutils literal notranslate"><span class="pre">sync_project.yml</span></code> Github workflow uses the PAT set as a Github secret.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">GITHUB_USERNAME</span></code> [Configured username] : The Github username to submit a pull request from. The supplied PAT has to be associated with this username.</p></li>
 </ul>
-</section>
-<section id="flags">
+</div>
+<div class="section" id="flags">
 <h2>Flags<a class="headerlink" href="#flags" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--set-token</span></code> : Update <code class="docutils literal notranslate"><span class="pre">CT_SYNC_SECRET</span></code> of your project’s repo to a new PAT. Note that the Github username and the PAT must still match for automatic syncing to work.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">check-update</span></code> : Check, whether a new release of a template for an already existing project is available.</p></li>
 </ul>
-</section>
-<section id="configuring-sync">
+</div>
+<div class="section" id="configuring-sync">
 <h2>Configuring sync<a class="headerlink" href="#configuring-sync" title="Permalink to this headline">¶</a></h2>
-<section id="enable-disable-sync">
+<div class="section" id="enable-disable-sync">
 <span id="sync-config"></span><h3>Enable/Disable sync<a class="headerlink" href="#enable-disable-sync" title="Permalink to this headline">¶</a></h3>
 <p>Cookietemple aims to provide the user as much configuration as possible. So, the sync feature is optional and should also
 be switched on or off. If you want to enable sync (which is the default), the <code class="docutils literal notranslate"><span class="pre">sync_enable</span></code> accepts the following values: <code class="docutils literal notranslate"><span class="pre">True,</span> <span class="pre">true,</span> <span class="pre">Yes,</span> <span class="pre">yes,</span> <span class="pre">Y,</span> <span class="pre">y</span></code>. To disable sync,
@@ -242,8 +241,8 @@ simply change this value into one of <code class="docutils literal notranslate">
 </pre></div>
 </div>
 <p>section.</p>
-</section>
-<section id="sync-level">
+</div>
+<div class="section" id="sync-level">
 <h3>Sync level<a class="headerlink" href="#sync-level" title="Permalink to this headline">¶</a></h3>
 <p>Since cookietemple strongly adheres to semantic versioning our templates do too.
 Hence, it is customizable whether only major, minor or patch releases of the template should trigger cookietemple sync.
@@ -253,17 +252,17 @@ The sync level therefore specifies a lower boundary. It can be configured in the
 </pre></div>
 </div>
 <p>section.</p>
-</section>
-<section id="blacklisting-files">
+</div>
+<div class="section" id="blacklisting-files">
 <h3>Blacklisting files<a class="headerlink" href="#blacklisting-files" title="Permalink to this headline">¶</a></h3>
 <p>Although, cookietemple only submits pull requests for files, which are part of the template, sometimes even those files should be ignored.
 Examples could be any html files, which, at some point, contain only custom content and should not be synced.
 When syncing, cookietemple examines the <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> file and ignores any file patterns (globs) (e.g. <code class="docutils literal notranslate"><span class="pre">*.html</span></code>) below the <code class="docutils literal notranslate"><span class="pre">[sync_files_blacklisted]</span></code> section.
 IMPORTANT NOTE: If you would like to add some files to this section, make sure your current branch (if you are syncing manually, which is not recommended) or your default branch
 has the latest blacklisted sync file section with your changes, so it will be used by the sync.</p>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
            </div>

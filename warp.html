@@ -4,8 +4,7 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Packaging using warp &mdash; cookietemple 1.3.0 documentation</title>
@@ -90,7 +89,7 @@
               
             
             
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="readme.html">cookietemple overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
@@ -184,43 +183,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="packaging-using-warp">
+  <div class="section" id="packaging-using-warp">
 <span id="warp-f"></span><h1>Packaging using warp<a class="headerlink" href="#packaging-using-warp" title="Permalink to this headline">¶</a></h1>
 <p>cookietemple ships with Rust binaries of <a class="reference external" href="https://github.com/dgiagio/warp">Warp</a> for the three major operating systems, Linux, MacOS and Windows.
 Warp can be called when complex output scripts with dependencies should be merged into single, distributable binaries.
 An example would be the output of <a class="reference external" href="https://docs.oracle.com/javase/9/tools/jlink.htm">jlink</a> applied to modular Java projects.
 However, <code class="docutils literal notranslate"><span class="pre">warp</span></code> can also be applied to .NET Core projects, NodeJS and others, making it more flexible than e.g. the with Java 14 introduced JPackager.</p>
-<figure class="align-default" id="id1">
+<div class="figure align-default" id="id1">
 <a class="reference internal image-reference" href="_images/warp_example.png"><img alt="Warp example" src="_images/warp_example.png" style="width: 1487.0px; height: 346.0px;" /></a>
-<figcaption>
-<p><span class="caption-text">Example output of <code class="docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">warp</span></code> applied to a (former) gui-java project. The project was first packaged using <code class="docutils literal notranslate"><span class="pre">mvn</span> <span class="pre">javafx:jlink</span></code> and then warp was applied. Please note the relative path for <code class="docutils literal notranslate"><span class="pre">--exec</span></code>. Note that this is not necessary for GraalVM based projects.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
-</figcaption>
-</figure>
+<p class="caption"><span class="caption-text">Example output of <code class="docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">warp</span></code> applied to a (former) gui-java project. The project was first packaged using <code class="docutils literal notranslate"><span class="pre">mvn</span> <span class="pre">javafx:jlink</span></code> and then warp was applied. Please note the relative path for <code class="docutils literal notranslate"><span class="pre">--exec</span></code>. Note that this is not necessary for GraalVM based projects.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
 <p>The resulting binary is self contained and does not have any additional dependencies. Note however, that the binaries are <strong>not</strong> cross platform. You need to compile and package on the target platform.
 For more information please read the <a class="reference external" href="https://github.com/dgiagio/warp">Warp README</a>.
 Currently no cookietemple template requires Warp.</p>
-<section id="warp-setup">
+<div class="section" id="warp-setup">
 <h2>Warp setup<a class="headerlink" href="#warp-setup" title="Permalink to this headline">¶</a></h2>
 <p>Warp for all major platforms (Linux, Windows 10+, MacOS) is already shipped with cookietemple. Hence, there is no need to install the Warp externally.
 However, the first time that you invoke Warp you may be asked for your sudo/administrator password, since the Warp executable needs to be granted executable rights.
 You should only be prompted once, since this setting is permanent. If you update cookietemple or reinstall, the Warp executable may be replaced and you once again need to provide it the required rights.</p>
-</section>
-<section id="usage">
+</div>
+<div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <p>Invoke <code class="docutils literal notranslate"><span class="pre">warp</span></code> by running</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cookietemple warp --input_dir &lt;INPUTDIR&gt; --exec &lt;EXECUTABLE&gt; --output &lt;OUTPUT&gt;
 </pre></div>
 </div>
-</section>
-<section id="flags">
+</div>
+<div class="section" id="flags">
 <h2>Flags<a class="headerlink" href="#flags" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">input-dir</span></code>: The path to the directory to package.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--exec</span></code>: A relative path from the packaged folder to the executable. Please note that the <code class="docutils literal notranslate"><span class="pre">--exec</span></code> operates relative to the packaged folder and may result in ‘file not found’ errors, if a wrongly relative path is given!</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--output</span></code>: A path to the output directory.</p></li>
 </ul>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>

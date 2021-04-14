@@ -4,8 +4,7 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Linting your project &mdash; cookietemple 1.3.0 documentation</title>
@@ -90,7 +89,7 @@
               
             
             
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="readme.html">cookietemple overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
@@ -227,7 +226,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="linting-your-project">
+  <div class="section" id="linting-your-project">
 <span id="lint"></span><h1>Linting your project<a class="headerlink" href="#linting-your-project" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Lint_(software)">Linting</a> is the process of statically analyzing code to find code style violations and to detect errors.
 cookietemple implements a custom linting system, but depending on the template external tools linting tools may additionally be called.</p>
@@ -246,14 +245,12 @@ cookietemple implements a custom linting system, but depending on the template e
 <li><p><span class="red">Failed</span></p></li>
 </ol>
 <p>If any of the checks failed linting stops and returns an error code.</p>
-<figure class="align-default" id="id2">
+<div class="figure align-default" id="id2">
 <a class="reference internal image-reference" href="_images/linting_example.png"><img alt="Linting example" src="_images/linting_example.png" style="width: 1096.0px; height: 343.0px;" /></a>
-<figcaption>
-<p><span class="caption-text">Linting applied to a newly created cli-java project.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
-</figcaption>
-</figure>
+<p class="caption"><span class="caption-text">Linting applied to a newly created cli-java project.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
 <p>To examine the reason for a failed linting test please follow the URL. All reasons are explained in the section <a class="reference internal" href="#linting-codes"><span class="std std-ref">Linting codes</span></a>.</p>
-<section id="usage">
+<div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <p>cookietemple lint can be invoked on an existing project using</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cookietemple lint &lt;PATH&gt;
@@ -262,65 +259,65 @@ cookietemple implements a custom linting system, but depending on the template e
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">PATH</span></code> [CWD]: The relative path to the project directory.</p></li>
 </ul>
-</section>
-<section id="flags">
+</div>
+<div class="section" id="flags">
 <h2>Flags<a class="headerlink" href="#flags" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">skip-external</span></code>: Skips any external linters such as <code class="docutils literal notranslate"><span class="pre">autopep8</span></code>.</p></li>
 </ul>
-</section>
-<section id="linting-codes">
+</div>
+<div class="section" id="linting-codes">
 <span id="id1"></span><h2>Linting codes<a class="headerlink" href="#linting-codes" title="Permalink to this headline">¶</a></h2>
 <p>The following error numbers correspond to errors found during linting.
 If you are not sure why a specific linting error has occured you may find more information using the respective error code.</p>
-<section id="general">
+<div class="section" id="general">
 <h3>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h3>
-<section id="general-1">
+<div class="section" id="general-1">
 <h4>general-1<a class="headerlink" href="#general-1" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">File not found. This error occurs when your project does not include all of cookietemple’s files, which all templates share.</div>
 <div class="line">Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
 at the time of the project creation using cookietemple this file should not have been missing!</div>
 </div>
-</section>
-<section id="general-2">
+</div>
+<div class="section" id="general-2">
 <h4>general-2<a class="headerlink" href="#general-2" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Dockerfile invalid. This error usually originates from empty Dockerfiles or missing FROM statements.</div>
 </div>
-</section>
-<section id="general-3">
+</div>
+<div class="section" id="general-3">
 <h4>general-3<a class="headerlink" href="#general-3" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">TODO string found. The origin of this error are <code class="docutils literal notranslate"><span class="pre">COOKIETEMPLE</span> <span class="pre">TODO:</span></code> or <code class="docutils literal notranslate"><span class="pre">TODO</span> <span class="pre">COOKIETEMPLE:</span></code> strings in the respective files. Usually, they point to things that should be
 manually configured or require other attention. You may remove them if there is no task for you to be solved.</div>
 </div>
-</section>
-<section id="general-4">
+</div>
+<div class="section" id="general-4">
 <h4>general-4<a class="headerlink" href="#general-4" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Cookiecutter string found. This error occurs if something went wrong at the project creation stage. After a project has been created using cookietemple
 there should not be any jinja2 syntax statements left. Web development templates may pose exceptions. However, <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">*cookiecutter*</span> <span class="pre">}}</span></code> statements
 should definitely not be present anymore.</div>
 </div>
-</section>
-<section id="general-5">
+</div>
+<div class="section" id="general-5">
 <h4>general-5<a class="headerlink" href="#general-5" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Versions not consistent. If the version of all files specified in the [bumpversion] sections defined in the qube.cfg file are not consistent,
 this error may be found. Please ensure that the version is consistent! If you need to exclude specific lines from this check please consult <a class="reference internal" href="bump_version.html#bump-version"><span class="std std-ref">Bumping the version of an existing project</span></a>.
 To prevent this error you should only increase the version of your project using <code class="code docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">bump-version</span></code>.</div>
 </div>
-</section>
-<section id="general-6">
+</div>
+<div class="section" id="general-6">
 <h4>general-6<a class="headerlink" href="#general-6" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">changelog.rst</span></code> invalid. The <code class="docutils literal notranslate"><span class="pre">changelog.rst</span></code> file requires that every changelog section has a header with the version and the corresponding release date.
 The version above another changelog section should always be <em>greater</em> than the section below (e.g. 1.1.0 above 1.0.0).
 Every section must have the headings <code class="docutils literal notranslate"><span class="pre">**Added**</span></code>, <code class="docutils literal notranslate"><span class="pre">**Fixed**</span></code>, <code class="docutils literal notranslate"><span class="pre">**Dependencies**</span></code> and <code class="docutils literal notranslate"><span class="pre">**Deprecated**</span></code>.</div>
 </div>
-</section>
-<section id="general-7">
+</div>
+<div class="section" id="general-7">
 <h4>general-7<a class="headerlink" href="#general-7" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> linting failed. The <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> plays a major role in cookietemple’s <code class="docutils literal notranslate"><span class="pre">sync</span></code> and <code class="docutils literal notranslate"><span class="pre">bump-version</span></code> functionality.</div>
@@ -332,128 +329,128 @@ Every section must have the headings <code class="docutils literal notranslate">
 <p>4.) <code class="docutils literal notranslate"><span class="pre">sync_level</span></code> should only contain a <code class="docutils literal notranslate"><span class="pre">ct_sync_level</span></code> value (and this value should be one of either <code class="docutils literal notranslate"><span class="pre">patch</span></code>, <code class="docutils literal notranslate"><span class="pre">minor</span></code> or <code class="docutils literal notranslate"><span class="pre">major</span></code>)</p>
 <p>5.) <code class="docutils literal notranslate"><span class="pre">sync_files_blacklisted</span></code> should contain at least the <code class="docutils literal notranslate"><span class="pre">CHANGELOG.rst</span></code> file (excluding it from syncing to avoid PR updates)</p>
 <p>6.) <code class="docutils literal notranslate"><span class="pre">sync</span></code> should only contain a <code class="docutils literal notranslate"><span class="pre">sync_enabled</span></code> value (and this value should be one of either <code class="docutils literal notranslate"><span class="pre">True|true|Yes|yes|Y|y|False|false|No|no|N|n</span></code>)</p>
-</section>
-</section>
-<section id="cli-python">
+</div>
+</div>
+<div class="section" id="cli-python">
 <h3>cli-python<a class="headerlink" href="#cli-python" title="Permalink to this headline">¶</a></h3>
-<section id="cli-python-1">
+<div class="section" id="cli-python-1">
 <h4>cli-python-1<a class="headerlink" href="#cli-python-1" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">File not found. This error occurs when your project does not include all of cli-python’s expected files.</div>
 <div class="line">Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
 at the time of the project creation using cookietemple this file should not have been missing!</div>
 </div>
-</section>
-<section id="cli-python-2">
+</div>
+<div class="section" id="cli-python-2">
 <h4>cli-python-2<a class="headerlink" href="#cli-python-2" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">PyPI dependency not up to date. The dependencies specified in the requirements.txt and requirements_dev.txt are not up to date.</div>
 <div class="line">It is up to you whether you can and want to update them.</div>
 </div>
-</section>
-<section id="cli-python-3">
+</div>
+<div class="section" id="cli-python-3">
 <h4>cli-python-3<a class="headerlink" href="#cli-python-3" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">The <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> section called <code class="docutils literal notranslate"><span class="pre">sync_files_blacklisted</span></code> misses either <code class="docutils literal notranslate"><span class="pre">requirements</span> <span class="pre">=</span> <span class="pre">requirements.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">requirements_dev</span> <span class="pre">=</span> <span class="pre">requirements_dev.txt</span></code> or
 <code class="docutils literal notranslate"><span class="pre">changelog</span> <span class="pre">=</span> <span class="pre">CHANGELOG.rst</span></code>.
 All are required to exclude them from syncing and interference with services like dependabot.</div>
 </div>
-</section>
-</section>
-<section id="cli-java">
+</div>
+</div>
+<div class="section" id="cli-java">
 <h3>cli-java<a class="headerlink" href="#cli-java" title="Permalink to this headline">¶</a></h3>
-<section id="cli-java-1">
+<div class="section" id="cli-java-1">
 <h4>cli-java-1<a class="headerlink" href="#cli-java-1" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">File not found. This error occurs when your project does not include all of cli-java’s expected files.</div>
 <div class="line">Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
 at the time of the project creation using cookietemple this file should not have been missing!</div>
 </div>
-</section>
-<section id="cli-java-2">
+</div>
+<div class="section" id="cli-java-2">
 <h4>cli-java-2<a class="headerlink" href="#cli-java-2" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">The <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> section called <code class="docutils literal notranslate"><span class="pre">sync_files_blacklisted</span></code> misses <code class="docutils literal notranslate"><span class="pre">build_gradle</span> <span class="pre">=</span> <span class="pre">gradle.build</span></code> or
 <code class="docutils literal notranslate"><span class="pre">changelog</span> <span class="pre">=</span> <span class="pre">CHANGELOG.rst</span></code>.
 Both are required to exclude the gradle build file from syncing.</div>
 </div>
-</section>
-</section>
-<section id="lib-cpp">
+</div>
+</div>
+<div class="section" id="lib-cpp">
 <h3>lib-cpp<a class="headerlink" href="#lib-cpp" title="Permalink to this headline">¶</a></h3>
-<section id="lib-cpp-1">
+<div class="section" id="lib-cpp-1">
 <h4>lib-cpp-1<a class="headerlink" href="#lib-cpp-1" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">File not found. This error occurs when your project does not include all of lib-cpp’s expected files.</div>
 <div class="line">Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
 at the time of the project creation using cookietemple this file should not have been missing!</div>
 </div>
-</section>
-<section id="lib-cpp-2">
+</div>
+<div class="section" id="lib-cpp-2">
 <h4>lib-cpp-2<a class="headerlink" href="#lib-cpp-2" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">The <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> section called <code class="docutils literal notranslate"><span class="pre">sync_files_blacklisted</span></code> misses <code class="docutils literal notranslate"><span class="pre">changelog</span> <span class="pre">=</span> <span class="pre">CHANGELOG.rst</span></code>.
 This is required to be excluded from syncing.</div>
 </div>
-</section>
-</section>
-<section id="web-python">
+</div>
+</div>
+<div class="section" id="web-python">
 <h3>web-python<a class="headerlink" href="#web-python" title="Permalink to this headline">¶</a></h3>
-<section id="web-python-1">
+<div class="section" id="web-python-1">
 <h4>web-python-1<a class="headerlink" href="#web-python-1" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">File not found. This error occurs when your project does not include all of web-python’s expected files.</div>
 <div class="line">Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
 at the time of the project creation using cookietemple this file should not have been missing!</div>
 </div>
-</section>
-<section id="web-python-2">
+</div>
+<div class="section" id="web-python-2">
 <h4>web-python-2<a class="headerlink" href="#web-python-2" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">The <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> section called <code class="docutils literal notranslate"><span class="pre">sync_files_blacklisted</span></code> misses either <code class="docutils literal notranslate"><span class="pre">requirements</span> <span class="pre">=</span> <span class="pre">requirements.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">requirements_dev</span> <span class="pre">=</span> <span class="pre">requirements_dev.txt</span></code>
 or <code class="docutils literal notranslate"><span class="pre">changelog</span> <span class="pre">=</span> <span class="pre">CHANGELOG.rst</span></code>.
 All are required to exclude them from syncing and interference with services like dependabot.</div>
 </div>
-</section>
-</section>
-<section id="gui-java">
+</div>
+</div>
+<div class="section" id="gui-java">
 <h3>gui-java<a class="headerlink" href="#gui-java" title="Permalink to this headline">¶</a></h3>
-<section id="gui-java-1">
+<div class="section" id="gui-java-1">
 <h4>gui-java-1<a class="headerlink" href="#gui-java-1" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">File not found. This error occurs when your project does not include all of gui-java’s expected files.</div>
 <div class="line">Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
 at the time of the project creation using cookietemple this file should not have been missing!</div>
 </div>
-</section>
-<section id="gui-java-2">
+</div>
+<div class="section" id="gui-java-2">
 <h4>gui-java-2<a class="headerlink" href="#gui-java-2" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">The <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> section called <code class="docutils literal notranslate"><span class="pre">sync_files_blacklisted</span></code> misses <code class="docutils literal notranslate"><span class="pre">pom</span> <span class="pre">=</span> <span class="pre">pom.xml</span></code> or <code class="docutils literal notranslate"><span class="pre">changelog</span> <span class="pre">=</span> <span class="pre">CHANGELOG.rst</span></code>.
 Both are required to be excluded from syncing.</div>
 </div>
-</section>
-</section>
-<section id="pub-thesis">
+</div>
+</div>
+<div class="section" id="pub-thesis">
 <h3>pub-thesis<a class="headerlink" href="#pub-thesis" title="Permalink to this headline">¶</a></h3>
-<section id="pub-thesis-1">
+<div class="section" id="pub-thesis-1">
 <h4>pub-thesis-1<a class="headerlink" href="#pub-thesis-1" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">File not found. This error occurs when your project does not include all of pub-thesis’s expected files.</div>
 <div class="line">Please create the file and populate it with appropriate values. You should also critically reflect why it is missing, since
 at the time of the project creation using cookietemple this file should not have been missing!</div>
 </div>
-</section>
-<section id="pub-thesis-2">
+</div>
+<div class="section" id="pub-thesis-2">
 <h4>pub-thesis-2<a class="headerlink" href="#pub-thesis-2" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">The <code class="docutils literal notranslate"><span class="pre">cookietemple.cfg</span></code> section called <code class="docutils literal notranslate"><span class="pre">sync_files_blacklisted</span></code> misses <code class="docutils literal notranslate"><span class="pre">changelog</span> <span class="pre">=</span> <span class="pre">CHANGELOG.rst</span></code>.
 This is required to be excluded from syncing.</div>
 </div>
-</section>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
+</div>
 
 
            </div>
