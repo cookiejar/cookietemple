@@ -16,11 +16,11 @@
    :target: https://{{ cookiecutter.project_slug }}.readthedocs.io/
    :alt: Read the documentation at https://{{ cookiecutter.project_slug }}.readthedocs.io/
 .. |Build| image:: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/workflows/Build%20{{ cookiecutter.project_slug }}%20Package/badge.svg
-   :target: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/workflows/Build%20{{ cookiecutter.project_slug }}%20Package/badge.svg
-   :alt: Build package Status
-.. |Tests| image:: https://github.com/{{ cookiecutter.github_username }}/{{cookiecutter.project_slug }}/workflows/Tests/badge.svg
+   :target: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/actions?workflow=Package
+   :alt: Build Package Status
+.. |Tests| image:: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/workflows/Run%20{{ cookiecutter.project_slug }}%20Tests/badge.svg
    :target: https://github.com/{{ cookiecutter.github_username}}/{{cookiecutter.project_slug }}/actions?workflow=Tests
-   :alt: Tests
+   :alt: Run Tests Status
 .. |Codecov| image:: https://codecov.io/gh/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}
    :alt: Codecov

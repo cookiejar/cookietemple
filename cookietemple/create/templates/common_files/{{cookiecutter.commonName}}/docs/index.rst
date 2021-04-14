@@ -10,7 +10,6 @@ Welcome to {{ cookiecutter.project_name }}'s documentation!
    usage
    {% if (cookiecutter.language == 'python') and (cookiecutter.domain == 'cli') -%}reference{% endif %}
    authors
-   changelog
    code_of_conduct
 
 Indices and tables

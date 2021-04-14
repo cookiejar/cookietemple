@@ -36,18 +36,26 @@ jobs:
         run: |
          echo -e "\n\nHomer\nsimpson@gmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\nn" | cookietemple create
 
-      - name: Install Poetry and pre-commit
-        run: pip install poetry pre-commit
+      - name: Install Poetry, nox and the nox poetry extension
+        run: pip install poetry nox nox-poetry
 
-      - name: Build Package and install pre-commits
+      - name: Build Package
         run: |
              cd explodingspringfield
              make install
 
+      - name: Run Tests
+        run: |
+            mv explodingspringfield /tmp
+            cd /tmp/explodingspringfield
+            git init
+            git add .
+            nox
+
       - name: Install doc dependencies
-        run: pip install -r explodingspringfield/docs/requirements.txt
+        run: pip install -r /tmp/explodingspringfield/docs/requirements.txt
 
       - name: Build docs
         run: |
-            cd explodingspringfield/docs
+            cd /tmp/explodingspringfield/docs
             make html

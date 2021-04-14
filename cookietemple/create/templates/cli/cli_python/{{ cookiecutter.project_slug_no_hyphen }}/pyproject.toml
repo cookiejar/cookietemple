@@ -8,51 +8,53 @@ readme = "README.rst"
 homepage = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
 repository = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
 documentation = "https://{{ cookiecutter.project_slug }}.readthedocs.io"
-{% if cookiecutter.project_slug != cookiecutter.project_slug_no_hyphen -%}
 packages = [
     { include = "{{ cookiecutter.project_slug_no_hyphen }}", from = "src" },
 ]
-{% endif -%}
 classifiers = [
+    "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
 ]
 
-[tool.poetry.urls]
-Changelog = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/releases"
 
 [tool.poetry.dependencies]
-python = "^3.7.1"
-click = "^7.0"
-rich = "^9.8.2"
+python = "^3.6.1"
+click = "^7.1.2"
+rich = "^10.1.0"
+PyYAML = "^5.4.1"
+Jinja2 = "^2.11.3"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.1.2"
+pytest = "^6.2.3"
 coverage = {extras = ["toml"], version = "^5.3"}
 safety = "^1.9.0"
-mypy = "^0.790"
-typeguard = "^2.9.1"
+mypy = "^0.812"
+typeguard = "^2.12.0"
 xdoctest = {extras = ["colors"], version = "^0.15.0"}
 sphinx = "^3.3.1"
-sphinx-autobuild = "^2020.9.1"
-pre-commit = "^2.8.2"
+sphinx-autobuild = "^2021.3.14"
+pre-commit = "^2.11.1"
 flake8 = "^3.8.4"
 black = "^20.8b1"
 flake8-bandit = "^2.1.2"
-flake8-bugbear = "^20.1.4"
+flake8-bugbear = "^21.4.3"
 flake8-docstrings = "^1.5.0"
 flake8-rst-docstrings = "^0.0.14"
 pep8-naming = "^0.11.1"
 darglint = "^1.5.8"
-reorder-python-imports = "^2.3.6"
+reorder-python-imports = "^2.4.0"
 pre-commit-hooks = "^3.3.0"
 sphinx-rtd-theme = "^0.5.0"
 sphinx-click = "^2.5.0"
-Pygments = "^2.7.2"
+Pygments = "^2.8.1"
 
 [tool.poetry.scripts]
 {{cookiecutter.project_slug}} = "{{cookiecutter.project_slug_no_hyphen}}.__main__:main"
+
+[tool.black]
+line-length = 120
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
@@ -63,7 +65,6 @@ source = ["{{cookiecutter.project_slug_no_hyphen}}"]
 
 [tool.coverage.report]
 show_missing = true
-fail_under = 100
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

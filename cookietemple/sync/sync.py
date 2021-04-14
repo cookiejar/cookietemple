@@ -69,12 +69,15 @@ class TemplateSync:
         self.repo_owner = self.gh_username
         self.new_template_version = new_template_version
         self.github = Github(self.token)
+        self.blacklisted_globs = []
 
     def sync(self):
         """
         Sync the cookietemple project
         """
         self.inspect_sync_dir()
+        # get blacklisted files on current working branch
+        self.blacklisted_globs = self.get_blacklisted_sync_globs()
         self.checkout_template_branch()
         self.delete_template_branch_files()
         self.make_template_project()
@@ -120,6 +123,10 @@ class TemplateSync:
         if self.repo.is_dirty(untracked_files=True):
             print('[bold red]Uncommitted changes found in Project directory!\nPlease commit these before running cookietemple sync')
             sys.exit(1)
+        # Check, whether a cookietemple sync PR is already open
+        elif self.check_pull_request_exists():
+            print('[bold blue]Open cookietemple sync PR still unmerged! No sync will happen until this PR is merged!')
+            sys.exit(0)
 
     def checkout_template_branch(self):
         """
@@ -178,7 +185,7 @@ class TemplateSync:
             choose_domain(path=Path.cwd(), domain=None, dot_cookietemple=self.dot_cookietemple)
             # copy into the cleaned TEMPLATE branch's project directory
             log.debug(f'Copying created template into {self.project_dir}.')
-            copy_tree(os.path.join(tmpdirname, self.dot_cookietemple['project_slug']), str(self.project_dir))
+            copy_tree(os.path.join(tmpdirname, self.dot_cookietemple['project_slug_no_hyphen']), str(self.project_dir))
             log.debug(f'Changing directory back to {old_cwd}.')
             os.chdir(old_cwd)
 
@@ -198,9 +205,8 @@ class TemplateSync:
             self.repo.git.add(A=True)
             # get all changed/modified files during the sync (including blacklisted ones)
             changed_files = [item.a_path for item in self.repo.index.diff('HEAD')]
-            globs = self.get_blacklisted_sync_globs()
             blacklisted_changed_files = set()
-            for pattern in globs:
+            for pattern in self.blacklisted_globs:
                 # keep track of all staged files matching a glob from the cookietemple.cfg file
                 # those files will be excluded from syncing but will still be available in every new created projects
                 blacklisted_changed_files |= {file for file in fnmatch.filter(changed_files, pattern)}
@@ -265,17 +271,25 @@ class TemplateSync:
         if self.dot_cookietemple['is_github_orga']:
             self.repo_owner = self.dot_cookietemple['github_orga']
         pr_title = f'Important cookietemple template update {self.new_template_version} released!'
-        pr_body_text = (
-            'A new release of the main template in cookietemple has just been released. '
-            'This automated pull-request attempts to apply the relevant updates to this Project.\n\n'
-            'Please make sure to merge this pull-request as soon as possible. '
-            'Once complete, make a new minor release of your Project.\n\n'
-            'For more information on the actual changes, read the latest cookietemple changelog.')
+        if self.major_update:
+            pr_body_text = (
+                'A new major release of the corresponding template in cookietemple has just been released. '
+                'This automated pull-request attempts to apply the relevant updates to this Project.\n\n'
+                'This means, that the project template has received significant updates and some new features may be '
+                'difficult to integrate into your current project.\n'
+                'Consider disabling sync by editing the cookietemple.cfg file, if you do not plan on migrating to the new template structure.'
+                'For more information on the actual changes, read the latest cookietemple release notes.')
+
+        else:
+            pr_body_text = (
+                'A new release of the corresponding template in cookietemple has just been released. '
+                'This automated pull-request attempts to apply the relevant updates to this Project.\n\n'
+                'Please make sure to merge this pull-request as soon as possible. '
+                'Once complete, make a new minor release of your Project.\n\n'
+                'For more information on the actual changes, read the latest cookietemple release notes.')
         log.debug(f'PR title is:\n{pr_title}')
         log.debug(f'PR body is:\n{pr_body_text}')
 
-        # Check, whether a cookietemple sync PR is already open
-        self.check_pull_request_exists()
         # Submit the new pull request with the latest cookietemple sync changes
         self.submit_pull_request(pr_title, pr_body_text)
 
@@ -296,20 +310,18 @@ class TemplateSync:
 
     def check_pull_request_exists(self) -> bool:
         """
-        Check, whether a cookietemple sync PR is already open. If so, close this one, as it is outdated.
+        Check, whether a cookietemple sync PR is already open.
 
         :return Whether a cookietemple sync PR is already open or not
         """
         repo = self.github.get_repo(f'{self.repo_owner}/{self.dot_cookietemple["project_slug"]}')
         # query all open PRs
         log.debug('Querying open PRs to check if a sync PR already exists.')
-        # iterate over the open PRs of the repo to check if a cookietemple sync PR is open
+        # iterate over the open PRs of the repo to check whether a cookietemple sync PR is still open
         for pull_request in repo.get_pulls(state='open'):
-            log.debug('Already open sync PR has been found.')
             # if an older, outdated cookietemple sync PR is still open, close it first
             if 'Important cookietemple template update' in pull_request.title:
-                print('[bold blue]Detected open, but outdated cookietemple sync PR. Closing it in favor of the newest sync PR!')
-                pull_request.edit(state='closed')
+                log.debug('Already open sync PR has been found.')
                 return True
         return False
 
