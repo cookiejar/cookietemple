@@ -17,7 +17,7 @@ jobs:
 
             - name: Install cookietemple
               run: |
-                  pip install cookietemple=={{ cookiecutter.version }}
+                  pip install cookietemple=={{ cookiecutter.cookietemple_version }}
 
             - name: Run cookietemple lint
               run: |
