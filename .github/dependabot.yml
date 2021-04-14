@@ -39,7 +39,7 @@ updates:
   commit-message:
     prefix: "[DEPENDABOT]"
 
-- package-ecosystem: java:gradle
+- package-ecosystem: gradle
   directory: "/cookietemple/create/templates/cli/cli_java/{{ cookiecutter.project_slug_no_hyphen }}"
   schedule:
     interval: daily
@@ -52,7 +52,7 @@ updates:
     prefix: "[DEPENDABOT]"
 
 # GUI
-- package-ecosystem: java:maven
+- package-ecosystem: maven
   directory: "/cookietemple/create/templates/gui/gui_java/{{ cookiecutter.project_slug_no_hyphen }}"
   schedule:
     interval: daily

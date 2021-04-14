@@ -123,6 +123,10 @@ class TemplateSync:
         if self.repo.is_dirty(untracked_files=True):
             print('[bold red]Uncommitted changes found in Project directory!\nPlease commit these before running cookietemple sync')
             sys.exit(1)
+        # Check, whether a cookietemple sync PR is already open
+        elif self.check_pull_request_exists():
+            print('[bold blue]Open cookietemple sync PR still unmerged! No sync will happen until this PR is merged!')
+            sys.exit(0)
 
     def checkout_template_branch(self):
         """
@@ -269,16 +273,16 @@ class TemplateSync:
         pr_title = f'Important cookietemple template update {self.new_template_version} released!'
         if self.major_update:
             pr_body_text = (
-                'A new major release of the main template in cookietemple has just been released. '
+                'A new major release of the corresponding template in cookietemple has just been released. '
                 'This automated pull-request attempts to apply the relevant updates to this Project.\n\n'
                 'This means, that the project template has received significant updates and some new features may be '
-                'hard to integrate into your current project.\n'
-                'You may need to consider disabling sync if you do not want to integrate those changes into your project.'
+                'difficult to integrate into your current project.\n'
+                'Consider disabling sync by editing the cookietemple.cfg file, if you do not plan on migrating to the new template structure.'
                 'For more information on the actual changes, read the latest cookietemple release notes.')
 
         else:
             pr_body_text = (
-                'A new release of the main template in cookietemple has just been released. '
+                'A new release of the corresponding template in cookietemple has just been released. '
                 'This automated pull-request attempts to apply the relevant updates to this Project.\n\n'
                 'Please make sure to merge this pull-request as soon as possible. '
                 'Once complete, make a new minor release of your Project.\n\n'
@@ -286,8 +290,6 @@ class TemplateSync:
         log.debug(f'PR title is:\n{pr_title}')
         log.debug(f'PR body is:\n{pr_body_text}')
 
-        # Check, whether a cookietemple sync PR is already open
-        self.check_pull_request_exists()
         # Submit the new pull request with the latest cookietemple sync changes
         self.submit_pull_request(pr_title, pr_body_text)
 
@@ -308,20 +310,18 @@ class TemplateSync:
 
     def check_pull_request_exists(self) -> bool:
         """
-        Check, whether a cookietemple sync PR is already open. If so, close this one, as it is outdated.
+        Check, whether a cookietemple sync PR is already open.
 
         :return Whether a cookietemple sync PR is already open or not
         """
         repo = self.github.get_repo(f'{self.repo_owner}/{self.dot_cookietemple["project_slug"]}')
         # query all open PRs
         log.debug('Querying open PRs to check if a sync PR already exists.')
-        # iterate over the open PRs of the repo to check if a cookietemple sync PR is open
+        # iterate over the open PRs of the repo to check whether a cookietemple sync PR is still open
         for pull_request in repo.get_pulls(state='open'):
-            log.debug('Already open sync PR has been found.')
             # if an older, outdated cookietemple sync PR is still open, close it first
             if 'Important cookietemple template update' in pull_request.title:
-                print('[bold blue]Detected open, but outdated cookietemple sync PR. Closing it in favor of the newest sync PR!')
-                pull_request.edit(state='closed')
+                log.debug('Already open sync PR has been found.')
                 return True
         return False
 
