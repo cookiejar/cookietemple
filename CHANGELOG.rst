@@ -6,6 +6,19 @@ Changelog
 
 This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
+1.3.2 (2021-04-17)
+------------------
+
+**Added**
+
+**Fixed**
+
+* fixed an issue that caused sync to fail on orga repos
+
+**Dependencies**
+
+**Deprecated**
+
 1.3.1 (2021-04-12)
 ------------------
 

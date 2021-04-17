@@ -268,8 +268,6 @@ class TemplateSync:
         Create a pull request to a base branch from a head branch (that is, a temporary branch only created for syncing the new template version)
         """
         log.debug('Preparing PR contents to submit a sync PR.')
-        if self.dot_cookietemple['is_github_orga']:
-            self.repo_owner = self.dot_cookietemple['github_orga']
         pr_title = f'Important cookietemple template update {self.new_template_version} released!'
         if self.major_update:
             pr_body_text = (
@@ -314,6 +312,8 @@ class TemplateSync:
 
         :return Whether a cookietemple sync PR is already open or not
         """
+        if self.dot_cookietemple['is_github_orga']:
+            self.repo_owner = self.dot_cookietemple['github_orga']
         repo = self.github.get_repo(f'{self.repo_owner}/{self.dot_cookietemple["project_slug"]}')
         # query all open PRs
         log.debug('Querying open PRs to check if a sync PR already exists.')
