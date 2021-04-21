@@ -28,9 +28,13 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
 
-      - name: Build Cookietemple
+      - name: Install Poetry
         run: |
-          python setup.py clean --all install
+         pip install poetry
+
+      - name: Build package
+        run: |
+         make install
 
       - name: Create cli-python Template
         run: |
