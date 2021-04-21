@@ -42,7 +42,7 @@ jobs:
 
       - name: Create web-website-python advanced Flask Template
         run: |
-          echo -e "\033[B\033[B\033[B\n\nExplodingSpringfieldAdvanced\ndescription\n1.0.0\n\n\n\n\n\033[B\nn\n\n\n\ntest.com\nvmusername\nn" | cookietemple create
+          echo -e "\033[B\033[B\033[B\n\nExplodingSpringfieldAdvanced\ndescription\n1.0.0\n\n\n\n\n\033[B\nn\n\n\n\ntest.com\nvmusername\nn" | poetry run cookietemple create
 
       - name: Build basic Package
         run: |

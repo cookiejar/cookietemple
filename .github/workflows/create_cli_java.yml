@@ -35,8 +35,6 @@ jobs:
       - name: Build package
         run: |
           make install
-          poetry run cookietemple --version
-          cookietemple --version
 
       - name: Create cli-java Template
         run: |
