@@ -6,6 +6,19 @@ Changelog
 
 This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
+1.3.3 (2021-04-23)
+------------------
+
+**Added**
+
+**Fixed**
+
+* fixed sync WF version checkout
+
+**Dependencies**
+
+**Deprecated**
+
 1.3.2 (2021-04-17)
 ------------------
 
