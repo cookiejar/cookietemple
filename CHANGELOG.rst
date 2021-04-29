@@ -6,6 +6,20 @@ Changelog
 
 This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
+1.3.4 (2021-05-01)
+------------------
+
+**Added**
+
+**Fixed**
+
+* Removed contributor guide from cli-python
+* make clean does now not remove nox and testing artifacts for cli-python
+
+**Dependencies**
+
+**Deprecated**
+
 1.3.3 (2021-04-23)
 ------------------
 
