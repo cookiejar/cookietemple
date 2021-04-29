@@ -54,12 +54,6 @@ Usage
 Please see the `Command-line Reference <Usage_>`_ for details.
 
 
-Contributing
-------------
-
-Contributions are very welcome. To learn more, see the `Contributor Guide`_.
-
-
 Credits
 -------
 
@@ -71,5 +65,4 @@ This package was created with cookietemple_ using Cookiecutter_ based on Hypermo
 .. _PyPI: https://pypi.org/
 .. _Hypermodern_Python_Cookiecutter: https://github.com/cjolowicz/cookiecutter-hypermodern-python
 .. _pip: https://pip.pypa.io/
-.. _Contributor Guide: CONTRIBUTING.rst
 .. _Usage: https://{{ cookiecutter.project_slug }}.readthedocs.io/en/latest/usage.html
