@@ -2,7 +2,7 @@ name: Publish {{ cookiecutter.project_slug }} to PyPI
 
 on:
     release:
-        types: [created]
+        types: [published]
 
 jobs:
     release:
