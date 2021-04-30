@@ -8,7 +8,6 @@
 -   [ ] Referenced issue is linked
 -   [ ] If you've fixed a bug or added code that should be tested, add tests!
 -   [ ] Documentation in `docs` is updated
--   [ ] `CHANGELOG.rst` is updated
 
 **Description of changes**
 
