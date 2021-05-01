@@ -37,7 +37,6 @@ jobs:
 
             - name: Create cli-java Template
               run: |
-                  cd ..
                   echo -e "\n\033[B\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\ngroup_domain\ngroup_organization\nn" | poetry run cookietemple create
 
             - uses: actions/checkout@v2

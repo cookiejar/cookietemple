@@ -57,13 +57,13 @@ Pygments = "^2.8.1"
 twine= "^3.2.0"
 
 [tool.poetry.scripts]
-cookietemple = "cookietemple.src.__main__:main"
+cookietemple = "cookietemple.__main__:main"
 
 [tool.black]
 line-length = 120
 
 [tool.coverage.paths]
-source = ["src", "*/site-packages"]
+source = ["cookietemple", "*/site-packages"]
 
 [tool.coverage.run]
 branch = true
