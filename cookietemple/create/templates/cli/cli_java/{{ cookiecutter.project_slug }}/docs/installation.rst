@@ -9,7 +9,7 @@ Stable release
 ----------------
 
 | Stable releases are only found on the release page of this Github repository.
-| Binaries, are distributed for Linux, MacOS and Windows. 
+| Binaries, are distributed for Linux, MacOS and Windows.
 
 
 Nightly release

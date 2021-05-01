@@ -22,7 +22,6 @@ Welcome to cookietemple's documentation!
    usage
    faq
    troubleshooting
-   changelog
    community
    code_of_conduct
 

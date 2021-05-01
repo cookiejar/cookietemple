@@ -1,10 +1,9 @@
 ---
 name: New template
 about: Suggest a new template for cookietemple
-title: 'New template'
-labels: 'new template'
-assignees: ''
-
+title: "New template"
+labels: "new template"
+assignees: ""
 ---
 
 **Proposed Template**
@@ -19,7 +18,6 @@ assignees: ''
 
 <!-- A clear and concise list of associated technologies, frameworks and details of the suggested template.
 Note, that we try to adhere to mainstream best practices and try to automate as much as possible. -->
-
 
 **Additional context**
 

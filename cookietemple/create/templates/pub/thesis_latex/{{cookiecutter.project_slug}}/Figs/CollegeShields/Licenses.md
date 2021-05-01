@@ -133,16 +133,16 @@ Licence:
 File:
 
         Downing.svg
-        
+
 Derivative files:
 
         Downing.eps  (rsvg-convert -f pdf -o Downing.pdf src/Downing.svg)
         Downing.pdf  (rsvg-convert -f eps -o Downing.eps src/Downing.svg)
-        
+
 Source:
 
         https://en.wikipedia.org/wiki/File:Downing_Crest.svg
-        
+
 License:
 
         GNU Fre Documentation License, Version 1.2 or any later version or

@@ -15,7 +15,7 @@ verbose_message("Adding tests under ${CMAKE_PROJECT_NAME}Tests...")
 # Set the sources for the unit tests and add the executable(s)
 #
 
-set(test_sources 
+set(test_sources
   src/tmp_test.cpp
 )
 add_executable(${PROJECT_NAME} ${test_sources})
@@ -55,7 +55,7 @@ if(${CMAKE_PROJECT_NAME}_USE_GTEST)
   endif()
 
   target_link_libraries(
-    ${PROJECT_NAME} 
+    ${PROJECT_NAME}
     PUBLIC
       GTest::GTest
 			GTest::Main
@@ -65,13 +65,13 @@ if(${CMAKE_PROJECT_NAME}_USE_GTEST)
 elseif(${CMAKE_PROJECT_NAME}_USE_CATCH2)
   find_package(Catch2 REQUIRED)
   target_link_libraries(
-    ${PROJECT_NAME} 
+    ${PROJECT_NAME}
     PUBLIC
       Catch2::Catch2
       ${${CMAKE_PROJECT_NAME}_TEST_LIB}
   )
 else()
-  message(FATAL_ERROR "Unknown testing library. Please setup your desired unit testing library by using `target_link_libraries`.")  
+  message(FATAL_ERROR "Unknown testing library. Please setup your desired unit testing library by using `target_link_libraries`.")
 endif()
 
 #
@@ -85,4 +85,4 @@ add_test(
     ${PROJECT_NAME}
 )
 
-verbose_message("Finished adding unit tests for ${CMAKE_PROJECT_NAME}.") 
+verbose_message("Finished adding unit tests for ${CMAKE_PROJECT_NAME}.")

@@ -1,10 +1,9 @@
 ---
 name: General question
 about: Ask a question about anything cookietemple
-title: 'Question about cookietemple'
-labels: 'question'
-assignees: ''
-
+title: "Question about cookietemple"
+labels: "question"
+assignees: ""
 ---
 
 **Question**

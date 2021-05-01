@@ -12,7 +12,7 @@
 	:target: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/workflows/Run%20{{ cookiecutter.project_slug }}%20Tox%20Test%20Suite/badge.svg
         :alt: Github Workflow Tests Status
 
-.. image:: https://img.shields.io/pypi/v/{{ cookiecutter.project_slug }}.svg 
+.. image:: https://img.shields.io/pypi/v/{{ cookiecutter.project_slug }}.svg
         :target: https://pypi.python.org/pypi/{{ cookiecutter.project_slug }}
 	:alt: PyPI Status
 

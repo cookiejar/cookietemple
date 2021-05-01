@@ -7,45 +7,54 @@ repos:
             language: system
             types: [python]
             require_serial: true
+            exclude: templates
           - id: check-added-large-files
             name: Check for added large files
             entry: check-added-large-files
             language: system
+            exclude: templates
           - id: check-toml
             name: Check Toml
             entry: check-toml
             language: system
             types: [toml]
+            exclude: templates
           - id: check-yaml
             name: Check Yaml
             entry: check-yaml
             language: system
             types: [yaml]
+            exclude: templates
           - id: end-of-file-fixer
             name: Fix End of Files
             entry: end-of-file-fixer
             language: system
             types: [text]
             stages: [commit, push, manual]
+            exclude: templates
           - id: flake8
             name: flake8
             entry: flake8
             language: system
             types: [python]
             require_serial: true
+            exclude: templates
           - id: reorder-python-imports
             name: Reorder python imports
             entry: reorder-python-imports
             language: system
             types: [python]
-            args: [--application-directories=src]
+            args: [--application-directories=cookietemple]
+            exclude: templates
           - id: trailing-whitespace
             name: Trim Trailing Whitespace
             entry: trailing-whitespace-fixer
             language: system
             types: [text]
             stages: [commit, push, manual]
+            exclude: templates
     - repo: https://github.com/prettier/pre-commit
       rev: v2.1.2
       hooks:
           - id: prettier
+            exclude: templates

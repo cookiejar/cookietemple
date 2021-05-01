@@ -1,65 +1,64 @@
 name: Create cli-python Template
 
 on:
-  push:
-    paths-ignore:
-      - "tests/**"
-      - "docs/**"
-  pull_request:
-    paths-ignore:
-      - "tests/**"
-      - "docs/**"
+    push:
+        paths-ignore:
+            - "tests/**"
+            - "docs/**"
+    pull_request:
+        paths-ignore:
+            - "tests/**"
+            - "docs/**"
 
 jobs:
-  build:
+    build:
+        runs-on: ubuntu-latest
+        if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+        strategy:
+            matrix:
+                python: [3.8, 3.9]
 
-    runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
-    strategy:
-      matrix:
-        python: [3.8, 3.9]
+        steps:
+            - uses: actions/checkout@v2
+              name: Check out source-code repository
 
-    steps:
-      - uses: actions/checkout@v2
-        name: Check out source-code repository
+            - name: Setup Python
+              uses: actions/setup-python@v2.2.2
+              with:
+                  python-version: ${{ matrix.python }}
 
-      - name: Setup Python
-        uses: actions/setup-python@v2.2.2
-        with:
-          python-version: ${{ matrix.python }}
+            - name: Install Poetry
+              run: |
+                  pip install poetry
 
-      - name: Install Poetry
-        run: |
-         pip install poetry
+            - name: Build package
+              run: |
+                  make install
 
-      - name: Build package
-        run: |
-         make install
+            - name: Create cli-python Template
+              run: |
+                  echo -e "\n\nHomer\nsimpson@gmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\nn" | poetry run cookietemple create
 
-      - name: Create cli-python Template
-        run: |
-         echo -e "\n\nHomer\nsimpson@gmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\nn" | poetry run cookietemple create
+            - name: Install Poetry, nox and the nox poetry extension
+              run: pip install poetry nox nox-poetry
 
-      - name: Install Poetry, nox and the nox poetry extension
-        run: pip install poetry nox nox-poetry
+            - name: Build Package
+              run: |
+                  cd explodingspringfield
+                  make install
 
-      - name: Build Package
-        run: |
-             cd explodingspringfield
-             make install
+            - name: Run Tests
+              run: |
+                  mv explodingspringfield /tmp
+                  cd /tmp/explodingspringfield
+                  git init
+                  git add .
+                  nox
 
-      - name: Run Tests
-        run: |
-            mv explodingspringfield /tmp
-            cd /tmp/explodingspringfield
-            git init
-            git add .
-            nox
+            - name: Install doc dependencies
+              run: pip install -r /tmp/explodingspringfield/docs/requirements.txt
 
-      - name: Install doc dependencies
-        run: pip install -r /tmp/explodingspringfield/docs/requirements.txt
-
-      - name: Build docs
-        run: |
-            cd /tmp/explodingspringfield/docs
-            make html
+            - name: Build docs
+              run: |
+                  cd /tmp/explodingspringfield/docs
+                  make html

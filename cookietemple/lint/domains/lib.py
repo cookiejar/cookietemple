@@ -1,7 +1,10 @@
 import os
 from typing import List
 
-from cookietemple.lint.template_linter import TemplateLinter, files_exist_linting, GetLintingFunctionsMeta, ConfigLinter
+from cookietemple.lint.template_linter import ConfigLinter
+from cookietemple.lint.template_linter import files_exist_linting
+from cookietemple.lint.template_linter import GetLintingFunctionsMeta
+from cookietemple.lint.template_linter import TemplateLinter
 
 CWD = os.getcwd()
 
@@ -17,14 +20,19 @@ class LibCppLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
         """
         Check the sync_files_blacklisted section containing every required file!
         """
-        config_linter = ConfigLinter(f'{self.path}/cookietemple.cfg', self)
-        result = config_linter.check_section(section_items=config_linter.parser.items('sync_files_blacklisted'), section_name='sync_files_blacklisted',
-                                             main_linter=self, blacklisted_sync_files=[[('changelog', 'CHANGELOG.rst')], -1],
-                                             error_code='lib-cpp-2', is_sublinter_calling=True)
+        config_linter = ConfigLinter(f"{self.path}/cookietemple.cfg", self)
+        result = config_linter.check_section(
+            section_items=config_linter.parser.items("sync_files_blacklisted"),
+            section_name="sync_files_blacklisted",
+            main_linter=self,
+            blacklisted_sync_files=[[("changelog", "CHANGELOG.rst")], -1],
+            error_code="lib-cpp-2",
+            is_sublinter_calling=True,
+        )
         if result:
-            self.passed.append(('lib-cpp-2', 'All required sync blacklisted files are configured!'))
+            self.passed.append(("lib-cpp-2", "All required sync blacklisted files are configured!"))
         else:
-            self.failed.append(('lib-cpp-2', 'Blacklisted sync files section misses some required files!'))
+            self.failed.append(("lib-cpp-2", "Blacklisted sync files section misses some required files!"))
         return result
 
     def cpp_files_exist(self) -> None:
@@ -49,21 +57,19 @@ class LibCppLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
         # NB: Should all be files, not directories
         # List of lists. Passes if any of the files in the sublist are found.
         files_fail = [
-            ['CMakeLists.txt'],
+            ["CMakeLists.txt"],
         ]
         files_warn = [
-            [os.path.join('.clang-format')],
-            [os.path.join('.clang-tidy')],
-            [os.path.join('.github', 'workflows', 'build_windows.yml')],
-            [os.path.join('.github', 'workflows', 'build_linux.yml')],
-            [os.path.join('.github', 'workflows', 'build_macos.yml')],
-            [os.path.join('.github', 'workflows', 'release.yml')],
+            [os.path.join(".clang-format")],
+            [os.path.join(".clang-tidy")],
+            [os.path.join(".github", "workflows", "build_windows.yml")],
+            [os.path.join(".github", "workflows", "build_linux.yml")],
+            [os.path.join(".github", "workflows", "build_macos.yml")],
+            [os.path.join(".github", "workflows", "release.yml")],
         ]
 
         # List of strings. Fails / warns if any of the strings exist.
-        files_fail_ifexists: List[str] = [
-        ]
-        files_warn_ifexists: List[str] = [
-        ]
+        files_fail_ifexists: List[str] = []
+        files_warn_ifexists: List[str] = []
 
-        files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists, handle='lib-cpp')
+        files_exist_linting(self, files_fail, files_fail_ifexists, files_warn, files_warn_ifexists, handle="lib-cpp")

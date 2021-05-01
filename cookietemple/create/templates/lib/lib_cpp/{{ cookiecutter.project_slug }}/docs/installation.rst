@@ -138,4 +138,3 @@ of this procedure is:
 
    # you can also run tests with the `-VV` flag for a more verbose output (i.e.
    #GoogleTest output as well)
-

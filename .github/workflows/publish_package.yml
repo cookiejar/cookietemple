@@ -1,21 +1,23 @@
-name: Publish cookietemple to PyPI
+name: Publish Cookietemple to PyPI
 
 on:
-  release:
-    types: [created]
+    release:
+        types: [created]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
-    steps:
-    - uses: actions/checkout@v2
-      name: Check out source-code repository
+    release:
+        name: Release
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out the repository
+              uses: actions/checkout@v2.3.4
+              with:
+                  fetch-depth: 2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2.2.2
-      with:
-        python-version: '3.8'
+            - name: Set up Python
+              uses: actions/setup-python@v2.1.4
+              with:
+                  python-version: "3.9"
 
             - name: Install Poetry
               run: |
@@ -23,12 +25,10 @@ jobs:
                   poetry --version
 
             - name: Build package
-              run: |
-                  poetry build --ansi
+              run: poetry build --ansi
 
             - name: Publish package on PyPI
               uses: pypa/gh-action-pypi-publish@v1.4.2
               with:
-                  user: ${{ secrets.PYPI_USERNAME }}
-                  password: ${{ secrets.PYPI_PASSWORD }}
-
+                  user: __token__
+                  password: ${{ secrets.PYPI_TOKEN }}

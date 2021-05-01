@@ -1,48 +1,46 @@
 name: Create lib-cpp Template
 
 on:
-  push:
-    paths-ignore:
-      - "tests/**"
-      - "docs/**"
-  pull_request:
-    paths-ignore:
-      - "tests/**"
-      - "docs/**"
+    push:
+        paths-ignore:
+            - "tests/**"
+            - "docs/**"
+    pull_request:
+        paths-ignore:
+            - "tests/**"
+            - "docs/**"
 
 jobs:
-  build:
+    build:
+        runs-on: ubuntu-latest
+        if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+        strategy:
+            matrix:
+                python: [3.8, 3.9]
 
-    runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
-    strategy:
-      matrix:
-          python: [3.8, 3.9]
+        steps:
+            - uses: actions/checkout@v2
+              name: Check out source-code repository
 
-    steps:
-    - uses: actions/checkout@v2
-      name: Check out source-code repository
+            - name: Setup Python
+              uses: actions/setup-python@v2.2.2
+              with:
+                  python-version: ${{ matrix.python }}
 
-    - name: Setup Python
-      uses: actions/setup-python@v2.2.2
-      with:
-        python-version: ${{ matrix.python }}
+            - name: Install Poetry
+              run: |
+                  pip install poetry
 
-    - name: Install Poetry
-      run: |
-        pip install poetry
+            - name: Build package
+              run: |
+                  make install
 
-    - name: Build package
-      run: |
-        make install
+            - name: Create lib-cpp Template
+              run: |
+                  echo -e "\033[B\n\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n\n\nn\n\n" | poetry run cookietemple create
 
-    - name: Create lib-cpp Template
-      run: |
-        echo -e "\033[B\n\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n\n\nn\n\n" | poetry run cookietemple create
-
-    - name: Build Package
-      run: |
-        cd explodingspringfield
-        cmake -Bbuild -Dexplodingspringfield_ENABLE_UNIT_TESTING=0 && \
-        cmake --build build
-
+            - name: Build Package
+              run: |
+                  cd explodingspringfield
+                  cmake -Bbuild -Dexplodingspringfield_ENABLE_UNIT_TESTING=0 && \
+                  cmake --build build

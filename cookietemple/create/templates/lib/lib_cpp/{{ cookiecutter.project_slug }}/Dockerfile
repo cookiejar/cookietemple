@@ -31,7 +31,7 @@ RUN apt install -y wget tar build-essential libssl-dev && \
 			cd cmake-3.15.0 && \
 			./bootstrap && \
 			make && \
-			make install 
+			make install
 
 RUN pip3 install conan
 
@@ -49,4 +49,4 @@ RUN git clone https://github.com/google/googletest.git --branch release-1.10.0 &
 
 RUN git clone https://github.com/microsoft/vcpkg -b 2020.06 && \
 		cd vcpkg && \
-		./bootstrap-vcpkg.sh -disableMetrics -useSystemBinaries	
+		./bootstrap-vcpkg.sh -disableMetrics -useSystemBinaries

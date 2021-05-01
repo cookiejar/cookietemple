@@ -1,6 +1,7 @@
 from typing import Tuple
 
-from cookietemple.common.suggest_similar_commands import SIMILARITY_SUGGEST_FACTOR, SIMILARITY_USE_FACTOR
+from cookietemple.common.suggest_similar_commands import SIMILARITY_SUGGEST_FACTOR
+from cookietemple.common.suggest_similar_commands import SIMILARITY_USE_FACTOR
 
 
 def levensthein_dist(input_command: str, candidate: str) -> int:
@@ -81,4 +82,10 @@ def most_similar_command(command: str, command_list: set) -> Tuple[list, str]:
                 sim_command_suggest.append(handle)
 
     # return the use list, as those are closer, but if its empty, return the list of suggested commands (or if that is empty too, an empty list)
-    return (sim_command_use, 'use') if sim_command_use else (sim_command_suggest, 'suggest') if sim_command_suggest else ([], '')
+    return (
+        (sim_command_use, "use")
+        if sim_command_use
+        else (sim_command_suggest, "suggest")
+        if sim_command_suggest
+        else ([], "")
+    )

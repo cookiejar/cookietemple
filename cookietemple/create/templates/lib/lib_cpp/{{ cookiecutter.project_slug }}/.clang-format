@@ -8,7 +8,7 @@ AllowShortIfStatementsOnASingleLine: 'Never'
 AllowShortLoopsOnASingleLine: 'false'
 BreakBeforeBraces: Allman
 Cpp11BracedListStyle: 'false'
-ColumnLimit: 125 
+ColumnLimit: 125
 NamespaceIndentation: All
 SpaceAfterTemplateKeyword: 'false'
 SpaceBeforeCtorInitializerColon: 'true'

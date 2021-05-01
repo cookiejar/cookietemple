@@ -1,12 +1,13 @@
 import logging
-from typing import Union, Optional
 from pathlib import Path
+from typing import Optional
+from typing import Union
 
 from cookietemple.create.domains.cli_creator import CliCreator
-from cookietemple.create.domains.web_creator import WebCreator
 from cookietemple.create.domains.gui_creator import GuiCreator
 from cookietemple.create.domains.lib_creator import LibCreator
 from cookietemple.create.domains.pub_creator import PubCreator
+from cookietemple.create.domains.web_creator import WebCreator
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 
 
@@ -23,20 +24,16 @@ def choose_domain(path: Path, domain: Union[str, bool], dot_cookietemple: Option
     :param dot_cookietemple: Dictionary created from the .cookietemple.yml file. None if no .cookietemple.yml file was used.
     """
     if not domain:
-        domain = cookietemple_questionary_or_dot_cookietemple(function='select',
-                                                              question='Choose the project\'s domain',
-                                                              choices=['cli', 'lib', 'gui', 'web', 'pub'],
-                                                              default='cli',
-                                                              dot_cookietemple=dot_cookietemple,
-                                                              to_get_property='domain')
+        domain = cookietemple_questionary_or_dot_cookietemple(
+            function="select",
+            question="Choose the project's domain",
+            choices=["cli", "lib", "gui", "web", "pub"],
+            default="cli",
+            dot_cookietemple=dot_cookietemple,
+            to_get_property="domain",
+        )
 
-    switcher = {
-        'cli': CliCreator,
-        'web': WebCreator,
-        'gui': GuiCreator,
-        'lib': LibCreator,
-        'pub': PubCreator
-    }
+    switcher = {"cli": CliCreator, "web": WebCreator, "gui": GuiCreator, "lib": LibCreator, "pub": PubCreator}
 
     creator_obj: Union[CliCreator, WebCreator, GuiCreator, LibCreator, PubCreator] = switcher.get(domain.lower())()  # type: ignore
     creator_obj.create_template(path, dot_cookietemple)
