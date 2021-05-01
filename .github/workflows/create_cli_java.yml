@@ -48,6 +48,8 @@ jobs:
 
             - name: Build with Gradle
               run: |
+                  ls -a
+                  pwd
                   cd explodingspringfield
                   make binary
 

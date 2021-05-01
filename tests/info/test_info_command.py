@@ -4,7 +4,7 @@ import pytest
 from click.testing import CliRunner
 from cookietemple.common.levensthein_dist import most_similar_command
 from cookietemple.info.info import TemplateInfo
-from cookietemple.src.__main__ import info
+from cookietemple.__main__ import info
 
 """
 This test class is for testing the info subcommand:
