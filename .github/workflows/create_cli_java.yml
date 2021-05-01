@@ -39,6 +39,7 @@ jobs:
               run: |
                   pwd
                   echo -e "\n\033[B\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\ngroup_domain\ngroup_organization\nn" | poetry run cookietemple create
+                  cd explodingspringfield
                   pwd
                   ls -a
             - uses: actions/checkout@v2
@@ -50,9 +51,8 @@ jobs:
 
             - name: Build with Gradle
               run: |
-                  ls -a
                   pwd
-                  cd explodingspringfield
+                  ls -a
                   make binary
 
             - name: Install doc dependencies
