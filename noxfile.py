@@ -15,7 +15,7 @@ except ImportError:
     print("[bold blue]Try installing it using [bold green]pip install nox-poetry [bold blue]! ")
     sys.exit(1)
 
-package = "mlf_core"
+package = "cookietemple"
 python_versions = ["3.8", "3.9"]
 nox.options.sessions = (
     "pre-commit",
@@ -149,7 +149,7 @@ def coverage(session: Session) -> None:
 def typeguard(session: Session) -> None:
     """Runtime type checking using Typeguard."""
     session.install(".")
-    session.install("pytest", "typeguard", "pygments")
+    session.install("pytest", "typeguard", "pygments", "ruamel.yaml")
     session.run("pytest", f"--typeguard-packages={package}", *session.posargs)
 
 
