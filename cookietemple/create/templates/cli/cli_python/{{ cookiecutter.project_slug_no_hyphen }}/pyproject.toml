@@ -9,7 +9,7 @@ homepage = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutte
 repository = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
 documentation = "https://{{ cookiecutter.project_slug }}.readthedocs.io"
 packages = [
-    { include = "{{ cookiecutter.project_slug_no_hyphen }}", from = "src" },
+    { include = "{{ cookiecutter.project_slug_no_hyphen }}" },
 ]
 classifiers = [
     "Programming Language :: Python :: 3.6",
@@ -51,17 +51,17 @@ sphinx-click = "^2.5.0"
 Pygments = "^2.8.1"
 
 [tool.poetry.scripts]
-{{cookiecutter.project_slug}} = "{{cookiecutter.project_slug_no_hyphen}}.__main__:main"
+{{ cookiecutter.project_slug }} = "{{ cookiecutter.project_slug_no_hyphen }}.__main__:main"
 
 [tool.black]
 line-length = 120
 
 [tool.coverage.paths]
-source = ["src", "*/site-packages"]
+source = ["{{ cookiecutter.project_slug_no_hyphen }}", "*/site-packages"]
 
 [tool.coverage.run]
 branch = true
-source = ["{{cookiecutter.project_slug_no_hyphen}}"]
+source = ["{{ cookiecutter.project_slug_no_hyphen }}"]
 
 [tool.coverage.report]
 show_missing = true
