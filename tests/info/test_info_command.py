@@ -2,9 +2,9 @@ from typing import Dict
 
 import pytest
 from click.testing import CliRunner
+from cookietemple.__main__ import info
 from cookietemple.common.levensthein_dist import most_similar_command
 from cookietemple.info.info import TemplateInfo
-from cookietemple.__main__ import info
 
 """
 This test class is for testing the info subcommand:

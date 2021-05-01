@@ -5,8 +5,8 @@ from typing import Tuple
 
 import pytest
 from click.testing import CliRunner
-from cookietemple.bump_version.bump_version import VersionBumper
 from cookietemple.__main__ import bump_version
+from cookietemple.bump_version.bump_version import VersionBumper
 
 
 @pytest.fixture
