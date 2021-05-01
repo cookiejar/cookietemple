@@ -17,7 +17,7 @@ jobs:
 
             - name: Install cookietemple
               run: |
-                  pip install cookietemple==1.2.4
+                  pip install cookietemple==1.3.3
 
             - name: Run cookietemple lint
               run: |

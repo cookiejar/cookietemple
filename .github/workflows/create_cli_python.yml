@@ -39,8 +39,8 @@ jobs:
               run: |
                   echo -e "\n\nHomer\nsimpson@gmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\nn" | poetry run cookietemple create
 
-            - name: Install Poetry, nox and the nox poetry extension
-              run: pip install poetry nox nox-poetry
+            - name: Install nox and the nox poetry extension
+              run: pip install nox nox-poetry rich
 
             - name: Build Package
               run: |
