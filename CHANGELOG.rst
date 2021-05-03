@@ -15,6 +15,7 @@ This project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 * Removed contributor guide from cli-python
 * make clean does now not remove nox and testing artifacts for cli-python
+* Removed src folder from cli-python template
 
 **Dependencies**
 

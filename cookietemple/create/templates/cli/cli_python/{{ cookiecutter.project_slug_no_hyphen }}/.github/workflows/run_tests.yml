@@ -81,8 +81,7 @@ jobs:
                   nox --version
 
             - name: Install Rich
-              run: |
-                  pip install rich
+              run: pip install rich
 
             - name: Compute pre-commit cache key
               if: matrix.session == 'pre-commit'
