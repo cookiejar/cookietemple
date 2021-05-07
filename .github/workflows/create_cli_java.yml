@@ -35,6 +35,13 @@ jobs:
               run: |
                   make install
 
+            - uses: actions/checkout@v2
+            - uses: DeLaGuardo/setup-graalvm@a766aa7b5fcc0a801fa3d4fd521ca299c03c9c00
+              with:
+                  graalvm-version: "20.1.0.java11"
+            - run: java -version
+            - run: gu install native-image
+
             - name: Create cli-java Template
               run: |
                   pwd
@@ -42,12 +49,6 @@ jobs:
                   cd explodingspringfield
                   pwd
                   ls -a
-            - uses: actions/checkout@v2
-            - uses: DeLaGuardo/setup-graalvm@a766aa7b5fcc0a801fa3d4fd521ca299c03c9c00
-              with:
-                  graalvm-version: "20.1.0.java11"
-            - run: java -version
-            - run: gu install native-image
 
             - name: Build with Gradle
               run: |
