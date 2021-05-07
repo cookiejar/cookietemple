@@ -17,7 +17,7 @@ jobs:
             - name: Install cookietemple
               run: pip install cookietemple
 
-            - uses: actions/checkout@v2.1
+            - uses: actions/checkout@v2
               with:
                   fetch-depth: 0
                   token: "{% raw %}${{ secrets.CT_SYNC_TOKEN }}{% endraw %}"
