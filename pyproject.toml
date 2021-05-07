@@ -1,9 +1,9 @@
 [tool.poetry]
 name = "cookietemple"
-version = "1.3.2"  # <<COOKIETEMPLE_FORCE_BUMP>>
-description = "TODO"
-authors = ["TODO NAME <TODO MAIL>"]
-license = "TODO LICENSE"
+version = "1.4.0"  # <<COOKIETEMPLE_FORCE_BUMP>>
+description = "A cookiecutter based project template creation tool supporting several domains and languages with advanced linting, syncing and standardized workflows to get your project kickstarted in no time."
+authors = ["Philipp Ehmele <philipp_ehm@protonmail.com>", "Lukas Heumos <lukas.heumos@posteo.net>"]
+license = "Apache2.0"
 readme = "README.rst"
 homepage = "https://cookietemple.com"
 repository = "https://github.com/cookiejar/cookietemple"
