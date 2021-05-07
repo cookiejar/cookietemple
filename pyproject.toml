@@ -69,7 +69,7 @@ source = ["cookietemple", "*/site-packages"]
 
 [tool.coverage.run]
 branch = true
-source = ["."]
+source = ["cookietemple"]
 
 [tool.coverage.report]
 show_missing = true
