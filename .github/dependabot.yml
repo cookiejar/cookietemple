@@ -1,78 +1,78 @@
 version: 2
 updates:
-# cookietemple itself
-- package-ecosystem: pip
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "04:00"
-  open-pull-requests-limit: 99
-  target-branch: development
-  labels:
-  - dependabot
-  commit-message:
-    prefix: "[DEPENDABOT]"
+    # cookietemple itself
+    - package-ecosystem: pip
+      directory: "/"
+      schedule:
+          interval: daily
+          time: "04:00"
+      open-pull-requests-limit: 99
+      target-branch: development
+      labels:
+          - dependabot
+      commit-message:
+          prefix: "[DEPENDABOT]"
 
-- package-ecosystem: github-actions
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "04:00"
-  open-pull-requests-limit: 99
-  target-branch: development
-  labels:
-  - dependabot
-  commit-message:
-    prefix: "[DEPENDABOT]"
+    - package-ecosystem: github-actions
+      directory: "/"
+      schedule:
+          interval: daily
+          time: "04:00"
+      open-pull-requests-limit: 99
+      target-branch: development
+      labels:
+          - dependabot
+      commit-message:
+          prefix: "[DEPENDABOT]"
 
-# Templates
-# CLI
-- package-ecosystem: pip
-  directory: "/cookietemple/create/templates/cli/cli_python/{{ cookiecutter.project_slug_no_hyphen }}"
-  schedule:
-    interval: daily
-    time: "04:00"
-  open-pull-requests-limit: 99
-  target-branch: development
-  labels:
-  - dependabot
-  commit-message:
-    prefix: "[DEPENDABOT]"
+    # Templates
+    # CLI
+    - package-ecosystem: pip
+      directory: "/cookietemple/create/templates/cli/cli_python/{{ cookiecutter.project_slug_no_hyphen }}"
+      schedule:
+          interval: daily
+          time: "04:00"
+      open-pull-requests-limit: 99
+      target-branch: development
+      labels:
+          - dependabot
+      commit-message:
+          prefix: "[DEPENDABOT]"
 
-- package-ecosystem: gradle
-  directory: "/cookietemple/create/templates/cli/cli_java/{{ cookiecutter.project_slug_no_hyphen }}"
-  schedule:
-    interval: daily
-    time: "04:00"
-  open-pull-requests-limit: 99
-  target-branch: development
-  labels:
-  - dependabot
-  commit-message:
-    prefix: "[DEPENDABOT]"
+    - package-ecosystem: gradle
+      directory: "/cookietemple/create/templates/cli/cli_java/{{ cookiecutter.project_slug_no_hyphen }}"
+      schedule:
+          interval: daily
+          time: "04:00"
+      open-pull-requests-limit: 99
+      target-branch: development
+      labels:
+          - dependabot
+      commit-message:
+          prefix: "[DEPENDABOT]"
 
-# GUI
-- package-ecosystem: maven
-  directory: "/cookietemple/create/templates/gui/gui_java/{{ cookiecutter.project_slug_no_hyphen }}"
-  schedule:
-    interval: daily
-    time: "04:00"
-  open-pull-requests-limit: 99
-  target-branch: development
-  labels:
-  - dependabot
-  commit-message:
-    prefix: "[DEPENDABOT]"
+    # GUI
+    - package-ecosystem: maven
+      directory: "/cookietemple/create/templates/gui/gui_java/{{ cookiecutter.project_slug_no_hyphen }}"
+      schedule:
+          interval: daily
+          time: "04:00"
+      open-pull-requests-limit: 99
+      target-branch: development
+      labels:
+          - dependabot
+      commit-message:
+          prefix: "[DEPENDABOT]"
 
-# WEB
-- package-ecosystem: pip
-  directory: "/cookietemple/create/templates/web/website_python/flask/{{ cookiecutter.project_slug_no_hyphen }}"
-  schedule:
-    interval: daily
-    time: "04:00"
-  open-pull-requests-limit: 99
-  target-branch: development
-  labels:
-  - dependabot
-  commit-message:
-    prefix: "[DEPENDABOT]"
+    # WEB
+    - package-ecosystem: pip
+      directory: "/cookietemple/create/templates/web/website_python/flask/{{ cookiecutter.project_slug_no_hyphen }}"
+      schedule:
+          interval: daily
+          time: "04:00"
+      open-pull-requests-limit: 99
+      target-branch: development
+      labels:
+          - dependabot
+      commit-message:
+          prefix: "[DEPENDABOT]"

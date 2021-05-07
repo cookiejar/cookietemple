@@ -1,9 +1,9 @@
 import sys
 from pathlib import Path
 from typing import Tuple
-from rich import print
 
 from cookietemple.common.load_yaml import load_yaml_file
+from rich import print
 
 
 def load_ct_template_version(handle: str, yaml_path: str) -> str:
@@ -15,14 +15,14 @@ def load_ct_template_version(handle: str, yaml_path: str) -> str:
     :return: The version number to the given handles template
     """
     available_templates = load_yaml_file(yaml_path)
-    parts = handle.split('-')
+    parts = handle.split("-")
     if len(parts) == 2:
-        return available_templates[parts[0]][parts[1]]['version']
+        return available_templates[parts[0]][parts[1]]["version"]
     elif len(parts) == 3:
 
-        return available_templates[parts[0]][parts[1]][parts[2]]['version']
+        return available_templates[parts[0]][parts[1]][parts[2]]["version"]
 
-    return ''
+    return ""
 
 
 def load_project_template_version_and_handle(project_dir: Path) -> Tuple[str, str]:
@@ -35,9 +35,9 @@ def load_project_template_version_and_handle(project_dir: Path) -> Tuple[str, st
     :return: The version number of the cookietemple template when the user created the project and the projects template handle.
     """
     try:
-        ct_meta = load_yaml_file(f'{project_dir.__str__()}/.cookietemple.yml')
+        ct_meta = load_yaml_file(f"{project_dir.__str__()}/.cookietemple.yml")
         # split the template version at first space to omit the cookietemple bump-version tag and return it and the handle
-        return ct_meta['template_version'].split(" ", 1)[0], ct_meta['template_handle']
+        return ct_meta["template_version"].split(" ", 1)[0], ct_meta["template_handle"]
     except FileNotFoundError:
-        print(f'[bold red]No .cookietemple.yml found at {project_dir.__str__()}. Is this a cookietemple project?')
+        print(f"[bold red]No .cookietemple.yml found at {project_dir.__str__()}. Is this a cookietemple project?")
         sys.exit(1)

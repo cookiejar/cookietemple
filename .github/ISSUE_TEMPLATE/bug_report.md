@@ -1,10 +1,9 @@
 ---
 name: Bug report
 about: Create a bug report to improve cookietemple
-title: 'Bug report'
-labels: 'bug'
-assignees: ''
-
+title: "Bug report"
+labels: "bug"
+assignees: ""
 ---
 
 **Associated Template/Command/Core**
@@ -18,6 +17,7 @@ assignees: ''
 **To Reproduce**
 
 Steps to reproduce the behavior:
+
 1. Run cookietemple with command: '...'
 2. Select: '...'
 3. See error
@@ -28,10 +28,10 @@ Steps to reproduce the behavior:
 
 **System [please complete the following information]:**
 
- - OS: e.g. [Ubuntu 18.04]
- - Python: [e.g. 3.8]
- - Virtual environment: [e.g. Conda]
- - cookietemple: [e.g. 1.0.0]
+-   OS: e.g. [Ubuntu 18.04]
+-   Python: [e.g. 3.8]
+-   Virtual environment: [e.g. Conda]
+-   cookietemple: [e.g. 1.0.0]
 
 **Additional context**
 

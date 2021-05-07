@@ -17,7 +17,7 @@ And now I begin my third chapter here \dots
 And now to cite some more people~\citet{Rea85,Ancey1996}
 
 \subsection{First subsection in the first section}
-\dots and some more 
+\dots and some more
 
 \subsection{Second subsection in the first section}
 \dots and some more \dots
@@ -45,8 +45,8 @@ and here I write more \dots
 This section has been modified from ``Publication quality tables in \LaTeX*''
  by Simon Fear.
 
-The layout of a table has been established over centuries of experience and 
-should only be altered in extraordinary circumstances. 
+The layout of a table has been established over centuries of experience and
+should only be altered in extraordinary circumstances.
 
 When formatting a table, remember two simple guidelines at all times:
 
@@ -84,23 +84,23 @@ A frequently seen mistake is to use `\textbackslash begin\{center\}' \dots `\tex
 \centering
 \label{table:bad_table}
 \begin{tabular}{|l|c|c|c|c|}
-\hline 
-& \multicolumn{2}{c}{Species I} & \multicolumn{2}{c|}{Species II} \\ 
 \hline
-Dental measurement  & mean & SD  & mean & SD  \\ \hline 
+& \multicolumn{2}{c}{Species I} & \multicolumn{2}{c|}{Species II} \\
+\hline
+Dental measurement  & mean & SD  & mean & SD  \\ \hline
 \hline
 I1MD & 6.23 & 0.91 & 5.2  & 0.7  \\
-\hline 
+\hline
 I1LL & 7.48 & 0.56 & 8.7  & 0.71 \\
-\hline 
+\hline
 I2MD & 3.99 & 0.63 & 4.22 & 0.54 \\
-\hline 
+\hline
 I2LL & 6.81 & 0.02 & 6.66 & 0.01 \\
-\hline 
+\hline
 CMD & 13.47 & 0.09 & 10.55 & 0.05 \\
-\hline 
-CBL & 11.88 & 0.05 & 13.11 & 0.04\\ 
-\hline 
+\hline
+CBL & 11.88 & 0.05 & 13.11 & 0.04\\
+\hline
 \end{tabular}
 \end{table}
 
@@ -109,10 +109,10 @@ CBL & 11.88 & 0.05 & 13.11 & 0.04\\
 \centering
 \label{table:nice_table}
 \begin{tabular}{l c c c c}
-\hline 
-\multirow{2}{*}{Dental measurement} & \multicolumn{2}{c}{Species I} & \multicolumn{2}{c}{Species II} \\ 
+\hline
+\multirow{2}{*}{Dental measurement} & \multicolumn{2}{c}{Species I} & \multicolumn{2}{c}{Species II} \\
 \cline{2-5}
-  & mean & SD  & mean & SD  \\ 
+  & mean & SD  & mean & SD  \\
 \hline
 I1MD & 6.23 & 0.91 & 5.2  & 0.7  \\
 
@@ -124,8 +124,8 @@ I2LL & 6.81 & 0.02 & 6.66 & 0.01 \\
 
 CMD & 13.47 & 0.09 & 10.55 & 0.05 \\
 
-CBL & 11.88 & 0.05 & 13.11 & 0.04\\ 
-\hline 
+CBL & 11.88 & 0.05 & 13.11 & 0.04\\
+\hline
 \end{tabular}
 \end{table}
 
@@ -136,9 +136,9 @@ CBL & 11.88 & 0.05 & 13.11 & 0.04\\
 \label{table:good_table}
 \begin{tabular}{l c c c c}
 \toprule
-\multirow{2}{*}{Dental measurement} & \multicolumn{2}{c}{Species I} & \multicolumn{2}{c}{Species II} \\ 
+\multirow{2}{*}{Dental measurement} & \multicolumn{2}{c}{Species I} & \multicolumn{2}{c}{Species II} \\
 \cmidrule{2-5}
-  & mean & SD  & mean & SD  \\ 
+  & mean & SD  & mean & SD  \\
 \midrule
 I1MD & 6.23 & 0.91 & 5.2  & 0.7  \\
 
@@ -150,7 +150,7 @@ I2LL & 6.81 & 0.02 & 6.66 & 0.01 \\
 
 CMD & 13.47 & 0.09 & 10.55 & 0.05 \\
 
-CBL & 11.88 & 0.05 & 13.11 & 0.04\\ 
+CBL & 11.88 & 0.05 & 13.11 & 0.04\\
 \bottomrule
 \end{tabular}
 \end{table}

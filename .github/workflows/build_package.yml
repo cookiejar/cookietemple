@@ -3,36 +3,33 @@ name: Build cookietemple Package
 on: [push, pull_request]
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-        python: [3.7, 3.8]
-    env:
-      PYTHONIOENCODING: utf-8
+    build:
+        runs-on: ${{ matrix.os }}
+        if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+        strategy:
+            matrix:
+                os: [macos-latest, ubuntu-latest, windows-latest]
+                python: [3.8, 3.9]
 
-    steps:
-      - uses: actions/checkout@v2
-        name: Check out source-code repository
+        steps:
+            - uses: actions/checkout@v2
+              name: Check out source-code repository
 
-      - name: Setup Python
-        uses: actions/setup-python@v2.2.2
-        with:
-          python-version: ${{ matrix.python }}
+            - name: Setup Python
+              uses: actions/setup-python@v2
+              with:
+                  python-version: ${{ matrix.python }}
 
-      - name: Build Cookietemple
-        run: pip install .
+            - name: Install Poetry
+              run: |
+                  pip install poetry
+                  poetry --version
 
-      - name: Call Help Command
-        run: cookietemple --help
+            - name: Build package
+              run: poetry build --ansi
 
-      - name: Install required twine packaging dependencies
-        run: pip install setuptools wheel twine
+            - name: Install required twine packaging dependencies
+              run: pip install setuptools wheel twine
 
-      - name: Build twine package
-        run: python setup.py sdist bdist_wheel
-
-      - name: Check twine package
-        run: twine check dist/*
+            - name: Check twine package
+              run: twine check dist/*

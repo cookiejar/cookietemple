@@ -27,4 +27,3 @@ some_string = "1.2 SomeString"
 some_string = 1.2.3.4 My String'
 some_string 1.2.3.4.5 dots .. My String'
 my.chained.function_call()
-

@@ -59,4 +59,3 @@ jobs:
 
     - name: install project
       run: cmake --build build --target install --config Release
-

@@ -34,7 +34,7 @@
 .. image:: https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot
         :target: https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot
         :alt: Dependabot Enabled
-        
+
 .. image:: https://zenodo.org/badge/202421008.svg
         :target: https://zenodo.org/badge/latestdoi/202421008
         :alt: Zenodo ID

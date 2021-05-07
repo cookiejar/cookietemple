@@ -328,24 +328,28 @@ Our shiny new CliBrainfuckLinter is now ready for action!
           runs-on: ubuntu-latest
           strategy:
             matrix:
-              python: [3.7, 3.8]
+              python: [3.8, 3.9]
 
           steps:
           - uses: actions/checkout@v2
             name: Check out source-code repository
 
           - name: Setup Python
-            uses: actions/setup-python@v1
+            uses: actions/setup-python@v2.2.2
             with:
               python-version: ${{ matrix.python }}
 
+          - name: Install Poetry
+              run: |
+                  pip install poetry
+
           - name: Build cookietemple
-            run: |
-              python setup.py clean --all install
+              run: |
+                  make install
 
           - name: Create cli-brainfuck Template
             run: |
-              echo -e "cli\nbrainfuck\nHomer\nhomer.simpson@hotmail.com\nExplodingSpringfield\ndescription\nhomergithub\nn" | cookietemple create
+              echo -e "cli\nbrainfuck\nHomer\nhomer.simpson@hotmail.com\nExplodingSpringfield\ndescription\nhomergithub\nn" | poetry run cookietemple create
 
           - name: Build Package
             uses: fabasoad/setup-brainfuck-action@master

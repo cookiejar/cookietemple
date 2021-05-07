@@ -102,15 +102,15 @@ include(cmake/Doxygen.cmake)
 if(${PROJECT_NAME}_BUILD_HEADERS_ONLY)
   target_include_directories(
     ${PROJECT_NAME}
-    INTERFACE 
-      $<INSTALL_INTERFACE:include>    
+    INTERFACE
+      $<INSTALL_INTERFACE:include>
       $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   )
 else()
   target_include_directories(
     ${PROJECT_NAME}
-    PUBLIC 
-      $<INSTALL_INTERFACE:include>    
+    PUBLIC
+      $<INSTALL_INTERFACE:include>
       $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     PRIVATE
       ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -119,8 +119,8 @@ else()
 	if(${PROJECT_NAME}_BUILD_EXECUTABLE)
 		target_include_directories(
 			${PROJECT_NAME}_LIB
-			PUBLIC 
-				$<INSTALL_INTERFACE:include>    
+			PUBLIC
+				$<INSTALL_INTERFACE:include>
 				$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 			PRIVATE
 				${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -131,7 +131,7 @@ endif()
 message(STATUS "Finished setting up include directories.")
 
 #
-# Model project dependencies 
+# Model project dependencies
 #
 
 # Identify and link with the specific "packages" the project uses
@@ -142,14 +142,14 @@ message(STATUS "Finished setting up include directories.")
 #    dependency1 ...
 #  PRIVATE
 #    dependency2 ...
-#    ${PROJECT_NAME}_PROJECT_OPTIONS        
-#    ${PROJECT_NAME}_PROJECT_WARNINGS        
+#    ${PROJECT_NAME}_PROJECT_OPTIONS
+#    ${PROJECT_NAME}_PROJECT_WARNINGS
 #)
 
 verbose_message("Successfully added all dependencies and linked against them.")
 
 #
-# Provide alias to library for 
+# Provide alias to library for
 #
 
 if(${PROJECT_NAME}_BUILD_EXECUTABLE)
@@ -189,7 +189,7 @@ install(
 )
 
 install(
-  EXPORT 
+  EXPORT
     ${PROJECT_NAME}Targets
   FILE
     ${PROJECT_NAME}Targets.cmake
@@ -245,7 +245,7 @@ write_basic_package_version_file(
 configure_package_config_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-  INSTALL_DESTINATION 
+  INSTALL_DESTINATION
     ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 
@@ -266,7 +266,7 @@ if(${PROJECT_NAME}_GENERATE_EXPORT_HEADER)
   generate_export_header(${PROJECT_NAME})
   install(
     FILES
-      ${PROJECT_BINARY_DIR}/${PROJECT_NAME_LOWERCASE}_export.h 
+      ${PROJECT_BINARY_DIR}/${PROJECT_NAME_LOWERCASE}_export.h
     DESTINATION
       include
   )

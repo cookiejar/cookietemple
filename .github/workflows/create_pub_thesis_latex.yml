@@ -1,43 +1,43 @@
 name: Create pub-thesis-template Template
 
 on:
-  push:
-    paths-ignore:
-      - "tests/**"
-      - "docs/**"
-  pull_request:
-    paths-ignore:
-      - "tests/**"
-      - "docs/**"
+    push:
+        paths-ignore:
+            - "tests/**"
+            - "docs/**"
+    pull_request:
+        paths-ignore:
+            - "tests/**"
+            - "docs/**"
 
 jobs:
-  build:
+    build:
+        runs-on: ubuntu-latest
+        if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+        strategy:
+            matrix:
+                python: [3.8, 3.9]
 
-    runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
-    strategy:
-      matrix:
-        python: [3.7, 3.8]
+        steps:
+            - uses: actions/checkout@v2
+              name: Check out source-code repository
 
-    steps:
-      - uses: actions/checkout@v2
-        name: Check out source-code repository
+            - name: Setup Python
+              uses: actions/setup-python@v2.2.2
+              with:
+                  python-version: ${{ matrix.python }}
 
-      - name: Setup Python
-        uses: actions/setup-python@v2.2.2
-        with:
-          python-version: ${{ matrix.python }}
+            - name: Install Poetry
+              run: pip install poetry
 
-      - name: Build Cookietemple
-        run: |
-          python setup.py clean --all install
+            - name: Build package
+              run: make install
 
-      - name: Create pub-thesis-latex Template
-        run: |
-          echo -e "\033[B\033[B\033[B\033[B\n\nHomer\nhomersimpson@gmail.com\nhomergithub\nnhomerauthor\nExplodingSpringfield\nTitle\nSpringfieldUniversity\nNuclearDepartment\nPhD\nn" | cookietemple create
+            - name: Create pub-thesis-latex Template
+              run: echo -e "\033[B\033[B\033[B\033[B\n\nHomer\nhomersimpson@gmail.com\nhomergithub\nnhomerauthor\nExplodingSpringfield\nTitle\nSpringfieldUniversity\nNuclearDepartment\nPhD\nn" | poetry run cookietemple create
 
-      - name: Build thesis
-        uses: xu-cheng/latex-action@master
-        with:
-          root_file: thesis.tex
-          working_directory: ExplodingSpringfield
+            - name: Build thesis
+              uses: xu-cheng/latex-action@master
+              with:
+                  root_file: thesis.tex
+                  working_directory: ExplodingSpringfield

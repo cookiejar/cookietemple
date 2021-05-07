@@ -10,7 +10,7 @@
 .. image:: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/workflows/Run%20Tests/badge.svg
         :target: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/workflows/Run%20Tests/badge.svg
         :alt: Github Workflow Tests Status
-        
+
 {% if is_open_source %}
 .. image:: https://readthedocs.org/projects/{{ cookiecutter.project_slug | replace("_", "-") }}/badge/?version=latest
         :target: https://{{ cookiecutter.project_slug | replace("_", "-") }}.readthedocs.io/en/latest/?badge=latest
@@ -37,7 +37,7 @@ Features
 Credits
 -------
 
-This package was created with cookietemple_ using Cookiecutter_. It is based on a draft by remkop_. 
+This package was created with cookietemple_ using Cookiecutter_. It is based on a draft by remkop_.
 
 .. _remkop:       https://github.com/remkop
 .. _cookietemple: https://cookietemple.com
