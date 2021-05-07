@@ -28,16 +28,13 @@ jobs:
                   python-version: ${{ matrix.python }}
 
             - name: Install Poetry
-              run: |
-                  pip install poetry
+              run: pip install poetry
 
             - name: Build package
-              run: |
-                  make install
+              run: make install
 
             - name: Create gui-java Template
-              run: |
-                  echo -e "\033[B\033[B\n\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\nburnsorga\nn" | poetry run cookietemple create
+              run: echo -e "\033[B\033[B\n\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\nburnsorga\nn" | poetry run cookietemple create
 
             - name: Set up JDK 11
               uses: actions/setup-java@v1
@@ -50,8 +47,7 @@ jobs:
                   make compile
 
             - name: Install doc dependencies
-              run: |
-                  pip install -r docs/requirements.txt
+              run: pip install -r docs/requirements.txt
 
             - name: Build docs
               run: |

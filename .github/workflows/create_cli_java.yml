@@ -28,12 +28,10 @@ jobs:
                   python-version: ${{ matrix.python }}
 
             - name: Install Poetry
-              run: |
-                  pip install poetry
+              run: pip install poetry
 
             - name: Build package
-              run: |
-                  make install
+              run: make install
 
             - uses: actions/checkout@v2
             - uses: DeLaGuardo/setup-graalvm@a766aa7b5fcc0a801fa3d4fd521ca299c03c9c00
@@ -43,22 +41,17 @@ jobs:
             - run: gu install native-image
 
             - name: Create cli-java Template
-              run: |
-                  pwd
-                  echo -e "\n\033[B\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\ngroup_domain\ngroup_organization\nn" | poetry run cookietemple create
-                  cd explodingspringfield
-                  pwd
-                  ls -a
+              run: echo -e "\n\033[B\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\ngroup_domain\ngroup_organization\nn" | poetry run cookietemple create
 
             - name: Build with Gradle
               run: |
+                  cd explodingspringfield
+                  make binary
                   pwd
                   ls -a
-                  make binary
 
             - name: Install doc dependencies
-              run: |
-                  pip install -r docs/requirements.txt
+              run: pip install -r docs/requirements.txt
 
             - name: Build docs
               run: |

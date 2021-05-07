@@ -1,8 +1,8 @@
-name: Publish Cookietemple to PyPI
+name: Publish cookietemple to PyPI
 
 on:
     release:
-        types: [created]
+        types: [published]
 
 jobs:
     release:

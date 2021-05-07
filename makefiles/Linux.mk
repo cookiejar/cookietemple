@@ -76,7 +76,7 @@ servedocs: docs ## compile the docs watching for changes
 release: dist ## package and upload a release
 	poetry release
 
-dist: clean ## builds source and wheel package
+dist: clean-build clean-pyc ## builds source and wheel package
 	poetry build
 
 install: clean ## install the package to the active Python's site-packages

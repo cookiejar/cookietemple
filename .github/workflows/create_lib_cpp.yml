@@ -28,16 +28,13 @@ jobs:
                   python-version: ${{ matrix.python }}
 
             - name: Install Poetry
-              run: |
-                  pip install poetry
+              run: pip install poetry
 
             - name: Build package
-              run: |
-                  make install
+              run: make install
 
             - name: Create lib-cpp Template
-              run: |
-                  echo -e "\033[B\n\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n\n\nn\n\n" | poetry run cookietemple create
+              run: echo -e "\033[B\n\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n\n\nn\n\n" | poetry run cookietemple create
 
             - name: Build Package
               run: |
