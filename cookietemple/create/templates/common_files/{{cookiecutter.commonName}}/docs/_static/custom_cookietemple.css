@@ -199,3 +199,24 @@ footer {
 .wy-nav-content {
     max-width: none;
 }
+
+/*Options style for each command or subcommand*/
+/*Font color and background for a single option*/
+dl .sig-name,
+.pre,
+.sig-prename {
+    color: #fff;
+    background-color: #000 !important;
+    z-index: 1000;
+}
+/*Background of the container list for every option*/
+dt {
+    background-color: #000 !important;
+    color: white !important;
+    z-index: 1000;
+}
+span.viewcode-link,
+span.sig-paren {
+    background: black !important;
+    z-index: 1000;
+}
