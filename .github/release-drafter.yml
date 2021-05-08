@@ -1,5 +1,5 @@
-name-template: "1.3.0 🌈" # <<COOKIETEMPLE_FORCE_BUMP>>
-tag-template: 1.3.0 # <<COOKIETEMPLE_FORCE_BUMP>>
+name-template: "1.3.4 🌈" # <<COOKIETEMPLE_FORCE_BUMP>>
+tag-template: 1.3.4 # <<COOKIETEMPLE_FORCE_BUMP>>
 categories:
     - title: "🚀 Features"
       labels:
