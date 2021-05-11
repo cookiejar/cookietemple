@@ -1,14 +1,11 @@
 import logging
 import sys
-from typing import Dict
-from typing import List
-from typing import Optional
-from typing import Union
+from typing import Dict, List, Optional, Union
 
 import questionary
-from cookietemple.util.rich import console
 from prompt_toolkit.styles import Style  # type: ignore
 
+from cookietemple.util.rich import console
 
 log = logging.getLogger(__name__)
 

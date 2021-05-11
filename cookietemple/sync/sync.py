@@ -8,29 +8,23 @@ import os
 import shutil
 import sys
 import tempfile
-from configparser import ConfigParser
-from configparser import NoSectionError
+from configparser import ConfigParser, NoSectionError
 from distutils.dir_util import copy_tree
 from pathlib import Path
-from subprocess import PIPE
-from subprocess import Popen
+from subprocess import PIPE, Popen
 from typing import Tuple
 
 import git  # type: ignore
-from cookietemple.common.load_yaml import load_yaml_file
-from cookietemple.common.version import load_ct_template_version
-from cookietemple.common.version import load_project_template_version_and_handle
-from cookietemple.config.config import ConfigCommand
-from cookietemple.create.create import choose_domain
-from cookietemple.create.github_support import create_sync_secret
-from cookietemple.create.github_support import decrypt_pat
-from cookietemple.create.github_support import load_github_username
-from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
-from github import Github
-from github import GithubException
+from github import Github, GithubException
 from packaging import version
 from rich import print
 
+from cookietemple.common.load_yaml import load_yaml_file
+from cookietemple.common.version import load_ct_template_version, load_project_template_version_and_handle
+from cookietemple.config.config import ConfigCommand
+from cookietemple.create.create import choose_domain
+from cookietemple.create.github_support import create_sync_secret, decrypt_pat, load_github_username
+from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 
 log = logging.getLogger(__name__)
 

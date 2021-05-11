@@ -1,7 +1,8 @@
-import os
 import logging
-import click
+import os
 from contextlib import suppress
+
+import click
 from gevent.pywsgi import WSGIServer
 
 from .app import app

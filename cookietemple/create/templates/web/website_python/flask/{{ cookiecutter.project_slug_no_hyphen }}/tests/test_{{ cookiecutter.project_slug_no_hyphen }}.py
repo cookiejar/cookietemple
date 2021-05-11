@@ -3,14 +3,16 @@
 """Tests for `{{cookiecutter.project_slug}}` package."""
 import pytest
 from flask import Flask
-from {{ cookiecutter.project_slug_no_hyphen }}.config import Config
+from {{cookiecutter.project_slug_no_hyphen}}.config import Config
+
 {% if cookiecutter.setup_type == 'advanced' -%}
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from flask_mail import Mail
-from flask_login import LoginManager
-from flask_bootstrap import Bootstrap
 from flask_babel import Babel
+from flask_bootstrap import Bootstrap
+from flask_login import LoginManager
+from flask_mail import Mail
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
+
 {% endif %}
 
 
@@ -77,11 +79,11 @@ def create_test_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    from {{ cookiecutter.project_slug_no_hyphen }}.errors import bp as errors_bp  # noqa: E402
+    from {{cookiecutter.project_slug_no_hyphen}}.errors import bp as errors_bp  # noqa: E402
 
     app.register_blueprint(errors_bp)
 
-    from {{ cookiecutter.project_slug_no_hyphen }}.basic import bp as basic_bp
+    from {{cookiecutter.project_slug_no_hyphen}}.basic import bp as basic_bp
 
     app.register_blueprint(basic_bp)
 

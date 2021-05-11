@@ -5,29 +5,21 @@ import sys
 from base64 import b64encode
 from distutils.dir_util import copy_tree
 from pathlib import Path
-from subprocess import PIPE
-from subprocess import Popen
-from typing import Any
-from typing import Dict
-from typing import Optional
-from typing import Set
-from typing import Tuple
-from typing import Union
+from subprocess import PIPE, Popen
+from typing import Any, Dict, Optional, Set, Tuple, Union
 
 import requests
+from cryptography.fernet import Fernet
+from git import Repo, exc
+from github import Github, GithubException
+from nacl import encoding, public
+from ruamel.yaml import YAML
+
 from cookietemple.common.load_yaml import load_yaml_file
 from cookietemple.config.config import ConfigCommand
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.util.rich import console
-from cryptography.fernet import Fernet
-from git import exc
-from git import Repo
-from github import Github
-from github import GithubException
-from nacl import encoding
-from nacl import public
-from ruamel.yaml import YAML
 
 log = logging.getLogger(__name__)
 

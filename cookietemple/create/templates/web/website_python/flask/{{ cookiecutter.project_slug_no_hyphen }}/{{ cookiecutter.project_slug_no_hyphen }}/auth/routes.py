@@ -1,14 +1,12 @@
-from flask import render_template, redirect, url_for, flash, request
-from werkzeug.urls import url_parse
-from flask_login import login_user, logout_user, current_user
+from flask import flash, redirect, render_template, request, session, url_for
 from flask_babel import _
-from flask import session
-
-from {{ cookiecutter.project_slug_no_hyphen }}.auth.forms.register_form import RegistrationForm
-from {{ cookiecutter.project_slug_no_hyphen }}.config import db
-from {{ cookiecutter.project_slug_no_hyphen }}.auth import bp
-from {{ cookiecutter.project_slug_no_hyphen }}.auth.forms.login_form import LoginForm
-from {{ cookiecutter.project_slug_no_hyphen }}.models.users import User
+from flask_login import current_user, login_user, logout_user
+from werkzeug.urls import url_parse
+from {{cookiecutter.project_slug_no_hyphen}}.auth import bp
+from {{cookiecutter.project_slug_no_hyphen}}.auth.forms.login_form import LoginForm
+from {{cookiecutter.project_slug_no_hyphen}}.auth.forms.register_form import RegistrationForm
+from {{cookiecutter.project_slug_no_hyphen}}.config import db
+from {{cookiecutter.project_slug_no_hyphen}}.models.users import User
 
 
 @bp.route('/language/<language>')

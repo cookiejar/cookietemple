@@ -1,22 +1,20 @@
 import logging
 import re
 import sys
-from configparser import ConfigParser
-from configparser import NoSectionError
-from os import fdopen
-from os import remove
+from configparser import ConfigParser, NoSectionError
+from os import fdopen, remove
 from pathlib import Path
-from shutil import copymode
-from shutil import move
+from shutil import copymode, move
 from tempfile import mkstemp
 from typing import Tuple
+
+from git import Repo  # type: ignore
+from packaging import version
+from rich import print
 
 from cookietemple.create.github_support import is_git_repo
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.lint.template_linter import TemplateLinter
-from git import Repo  # type: ignore
-from packaging import version
-from rich import print
 
 log = logging.getLogger(__name__)
 

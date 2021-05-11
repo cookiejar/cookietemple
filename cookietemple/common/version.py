@@ -2,8 +2,9 @@ import sys
 from pathlib import Path
 from typing import Tuple
 
-from cookietemple.common.load_yaml import load_yaml_file
 from rich import print
+
+from cookietemple.common.load_yaml import load_yaml_file
 
 
 def load_ct_template_version(handle: str, yaml_path: str) -> str:

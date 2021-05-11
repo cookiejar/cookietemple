@@ -1,8 +1,8 @@
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import ValidationError, DataRequired, EqualTo
 from flask_babel import _
-from {{ cookiecutter.project_slug_no_hyphen }}.models.users import User
+from flask_wtf import FlaskForm
+from wtforms import PasswordField, StringField, SubmitField
+from wtforms.validators import DataRequired, EqualTo, ValidationError
+from {{cookiecutter.project_slug_no_hyphen}}.models.users import User
 
 
 class RegistrationForm(FlaskForm):

@@ -2,16 +2,14 @@ import json
 import logging
 import sys
 import urllib
-from subprocess import check_call
-from subprocess import PIPE
-from subprocess import Popen
-from urllib.error import HTTPError
-from urllib.error import URLError
+from subprocess import PIPE, Popen, check_call
+from urllib.error import HTTPError, URLError
+
+from pkg_resources import parse_version
+from rich import print
 
 import cookietemple
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
-from pkg_resources import parse_version
-from rich import print
 
 log = logging.getLogger(__name__)
 

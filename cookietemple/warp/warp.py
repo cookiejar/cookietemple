@@ -1,8 +1,7 @@
 import os
 import stat
 from pathlib import Path
-from subprocess import PIPE
-from subprocess import Popen
+from subprocess import PIPE, Popen
 from sys import platform
 
 from rich import print

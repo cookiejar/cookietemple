@@ -8,7 +8,8 @@ Welcome to {{ cookiecutter.project_name }}'s documentation!
    readme
    installation
    usage
-   {% if (cookiecutter.language == 'python') and (cookiecutter.domain == 'cli') -%}reference{% endif %}
+   {% if (cookiecutter.language == 'python') and (cookiecutter.domain == 'cli') -%}reference
+   contributing{% endif %}
    authors
    code_of_conduct
 

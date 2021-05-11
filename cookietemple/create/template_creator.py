@@ -7,24 +7,22 @@ import tempfile
 from dataclasses import asdict
 from distutils.dir_util import copy_tree
 from pathlib import Path
-from typing import Optional
-from typing import Union
+from typing import Optional, Union
 
-import cookietemple
 import requests
 from cookiecutter.main import cookiecutter  # type: ignore
+from ruamel.yaml import YAML
+
+import cookietemple
 from cookietemple.common.load_yaml import load_yaml_file
 from cookietemple.config.config import ConfigCommand
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
-from cookietemple.create.github_support import create_push_github_repository
-from cookietemple.create.github_support import is_git_repo
-from cookietemple.create.github_support import load_github_username
+from cookietemple.create.github_support import create_push_github_repository, is_git_repo, load_github_username
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.lint.lint import lint_project
 from cookietemple.util.dir_util import delete_dir_tree
 from cookietemple.util.docs_util import fix_short_title_underline
 from cookietemple.util.rich import console
-from ruamel.yaml import YAML
 
 log = logging.getLogger(__name__)
 

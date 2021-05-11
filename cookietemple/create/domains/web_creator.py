@@ -3,9 +3,9 @@ from dataclasses import dataclass
 from distutils.dir_util import copy_tree
 from pathlib import Path
 from shutil import copy
-from typing import Any
-from typing import Dict
-from typing import Optional
+from typing import Any, Dict, Optional
+
+from rich import print
 
 from cookietemple.common.version import load_ct_template_version
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
@@ -13,7 +13,6 @@ from cookietemple.create.github_support import prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.util.dir_util import delete_dir_tree
-from rich import print
 
 
 @dataclass

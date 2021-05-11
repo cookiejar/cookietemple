@@ -1,10 +1,7 @@
 import os
 from typing import List
 
-from cookietemple.lint.template_linter import ConfigLinter
-from cookietemple.lint.template_linter import files_exist_linting
-from cookietemple.lint.template_linter import GetLintingFunctionsMeta
-from cookietemple.lint.template_linter import TemplateLinter
+from cookietemple.lint.template_linter import ConfigLinter, GetLintingFunctionsMeta, TemplateLinter, files_exist_linting
 
 CWD = os.getcwd()
 

@@ -5,12 +5,13 @@ from configparser import NoSectionError
 from pathlib import Path
 
 import click
+from rich import print
+from rich.console import Console
+
 import cookietemple
 from cookietemple.bump_version.bump_version import VersionBumper
 from cookietemple.common.levensthein_dist import most_similar_command
 from cookietemple.common.suggest_similar_commands import MAIN_COMMANDS
-from rich import print
-from rich.console import Console
 
 
 class HelpErrorHandling(click.Group):

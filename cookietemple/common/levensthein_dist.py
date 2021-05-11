@@ -1,7 +1,6 @@
 from typing import Tuple
 
-from cookietemple.common.suggest_similar_commands import SIMILARITY_SUGGEST_FACTOR
-from cookietemple.common.suggest_similar_commands import SIMILARITY_USE_FACTOR
+from cookietemple.common.suggest_similar_commands import SIMILARITY_SUGGEST_FACTOR, SIMILARITY_USE_FACTOR
 
 
 def levensthein_dist(input_command: str, candidate: str) -> int:

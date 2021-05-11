@@ -1,18 +1,16 @@
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
-from typing import Dict
-from typing import Optional
+from typing import Any, Dict, Optional
+
+from rich import print
 
 from cookietemple.common.version import load_ct_template_version
 from cookietemple.config.config import ConfigCommand
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct
-from cookietemple.create.github_support import load_github_username
-from cookietemple.create.github_support import prompt_github_repo
+from cookietemple.create.github_support import load_github_username, prompt_github_repo
 from cookietemple.create.template_creator import TemplateCreator
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
-from rich import print
 
 
 @dataclass

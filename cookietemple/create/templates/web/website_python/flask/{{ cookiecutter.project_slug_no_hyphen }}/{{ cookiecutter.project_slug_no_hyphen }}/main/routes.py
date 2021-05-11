@@ -1,7 +1,5 @@
-from flask import render_template, redirect, url_for
-from flask import session
-
-from {{ cookiecutter.project_slug_no_hyphen }}.main import bp
+from flask import redirect, render_template, session, url_for
+from {{cookiecutter.project_slug_no_hyphen}}.main import bp
 
 
 @bp.route('/language/<language>')

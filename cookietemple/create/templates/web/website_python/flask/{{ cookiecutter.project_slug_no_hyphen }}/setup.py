@@ -3,9 +3,9 @@
 """The setup script."""
 
 import os
-from setuptools import setup, find_packages
 
 import {{ cookiecutter.project_slug_no_hyphen }} as module
+from setuptools import find_packages, setup
 
 
 def walker(base, *paths):

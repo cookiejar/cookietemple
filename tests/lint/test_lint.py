@@ -1,6 +1,7 @@
 import os
 
 import pytest
+
 from cookietemple.lint.domains.cli import CliPythonLint
 from cookietemple.lint.domains.pub import PubLatexLint
 from cookietemple.lint.domains.web import WebWebsitePythonLint

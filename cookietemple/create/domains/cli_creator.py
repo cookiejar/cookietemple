@@ -1,9 +1,7 @@
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
-from typing import Dict
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from cookietemple.common.version import load_ct_template_version
 from cookietemple.create.domains.cookietemple_template_struct import CookietempleTemplateStruct

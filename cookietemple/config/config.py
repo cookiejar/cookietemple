@@ -4,9 +4,6 @@ import sys
 from pathlib import Path
 
 import appdirs  # type: ignore
-from cookietemple.common.levensthein_dist import most_similar_command
-from cookietemple.common.load_yaml import load_yaml_file
-from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cryptography.fernet import Fernet
 from rich import print
 from rich.box import HEAVY_HEAD
@@ -15,6 +12,9 @@ from rich.style import Style
 from rich.table import Table
 from ruamel.yaml import YAML
 
+from cookietemple.common.levensthein_dist import most_similar_command
+from cookietemple.common.load_yaml import load_yaml_file
+from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 
 log = logging.getLogger(__name__)
 

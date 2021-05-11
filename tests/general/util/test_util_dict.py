@@ -1,6 +1,6 @@
 import pytest  # type: ignore
-from cookietemple.util.dict_util import delete_keys_from_dict
-from cookietemple.util.dict_util import is_nested_dictionary
+
+from cookietemple.util.dict_util import delete_keys_from_dict, is_nested_dictionary
 
 
 @pytest.fixture()

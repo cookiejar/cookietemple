@@ -8,8 +8,7 @@ import nox
 from rich import print
 
 try:
-    from nox_poetry import Session
-    from nox_poetry import session
+    from nox_poetry import Session, session
 except ImportError:
     print("[bold red]Did not found nox-poetry installed in your current environment!")
     print("[bold blue]Try installing it using [bold green]pip install nox-poetry [bold blue]! ")

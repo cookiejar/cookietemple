@@ -1,12 +1,17 @@
 {% if cookiecutter.setup_type == 'advanced' -%}
-from .config import Config, config_mail, login, db, migrate, mail, bootstrap, babel
-from flask import Flask, request, session
-import click
 import os
+
+import click
+from flask import Flask, request, session
+
+from .config import Config, babel, bootstrap, config_mail, db, login, mail, migrate
+
 {% endif %}
 {% if cookiecutter.setup_type == 'basic' -%}
 from flask import Flask
+
 from .config import Config
+
 {% endif %}
 
 app = Flask(__name__)
@@ -26,22 +31,22 @@ with app.app_context():
 
 config_mail(app){% endif %}
 
-from {{ cookiecutter.project_slug_no_hyphen }}.errors import bp as errors_bp  # noqa: E402
+from {{cookiecutter.project_slug_no_hyphen}}.errors import bp as errors_bp  # noqa: E402
 
 app.register_blueprint(errors_bp)
 
 {% if cookiecutter.setup_type == 'basic' -%}
-from {{ cookiecutter.project_slug_no_hyphen }}.basic import bp as basic_bp  # noqa: E402
+from {{cookiecutter.project_slug_no_hyphen}}.basic import bp as basic_bp  # noqa: E402
 
 app.register_blueprint(basic_bp)
 {% endif %}
 
 {% if cookiecutter.setup_type == 'advanced' -%}
-from {{ cookiecutter.project_slug_no_hyphen }}.auth import bp as auth_bp  # noqa: E402
+from {{cookiecutter.project_slug_no_hyphen}}.auth import bp as auth_bp  # noqa: E402
 
 app.register_blueprint(auth_bp, url_prefix='/auth')
 
-from {{ cookiecutter.project_slug_no_hyphen }}.main import bp as main_bp  # noqa: E402
+from {{cookiecutter.project_slug_no_hyphen}}.main import bp as main_bp  # noqa: E402
 
 app.register_blueprint(main_bp)
 

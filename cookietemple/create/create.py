@@ -1,7 +1,6 @@
 import logging
 from pathlib import Path
-from typing import Optional
-from typing import Union
+from typing import Optional, Union
 
 from cookietemple.create.domains.cli_creator import CliCreator
 from cookietemple.create.domains.gui_creator import GuiCreator
@@ -9,7 +8,6 @@ from cookietemple.create.domains.lib_creator import LibCreator
 from cookietemple.create.domains.pub_creator import PubCreator
 from cookietemple.create.domains.web_creator import WebCreator
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
-
 
 log = logging.getLogger(__name__)
 

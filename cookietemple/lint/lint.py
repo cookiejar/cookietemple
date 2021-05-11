@@ -1,19 +1,17 @@
 import logging
 import sys
 from pathlib import Path
-from typing import Any
-from typing import Optional
-from typing import Union
+from typing import Any, Optional, Union
 
-from cookietemple.lint.domains.cli import CliJavaLint
-from cookietemple.lint.domains.cli import CliPythonLint
+from ruamel.yaml import YAML
+
+from cookietemple.lint.domains.cli import CliJavaLint, CliPythonLint
 from cookietemple.lint.domains.gui import GuiJavaLint
 from cookietemple.lint.domains.lib import LibCppLint
 from cookietemple.lint.domains.pub import PubLatexLint
 from cookietemple.lint.domains.web import WebWebsitePythonLint
 from cookietemple.lint.template_linter import TemplateLinter
 from cookietemple.util.rich import console
-from ruamel.yaml import YAML
 
 log = logging.getLogger(__name__)
 

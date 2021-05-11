@@ -7,15 +7,19 @@ from pathlib import Path
 
 import click
 import rich.logging
+from rich import traceback
+
 from cookietemple.bump_version.bump_version import VersionBumper
 from cookietemple.common.load_yaml import load_yaml_file
 from cookietemple.config.config import ConfigCommand
 from cookietemple.create.create import choose_domain
-from cookietemple.custom_cli.click import CustomArg
-from cookietemple.custom_cli.click import CustomHelpSubcommand
-from cookietemple.custom_cli.click import HelpErrorHandling
-from cookietemple.custom_cli.click import print_cookietemple_version
-from cookietemple.custom_cli.click import print_project_version
+from cookietemple.custom_cli.click import (
+    CustomArg,
+    CustomHelpSubcommand,
+    HelpErrorHandling,
+    print_cookietemple_version,
+    print_project_version,
+)
 from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.info.info import TemplateInfo
 from cookietemple.lint.lint import lint_project
@@ -24,7 +28,6 @@ from cookietemple.sync.sync import TemplateSync
 from cookietemple.upgrade.upgrade import UpgradeCommand
 from cookietemple.util.rich import console
 from cookietemple.warp.warp import warp_project
-from rich import traceback
 
 WD = os.path.dirname(__file__)
 log = logging.getLogger()
@@ -186,15 +189,15 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
         try:
             log.debug(f"Loading project information from .cookietemple.yml file located at {project_dir}")
             project_data = load_yaml_file(f"{project_dir}/.cookietemple.yml")
-            # if project is an orga repo, pass orga name as username
+            # if project is an organization repo, pass organization name as username
             if project_data["is_github_repo"] and project_data["is_github_orga"]:
-                log.debug(f'Project is a Github orga repo. Using {project_data["github_orga"]} as username.')
+                log.debug(f'Project is a Github organization repo. Using {project_data["github_orga"]} as username.')
                 TemplateSync.update_sync_token(
                     project_name=project_data["project_slug"], gh_username=project_data["github_orga"]
                 )
             # if not, use default username
             elif project_data["is_github_repo"]:
-                log.debug("Project is not a Github orga repo.")
+                log.debug("Project is not a Github organization repository.")
                 TemplateSync.update_sync_token(project_name=project_data["project_slug"])
             else:
                 console.print("[bold red]Your current project does not seem to have a Github repository!")
