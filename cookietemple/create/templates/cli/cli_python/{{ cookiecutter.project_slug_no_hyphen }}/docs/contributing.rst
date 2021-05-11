@@ -12,10 +12,10 @@ Here is a list of important resources for contributors:
 - `Issue Tracker`_
 - `Code of Conduct`_
 
-.. _{{cookiecutter.license.replace("-", " ")}} license: https://opensource.org/licenses/{{cookiecutter.license}}
-.. _Source Code: https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.project_name}}
+.. _{{cookiecutter.license}} license: https://opensource.org/licenses/{{cookiecutter.license}}
+.. _Source Code: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}
 .. _Documentation: https://{{cookiecutter.project_name}}.readthedocs.io/
-.. _Issue Tracker: https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.project_name}}/issues
+.. _Issue Tracker: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}/issues
 
 How to report a bug
 -------------------
@@ -111,5 +111,5 @@ To run linting and code formatting checks before committing your change, you can
 It is recommended to open an issue before starting work on anything.
 This will allow a chance to talk it over with the owners and validate your approach.
 
-.. _pull request: https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.project_name}}/pulls
+.. _pull request: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}/pulls
 .. _Code of Conduct: CODE_OF_CONDUCT.rst
