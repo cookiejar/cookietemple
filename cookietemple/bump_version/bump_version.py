@@ -1,4 +1,5 @@
 import logging
+import os
 import re
 import sys
 from configparser import ConfigParser, NoSectionError
@@ -85,8 +86,12 @@ class VersionBumper:
         # update new version in cookietemple.cfg file
         log.debug("Updating version in cookietemple.cfg file.")
         self.parser.set("bumpversion", "current_version", new_version)
+        # get linesep for each OS (MacOS and Linux: -1, on Windows: -2)
+        remove_chars = len(os.linesep)
         with open(f"{project_dir}/cookietemple.cfg", "w") as configfile:
             self.parser.write(configfile)
+            # truncates the config file and removes the last new line
+            configfile.truncate(configfile.tell() - remove_chars)
 
         # check whether a project is a git repository and if so, commit bumped version changes
         if is_git_repo(project_dir):
