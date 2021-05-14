@@ -1011,7 +1011,7 @@ idna2008 = ["idna"]
 
 [[package]]
 name = "rich"
-version = "10.1.0"
+version = "10.2.0"
 description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
 category = "main"
 optional = false
@@ -1022,7 +1022,7 @@ colorama = ">=0.4.0,<0.5.0"
 commonmark = ">=0.9.0,<0.10.0"
 dataclasses = {version = ">=0.7,<0.9", markers = "python_version >= \"3.6\" and python_version < \"3.7\""}
 pygments = ">=2.6.0,<3.0.0"
-typing-extensions = ">=3.7.4,<4.0.0"
+typing-extensions = {version = ">=3.7.4,<4.0.0", markers = "python_version < \"3.8\""}
 
 [package.extras]
 jupyter = ["ipywidgets (>=7.5.1,<8.0.0)"]
@@ -1434,7 +1434,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.6.1,<3.10"
-content-hash = "ee2db8f29911e7b186a1cf4fc73f88673bcafe27ae015cc6f165be1a14cc96f0"
+content-hash = "3a64287adeebd70626cb3b84fc6060f6d8d4b04831d6beb1aa29aaa44b01a548"
 
 [metadata.files]
 alabaster = [
@@ -2033,8 +2033,8 @@ rfc3986 = [
     {file = "rfc3986-1.4.0.tar.gz", hash = "sha256:112398da31a3344dc25dbf477d8df6cb34f9278a94fee2625d89e4514be8bb9d"},
 ]
 rich = [
-    {file = "rich-10.1.0-py3-none-any.whl", hash = "sha256:60cd6d6ea697a1704f2057e791e3062b506b5c74a6e2ad2ced71eccb37557259"},
-    {file = "rich-10.1.0.tar.gz", hash = "sha256:8f05431091601888c50341697cfc421dc398ce37b12bca0237388ef9c7e2c9e9"},
+    {file = "rich-10.2.0-py3-none-any.whl", hash = "sha256:2701b69b9646a12b05d80f9d96a48615d4b68678fbfa67a60aa2834a62ad01e7"},
+    {file = "rich-10.2.0.tar.gz", hash = "sha256:a30429d82363d42e7c64e324c2c8735c045f190cba609feee91a7b9f563a64b5"},
 ]
 "ruamel.yaml" = [
     {file = "ruamel.yaml-0.17.4-py3-none-any.whl", hash = "sha256:ac79fb25f5476e8e9ed1c53b8a2286d2c3f5dde49eb37dbcee5c7eb6a8415a22"},
