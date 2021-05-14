@@ -1,7 +1,7 @@
 import logging
+import os
 import re
 import sys
-import os
 from configparser import ConfigParser, NoSectionError
 from os import fdopen, remove
 from pathlib import Path
