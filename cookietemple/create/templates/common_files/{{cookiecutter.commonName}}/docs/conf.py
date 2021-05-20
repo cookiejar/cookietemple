@@ -28,7 +28,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx_click",
-    "sphinx_rtd_dark_mode"
+    "sphinx_rtd_dark_mode",
 ]
 
 default_dark_mode = True
