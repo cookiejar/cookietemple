@@ -28,7 +28,10 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx_click",
+    "sphinx_rtd_dark_mode",
 ]
+
+default_dark_mode = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
