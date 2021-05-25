@@ -7,13 +7,17 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Adding new templates &mdash; cookietemple 1.3.3 documentation</title>
+  <title>Adding new templates &mdash; cookietemple 1.3.4 documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/custom_cookietemple.css" type="text/css" />
+  <link rel="stylesheet" href="_static/dark_mode_css/general.css" type="text/css" />
+  <link rel="stylesheet" href="_static/dark_mode_css/dark.css" type="text/css" />
 
   
   
@@ -30,9 +34,12 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/dark_mode_js/default_dark.js"></script>
+        <script src="_static/dark_mode_js/theme_switcher.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -64,7 +71,7 @@
             
             
               <div class="version">
-                1.3.3
+                1.3.4
               </div>
             
           
@@ -112,7 +119,6 @@
 <li class="toctree-l1"><a class="reference internal" href="usage.html">External Python based projects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="community.html">Community</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Contributor Covenant Code of Conduct</a></li>
 </ul>
@@ -225,25 +231,17 @@ Hence, at this level we see <code class="docutils literal notranslate"><span cla
 <ol class="arabic simple">
 <li><p>Let’s add our brainfuck template information to <code class="docutils literal notranslate"><span class="pre">/create/templates/available_templates.yml</span></code> below the <code class="docutils literal notranslate"><span class="pre">cli</span></code> section.</p></li>
 </ol>
-<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span>
-<span class="normal">7</span>
-<span class="normal">8</span>
-<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>cli:
-    brainfuck:
-        name: Brainfuck Commandline Tool
-        handle: cli-brainfuck
-        version: 0.0.1
-        available libraries: none
-        short description: Brainfuck Commandline tool with ANSI coloring
-        long description: Amazing brainfuck tool, which can even show pretty unicorns in the console.
-            Due to ANSI coloring support they can even be pink! Please someone send help.
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span>cli:
+<span class="linenos">2</span>    brainfuck:
+<span class="linenos">3</span>        name: Brainfuck Commandline Tool
+<span class="linenos">4</span>        handle: cli-brainfuck
+<span class="linenos">5</span>        version: 0.0.1
+<span class="linenos">6</span>        available libraries: none
+<span class="linenos">7</span>        short description: Brainfuck Commandline tool with ANSI coloring
+<span class="linenos">8</span>        long description: Amazing brainfuck tool, which can even show pretty unicorns in the console.
+<span class="linenos">9</span>            Due to ANSI coloring support they can even be pink! Please someone send help.
 </pre></div>
-</td></tr></table></div>
+</div>
 <ol class="arabic" start="2">
 <li><div class="line-block">
 <div class="line">Next, we add our brainfuck template to <code class="code docutils literal notranslate"><span class="pre">/create/templates</span></code></div>
@@ -253,49 +251,31 @@ Furthermore, the <code class="docutils literal notranslate"><span class="pre">co
 </div>
 </li>
 </ol>
-<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span>
-<span class="normal">7</span>
-<span class="normal">8</span>
-<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="s2">&quot;full_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Homer Simpson&quot;</span><span class="p">,</span>
-<span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;homer.simpson@posteo.net&quot;</span><span class="p">,</span>
-<span class="s2">&quot;project_name&quot;</span><span class="p">:</span> <span class="s2">&quot;sample-cli&quot;</span><span class="p">,</span>
-<span class="s2">&quot;project_slug&quot;</span><span class="p">:</span> <span class="s2">&quot;sample-cli&quot;</span><span class="p">,</span>
-<span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
-<span class="s2">&quot;project_short_description&quot;</span><span class="p">:</span> <span class="s2">&quot;Command-line utility to...&quot;</span><span class="p">,</span>
-<span class="s2">&quot;github_username&quot;</span><span class="p">:</span> <span class="s2">&quot;homer_github&quot;</span>
-<span class="p">}</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="p">{</span>
+<span class="linenos">2</span><span class="s2">&quot;full_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Homer Simpson&quot;</span><span class="p">,</span>
+<span class="linenos">3</span><span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;homer.simpson@posteo.net&quot;</span><span class="p">,</span>
+<span class="linenos">4</span><span class="s2">&quot;project_name&quot;</span><span class="p">:</span> <span class="s2">&quot;sample-cli&quot;</span><span class="p">,</span>
+<span class="linenos">5</span><span class="s2">&quot;project_slug&quot;</span><span class="p">:</span> <span class="s2">&quot;sample-cli&quot;</span><span class="p">,</span>
+<span class="linenos">6</span><span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+<span class="linenos">7</span><span class="s2">&quot;project_short_description&quot;</span><span class="p">:</span> <span class="s2">&quot;Command-line utility to...&quot;</span><span class="p">,</span>
+<span class="linenos">8</span><span class="s2">&quot;github_username&quot;</span><span class="p">:</span> <span class="s2">&quot;homer_github&quot;</span>
+<span class="linenos">9</span><span class="p">}</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 <p>The file tree of the template should resemble</p>
-<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>├── cookiecutter.json
-└── {{ cookiecutter.project_slug }}
-    ├── docs
-    │   ├── installation.rst
-    │   └── usage.rst
-    ├── .github
-    │   └── workflows
-    │       └── build_brainfuck.yml
-    ├── hello.bf
-    ├── cookietemple.cfg
-    └── README.rst
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span>├── cookiecutter.json
+<span class="linenos"> 2</span>└── {{ cookiecutter.project_slug }}
+<span class="linenos"> 3</span>    ├── docs
+<span class="linenos"> 4</span>    │   ├── installation.rst
+<span class="linenos"> 5</span>    │   └── usage.rst
+<span class="linenos"> 6</span>    ├── .github
+<span class="linenos"> 7</span>    │   └── workflows
+<span class="linenos"> 8</span>    │       └── build_brainfuck.yml
+<span class="linenos"> 9</span>    ├── hello.bf
+<span class="linenos">10</span>    ├── cookietemple.cfg
+<span class="linenos">11</span>    └── README.rst
 </pre></div>
-</td></tr></table></div>
+</div>
 <ol class="arabic" start="3">
 <li><div class="line-block">
 <div class="line">Now it is time to subclass the <code class="docutils literal notranslate"><span class="pre">TemplateCreator</span></code> to implement all required functions to create our template!</div>
@@ -308,179 +288,94 @@ Furthermore, the <code class="docutils literal notranslate"><span class="pre">co
 </div>
 </li>
 </ol>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">TemplateStructCli</span><span class="p">(</span><span class="n">CookietempleTemplateStruct</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Intended Use: This class holds all attributes specific for CLI projects</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="sd">&quot;&quot;&quot;______JAVA______&quot;&quot;&quot;</span>
-    <span class="n">main_class_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-
-    <span class="sd">&quot;&quot;&quot;____BRAINFUCK___&quot;&quot;&quot;</span>
-
-
-<span class="k">class</span> <span class="nc">CliCreator</span><span class="p">(</span><span class="n">TemplateCreator</span><span class="p">):</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span> <span class="o">=</span> <span class="n">TemplateStructCli</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="s1">&#39;cli&#39;</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">WD</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">WD_Path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">WD</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">TEMPLATES_CLI_PATH</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">WD_Path</span><span class="o">.</span><span class="n">parent</span><span class="si">}</span><span class="s1">/templates/cli&#39;</span>
-
-        <span class="s1">&#39;&quot;&quot; TEMPLATE VERSIONS &quot;&quot;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">CLI_JAVA_TEMPLATE_VERSION</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">load_version</span><span class="p">(</span><span class="s1">&#39;cli-java&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">CLI_BRAINFUCK_TEMPLATE_VERSION</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">load_version</span><span class="p">(</span><span class="s1">&#39;cli-brainfuck&#39;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">create_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">dot_cookietemple</span><span class="p">:</span> <span class="nb">dict</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Handles the CLI domain. Prompts the user for the language, general and domain specific options.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">cookietemple_questionary_or_dot_cookietemple</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="s1">&#39;select&#39;</span><span class="p">,</span>
-                                                                                <span class="n">question</span><span class="o">=</span><span class="s1">&#39;Choose the project</span><span class="se">\&#39;</span><span class="s1">s primary language&#39;</span><span class="p">,</span>
-                                                                                <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;java&#39;</span><span class="p">,</span> <span class="s1">&#39;brainfuck&#39;</span><span class="p">],</span>
-                                                                                <span class="n">default</span><span class="o">=</span><span class="s1">&#39;python&#39;</span><span class="p">,</span>
-                                                                                <span class="n">dot_cookietemple</span><span class="o">=</span><span class="n">dot_cookietemple</span><span class="p">,</span>
-                                                                                <span class="n">to_get_property</span><span class="o">=</span><span class="s1">&#39;language&#39;</span><span class="p">)</span>
-
-        <span class="c1"># prompt the user to fetch general template configurations</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">prompt_general_template_configuration</span><span class="p">(</span><span class="n">dot_cookietemple</span><span class="p">)</span>
-
-        <span class="c1"># switch case statement to prompt the user to fetch template specific configurations</span>
-        <span class="n">switcher</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;java&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cli_java_options</span><span class="p">,</span>
-            <span class="s1">&#39;brainfuck&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cli_brainfuck_options</span>
-        <span class="p">}</span>
-        <span class="n">switcher</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">language</span><span class="p">)(</span><span class="n">dot_cookietemple</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">is_github_repo</span><span class="p">,</span> \
-            <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">is_repo_private</span><span class="p">,</span> \
-            <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">is_github_orga</span><span class="p">,</span> \
-            <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">github_orga</span> \
-            <span class="o">=</span> <span class="n">prompt_github_repo</span><span class="p">(</span><span class="n">dot_cookietemple</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">is_github_orga</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">github_username</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">github_orga</span>
-
-        <span class="c1"># create the chosen and configured template</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">create_template_without_subdomain</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">TEMPLATES_CLI_PATH</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-
-        <span class="c1"># switch case statement to fetch the template version</span>
-        <span class="n">switcher_version</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;java&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">CLI_JAVA_TEMPLATE_VERSION</span><span class="p">,</span>
-            <span class="s1">&#39;brainfuck&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">CLI_BRAINFUCK_TEMPLATE_VERSION</span>
-        <span class="p">}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">template_version</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">template_handle</span> <span class="o">=</span> <span class="n">switcher_version</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">language</span><span class="o">.</span><span class="n">lower</span><span class="p">()),</span> <span class="sa">f</span><span class="s1">&#39;cli-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">language</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span>
-
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">process_common_operations</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">(),</span> <span class="n">domain</span><span class="o">=</span><span class="s1">&#39;cli&#39;</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">language</span><span class="p">,</span> <span class="n">dot_cookietemple</span><span class="o">=</span><span class="n">dot_cookietemple</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">cli_python_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dot_cookietemple</span><span class="p">:</span> <span class="nb">dict</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Prompts for cli-python specific options and saves them into the CookietempleTemplateStruct &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">command_line_interface</span> <span class="o">=</span> <span class="n">cookietemple_questionary_or_dot_cookietemple</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="s1">&#39;select&#39;</span><span class="p">,</span>
-                                                                                            <span class="n">question</span><span class="o">=</span><span class="s1">&#39;Choose a command line library&#39;</span><span class="p">,</span>
-                                                                                            <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Click&#39;</span><span class="p">,</span> <span class="s1">&#39;Argparse&#39;</span><span class="p">,</span> <span class="s1">&#39;No command-line interface&#39;</span><span class="p">],</span>
-                                                                                            <span class="n">default</span><span class="o">=</span><span class="s1">&#39;Click&#39;</span><span class="p">,</span>
-                                                                                            <span class="n">dot_cookietemple</span><span class="o">=</span><span class="n">dot_cookietemple</span><span class="p">,</span>
-                                                                                            <span class="n">to_get_property</span><span class="o">=</span><span class="s1">&#39;command_line_interface&#39;</span><span class="p">)</span>
-        <span class="p">[</span><span class="o">...</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="nf">cli_java_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dot_cookietemple</span><span class="p">:</span> <span class="nb">dict</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; Prompts for cli-java specific options and saves them into the CookietempleTemplateStruct &quot;&quot;&quot;</span>
-        <span class="p">[</span><span class="o">...</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="nf">cli_brainfuck_options</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Prompts for cli-brainfuck specific options and saves them into the CookietempleTemplateStruct &quot;&quot;&quot;</span>
-        <span class="k">pass</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nd">@dataclass</span>
+<span class="linenos"> 2</span><span class="k">class</span> <span class="nc">TemplateStructCli</span><span class="p">(</span><span class="n">CookietempleTemplateStruct</span><span class="p">):</span>
+<span class="linenos"> 3</span>    <span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 4</span><span class="sd">    Intended Use: This class holds all attributes specific for CLI projects</span>
+<span class="linenos"> 5</span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span>    <span class="sd">&quot;&quot;&quot;______JAVA______&quot;&quot;&quot;</span>
+<span class="linenos"> 8</span>    <span class="n">main_class_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span>    <span class="sd">&quot;&quot;&quot;____BRAINFUCK___&quot;&quot;&quot;</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="k">class</span> <span class="nc">CliCreator</span><span class="p">(</span><span class="n">TemplateCreator</span><span class="p">):</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos">16</span>        <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span> <span class="o">=</span> <span class="n">TemplateStructCli</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="s1">&#39;cli&#39;</span><span class="p">)</span>
+<span class="linenos">17</span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="p">)</span>
+<span class="linenos">18</span>        <span class="bp">self</span><span class="o">.</span><span class="n">WD</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+<span class="linenos">19</span>        <span class="bp">self</span><span class="o">.</span><span class="n">WD_Path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">WD</span><span class="p">)</span>
+<span class="linenos">20</span>        <span class="bp">self</span><span class="o">.</span><span class="n">TEMPLATES_CLI_PATH</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">WD_Path</span><span class="o">.</span><span class="n">parent</span><span class="si">}</span><span class="s1">/templates/cli&#39;</span>
+<span class="linenos">21</span>
+<span class="linenos">22</span>        <span class="s1">&#39;&quot;&quot; TEMPLATE VERSIONS &quot;&quot;&#39;</span>
+<span class="linenos">23</span>        <span class="bp">self</span><span class="o">.</span><span class="n">CLI_JAVA_TEMPLATE_VERSION</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">load_version</span><span class="p">(</span><span class="s1">&#39;cli-java&#39;</span><span class="p">)</span>
+<span class="linenos">24</span>        <span class="bp">self</span><span class="o">.</span><span class="n">CLI_BRAINFUCK_TEMPLATE_VERSION</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">load_version</span><span class="p">(</span><span class="s1">&#39;cli-brainfuck&#39;</span><span class="p">)</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span>    <span class="k">def</span> <span class="nf">create_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">dot_cookietemple</span><span class="p">:</span> <span class="nb">dict</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">):</span>
+<span class="linenos">27</span>        <span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">28</span><span class="sd">        Handles the CLI domain. Prompts the user for the language, general and domain specific options.</span>
+<span class="linenos">29</span><span class="sd">        &quot;&quot;&quot;</span>
+<span class="linenos">30</span>
+<span class="linenos">31</span>        <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">cookietemple_questionary_or_dot_cookietemple</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="s1">&#39;select&#39;</span><span class="p">,</span>
+<span class="linenos">32</span>                                                                                <span class="n">question</span><span class="o">=</span><span class="s1">&#39;Choose the project</span><span class="se">\&#39;</span><span class="s1">s primary language&#39;</span><span class="p">,</span>
+<span class="linenos">33</span>                                                                                <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;java&#39;</span><span class="p">,</span> <span class="s1">&#39;brainfuck&#39;</span><span class="p">],</span>
+<span class="linenos">34</span>                                                                                <span class="n">default</span><span class="o">=</span><span class="s1">&#39;python&#39;</span><span class="p">,</span>
+<span class="linenos">35</span>                                                                                <span class="n">dot_cookietemple</span><span class="o">=</span><span class="n">dot_cookietemple</span><span class="p">,</span>
+<span class="linenos">36</span>                                                                                <span class="n">to_get_property</span><span class="o">=</span><span class="s1">&#39;language&#39;</span><span class="p">)</span>
+<span class="linenos">37</span>
+<span class="linenos">38</span>        <span class="c1"># prompt the user to fetch general template configurations</span>
+<span class="linenos">39</span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">prompt_general_template_configuration</span><span class="p">(</span><span class="n">dot_cookietemple</span><span class="p">)</span>
+<span class="linenos">40</span>
+<span class="linenos">41</span>        <span class="c1"># switch case statement to prompt the user to fetch template specific configurations</span>
+<span class="linenos">42</span>        <span class="n">switcher</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">43</span>            <span class="s1">&#39;java&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cli_java_options</span><span class="p">,</span>
+<span class="linenos">44</span>            <span class="s1">&#39;brainfuck&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cli_brainfuck_options</span>
+<span class="linenos">45</span>        <span class="p">}</span>
+<span class="linenos">46</span>        <span class="n">switcher</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">language</span><span class="p">)(</span><span class="n">dot_cookietemple</span><span class="p">)</span>
+<span class="linenos">47</span>
+<span class="linenos">48</span>        <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">is_github_repo</span><span class="p">,</span> \
+<span class="linenos">49</span>            <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">is_repo_private</span><span class="p">,</span> \
+<span class="linenos">50</span>            <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">is_github_orga</span><span class="p">,</span> \
+<span class="linenos">51</span>            <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">github_orga</span> \
+<span class="linenos">52</span>            <span class="o">=</span> <span class="n">prompt_github_repo</span><span class="p">(</span><span class="n">dot_cookietemple</span><span class="p">)</span>
+<span class="linenos">53</span>
+<span class="linenos">54</span>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">is_github_orga</span><span class="p">:</span>
+<span class="linenos">55</span>            <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">github_username</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">github_orga</span>
+<span class="linenos">56</span>
+<span class="linenos">57</span>        <span class="c1"># create the chosen and configured template</span>
+<span class="linenos">58</span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">create_template_without_subdomain</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">TEMPLATES_CLI_PATH</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="linenos">59</span>
+<span class="linenos">60</span>        <span class="c1"># switch case statement to fetch the template version</span>
+<span class="linenos">61</span>        <span class="n">switcher_version</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">62</span>            <span class="s1">&#39;java&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">CLI_JAVA_TEMPLATE_VERSION</span><span class="p">,</span>
+<span class="linenos">63</span>            <span class="s1">&#39;brainfuck&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">CLI_BRAINFUCK_TEMPLATE_VERSION</span>
+<span class="linenos">64</span>        <span class="p">}</span>
+<span class="linenos">65</span>        <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">template_version</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">template_handle</span> <span class="o">=</span> <span class="n">switcher_version</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+<span class="linenos">66</span>            <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">language</span><span class="o">.</span><span class="n">lower</span><span class="p">()),</span> <span class="sa">f</span><span class="s1">&#39;cli-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">language</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="linenos">67</span>
+<span class="linenos">68</span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">process_common_operations</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">(),</span> <span class="n">domain</span><span class="o">=</span><span class="s1">&#39;cli&#39;</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">language</span><span class="p">,</span> <span class="n">dot_cookietemple</span><span class="o">=</span><span class="n">dot_cookietemple</span><span class="p">)</span>
+<span class="linenos">69</span>
+<span class="linenos">70</span>    <span class="k">def</span> <span class="nf">cli_python_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dot_cookietemple</span><span class="p">:</span> <span class="nb">dict</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">):</span>
+<span class="linenos">71</span>        <span class="sd">&quot;&quot;&quot; Prompts for cli-python specific options and saves them into the CookietempleTemplateStruct &quot;&quot;&quot;</span>
+<span class="linenos">72</span>        <span class="bp">self</span><span class="o">.</span><span class="n">cli_struct</span><span class="o">.</span><span class="n">command_line_interface</span> <span class="o">=</span> <span class="n">cookietemple_questionary_or_dot_cookietemple</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="s1">&#39;select&#39;</span><span class="p">,</span>
+<span class="linenos">73</span>                                                                                            <span class="n">question</span><span class="o">=</span><span class="s1">&#39;Choose a command line library&#39;</span><span class="p">,</span>
+<span class="linenos">74</span>                                                                                            <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Click&#39;</span><span class="p">,</span> <span class="s1">&#39;Argparse&#39;</span><span class="p">,</span> <span class="s1">&#39;No command-line interface&#39;</span><span class="p">],</span>
+<span class="linenos">75</span>                                                                                            <span class="n">default</span><span class="o">=</span><span class="s1">&#39;Click&#39;</span><span class="p">,</span>
+<span class="linenos">76</span>                                                                                            <span class="n">dot_cookietemple</span><span class="o">=</span><span class="n">dot_cookietemple</span><span class="p">,</span>
+<span class="linenos">77</span>                                                                                            <span class="n">to_get_property</span><span class="o">=</span><span class="s1">&#39;command_line_interface&#39;</span><span class="p">)</span>
+<span class="linenos">78</span>        <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+<span class="linenos">79</span>
+<span class="linenos">80</span>    <span class="k">def</span> <span class="nf">cli_java_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dot_cookietemple</span><span class="p">:</span> <span class="nb">dict</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos">81</span>        <span class="sd">&quot;&quot;&quot; Prompts for cli-java specific options and saves them into the CookietempleTemplateStruct &quot;&quot;&quot;</span>
+<span class="linenos">82</span>        <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+<span class="linenos">83</span>
+<span class="linenos">84</span>    <span class="k">def</span> <span class="nf">cli_brainfuck_options</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos">85</span>        <span class="sd">&quot;&quot;&quot; Prompts for cli-brainfuck specific options and saves them into the CookietempleTemplateStruct &quot;&quot;&quot;</span>
+<span class="linenos">86</span>        <span class="k">pass</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 <ol class="arabic" start="4">
 <li><div class="line-block">
 <div class="line">If a new template were added we would also have to import our new Creator in <code class="code docutils literal notranslate"><span class="pre">create/create.py</span></code> and add the new domain to the domain prompt and the switcher.</div>
@@ -488,47 +383,28 @@ Furthermore, the <code class="docutils literal notranslate"><span class="pre">co
 </div>
 </li>
 </ol>
-<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">choose_domain</span><span class="p">(</span><span class="n">domain</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Prompts the user for the template domain.</span>
-<span class="sd">    Creates the .cookietemple file.</span>
-<span class="sd">    Prompts the user whether or not to create a Github repository</span>
-<span class="sd">    :param domain: Template domain</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">domain</span><span class="p">:</span>
-        <span class="n">domain</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">prompt</span><span class="p">(</span><span class="s1">&#39;Choose between the following domains&#39;</span><span class="p">,</span>
-                            <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Choice</span><span class="p">([</span><span class="s1">&#39;cli&#39;</span><span class="p">,</span> <span class="s1">&#39;gui&#39;</span><span class="p">,</span> <span class="s1">&#39;web&#39;</span><span class="p">,</span> <span class="s1">&#39;pub&#39;</span><span class="p">]))</span>
-
-    <span class="n">switcher</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;cli&#39;</span><span class="p">:</span> <span class="n">CliCreator</span><span class="p">,</span>
-        <span class="s1">&#39;web&#39;</span><span class="p">:</span> <span class="n">WebCreator</span><span class="p">,</span>
-        <span class="s1">&#39;gui&#39;</span><span class="p">:</span> <span class="n">GuiCreator</span><span class="p">,</span>
-        <span class="s1">&#39;pub&#39;</span><span class="p">:</span> <span class="n">PubCreator</span>
-    <span class="p">}</span>
-
-    <span class="n">creator_obj</span> <span class="o">=</span> <span class="n">switcher</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">domain</span><span class="o">.</span><span class="n">lower</span><span class="p">())()</span>
-    <span class="n">creator_obj</span><span class="o">.</span><span class="n">create_template</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">def</span> <span class="nf">choose_domain</span><span class="p">(</span><span class="n">domain</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="linenos"> 2</span>    <span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 3</span><span class="sd">    Prompts the user for the template domain.</span>
+<span class="linenos"> 4</span><span class="sd">    Creates the .cookietemple file.</span>
+<span class="linenos"> 5</span><span class="sd">    Prompts the user whether or not to create a Github repository</span>
+<span class="linenos"> 6</span><span class="sd">    :param domain: Template domain</span>
+<span class="linenos"> 7</span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos"> 8</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">domain</span><span class="p">:</span>
+<span class="linenos"> 9</span>        <span class="n">domain</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">prompt</span><span class="p">(</span><span class="s1">&#39;Choose between the following domains&#39;</span><span class="p">,</span>
+<span class="linenos">10</span>                            <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Choice</span><span class="p">([</span><span class="s1">&#39;cli&#39;</span><span class="p">,</span> <span class="s1">&#39;gui&#39;</span><span class="p">,</span> <span class="s1">&#39;web&#39;</span><span class="p">,</span> <span class="s1">&#39;pub&#39;</span><span class="p">]))</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span>    <span class="n">switcher</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">13</span>        <span class="s1">&#39;cli&#39;</span><span class="p">:</span> <span class="n">CliCreator</span><span class="p">,</span>
+<span class="linenos">14</span>        <span class="s1">&#39;web&#39;</span><span class="p">:</span> <span class="n">WebCreator</span><span class="p">,</span>
+<span class="linenos">15</span>        <span class="s1">&#39;gui&#39;</span><span class="p">:</span> <span class="n">GuiCreator</span><span class="p">,</span>
+<span class="linenos">16</span>        <span class="s1">&#39;pub&#39;</span><span class="p">:</span> <span class="n">PubCreator</span>
+<span class="linenos">17</span>    <span class="p">}</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span>    <span class="n">creator_obj</span> <span class="o">=</span> <span class="n">switcher</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">domain</span><span class="o">.</span><span class="n">lower</span><span class="p">())()</span>
+<span class="linenos">20</span>    <span class="n">creator_obj</span><span class="o">.</span><span class="n">create_template</span><span class="p">()</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 <ol class="arabic" start="5">
 <li><div class="line-block">
 <div class="line">Linting is up next! We need to ensure that our brainfuck template always adheres to the highest standards! Let’s edit <code class="code docutils literal notranslate"><span class="pre">lint/domains/cli.py</span></code>.</div>
@@ -536,135 +412,74 @@ Furthermore, the <code class="docutils literal notranslate"><span class="pre">co
 </div>
 </li>
 </ol>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CliBrainfuckLint</span><span class="p">(</span><span class="n">TemplateLinter</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">GetLintingFunctionsMeta</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">lint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">lint_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">methods</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">check_sync_section</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Check the sync_files_blacklisted section containing every required file!</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">config_linter</span> <span class="o">=</span> <span class="n">ConfigLinter</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s1">/cookietemple.cfg&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">config_linter</span><span class="o">.</span><span class="n">check_section</span><span class="p">(</span><span class="n">section_items</span><span class="o">=</span><span class="n">config_linter</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="s1">&#39;sync_files_blacklisted&#39;</span><span class="p">),</span> <span class="n">section_name</span><span class="o">=</span><span class="s1">&#39;sync_files_blacklisted&#39;</span><span class="p">,</span>
-                                             <span class="n">main_linter</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">blacklisted_sync_files</span><span class="o">=</span><span class="p">[[(</span><span class="s1">&#39;changelog&#39;</span><span class="p">,</span> <span class="s1">&#39;CHANGELOG.rst&#39;</span><span class="p">)],</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                                             <span class="n">error_code</span><span class="o">=</span><span class="s1">&#39;cli-brainfuck-2&#39;</span><span class="p">,</span> <span class="n">is_sublinter_calling</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">passed</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;cli-brainfuck-2&#39;</span><span class="p">,</span> <span class="s1">&#39;All required sync blacklisted files are configured!&#39;</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">failed</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;cli-brainfuck-2&#39;</span><span class="p">,</span> <span class="s1">&#39;Blacklisted sync files section misses some required files!&#39;</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">result</span>
-
-    <span class="k">def</span> <span class="nf">brainfuck_files_exist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Checks a given pipeline directory for required files.</span>
-<span class="sd">        Iterates through the templates&#39;s directory content and checkmarks files for presence.</span>
-<span class="sd">        Files that **must** be present::</span>
-<span class="sd">            &#39;hello.bf&#39;,</span>
-<span class="sd">        Files that *should* be present::</span>
-<span class="sd">            &#39;.github/workflows/build_brainfuck.yml&#39;,</span>
-<span class="sd">        Files that *must not* be present::</span>
-<span class="sd">            none</span>
-<span class="sd">        Files that *should not* be present::</span>
-<span class="sd">            none</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="c1"># NB: Should all be files, not directories</span>
-        <span class="c1"># List of lists. Passes if any of the files in the sublist are found.</span>
-        <span class="n">files_fail</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">[</span><span class="s1">&#39;hello.bf&#39;</span><span class="p">],</span>
-        <span class="p">]</span>
-        <span class="n">files_warn</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;.github&#39;</span><span class="p">,</span> <span class="s1">&#39;workflows&#39;</span><span class="p">,</span> <span class="s1">&#39;build_brainfuck.yml&#39;</span><span class="p">)],</span>
-        <span class="p">]</span>
-
-        <span class="c1"># List of strings. Fails / warns if any of the strings exist.</span>
-        <span class="n">files_fail_ifexists</span> <span class="o">=</span> <span class="p">[</span>
-
-        <span class="p">]</span>
-        <span class="n">files_warn_ifexists</span> <span class="o">=</span> <span class="p">[</span>
-
-        <span class="p">]</span>
-
-        <span class="n">files_exist_linting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files_fail</span><span class="p">,</span> <span class="n">files_fail_ifexists</span><span class="p">,</span> <span class="n">files_warn</span><span class="p">,</span> <span class="n">files_warn_ifexists</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">class</span> <span class="nc">CliBrainfuckLint</span><span class="p">(</span><span class="n">TemplateLinter</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">GetLintingFunctionsMeta</span><span class="p">):</span>
+<span class="linenos"> 2</span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="linenos"> 3</span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span>    <span class="k">def</span> <span class="nf">lint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos"> 6</span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">lint_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">methods</span><span class="p">)</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span>    <span class="k">def</span> <span class="nf">check_sync_section</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="linenos"> 9</span>        <span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">10</span><span class="sd">        Check the sync_files_blacklisted section containing every required file!</span>
+<span class="linenos">11</span><span class="sd">        &quot;&quot;&quot;</span>
+<span class="linenos">12</span>        <span class="n">config_linter</span> <span class="o">=</span> <span class="n">ConfigLinter</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s1">/cookietemple.cfg&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+<span class="linenos">13</span>        <span class="n">result</span> <span class="o">=</span> <span class="n">config_linter</span><span class="o">.</span><span class="n">check_section</span><span class="p">(</span><span class="n">section_items</span><span class="o">=</span><span class="n">config_linter</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="s1">&#39;sync_files_blacklisted&#39;</span><span class="p">),</span> <span class="n">section_name</span><span class="o">=</span><span class="s1">&#39;sync_files_blacklisted&#39;</span><span class="p">,</span>
+<span class="linenos">14</span>                                             <span class="n">main_linter</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">blacklisted_sync_files</span><span class="o">=</span><span class="p">[[(</span><span class="s1">&#39;changelog&#39;</span><span class="p">,</span> <span class="s1">&#39;CHANGELOG.rst&#39;</span><span class="p">)],</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+<span class="linenos">15</span>                                             <span class="n">error_code</span><span class="o">=</span><span class="s1">&#39;cli-brainfuck-2&#39;</span><span class="p">,</span> <span class="n">is_sublinter_calling</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">16</span>        <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+<span class="linenos">17</span>            <span class="bp">self</span><span class="o">.</span><span class="n">passed</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;cli-brainfuck-2&#39;</span><span class="p">,</span> <span class="s1">&#39;All required sync blacklisted files are configured!&#39;</span><span class="p">))</span>
+<span class="linenos">18</span>        <span class="k">else</span><span class="p">:</span>
+<span class="linenos">19</span>            <span class="bp">self</span><span class="o">.</span><span class="n">failed</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;cli-brainfuck-2&#39;</span><span class="p">,</span> <span class="s1">&#39;Blacklisted sync files section misses some required files!&#39;</span><span class="p">))</span>
+<span class="linenos">20</span>        <span class="k">return</span> <span class="n">result</span>
+<span class="linenos">21</span>
+<span class="linenos">22</span>    <span class="k">def</span> <span class="nf">brainfuck_files_exist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos">23</span>        <span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">24</span><span class="sd">        Checks a given pipeline directory for required files.</span>
+<span class="linenos">25</span><span class="sd">        Iterates through the templates&#39;s directory content and checkmarks files for presence.</span>
+<span class="linenos">26</span><span class="sd">        Files that **must** be present::</span>
+<span class="linenos">27</span><span class="sd">            &#39;hello.bf&#39;,</span>
+<span class="linenos">28</span><span class="sd">        Files that *should* be present::</span>
+<span class="linenos">29</span><span class="sd">            &#39;.github/workflows/build_brainfuck.yml&#39;,</span>
+<span class="linenos">30</span><span class="sd">        Files that *must not* be present::</span>
+<span class="linenos">31</span><span class="sd">            none</span>
+<span class="linenos">32</span><span class="sd">        Files that *should not* be present::</span>
+<span class="linenos">33</span><span class="sd">            none</span>
+<span class="linenos">34</span><span class="sd">        &quot;&quot;&quot;</span>
+<span class="linenos">35</span>
+<span class="linenos">36</span>        <span class="c1"># NB: Should all be files, not directories</span>
+<span class="linenos">37</span>        <span class="c1"># List of lists. Passes if any of the files in the sublist are found.</span>
+<span class="linenos">38</span>        <span class="n">files_fail</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos">39</span>            <span class="p">[</span><span class="s1">&#39;hello.bf&#39;</span><span class="p">],</span>
+<span class="linenos">40</span>        <span class="p">]</span>
+<span class="linenos">41</span>        <span class="n">files_warn</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos">42</span>            <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;.github&#39;</span><span class="p">,</span> <span class="s1">&#39;workflows&#39;</span><span class="p">,</span> <span class="s1">&#39;build_brainfuck.yml&#39;</span><span class="p">)],</span>
+<span class="linenos">43</span>        <span class="p">]</span>
+<span class="linenos">44</span>
+<span class="linenos">45</span>        <span class="c1"># List of strings. Fails / warns if any of the strings exist.</span>
+<span class="linenos">46</span>        <span class="n">files_fail_ifexists</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos">47</span>
+<span class="linenos">48</span>        <span class="p">]</span>
+<span class="linenos">49</span>        <span class="n">files_warn_ifexists</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos">50</span>
+<span class="linenos">51</span>        <span class="p">]</span>
+<span class="linenos">52</span>
+<span class="linenos">53</span>        <span class="n">files_exist_linting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files_fail</span><span class="p">,</span> <span class="n">files_fail_ifexists</span><span class="p">,</span> <span class="n">files_warn</span><span class="p">,</span> <span class="n">files_warn_ifexists</span><span class="p">)</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 <p>We need to ensure that our new linting function is found when linting is applied. Therefore, we turn our eyes to <code class="code docutils literal notranslate"><span class="pre">lint/lint.py</span></code>, import our CliBrainfuckLinter and add it to the switcher.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cookietemple.lint.domains.cli</span> <span class="kn">import</span> <span class="n">CliBrainfuckLint</span>
-
-<span class="n">switcher</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;cli-python&#39;</span><span class="p">:</span> <span class="n">CliPythonLint</span><span class="p">,</span>
-    <span class="s1">&#39;cli-java&#39;</span><span class="p">:</span> <span class="n">CliJavaLint</span><span class="p">,</span>
-    <span class="s1">&#39;cli-brainfuck&#39;</span><span class="p">:</span> <span class="n">CliBrainfuckLint</span><span class="p">,</span>
-    <span class="s1">&#39;web-website-python&#39;</span><span class="p">:</span> <span class="n">WebWebsitePythonLint</span><span class="p">,</span>
-    <span class="s1">&#39;gui-java&#39;</span><span class="p">:</span> <span class="n">GuiJavaLint</span><span class="p">,</span>
-    <span class="s1">&#39;pub-thesis-latex&#39;</span><span class="p">:</span> <span class="n">PubLatexLint</span>
-<span class="p">}</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">cookietemple.lint.domains.cli</span> <span class="kn">import</span> <span class="n">CliBrainfuckLint</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="n">switcher</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos"> 4</span>    <span class="s1">&#39;cli-python&#39;</span><span class="p">:</span> <span class="n">CliPythonLint</span><span class="p">,</span>
+<span class="linenos"> 5</span>    <span class="s1">&#39;cli-java&#39;</span><span class="p">:</span> <span class="n">CliJavaLint</span><span class="p">,</span>
+<span class="linenos"> 6</span>    <span class="s1">&#39;cli-brainfuck&#39;</span><span class="p">:</span> <span class="n">CliBrainfuckLint</span><span class="p">,</span>
+<span class="linenos"> 7</span>    <span class="s1">&#39;web-website-python&#39;</span><span class="p">:</span> <span class="n">WebWebsitePythonLint</span><span class="p">,</span>
+<span class="linenos"> 8</span>    <span class="s1">&#39;gui-java&#39;</span><span class="p">:</span> <span class="n">GuiJavaLint</span><span class="p">,</span>
+<span class="linenos"> 9</span>    <span class="s1">&#39;pub-thesis-latex&#39;</span><span class="p">:</span> <span class="n">PubLatexLint</span>
+<span class="linenos">10</span><span class="p">}</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 <p>Our shiny new CliBrainfuckLinter is now ready for action!</p>
 <ol class="arabic" start="6">
 <li><div class="line-block">
@@ -673,79 +488,48 @@ Furthermore, the <code class="docutils literal notranslate"><span class="pre">co
 </div>
 </li>
 </ol>
-<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>name: Create cli-brainfuck Template
-
-on: <span class="o">[</span>push<span class="o">]</span>
-
-jobs:
-  build:
-
-      runs-on: ubuntu-latest
-      strategy:
-        matrix:
-          python: <span class="o">[</span><span class="m">3</span>.7, <span class="m">3</span>.8<span class="o">]</span>
-
-      steps:
-      - uses: actions/checkout@v2
-        name: Check out source-code repository
-
-      - name: Setup Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: <span class="si">${</span><span class="p">{ matrix.python </span><span class="si">}</span><span class="o">}</span>
-
-      - name: Build cookietemple
-        run: <span class="p">|</span>
-          python setup.py clean --all install
-
-      - name: Create cli-brainfuck Template
-        run: <span class="p">|</span>
-          <span class="nb">echo</span> -e <span class="s2">&quot;cli\nbrainfuck\nHomer\nhomer.simpson@hotmail.com\nExplodingSpringfield\ndescription\nhomergithub\nn&quot;</span> <span class="p">|</span> cookietemple create
-
-      - name: Build Package
-        uses: fabasoad/setup-brainfuck-action@master
-        with:
-          version: <span class="m">0</span>.1.dev1
-      - name: Hello World
-        run: <span class="p">|</span>
-          brainfucky --file ExplodingSpringfield/hello.bf
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span>name: Create cli-brainfuck Template
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span>on: <span class="o">[</span>push<span class="o">]</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span>jobs:
+<span class="linenos"> 6</span>  build:
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span>      runs-on: ubuntu-latest
+<span class="linenos"> 9</span>      strategy:
+<span class="linenos">10</span>        matrix:
+<span class="linenos">11</span>          python: <span class="o">[</span><span class="m">3</span>.8, <span class="m">3</span>.9<span class="o">]</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span>      steps:
+<span class="linenos">14</span>      - uses: actions/checkout@v2
+<span class="linenos">15</span>        name: Check out source-code repository
+<span class="linenos">16</span>
+<span class="linenos">17</span>      - name: Setup Python
+<span class="linenos">18</span>        uses: actions/setup-python@v2.2.2
+<span class="linenos">19</span>        with:
+<span class="linenos">20</span>          python-version: <span class="si">${</span><span class="p">{ matrix.python </span><span class="si">}</span><span class="o">}</span>
+<span class="linenos">21</span>
+<span class="linenos">22</span>      - name: Install Poetry
+<span class="linenos">23</span>          run: <span class="p">|</span>
+<span class="linenos">24</span>              pip install poetry
+<span class="linenos">25</span>
+<span class="linenos">26</span>      - name: Build cookietemple
+<span class="linenos">27</span>          run: <span class="p">|</span>
+<span class="linenos">28</span>              make install
+<span class="linenos">29</span>
+<span class="linenos">30</span>      - name: Create cli-brainfuck Template
+<span class="linenos">31</span>        run: <span class="p">|</span>
+<span class="linenos">32</span>          <span class="nb">echo</span> -e <span class="s2">&quot;cli\nbrainfuck\nHomer\nhomer.simpson@hotmail.com\nExplodingSpringfield\ndescription\nhomergithub\nn&quot;</span> <span class="p">|</span> poetry run cookietemple create
+<span class="linenos">33</span>
+<span class="linenos">34</span>      - name: Build Package
+<span class="linenos">35</span>        uses: fabasoad/setup-brainfuck-action@master
+<span class="linenos">36</span>        with:
+<span class="linenos">37</span>          version: <span class="m">0</span>.1.dev1
+<span class="linenos">38</span>      - name: Hello World
+<span class="linenos">39</span>        run: <span class="p">|</span>
+<span class="linenos">40</span>          brainfucky --file ExplodingSpringfield/hello.bf
 </pre></div>
-</td></tr></table></div>
+</div>
 <p>We were pleasently surprised to see that someone already made a Github Action for brainfuck.</p>
 <ol class="arabic" start="7">
 <li><div class="line-block">

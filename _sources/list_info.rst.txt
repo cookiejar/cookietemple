@@ -54,4 +54,3 @@ Invoke :code:`cookietemple info` *via*
 - ``DOMAIN`` : a domain for which cookietemple provides templates for. Example: ``cli``.
 
 - ``LANGUAGE`` : A programming language for which cookietemple provides templates for. Example: ``python``.
-

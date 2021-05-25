@@ -75,11 +75,10 @@ Design
     ├── pyproject.toml
     ├── README.rst
     ├── .readthedocs.yml
-    ├── src
-    │   └── project_name
-    │       ├── __init__.py
-    │       ├── __main__.py
-    │       └── py.typed
+    │  └── project_name
+    │      ├── __init__.py
+    │      ├── __main__.py
+    │      └── py.typed
     └── tests
         ├── __init__.py
         └── test_main.py
