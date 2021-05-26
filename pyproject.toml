@@ -32,6 +32,7 @@ packaging= "^20.9"
 appdirs= "^1.4.4"
 questionary= "^1.9.0"
 pynacl= "^1.4.0"
+"ruamel.yaml" = "^0.17.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.3"
