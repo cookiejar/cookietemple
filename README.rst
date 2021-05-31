@@ -11,8 +11,8 @@
         :target: https://github.com/zethson/cookietemple/workflows/Build%20Cookietemple%20Package/badge.svg
         :alt: Github Workflow Build cookietemple Status
 
-.. image:: https://github.com/zethson/cookietemple/workflows/Run%20Cookietemple%20Tox%20Test%20Suite/badge.svg
-        :target: https://github.com/zethson/cookietemple/workflows/Run%20Cookietemple%20Tox%20Test%20Suite/badge.svg
+.. image:: https://github.com/cookiejar/cookietemple/actions/workflows/run_tests.yml/badge.svg
+        :target: https://github.com/cookiejar/cookietemple/actions/workflows/run_tests.yml/badge.svg
         :alt: Github Workflow Tests Status
 
 .. image:: https://img.shields.io/pypi/v/cookietemple.svg
