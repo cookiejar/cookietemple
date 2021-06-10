@@ -35,6 +35,7 @@ pynacl= "^1.4.0"
 "ruamel.yaml" = "^0.17.4"
 types-pkg-resources = "^0.1.2"
 types-requests = "^0.1.9"
+types-attrs = "^19.1.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.3"
