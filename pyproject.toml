@@ -68,6 +68,15 @@ cookietemple = "cookietemple.__main__:main"
 [tool.black]
 line-length = 120
 
+[tool.mypy]
+strict = false
+pretty = true
+show_column_numbers = true
+show_error_codes = true
+show_error_context = true
+ignore_missing_imports = true
+exclude = "templates"
+
 [tool.coverage.paths]
 source = ["cookietemple", "*/site-packages"]
 
