@@ -971,7 +971,7 @@ test = ["pytest", "typing-extensions", "mypy"]
 name = "types-attrs"
 version = "19.1.0"
 description = "Typing stubs for attrs"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -979,7 +979,7 @@ python-versions = "*"
 name = "types-pkg-resources"
 version = "0.1.2"
 description = "Typing stubs for pkg_resources"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -987,7 +987,7 @@ python-versions = "*"
 name = "types-requests"
 version = "0.1.9"
 description = "Typing stubs for requests"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -1067,7 +1067,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.1"
-content-hash = "43f1e718c00358e12bd363f85d60bd1d2af2460dce25c5e30e61484eb4aeeef9"
+content-hash = "d311b0810a25156c1f9fcf2d33a5d7d2a57128999a752818e2ad2f037f38364b"
 
 [metadata.files]
 alabaster = [
