@@ -59,6 +59,14 @@ Pygments = "^2.8.1"
 [tool.black]
 line-length = 120
 
+[tool.mypy]
+strict = false
+pretty = true
+show_column_numbers = true
+show_error_codes = true
+show_error_context = true
+ignore_missing_imports = true
+
 [tool.coverage.paths]
 source = ["{{ cookiecutter.project_slug_no_hyphen }}", "*/site-packages"]
 
