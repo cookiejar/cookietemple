@@ -27,6 +27,7 @@ PyYAML = "^5.4.1"
 Jinja2 = "^2.11.3"
 types-pkg-resources = "^0.1.2"
 types-requests = "^0.1.9"
+types-attrs = "^19.1.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.3"
