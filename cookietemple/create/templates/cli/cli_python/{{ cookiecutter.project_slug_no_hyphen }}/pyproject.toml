@@ -21,16 +21,18 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.6.1"
-click = "^7.1.2"
-rich = "^10.1.0"
+click = "^8.0.0"
+rich = "^10.3.0"
 PyYAML = "^5.4.1"
 Jinja2 = "^2.11.3"
+types-pkg-resources = "^0.1.2"
+types-requests = "^0.1.9"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.3"
 coverage = {extras = ["toml"], version = "^5.3"}
 safety = "^1.9.0"
-mypy = "^0.812"
+mypy = "^0.901"
 typeguard = "^2.12.0"
 xdoctest = {extras = ["colors"], version = "^0.15.0"}
 sphinx = "^3.3.1"
@@ -47,7 +49,7 @@ darglint = "^1.5.8"
 reorder-python-imports = "^2.4.0"
 pre-commit-hooks = "^3.3.0"
 sphinx-rtd-theme = "^0.5.0"
-sphinx-click = "^2.5.0"
+sphinx-click = "^3.0.0"
 Pygments = "^2.8.1"
 
 [tool.poetry.scripts]
