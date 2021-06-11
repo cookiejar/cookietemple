@@ -401,7 +401,7 @@ python-versions = "*"
 name = "jinja2"
 version = "3.0.1"
 description = "A very fast and expressive template engine."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -427,7 +427,7 @@ tornado = {version = "*", markers = "python_version > \"2.7\""}
 name = "markupsafe"
 version = "2.0.1"
 description = "Safely add untrusted strings to HTML/XML markup."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -997,7 +997,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-requests"
-version = "0.1.9"
+version = "0.1.10"
 description = "Typing stubs for requests"
 category = "dev"
 optional = false
@@ -1079,7 +1079,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.1"
-content-hash = "6eeccb2ef7e41826c9d3c75090723bbb707420948fa7f20ce404584fcdba788e"
+content-hash = "3b5308d99178e4e34364bd2d59f5028fa73eb9071daba5a9f5930e28e721f29a"
 
 [metadata.files]
 alabaster = [
@@ -1694,7 +1694,7 @@ types-pkg-resources = [
     {file = "types_pkg_resources-0.1.2-py2.py3-none-any.whl", hash = "sha256:42d640500de564f1ccc21f918117afadf78039e4fa7f513c647ccf742d609aeb"},
 ]
 types-requests = [
-    {file = "types_requests-0.1.9-py2.py3-none-any.whl", hash = "sha256:24a51b692d36101e5b81f08733d74b944ccae3e90589fb712e4dfc6f36965c35"},
+    {file = "types_requests-0.1.10-py2.py3-none-any.whl", hash = "sha256:5b1864f1564adb810123c563b4de86236c14058978ec1294b07a988c532cb079"},
 ]
 typing-extensions = [
     {file = "typing_extensions-3.10.0.0-py2-none-any.whl", hash = "sha256:0ac0f89795dd19de6b97debb0c6af1c70987fd80a2d62d1958f7e56fcc31b497"},
