@@ -1,3 +1,6 @@
+.. include:: ../README.rst
+   :end-line: 48
+
 Welcome to cookietemple's documentation!
 ========================================
 
