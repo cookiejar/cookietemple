@@ -459,3 +459,28 @@ html[data-theme='dark'] .wy-alert.wy-alert-danger .wy-alert-title {
 html[data-theme='dark'] .wy-nav-top {
   background-color: #0b152d;
 }
+
+html[data-theme='dark'] .rst-content table.docutils thead,
+html[data-theme='dark'] .rst-content table.field-list thead,
+html[data-theme='dark'] .wy-table thead {
+  color: var(--dark-text-color);
+}
+
+html[data-theme='dark']
+  .rst-content
+  table.docutils:not(.field-list)
+  tr:nth-child(2n-1)
+  td,
+html[data-theme='dark'] .wy-table-backed,
+html[data-theme='dark'] html[data-theme='dark'] .wy-table-odd td,
+html[data-theme='dark'] .wy-table-striped tr:nth-child(2n-1) td {
+  background-color: #181818;
+}
+
+html[data-theme='dark'] .rst-content table.docutils td,
+html[data-theme='dark'] .wy-table-bordered-all td,
+html[data-theme='dark'].writer-html5 .rst-content table.docutils th,
+html[data-theme='dark'] .rst-content table.docutils,
+html[data-theme='dark'] .wy-table-bordered-all {
+  border-color: #262626;
+}
