@@ -33,8 +33,6 @@ appdirs= "^1.4.4"
 questionary= "^1.9.0"
 pynacl= "^1.4.0"
 "ruamel.yaml" = "^0.17.4"
-types-pkg-resources = "^0.1.2"
-types-requests = "^0.1.9"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.3"
@@ -54,18 +52,30 @@ flake8-docstrings = "^1.5.0"
 flake8-rst-docstrings = "^0.2.3"
 pep8-naming = "^0.11.1"
 darglint = "^1.5.8"
-reorder-python-imports = "^2.4.0"
+reorder-python-imports = "^2.5.0"
 pre-commit-hooks = "^4.0.1"
 sphinx-rtd-theme = "^0.5.0"
 sphinx-click = "^3.0.0"
 Pygments = "^2.8.1"
 twine= "^3.2.0"
+types-pkg-resources = "^0.1.2"
+types-requests = "^0.1.9"
+types-attrs = "^19.1.0"
 
 [tool.poetry.scripts]
 cookietemple = "cookietemple.__main__:main"
 
 [tool.black]
 line-length = 120
+
+[tool.mypy]
+strict = false
+pretty = true
+show_column_numbers = true
+show_error_codes = true
+show_error_context = true
+ignore_missing_imports = true
+exclude = "templates"
 
 [tool.coverage.paths]
 source = ["cookietemple", "*/site-packages"]
