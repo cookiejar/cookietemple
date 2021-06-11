@@ -1,5 +1,8 @@
+.. include:: ../README.rst
+   :end-line: 32
+
 Welcome to {{ cookiecutter.project_name }}'s documentation!
-======================================
+==========================================================
 
 .. toctree::
    :maxdepth: 2
