@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cookietemple"
-version = "1.3.8"  # <<COOKIETEMPLE_FORCE_BUMP>>
+version = "1.3.9"  # <<COOKIETEMPLE_FORCE_BUMP>>
 description = "A cookiecutter based project template creation tool supporting several domains and languages with advanced linting, syncing and standardized workflows to get your project kickstarted in no time."
 authors = ["Philipp Ehmele <philipp_ehm@protonmail.com>", "Lukas Heumos <lukas.heumos@posteo.net>"]
 license = "Apache2.0"
