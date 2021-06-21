@@ -77,6 +77,13 @@ show_error_context = true
 ignore_missing_imports = true
 exclude = "templates"
 
+[tool.isort]
+multi_line_output=3
+include_trailing_comma=true
+balanced_wrapping=true
+line_length=120
+skip="templates"
+
 [tool.coverage.paths]
 source = ["cookietemple", "*/site-packages"]
 
