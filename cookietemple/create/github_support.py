@@ -264,6 +264,12 @@ def prompt_github_repo(dot_cookietemple: Optional[dict]) -> Tuple[bool, bool, bo
             if is_github_org
             else ""
         )
+        console.print(
+            "[bold yellow]Be aware that cookietemple runs github actions for various Python versions (see noxfile.py. "
+            "Private projects may be run out of build minutes in a matter of hours when "
+            " there is a lot activity or Dependabot is enabled."
+        )
+
         private = cookietemple_questionary_or_dot_cookietemple(
             function="confirm", question="Do you want your repository to be private?", default="No"  # type: ignore
         )
