@@ -351,7 +351,11 @@ class TemplateCreator:
         # delete the tmp cookiecuttered common files directory
         log.debug("Delete common files directory.")
         delete_dir_tree(Path(f"{Path.cwd()}/common_files_util"))
-        shutil.rmtree(dirpath)
+        try:
+            shutil.rmtree(dirpath)
+        except PermissionError:
+            # If deleting these temporary files fails, fail silently (#748)
+            pass
         # change to recent cwd so lint etc can run properly
         os.chdir(str(cwd_project))
 
