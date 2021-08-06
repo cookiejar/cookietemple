@@ -1,10 +1,6 @@
 import os
-from subprocess import Popen
 from typing import List
 
-from rich import print
-
-from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.lint.template_linter import ConfigLinter, GetLintingFunctionsMeta, TemplateLinter, files_exist_linting
 
 CWD = os.getcwd()

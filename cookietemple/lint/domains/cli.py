@@ -1,10 +1,6 @@
 import os
-from subprocess import Popen
 from typing import List
 
-from rich import print
-
-from cookietemple.custom_cli.questionary import cookietemple_questionary_or_dot_cookietemple
 from cookietemple.lint.template_linter import ConfigLinter, GetLintingFunctionsMeta, TemplateLinter, files_exist_linting
 
 CWD = os.getcwd()
@@ -87,7 +83,7 @@ class CliJavaLint(TemplateLinter, metaclass=GetLintingFunctionsMeta):
     def __init__(self, path):
         super().__init__(path)
 
-    def lint(self, skip_external):
+    def lint(self):
         super().lint_project(self, self.methods)
 
     def check_sync_section(self) -> bool:
