@@ -11,7 +11,6 @@ cookietemple's linting is divided into three distinct phases.
 
 1. All linting functions, which all templates share are called and the results are collected.
 2. Template specific linting functions are invoked and the results are appended to the results of phase 1
-3. Template specific external linters are called (e.g. autopep8 for Python based projects)
 
 The linting results of the first two phases are assigned into 3 groups:
 
@@ -52,8 +51,6 @@ cookietemple lint can be invoked on an existing project using
 
 Flags
 ---------
-
-- ``skip-external``: Skips any external linters such as ``autopep8``.
 
 
 .. _linting_codes:

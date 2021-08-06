@@ -21,4 +21,4 @@ jobs:
 
             - name: Run cookietemple lint
               run: |
-                  cookietemple lint . --skip-external
+                  cookietemple lint .

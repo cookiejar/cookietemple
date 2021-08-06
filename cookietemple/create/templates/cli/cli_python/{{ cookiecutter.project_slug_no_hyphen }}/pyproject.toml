@@ -29,7 +29,6 @@ PyYAML = "^5.4.1"
 pytest = "^6.2.3"
 coverage = {extras = ["toml"], version = "^5.3"}
 safety = "^1.9.0"
-mypy = "^0.902"
 typeguard = "^2.12.0"
 xdoctest = {extras = ["colors"], version = "^0.15.0"}
 sphinx = "^4.0.2"
@@ -49,10 +48,11 @@ sphinx-rtd-theme = "^0.5.0"
 sphinx-click = "^3.0.0"
 Pygments = "^2.8.1"
 types-pkg-resources = "^0.1.2"
-types-requests = "^0.1.10"
+types-requests = "^2.25.2"
 types-attrs = "^19.1.0"
-sphinx-rtd-dark-mode = "^1.2.2"
+sphinx-rtd-dark-mode = "^1.2.3"
 Jinja2 = "^3.0.1"
+mypy = "^0.910"
 
 [tool.poetry.scripts]
 {{ cookiecutter.project_slug }} = "{{ cookiecutter.project_slug_no_hyphen }}.__main__:main"

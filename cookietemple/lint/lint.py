@@ -16,14 +16,13 @@ from cookietemple.util.rich import console
 log = logging.getLogger(__name__)
 
 
-def lint_project(project_dir: str, skip_external: bool, is_create: bool = False) -> Optional[TemplateLinter]:
+def lint_project(project_dir: str, is_create: bool = False) -> Optional[TemplateLinter]:
     """
     Verifies the integrity of a project to best coding and practices.
     Runs a set of general linting functions, which all templates share and afterwards runs template specific linting functions.
     All results are collected and presented to the user.
 
     :param project_dir: The path to the .cookietemple.yml file.
-    :param skip_external: Whether to skip external linters such as autopep8
     :param is_create: Whether linting is called during project creation
     """
     # Detect which template the project is based on
@@ -64,13 +63,7 @@ def lint_project(project_dir: str, skip_external: bool, is_create: bool = False)
         log.debug(f"Running linting of {template_handle}")
         console.print(f"[bold blue]Running {template_handle} linting")
 
-        # for every python project that is created autopep8 will run one time
-        # when linting en existing python cookietemple project, autopep8 should be now optional,
-        # since (for example) it messes up Jinja syntax (if included in project)
-        if "python" in template_handle:
-            lint_obj.lint(is_create, skip_external)  # type: ignore
-        else:
-            lint_obj.lint(skip_external)  # type: ignore
+        lint_obj.lint()  # type: ignore
     except AssertionError as e:
         console.print(f"[bold red]Critical error: {e}")
         console.print("[bold red] Stopping tests...")
