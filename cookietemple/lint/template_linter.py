@@ -156,7 +156,7 @@ class TemplateLinter(object):
         Checks that Dockerfile contains the string ``FROM``
         """
         fn = os.path.join(self.path, "Dockerfile")
-        with open(fn, "r", encoding='utf-8') as fh:
+        with open(fn, "r", encoding="utf-8") as fh:
             content = fh.read()
 
         # Implicitly also checks if empty.
@@ -251,7 +251,7 @@ class TemplateLinter(object):
         :param version: The current version of the project specified in the cookietemple.cfg file
         :param section: The current section (blacklisted or whitelisted files)
         """
-        with open(path, encoding='utf-8') as file:
+        with open(path, encoding="utf-8") as file:
             for line in file:
                 # if a tag is found and (depending on wether it is a white or blacklisted file) check if the versions are matching
                 if (
