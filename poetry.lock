@@ -652,7 +652,7 @@ python-versions = ">=2.6"
 
 [[package]]
 name = "pep8-naming"
-version = "0.12.0"
+version = "0.12.1"
 description = "Check PEP-8 naming conventions, plugin for flake8"
 category = "dev"
 optional = false
@@ -697,7 +697,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "pre-commit"
-version = "2.13.0"
+version = "2.14.0"
 description = "A framework for managing and maintaining multi-language pre-commit hooks."
 category = "dev"
 optional = false
@@ -1360,7 +1360,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-requests"
-version = "2.25.2"
+version = "2.25.6"
 description = "Typing stubs for requests"
 category = "dev"
 optional = false
@@ -1433,7 +1433,7 @@ python-versions = "*"
 
 [[package]]
 name = "xdoctest"
-version = "0.15.5"
+version = "0.15.6"
 description = "A rewrite of the builtin doctest module"
 category = "dev"
 optional = false
@@ -1466,7 +1466,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.6.1,<3.10"
-content-hash = "598275850a6908a9de5075c8247bea4538ef95708069e01fb0bdcfa77f5d1b6c"
+content-hash = "a433cada4271ad6ebc6a477025fff06a00cc58bf1712a48c0ad1e6d4e2c9b231"
 
 [metadata.files]
 alabaster = [
@@ -1659,8 +1659,10 @@ cryptography = [
     {file = "cryptography-3.4.7-cp36-abi3-win_amd64.whl", hash = "sha256:de4e5f7f68220d92b7637fc99847475b59154b7a1b3868fb7385337af54ac9ca"},
     {file = "cryptography-3.4.7-pp36-pypy36_pp73-manylinux2010_x86_64.whl", hash = "sha256:26965837447f9c82f1855e0bc8bc4fb910240b6e0d16a664bb722df3b5b06873"},
     {file = "cryptography-3.4.7-pp36-pypy36_pp73-manylinux2014_x86_64.whl", hash = "sha256:eb8cc2afe8b05acbd84a43905832ec78e7b3873fb124ca190f574dca7389a87d"},
+    {file = "cryptography-3.4.7-pp37-pypy37_pp73-macosx_10_10_x86_64.whl", hash = "sha256:b01fd6f2737816cb1e08ed4807ae194404790eac7ad030b34f2ce72b332f5586"},
     {file = "cryptography-3.4.7-pp37-pypy37_pp73-manylinux2010_x86_64.whl", hash = "sha256:7ec5d3b029f5fa2b179325908b9cd93db28ab7b85bb6c1db56b10e0b54235177"},
     {file = "cryptography-3.4.7-pp37-pypy37_pp73-manylinux2014_x86_64.whl", hash = "sha256:ee77aa129f481be46f8d92a1a7db57269a2f23052d5f2433b4621bb457081cc9"},
+    {file = "cryptography-3.4.7-pp37-pypy37_pp73-win_amd64.whl", hash = "sha256:bf40af59ca2465b24e54f671b2de2c59257ddc4f7e5706dbd6930e26823668d3"},
     {file = "cryptography-3.4.7.tar.gz", hash = "sha256:3d10de8116d25649631977cb37da6cbdd2d6fa0e0281d014a5b7d337255ca713"},
 ]
 darglint = [
@@ -1851,8 +1853,8 @@ pbr = [
     {file = "pbr-5.6.0.tar.gz", hash = "sha256:42df03e7797b796625b1029c0400279c7c34fd7df24a7d7818a1abb5b38710dd"},
 ]
 pep8-naming = [
-    {file = "pep8-naming-0.12.0.tar.gz", hash = "sha256:1f9a3ecb2f3fd83240fd40afdd70acc89695c49c333413e49788f93b61827e12"},
-    {file = "pep8_naming-0.12.0-py2.py3-none-any.whl", hash = "sha256:2321ac2b7bf55383dd19a6a9c8ae2ebf05679699927a3af33e60dd7d337099d3"},
+    {file = "pep8-naming-0.12.1.tar.gz", hash = "sha256:bb2455947757d162aa4cad55dba4ce029005cd1692f2899a21d51d8630ca7841"},
+    {file = "pep8_naming-0.12.1-py2.py3-none-any.whl", hash = "sha256:4a8daeaeb33cfcde779309fc0c9c0a68a3bbe2ad8a8308b763c5068f86eb9f37"},
 ]
 pkginfo = [
     {file = "pkginfo-1.7.0-py2.py3-none-any.whl", hash = "sha256:9fdbea6495622e022cc72c2e5e1b735218e4ffb2a2a69cde2694a6c1f16afb75"},
@@ -1867,8 +1869,8 @@ poyo = [
     {file = "poyo-0.5.0.tar.gz", hash = "sha256:e26956aa780c45f011ca9886f044590e2d8fd8b61db7b1c1cf4e0869f48ed4dd"},
 ]
 pre-commit = [
-    {file = "pre_commit-2.13.0-py2.py3-none-any.whl", hash = "sha256:b679d0fddd5b9d6d98783ae5f10fd0c4c59954f375b70a58cbe1ce9bcf9809a4"},
-    {file = "pre_commit-2.13.0.tar.gz", hash = "sha256:764972c60693dc668ba8e86eb29654ec3144501310f7198742a767bec385a378"},
+    {file = "pre_commit-2.14.0-py2.py3-none-any.whl", hash = "sha256:ec3045ae62e1aa2eecfb8e86fa3025c2e3698f77394ef8d2011ce0aedd85b2d4"},
+    {file = "pre_commit-2.14.0.tar.gz", hash = "sha256:2386eeb4cf6633712c7cc9ede83684d53c8cafca6b59f79c738098b51c6d206c"},
 ]
 pre-commit-hooks = [
     {file = "pre_commit_hooks-4.0.1-py2.py3-none-any.whl", hash = "sha256:6efe92c7613c311abc7dd06817fc016f222d9289fe24b261e64412b0af96c662"},
@@ -2263,8 +2265,8 @@ types-pkg-resources = [
     {file = "types_pkg_resources-0.1.3-py2.py3-none-any.whl", hash = "sha256:0cb9972cee992249f93fff1a491bf2dc3ce674e5a1926e27d4f0866f7d9b6d9c"},
 ]
 types-requests = [
-    {file = "types-requests-2.25.2.tar.gz", hash = "sha256:03122b582f5300ec35ac6692f2634207c467e602dc9ba46b5811a9f6ce0b0bc2"},
-    {file = "types_requests-2.25.2-py3-none-any.whl", hash = "sha256:a4c03c654527957a70002079ca48669b53d82eac4811abf140ea93847b65529b"},
+    {file = "types-requests-2.25.6.tar.gz", hash = "sha256:e21541c0f55c066c491a639309159556dd8c5833e49fcde929c4c47bdb0002ee"},
+    {file = "types_requests-2.25.6-py3-none-any.whl", hash = "sha256:a5a305b43ea57bf64d6731f89816946a405b591eff6de28d4c0fd58422cee779"},
 ]
 typing-extensions = [
     {file = "typing_extensions-3.10.0.0-py2-none-any.whl", hash = "sha256:0ac0f89795dd19de6b97debb0c6af1c70987fd80a2d62d1958f7e56fcc31b497"},
@@ -2291,9 +2293,9 @@ wrapt = [
     {file = "wrapt-1.12.1.tar.gz", hash = "sha256:b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7"},
 ]
 xdoctest = [
-    {file = "xdoctest-0.15.5-py2.py3-none-any.whl", hash = "sha256:bbf92c11e29ac5acab6d0381e9d4bcfdce7f2ed3b516e38e71a181d3d210d460"},
-    {file = "xdoctest-0.15.5-py3-none-any.whl", hash = "sha256:49e16058d53138f3f20db3935c0e6e111d60a2c8739c017fb45c4486f4f8e8f1"},
-    {file = "xdoctest-0.15.5.tar.gz", hash = "sha256:3d4966651c2eaa3b7c48307e484e6aa0428388d46842c3639d51757f0df56f56"},
+    {file = "xdoctest-0.15.6-py2.py3-none-any.whl", hash = "sha256:4ba30ad2aadd6474388b185ced6d8146490d3720665c6964891c19b4b169b5fc"},
+    {file = "xdoctest-0.15.6-py3-none-any.whl", hash = "sha256:c8ea193a19183f38fb85a0dc1659f1a39b0437ec892d692d44d586ae2780961f"},
+    {file = "xdoctest-0.15.6.tar.gz", hash = "sha256:49ebffcfa49b810d5c02c6bc1ef0487a36a6a27bb46c39a137952fda3f03ae33"},
 ]
 zipp = [
     {file = "zipp-3.4.1-py3-none-any.whl", hash = "sha256:51cb66cc54621609dd593d1787f286ee42a5c0adbb4b29abea5a63edc3e03098"},
