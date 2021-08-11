@@ -3,7 +3,7 @@ name: cookietemple lint
 on: [push]
 
 jobs:
-    build:
+    run:
         runs-on: ubuntu-latest
 
         steps:
@@ -16,9 +16,7 @@ jobs:
                   python-version: 3.9
 
             - name: Install cookietemple
-              run: |
-                  pip install cookietemple=={{ cookiecutter.cookietemple_version }}
+              run: pip install cookietemple=={{ cookiecutter.cookietemple_version }}
 
             - name: Run cookietemple lint
-              run: |
-                  cookietemple lint . --skip-external
+              run: cookietemple lint .
