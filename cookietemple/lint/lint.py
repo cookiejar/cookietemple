@@ -16,7 +16,7 @@ from cookietemple.util.rich import console
 log = logging.getLogger(__name__)
 
 
-def lint_project(project_dir: str, is_create: bool = False) -> Optional[TemplateLinter]:
+def lint_project(project_dir: str) -> Optional[TemplateLinter]:
     """
     Verifies the integrity of a project to best coding and practices.
     Runs a set of general linting functions, which all templates share and afterwards runs template specific linting functions.
