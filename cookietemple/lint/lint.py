@@ -23,7 +23,6 @@ def lint_project(project_dir: str) -> Optional[TemplateLinter]:
     All results are collected and presented to the user.
 
     :param project_dir: The path to the .cookietemple.yml file.
-    :param is_create: Whether linting is called during project creation
     """
     # Detect which template the project is based on
     template_handle = get_template_handle(project_dir)
