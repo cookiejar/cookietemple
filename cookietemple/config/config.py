@@ -3,7 +3,7 @@ import os
 import sys
 from pathlib import Path
 
-import appdirs  # type: ignore
+import appdirs
 from cryptography.fernet import Fernet
 from rich import print
 from rich.box import HEAVY_HEAD
@@ -108,19 +108,13 @@ class ConfigCommand:
                 "password", "Please enter your Github Access token"
             )
             # validate input token
-            if not access_token.startswith("ghp_") or access_token.endswith(" "):  # type: ignore
+            if not access_token.startswith("ghp_"):  # type: ignore
                 print(
-                    "[bold blue]Your personal access token does not seem to have the right format. Trying to sanitize it..."
+                    "[bold red]Your personal access token does not seem to have the right format. "
+                    "Please ensure your token starts with [bold green]ghp_"
                 )
-                # strip of accidentally included whitespaces
-                access_token = access_token.strip(" ")  # type: ignore
-                if not access_token.startswith("ghp_"):  # type: ignore
-                    print(
-                        "[bold red]Sanitizing your personal access token failed. Please ensure your token starts with [bold gree] "
-                        "ghp_[bold red]!"
-                    )
-                    sys.exit(1)
-
+                sys.exit(1)
+            access_token = access_token.strip(" ")  # type: ignore
             access_token_b = access_token.encode("utf-8")  # type: ignore
 
             # ask for confirmation since this action will delete the PAT irrevocably if the user has not saved it anywhere else
