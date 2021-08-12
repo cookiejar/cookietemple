@@ -485,11 +485,11 @@ class TemplateSync:
         repo = git.Repo(project_dir)
         try:
             repo.git.checkout("development")
-        except git.exc.GitCommandError:
+        except git.exc.GitCommandError:  # type: ignore[misc]
             print("[bold red]Could not checkout development branch. Trying to checkout master...")
             try:
                 repo.git.checkout("master")
-            except git.exc.GitCommandError as e:
+            except git.exc.GitCommandError as e:  # type: ignore[misc]
                 print(f"[bold red]Could not checkout master branch.\n{e}")
                 sys.exit(1)
 
