@@ -5,7 +5,7 @@ from rich import traceback
 
 
 @click.command()
-@click.version_option(version="{{ cookiecutter.version }}", message=click.style(f"{{ cookiecutter.project_name }} Version: {{ cookiecutter.version }}"))
+@click.version_option(version="{{ cookiecutter.version }}", message=click.style("{{ cookiecutter.project_name }} Version: {{ cookiecutter.version }}"))
 def main() -> None:
     """{{ cookiecutter.project_name }}."""
 
