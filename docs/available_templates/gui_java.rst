@@ -15,27 +15,20 @@ Design
 | Please be aware that gui-java is a modular Java 11+ project, which requires a few modifications to distribute and build JavaFX applications.
   As a result, binaries are a lot smaller. Assuming that your organization is called ``cookiejardealer``, the file tree looks as follows:
 
-: code::
+.. code::
 
-    ├── AUTHORS.rst
-    ├── CHANGELOG.rst
-    ├── CODEOFCONDUCT.rst
+    ├── CODE_OF_CONDUCT.rst
     ├── cookietemple.cfg
     ├── .cookietemple.yml
-    ├── .dependabot
-    │   └── config.yml
     ├── Dockerfile
     ├── docs
     │   ├── authors.rst
-    │   ├── changelog.rst
-    │   ├── codeofconduct.rst
+    │   ├── code_of_conduct.rst
     │   ├── conf.py
     │   ├── index.rst
     │   ├── installation.rst
     │   ├── make.bat
     │   ├── Makefile
-    │   ├── __pycache__
-    │   │   └── conf.cpython-38.pyc
     │   ├── readme.rst
     │   ├── requirements.txt
     │   ├── _static
@@ -43,20 +36,30 @@ Design
     │   └── usage.rst
     ├── .editorconfig
     ├── .github
+    │   ├── dependabot.yml
     │   ├── ISSUE_TEMPLATE
     │   │   ├── bug_report.md
     │   │   ├── feature_request.md
     │   │   └── general_question.md
     │   ├── pull_request_template.md
+    │   ├── release-drafter.yml
     │   └── workflows
-    │       ├── build_docs.yml
     │       ├── compile_package.yml
-    │       ├── java_linting.yml
-    │       └── run_tests.yml
+    │       ├── main_master_branch_protection.yml
+    │       ├── publish_docs.yml
+    │       ├── release-drafter.yml
+    │       ├── run_cookietemple_lint.yml
+    │       ├── run_java_linting.yml
+    │       ├── run_tests.yml
+    │       └── sync_project.yml
     ├── .gitignore
     ├── LICENSE
     ├── Makefile
+    ├── makefiles
+    │   ├── Linux.mk
+    │   └── Windows.mk
     ├── pom.xml
+    ├── .prettierignore
     ├── README.rst
     ├── .readthedocs.yml
     └── src
@@ -64,20 +67,21 @@ Design
         │   ├── java
         │   │   ├── module-info.java
         │   │   └── org
-        │   │       └── cookiejar
+        │   │       └── organization
         │   │           ├── FXMLController.java
         │   │           └── MainApp.java
         │   └── resources
         │       └── org
-        │           └── cookiejar
+        │           └── organization
         │               ├── scene.fxml
         │               └── styles.css
         └── test
             └── java
                 └── org
-                    └── cookiejar
+                    └── organization
                         ├── SimpleClickableButtonTest.java
                         └── SimpleJUnit5ExampleTest.java
+
 
 
 Included frameworks/libraries

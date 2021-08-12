@@ -23,65 +23,109 @@ However, it contains all the code needed for automatic deployment on a Linux ser
 
 .. code::
 
-    ├── AUTHORS.rst
-    ├── CHANGELOG.rst
-    ├── .coafile
-    ├── CODEOFCONDUCT.rst
+    ├── .bandit.yml
+    ├── CODE_OF_CONDUCT.rst
     ├── cookietemple.cfg
     ├── .cookietemple.yml
-    ├── .dependabot
-    │   └── config.yml
+    ├── deployment_scripts
+    │   ├── exploding_springfield
+    │   ├── exploding_springfield.service
+    │   ├── README.md
+    │   └── setup.sh
     ├── Dockerfile
     ├── docs
     │   ├── authors.rst
-    │   ├── changelog.rst
-    │   ├── codeofconduct.rst
+    │   ├── code_of_conduct.rst
     │   ├── conf.py
     │   ├── index.rst
     │   ├── installation.rst
     │   ├── make.bat
     │   ├── Makefile
-    │   ├── modules.rst
     │   ├── readme.rst
     │   ├── requirements.txt
     │   ├── _static
     │   │   └── custom_cookietemple.css
     │   └── usage.rst
     ├── .editorconfig
-    ├── Exploding_Springfield
-    │   ├── cli.py
-    │   ├── Exploding_Springfield.py
-    │   ├── files
-    │   │   └── test.txt
-    │   └── __init__.py
+    ├── exploding_springfield
+    │   ├── app.py
+    │   ├── basic
+    │   │   ├── __init__.py
+    │   │   └── routes.py
+    │   ├── config.py
+    │   ├── errors
+    │   │   ├── handlers.py
+    │   │   └── __init__.py
+    │   ├── __init__.py
+    │   ├── server.py
+    │   ├── static
+    │   │   └── assets
+    │   │       ├── css
+    │   │       │   └── min_css.css
+    │   │       ├── images
+    │   │       │   └── gitkeep
+    │   │       ├── js
+    │   │       │   └── min_jss.js
+    │   │       ├── sass
+    │   │       │   ├── base
+    │   │       │   │   └── gitkeep
+    │   │       │   ├── components
+    │   │       │   │   └── gitkeep
+    │   │       │   ├── layout
+    │   │       │   │   └── gitkeep
+    │   │       │   └── libs
+    │   │       │       └── gitkeep
+    │   │       └── webfonts
+    │   │           └── gitkeep
+    │   └── templates
+    │       ├── basic_index.html
+    │       └── errors
+    │           ├── 400.html
+    │           ├── 403.html
+    │           ├── 404.html
+    │           ├── 410.html
+    │           ├── 500.html
+    │           └── error_template.html
     ├── .github
+    │   ├── dependabot.yml
     │   ├── ISSUE_TEMPLATE
     │   │   ├── bug_report.md
     │   │   ├── feature_request.md
     │   │   └── general_question.md
-    │   ├── pull_request.md
+    │   ├── pull_request_template.md
+    │   ├── release-drafter.yml
     │   └── workflows
-    │       ├── build_docs.yml
     │       ├── build_package.yml
-    │       ├── flake8_linting.yml
-    │       ├── pr_to_master_from_dev_only.yml
-    │       ├── publish_package.yml
-    │       └── tox_testsuite.yml
+    │       ├── main_master_branch_protection.yml
+    │       ├── publish_docs.yml
+    │       ├── release-drafter.yml
+    │       ├── run_bandit.yml
+    │       ├── run_codecov.yml
+    │       ├── run_cookietemple_lint.yml
+    │       ├── run_css_lint.yml
+    │       ├── run_flake8_linting.yml
+    │       ├── run_tox_testsuite.yml
+    │       └── sync_project.yml
     ├── .gitignore
     ├── LICENSE
     ├── Makefile
+    ├── makefiles
+    │   ├── Linux.mk
+    │   └── Windows.mk
     ├── MANIFEST.in
+    ├── .prettierignore
     ├── README.rst
     ├── .readthedocs.yml
     ├── requirements_dev.txt
     ├── requirements.txt
     ├── setup.cfg
     ├── setup.py
+    ├── .stylelintrc.json
     ├── tests
     │   ├── __init__.py
-    │   └── test_Exploding_Springfield.py
-    ├── tox.ini
-    └── .travis.yml
+    │   └── test_exploding_springfield.py
+    └── tox.ini
+
 
 
 The advanced setup
@@ -98,25 +142,21 @@ The advanced theme comes with a lot more functionality by default (and can also 
 
 .. code::
 
-    ├── AUTHORS.rst
     ├── babel.cfg
-    ├── CHANGELOG.rst
-    ├── CODEOFCONDUCT.rst
+    ├── .bandit.yml
+    ├── CODE_OF_CONDUCT.rst
     ├── cookietemple.cfg
     ├── .cookietemple.yml
-    ├── .dependabot
-    │   └── config.yml
     ├── deployment_scripts
-    │   ├── Exploding_Springfield
-    │   ├── Exploding_Springfield.service
+    │   ├── exploding_springfield
+    │   ├── exploding_springfield.service
     │   ├── README.md
     │   └── setup.sh
     ├── Dockerfile
     ├── docs
     │   ├── authors.rst
-    │   ├── changelog.rst
+    │   ├── code_of_conduct.rst
     │   ├── conf.py
-    │   ├── contributing.rst
     │   ├── index.rst
     │   ├── installation.rst
     │   ├── make.bat
@@ -127,7 +167,7 @@ The advanced theme comes with a lot more functionality by default (and can also 
     │   │   └── custom_cookietemple.css
     │   └── usage.rst
     ├── .editorconfig
-    ├── Exploding_Springfield
+    ├── exploding_springfield
     │   ├── app.py
     │   ├── auth
     │   │   ├── forms
@@ -186,25 +226,35 @@ The advanced theme comes with a lot more functionality by default (and can also 
     │   └── translations
     │       └── de
     │           └── LC_MESSAGES
-    │               ├── messages.mo
     │               └── messages.po
     ├── .github
+    │   ├── dependabot.yml
     │   ├── ISSUE_TEMPLATE
     │   │   ├── bug_report.md
     │   │   ├── feature_request.md
     │   │   └── general_question.md
-    │   ├── pull_request.md
+    │   ├── pull_request_template.md
+    │   ├── release-drafter.yml
     │   └── workflows
-    │       ├── build_docs.yml
     │       ├── build_package.yml
-    │       ├── css_lint.yml
-    │       ├── flake8_linting.yml
-    │       ├── pr_to_master_from_dev_only.yml
-    │       └── tox_testsuite.yml
+    │       ├── main_master_branch_protection.yml
+    │       ├── publish_docs.yml
+    │       ├── release-drafter.yml
+    │       ├── run_bandit.yml
+    │       ├── run_codecov.yml
+    │       ├── run_cookietemple_lint.yml
+    │       ├── run_css_lint.yml
+    │       ├── run_flake8_linting.yml
+    │       ├── run_tox_testsuite.yml
+    │       └── sync_project.yml
     ├── .gitignore
     ├── LICENSE
     ├── Makefile
+    ├── makefiles
+    │   ├── Linux.mk
+    │   └── Windows.mk
     ├── MANIFEST.in
+    ├── .prettierignore
     ├── README.rst
     ├── .readthedocs.yml
     ├── requirements_dev.txt
@@ -214,9 +264,9 @@ The advanced theme comes with a lot more functionality by default (and can also 
     ├── .stylelintrc.json
     ├── tests
     │   ├── __init__.py
-    │   └── test_Exploding_Springfield.py
-    ├── tox.ini
-    └── .travis.yml
+    │   └── test_exploding_springfield.py
+    └── tox.ini
+
 
 
 Included frameworks/libraries

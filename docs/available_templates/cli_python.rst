@@ -16,7 +16,6 @@ Design
 
     ├── AUTHORS.rst
     ├── .bandit.yml
-    ├── CHANGELOG.rst
     ├── codecov.yml
     ├── CODE_OF_CONDUCT.rst
     ├── cookietemple.cfg
@@ -25,7 +24,6 @@ Design
     ├── Dockerfile
     ├── docs
     │   ├── authors.rst
-    │   ├── changelog.rst
     │   ├── code_of_conduct.rst
     │   ├── conf.py
     │   ├── index.rst
@@ -60,6 +58,7 @@ Design
     │       ├── publish_package.yml
     │       ├── run_cookietemple_lint.yml
     │       ├── run_tests.yml
+    │       ├── release-drafter.yml
     │       └── sync_project.yml
     ├── .gitignore
     ├── LICENSE
