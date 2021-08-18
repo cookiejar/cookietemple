@@ -18,8 +18,8 @@ Overview
 
 git branches can be understood as diverging copies of the main line of development and facilitate parallel development.
 To learn more about branches read `Branches in a Nutshell <https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell>`_ of the `Pro Git Book <https://git-scm.com/book>`_.
-A simple best practice development workflow follows the pattern that the ``master`` branch always contains the latest released code.
-It should only be touched for new releases. Code on the ``master`` branch must compile and be as bug free as possible.
+A simple best practice development workflow follows the pattern that the ``master/main`` branch always contains the latest released code.
+It should only be touched for new releases. Code on the ``master/main`` branch must compile and be as bug free as possible.
 Development takes place on the ``development`` branch. All in parallel developed features eventually make it into this branch.
 The ``development`` branch should always compile, but it may contain incomplete features or known bugs.
 cookietemple creates a ``TEMPLATE`` branch, which is required for :ref:`sync` to work and should not be touched manually.
@@ -29,9 +29,9 @@ Branch protection rules
 
 cookietemple sets several branch protection rules, which enforce a minimum standard of best branch practices.
 For more information please read `about protected branches <https://help.github.com/en/github/administering-a-repository/about-protected-branches>`_.
-The following branch protection rules only apply to the ``master`` branch:
+The following branch protection rules only apply to the ``master/main`` branch:
 
-1. Required review for pull requests: A pull request to ``master`` can only be merged if the code was at least reviewed by one person. If you are developing alone you can merge with your administrator powers.
+1. Required review for pull requests: A pull request to ``master/main`` can only be merged if the code was at least reviewed by one person. If you are developing alone you can merge with your administrator powers.
 2. Dismiss stale pull request approvals when new commits are pushed.
 
 Github Actions
@@ -50,18 +50,30 @@ The developers should ensure that all workflows always pass before merging, sinc
 
 .. _pr_master_workflow_docs:
 
-pr_to_master_from_patch_release_only workflow
+main_master_branch_protection workflow
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-All templates feature ``pr_to_master_from_patch_release_only.yml`` and a ``check_no_SNAPSHOT_master.yml`` workflows.
-These workflow runs everytime a PR to your projects master branch is created. It fails, if the PR to the ``master`` branch
+All templates feature ``main_master_branch_protection`` workflow.
+This workflow runs everytime a PR to your projects master or main branch is created. It fails, if the PR to the ``master/main`` branch
 origins from a branch that does not contain ``patch`` or ``release`` in its branch name.
 If development code is written on a branch called ``development``and a new release of the project is to be made,
-one should create a ``release`` branch only for this purpose and then merge it into ``master`` branch.
+one should create a ``release`` branch only for this purpose and then merge it into ``master/main`` branch.
 This ensures that new developments can already be merged into ``development``, while the release is finally prepared.
-The ``patch`` branch should be used for required ``hotfixes`` (checked out directly from ``master`` branch) because, in the meantime, there might
+The ``patch`` branch should be used for required ``hotfixes`` (checked out directly from ``master/main`` branch) because, in the meantime, there might
 multiple developments going on at ``development`` branch and you dont want to interfere with them.
-Pull requests against the master branch should not contain any ``SNAPSHOT`` versions, since they are only used for development versions.
+Pull requests against the master or main branch should not contain any ``SNAPSHOT`` versions, since they are only used for development versions.
+
+.. _release_drafter_workflow:
+
+release drafter workflow
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+All templates feature ``release-drafter`` workflow.
+This workflow consists of two parts: Everytime a new PR is made, the workflow runs and tries autolabeling the PR either as
+``feature`` or ``bug``. Feature PRs introduce new features if the branch name contains "feature". Bug PRs are PRs that either have a title containing
+"fix" or the branch name contains "fix".
+This Action then drafts a new release grouped by the different PR categories and include references and titles to all PRs inclduded in the new release.
+One can read more about this at `the Release drafter GitHub repo <https://github.com/release-drafter/release-drafter>`_.
 
 sync_project.yml
 ~~~~~~~~~~~~~~~~~~~~~~~~~

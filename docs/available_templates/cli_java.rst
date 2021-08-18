@@ -15,19 +15,14 @@ The template is based on a standard `Maven directory structure <https://www.bael
 
 .. code::
 
-    ├── AUTHORS.rst
     ├── build.gradle
-    ├── CHANGELOG.rst
     ├── CODE_OF_CONDUCT.rst
     ├── cookietemple.cfg
     ├── .cookietemple.yml
-    ├── .dependabot
-    │   └── config.yml
     ├── Dockerfile
     ├── docs
     │   ├── authors.rst
-    │   ├── changelog.rst
-    │   ├── codeofconduct.rst
+    │   ├── code_of_conduct.rst
     │   ├── conf.py
     │   ├── index.rst
     │   ├── installation.rst
@@ -41,16 +36,22 @@ The template is based on a standard `Maven directory structure <https://www.bael
     ├── .editorconfig
     ├── .gitattributes
     ├── .github
+    │   ├── dependabot.yml
     │   ├── ISSUE_TEMPLATE
     │   │   ├── bug_report.md
     │   │   ├── feature_request.md
     │   │   └── general_question.md
     │   ├── pull_request_template.md
+    │   ├── release-drafter.yml
     │   └── workflows
     │       ├── build_deploy.yml
-    │       ├── pr_to_master_from_patch_release_only.yml
+    │       ├── main_master_branch_protection.yml
+    │       ├── publish_docs.yml
+    │       ├── release-drafter.yml
     │       ├── run_checkstyle.yml
-    │       └── run_tests.yml
+    │       ├── run_cookietemple_lint.yml
+    │       ├── run_tests.yml
+    │       └── sync_project.yml
     ├── .gitignore
     ├── gradle
     │   └── wrapper
@@ -60,6 +61,10 @@ The template is based on a standard `Maven directory structure <https://www.bael
     ├── gradlew.bat
     ├── LICENSE
     ├── Makefile
+    ├── makefiles
+    │   ├── Linux.mk
+    │   └── Windows.mk
+    ├── .prettierignore
     ├── .project
     ├── README.rst
     ├── .readthedocs.yml
@@ -96,8 +101,8 @@ Included frameworks/libraries
   2. ``build_deploy.yml``, which builds the cli-java project into Linux, MacOS and Windows executables. They are deployed as build artifacts.
   3. ``run_checkstyle.yml``, which runs `checkstyle <https://checkstyle.sourceforge.io/>`_ linting using Google's ruleset.
   4. ``run_tests.yml``, which runs all JUnit tests.
-  5. ``pr_to_master_from_patch_release_only``: Please read :ref:`pr_master_workflow_docs`.
-  6. ``check_no_SNAPSHOT_master.yml``: Please read :ref:`pr_master_workflow_docs`
+  5. ``main_master_branch_protection``: Please read :ref:`pr_master_workflow_docs`.
+  6. ``release-drafter.yml``: Please read :ref:`release_drafter_workflow`.
   7. ``run_cookietemple_lint.yml``, which runs ``cookietemple lint`` on the project.
   8. ``sync_project.yml``, which syncs the project to the most recent cookietemple template version
 
