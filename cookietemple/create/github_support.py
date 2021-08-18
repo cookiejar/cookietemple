@@ -473,5 +473,5 @@ def is_git_repo(path: Path) -> bool:
     try:
         _ = Repo(path).git_dir
         return True
-    except exc.InvalidGitRepositoryError:
+    except exc.InvalidGitRepositoryError:  # type: ignore[misc]
         return False
