@@ -280,16 +280,27 @@ make heavy use of its extensions.
 4. Preconfigured `tox <https://tox.readthedocs.io/en/latest/>`_ to run pytest matrices with different Python environments
 5. Preconfigured `readthedocs <https://readthedocs.org/>`_
 6. Eleven Github workflows:
+├── build_package.yml
+    │       ├── main_master_branch_protection.yml
+    │       ├── publish_docs.yml
+    │       ├── release-drafter.yml
+    │       ├── run_bandit.yml
+    │       ├── run_codecov.yml
+    │       ├── run_cookietemple_lint.yml
+    │       ├── run_css_lint.yml
+    │       ├── run_flake8_linting.yml
+    │       ├── run_tox_testsuite.yml
+    │       └── sync_project.yml
 
-  1. ``build_docs.yml``, which builds the readthedocs documentation.
+  1. ``publish_docs.yml``, which builds and publishes the readthedocs documentation.
   2. ``build_package.yml``, which builds the web-template package.
   3. ``run_flake8_linting.yml``, which runs `flake8 <https://flake8.pycqa.org/en/latest/>`_ linting.
   4. ``run_tox_testsuite.yml``, which runs the tox testing suite.
   5. ``run_css_lint.yml``, which runs `Stylelint <https://stylelint.io/>`_ CSS linting.
   6. ``run_codecov``, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
   7. ``run_bandit``, run `bandit <https://github.com/PyCQA/bandit>`_ to discover security issues in your python code
-  8. ``pr_to_master_from_patch_release_only``: Please read :ref:`pr_master_workflow_docs`.
-  9. ``check_no_SNAPSHOT_master.yml``: Please read :ref:`pr_master_workflow_docs`
+  8. ``main_master_branch_protection``: Please read :ref:`pr_master_workflow_docs`.
+  9. ``release-drafter.yml``: Please read :ref:`release_drafter_workflow`.
   10. ``run_cookietemple_lint.yml``, which runs ``cookietemple lint`` on the project.
   11. ``sync_project.yml``, which syncs the project to the most recent cookietemple template version
 

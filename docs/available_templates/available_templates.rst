@@ -63,7 +63,7 @@ In Cookietemple 1.3.0, all templates received a new GitHub Action called Release
 Release drafter automatically includes references to all PRs made to the default branch and a description of what this PR was about (basically the PRs title) in a
 release draft on GitHub. Per default, the release drafter of cookietemple's templates has been configured to distinguish between two main categories: Features and Fixes.
 Every PR that was made from a branch called either feature/ (for Features) or fix/ (for Fixes) will automatically be grouped into those categories and be labelled
-automatically. If no category was found, the changes will be grouped into a common Changes category.
+automatically. If no category was found, the changes will be grouped into a common Changes category. See also :ref:`_release_drafter_workflow`.
 
 How do I add a new template?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
