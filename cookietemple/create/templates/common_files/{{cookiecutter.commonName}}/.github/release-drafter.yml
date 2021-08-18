@@ -1,7 +1,7 @@
 name-template: "{{ cookiecutter.version }} 🌈" # <<COOKIETEMPLE_FORCE_BUMP>>
 tag-template: {{ cookiecutter.version }} # <<COOKIETEMPLE_FORCE_BUMP>>
 exclude-labels:
-  - 'skip-changelog'
+    - "skip-changelog"
 
 categories:
     - title: "🚀 Features"
