@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>gui-java &mdash; cookietemple 1.3.9 documentation</title>
+  <title>gui-java &mdash; cookietemple 1.3.10 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                1.3.9
+                1.3.10
               </div>
             
           
@@ -94,7 +94,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../readme.html">cookietemple overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
@@ -199,26 +199,18 @@ Therefore, all dependencies are defined in the <code class="docutils literal not
 <div class="line">Please be aware that gui-java is a modular Java 11+ project, which requires a few modifications to distribute and build JavaFX applications.
 As a result, binaries are a lot smaller. Assuming that your organization is called <code class="docutils literal notranslate"><span class="pre">cookiejardealer</span></code>, the file tree looks as follows:</div>
 </div>
-<p>: code:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── AUTHORS.rst
-├── CHANGELOG.rst
-├── CODEOFCONDUCT.rst
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── CODE_OF_CONDUCT.rst
 ├── cookietemple.cfg
 ├── .cookietemple.yml
-├── .dependabot
-│   └── config.yml
 ├── Dockerfile
 ├── docs
 │   ├── authors.rst
-│   ├── changelog.rst
-│   ├── codeofconduct.rst
+│   ├── code_of_conduct.rst
 │   ├── conf.py
 │   ├── index.rst
 │   ├── installation.rst
 │   ├── make.bat
 │   ├── Makefile
-│   ├── __pycache__
-│   │   └── conf.cpython-38.pyc
 │   ├── readme.rst
 │   ├── requirements.txt
 │   ├── _static
@@ -226,20 +218,30 @@ As a result, binaries are a lot smaller. Assuming that your organization is call
 │   └── usage.rst
 ├── .editorconfig
 ├── .github
+│   ├── dependabot.yml
 │   ├── ISSUE_TEMPLATE
 │   │   ├── bug_report.md
 │   │   ├── feature_request.md
 │   │   └── general_question.md
 │   ├── pull_request_template.md
+│   ├── release-drafter.yml
 │   └── workflows
-│       ├── build_docs.yml
 │       ├── compile_package.yml
-│       ├── java_linting.yml
-│       └── run_tests.yml
+│       ├── main_master_branch_protection.yml
+│       ├── publish_docs.yml
+│       ├── release-drafter.yml
+│       ├── run_cookietemple_lint.yml
+│       ├── run_java_linting.yml
+│       ├── run_tests.yml
+│       └── sync_project.yml
 ├── .gitignore
 ├── LICENSE
 ├── Makefile
+├── makefiles
+│   ├── Linux.mk
+│   └── Windows.mk
 ├── pom.xml
+├── .prettierignore
 ├── README.rst
 ├── .readthedocs.yml
 └── src
@@ -247,18 +249,18 @@ As a result, binaries are a lot smaller. Assuming that your organization is call
     │   ├── java
     │   │   ├── module-info.java
     │   │   └── org
-    │   │       └── cookiejar
+    │   │       └── organization
     │   │           ├── FXMLController.java
     │   │           └── MainApp.java
     │   └── resources
     │       └── org
-    │           └── cookiejar
+    │           └── organization
     │               ├── scene.fxml
     │               └── styles.css
     └── test
         └── java
             └── org
-                └── cookiejar
+                └── organization
                     ├── SimpleClickableButtonTest.java
                     └── SimpleJUnit5ExampleTest.java
 </pre></div>
@@ -274,7 +276,7 @@ As a result, binaries are a lot smaller. Assuming that your organization is call
 <li><p><a class="reference external" href="https://junit.org/junit5/">JUnit 5</a> for unit tests</p></li>
 <li><p><a class="reference external" href="https://github.com/TestFX/TestFX">TestFX</a> for JavaFX GUI tests</p></li>
 <li><p>Preconfigured <a class="reference external" href="https://readthedocs.org/">readthedocs</a></p></li>
-<li><p>Nine Github workflows:</p></li>
+<li><p>Eight Github workflows:</p></li>
 </ol>
 <blockquote>
 <div><ol class="arabic simple">
@@ -283,9 +285,8 @@ As a result, binaries are a lot smaller. Assuming that your organization is call
 <li><p><code class="docutils literal notranslate"><span class="pre">run_java_linting.yml</span></code>, which runs <a class="reference external" href="https://checkstyle.sourceforge.io/">checkstyle</a> linting using Google’s ruleset.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">run_tests.yml</span></code>, which runs the Unit tests. Note that this workflow is currently disabled, since GUI unittests are not possible using Github Actions.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">run_codecov</span></code>, apply codecov to your project/PRs in your project and create automatically a report with the details at <a class="reference external" href="https://codecov.io">codecov.io</a></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">pr_to_master_from_patch_release_only</span></code>: Please read <a class="reference internal" href="../github_support.html#pr-master-workflow-docs"><span class="std std-ref">pr_to_master_from_patch_release_only workflow</span></a>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">check_no_SNAPSHOT_master.yml</span></code>: Please read <a class="reference internal" href="../github_support.html#pr-master-workflow-docs"><span class="std std-ref">pr_to_master_from_patch_release_only workflow</span></a></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">run_cookietemple_lint.yml</span></code>, which runs <code class="docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">lint</span></code> on the project.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">main_master_branch_protection</span></code>: Please read <a class="reference internal" href="../github_support.html#pr-master-workflow-docs"><span class="std std-ref">main_master_branch_protection workflow</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">release-drafter.yml</span></code>: Please read <a class="reference internal" href="../github_support.html#release-drafter-workflow"><span class="std std-ref">release drafter workflow</span></a>.  8. <code class="docutils literal notranslate"><span class="pre">run_cookietemple_lint.yml</span></code>, which runs <code class="docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">lint</span></code> on the project.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">sync_project.yml</span></code>, which syncs the project to the most recent cookietemple template version.</p></li>
 </ol>
 </div></blockquote>

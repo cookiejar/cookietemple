@@ -16,7 +16,6 @@ Design
 
     ├── AUTHORS.rst
     ├── .bandit.yml
-    ├── CHANGELOG.rst
     ├── codecov.yml
     ├── CODE_OF_CONDUCT.rst
     ├── cookietemple.cfg
@@ -25,7 +24,6 @@ Design
     ├── Dockerfile
     ├── docs
     │   ├── authors.rst
-    │   ├── changelog.rst
     │   ├── code_of_conduct.rst
     │   ├── conf.py
     │   ├── index.rst
@@ -60,6 +58,7 @@ Design
     │       ├── publish_package.yml
     │       ├── run_cookietemple_lint.yml
     │       ├── run_tests.yml
+    │       ├── release-drafter.yml
     │       └── sync_project.yml
     ├── .gitignore
     ├── LICENSE
@@ -99,8 +98,8 @@ Included frameworks/libraries
   2. ``build_package.yml``, which builds the cli-python package.
   3. ``publish_package.yml``, which publishes the package to PyPi. Note that it only runs on Github release and requires PyPi secrets to be set up.
   4. ``run_tests``, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
-  5. ``pr_to_master_from_patch_release_only``: Please read :ref:`pr_master_workflow_docs`.
-  6. ``check_no_SNAPSHOT_master.yml``: Please read :ref:`pr_master_workflow_docs`
+  5. ``main_master_branch_protection``: Please read :ref:`pr_master_workflow_docs`.
+  6. ``release-drafter.yml``: Please read :ref:`release_drafter_workflow`.
   7. ``run_cookietemple_lint.yml``, which runs ``cookietemple lint`` on the project.
   8. ``sync_project.yml``, which syncs the project to the most recent cookietemple template version
 

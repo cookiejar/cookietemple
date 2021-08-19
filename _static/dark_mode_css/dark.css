@@ -484,3 +484,18 @@ html[data-theme='dark'] .rst-content table.docutils,
 html[data-theme='dark'] .wy-table-bordered-all {
   border-color: #262626;
 }
+
+html[data-theme='dark'] .rst-content table.docutils caption,
+html[data-theme='dark'] .rst-content table.field-list caption,
+html[data-theme='dark'] .wy-table caption {
+  color: var(--dark-text-color);
+}
+
+html[data-theme='dark'] .wy-menu-vertical li.toctree-l3.current > a,
+html[data-theme='dark']
+  .wy-menu-vertical
+  li.toctree-l3.current
+  li.toctree-l4
+  > a {
+  background-color: #18181a;
+}

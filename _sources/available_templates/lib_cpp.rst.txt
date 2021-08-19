@@ -11,72 +11,75 @@ The template is inspired by several others (mainly `TheLartians' <https://github
 
 .. code ::
 
-  ├── AUTHORS.rst
-  ├── CHANGELOG.rst
-  ├── .clang-format
-  ├── .clang-tidy
-  ├── cmake
-  │   ├── CompilerWarnings.cmake
-  │   ├── Conan.cmake
-  │   ├── Doxygen.cmake
-  │   ├── <ProjectName>Config.cmake.in
-  │   ├── SourcesAndHeaders.cmake
-  │   ├── StandardSettings.cmake
-  │   ├── StaticAnalyzers.cmake
-  │   ├── Utils.cmake
-  │   ├── Vcpkg.cmake
-  │   └── version.hpp.in
-  ├── CMakeLists.txt
-  ├── codecov.yaml
-  ├── CODE_OF_CONDUCT.rst
-  ├── CONTRIBUTING.rst
-  ├── cookietemple.cfg
-  ├── .cookietemple.yml
-  ├── Dockerfile
-  ├── docs
-  │   ├── authors.rst
-  │   ├── changelog.rst
-  │   ├── code_of_conduct.rst
-  │   ├── conf.py
-  │   ├── index.rst
-  │   ├── installation.rst
-  │   ├── make.bat
-  │   ├── Makefile
-  │   ├── readme.rst
-  │   ├── requirements.txt
-  │   ├── _static
-  │   │   └── custom_cookietemple.css
-  │   └── usage.rst
-  ├── .editorconfig
-  ├── .github
-  │   ├── ISSUE_TEMPLATE
-  │   │   ├── bug_report.md
-  │   │   ├── feature_request.md
-  │   │   ├── general_question.md
-  │   │   └── sync_notify.md
-  │   ├── pull_request_template.md
-  │   └── workflows
-  │       ├── build_docs.yml
-  │       ├── check_template_update.yml
-  │       ├── macos.yml
-  │       ├── pr_to_master_from_patch_release_only.yml
-  │       ├── release.yml
-  │       ├── ubuntu.yml
-  │       └── windows.yml
-  ├── .gitignore
-  ├── include
-  │   └── <ProjectName>
-  │       └── tmp.hpp
-  ├── LICENSE
-  ├── Makefile
-  ├── README.rst
-  ├── .readthedocs.yml
-  ├── src
-  │   └── tmp.cpp
-  └── test
-      ├── CMakeLists.txt
-      └── src
-          └── tmp_test.cpp
+    ├── .clang-format
+    ├── .clang-tidy
+    ├── cmake
+    │   ├── CompilerWarnings.cmake
+    │   ├── Conan.cmake
+    │   ├── Doxygen.cmake
+    │   ├── exploding-springfieldConfig.cmake.in
+    │   ├── SourcesAndHeaders.cmake
+    │   ├── StandardSettings.cmake
+    │   ├── StaticAnalyzers.cmake
+    │   ├── Utils.cmake
+    │   ├── Vcpkg.cmake
+    │   └── version.hpp.in
+    ├── CMakeLists.txt
+    ├── codecov.yaml
+    ├── CODE_OF_CONDUCT.rst
+    ├── CONTRIBUTING.rst
+    ├── cookietemple.cfg
+    ├── .cookietemple.yml
+    ├── Dockerfile
+    ├── docs
+    │   ├── authors.rst
+    │   ├── code_of_conduct.rst
+    │   ├── conf.py
+    │   ├── index.rst
+    │   ├── installation.rst
+    │   ├── make.bat
+    │   ├── Makefile
+    │   ├── readme.rst
+    │   ├── requirements.txt
+    │   ├── _static
+    │   │   └── custom_cookietemple.css
+    │   └── usage.rst
+    ├── .editorconfig
+    ├── .github
+    │   ├── ISSUE_TEMPLATE
+    │   │   ├── bug_report.md
+    │   │   ├── feature_request.md
+    │   │   └── general_question.md
+    │   ├── pull_request_template.md
+    │   ├── release-drafter.yml
+    │   └── workflows
+    │       ├── build_linux.yml
+    │       ├── build_macos.yml
+    │       ├── build_windows.yml
+    │       ├── main_master_branch_protection.yml
+    │       ├── publish_docs.yml
+    │       ├── release-drafter.yml
+    │       ├── release.yml
+    │       ├── run_cookietemple_lint.yml
+    │       └── sync_project.yml
+    ├── .gitignore
+    ├── include
+    │   └── exploding-springfield
+    │       └── tmp.hpp
+    ├── LICENSE
+    ├── Makefile
+    ├── makefiles
+    │   ├── Linux.mk
+    │   └── Windows.mk
+    ├── .prettierignore
+    ├── README.rst
+    ├── .readthedocs.yml
+    ├── src
+    │   └── tmp.cpp
+    └── test
+        ├── CMakeLists.txt
+        └── src
+            └── tmp_test.cpp
 
 Included frameworks/libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>lib-cpp &mdash; cookietemple 1.3.9 documentation</title>
+  <title>lib-cpp &mdash; cookietemple 1.3.10 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                1.3.9
+                1.3.10
               </div>
             
           
@@ -94,7 +94,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../readme.html">cookietemple overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
@@ -191,15 +191,13 @@
 <div class="section" id="design">
 <h2>Design<a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h2>
 <p>The template is inspired by several others (mainly <a class="reference external" href="https://github.com/TheLartians/ModernCppStarter">TheLartians’</a> <cite>and Jason Turner’s &lt;https://github.com/lefticus/cpp_starter_project&gt;</cite>). It is using <a class="reference external" href="https://cmake.org/">CMake</a> as its build system.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── AUTHORS.rst
-├── CHANGELOG.rst
-├── .clang-format
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── .clang-format
 ├── .clang-tidy
 ├── cmake
 │   ├── CompilerWarnings.cmake
 │   ├── Conan.cmake
 │   ├── Doxygen.cmake
-│   ├── &lt;ProjectName&gt;Config.cmake.in
+│   ├── exploding-springfieldConfig.cmake.in
 │   ├── SourcesAndHeaders.cmake
 │   ├── StandardSettings.cmake
 │   ├── StaticAnalyzers.cmake
@@ -215,7 +213,6 @@
 ├── Dockerfile
 ├── docs
 │   ├── authors.rst
-│   ├── changelog.rst
 │   ├── code_of_conduct.rst
 │   ├── conf.py
 │   ├── index.rst
@@ -232,23 +229,29 @@
 │   ├── ISSUE_TEMPLATE
 │   │   ├── bug_report.md
 │   │   ├── feature_request.md
-│   │   ├── general_question.md
-│   │   └── sync_notify.md
+│   │   └── general_question.md
 │   ├── pull_request_template.md
+│   ├── release-drafter.yml
 │   └── workflows
-│       ├── build_docs.yml
-│       ├── check_template_update.yml
-│       ├── macos.yml
-│       ├── pr_to_master_from_patch_release_only.yml
+│       ├── build_linux.yml
+│       ├── build_macos.yml
+│       ├── build_windows.yml
+│       ├── main_master_branch_protection.yml
+│       ├── publish_docs.yml
+│       ├── release-drafter.yml
 │       ├── release.yml
-│       ├── ubuntu.yml
-│       └── windows.yml
+│       ├── run_cookietemple_lint.yml
+│       └── sync_project.yml
 ├── .gitignore
 ├── include
-│   └── &lt;ProjectName&gt;
+│   └── exploding-springfield
 │       └── tmp.hpp
 ├── LICENSE
 ├── Makefile
+├── makefiles
+│   ├── Linux.mk
+│   └── Windows.mk
+├── .prettierignore
 ├── README.rst
 ├── .readthedocs.yml
 ├── src

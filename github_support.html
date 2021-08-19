@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Github Support &mdash; cookietemple 1.3.9 documentation</title>
+  <title>Github Support &mdash; cookietemple 1.3.10 documentation</title>
   
 
   
@@ -71,7 +71,7 @@
             
             
               <div class="version">
-                1.3.9
+                1.3.10
               </div>
             
           
@@ -96,7 +96,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="readme.html">cookietemple overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
@@ -118,7 +118,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#github-actions">Github Actions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id3">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pr-to-master-from-patch-release-only-workflow">pr_to_master_from_patch_release_only workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main-master-branch-protection-workflow">main_master_branch_protection workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#release-drafter-workflow">release drafter workflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sync-project-yml">sync_project.yml</a></li>
 </ul>
 </li>
@@ -216,8 +217,8 @@ Moreover, issue labels, a development and a TEMPLATE branch are created. The TEM
 <h3>Overview<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>git branches can be understood as diverging copies of the main line of development and facilitate parallel development.
 To learn more about branches read <a class="reference external" href="https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell">Branches in a Nutshell</a> of the <a class="reference external" href="https://git-scm.com/book">Pro Git Book</a>.
-A simple best practice development workflow follows the pattern that the <code class="docutils literal notranslate"><span class="pre">master</span></code> branch always contains the latest released code.
-It should only be touched for new releases. Code on the <code class="docutils literal notranslate"><span class="pre">master</span></code> branch must compile and be as bug free as possible.
+A simple best practice development workflow follows the pattern that the <code class="docutils literal notranslate"><span class="pre">master/main</span></code> branch always contains the latest released code.
+It should only be touched for new releases. Code on the <code class="docutils literal notranslate"><span class="pre">master/main</span></code> branch must compile and be as bug free as possible.
 Development takes place on the <code class="docutils literal notranslate"><span class="pre">development</span></code> branch. All in parallel developed features eventually make it into this branch.
 The <code class="docutils literal notranslate"><span class="pre">development</span></code> branch should always compile, but it may contain incomplete features or known bugs.
 cookietemple creates a <code class="docutils literal notranslate"><span class="pre">TEMPLATE</span></code> branch, which is required for <a class="reference internal" href="sync.html#sync"><span class="std std-ref">Syncing your project</span></a> to work and should not be touched manually.</p>
@@ -226,9 +227,9 @@ cookietemple creates a <code class="docutils literal notranslate"><span class="p
 <h3>Branch protection rules<a class="headerlink" href="#branch-protection-rules" title="Permalink to this headline">¶</a></h3>
 <p>cookietemple sets several branch protection rules, which enforce a minimum standard of best branch practices.
 For more information please read <a class="reference external" href="https://help.github.com/en/github/administering-a-repository/about-protected-branches">about protected branches</a>.
-The following branch protection rules only apply to the <code class="docutils literal notranslate"><span class="pre">master</span></code> branch:</p>
+The following branch protection rules only apply to the <code class="docutils literal notranslate"><span class="pre">master/main</span></code> branch:</p>
 <ol class="arabic simple">
-<li><p>Required review for pull requests: A pull request to <code class="docutils literal notranslate"><span class="pre">master</span></code> can only be merged if the code was at least reviewed by one person. If you are developing alone you can merge with your administrator powers.</p></li>
+<li><p>Required review for pull requests: A pull request to <code class="docutils literal notranslate"><span class="pre">master/main</span></code> can only be merged if the code was at least reviewed by one person. If you are developing alone you can merge with your administrator powers.</p></li>
 <li><p>Dismiss stale pull request approvals when new commits are pushed.</p></li>
 </ol>
 </div>
@@ -245,17 +246,26 @@ Please read the <a class="reference external" href="https://github.com/features/
 On specific conditions (usually push events), the Github Actions workflows are triggered and executed.
 The developers should ensure that all workflows always pass before merging, since they ensure that the package still builds and all tests are executed successfully.</p>
 </div>
-<div class="section" id="pr-to-master-from-patch-release-only-workflow">
-<span id="pr-master-workflow-docs"></span><h3>pr_to_master_from_patch_release_only workflow<a class="headerlink" href="#pr-to-master-from-patch-release-only-workflow" title="Permalink to this headline">¶</a></h3>
-<p>All templates feature <code class="docutils literal notranslate"><span class="pre">pr_to_master_from_patch_release_only.yml</span></code> and a <code class="docutils literal notranslate"><span class="pre">check_no_SNAPSHOT_master.yml</span></code> workflows.
-These workflow runs everytime a PR to your projects master branch is created. It fails, if the PR to the <code class="docutils literal notranslate"><span class="pre">master</span></code> branch
+<div class="section" id="main-master-branch-protection-workflow">
+<span id="pr-master-workflow-docs"></span><h3>main_master_branch_protection workflow<a class="headerlink" href="#main-master-branch-protection-workflow" title="Permalink to this headline">¶</a></h3>
+<p>All templates feature <code class="docutils literal notranslate"><span class="pre">main_master_branch_protection</span></code> workflow.
+This workflow runs everytime a PR to your projects master or main branch is created. It fails, if the PR to the <code class="docutils literal notranslate"><span class="pre">master/main</span></code> branch
 origins from a branch that does not contain <code class="docutils literal notranslate"><span class="pre">patch</span></code> or <code class="docutils literal notranslate"><span class="pre">release</span></code> in its branch name.
 If development code is written on a branch called <code class="docutils literal notranslate"><span class="pre">development``and</span> <span class="pre">a</span> <span class="pre">new</span> <span class="pre">release</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">project</span> <span class="pre">is</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">made,</span>
-<span class="pre">one</span> <span class="pre">should</span> <span class="pre">create</span> <span class="pre">a</span> <span class="pre">``release</span></code> branch only for this purpose and then merge it into <code class="docutils literal notranslate"><span class="pre">master</span></code> branch.
+<span class="pre">one</span> <span class="pre">should</span> <span class="pre">create</span> <span class="pre">a</span> <span class="pre">``release</span></code> branch only for this purpose and then merge it into <code class="docutils literal notranslate"><span class="pre">master/main</span></code> branch.
 This ensures that new developments can already be merged into <code class="docutils literal notranslate"><span class="pre">development</span></code>, while the release is finally prepared.
-The <code class="docutils literal notranslate"><span class="pre">patch</span></code> branch should be used for required <code class="docutils literal notranslate"><span class="pre">hotfixes</span></code> (checked out directly from <code class="docutils literal notranslate"><span class="pre">master</span></code> branch) because, in the meantime, there might
+The <code class="docutils literal notranslate"><span class="pre">patch</span></code> branch should be used for required <code class="docutils literal notranslate"><span class="pre">hotfixes</span></code> (checked out directly from <code class="docutils literal notranslate"><span class="pre">master/main</span></code> branch) because, in the meantime, there might
 multiple developments going on at <code class="docutils literal notranslate"><span class="pre">development</span></code> branch and you dont want to interfere with them.
-Pull requests against the master branch should not contain any <code class="docutils literal notranslate"><span class="pre">SNAPSHOT</span></code> versions, since they are only used for development versions.</p>
+Pull requests against the master or main branch should not contain any <code class="docutils literal notranslate"><span class="pre">SNAPSHOT</span></code> versions, since they are only used for development versions.</p>
+</div>
+<div class="section" id="release-drafter-workflow">
+<span id="id5"></span><h3>release drafter workflow<a class="headerlink" href="#release-drafter-workflow" title="Permalink to this headline">¶</a></h3>
+<p>All templates feature <code class="docutils literal notranslate"><span class="pre">release-drafter</span></code> workflow.
+This workflow consists of two parts: Everytime a new PR is made, the workflow runs and tries autolabeling the PR either as
+<code class="docutils literal notranslate"><span class="pre">feature</span></code> or <code class="docutils literal notranslate"><span class="pre">bug</span></code>. Feature PRs introduce new features if the branch name contains “feature”. Bug PRs are PRs that either have a title containing
+“fix” or the branch name contains “fix”.
+This Action then drafts a new release grouped by the different PR categories and include references and titles to all PRs inclduded in the new release.
+One can read more about this at <a class="reference external" href="https://github.com/release-drafter/release-drafter">the Release drafter GitHub repo</a>.</p>
 </div>
 <div class="section" id="sync-project-yml">
 <h3>sync_project.yml<a class="headerlink" href="#sync-project-yml" title="Permalink to this headline">¶</a></h3>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>web-website-python &mdash; cookietemple 1.3.9 documentation</title>
+  <title>web-website-python &mdash; cookietemple 1.3.10 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                1.3.9
+                1.3.10
               </div>
             
           
@@ -94,7 +94,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../readme.html">cookietemple overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
@@ -201,65 +201,108 @@ You can choose from two main options:</p>
 <p>The basic theme is designed to provide only minimal code needed for getting started: Thus it comes
 with only minimal HTML/CSS/JS code (but you can initalize it with a full featured frontend, if you want to) and basic Flask configuration.
 However, it contains all the code needed for automatic deployment on a Linux server and adheres to the cookietemple project structure standards.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── AUTHORS.rst
-├── CHANGELOG.rst
-├── .coafile
-├── CODEOFCONDUCT.rst
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── .bandit.yml
+├── CODE_OF_CONDUCT.rst
 ├── cookietemple.cfg
 ├── .cookietemple.yml
-├── .dependabot
-│   └── config.yml
+├── deployment_scripts
+│   ├── exploding_springfield
+│   ├── exploding_springfield.service
+│   ├── README.md
+│   └── setup.sh
 ├── Dockerfile
 ├── docs
 │   ├── authors.rst
-│   ├── changelog.rst
-│   ├── codeofconduct.rst
+│   ├── code_of_conduct.rst
 │   ├── conf.py
 │   ├── index.rst
 │   ├── installation.rst
 │   ├── make.bat
 │   ├── Makefile
-│   ├── modules.rst
 │   ├── readme.rst
 │   ├── requirements.txt
 │   ├── _static
 │   │   └── custom_cookietemple.css
 │   └── usage.rst
 ├── .editorconfig
-├── Exploding_Springfield
-│   ├── cli.py
-│   ├── Exploding_Springfield.py
-│   ├── files
-│   │   └── test.txt
-│   └── __init__.py
+├── exploding_springfield
+│   ├── app.py
+│   ├── basic
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   ├── config.py
+│   ├── errors
+│   │   ├── handlers.py
+│   │   └── __init__.py
+│   ├── __init__.py
+│   ├── server.py
+│   ├── static
+│   │   └── assets
+│   │       ├── css
+│   │       │   └── min_css.css
+│   │       ├── images
+│   │       │   └── gitkeep
+│   │       ├── js
+│   │       │   └── min_jss.js
+│   │       ├── sass
+│   │       │   ├── base
+│   │       │   │   └── gitkeep
+│   │       │   ├── components
+│   │       │   │   └── gitkeep
+│   │       │   ├── layout
+│   │       │   │   └── gitkeep
+│   │       │   └── libs
+│   │       │       └── gitkeep
+│   │       └── webfonts
+│   │           └── gitkeep
+│   └── templates
+│       ├── basic_index.html
+│       └── errors
+│           ├── 400.html
+│           ├── 403.html
+│           ├── 404.html
+│           ├── 410.html
+│           ├── 500.html
+│           └── error_template.html
 ├── .github
+│   ├── dependabot.yml
 │   ├── ISSUE_TEMPLATE
 │   │   ├── bug_report.md
 │   │   ├── feature_request.md
 │   │   └── general_question.md
-│   ├── pull_request.md
+│   ├── pull_request_template.md
+│   ├── release-drafter.yml
 │   └── workflows
-│       ├── build_docs.yml
 │       ├── build_package.yml
-│       ├── flake8_linting.yml
-│       ├── pr_to_master_from_dev_only.yml
-│       ├── publish_package.yml
-│       └── tox_testsuite.yml
+│       ├── main_master_branch_protection.yml
+│       ├── publish_docs.yml
+│       ├── release-drafter.yml
+│       ├── run_bandit.yml
+│       ├── run_codecov.yml
+│       ├── run_cookietemple_lint.yml
+│       ├── run_css_lint.yml
+│       ├── run_flake8_linting.yml
+│       ├── run_tox_testsuite.yml
+│       └── sync_project.yml
 ├── .gitignore
 ├── LICENSE
 ├── Makefile
+├── makefiles
+│   ├── Linux.mk
+│   └── Windows.mk
 ├── MANIFEST.in
+├── .prettierignore
 ├── README.rst
 ├── .readthedocs.yml
 ├── requirements_dev.txt
 ├── requirements.txt
 ├── setup.cfg
 ├── setup.py
+├── .stylelintrc.json
 ├── tests
 │   ├── __init__.py
-│   └── test_Exploding_Springfield.py
-├── tox.ini
-└── .travis.yml
+│   └── test_exploding_springfield.py
+└── tox.ini
 </pre></div>
 </div>
 </div>
@@ -274,25 +317,21 @@ However, it contains all the code needed for automatic deployment on a Linux ser
 <li><p>Its configured to be automatically deployed in seconds on a Linux server.</p></li>
 <li><p>More is WIP (Contributions are welcome).</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── AUTHORS.rst
-├── babel.cfg
-├── CHANGELOG.rst
-├── CODEOFCONDUCT.rst
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── babel.cfg
+├── .bandit.yml
+├── CODE_OF_CONDUCT.rst
 ├── cookietemple.cfg
 ├── .cookietemple.yml
-├── .dependabot
-│   └── config.yml
 ├── deployment_scripts
-│   ├── Exploding_Springfield
-│   ├── Exploding_Springfield.service
+│   ├── exploding_springfield
+│   ├── exploding_springfield.service
 │   ├── README.md
 │   └── setup.sh
 ├── Dockerfile
 ├── docs
 │   ├── authors.rst
-│   ├── changelog.rst
+│   ├── code_of_conduct.rst
 │   ├── conf.py
-│   ├── contributing.rst
 │   ├── index.rst
 │   ├── installation.rst
 │   ├── make.bat
@@ -303,7 +342,7 @@ However, it contains all the code needed for automatic deployment on a Linux ser
 │   │   └── custom_cookietemple.css
 │   └── usage.rst
 ├── .editorconfig
-├── Exploding_Springfield
+├── exploding_springfield
 │   ├── app.py
 │   ├── auth
 │   │   ├── forms
@@ -362,25 +401,35 @@ However, it contains all the code needed for automatic deployment on a Linux ser
 │   └── translations
 │       └── de
 │           └── LC_MESSAGES
-│               ├── messages.mo
 │               └── messages.po
 ├── .github
+│   ├── dependabot.yml
 │   ├── ISSUE_TEMPLATE
 │   │   ├── bug_report.md
 │   │   ├── feature_request.md
 │   │   └── general_question.md
-│   ├── pull_request.md
+│   ├── pull_request_template.md
+│   ├── release-drafter.yml
 │   └── workflows
-│       ├── build_docs.yml
 │       ├── build_package.yml
-│       ├── css_lint.yml
-│       ├── flake8_linting.yml
-│       ├── pr_to_master_from_dev_only.yml
-│       └── tox_testsuite.yml
+│       ├── main_master_branch_protection.yml
+│       ├── publish_docs.yml
+│       ├── release-drafter.yml
+│       ├── run_bandit.yml
+│       ├── run_codecov.yml
+│       ├── run_cookietemple_lint.yml
+│       ├── run_css_lint.yml
+│       ├── run_flake8_linting.yml
+│       ├── run_tox_testsuite.yml
+│       └── sync_project.yml
 ├── .gitignore
 ├── LICENSE
 ├── Makefile
+├── makefiles
+│   ├── Linux.mk
+│   └── Windows.mk
 ├── MANIFEST.in
+├── .prettierignore
 ├── README.rst
 ├── .readthedocs.yml
 ├── requirements_dev.txt
@@ -390,9 +439,8 @@ However, it contains all the code needed for automatic deployment on a Linux ser
 ├── .stylelintrc.json
 ├── tests
 │   ├── __init__.py
-│   └── test_Exploding_Springfield.py
-├── tox.ini
-└── .travis.yml
+│   └── test_exploding_springfield.py
+└── tox.ini
 </pre></div>
 </div>
 </div>
@@ -407,19 +455,32 @@ make heavy use of its extensions.</p>
 <li><p><a class="reference external" href="https://docs.pytest.org/en/latest/">pytest</a> or <a class="reference external" href="https://docs.python.org/3/library/unittest.html">unittest</a> as testing frameworks</p></li>
 <li><p>Preconfigured <a class="reference external" href="https://tox.readthedocs.io/en/latest/">tox</a> to run pytest matrices with different Python environments</p></li>
 <li><p>Preconfigured <a class="reference external" href="https://readthedocs.org/">readthedocs</a></p></li>
-<li><p>Eleven Github workflows:</p></li>
 </ol>
+<p>6. Eleven Github workflows:
+├── build_package.yml</p>
 <blockquote>
-<div><ol class="arabic simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">build_docs.yml</span></code>, which builds the readthedocs documentation.</p></li>
+<div><blockquote>
+<div><p>│       ├── main_master_branch_protection.yml
+│       ├── publish_docs.yml
+│       ├── release-drafter.yml
+│       ├── run_bandit.yml
+│       ├── run_codecov.yml
+│       ├── run_cookietemple_lint.yml
+│       ├── run_css_lint.yml
+│       ├── run_flake8_linting.yml
+│       ├── run_tox_testsuite.yml
+│       └── sync_project.yml</p>
+</div></blockquote>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">publish_docs.yml</span></code>, which builds and publishes the readthedocs documentation.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">build_package.yml</span></code>, which builds the web-template package.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">run_flake8_linting.yml</span></code>, which runs <a class="reference external" href="https://flake8.pycqa.org/en/latest/">flake8</a> linting.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">run_tox_testsuite.yml</span></code>, which runs the tox testing suite.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">run_css_lint.yml</span></code>, which runs <a class="reference external" href="https://stylelint.io/">Stylelint</a> CSS linting.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">run_codecov</span></code>, apply codecov to your project/PRs in your project and create automatically a report with the details at <a class="reference external" href="https://codecov.io">codecov.io</a></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">run_bandit</span></code>, run <a class="reference external" href="https://github.com/PyCQA/bandit">bandit</a> to discover security issues in your python code</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">pr_to_master_from_patch_release_only</span></code>: Please read <a class="reference internal" href="../github_support.html#pr-master-workflow-docs"><span class="std std-ref">pr_to_master_from_patch_release_only workflow</span></a>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">check_no_SNAPSHOT_master.yml</span></code>: Please read <a class="reference internal" href="../github_support.html#pr-master-workflow-docs"><span class="std std-ref">pr_to_master_from_patch_release_only workflow</span></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">main_master_branch_protection</span></code>: Please read <a class="reference internal" href="../github_support.html#pr-master-workflow-docs"><span class="std std-ref">main_master_branch_protection workflow</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">release-drafter.yml</span></code>: Please read <a class="reference internal" href="../github_support.html#release-drafter-workflow"><span class="std std-ref">release drafter workflow</span></a>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">run_cookietemple_lint.yml</span></code>, which runs <code class="docutils literal notranslate"><span class="pre">cookietemple</span> <span class="pre">lint</span></code> on the project.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">sync_project.yml</span></code>, which syncs the project to the most recent cookietemple template version</p></li>
 </ol>

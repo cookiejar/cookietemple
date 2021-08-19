@@ -15,27 +15,20 @@ Design
 | Please be aware that gui-java is a modular Java 11+ project, which requires a few modifications to distribute and build JavaFX applications.
   As a result, binaries are a lot smaller. Assuming that your organization is called ``cookiejardealer``, the file tree looks as follows:
 
-: code::
+.. code::
 
-    ├── AUTHORS.rst
-    ├── CHANGELOG.rst
-    ├── CODEOFCONDUCT.rst
+    ├── CODE_OF_CONDUCT.rst
     ├── cookietemple.cfg
     ├── .cookietemple.yml
-    ├── .dependabot
-    │   └── config.yml
     ├── Dockerfile
     ├── docs
     │   ├── authors.rst
-    │   ├── changelog.rst
-    │   ├── codeofconduct.rst
+    │   ├── code_of_conduct.rst
     │   ├── conf.py
     │   ├── index.rst
     │   ├── installation.rst
     │   ├── make.bat
     │   ├── Makefile
-    │   ├── __pycache__
-    │   │   └── conf.cpython-38.pyc
     │   ├── readme.rst
     │   ├── requirements.txt
     │   ├── _static
@@ -43,20 +36,30 @@ Design
     │   └── usage.rst
     ├── .editorconfig
     ├── .github
+    │   ├── dependabot.yml
     │   ├── ISSUE_TEMPLATE
     │   │   ├── bug_report.md
     │   │   ├── feature_request.md
     │   │   └── general_question.md
     │   ├── pull_request_template.md
+    │   ├── release-drafter.yml
     │   └── workflows
-    │       ├── build_docs.yml
     │       ├── compile_package.yml
-    │       ├── java_linting.yml
-    │       └── run_tests.yml
+    │       ├── main_master_branch_protection.yml
+    │       ├── publish_docs.yml
+    │       ├── release-drafter.yml
+    │       ├── run_cookietemple_lint.yml
+    │       ├── run_java_linting.yml
+    │       ├── run_tests.yml
+    │       └── sync_project.yml
     ├── .gitignore
     ├── LICENSE
     ├── Makefile
+    ├── makefiles
+    │   ├── Linux.mk
+    │   └── Windows.mk
     ├── pom.xml
+    ├── .prettierignore
     ├── README.rst
     ├── .readthedocs.yml
     └── src
@@ -64,20 +67,21 @@ Design
         │   ├── java
         │   │   ├── module-info.java
         │   │   └── org
-        │   │       └── cookiejar
+        │   │       └── organization
         │   │           ├── FXMLController.java
         │   │           └── MainApp.java
         │   └── resources
         │       └── org
-        │           └── cookiejar
+        │           └── organization
         │               ├── scene.fxml
         │               └── styles.css
         └── test
             └── java
                 └── org
-                    └── cookiejar
+                    └── organization
                         ├── SimpleClickableButtonTest.java
                         └── SimpleJUnit5ExampleTest.java
+
 
 
 Included frameworks/libraries
@@ -90,17 +94,16 @@ Included frameworks/libraries
 5. `JUnit 5 <https://junit.org/junit5/>`_ for unit tests
 6. `TestFX <https://github.com/TestFX/TestFX>`_ for JavaFX GUI tests
 7. Preconfigured `readthedocs <https://readthedocs.org/>`_
-8. Nine Github workflows:
+8. Eight Github workflows:
 
   1. ``build_docs.yml``, which builds the readthedocs documentation.
   2. ``compile_package.yml``, which compiles the gui-java project.
   3. ``run_java_linting.yml``, which runs `checkstyle <https://checkstyle.sourceforge.io/>`_ linting using Google's ruleset.
   4. ``run_tests.yml``, which runs the Unit tests. Note that this workflow is currently disabled, since GUI unittests are not possible using Github Actions.
   5. ``run_codecov``, apply codecov to your project/PRs in your project and create automatically a report with the details at `codecov.io <https://codecov.io>`_
-  6. ``pr_to_master_from_patch_release_only``: Please read :ref:`pr_master_workflow_docs`.
-  7. ``check_no_SNAPSHOT_master.yml``: Please read :ref:`pr_master_workflow_docs`
-  8. ``run_cookietemple_lint.yml``, which runs ``cookietemple lint`` on the project.
-  9. ``sync_project.yml``, which syncs the project to the most recent cookietemple template version.
+  6. ``main_master_branch_protection``: Please read :ref:`pr_master_workflow_docs`.
+  7. ``release-drafter.yml``: Please read :ref:`release_drafter_workflow`.  8. ``run_cookietemple_lint.yml``, which runs ``cookietemple lint`` on the project.
+  8. ``sync_project.yml``, which syncs the project to the most recent cookietemple template version.
 
 Usage
 ^^^^^^^^
