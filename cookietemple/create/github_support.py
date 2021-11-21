@@ -101,7 +101,7 @@ def create_push_github_repository(
         # git commit
         log.debug("git commit")
         cloned_repo.index.commit(
-            f"Created {creator_ctx.project_slug} with {creator_ctx.template_handle} "
+            f"Create {creator_ctx.project_slug} with {creator_ctx.template_handle} "
             f'template of version {creator_ctx.template_version.replace("# <<COOKIETEMPLE_NO_BUMP>>", "")} using cookietemple.'
         )
 
