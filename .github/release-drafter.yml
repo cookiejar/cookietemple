@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 name-template: "1.4.0 🌈" # <<COOKIETEMPLE_FORCE_BUMP>>
 tag-template: 1.4.0 # <<COOKIETEMPLE_FORCE_BUMP>>
+=======
+name-template: "1.3.11 🌈" # <<COOKIETEMPLE_FORCE_BUMP>>
+tag-template: 1.3.11 # <<COOKIETEMPLE_FORCE_BUMP>>
+>>>>>>> d6a3baff743514608edb0b2654a79c23062bca01
 exclude-labels:
     - "skip-changelog"
 
