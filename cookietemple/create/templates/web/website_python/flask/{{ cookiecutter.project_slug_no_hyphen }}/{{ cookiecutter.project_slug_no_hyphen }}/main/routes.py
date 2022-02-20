@@ -10,7 +10,7 @@ def set_language(language=None):
 
 @bp.route('/')
 def root():
-    return redirect((url_for('main.index')))
+    return redirect(url_for('main.index'))
 
 
 @bp.route('/index')

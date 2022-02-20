@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Entry point for cookietemple."""
 import logging
 import os

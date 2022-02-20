@@ -81,11 +81,11 @@ def get_file_versions_after_bump(cwd: Path) -> Tuple[list, list]:
     """
     valid_version_regex = r"(?<!\.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!\.)"
 
-    with open(f"{cwd}/bump_version_test_files/bump_test_file_whitelisting", "r") as bumped_file_whitelisted:
+    with open(f"{cwd}/bump_version_test_files/bump_test_file_whitelisting") as bumped_file_whitelisted:
         bumped_data = bumped_file_whitelisted.read()
         bumped_versions_whitelisted = re.findall(valid_version_regex, bumped_data)
 
-    with open(f"{cwd}/bump_version_test_files/bump_test_file_blacklisting", "r") as bumped_file_blacklisted:
+    with open(f"{cwd}/bump_version_test_files/bump_test_file_blacklisting") as bumped_file_blacklisted:
         bumped_data = bumped_file_blacklisted.read()
         bumped_versions_blacklisted = re.findall(valid_version_regex, bumped_data)
 
