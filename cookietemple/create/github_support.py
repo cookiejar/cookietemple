@@ -13,6 +13,7 @@ from cryptography.fernet import Fernet
 from git import Repo, exc
 from github import Github, GithubException
 from nacl import encoding, public
+from nacl.public import PublicKey
 from ruamel.yaml import YAML
 
 from cookietemple.common.load_yaml import load_yaml_file
@@ -333,7 +334,7 @@ def create_secret(
     requests.put(put_url, headers=headers, data=json.dumps(params))
 
 
-def encrypt_sync_secret(public_key: str, token: Union[str, bool]) -> str:
+def encrypt_sync_secret(public_key: Union[str, PublicKey], token: Union[str, bool]) -> str:
     """
     Encrypt the sync secret (which is the PAT).
 
@@ -343,7 +344,7 @@ def encrypt_sync_secret(public_key: str, token: Union[str, bool]) -> str:
     """
     """Encrypt a Unicode string using the public key."""
     log.debug("Encrypting Github repository secret.")
-    public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
+    public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())  # type: ignore
     sealed_box = public.SealedBox(public_key)
     encrypted = sealed_box.encrypt(token.encode("utf-8"))  # type: ignore
 
