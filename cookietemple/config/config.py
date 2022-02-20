@@ -52,6 +52,12 @@ class ConfigCommand:
         github_username = cookietemple_questionary_or_dot_cookietemple(
             function="text", question="Github username", default="HomerGithub"
         )
+        create_ct_topic = cookietemple_questionary_or_dot_cookietemple(
+            function="select",
+            question="Create cookietemple topic for new projects?",
+            choices=["Yes", "No"],
+            default="Yes",
+        )
 
         # if the configs exist, just update them
         if os.path.exists(ConfigCommand.CONF_FILE_PATH):
@@ -64,6 +70,7 @@ class ConfigCommand:
             settings["full_name"] = full_name
             settings["email"] = email
             settings["github_username"] = github_username
+            settings["create_ct_topic"] = create_ct_topic
             yaml.dump(settings, Path(ConfigCommand.CONF_FILE_PATH))
 
         # the configs don´t exist -> create them
@@ -71,7 +78,7 @@ class ConfigCommand:
             log.debug(
                 f"Configuration was not found at {ConfigCommand.CONF_FILE_PATH}. Creating a new configuration file."
             )
-            settings = {"full_name": full_name, "email": email, "github_username": github_username}
+            settings = {"full_name": full_name, "email": email, "github_username": github_username, "create_ct_topic": create_ct_topic}
             yaml = YAML()
             yaml.dump(settings, Path(ConfigCommand.CONF_FILE_PATH))
 

@@ -3,10 +3,13 @@ import logging
 import os
 import sys
 from base64 import b64encode
+from configparser import ConfigParser, NoSectionError
 from distutils.dir_util import copy_tree
 from pathlib import Path
 from subprocess import PIPE, Popen
 from typing import Any, Dict, Optional, Set, Tuple, Union
+
+from rich import print
 
 import requests
 from cryptography.fernet import Fernet
@@ -78,6 +81,9 @@ def create_push_github_repository(
         # create the repos sync secret
         console.print("[bold blue]Creating repository sync secret")
         create_sync_secret(creator_ctx.github_username, creator_ctx.project_slug, access_token)
+        # create repo cookietemple topic
+        console.print("[bold blue]Creating repository topic")
+        create_ct_topic(creator_ctx.github_username, creator_ctx.project_slug, access_token)
 
         # git clone
         console.print("[bold blue]Cloning empty Github repository")
@@ -275,6 +281,33 @@ def prompt_github_repo(dot_cookietemple: Optional[dict]) -> Tuple[bool, bool, bo
             function="confirm", question="Do you want your repository to be private?", default="No"  # type: ignore
         )
     return create_git_repo, private, is_github_org, github_org
+
+
+def create_ct_topic(username: str, repo_name: str, token: Union[str, bool]) -> None:
+    """
+    Create a cookietemple topic for a reposoitory, if wanted.
+
+    :param project_dir: Project directory
+    :param username: The users github username
+    :param repo_name: The repositories name
+    :param token: The PAT of the user with repo scope
+    """
+    path = Path(ConfigCommand.CONF_FILE_PATH)
+    yaml = YAML(typ="safe")
+    settings = yaml.load(path)
+    if not settings.get("create_ct_topic"):
+        print("[bold yellow]Did not find [blue]create_ct_topic[yellow] in config file. Call [blue]cookietemple config general[yellow] to set. "
+              "No cookietemple topic will be created!")
+        return 
+    elif settings["create_ct_topic"] == "No":
+        return
+    log.debug("Setting Github repository topic.")
+    # the parameters required by the Github API
+    params = {"names": ["cookietemple"]}
+    # the authentification header
+    headers = {"Authorization": f"token {token}"}
+    put_url = f"https://api.github.com/repos/{username}/{repo_name}/topics"
+    requests.put(put_url, headers=headers, data=json.dumps(params))
 
 
 def create_sync_secret(username: str, repo_name: str, token: Union[str, bool]) -> None:
