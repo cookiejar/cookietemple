@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import os
 import sys
 from typing import Dict
@@ -19,9 +18,9 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"cookietemple"
-copyright = u"2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization"
-author = u"Lukas Heumos, Philipp Ehmele, the cookiejar organization"
+project = "cookietemple"
+copyright = "2020, Lukas Heumos, Philipp Ehmele, the cookiejar organization"
+author = "Lukas Heumos, Philipp Ehmele, the cookiejar organization"
 
 version = "1.4.0"
 release = "1.4.0"

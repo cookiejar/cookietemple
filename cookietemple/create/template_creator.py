@@ -270,7 +270,7 @@ class TemplateCreator:
         while not re.match(r"(?<!.)\d+(?:\.\d+){2}(?:-SNAPSHOT)?(?!.)", poss_vers) and not dot_cookietemple:  # type: ignore
             console.print(
                 "[bold red]The version number entered does not match semantic versioning.\n"
-                + "Please enter the version in the format \[number].\[number].\[number]!"
+                + r"Please enter the version in the format \[number].\[number].\[number]!"
             )  # noqa: W605
             poss_vers = cookietemple_questionary_or_dot_cookietemple(
                 function="text", question="Initial version of your project", default="0.1.0"
