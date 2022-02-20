@@ -1,5 +1,4 @@
 import configparser
-import io
 import logging
 import os
 import re
@@ -173,7 +172,7 @@ class TemplateLinter:
         """
         ignore = [".git"]
         if os.path.isfile(os.path.join(self.path, ".gitignore")):
-            with open(os.path.join(self.path, ".gitignore"), "rt", encoding="latin1") as file:
+            with open(os.path.join(self.path, ".gitignore"), encoding="latin1") as file:
                 for line in file:
                     ignore.append(os.path.basename(line.strip().rstrip("/")))
         for root, dirs, files in os.walk(self.path):
@@ -184,7 +183,7 @@ class TemplateLinter:
                 if ignore_file in files:
                     files.remove(ignore_file)
             for fname in files:
-                with open(os.path.join(root, fname), "rt", encoding="latin1") as file:
+                with open(os.path.join(root, fname), encoding="latin1") as file:
                     for line in file:
                         if any(todostring in line for todostring in ["TODO COOKIETEMPLE:", "COOKIETEMPLE TODO:"]):
                             line = (
@@ -208,7 +207,7 @@ class TemplateLinter:
         """
         for root, _dirs, files in os.walk(self.path):
             for fname in files:
-                with open(os.path.join(root, fname), "rt", encoding="latin1") as file:
+                with open(os.path.join(root, fname), encoding="latin1") as file:
                     if file.name.endswith(".pyc"):
                         continue
                     for line in file:
