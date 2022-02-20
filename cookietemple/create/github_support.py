@@ -3,13 +3,10 @@ import logging
 import os
 import sys
 from base64 import b64encode
-from configparser import ConfigParser, NoSectionError
 from distutils.dir_util import copy_tree
 from pathlib import Path
 from subprocess import PIPE, Popen
 from typing import Any, Dict, Optional, Set, Tuple, Union
-
-from rich import print
 
 import requests
 from cryptography.fernet import Fernet
@@ -17,6 +14,7 @@ from git import Repo, exc
 from github import Github, GithubException
 from nacl import encoding, public
 from nacl.public import PublicKey
+from rich import print
 from ruamel.yaml import YAML
 
 from cookietemple.common.load_yaml import load_yaml_file
@@ -296,9 +294,11 @@ def create_ct_topic(username: str, repo_name: str, token: Union[str, bool]) -> N
     yaml = YAML(typ="safe")
     settings = yaml.load(path)
     if not settings.get("create_ct_topic"):
-        print("[bold yellow]Did not find [blue]create_ct_topic[yellow] in config file. Call [blue]cookietemple config general[yellow] to set. "
-              "No cookietemple topic will be created!")
-        return 
+        print(
+            "[bold yellow]Did not find [blue]create_ct_topic[yellow] in config file. Call [blue]cookietemple config general[yellow] to set. "
+            "No cookietemple topic will be created!"
+        )
+        return
     elif settings["create_ct_topic"] == "No":
         return
     log.debug("Setting Github repository topic.")

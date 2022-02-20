@@ -78,7 +78,12 @@ class ConfigCommand:
             log.debug(
                 f"Configuration was not found at {ConfigCommand.CONF_FILE_PATH}. Creating a new configuration file."
             )
-            settings = {"full_name": full_name, "email": email, "github_username": github_username, "create_ct_topic": create_ct_topic}
+            settings = {
+                "full_name": full_name,
+                "email": email,
+                "github_username": github_username,
+                "create_ct_topic": create_ct_topic,
+            }
             yaml = YAML()
             yaml.dump(settings, Path(ConfigCommand.CONF_FILE_PATH))
 
