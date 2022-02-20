@@ -34,7 +34,7 @@ jobs:
               run: make install
 
             - name: Create cli-python Template
-              run: echo -e "\n\nHomer\nsimpson@gmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\nn" | poetry run cookietemple create
+              run: echo -e "\n\nHomer\nsimpson@gmail.com\nhomergithub\n\nnExplodingSpringfield\ndescription\n1.0.0\n\nn" | poetry run cookietemple create
 
             - name: Install nox and the nox poetry extension
               run: pip install nox nox-poetry rich

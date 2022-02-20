@@ -19,9 +19,9 @@ Invoke cookietemple config *via*
 
     $ cookietemple config <all/general/pat>
 
-- ``all`` : Prompt for the full name, email, Github username and Github personal access token.
+- ``all`` : Prompt for the full name, email, Github username, whether to create a cookietemple topic for repos or not and Github personal access token.
 
-- ``general`` : Only prompt for the full name, email and the Github username.
+- ``general`` : Only prompt for the full name, email, the Github username and whether to create a cookietemple topic in repos or not.
 
   These details are required to create projects.
 
