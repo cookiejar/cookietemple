@@ -34,7 +34,7 @@ jobs:
               run: make install
 
             - name: Create web-website-python basic Flask Template
-              run: echo -e "\033[B\033[B\033[B\n\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\n\n\n\n\n\nndummy.com\ncookietempleuser\nn" | poetry run cookietemple create
+              run: echo -e "\033[B\033[B\033[B\n\nHomer\nhomer.simpson@hotmail.com\nhomergithub\n\nnExplodingSpringfield\ndescription\n1.0.0\n\n\n\n\n\n\nndummy.com\ncookietempleuser\nn" | poetry run cookietemple create
 
             - name: Create web-website-python advanced Flask Template
               run: echo -e "\033[B\033[B\033[B\n\nExplodingSpringfieldAdvanced\ndescription\n1.0.0\n\n\n\n\n\033[B\nn\n\n\n\ntest.com\nvmusername\nn" | poetry run cookietemple create
