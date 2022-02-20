@@ -152,19 +152,21 @@ class TemplateLinter:
 
     def check_docker(self):
         """
-        Checks that Dockerfile contains the string ``FROM``
+        Checks that Dockerfile exists and contains the string ``FROM``
         """
         fn = os.path.join(self.path, "Dockerfile")
-        with open(fn, encoding="utf-8") as fh:
-            content = fh.read()
-
-        # Implicitly also checks if empty.
-        if "FROM " in content:
-            self.passed.append(("general-2", "Dockerfile check passed"))
-            self.dockerfile = [line.strip() for line in content.splitlines()]
-            return
-
-        self.failed.append((2, "Dockerfile check failed"))
+        if os.path.isfile(fn):
+            with open(fn, encoding="utf-8") as fh:
+                content = fh.read()
+                # Implicitly also checks if empty.
+                if "FROM" in content:
+                    self.passed.append(("general-2", "Dockerfile check passed"))
+                    self.dockerfile = [line.strip() for line in content.splitlines()]
+                    return
+                else:
+                    self.failed.append(("general-2", "Dockerfile check failed"))
+        else:
+            self.failed.append(("general-2", "Dockerfile check failed"))
 
     def check_cookietemple_todos(self) -> None:
         """
@@ -346,7 +348,7 @@ def files_exist_linting(
     for files in files_fail:
         if not any([os.path.isfile(pf(self, f)) for f in files]):
             all_exists = False
-            self.failed.append(("{handle}-1", f"File not found: {self._wrap_quotes(files)}"))
+            self.failed.append((f"{handle}-1", f"File not found: {self._wrap_quotes(files)}"))
     # flag that indiactes whether all required files exist or not
     if all_exists:
         # called linting from a specific template linter
