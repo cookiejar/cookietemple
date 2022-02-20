@@ -54,7 +54,7 @@ class ConfigCommand:
         )
         create_ct_topic = cookietemple_questionary_or_dot_cookietemple(
             function="select",
-            question="Create cookietemple topic for new projects?",
+            question="Automatically create a cookietemple Github topic for new projects?",
             choices=["Yes", "No"],
             default="Yes",
         )
