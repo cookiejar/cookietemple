@@ -44,8 +44,7 @@ def activate_virtualenv_in_precommit_hooks(session: Session) -> None:
     # quoting rules for Python and bash, but strip the outermost quotes so we
     # can detect paths within the bindir, like <bindir>/python.
     bindirs = [
-        bindir[1:-1] if bindir[0] in "'\"" else bindir
-        for bindir in (repr(session.bin), shlex.quote(session.bin))
+        bindir[1:-1] if bindir[0] in "'\"" else bindir for bindir in (repr(session.bin), shlex.quote(session.bin))
     ]
 
     virtualenv = session.env.get("VIRTUAL_ENV")
