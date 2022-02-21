@@ -45,6 +45,9 @@ The :code:`bump-version` command follows the syntax
 
    bump-version applied to a fresh cli-python project
 
+Note that you can use ``bump-version`` without passing any parameters. This way, cookietemple will let you choose from three valid options
+to bump your projects version. Note that this will only work in the main directory of your project due to some cli constraints.
+
 Flags
 -------
 

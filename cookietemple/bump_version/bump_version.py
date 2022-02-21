@@ -280,3 +280,22 @@ class VersionBumper:
                 function="confirm", question="Do you really want to continue?", default="n"
             ):
                 sys.exit(1)
+
+    def choose_valid_version(self) -> str:
+        version_split = self.CURRENT_VERSION.split(".")
+        new_patch, new_minor, new_major = (
+            str(int(version_split[2]) + 1),
+            str(int(version_split[1]) + 1),
+            str(int(version_split[0]) + 1),
+        )
+        version_split_patch = [version_split[0], version_split[1], new_patch]
+        version_split_minor = [version_split[0], new_minor, "0"]
+        version_split_major = [new_major, "0", "0"]
+
+        new_version = cookietemple_questionary_or_dot_cookietemple(
+            function="select",
+            question="Choose the new project version:",
+            choices=[".".join(version_split_patch), ".".join(version_split_minor), ".".join(version_split_major)],
+            default="cli",
+        )
+        return new_version  # type:ignore
