@@ -38,7 +38,7 @@ def test_bump_version(mocker, valid_version_bumpers) -> None:
     version_bumper = VersionBumper(Path(str(os.path.abspath(os.path.dirname(__file__)))), downgrade=False)
 
     for version in valid_version_bumpers:
-        version_bumper.bump_template_version(version, Path(str(os.path.abspath(os.path.dirname(__file__)))))
+        version_bumper.bump_template_version(version, Path(str(os.path.abspath(os.path.dirname(__file__)))), False)
         versions_whitelisted, versions_blacklisted = get_file_versions_after_bump(Path.cwd())
 
         assert (

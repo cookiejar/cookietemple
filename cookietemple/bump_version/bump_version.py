@@ -39,7 +39,7 @@ class VersionBumper:
             )
             sys.exit(1)
 
-    def bump_template_version(self, new_version: str, project_dir: Path) -> None:
+    def bump_template_version(self, new_version: str, project_dir: Path, create_tag: bool) -> None:
         """
         Update the version number for all files that are whitelisted in the config file or explicitly allowed in the blacklisted section.
 
@@ -48,10 +48,12 @@ class VersionBumper:
         separated by two dots.
         Optional is the -SNAPSHOT at the end (for JVM templates especially). NOTE that versions like 1.2.3.4 or 1.2 WILL NOT be recognized as valid versions as
         well as no substring of them will be recognized.
+
         :param new_version: The new version number that should replace the old one in a cookietemple project
         :param project_dir: The default value is the current working directory, so we´re initially assuming the user
                              bumps the version from the projects top level directory. If this is not the case this parameter
                              shows the path where the projects top level directory is and bumps the version there
+        :param create_tag: Whether to create a tag for the commit (if project has a git repo) or not
         """
         log.debug(f"Current version: {self.CURRENT_VERSION} --- New version: {new_version}")
         sections = ["bumpversion_files_whitelisted", "bumpversion_files_blacklisted"]
@@ -104,6 +106,9 @@ class VersionBumper:
             # git commit
             print("[bold blue]Committing changes to local git repository.")
             repo.index.commit(f"Bump version from {self.CURRENT_VERSION} to {new_version}")
+            if create_tag:
+                print("[bold blue]Creating tag for bump version commit.")
+                repo.create_tag(f"{new_version}", message=f"Bump from {self.CURRENT_VERSION} to {new_version}")
 
     @staticmethod
     def replace(file_path: str, subst: str, section: str) -> Tuple[bool, str]:
