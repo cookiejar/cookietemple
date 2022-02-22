@@ -65,7 +65,7 @@ config
 ------
 Configure cookietemple to get started.
 
-.. figure:: https://user-images.githubusercontent.com/31141763/97928842-1faa7080-1d68-11eb-8c82-39d73d662466.gif
+.. figure:: https://user-images.githubusercontent.com/31141763/155188389-bfc45724-0e5f-4013-8b54-5683620e98c0.gif
 
 See `Configuring cookietemple <https://cookietemple.readthedocs.io/en/latest/config.html>`_
 
@@ -73,7 +73,7 @@ list
 ----
 List all available cookietemple templates.
 
-.. figure:: https://user-images.githubusercontent.com/31141763/97928681-d9eda800-1d67-11eb-880d-9d4f8037872b.gif
+.. figure:: https://user-images.githubusercontent.com/31141763/155188553-a43476ce-4295-4acc-9f25-c69702b36436.gif
 
 See `Listing all templates <https://cookietemple.readthedocs.io/en/latest/list_info.html#list>`_.
 
@@ -81,7 +81,7 @@ info
 ----
 Get detailed information on a cookietemple template.
 
-.. figure:: https://user-images.githubusercontent.com/31141763/97928788-03a6cf00-1d68-11eb-8c35-851c792ecf02.gif
+.. figure:: https://user-images.githubusercontent.com/31141763/155188923-f9de27b0-22c1-479f-b720-f4a1144fbba3.gif
 
 See `Get detailed template information <https://cookietemple.readthedocs.io/en/latest/list_info.html#info>`_.
 
@@ -89,7 +89,7 @@ create
 ------
 Kickstart your customized project with one of cookietemple's templates in no time.
 
-.. figure:: https://user-images.githubusercontent.com/31141763/97928626-bb87ac80-1d67-11eb-938f-db2db223d792.gif
+.. figure:: https://user-images.githubusercontent.com/31141763/155189514-85c9d4e8-f16f-486b-b7e0-d8e7a3cbca93.gif
 
 See `Create a project <https://cookietemple.readthedocs.io/en/latest/create.html>`_.
 
@@ -97,7 +97,7 @@ lint
 ----
 Use advanced linting to ensure your project always adheres to cookietemple's standards.
 
-.. image:: https://user-images.githubusercontent.com/31141763/97929216-f3432400-1d68-11eb-88b8-391fdfd2f4c9.gif
+.. image:: https://user-images.githubusercontent.com/31141763/155189594-4065538b-7955-437c-8b6c-e8f3b4cd178c.gif
 
 See `Linting your project <https://cookietemple.readthedocs.io/en/latest/lint.html>`_
 
