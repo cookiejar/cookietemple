@@ -59,6 +59,10 @@ Flags
 
   No version bumping will be triggered. Using this flag will cancel any commands executed after and exits the program.
 
+- ``--tag`` or ``-t`` : To tag the bump version commit.
+
+  One can use this flag to tag the current bump version commit with the updated version for reuse in releases. Note that this will require to be pushed from local to remote by using ``git push origin <tagname>``.
+
 .. _bump-version-configuration:
 
 Configuration
