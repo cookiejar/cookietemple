@@ -19,7 +19,7 @@ jobs:
                 python: [3.8, 3.9]
 
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
               name: Check out source-code repository
 
             - name: Setup Python
@@ -33,7 +33,7 @@ jobs:
             - name: Build package
               run: make install
 
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
             - uses: DeLaGuardo/setup-graalvm@48f2bf339ab7d35e31029b1822a213681fdfc42e
               with:
                   graalvm-version: "20.1.0.java11"
