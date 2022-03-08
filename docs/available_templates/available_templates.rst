@@ -40,9 +40,8 @@ cookietemple currently offers a total of 5 different template domains:
 4. web
 5. pub
 
-Note that the lib domain does not offer a python template option. The cli-python template can be adapted to this pretty easy
-by simply removing the boilerplate cli code, so that this template serves as a starting point for
-both, cli applications and packages.
+Note that the lib domain does not offer a Python template. We recommend the usage of the cli-python template which can easily be adapted for such purposes
+by removing the boilerplate command line code.
 
 How do I publish my documentation?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
