@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cli-python &mdash; cookietemple 1.3.11 documentation</title>
+  <title>cli-python &mdash; cookietemple 1.4.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/custom_cookietemple.css" type="text/css" />
@@ -33,7 +33,7 @@
             <a href="../index.html" class="icon icon-home"> cookietemple
           </a>
               <div class="version">
-                1.3.11
+                1.4.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -238,7 +238,13 @@ Other make targets include:</p>
 <h2>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline"></a></h2>
 <section id="do-i-need-a-command-line-interface">
 <h3>Do I need a command line interface?<a class="headerlink" href="#do-i-need-a-command-line-interface" title="Permalink to this headline"></a></h3>
-<p>No you do not need a command line interface. cli-python can also be used as a Python package.</p>
+<p>No you do not need a command line interface. cli-python can also be used as a Python package.
+Simply remove all command line related code. At some point we will try to offer a version without a command line interface.</p>
+</section>
+<section id="flake8-and-darglint-are-very-slow">
+<h3>flake8 and darglint are very slow<a class="headerlink" href="#flake8-and-darglint-are-very-slow" title="Permalink to this headline"></a></h3>
+<p>This is a known issue with Google and Numpy doc styles: <a class="reference external" href="https://github.com/terrencepreilly/darglint/issues/186">https://github.com/terrencepreilly/darglint/issues/186</a>
+If this is a concern to you feel free to remove darglint.</p>
 </section>
 </section>
 </section>
