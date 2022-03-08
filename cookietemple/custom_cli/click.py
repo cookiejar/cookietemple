@@ -20,7 +20,7 @@ class HelpErrorHandling(click.Group):
     """
 
     def __init__(self, name=None, commands=None, **kwargs):
-        super(HelpErrorHandling, self).__init__(name, commands, **kwargs)
+        super().__init__(name, commands, **kwargs)
         self.commands = commands or collections.OrderedDict()
 
     def list_commands(self, ctx):
@@ -169,13 +169,6 @@ class HelpErrorHandling(click.Group):
             )
             sys.exit(1)
 
-        elif cmd == "bump-version":
-            print(
-                f"[bold red]Failed to execute [bold green]{cmd}.\n[bold blue]Please provide a new version like [bold green]1.2.3 "
-                "[bold blue]as first argument."
-            )
-            sys.exit(1)
-
         elif cmd == "config":
             print(
                 f"[bold red]Failed to execute [bold green]{cmd}.\n[bold blue]Please provide a valid argument. You can choose general, pat or all."
@@ -203,7 +196,7 @@ class CustomHelpSubcommand(click.Command):
     """
 
     def __init__(self, *args, **kwargs):
-        super(CustomHelpSubcommand, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def format_help(self, ctx, formatter):
         """

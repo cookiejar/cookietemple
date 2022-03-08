@@ -19,11 +19,11 @@ jobs:
                 python: [3.8, 3.9]
 
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
               name: Check out source-code repository
 
             - name: Setup Python
-              uses: actions/setup-python@v2.3.0
+              uses: actions/setup-python@v3
               with:
                   python-version: ${{ matrix.python }}
 
@@ -33,7 +33,7 @@ jobs:
             - name: Build package
               run: make install
 
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
             - uses: DeLaGuardo/setup-graalvm@48f2bf339ab7d35e31029b1822a213681fdfc42e
               with:
                   graalvm-version: "20.1.0.java11"
@@ -41,7 +41,7 @@ jobs:
             - run: gu install native-image
 
             - name: Create cli-java Template
-              run: echo -e "\n\033[B\nHomer\nhomer.simpson@hotmail.com\nhomergithub\nnExplodingSpringfield\ndescription\n1.0.0\n\ngroup_domain\ngroup_organization\nn" | poetry run cookietemple create
+              run: echo -e "\n\033[B\nHomer\nhomer.simpson@hotmail.com\nhomergithub\n\nnExplodingSpringfield\ndescription\n1.0.0\n\ngroup_domain\ngroup_organization\nn" | poetry run cookietemple create
 
             - name: Build with Gradle
               run: |

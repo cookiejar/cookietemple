@@ -79,22 +79,22 @@ Ready to contribute? Here's how to set up `cookietemple` for local development.
     $ cd cookietemple/
     $ python setup.py develop
 
-4. Create a branch for local development
+4. Create a branch for local development. Note that you should always start your branch name with either `fix` or `feature` so that
+the Release Drafter GitHub App will handle your PR right.
 
 .. code-block:: console
 
-    $ git checkout -b name-of-your-bugfix-or-feature
+    $ git checkout -b fix_or_feature/name-of-your-bugfix-or-feature
 
 Now you can make your changes locally.
 
-5. When you're done making changes, check that your changes pass flake8 and the tests, including testing other Python versions with tox
+5. When you're done making changes, check that your changes pass the nox test suite.
 
 .. code-block:: console
 
-    $ flake8 cookietemple tests
-    $ tox
+    $ nox
 
-To get flake8 and tox, just pip install them into your virtualenv.
+To get nox (and nox-poetry), just pip install them into your virtualenv.
 
 6. Commit your changes and push your branch to GitHub
 
@@ -102,7 +102,7 @@ To get flake8 and tox, just pip install them into your virtualenv.
 
     $ git add .
     $ git commit -m "Your detailed description of your changes."
-    $ git push origin name-of-your-bugfix-or-feature
+    $ git push origin fix_or_feature/name-of-your-bugfix-or-feature
 
 7. Submit a pull request through the GitHub website.
 
@@ -124,4 +124,4 @@ To run a subset of tests::
 
 .. code-block:: console
 
-    $ py.test tests/something
+    $ pytest tests/something

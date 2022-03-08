@@ -13,6 +13,8 @@ from cryptography.fernet import Fernet
 from git import Repo, exc
 from github import Github, GithubException
 from nacl import encoding, public
+from nacl.public import PublicKey
+from rich import print
 from ruamel.yaml import YAML
 
 from cookietemple.common.load_yaml import load_yaml_file
@@ -77,6 +79,9 @@ def create_push_github_repository(
         # create the repos sync secret
         console.print("[bold blue]Creating repository sync secret")
         create_sync_secret(creator_ctx.github_username, creator_ctx.project_slug, access_token)
+        # create repo cookietemple topic
+        console.print("[bold blue]Creating repository topic")
+        create_ct_topic(creator_ctx.github_username, creator_ctx.project_slug, access_token)
 
         # git clone
         console.print("[bold blue]Cloning empty Github repository")
@@ -276,6 +281,35 @@ def prompt_github_repo(dot_cookietemple: Optional[dict]) -> Tuple[bool, bool, bo
     return create_git_repo, private, is_github_org, github_org
 
 
+def create_ct_topic(username: str, repo_name: str, token: Union[str, bool]) -> None:
+    """
+    Create a cookietemple topic for a reposoitory, if wanted.
+
+    :param project_dir: Project directory
+    :param username: The users github username
+    :param repo_name: The repositories name
+    :param token: The PAT of the user with repo scope
+    """
+    path = Path(ConfigCommand.CONF_FILE_PATH)
+    yaml = YAML(typ="safe")
+    settings = yaml.load(path)
+    if not settings.get("create_ct_topic"):
+        print(
+            "[bold yellow]Did not find [blue]create_ct_topic[yellow] in config file. Call [blue]cookietemple config general[yellow] to set. "
+            "No cookietemple topic will be created!"
+        )
+        return
+    elif settings["create_ct_topic"] == "No":
+        return
+    log.debug("Setting Github repository topic.")
+    # the parameters required by the Github API
+    params = {"names": ["cookietemple"]}
+    # the authentification header
+    headers = {"Authorization": f"token {token}"}
+    put_url = f"https://api.github.com/repos/{username}/{repo_name}/topics"
+    requests.put(put_url, headers=headers, data=json.dumps(params))
+
+
 def create_sync_secret(username: str, repo_name: str, token: Union[str, bool]) -> None:
     """
     Create the secret cookietemple uses to sync repos. The secret contains the personal access token with the repo scope.
@@ -333,7 +367,7 @@ def create_secret(
     requests.put(put_url, headers=headers, data=json.dumps(params))
 
 
-def encrypt_sync_secret(public_key: str, token: Union[str, bool]) -> str:
+def encrypt_sync_secret(public_key: Union[str, PublicKey], token: Union[str, bool]) -> str:
     """
     Encrypt the sync secret (which is the PAT).
 
@@ -343,7 +377,7 @@ def encrypt_sync_secret(public_key: str, token: Union[str, bool]) -> str:
     """
     """Encrypt a Unicode string using the public key."""
     log.debug("Encrypting Github repository secret.")
-    public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
+    public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())  # type: ignore
     sealed_box = public.SealedBox(public_key)
     encrypted = sealed_box.encrypt(token.encode("utf-8"))  # type: ignore
 

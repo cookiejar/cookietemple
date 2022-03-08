@@ -1,6 +1,6 @@
 [flake8]
 select = B,E,F,W
-ignore = E203,E501,RST201,RST203,RST301,W503,D100,DAR,W605
+ignore = E203,E501,RST201,RST203,RST301,W503,D100,DAR,W605,B018
 max-line-length = 120
 max-complexity = 15
 exclude = cookietemple/create/templates

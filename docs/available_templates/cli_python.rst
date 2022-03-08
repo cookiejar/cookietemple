@@ -147,6 +147,13 @@ FAQ
 ^^^^^^
 
 Do I need a command line interface?
-++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++
 
 No you do not need a command line interface. cli-python can also be used as a Python package.
+Simply remove all command line related code. At some point we will try to offer a version without a command line interface.
+
+flake8 and darglint are very slow
++++++++++++++++++++++++++++++++++
+
+This is a known issue with Google and Numpy doc styles: https://github.com/terrencepreilly/darglint/issues/186
+If this is a concern to you feel free to remove darglint.

@@ -4,7 +4,7 @@ from {{cookiecutter.project_slug_no_hyphen}}.basic import bp
 
 @bp.route('/')
 def root():
-    return redirect((url_for('basic.index')))
+    return redirect(url_for('basic.index'))
 
 {%- if cookiecutter.frontend == 'none' %}
 @bp.route('/index')

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Entry point for cookietemple."""
 import logging
 import os
@@ -275,6 +274,7 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
     cls=CustomArg,
 )  # type: ignore
 @click.option("--downgrade", "-d", is_flag=True, help="Set this flag to downgrade a version.")
+@click.option("--tag", "-t", is_flag=True, help="Create a git tag for the bump commit.")
 @click.option(
     "--project-version",
     is_flag=True,
@@ -284,7 +284,7 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
     help="Print your projects version and exit",
 )
 @click.pass_context
-def bump_version(ctx, new_version, project_dir, downgrade) -> None:
+def bump_version(ctx, new_version, project_dir, downgrade, tag) -> None:
     """
     Bump the version of an existing cookietemple project.
 
@@ -296,38 +296,39 @@ def bump_version(ctx, new_version, project_dir, downgrade) -> None:
 
     Unless the user uses downgrade mode via the -d flag, a downgrade of a version is never allowed. Note that bump-version with the new version
     equals the current version is never allowed, either with or without -d.
-    """
-    if not new_version:
-        HelpErrorHandling.args_not_provided(ctx, "bump-version")
-    else:
-        # if the path entered ends with a trailing slash remove it for consistent output
-        if str(project_dir).endswith("/"):
-            project_dir = Path(str(project_dir).replace(str(project_dir)[len(str(project_dir)) - 1 :], ""))
 
-        version_bumper = VersionBumper(project_dir, downgrade)
-        # lint before run bump-version
-        version_bumper.lint_before_bump()
-        # only run bump-version if conditions are met
-        if version_bumper.can_run_bump_version(new_version):
-            # only run "sanity" checker when the downgrade flag is not set
-            if not downgrade:
-                # if the check fails, ask the user for confirmation
-                if version_bumper.check_bump_range(
-                    version_bumper.CURRENT_VERSION.split("-")[0], new_version.split("-")[0]
-                ):
-                    version_bumper.bump_template_version(new_version, project_dir)
-                elif cookietemple_questionary_or_dot_cookietemple(
-                    function="confirm",
-                    question=f"Bumping from {version_bumper.CURRENT_VERSION} to {new_version} seems not reasonable.\n"
-                    f"Do you really want to bump the project version?",
-                    default="n",
-                ):
-                    console.print("\n")
-                    version_bumper.bump_template_version(new_version, project_dir)
-            else:
-                version_bumper.bump_template_version(new_version, project_dir)
+    Users can create a commit tag for the version bump commit by using the --tag/-t flag.
+    """
+    create_tag = True if tag else False
+    version_bumper = VersionBumper(project_dir, downgrade)
+    # suggest valid version if none was given
+    if not new_version:
+        new_version = version_bumper.choose_valid_version()
+    # if the path entered ends with a trailing slash remove it for consistent output
+    if str(project_dir).endswith("/"):
+        project_dir = Path(str(project_dir).replace(str(project_dir)[len(str(project_dir)) - 1 :], ""))
+
+    # lint before run bump-version
+    version_bumper.lint_before_bump()
+    # only run bump-version if conditions are met
+    if version_bumper.can_run_bump_version(new_version):
+        # only run "sanity" checker when the downgrade flag is not set
+        if not downgrade:
+            # if the check fails, ask the user for confirmation
+            if version_bumper.check_bump_range(version_bumper.CURRENT_VERSION.split("-")[0], new_version.split("-")[0]):
+                version_bumper.bump_template_version(new_version, project_dir, create_tag)
+            elif cookietemple_questionary_or_dot_cookietemple(
+                function="confirm",
+                question=f"Bumping from {version_bumper.CURRENT_VERSION} to {new_version} seems not reasonable.\n"
+                f"Do you really want to bump the project version?",
+                default="n",
+            ):
+                console.print("\n")
+                version_bumper.bump_template_version(new_version, project_dir, create_tag)
         else:
-            sys.exit(1)
+            version_bumper.bump_template_version(new_version, project_dir, create_tag)
+    else:
+        sys.exit(1)
 
 
 @cookietemple_cli.command(short_help="Create a self contained executable.", cls=CustomHelpSubcommand)
