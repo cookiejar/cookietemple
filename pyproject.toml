@@ -85,6 +85,7 @@ include_trailing_comma=true
 balanced_wrapping=true
 line_length=120
 skip="templates"
+profile = "black"
 
 [tool.coverage.paths]
 source = ["cookietemple", "*/site-packages"]

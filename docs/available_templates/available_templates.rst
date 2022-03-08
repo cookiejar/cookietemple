@@ -29,6 +29,21 @@ It is recommended to use the sidebar to navigate this documentation, since it is
 Shared FAQ
 ----------------------
 
+What are the available domains?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+cookietemple currently offers a total of 5 different template domains:
+
+1. cli
+2. lib
+3. gui
+4. web
+5. pub
+
+Note that the lib domain does not offer a python template option. The cli-python template can be adapted to this pretty easy
+by simply removing the boilerplate cli code, so that this template serves as a starting point for
+both, cli applications and packages.
+
 How do I publish my documentation?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
