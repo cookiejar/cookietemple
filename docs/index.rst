@@ -1,5 +1,8 @@
+.. include:: ../README.rst
+===========================
 Welcome to cookietemple's documentation!
-=========================================
+==========================================================
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
@@ -8,6 +11,7 @@ Welcome to cookietemple's documentation!
    installation
    usage
    reference
+   contributing
    authors
    code_of_conduct
 

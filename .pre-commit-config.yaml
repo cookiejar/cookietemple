@@ -27,25 +27,38 @@ repos:
             language: system
             types: [text]
             stages: [commit, push, manual]
+            exclude: docs/
           - id: flake8
             name: flake8
             entry: flake8
             language: system
             types: [python]
             require_serial: true
-          - id: reorder-python-imports
-            name: Reorder python imports
-            entry: reorder-python-imports
+          - id: pyupgrade
+            name: pyupgrade
+            description: Automatically upgrade syntax for newer versions.
+            entry: pyupgrade
             language: system
             types: [python]
-            args: [--application-directories=src]
+            args: [--py38-plus]
           - id: trailing-whitespace
             name: Trim Trailing Whitespace
             entry: trailing-whitespace-fixer
             language: system
             types: [text]
             stages: [commit, push, manual]
-    - repo: https://github.com/prettier/pre-commit
-      rev: v2.1.2
+    - repo: https://github.com/pre-commit/mirrors-prettier
+      rev: v2.5.1
       hooks:
           - id: prettier
+    - repo: https://github.com/pycqa/isort
+      rev: 5.8.0
+      hooks:
+          - id: isort
+            name: isort (python)
+          - id: isort
+            name: isort (cython)
+            types: [cython]
+          - id: isort
+            name: isort (pyi)
+            types: [pyi]

@@ -16,7 +16,7 @@ jobs:
               name: Check out source-code repository
 
             - name: Setup Python
-              uses: actions/setup-python@v2
+              uses: actions/setup-python@v3
               with:
                   python-version: ${{ matrix.python }}
 
@@ -26,8 +26,7 @@ jobs:
                   poetry --version
 
             - name: Build package
-              run: |
-                  poetry build --ansi
+              run: poetry build --ansi
 
             - name: Install required twine packaging dependencies
               run: pip install setuptools wheel twine

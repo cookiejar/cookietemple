@@ -3,8 +3,8 @@ updates:
     - package-ecosystem: github-actions
       directory: "/"
       schedule:
-          interval: daily
-      open-pull-requests-limit: 5
+          interval: weekly
+      open-pull-requests-limit: 3
       target-branch: development
       labels:
           - DEPENDABOT
@@ -14,8 +14,8 @@ updates:
     - package-ecosystem: pip
       directory: "/.github/workflows"
       schedule:
-          interval: daily
-      open-pull-requests-limit: 5
+          interval: weekly
+      open-pull-requests-limit: 3
       target-branch: development
       labels:
           - DEPENDABOT
@@ -25,8 +25,8 @@ updates:
     - package-ecosystem: pip
       directory: "/docs"
       schedule:
-          interval: daily
-      open-pull-requests-limit: 5
+          interval: weekly
+      open-pull-requests-limit: 3
       target-branch: development
       labels:
           - DEPENDABOT
@@ -36,8 +36,8 @@ updates:
     - package-ecosystem: pip
       directory: "/"
       schedule:
-          interval: daily
-      open-pull-requests-limit: 5
+          interval: weekly
+      open-pull-requests-limit: 3
       target-branch: development
       labels:
           - DEPENDABOT
