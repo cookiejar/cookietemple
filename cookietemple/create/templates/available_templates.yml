@@ -11,7 +11,7 @@ cli:
     python:
         name: Python Commandline Package
         handle: cli-python
-        version: 2.0.2
+        version: 2.1.0
         available libraries: click
         short description: General Python package with command line interface
         long description: Best practice Python package with (optional) command line support (click).
