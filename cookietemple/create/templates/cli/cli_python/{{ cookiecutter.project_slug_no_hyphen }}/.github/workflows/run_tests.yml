@@ -98,7 +98,7 @@ jobs:
                   print("::set-output name=result::{}".format(result))
 
             - name: Restore pre-commit cache
-              uses: actions/cache@v2.1.6
+              uses: actions/cache@v2.1.7
               if: matrix.session == 'pre-commit'
               with:
                   path: ~/.cache/pre-commit
@@ -111,14 +111,14 @@ jobs:
 
             - name: Upload coverage data
               if: always() && matrix.session == 'tests'
-              uses: "actions/upload-artifact@v2.2.3"
+              uses: actions/upload-artifact@v3
               with:
                   name: coverage-data
                   path: ".coverage.*"
 
             - name: Upload documentation
               if: matrix.session == 'docs-build'
-              uses: actions/upload-artifact@v2.2.4
+              uses: actions/upload-artifact@v3
               with:
                   name: docs
                   path: docs/_build
@@ -128,10 +128,10 @@ jobs:
         needs: tests
         steps:
             - name: Check out the repository
-              uses: actions/checkout@v2.3.4
+              uses: actions/checkout@v3
 
             - name: Set up Python 3.8
-              uses: actions/setup-python@v2.2.2
+              uses: actions/setup-python@v3
               with:
                   python-version: 3.8
 
@@ -148,7 +148,7 @@ jobs:
                   nox --version
 
             - name: Download coverage data
-              uses: actions/download-artifact@v2.0.10
+              uses: actions/download-artifact@v3
               with:
                   name: coverage-data
 
