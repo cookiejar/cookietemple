@@ -10,7 +10,7 @@ but it may also be easily used as standard Python package without any command li
 Design
 ^^^^^^^^
 
-| The Python package is based on a standard `poetry <https://python-poetry.org/>`_ structure with a corresponding ``pyproject.toml`` and ``poetry.lock`` file.
+| The Python package is based on a standard `poetry structure <https://python-poetry.org/>`_ with a corresponding ``pyproject.toml`` and ``poetry.lock`` file.
 
 .. code::
 
@@ -86,7 +86,7 @@ Design
 Included frameworks/libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. `poetry <https://setuptools.readthedocs.io/en/latest/>`_ for code packaging
+1. `poetry <https://python-poetry.org/>`_ for code packaging
 2. `click <https://click.palletsprojects.com/>`_ or no command line interface
 3. `pytest <https://docs.pytest.org/en/latest/>`_ or `unittest <https://docs.python.org/3/library/unittest.html>`_ as testing frameworks
 4. `nox <https://nox.thea.codes/en/stable/>`_ to automate testing in multiple Python environments
