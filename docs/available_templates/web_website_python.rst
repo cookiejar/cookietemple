@@ -280,17 +280,6 @@ make heavy use of its extensions.
 4. Preconfigured `tox <https://tox.readthedocs.io/en/latest/>`_ to run pytest matrices with different Python environments
 5. Preconfigured `readthedocs <https://readthedocs.org/>`_
 6. Eleven Github workflows:
-├── build_package.yml
-    │       ├── main_master_branch_protection.yml
-    │       ├── publish_docs.yml
-    │       ├── release-drafter.yml
-    │       ├── run_bandit.yml
-    │       ├── run_codecov.yml
-    │       ├── run_cookietemple_lint.yml
-    │       ├── run_css_lint.yml
-    │       ├── run_flake8_linting.yml
-    │       ├── run_tox_testsuite.yml
-    │       └── sync_project.yml
 
   1. ``publish_docs.yml``, which builds and publishes the readthedocs documentation.
   2. ``build_package.yml``, which builds the web-template package.
