@@ -80,5 +80,5 @@ class LibCreator(TemplateCreator):
         )
 
     def lib_cpp_options(self, dot_cookietemple: Optional[Dict]):
-        """ Prompts for lib-cpp specific options and saves them into the CookietempleTemplateStruct """
+        """Prompts for lib-cpp specific options and saves them into the CookietempleTemplateStruct"""
         pass

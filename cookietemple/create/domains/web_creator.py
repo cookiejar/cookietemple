@@ -259,7 +259,7 @@ class WebCreator(TemplateCreator):
         os.chdir(cwd)
 
     def web_python_options(self, dot_cookietemple: Optional[dict]):
-        """ Prompts for web-python specific options and saves them into the CookietempleTemplateStruct """
+        """Prompts for web-python specific options and saves them into the CookietempleTemplateStruct"""
         self.web_struct.command_line_interface = cookietemple_questionary_or_dot_cookietemple(
             function="select",
             question="Choose a command line library",

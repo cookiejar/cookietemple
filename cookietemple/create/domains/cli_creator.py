@@ -95,7 +95,7 @@ class CliCreator(TemplateCreator):
         pass
 
     def cli_java_options(self, dot_cookietemple: Optional[dict]) -> None:
-        """ Prompts for cli-java specific options and saves them into the CookietempleTemplateStruct """
+        """Prompts for cli-java specific options and saves them into the CookietempleTemplateStruct"""
         self.cli_struct.group_domain = cookietemple_questionary_or_dot_cookietemple(
             function="text",
             question="Domain (e.g. the org of org.apache)",
