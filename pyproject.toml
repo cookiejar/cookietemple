@@ -39,7 +39,7 @@ PyNaCl = "1.5.0"
 pytest = "^7.2.0"
 coverage = {extras = ["toml"], version = "^6.5"}
 safety = "2.3.5"
-mypy = "^0.982"
+mypy = "^0.991"
 typeguard = "^2.13.3"
 xdoctest = {extras = ["colors"], version = "^1.0.0"}
 sphinx = "^4.3.2"
