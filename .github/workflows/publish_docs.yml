@@ -37,7 +37,7 @@ jobs:
 
             - name: Deploy
               if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
-              uses: peaceiris/actions-gh-pages@v3.9.1
+              uses: peaceiris/actions-gh-pages@v3.9.3
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
                   publish_dir: ./docs/_build/html
