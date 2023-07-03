@@ -5,7 +5,7 @@ Create a project
 ================
 
 Creating projects from templates is the heart of cookietemple.
-Our templates adhere to best practices and try to be as modern as possible. Furthermore, they try to automate tasks such as automatical dependency resolvement and installation, packaging, deployment and more.
+Our templates adhere to best practices and try to be as modern as possible. Furthermore, they try to automate tasks such as automatically dependency resolvement and installation, packaging, deployment and more.
 To learn more about our templates please visit :ref:`available_templates` and check out your template of interest.
 
 Usage

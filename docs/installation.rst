@@ -61,7 +61,7 @@ Alternatively you can also install it using the Makefile:
 Upgrading cookietemple
 ------------------------
 
-Everytime cookietemple is run it will automatically check whether a newer version has been released on PyPI.
+Every time cookietemple is run it will automatically check whether a newer version has been released on PyPI.
 If a new version has been released you will be informed. To upgrade cookietemple either run::
 
     $ pip install --upgrade cookietemple

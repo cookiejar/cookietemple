@@ -80,7 +80,7 @@ def get_commands_with_similar_command_cli_with_language():
     return [
         "cli-pyton",
         "clipython",
-        "cli pyton",
+        "cli python",
         "clipyton",
         "clupython",
         "CLI-PYTHON",
@@ -227,7 +227,7 @@ def test_valid_languages_only(get_valid_languages) -> None:
 @pytest.mark.skip(reason="Check, how to test output of a rich Table")
 def test_valid_handles_domain_and_subdomain(get_valid_handles_domain_subdomain, capfd) -> None:
     """
-    Test if a valid combination of domain and subdomain produces correct ouput
+    Test if a valid combination of domain and subdomain produces correct output
     """
     for valid_domain_subdomain in get_valid_handles_domain_subdomain:
         template_info = TemplateInfo()

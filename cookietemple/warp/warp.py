@@ -52,7 +52,7 @@ def run_unix_warp(warp_unix_path: str, arch: str, input_dir: str, exec: str, out
     """
 
     # Set Warp to be executable if it not already is. May prompt the user for sudo permissions.
-    # Note: The installation should automatically set the permissions to 755, which should be sufficent for warp
+    # Note: The installation should automatically set the permissions to 755, which should be sufficient for warp
     if stat.S_IXUSR & os.stat(warp_unix_path)[stat.ST_MODE]:
         print(f"[bold blue]{warp_unix_path}\nis already executable! Will not attempt to change permissions.")
     else:

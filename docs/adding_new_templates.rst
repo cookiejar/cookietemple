@@ -360,7 +360,7 @@ Our shiny new CliBrainfuckLinter is now ready for action!
               brainfucky --file ExplodingSpringfield/hello.bf
 
 
-We were pleasently surprised to see that someone already made a Github Action for brainfuck.
+We were pleasantly surprised to see that someone already made a Github Action for brainfuck.
 
 7. | Finally, we add some documentation to :code:`/docs/available_templates.rst` and explain the purpose, design and frameworks/libraries.
 

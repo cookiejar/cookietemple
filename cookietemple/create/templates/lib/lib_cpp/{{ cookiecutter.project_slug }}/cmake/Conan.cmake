@@ -17,7 +17,7 @@ if(${PROJECT_NAME}_ENABLE_CONAN)
     file(DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/v0.15/conan.cmake"
       "${CMAKE_BINARY_DIR}/conan.cmake"
     )
-    message(STATUS "Cmake-Conan downloaded succesfully.")
+    message(STATUS "Cmake-Conan downloaded successfully.")
   endif()
 
   include(${CMAKE_BINARY_DIR}/conan.cmake)

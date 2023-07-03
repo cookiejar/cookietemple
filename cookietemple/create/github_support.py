@@ -283,7 +283,7 @@ def prompt_github_repo(dot_cookietemple: Optional[dict]) -> Tuple[bool, bool, bo
 
 def create_ct_topic(username: str, repo_name: str, token: Union[str, bool]) -> None:
     """
-    Create a cookietemple topic for a reposoitory, if wanted.
+    Create a cookietemple topic for a repository, if wanted.
 
     :param project_dir: Project directory
     :param username: The users github username
@@ -304,7 +304,7 @@ def create_ct_topic(username: str, repo_name: str, token: Union[str, bool]) -> N
     log.debug("Setting Github repository topic.")
     # the parameters required by the Github API
     params = {"names": ["cookietemple"]}
-    # the authentification header
+    # the authentication header
     headers = {"Authorization": f"token {token}"}
     put_url = f"https://api.github.com/repos/{username}/{repo_name}/topics"
     requests.put(put_url, headers=headers, data=json.dumps(params))
@@ -314,9 +314,9 @@ def create_sync_secret(username: str, repo_name: str, token: Union[str, bool]) -
     """
     Create the secret cookietemple uses to sync repos. The secret contains the personal access token with the repo scope.
     Following steps are required (PAT MUST have at least repo access):
-    1.) Get the repos public key (and its ID) which is needed for secret's value (PAT) encryption; for private repos especially we need an authentification
+    1.) Get the repos public key (and its ID) which is needed for secret's value (PAT) encryption; for private repos especially we need an authentication
         header for a successful request.
-    2.) Encrypt the secret value using PyNacl (a Python binding for Javascripts LibSodium) and send the data with an authentification header (PAT) and the
+    2.) Encrypt the secret value using PyNacl (a Python binding for Javascripts LibSodium) and send the data with an authentication header (PAT) and the
         public key's ID via PUT to the Github API.
 
     :param username: The users github username
@@ -347,7 +347,7 @@ def create_secret(
     username: str, repo_name: str, token: Union[str, bool], public_key_value: str, public_key_id: str
 ) -> None:
     """
-    Create the secret named CT_SYNC_TOKEN using a PUT request via the Github API. This request needs a PAT with the repo scope for authentification purposes.
+    Create the secret named CT_SYNC_TOKEN using a PUT request via the Github API. This request needs a PAT with the repo scope for authentication purposes.
     Using PyNacl, a Python binding for Javascripts LibSodium, it encrypts the secret value, which is required by the Github API.
 
     :param username: The user's github username
@@ -360,7 +360,7 @@ def create_secret(
     encrypted_value = encrypt_sync_secret(public_key_value, token)
     # the parameters required by the Github API
     params = {"encrypted_value": encrypted_value, "key_id": public_key_id}
-    # the authentification header
+    # the authentication header
     headers = {"Authorization": f"token {token}"}
     # the url used for PUT
     put_url = f"https://api.github.com/repos/{username}/{repo_name}/actions/secrets/CT_SYNC_TOKEN"

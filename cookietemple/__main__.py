@@ -222,7 +222,7 @@ def sync(project_dir, set_token, pat, username, check_update) -> None:
     syncer.new_template_version = ct_template_version
     # check for user without actually syncing
     if check_update:
-        log.debug("Running snyc to manually check whether a new template version is available.")
+        log.debug("Running sync to manually check whether a new template version is available.")
         # a template update has been released by cookietemple
         if any(change for change in (major_change, minor_change, patch_change)):
             console.print(

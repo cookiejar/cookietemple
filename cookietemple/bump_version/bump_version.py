@@ -185,7 +185,7 @@ class VersionBumper:
             )
             return False
 
-        # only allow bump from a SNAPSHOT version to its correspondance with -SNAPSHOT removed (like 1.0.0-SNAPSHOT to 1.0.0 but not 2.0.0)
+        # only allow bump from a SNAPSHOT version to its correspondence with -SNAPSHOT removed (like 1.0.0-SNAPSHOT to 1.0.0 but not 2.0.0)
         elif self.CURRENT_VERSION.endswith("-SNAPSHOT") and not self.CURRENT_VERSION.split("-")[0] == new_version:
             print(
                 f"[bold red]Cannot bump {self.CURRENT_VERSION} to {new_version}."

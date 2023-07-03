@@ -461,7 +461,7 @@ class TemplateSync:
         gh_username = (
             load_yaml_file(ConfigCommand.CONF_FILE_PATH)["github_username"] if not gh_username else gh_username
         )
-        # get the personal access token for user authentification
+        # get the personal access token for user authentication
         log.debug("Asking for updated sync token value.")
         updated_sync_token = cookietemple_questionary_or_dot_cookietemple(
             function="password", question="Please enter your updated sync token value"
