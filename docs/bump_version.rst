@@ -94,4 +94,4 @@ If files, like Maven pom.xml files, contain many version patterns matching ``X.X
 
 Analogously to whitelisted files, which allow for specific lines to be ignored, blacklisted files allow for specific lines to be forcibly updated using the string :code:`<<COOKIETEMPLE_FORCE_BUMP>>`.
 
-Note that those tags must be on the same line as the version (commonly placed in a comment), otherwise they wont work!
+Note that those tags must be on the same line as the version (commonly placed in a comment), otherwise they won't work!

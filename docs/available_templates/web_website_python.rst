@@ -18,7 +18,7 @@ You can choose from two main options:
 The basic setup
 ++++++++++++++++++++++++++++++++++
 The basic theme is designed to provide only minimal code needed for getting started: Thus it comes
-with only minimal HTML/CSS/JS code (but you can initalize it with a full featured frontend, if you want to) and basic Flask configuration.
+with only minimal HTML/CSS/JS code (but you can initialize it with a full featured frontend, if you want to) and basic Flask configuration.
 However, it contains all the code needed for automatic deployment on a Linux server and adheres to the cookietemple project structure standards.
 
 .. code::

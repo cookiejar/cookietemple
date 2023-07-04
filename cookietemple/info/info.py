@@ -117,7 +117,7 @@ class TemplateInfo:
     def output_table(templates_to_print: list, handle: str) -> None:
         """
         Output a nice looking, rich rendered table.
-        :param templates_to_print: The templates tht should go into the table
+        :param templates_to_print: The templates that should go into the table
         :param handle: The handle the user inputted
         """
         for template in templates_to_print:
@@ -206,7 +206,7 @@ class TemplateInfo:
     def flatten_nested_dict(self, template_info_, templates_to_print) -> None:
         """
         Flatten an arbitrarily deep nested dict and creates a list of list containing all available
-        templates for the specified doamin/subdomain and/or language.
+        templates for the specified domain/subdomain and/or language.
 
         :param template_info_: The dict containing the yaml parsed info for all available templates the user wants to gather some information
         :param templates_to_print: A list of templates string representations, that will be printed to console
@@ -242,7 +242,7 @@ class TemplateInfo:
         """
         Sets newlines after max 45 characters (or the latest space to avoid non-sense separation)
 
-        :param desc: The parsed long description for the sepcific template
+        :param desc: The parsed long description for the specific template
         :return: The formatted string with inserted newlines
         """
         linebreak_limit = 50

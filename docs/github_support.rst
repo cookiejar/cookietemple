@@ -54,7 +54,7 @@ main_master_branch_protection workflow
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 All templates feature ``main_master_branch_protection`` workflow.
-This workflow runs everytime a PR to your projects master or main branch is created. It fails, if the PR to the ``master/main`` branch
+This workflow runs every time a PR to your projects master or main branch is created. It fails, if the PR to the ``master/main`` branch
 origins from a branch that does not contain ``patch`` or ``release`` in its branch name.
 If development code is written on a branch called ``development``and a new release of the project is to be made,
 one should create a ``release`` branch only for this purpose and then merge it into ``master/main`` branch.
@@ -69,7 +69,7 @@ release drafter workflow
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 All templates feature ``release-drafter`` workflow.
-This workflow consists of two parts: Everytime a new PR is made, the workflow runs and tries autolabeling the PR either as
+This workflow consists of two parts: Every time a new PR is made, the workflow runs and tries autolabeling the PR either as
 ``feature`` or ``bug``. Feature PRs introduce new features if the branch name contains "feature". Bug PRs are PRs that either have a title containing
 "fix" or the branch name contains "fix".
 This Action then drafts a new release grouped by the different PR categories and include references and titles to all PRs inclduded in the new release.

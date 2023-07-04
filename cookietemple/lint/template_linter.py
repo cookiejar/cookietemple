@@ -254,7 +254,7 @@ class TemplateLinter:
         """
         with open(path, encoding="utf-8") as file:
             for line in file:
-                # if a tag is found and (depending on wether it is a white or blacklisted file) check if the versions are matching
+                # if a tag is found and (depending on whether it is a white or blacklisted file) check if the versions are matching
                 if (
                     "<<COOKIETEMPLE_NO_BUMP>>" not in line and not section == "bumpversion_files_blacklisted"
                 ) or "<<COOKIETEMPLE_FORCE_BUMP>>" in line:
@@ -498,7 +498,7 @@ class ConfigLinter:
         :param error_code: The lint error code, in case of a failing lint function
         :param is_sublinter_calling: Whether the function has been called from a sublinter or not
         """
-        # a set containig the section name as a key and its linting rules as values
+        # a set containing the section name as a key and its linting rules as values
         # linting rules made of:
         #   1.) a tuple with a variable_name and its value ('*' if value does not care for linting)
         #   => NOTE: if one variable can have multiple valid values, they are separated by '|'
